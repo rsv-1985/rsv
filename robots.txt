@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /catalog
+Host: demo3.autoxcatalog.com
+Sitemap: http://demo3.autoxcatalog.com/map/sitemap.xml

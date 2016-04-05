@@ -1,0 +1,234 @@
+<?php
+/**
+ * Developer: Распутний Сергей Викторович
+ * Site: cms.autoxcatalog.com
+ * Email: sergey.rasputniy@gmail.com
+ */
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Order extends Admin_controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->language('admin/order');
+        $this->load->model('order_model');
+        $this->load->model('order_product_model');
+        $this->load->model('orderstatus_model');
+        $this->load->model('payment_model');
+        $this->load->model('delivery_model');
+        $this->load->model('supplier_model');
+    }
+
+    public function index(){
+        $data = [];
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('autoxadmin/order/index');
+        $config['total_rows'] = $this->order_model->order_count_all();
+        $config['per_page'] = 10;
+        $config['reuse_query_string'] = true;
+
+        $this->pagination->initialize($config);
+
+        $data['orders'] = $this->order_model->order_get_all($config['per_page'], $this->uri->segment(4));
+        $data['status'] = $this->orderstatus_model->status_get_all();
+        $data['payment'] = $this->payment_model->payment_get_all();
+        $data['delivery'] = $this->delivery_model->delivery_get_all();
+        $this->load->view('admin/header');
+        $this->load->view('admin/order/order', $data);
+        $this->load->view('admin/footer');
+    }
+
+    public function create(){
+        $data = [];
+        if($this->input->post()){
+            $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|trim');
+            $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[255]|trim');
+            $this->form_validation->set_rules('meta_description', lang('text_meta_description'), 'max_length[3000]|trim');
+            $this->form_validation->set_rules('meta_keywords', lang('text_meta_keywords'), 'max_length[255]|trim');
+            $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]|trim');
+            $this->form_validation->set_rules('slug', lang('text_slug'), 'is_unique[order.slug]|max_length[255]|trim');
+            $this->form_validation->set_rules('sort', lang('text_sort'), 'integer');
+
+            if ($this->form_validation->run() !== false){
+                $this->save_data();
+            }else{
+                $this->error = validation_errors();
+            }
+        }
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/order/create',$data);
+        $this->load->view('admin/footer');
+    }
+
+    public function edit($id){
+
+        $data = [];
+        $data['order'] = $this->order_model->get($id);
+        if(!$data['order']){
+            show_404();
+        }
+
+        $data['status'] = $this->orderstatus_model->status_get_all();
+        $data['payment'] = $this->payment_model->payment_get_all();
+        $data['delivery'] = $this->delivery_model->delivery_get_all();
+        $data['supplier'] = $this->supplier_model->supplier_get_all();
+        $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']]);
+
+        if($this->input->post()){
+            $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
+            $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer');
+            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'required|max_length[250]');
+            $this->form_validation->set_rules('last_name', lang('text_last_name'), 'required|max_length[250]');
+            $this->form_validation->set_rules('telephone', lang('text_telephone'), 'required|max_length[32]|numeric');
+            $this->form_validation->set_rules('email', 'email', 'valid_email');
+            $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
+            if ($this->form_validation->run() !== false) {
+
+                $this->order_product_model->delete_by_order($id);
+
+                $delivery_price = 0;
+                $commissionpay = 0;
+                $total = 0;
+
+                if($this->input->post('products')){
+                    foreach($this->input->post('products') as $product){
+                        $total += $product['quantity'] * $product['price'];
+                    }
+                }
+
+                $delivery_id = (int)$this->input->post('delivery_method', true);
+                if ($delivery_id) {
+                    $deliveryInfo = $this->delivery_model->get($delivery_id);
+                    if ($deliveryInfo['price'] > 0) {
+                        $delivery_price = $deliveryInfo['price'];
+                    }
+                }
+
+                $payment_id = (int)$this->input->post('payment_method', true);
+                if ($payment_id) {
+                    $paymentInfo = $this->payment_model->get($payment_id);
+                    if ($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0) {
+                        if ($paymentInfo['comission'] > 0) {
+                            $commissionpay = $paymentInfo['comission'] * ($total + $delivery_price) / 100;
+                        }
+                        if ($paymentInfo['fix_cost'] > 0) {
+                            $commissionpay = $commissionpay + $paymentInfo['fix_cost'];
+                        }
+                    }
+                }
+
+
+                $total = $total + $delivery_price + $commissionpay;
+
+                $save = [];
+                $save['customer_id'] = $this->input->post('customer_id', true);
+                $save['first_name'] = $this->input->post('first_name', true);
+                $save['last_name'] = $this->input->post('last_name', true);
+                $save['email'] = $this->input->post('email', true);
+                $save['telephone'] = $this->input->post('telephone', true);
+                $save['delivery_method_id'] = $this->input->post('delivery_method', true);
+                $save['payment_method_id'] = $this->input->post('payment_method', true);
+                $save['comments'] = $this->input->post('comments', true);
+                $save['total'] = (float)$total;
+                $save['created_at'] = date('Y-m-d H:i:s');
+                $save['updated_at'] = date('Y-m-d H:i:s');
+                $save['status'] = (int)$this->input->post('status', true);
+                $save['commission'] = (float)$commissionpay;
+                $save['delivery_price'] = (float)$delivery_price;
+                $order_id = $this->order_model->insert($save, $id);
+                if ($order_id) {
+                    $products = [];
+                    foreach ($this->input->post('products') as $item) {
+                        $products[] = [
+                            'order_id' => $order_id,
+                            'slug' => $item['slug'],
+                            'quantity' => $item['quantity'],
+                            'price' => $item['price'],
+                            'name' => $item['name'],
+                            'sku' => $item['sku'],
+                            'brand' => $item['brand'],
+                            'supplier_id' => $item['supplier_id']
+                        ];
+                    }
+
+                    $this->order_product_model->insert_batch($products);
+                    $this->session->set_flashdata('success', lang('text_success'));
+                    redirect('autoxadmin/order/edit/'.$id);
+                }
+            }else{
+                $this->error = validation_errors();
+            }
+        }
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/order/edit', $data);
+        $this->load->view('admin/footer');
+    }
+
+    public function delete($id){
+        $this->order_model->delete($id);
+        $this->order_product_model->delete_by_order($id);
+        $this->session->set_flashdata('success', lang('text_success'));
+        redirect('autoxadmin/order');
+    }
+    //ajax сумма заказа при редактировании
+    public function get_total(){
+        $json = [];
+        $delivery_price = 0;
+        $commissionpay = 0;
+        $total = 0;
+
+        if($this->input->post('products')){
+            foreach($this->input->post('products') as $product){
+                $total += $product['quantity'] * $product['price'];
+            }
+        }
+
+        $delivery_id = (int)$this->input->post('delivery_method', true);
+        if($delivery_id){
+
+            $deliveryInfo = $this->delivery_model->get($delivery_id);
+            if($deliveryInfo['price'] > 0){
+                $delivery_price = $deliveryInfo['price'];
+            }
+            $json['delivery_description'] = $deliveryInfo['description'];
+        }
+
+
+        $payment_id = (int)$this->input->post('payment_method', true);
+        if($payment_id){
+            $paymentInfo = $this->payment_model->get($payment_id);
+            if($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0){
+                if($paymentInfo['comission'] > 0){
+                    $commissionpay = $paymentInfo['comission'] * ($total + $delivery_price) / 100;
+                }
+                if($paymentInfo['fix_cost'] > 0){
+                    $commissionpay = $commissionpay + $paymentInfo['fix_cost'];
+                }
+            }
+        }
+
+        $json['delivery_price'] = $delivery_price;
+        $json['commission'] = $commissionpay;
+        $json['subtotal'] = $total;
+        $json['total'] = $total + $delivery_price + $commissionpay;
+
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+
+    public function add_product(){
+        $this->load->model('product_model');
+        $slug = $this->input->post('slug', true);
+        $json = $this->product_model->admin_get_by_slug($slug,false);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+}

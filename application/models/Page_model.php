@@ -1,0 +1,92 @@
+<?php
+/**
+ * Developer: Распутний Сергей Викторович
+ * Email: sergey.rasputniy@gmail.com
+ */
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Page_model extends Default_model{
+    public $table = 'page';
+
+    public function get_header_page(){
+        $this->db->where('status',true);
+        $this->db->where('parent_id', 0);
+        $this->db->order_by('sort', 'ASC');
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            $return = [];
+            foreach($query->result_array() as $item){
+                $return[] = [
+                    'href' => !empty($item['link']) ? $item['link'] : '/page/'.$item['slug'],
+                    'target' => $item['new_window'] ? '_blank' : '_self',
+                    'title' => strip_tags($item['name']),
+                    'menu_title' => strip_tags($item['menu_title'])
+                ];
+            }
+            return $return;
+        }
+        return false;
+    }
+
+    public function get_footer_page(){
+        $this->db->where('status',true);
+        $this->db->where('show_footer', true);
+        $this->db->order_by('sort', 'ASC');
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            $return = [];
+            foreach($query->result_array() as $item){
+                $return[] = [
+                    'href' => !empty($item['link']) ? $item['link'] : '/page/'.$item['slug'],
+                    'target' => $item['new_window'] ? '_blank' : '_self',
+                    'title' => strip_tags($item['name']),
+                    'menu_title' => !empty($item['menu_title']) ? strip_tags($item['menu_title']) : strip_tags($item['name'])
+                ];
+            }
+            return $return;
+        }
+        return false;
+    }
+
+    public function get_by_slug($slug){
+        $this->db->where('slug', $slug);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        }
+        return false;
+    }
+
+    public function get_parent($id){
+        $this->db->where('parent_id',(int)$id);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        }
+        return false;
+    }
+
+    public function get_main($id){
+        $this->db->where('id',(int)$id);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        }
+        return false;
+    }
+
+    public function get_sitemap(){
+        $return = false;
+        $this->db->select('slug');
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            $return = [];
+            foreach($query->result_array() as $row){
+                $return[] = base_url('page/'.$row['slug']);
+            }
+        }
+        return $return;
+    }
+}
