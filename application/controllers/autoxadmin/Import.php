@@ -134,6 +134,7 @@ class Import extends Admin_controller
             }
         }
         $products = $this->import_model->import_get_all($id);
+
         if($products){
             foreach($products as &$product){
                 $product['created_at'] = date("Y-m-d H:i:s");
@@ -141,6 +142,7 @@ class Import extends Admin_controller
                 $product['price'] = $product['delivery_price'];
                 $product['slug'] = url_title($product['name'].' '.$product['sku'].' '.$product['brand'].' '.$product['supplier_id'], 'dash', true);
             }
+
 
             $this->product_model->insert_on_duplicate_key($products);
 

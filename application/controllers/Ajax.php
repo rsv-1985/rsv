@@ -108,12 +108,12 @@ class Ajax extends Front_controller{
         if($product){
             $data = [
                 'id'      => $slug,
-                'qty'     => $quantity,
-                'price'   => $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
-                'name'    => strlen($product['name']) == 0 ? 'no name' : $product['name'],
+                'qty'     => (int)$quantity,
+                'price'   => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
+                'name'    => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]","",$product['name']),
                 'sku' => $product['sku'],
                 'brand' => $product['brand'],
-                'supplier_id' => $product['supplier_id']
+                'supplier_id' => (int)$product['supplier_id']
             ];
 
             if($this->cart->insert($data)){

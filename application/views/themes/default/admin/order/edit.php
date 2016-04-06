@@ -176,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tr>
                     </table>
                     <div class="pull-right">
-                        <button class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit');?></button>
+                        <button style="display: none;" class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit');?></button>
                         <a class="btn btn-default btn-flat" href="/autoxadmin/order"><?php echo lang('button_close');?></a>
                     </div>
                 </div>
@@ -212,8 +212,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     var row = '<?php echo $row;?>';
 
     $(document).ready(function(){
-        $("input, select").change(function(){
+        $("input").change(function(){
             total();
+            $("[type='submit']").show();
+        });
+
+        $("select").change(function(){
+            $("[type='submit']").show();
         });
 
         $("#search").click(function(){
