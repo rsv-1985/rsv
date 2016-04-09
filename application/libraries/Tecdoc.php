@@ -205,7 +205,7 @@ class Tecdoc {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $jsonurl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 3);
         $res = curl_exec($curl);
         curl_close($curl);
 

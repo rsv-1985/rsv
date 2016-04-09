@@ -13,6 +13,10 @@ class Catalog extends Front_controller
     {
         parent::__construct();
         $this->load->language('catalog');
+        $this->load->library('user_agent');
+        if($this->agent->is_robot()){
+            show_404();
+        }
     }
 
     public function index()

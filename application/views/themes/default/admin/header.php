@@ -135,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/synonym"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_synonym');?></a></li>
                         <li><a href="/autoxadmin/import"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_price');?></a></li>
-                        <li><a href="index.html"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_cross');?></a></li>
+                        <li><a href="/autoxadmin/cross"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_cross');?></a></li>
                     </ul>
                 </li>
 

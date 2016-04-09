@@ -174,7 +174,7 @@ class Product_model extends Default_model{
     }
 
     //Поиск автозапчастей
-    public function get_search($ID_art, $brand, $sku, $tecdoc_info = true, $with_cross = true, $text_search = true){
+    public function get_search($ID_art, $brand, $sku, $with_cross = false, $text_search = false){
         $return = [];
         $return['products'] = false;
         $return['cross'] = false;
@@ -241,9 +241,6 @@ class Product_model extends Default_model{
             foreach($return['products'] as &$pem){
                 $slugs[] = $pem['slug'];
                 $pem['price'] = $this->calculate_customer_price($customer_group, $pem['price']) * $this->currency_rates[$pem['currency_id']]['value'];
-                if($tecdoc_info){
-                    $pem['tecdoc_info'] = $this->tecdoc_info($pem['sku'], $pem['brand']);
-                }
             }
         }
         //Если массив кросс намиров есть и он не пустой
@@ -285,9 +282,6 @@ class Product_model extends Default_model{
                 $p_cross = $query->result_array();
                 foreach($p_cross as $pc){
                     $pc['price'] = $this->calculate_customer_price($customer_group, $pc['price']) * $this->currency_rates[$pc['currency_id']]['value'];
-                    if($tecdoc_info){
-                        $pc['tecdoc_info'] = $this->tecdoc_info($pc['sku'], $pc['brand']);
-                    }
                     $product_cross[] = $pc;
                     $slugs[] = $pc['slug'];
                 }
@@ -340,9 +334,6 @@ class Product_model extends Default_model{
                 $p_about = $query->result_array();
                 foreach($p_about  as &$pa){
                     $pa['price'] = $this->calculate_customer_price($customer_group, $pa['price']) * $this->currency_rates[$pa['currency_id']]['value'];
-                    if($tecdoc_info){
-                        $pa['tecdoc_info'] = $this->tecdoc_info($pa['sku'], $pa['brand']);
-                    }
                 }
                 $return['about'] = $p_about;
             }

@@ -15,13 +15,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </tr>
             <?php foreach($products as $product){?>
                 <tr>
-                    <td class="img">
-                        <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Preview'];?>&width=50">
+                    <td>
+                        <i onmouseover="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
                         <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
                         <br>
-                        <small><?php echo $product['name'];?></small><br>
+                        <small><?php echo $product['name'];?></small>
                     </td>
                     <td class="price"><?php echo format_currency($product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
@@ -53,8 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </tr>
             <?php foreach($cross as $product){?>
                 <tr>
-                    <td class="img">
-                        <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Preview'];?>&width=50">
+                    <td>
+                        <i onmouseover="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
                         <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
@@ -90,8 +90,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </tr>
             <?php foreach($about as $product){?>
                 <tr>
-                    <td class="img">
-                        <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Preview'];?>&width=50">
+                    <td>
+                        <i onmouseover="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
                         <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>

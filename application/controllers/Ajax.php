@@ -87,7 +87,7 @@ class Ajax extends Front_controller{
         $brand = $this->input->get('brand', true);
         $sku = $this->input->get('sku', true);
         $is_admin = $this->input->get('is_admin');
-        $results = $this->product_model->get_search($ID_art, $brand, $sku);
+        $results = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
         if($is_admin){
             $html = $this->load->view('form/admin_result',$results, true);;
         }else{
@@ -204,7 +204,12 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function get_model($ID_mfa){
-
+    public function get_tecdoc_info(){
+        $json = [];
+        $data = [];
+        $json['html'] = $this->load->view('form/tecdocinfo',$data, true);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
     }
 }
