@@ -23,6 +23,7 @@ $(document).ready(function(){
 
     $(".search_form").submit(function(event){
         event.preventDefault();
+        $("#popover").empty();
         $.ajax({
             url: $(this).attr('action'),
             method: 'POST',
@@ -107,6 +108,7 @@ function catalog_search(ID_art, sku, brand){
 
 function tecdoc_info(sku, brand){
     $("#popover").hide();
+    $("#popover").empty();
     $.ajax({
         url: '/ajax/get_tecdoc_info',
         method: 'POST',

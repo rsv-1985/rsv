@@ -206,8 +206,17 @@ class Ajax extends Front_controller{
 
     public function get_tecdoc_info(){
         $json = [];
-        $data = [];
-        $json['html'] = $this->load->view('form/tecdocinfo',$data, true);
+        $json['html'] = 'No info';
+        $sku = $this->input->post('sku', true);
+        $brand = $this->input->post('brand', true);
+        $ID_art = $this->tecdoc->getIDart($sku, $brand);
+        if(isset($ID_art[0]->ID_art)){
+            $info = $this->tecdoc->getArticle($ID_art[0]->ID_art);
+            if(isset($info[0])){
+                $json['html'] = $this->load->view('form/tecdocinfo',$info[0], true);
+            }
+        }
+
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
