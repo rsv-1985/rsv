@@ -106,12 +106,13 @@ function catalog_search(ID_art, sku, brand){
 }
 
 function tecdoc_info(sku, brand){
+    $("#popover").hide();
     $.ajax({
         url: '/ajax/get_tecdoc_info',
         method: 'POST',
         data: {sku:sku, brand:brand},
         success: function(json){
-            $("#popover").html(json['html']);
+            $("#popover").html(json['html']).fadeIn('slow');
         }
     });
 }
