@@ -27,9 +27,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
-    <script src="<?php echo theme_url();?>js/jquery.min.js"></script>
-    <script src="<?php echo theme_url();?>js/function.js"></script>
-
 </head>
 <body>
 

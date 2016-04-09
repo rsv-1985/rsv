@@ -113,7 +113,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
-
+<script src="<?php echo theme_url();?>js/jquery.min.js"></script>
+<script src="<?php echo theme_url();?>js/function.js"></script>
 <!-- Bootstrap JS form CDN -->
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
 

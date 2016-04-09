@@ -54,7 +54,7 @@ class Index extends Front_controller {
                 }
             }
         }
-     
+
         $this->load->view('header');
         $this->load->view('index', $data);
         $this->load->view('footer');
