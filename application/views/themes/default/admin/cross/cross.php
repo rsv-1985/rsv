@@ -28,7 +28,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>brand 1</th>
                             <th>sku 2</th>
                             <th>brand 2</th>
-                            <th><a href="/autoxadmin/category/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
+                            <th>
+                                <div class="btn-group pull-right">
+                                    <a href="/autoxadmin/cross/delete_all" class="btn btn-danger"><?php echo lang('button_delete_all');?></a>
+                                    <a href="/autoxadmin/cross/create" class="btn btn-info"><?php echo lang('button_add');?></a>
+                                </div>
+                            </th>
                         </tr>
                         <?php if($crosses){?>
                             <?php foreach($crosses as $cross){?>

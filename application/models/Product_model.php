@@ -201,14 +201,23 @@ class Product_model extends Default_model{
                         $search_data[] = [
                             'sku' => $this->clear_sku($item->Display),
                             'brand' => $item->Brand,
-                            'name' => $item->Name
                         ];
                     }
                 }
             }
+            //Получаем собственные кроссы
+            $this->db->select(['code2 as sku', 'brand2 as brand']);
+            $this->db->from('cross');
+            $this->db->where('code', $sku);
+            $this->db->where('brand', $brand);
+            $query = $this->db->get();
+            if($query->num_rows() > 0){
+               $search_data = array_merge($search_data,$query->result_array());
+            }
+
+            $search_data =array_unique($search_data, SORT_REGULAR );
+
         }
-
-
 
         //Здесь будем получать товары через API поставщиков
         /*$this->api_supplier()*/
