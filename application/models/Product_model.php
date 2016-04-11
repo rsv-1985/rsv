@@ -111,12 +111,10 @@ class Product_model extends Default_model{
     public function clear_brand($brand, $synonym = false){
         if($synonym){
             if(isset($synonym[$brand])){
-                $brand = trim($synonym[$brand]);
+                $brand = $synonym[$brand];
             }
-        }else{
-            $brand = trim(mb_strtoupper($brand,'UTF-8'));
         }
-        return $brand;
+        return trim(mb_strtoupper($brand,'UTF-8'));
     }
 
     //Чистка количества
