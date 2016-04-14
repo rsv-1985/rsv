@@ -79,9 +79,9 @@ class supplier extends Admin_controller
         //Ценообразование по постащику
         $data['pricing'] = $this->db->where('supplier_id', (int)$id)->get('pricing')->result_array();
         //Статистика по поставщику
-        $data['count'] = $this->product_model->count_all(array('supplier_id' => (int)$id));
-        $data['quan'] = $this->product_model->count_all(array('quantity >' => '0'));
-        $data['visible'] = $this->product_model->count_all(array('status' => true));
+        $data['count'] = $this->product_model->count_all(['supplier_id' => (int)$id]);
+        $data['quan'] = $this->product_model->count_all(['quantity >' => '0','supplier_id' => (int)$id]);
+        $data['visible'] = $this->product_model->count_all(['status' => true,'supplier_id' => (int)$id]);
         $this->load->view('admin/header');
         $this->load->view('admin/supplier/edit', $data);
         $this->load->view('admin/footer');
