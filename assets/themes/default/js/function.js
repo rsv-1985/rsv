@@ -1,6 +1,25 @@
 $(document).ready(function(){
+    $('[rel="tooltip"]').tooltip();
     $(".vin_request").submit(function(event){
         send_request();
+    });
+
+    $("#call_back_form").submit(function (e) {
+       e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(json){
+                console.log(json);
+                if(json['success']){
+                    location.reload();
+                } else {
+                    $(".alert-danger").html(json['error']).fadeIn();
+                }
+            }
+        });
     });
 
     $("#login_form").submit(function(event){

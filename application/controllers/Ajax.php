@@ -11,8 +11,33 @@ class Ajax extends Front_controller{
     {
         parent::__construct();
         if(!$this->input->is_ajax_request()){
-            exit();
+            redirect('/');
         }
+    }
+    
+    public function call_back(){
+        $json = [];
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', lang('text_call_back_name'), 'required|trim');
+        $this->form_validation->set_rules('telephone', lang('text_call_back_telephone'), 'required|numeric|trim');
+        if ($this->form_validation->run() == true)
+        {
+            $name = $this->input->post('name', true);
+            $telephone = $this->input->post('telephone', true);
+            $subject = lang('text_call_back_subject');
+            $html = lang('text_call_back_name').':'.$name.'<br>';
+            $html .= lang('text_call_back_telephone').':'.$telephone.'<br>';
+            $this->load->library('sender');
+            $this->sender->email($subject, $html, explode(';',$this->contacts['email']), explode(';',$this->contacts['email']));
+            $this->session->set_flashdata('success', lang('text_call_back_success'));
+
+            $json['success'] = lang('text_call_back_success');
+        }else{
+            $json['error'] = validation_errors();
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
     }
 
     public function vin(){

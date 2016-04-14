@@ -5,7 +5,7 @@
  * Email: sergey.rasputniy@gmail.com
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="footer-top-area">
+<div class="footer-top-area" xmlns="http://www.w3.org/1999/html">
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
@@ -110,6 +110,34 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
             <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- Modal call-back-->
+<div class="modal fade" id="call-back-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo lang('text_call_back');?></h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert" style="display: none"></div>
+                <?php echo form_open('/ajax/call_back',['id' => 'call_back_form']);?>
+                    <div class="form-group">
+                        <label><?php echo lang('text_call_back_name');?></label>
+                        <input type="text" class="form-control" name="name" minlength="3" required>
+                    </div>
+                    <div class="form-group">
+                        <label><?php echo lang('text_call_back_telephone');?></label>
+                        <input type="text" class="form-control" name="telephone" minlength="3" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-default pull-right" value="<?php echo lang('button_send');?>" >
+                    </div>
+                <div class="clearfix"></div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

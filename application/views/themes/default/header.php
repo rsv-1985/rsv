@@ -74,7 +74,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php }else{?>
                         <a href="/"><?php echo $this->config->item('company_name');?></a>
                     <?php } ?>
-
                 </div>
             </div>
 
@@ -97,6 +96,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             class="product-count"><?php echo $this->cart->total_items();?></span>
 
                     </a>
+                </div>
+                <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal" rel="tooltip" data-placement="top">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
