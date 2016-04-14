@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/orderstatus"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_status');?></a></li>
                         <li><a href="/autoxadmin/admin"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user');?></a></li>
                         <li><a href="/autoxadmin/index/cache"><i class="fa fa-circle-o"></i>Clear Cache</a></li>
-
+                        <li><a target="_blank" href="/updatesystem.php"><i class="fa fa-circle-o"></i>Update system</a></li>
                     </ul>
                 </li>
             </ul>
