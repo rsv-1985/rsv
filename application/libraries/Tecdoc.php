@@ -8,9 +8,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tecdoc {
 
-    private $key = 'E84E30B9390CDB64DB6DB2C9AB87846D';// - test
+    private $key;
     private $url = 'http://www.autoxcatalog.com/api?query=';
-    //public $url = 'http://api.autoparts-cms.com/tecdoc/?json=';
+    private $CI;
+
+    public function __construct()
+    {
+        $this->CI = &get_instance();
+        $this->key = $this->CI->config->item('api_key');
+        $this->url = $this->CI->config->item('api_url');
+    }
+
+
     public function getManufacturer($ID_mfa = false){
         if($ID_mfa){
             $query = [

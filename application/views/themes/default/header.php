@@ -27,6 +27,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
+    <?php if($this->config->item('my_style')){?>
+        <link rel="stylesheet" href="<?php echo $this->config->item('my_style');?>">
+    <?php } ?>
 </head>
 <body>
 
@@ -66,7 +69,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-sm-3">
                 <div class="logo">
-                    <a href="/"><?php echo $this->config->item('company_name');?></a>
+                    <?php if($this->config->item('company_logo')){?>
+                        <a href="/"><img src="<?php echo $this->config->item('logo');?>"/></a>
+                    <?php }else{?>
+                        <a href="/"><?php echo $this->config->item('company_name');?></a>
+                    <?php } ?>
+
                 </div>
             </div>
 
