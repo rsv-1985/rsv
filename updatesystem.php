@@ -5,6 +5,8 @@
  * Email: sergey.rasputniy@gmail.com
  */
 exec('git pull', $output);
-echo '<pre>';
-print_r($output);
-echo '</pre>';
+if($output){
+    foreach ($output as $text){
+        echo $text.'<br>';
+    }
+}
