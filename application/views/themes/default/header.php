@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-sm-3">
                 <div class="logo">
                     <?php if($this->config->item('company_logo')){?>
-                        <a href="/"><img src="<?php echo $this->config->item('logo');?>"/></a>
+                        <a href="/"><img src="<?php echo $this->config->item('company_logo');?>"/></a>
                     <?php }else{?>
                         <a href="/"><?php echo $this->config->item('company_name');?></a>
                     <?php } ?>
