@@ -53,7 +53,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-5">
                 <div class="pull-right" id="contact">
                     <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
-                        <i class="fa fa-phone-square"></i> <?php echo $phone;?>&nbsp;
+                        <i class="fa fa-phone-square"></i> 
+                        <a href="#" data-toggle="modal" data-target="#call-back-modal">
+                            <?php echo $phone;?>&nbsp;
+                        </a>
                     <?php } ?>
                     <?php foreach(explode(';',$this->contacts['email']) as $email){?>
                         <i class="fa fa-envelope"></i> <a href="mailto:<?php echo $email;?>"><?php echo $email;?></a>
