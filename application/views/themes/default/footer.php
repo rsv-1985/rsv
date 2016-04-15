@@ -164,6 +164,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active');
     });
 </script>
+<?php if($this->config->item('my_script') && !empty($this->config->item('my_script'))){?>
+    <?php foreach ($this->config->item('my_script') as $script){?>
+        <script type="text/javascript" src="<?php echo $script;?>"></script>
+    <?php } ?>
+<?php } ?>
 <?php $this->output->enable_profiler(FALSE);?>
 </body>
 </html>
