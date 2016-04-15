@@ -1207,9 +1207,9 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 
 .single-shop-product h2 {
-    font-size: 20px;
-    margin: 10px 0;
-    height: 60px;
+    font-size: 14px;
+    margin: 0px 0;
+    height: 48px;
 }
 .product-option-shop {
     margin-top: 15px;

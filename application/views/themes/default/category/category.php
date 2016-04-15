@@ -47,18 +47,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <div class="single-shop-product">
                                     <div class="product-upper">
                                         <?php if($product['tecdoc_info']){?>
-                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165&height=165" alt="">
+                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165" alt="">
                                         <?php }else{ ?>
                                             <img src="/image?width=165" alt="">
                                         <?php } ?>
                                     </div>
+                                    <small><?php echo $product['brand'].' '.$product['sku'];?></small>
                                     <h2><a href="/product/<?php echo $product['slug'];?>"><?php echo character_limiter($product['name'],25);?></a></h2>
                                     <div class="product-carousel-price">
                                         <ins><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></ins>
                                         <?php if($product['saleprice'] > 0){?>
                                             <del><?php echo format_currency($product['price']);?></del>
                                         <?php } ?>
-
                                     </div>
 
                                     <div class="product-option-shop">
@@ -76,7 +76,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                                 style="display: none;"
                                             <?php } ?>
                                         ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
-
                                     </div>
                                 </div>
                             </div>
