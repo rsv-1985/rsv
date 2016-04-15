@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <div class="col-sm-4">
                             <div class="product-images">
                                 <div class="product-main-img">
-                                    <img src="<?php echo $image;?>" alt="<?php echo $h1;?>">
+                                    <img src="/image?img=<?php echo $image;?>&width=165" alt="<?php echo $h1;?>">
                                 </div>
                             </div>
                         </div>
