@@ -36,13 +36,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <?php if($products){?>
                     <div class="row">
                         <?php foreach($products as $product){?>
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-4 col-sm-6">
                                 <div class="single-shop-product">
                                     <div class="product-upper">
                                         <?php if($product['tecdoc_info']){?>
-                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165" alt="">
+                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165" alt="<?php echo $product['name'];?>">
                                         <?php }else{ ?>
-                                            <img src="/image?width=165" alt="">
+                                            <img src="/image?width=165" alt="<?php echo $product['name'];?>">
                                         <?php } ?>
                                     </div>
                                     <small><?php echo $product['brand'].' '.$product['sku'];?></small>

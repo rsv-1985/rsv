@@ -1213,9 +1213,14 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 }
 .product-option-shop {
     margin-top: 15px;
+    height: 60px;
 }
 
-.single-shop-product {margin-bottom: 50px}
+.single-shop-product {    margin-bottom: 50px;
+    border: 1px solid whitesmoke;
+    padding: 9px;
+    text-align: center;
+    border-radius: 5px;}
 
 .pagination > li > a, .pagination > li > span {
   color: #5a88ca;
