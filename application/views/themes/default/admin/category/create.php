@@ -26,6 +26,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input required type="text" class="form-control" name="name" value="<?php echo set_value('name'); ?>" maxlength="255">
                     </div>
                     <div class="form-group">
+                        <label><?php echo lang('text_parent_category'); ?></label>
+                        <select name="parent_id" class="form-control">
+                            <option value="0"></option>
+                            <?php foreach ($categories as $cat){?>
+                                <?php if($cat['id'] != $category['id']){?>
+                                    <option value="<?php echo $cat['id'];?>" <?php echo set_select('parent_id', $cat['id']);?>><?php echo $cat['name'];?></option>
+                                <?php } ?>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label><?php echo lang('text_description'); ?></label>
                         <textarea class="textarea" name="description"><?php echo set_value('description'); ?></textarea>
                     </div>

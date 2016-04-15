@@ -27,22 +27,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <div class="panel panel-default">
                         <div class="panel-heading"><?php echo lang('text_category');?></div>
                         <div class="panel-body">
-                            <ul>
-                                <?php foreach($this->category as $category){?>
-                                    <li><a href="/category/<?php echo $category['slug'];?>"><?php echo $category['name'];?></a></li>
-                                <?php } ?>
-                            </ul>
+                            <?php echo build_tree($this->category,0);?>
                         </div>
                     </div>
                 <?php } ?>
             </div>
             <div class="col-md-8">
-                <?php echo $description;?>
-                <hr>
                 <?php if($products){?>
                     <div class="row">
                         <?php foreach($products as $product){?>
-                            <?php //print_r($product);?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="single-shop-product">
                                     <div class="product-upper">
@@ -87,6 +80,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </div>
                 </div>
                 <?php } ?>
+                <hr>
+                <?php echo $description;?>
             </div>
         </div>
     </div>

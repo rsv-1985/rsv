@@ -51,7 +51,7 @@ class Category extends Admin_controller
                 $this->error = validation_errors();
             }
         }
-
+        $data['categories'] = $this->category_model->get_all();
         $this->load->view('admin/header');
         $this->load->view('admin/category/create',$data);
         $this->load->view('admin/footer');
@@ -82,7 +82,7 @@ class Category extends Admin_controller
                 $this->error = validation_errors();
             }
         }
-
+        $data['categories'] = $this->category_model->get_all();
         $this->load->view('admin/header');
         $this->load->view('admin/category/edit', $data);
         $this->load->view('admin/footer');
@@ -96,6 +96,7 @@ class Category extends Admin_controller
 
     private function save_data($id = false){
         $save = [];
+        $save['parent_id'] = (int)$this->input->post('parent_id', true);
         $save['name'] = $this->input->post('name', true);
         $save['h1'] = $this->input->post('h1', true);
         $save['title'] = strip_tags($this->input->post('title', true));

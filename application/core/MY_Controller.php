@@ -67,6 +67,7 @@ class Front_controller extends CI_Controller{
         }
         unset($currency);
         $this->category = $this->category_model->category_get_all();
+       
         $this->contacts = $this->settings_model->get_by_key('contact_settings');
     }
 }

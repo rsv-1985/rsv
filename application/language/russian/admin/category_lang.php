@@ -20,3 +20,4 @@ $lang['text_updated_at'] = 'Обновлено';
 $lang['text_status'] = 'Активна';
 $lang['text_sort'] = 'Сортировка';
 $lang['text_success'] = 'Все прошло успешно';
+$lang['text_parent_category'] = 'Подкатегория';

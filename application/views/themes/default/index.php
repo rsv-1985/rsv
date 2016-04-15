@@ -54,11 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="panel panel-default">
                     <div class="panel-heading"><?php echo lang('text_category');?></div>
                     <div class="panel-body">
-                        <ul>
-                            <?php foreach($this->category as $category){?>
-                                <li><a href="/category/<?php echo $category['slug'];?>"><?php echo $category['name'];?></a></li>
-                            <?php } ?>
-                        </ul>
+                        <?php echo build_tree($this->category,0);?>
                     </div>
                 </div>
             <?php } ?>

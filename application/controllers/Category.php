@@ -33,7 +33,7 @@ class category extends Front_controller{
 
         $data['h1'] = !empty($category['h1']) ? $category['h1'] : $category['name'];
         $data['description'] = !$this->uri->segment(3) ? $category['description'] : '';
-
+       
         $this->load->library('pagination');
 
         $config['base_url'] = base_url('/category/'.$category['slug']);

@@ -8,13 +8,17 @@
 class Category_model extends Default_model{
     public $table = 'category';
 
-    public function category_get_all(){
-        $this->db->where('status', true);
-        $this->db->order_by('sort', 'ASC');
-        $query = $this->db->get($this->table);
 
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
+    public function category_get_all($parent_id = 0){
+        $this->db->where('status', true);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            $cats = [];
+            foreach ($query->result_array() as $cat){
+                $cats_ID[$cat['id']][] = $cat;
+                $cats[$cat['parent_id']][$cat['id']] =  $cat;
+            }
+            return $cats;
         }
         return false;
     }
