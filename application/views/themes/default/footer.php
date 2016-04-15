@@ -10,10 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-sm-6">
-                    Powered by<br>
-                    <a href="http://cms.autoxcatalog.com/">
-                        <img src="/image?img=/assets/themes/default/img/autox.png&height=150">
-                    </a>
+                    <div <?php if($this->config->item('is_buy')){?>style="display: none;" <?php } ?>>
+                        Powered by<br>
+                        <a href="http://cms.autoxcatalog.com/">
+                            <img src="/image?img=/assets/themes/default/img/autox.png&height=150">
+                        </a>
+                    </div>
             </div>
 
             <div class="col-md-3 col-sm-6">
