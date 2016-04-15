@@ -64,11 +64,7 @@ class Product extends Front_controller{
             $data['description'] .= $product['tecdoc_info']['article']['Info'];
         }
         $data['slug'] = $product['slug'];
-
-        $data['image'] = '/assets/themes/default/img/no_image.png';
-        if(isset($product['tecdoc_info']['article']['Image']) && mb_strlen($product['tecdoc_info']['article']['Image']) > 0){
-            $data['image'] =  $product['tecdoc_info']['article']['Image'];
-        }
+        $data['image'] = mb_strlen($product['image']) > 0 ? '/uploads/product/'.$product['image'] : @$product['tecdoc_info']['article']['Image'];
 
         $data['applicability'] = false;
         if(isset($product['tecdoc_info']['applicability']) && !empty($product['tecdoc_info']['applicability'])){

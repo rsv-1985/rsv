@@ -25,6 +25,7 @@ $lang['text_sample_saleprice'] = 'Акционная цена';
 $lang['text_sample_quantity'] = 'Количество';
 $lang['text_sample_term'] = 'Срок поставки';
 $lang['text_sample_category'] = 'Категория';
+$lang['text_sample_image'] = 'Картинка';
 $lang['text_sample_default_category'] = 'Категория по умолчанию';
 $lang['text_save_sample'] = 'Сохранить шаблон?';
 $lang['text_save_sample_name'] = 'Название шаблона';

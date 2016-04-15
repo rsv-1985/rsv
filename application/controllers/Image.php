@@ -62,6 +62,7 @@ class Image extends CI_Controller
 
     private function resize($file = false){
 
+
         if(!$file || !file_exists('.'.$file)){
             $file = theme_url().'img/no_image.png';
         }

@@ -871,6 +871,7 @@ input[type="submit"]:hover, button[type=submit]:hover {background-color: #5a88ca
 }
 .product-main-img {
     margin-bottom: 20px;
+    text-align: center;
 }
 .product-gallery {
     margin-bottom: 25px;

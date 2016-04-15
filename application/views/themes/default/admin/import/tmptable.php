@@ -40,6 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <th><?php echo lang('text_sample_saleprice');?></th>
                     <th><?php echo lang('text_sample_quantity');?></th>
                     <th><?php echo lang('text_sample_term');?></th>
+                    <th><?php echo lang('text_sample_image');?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,6 +55,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <td><?php echo $item['saleprice'];?></td>
                         <td><?php echo $item['quantity'];?></td>
                         <td><?php echo $item['term'];?></td>
+                        <td>
+                            <?php if(mb_strlen($item['image']) > 0){?>
+                                <img src="/image?img=/uploads/product/<?php echo $item['image'];?>&width=50&height=50"/>
+                            <?php } ?>
+                        </td>
                     </tr>
                 <?php } ?>
                 </tbody>

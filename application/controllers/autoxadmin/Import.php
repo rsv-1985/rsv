@@ -251,6 +251,12 @@ class Import extends Admin_controller
                     $category_id = $params['sample']['default_category_id'];
                 }
 
+                if(isset($data_f[$params['sample']['image'] - 1])){
+                    $image = (int)$data_f[$params['sample']['image'] - 1];
+                } else {
+                    $image = '';
+                }
+
                 $currency_id = $params['sample']['currency_id'];
 
                 $save[]= [
@@ -265,7 +271,8 @@ class Import extends Admin_controller
                     'quantity' => $quantity,
                     'supplier_id' => $params['supplier_id'],
                     'term' => $term,
-                    'category_id' => $category_id
+                    'category_id' => $category_id,
+                    'image' => $image
                 ];
 
                 if ($i == 2000) {
@@ -339,6 +346,7 @@ class Import extends Admin_controller
                 }
                 $description = trim($excel->sheets[0]['cells'][$i][$sample['description']]);
                 $excerpt = trim($excel->sheets[0]['cells'][$i][$sample['excerpt']]);
+                $image = trim($excel->sheets[0]['cells'][$i][$sample['image']]);
                 $currency_id = $sample['currency_id'];
 
                 $save[]= [
@@ -353,7 +361,8 @@ class Import extends Admin_controller
                     'quantity' => $quantity,
                     'supplier_id' => $supplier_id,
                     'term' => $term,
-                    'category_id' => $category_id
+                    'category_id' => $category_id,
+                    'image' => $image
                 ];
                 $q++;
                 if ($q > 2000) {
