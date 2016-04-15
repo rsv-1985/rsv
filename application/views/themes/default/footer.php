@@ -168,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </script>
 <?php if($this->config->item('my_script')){?>
     <?php foreach ($this->config->item('my_script') as $script){?>
-        <?php require_once ($script);?>
+        <?php echo file_get_contents(base_url($script));?>
     <?php } ?>
 <?php } ?>
 <?php $this->output->enable_profiler(FALSE);?>
