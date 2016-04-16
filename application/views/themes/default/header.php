@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-sm-5">
                     <div class="search">
                         <?php echo form_open('ajax/pre_search', ['method' => 'get', 'class' => 'search_form']);?>
-                            <input required type="text" id="search_input" name="search" class="input-text" placeholder="OC90">
+                            <input required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>">
                             <input type="submit" data-value="<?php echo lang('button_search');?>" value="<?php echo lang('button_search');?>" class="button alt">
                         </form>
                     </div>
