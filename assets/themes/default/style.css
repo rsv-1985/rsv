@@ -1258,3 +1258,6 @@ p#page_404 span{
     margin-right: 2px;
     cursor: pointer;
 }
+.product-option-shop a {
+    color: #17a78b;
+}
