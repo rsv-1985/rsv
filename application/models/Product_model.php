@@ -10,6 +10,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Product_model extends Default_model{
     public $table = 'product';
     
+    public function product_delete($slug){
+        $this->db->where('slug', $slug);
+        $this->db->delete($this->table);
+    }
+
+    public function product_count_all(){
+        if($this->input->get()){
+            if($this->input->get('sku')){
+                $this->db->where('sku', $this->input->get('sku',true));
+            }
+            if($this->input->get('brand')){
+                $this->db->where('brand', $this->input->get('brand',true));
+            }
+            if($this->input->get('name')){
+                $this->db->like('name', $this->input->get('name',true));
+            }
+            if($this->input->get('supplier_id')){
+                $this->db->where('supplier_id', $this->input->get('supplier_id',true));
+            }
+            if($this->input->get('status')){
+                $this->db->where('status', $this->input->get('status',true));
+            }
+            return $this->db->count_all_results($this->table);
+        }else{
+            return $this->db->count_all($this->table);
+        }
+    }
+
+    public function admin_product_get_all($limit = false, $start = false){
+        if($this->input->get()){
+            if($this->input->get('sku')){
+                $this->db->where('sku', $this->input->get('sku',true));
+            }
+            if($this->input->get('brand')){
+                $this->db->where('brand', $this->input->get('brand',true));
+            }
+            if($this->input->get('name')){
+                $this->db->like('name', $this->input->get('name',true));
+            }
+            if($this->input->get('supplier_id')){
+                $this->db->where('supplier_id', $this->input->get('supplier_id',true));
+            }
+            if($this->input->get('status')){
+                $this->db->where('status', str_replace(['yes','no'],[1,0],$this->input->get('status',true)));
+            }
+        }
+        
+        if($limit && $start){
+            $this->db->limit((int)$limit, (int)$start);
+        }elseif($limit){
+            $this->db->limit((int)$limit);
+        }
+        
+        $query = $this->db->get($this->table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+        return false;
+    }
+    
     public function update_bought($slug){
         $this->db->where('slug', $slug);
         $this->db->set('bought', 'bought + 1', FALSE);
@@ -20,6 +81,11 @@ class Product_model extends Default_model{
         $this->db->where('slug', $slug);
         $this->db->set('viewed', 'viewed + 1', FALSE);
         $this->db->update($this->table);
+    }
+    //Обновление данных товара с админки
+    public function update_item($data, $slug){
+        $this->db->where('slug', $slug);
+        $this->db->update($this->table,$data);
     }
 
     public function insert_on_duplicate_key($data)

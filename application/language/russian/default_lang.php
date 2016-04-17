@@ -26,6 +26,7 @@ $lang['text_remainder'] = 'Забыли пароль';
 $lang['text_change_brand'] = 'Уточните поиск, выбрав бренд';
 $lang['text_st'] = 'шт.';
 $lang['text_time'] = 'час.';
+$lang['text_day'] = 'д.';
 $lang['text_success_cart'] = 'Товар добавлен в корзину';
 $lang['text_error_cart'] = 'Товар НЕ добавлен в корзину';
 $lang['text_vin_manufacturer'] = 'Марка автомобиля';

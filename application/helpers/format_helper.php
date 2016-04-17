@@ -22,7 +22,12 @@ function format_quantity($value){
 }
 
 function format_term($term){
-   return $term.lang('text_time');
+    if($term >= 24){
+        $day = $term / 24;
+        return $day.lang('text_day');
+    }
+
+    return $term.lang('text_time');
 }
 
 function build_tree($cats,$parent_id,$only_parent = false){

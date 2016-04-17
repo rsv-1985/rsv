@@ -112,6 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i class="fa fa-table"></i> <span><?php echo lang('text_catalog');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="/autoxadmin/product"><i class="fa fa-circle-o"></i><?php echo lang('text_catalog_product');?></a></li>
                         <li><a href="/autoxadmin/category"><i class="fa fa-circle-o"></i><?php echo lang('text_catalog_category');?></a></li>
                         <li><a href="/autoxadmin/supplier"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_supplier');?></a></li>
                     </ul>

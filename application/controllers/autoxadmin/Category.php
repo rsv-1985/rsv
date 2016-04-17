@@ -102,7 +102,7 @@ class Category extends Admin_controller
         $save['title'] = strip_tags($this->input->post('title', true));
         $save['meta_description'] = strip_tags($this->input->post('meta_description', true));
         $save['meta_keywords'] = strip_tags($this->input->post('meta_keywords', true));
-        $save['description'] = $this->input->post('description', true);
+        $save['description'] = $this->input->post('description');
         if($this->input->post('slug', true)){
             $save['slug'] = $this->input->post('slug', true);
         }else{
