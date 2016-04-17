@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_price');?></th>
                             <th><?php echo lang('text_saleprice');?></th>
                             <th><?php echo lang('text_status');?></th>
-                            <th><a href="/autoxadmin/product/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
+                            <th><a style="display: none;" href="/autoxadmin/product/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php echo form_open('', ['method' => 'GET']);?>
                         <tr>
