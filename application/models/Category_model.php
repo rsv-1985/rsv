@@ -8,7 +8,18 @@
 class Category_model extends Default_model{
     public $table = 'category';
 
-
+    public function admin_category_get_all(){
+        $query = $this->db->get($this->table);
+        if($query->num_rows()){
+            $return = [];
+            foreach ($query->result_array() as $cat){
+                $return[$cat['id']] = $cat;
+            }
+            return $return;
+        }
+        return false;
+    }
+    
     public function category_get_all($parent_id = 0){
         $this->db->where('status', true);
         $query = $this->db->get($this->table);
