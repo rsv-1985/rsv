@@ -45,3 +45,4 @@ $lang['text_call_back_telephone'] = 'Телефон';
 $lang['text_call_back_subject'] = 'Заказ звонка';
 $lang['text_call_back_success'] = 'Заявка отправлена, ожидайте звонка';
 $lang['text_placeholder_search'] = 'Введите номер или название запчасти';
+$lang['text_cross'] = 'Поиск замен';
