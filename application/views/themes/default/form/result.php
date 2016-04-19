@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </table>
 <?php }else{?>
 <h3><?php echo lang('text_no_results');?></h3>
-    <?php echo form_open('ajax/vin', ['class' => 'vin_request']);?>
+    <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request()']);?>
             <div class="col-md-6">
                 <div class="well">
 

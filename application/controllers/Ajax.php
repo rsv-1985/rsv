@@ -47,8 +47,8 @@ class Ajax extends Front_controller{
         $this->form_validation->set_rules('model', lang('text_vin_model'), 'required');
         $this->form_validation->set_rules('engine', lang('text_vin_engine'), 'required');
         $this->form_validation->set_rules('parts', lang('text_vin_parts'), 'required');
-        $this->form_validation->set_rules('name', lang('text_vin_parts'), 'required');
-        $this->form_validation->set_rules('telephone', lang('text_vin_parts'), 'required|numeric');
+        $this->form_validation->set_rules('name', lang('text_vin_name'), 'required');
+        $this->form_validation->set_rules('telephone', lang('text_vin_telephone'), 'required|numeric');
         if ($this->form_validation->run() == true)
         {
             $this->load->library('sender');

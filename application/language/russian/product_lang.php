@@ -15,3 +15,4 @@ $lang['text_brand'] = 'Производитель';
 $lang['text_sku'] = 'Артикул';
 $lang['text_qty'] = 'Количество';
 $lang['text_excerp'] = 'Доп.инфо';
+$lang['text_term'] = 'Срок доставки';

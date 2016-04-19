@@ -58,6 +58,7 @@ class Product extends Front_controller{
         $data['saleprice'] = format_currency($product['saleprice']);
         $data['excerpt'] = $product['excerpt'];
         $data['sku'] = $product['sku'];
+        $data['term'] = $product['term'];
         $data['quantity'] = $product['quantity'];
         $data['description'] = $product['description'].'<br>';
         if(isset($product['tecdoc_info']['article']['Info']) && mb_strlen($product['tecdoc_info']['article']['Info']) > 0){

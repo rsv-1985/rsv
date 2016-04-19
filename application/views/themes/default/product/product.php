@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="col-sm-4">
                             <div class="product-images">
                                 <div class="product-main-img">
-                                    <img src="/image?img=<?php echo $image; ?>&width=165" alt="<?php echo $h1; ?>">
+                                    <img src="/image?img=<?php echo $image; ?>&width=300" alt="<?php echo $h1; ?>">
                                 </div>
                             </div>
                         </div>
@@ -47,10 +47,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="product-inner">
                                 <h1 class="product-name"><?php echo $h1; ?></h1>
                                 <div class="well well-sm">
-                                    <small><?php echo lang('text_brand'); ?>:</small> <?php echo $brand; ?><br/>
-                                    <small><?php echo lang('text_sku'); ?>:</small> <?php echo $sku; ?><br/>
-                                    <small><?php echo lang('text_qty'); ?>:
-                                    </small> <?php echo format_quantity($quantity); ?><br/>
+                                    <div class="col-md-6">
+                                        <small><?php echo lang('text_brand'); ?>:</small> <?php echo $brand; ?><br/>
+                                        <small><?php echo lang('text_sku'); ?>:</small> <?php echo $sku; ?><br/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small><?php echo lang('text_qty'); ?>:</small> <?php echo format_quantity($quantity); ?><br/>
+                                        <small><?php echo lang('text_term'); ?>:</small> <?php echo format_term($term); ?>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="product-inner-price">
                                     <ins><?php echo $saleprice > 0 ? $slaeprice : $price; ?></ins>
