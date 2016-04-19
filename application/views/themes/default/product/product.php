@@ -115,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <?php if($components){?>
                                         <div role="tabpanel" class="tab-pane fade" id="components">
                                             <?php foreach($components as $components){?>
-                                                <table>
+                                                <table class="table table-striped"> 
                                                     <tr>
                                                         <td><?php echo $components->Brand;?></td>
                                                         <td><?php echo $components->Display;?></td>
