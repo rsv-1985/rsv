@@ -115,6 +115,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <?php if($components){?>
                                         <div role="tabpanel" class="tab-pane fade" id="components">
                                             <?php print_r($components);?>
+                                            <?php foreach($components as $components){?>
+                                                <tr>
+                                                    <td><?php echo $components->Brand;?></td>
+                                                    <td><?php echo $components->Display;?></td>
+                                                    <td><?php echo $components->Name;?></td>
+                                                    <td>
+                                                        <a href="#" onclick="catalog_search('<?php echo $components->ID_art;?>', '<?php echo $components->Display;?>','<?php echo $components->Brand;?>')"><?php echo lang('text_cross'); ?></a>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
                                         </div>
                                         <?php } ?>
                                     </div>
