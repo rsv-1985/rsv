@@ -1261,3 +1261,6 @@ p#page_404 span{
 .product-option-shop a {
     color: #17a78b;
 }
+.search_result i {
+    cursor: help;
+}

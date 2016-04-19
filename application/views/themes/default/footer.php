@@ -103,8 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="list-group" id="search_brand_list"></div>
                 <div id="popover"></div>
+                <div class="list-group" id="search_brand_list"></div>
             </div>
             <div class="col-md-9" style="overflow: auto; max-height: 600px">
                 <div class="search_result">

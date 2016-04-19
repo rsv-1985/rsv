@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="price"><?php echo format_currency($product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
-                    <td class="term"><?php echo format_term($product['term']);?></td>
+                    <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
                         <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\')']);?>
                         <div class="input-group">
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="price"><?php echo format_currency($product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
-                    <td class="term"><?php echo format_term($product['term']);?></td>
+                    <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
                         <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\')']);?>
                         <div class="input-group">
@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="price"><?php echo format_currency($product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
-                    <td class="term"><?php echo format_term($product['term']);?></td>
+                    <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
                         <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\')']);?>
                         <div class="input-group">
