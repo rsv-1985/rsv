@@ -57,8 +57,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php echo $product['brand']; ?>
                                             </td>
                                             <td><?php echo $product['name']; ?></td>
+                                            <td><?php echo format_term($product['term']);?></td>
                                             <td style="width: 150px;">
-                                                <?php echo format_currency($product['price']); ?>
+                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice']:$product['price']); ?>
                                             </td>
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($product['slug']) . '\')']); ?>
@@ -96,10 +97,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo $product['brand']; ?>
                                             </td>
-                                            <td><?php echo $product['name']; ?></td>
+                                            <td><?php echo format_term($product['term']);?></td>
                                             <td style="width: 150px;">
-                                                <?php echo format_currency($product['price']); ?>
+                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice']:$product['price']); ?>
                                             </td>
+
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($product['slug']) . '\')']); ?>
                                                 <div class="input-group" style="width: 100px;">
@@ -138,9 +140,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php echo $part->Brand; ?>
                                     </td>
                                     <td><?php echo $part->Name; ?></td>
-                                    <td>
-
-                                    </td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
                                         <a href="#" onclick="catalog_search('<?php echo $part->ID_art;?>', '<?php echo $part->Search;?>','<?php echo $part->Brand;?>')"><?php echo lang('text_cross'); ?></a>
                                     </td>
