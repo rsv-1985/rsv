@@ -67,7 +67,7 @@ class Image extends CI_Controller
             $file = theme_url().'img/no_image.png';
         }
 
-        $config['image_library'] = 'imagick';
+        $config['image_library'] = 'gd2';
         $config['source_image'] = '.'.$file;
         $config['maintain_ratio'] = true;
         $config['dynamic_output'] = true;
