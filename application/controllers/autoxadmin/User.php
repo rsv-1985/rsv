@@ -39,7 +39,7 @@ class User extends Front_controller {
                 $save['password'] = password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
                 $save['access'] = 1;
                 $user_id = $this->user_model->insert($save);
-                $user_info = $this->user_midel->get($user_id );
+                $user_info = $this->user_model->get($user_id );
                 if($user_info){
                     $newdata = array(
                         'user_id'  => $user_info['id'],
