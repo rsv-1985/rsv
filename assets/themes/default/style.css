@@ -1264,3 +1264,6 @@ p#page_404 span{
 .search_result i {
     cursor: help;
 }
+.fa-shopping-cart{
+    cursor: pointer !important;
+}

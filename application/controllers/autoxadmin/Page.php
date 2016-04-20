@@ -37,6 +37,9 @@ class Page extends Admin_controller
     public function create(){
         $data = [];
         if($this->input->post()){
+            if(empty($_POST['slug'])){
+                $_POST['slug'] = url_title($this->input->post('name', true));
+            }
             $this->form_validation->set_rules('parent_id', lang('text_parent_id'), 'integer');
             $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|trim');
             $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[255]|trim');
