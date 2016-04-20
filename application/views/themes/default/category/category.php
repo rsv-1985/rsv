@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <div class="single-shop-product">
                                     <div class="product-upper">
                                         <?php if($product['tecdoc_info']){?>
-                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165" alt="<?php echo $product['name'];?>">
+                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
                                         <?php }else{ ?>
                                             <img src="/image?width=165" alt="<?php echo $product['name'];?>">
                                         <?php } ?>
