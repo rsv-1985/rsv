@@ -85,6 +85,8 @@ class Customer extends Front_controller
 
         if($this->input->post()){
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'required|max_length[32]|trim|numeric');
+
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
 

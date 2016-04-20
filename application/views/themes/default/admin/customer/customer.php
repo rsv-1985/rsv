@@ -30,65 +30,76 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_second_name');?></th>
                             <th><?php echo lang('text_email');?></th>
                             <th><?php echo lang('text_phone');?></th>
+                            <th><?php echo lang('text_sum');?></th>
                             <th><?php echo lang('text_status');?></th>
                             <th><a href="/autoxadmin/customer/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         </thead>
                         <tbody>
+                        <?php echo form_open('/autoxadmin/customer',['method' => 'get']);?>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="login" value="<?php echo $this->input->get('login');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="customer_group_id" value="<?php echo $this->input->get('customer_group_id');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="first_name" value="<?php echo $this->input->get('first_name');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="second_name" value="<?php echo $this->input->get('second_name');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="email" value="<?php echo $this->input->get('email');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="phone" value="<?php echo $this->input->get('phone');?>">
+                                </div>
+                            </td>
+                            <td></td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="status" value="<?php echo $this->input->get('status');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <a href="/autoxadmin/customer" type="button" class="btn btn-danger"><?php echo lang('button_reset');?></a>
+                                    <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_search');?></button>
+                                </div>
+                            </td>
+                        </tr>
+                        </form>
                         <?php if($customeres){?>
-                            <?php echo form_open('/autoxadmin/customer',['method' => 'get']);?>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="login" value="<?php echo $this->input->get('login');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="customer_group_id" value="<?php echo $this->input->get('customer_group_id');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="first_name" value="<?php echo $this->input->get('first_name');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="second_name" value="<?php echo $this->input->get('second_name');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="email" value="<?php echo $this->input->get('email');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="phone" value="<?php echo $this->input->get('phone');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="status" value="<?php echo $this->input->get('status');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/customer" type="button" class="btn btn-danger"><?php echo lang('button_reset');?></a>
-                                            <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_search');?></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </form>
                             <?php foreach($customeres as $customer){?>
                                 <tr>
-                                    <td><?php echo $customer['login'];?></td>
+                                    <td>
+                                        <?php echo $customer['login'];?>
+                                    </td>
                                     <td><?php echo $customergroup[$customer['customer_group_id']]['name'];?></td>
                                     <td><?php echo $customer['first_name'];?></td>
                                     <td><?php echo $customer['second_name'];?></td>
                                     <td><?php echo $customer['email'];?></td>
                                     <td><?php echo $customer['phone'];?></td>
+                                    <td>
+                                        <?php foreach ($orderstatus as $order_id => $value){
+                                            if(isset($customer['sum_'.$order_id])){
+                                                echo '<small style="color:'.$value['color'].'">'.$value['name'].'</small>:'.$customer['sum_'.$order_id].'<br/>';
+                                            }
+                                        }?>
+                                    </td>
                                     <td>
                                         <?php if($customer['status']){?>
                                             <i class="fa fa-check-circle-o"></i>

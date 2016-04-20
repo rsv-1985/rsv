@@ -21,3 +21,4 @@ $lang['text_password'] = 'Пароль';
 $lang['text_confirm_password'] = 'Повторите пароль';
 $lang['text_status'] = 'Активен';
 $lang['text_success'] = 'Все прошло успешно';
+$lang['text_sum'] = 'Сумма заказов';

@@ -23,10 +23,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <?php echo form_open();?>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label><?php echo lang('text_login');?></label>
                         <input type="text" name="login" class="form-control" value="<?php echo set_value('login');?>" required maxlength="32">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><?php echo lang('text_phone');?></label>
+                        <input type="text" name="phone" class="form-control" value="<?php echo set_value('phone');?>" required maxlength="32">
                     </div>
                 </div>
                 <div class="col-md-6">

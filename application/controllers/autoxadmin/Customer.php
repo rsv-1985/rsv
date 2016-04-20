@@ -15,7 +15,7 @@ class Customer extends Admin_controller
         $this->load->language('admin/customer');
         $this->load->model('customer_model');
         $this->load->model('customergroup_model');
-
+        $this->load->model('orderstatus_model');
     }
 
     public function index(){
@@ -28,10 +28,10 @@ class Customer extends Admin_controller
         $config['reuse_query_string'] = true;
 
         $this->pagination->initialize($config);
-
-        $data['customeres'] = $this->customer_model->customer_get_all($config['per_page'], $this->uri->segment(4),$this->input->get());
+        $data['orderstatus'] = $this->orderstatus_model->status_get_all();
+        $data['customeres'] = $this->customer_model->customer_get_all($config['per_page'], $this->uri->segment(4),$data['orderstatus']);
         $data['customergroup'] = $this->customergroup_model->get_group();
-
+        
         $this->load->view('admin/header');
         $this->load->view('admin/customer/customer', $data);
         $this->load->view('admin/footer');

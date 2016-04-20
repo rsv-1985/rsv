@@ -72,10 +72,15 @@ class Customer_model extends Default_model{
         }
     }
 
-    public function customer_get_all($limit = false, $start = false){
+    public function customer_get_all($limit = false, $start = false, $order_status = false){
         $this->db->select('*');
-        $this->db->from($this->table);
-
+        //Получаем суммы заказов по покупателям
+        if($order_status){
+            foreach ($order_status as $status_id => $value){
+                $this->db->select('(SELECT SUM(total) FROM ax_order WHERE customer_id = ax_customer.id AND status = "'.(int)$status_id.'") as sum_'.(int)$status_id);
+            }
+        }
+       $this->db->from($this->table);
         if($this->input->get()){
             if($this->input->get('login')){
                 $this->db->like('login', $this->input->get('login', true));
@@ -105,7 +110,8 @@ class Customer_model extends Default_model{
         }elseif($limit){
             $this->db->limit((int)$limit);
         }
-        $this->db->order_by('id', 'DESC');
+        $this->db->order_by('customer.id', 'DESC');
+
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
