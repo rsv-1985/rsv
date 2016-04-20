@@ -8,6 +8,44 @@
 class Order_model extends Default_model{
     public $table = 'order';
 
+    public function get_status_totals($statuses){
+        if($statuses){
+            foreach ($statuses as $status_id => $value){
+                $sql = "(SELECT SUM(total) FROM ax_order WHERE status ='".$status_id."'";
+                if($this->input->get()) {
+                    if ($this->input->get('id')) {
+                        $sql .= " AND id = '".(int)$this->input->get('id', true)."'";
+                    }
+                    if ($this->input->get('first_name')) {
+                        $sql .= " AND first_name LIKE '%".$this->input->get('first_name', true)."%'";
+                    }
+                    if ($this->input->get('last_name')) {
+                        $sql .= " AND last_name LIKE '%".$this->input->get('last_name', true)."%'";
+                    }
+                    if ($this->input->get('email')) {
+                        $sql .= " AND email LIKE '%".$this->input->get('email', true)."%'";
+                    }
+                    if ($this->input->get('telephone')) {
+                        $sql .= " AND telephone LIKE '%".$this->input->get('telephone', true)."%'";
+                    }
+                    if ($this->input->get('delivery_method_id')) {
+                        $sql .= " AND delivery_method_id = '".(int)$this->input->get('delivery_method_id', true)."'";
+                    }
+                    if ($this->input->get('payment_method_id')) {
+                        $sql .= " AND payment_method_id = '".(int)$this->input->get('payment_method_id', true)."'";
+                    }
+                }
+                $sql .= ") as sum_".$status_id;
+                $this->db->select($sql);
+            }
+            
+            $query = $this->db->get($this->table);
+            return $query->row_array();
+        }
+
+        return false;
+    }
+
     public function order_count_all(){
         if($this->input->get()){
             if($this->input->get('id')){

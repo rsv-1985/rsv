@@ -34,6 +34,7 @@ class Order extends Admin_controller
 
         $data['orders'] = $this->order_model->order_get_all($config['per_page'], $this->uri->segment(4));
         $data['status'] = $this->orderstatus_model->status_get_all();
+        $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
         $this->load->view('admin/header');

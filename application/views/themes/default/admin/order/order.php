@@ -20,6 +20,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
+                    <?php if($status_totals){?>
+                        <div class="pull-right">
+                            <?php foreach ($status as $stid => $v){
+                                if(isset($status_totals['sum_'.$stid])){
+                                    echo '<small style="color:'.$v['color'].'">'.$v['name'].':</small>'.$status_totals['sum_'.$stid].' ';
+                                }
+                            }?>
+                        </div>
+                    <?php } ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-condensed">
