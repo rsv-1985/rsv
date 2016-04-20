@@ -63,6 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div> <!-- End footer bottom area -->
+<noindex>
 <!-- Modal login-->
 <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -75,13 +76,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="modal-body">
                     <div class="alert alert-danger" role="alert" style="display: none"></div>
                     <div class="form-group">
+                        <label><?php echo lang('text_login');?></label>
                         <input type="text" name="login" required class="form-control">
                     </div>
                     <div class="form-group">
+                        <label><?php echo lang('text_password');?></label>
                         <input type="password" name="password" required class="form-control">
                     </div>
                     <div class="form-group" style="text-align: center">
-                        <a href="/customer/remainder"><?php echo lang('text_remainder');?></a> /
                         <a href="/customer/registration"><?php echo lang('text_registration');?></a>
                     </div>
                     <div class="form-group">
@@ -143,6 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+</noindex>
 <script src="<?php echo theme_url();?>js/jquery.min.js"></script>
 <script src="<?php echo theme_url();?>js/function.js"></script>
 <!-- Bootstrap JS form CDN -->

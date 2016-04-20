@@ -26,7 +26,9 @@ class Cart extends Front_controller
         $this->title = lang('text_heading');
         $data['delivery'] = $this->delivery_model->get_all(false, false, false, ['sort' => 'ASC']);
         $data['payment'] = $this->payment_model->get_all(false, false, false, ['sort' => 'ASC']);
-
+        if($this->is_login){
+            $data['customer'] = $this->customer_model->get($this->is_login);
+        }
         if($this->input->post()){
             $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
             $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer');

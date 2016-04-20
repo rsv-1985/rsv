@@ -47,3 +47,5 @@ $lang['text_call_back_success'] = 'Заявка отправлена, ожида
 $lang['text_placeholder_search'] = 'Введите номер или название запчасти';
 $lang['text_search_term'] = 'Срок доставки';
 $lang['text_cross'] = 'Поиск замен';
+$lang['text_login'] = 'Логин';
+$lang['text_password'] = 'Пароль';

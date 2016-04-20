@@ -106,19 +106,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <hr>
                                 <div class="form-group">
                                     <label><?php echo lang('text_first_name');?></label>
-                                    <input required type="text" class="form-control" name="first_name" value="<?php echo set_value('first_name');?>">
+                                    <input required type="text" class="form-control" name="first_name" value="<?php echo set_value('first_name', @$customer['first_name']);?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('text_last_name');?></label>
-                                    <input required type="text" class="form-control" name="last_name" value="<?php echo set_value('last_name');?>" >
+                                    <input required type="text" class="form-control" name="last_name" value="<?php echo set_value('last_name',@$customer['last_name']);?>" >
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('text_telephone');?></label>
-                                    <input required type="text" class="form-control" name="telephone" value="<?php echo set_value('telephone');?>" >
+                                    <input required type="text" class="form-control" name="telephone" value="<?php echo set_value('telephone',@$customer['phone']);?>" >
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" name="email" value="<?php echo set_value('email');?>">
+                                    <input type="email" class="form-control" name="email" value="<?php echo set_value('email',@$customer['email']);?>">
                                 </div>
 
                             </div>
