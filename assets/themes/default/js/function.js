@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('[rel="tooltip"]').tooltip();
     $(".vin_request").submit(function(event){
-        send_request();
+        send_request(event);
     });
 
     $("#call_back_form").submit(function (e) {
@@ -67,7 +67,7 @@ $(document).ready(function(){
     });
 });
 
-function send_request(){
+function send_request(event){
     event.preventDefault();
     $.ajax({
         url: $('.vin_request').attr('action'),
@@ -77,7 +77,7 @@ function send_request(){
         success: function(json){
             console.log(json);
             if(json['success']){
-                $(".vin_request")[0].reset();
+                $(".vin_request").trigger('reset');
                 $(".alert-success").append(json['success']).fadeIn();
             } else {
                 $(".alert-danger").append(json['error']).fadeIn();
@@ -86,7 +86,7 @@ function send_request(){
     });
 }
 
-function add_cart(data, rowid){
+function add_cart(data, rowid, event){
     event.preventDefault();
     $.ajax({
         url: '/ajax/add_cart',
@@ -119,7 +119,7 @@ function get_search(ID_art, brand, sku){
     });
 }
 
-function catalog_search(ID_art, sku, brand){
+function catalog_search(ID_art, sku, brand, event){
     event.preventDefault();
     $("#search_modal").modal();
     get_search(ID_art, brand, sku);

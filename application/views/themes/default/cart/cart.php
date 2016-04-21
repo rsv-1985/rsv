@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php foreach($this->cart->contents() as $key => $item){?>
                                     <tr class="cart_item" id="<?php echo $key;?>">
                                         <td class="product-remove">
-                                            <a class="remove" href="#" onclick="remove_cart('<?php echo $key;?>')">×</a>
+                                            <a class="remove" href="#" onclick="remove_cart('<?php echo $key;?>', event)">×</a>
                                         </td>
 
                                         <td class="product-name">
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </div>
 </div>
 <script>
-    function remove_cart(key){
+    function remove_cart(key, event){
         event.preventDefault();
         $.ajax({
             url: '/ajax/remove_cart',

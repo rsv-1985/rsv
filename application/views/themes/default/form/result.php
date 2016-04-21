@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\')']);?>
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
                         <div class="input-group">
                             <input type="number" name="quantity" class="form-control" value="1">
                             <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\')']);?>
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
                         <div class="input-group">
                             <input type="number" name="quantity" class="form-control" value="1">
                             <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\')']);?>
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
                         <div class="input-group">
                             <input type="number" name="quantity" class="form-control" value="1">
                             <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </table>
 <?php }else{?>
 <h3><?php echo lang('text_no_results');?></h3>
-    <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request()']);?>
+    <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request(event)']);?>
             <div class="col-md-6">
                 <div class="well">
 

@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <li id="<?php echo $tree->ID_tree; ?>">
                                     <?php if ($tree->Childs > 0) { ?>
                                         <i class="fa fa-plus-square-o"></i> <a href="#"
-                                                                               onclick="show_tree('<?php echo $tree->ID_tree; ?>')"><?php echo $tree->Name; ?></a>
+                                                                               onclick="show_tree('<?php echo $tree->ID_tree; ?>', event)"><?php echo $tree->Name; ?></a>
                                     <?php } else { ?>
                                         <i class="fa fa-circle-o"></i> <a
                                             href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>"><?php echo $tree->Name; ?></a>
@@ -143,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <a href="#" onclick="catalog_search('<?php echo $part->ID_art;?>', '<?php echo $part->Search;?>','<?php echo $part->Brand;?>')"><?php echo lang('text_cross'); ?></a>
+                                        <a href="#" onclick="catalog_search('<?php echo $part->ID_art;?>', '<?php echo $part->Search;?>','<?php echo $part->Brand;?>', event)"><?php echo lang('text_cross'); ?></a>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -155,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <script>
-    function show_tree(ID_tree) {
+    function show_tree(ID_tree, event) {
         event.preventDefault();
         var trees = [];
         <?php foreach ($trees as $tree){?>

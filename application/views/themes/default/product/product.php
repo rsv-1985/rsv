@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php } ?>
                                 </div>
 
-                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($slug) . '\')']); ?>
+                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($slug) . '\', event)']); ?>
                                 <div class="quantity">
                                     <input type="number" size="4" class="input-text qty text" value="1" name="quantity"
                                            min="1" step="1">
