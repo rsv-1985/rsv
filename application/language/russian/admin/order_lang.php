@@ -27,4 +27,5 @@ $lang['text_price'] = 'Цена';
 $lang['text_subtotal'] = 'Сумма';
 $lang['text_shipping'] = 'Доставка';
 $lang['text_commission'] = 'Комиссия';
+$lang['text_login'] = 'Логин';
 

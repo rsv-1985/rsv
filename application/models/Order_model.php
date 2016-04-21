@@ -11,8 +11,11 @@ class Order_model extends Default_model{
     public function get_status_totals($statuses){
         if($statuses){
             foreach ($statuses as $status_id => $value){
-                $sql = "(SELECT SUM(total) FROM ax_order WHERE status ='".$status_id."'";
+                $sql = "(SELECT SUM(total) FROM ax_order LEFT JOIN ax_customer ON ax_customer.id = ax_order.customer_id WHERE ax_order.status ='".$status_id."'";
                 if($this->input->get()) {
+                    if ($this->input->get('login')) {
+                        $sql .= " AND login = '".$this->input->get('login', true)."'";
+                    }
                     if ($this->input->get('id')) {
                         $sql .= " AND id = '".(int)$this->input->get('id', true)."'";
                     }
@@ -38,8 +41,9 @@ class Order_model extends Default_model{
                 $sql .= ") as sum_".$status_id;
                 $this->db->select($sql);
             }
-            
+           
             $query = $this->db->get($this->table);
+
             return $query->row_array();
         }
 
@@ -47,7 +51,12 @@ class Order_model extends Default_model{
     }
 
     public function order_count_all(){
+        $this->db->select('order.*, customer.login', false);
+        $this->db->join('customer', 'customer.id = order.customer_id', 'left');
         if($this->input->get()){
+            if($this->input->get('login')){
+                $this->db->where('login', $this->input->get('login', true));
+            }
             if($this->input->get('id')){
                 $this->db->where('id', (int)$this->input->get('id', true));
             }
@@ -79,7 +88,12 @@ class Order_model extends Default_model{
     }
 
     public function order_get_all($limit = false, $start = false){
+        $this->db->select('order.*, customer.login', false);
+        $this->db->join('customer', 'customer.id = order.customer_id', 'left');
         if($this->input->get()){
+            if($this->input->get('login')){
+                $this->db->where('login', $this->input->get('login', true));
+            }
             if($this->input->get('id')){
                 $this->db->where('id', (int)$this->input->get('id', true));
             }
@@ -110,7 +124,7 @@ class Order_model extends Default_model{
         }elseif($limit){
             $this->db->limit((int)$limit);
         }
-        $this->db->order_by('id', 'DESC');
+        $this->db->order_by('order.id', 'DESC');
         $query = $this->db->get($this->table);
         if ($query->num_rows() > 0) {
             return $query->result_array();

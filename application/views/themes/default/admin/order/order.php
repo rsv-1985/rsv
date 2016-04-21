@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_telephone');?></th>
                             <th><?php echo lang('text_delivery_method');?></th>
                             <th><?php echo lang('text_payment_method');?></th>
-                            <th><?php echo lang('text_total');?></th>
+                            <th><?php echo lang('text_total');?>/<?php echo lang('text_login');?></th>
                             <th><?php echo lang('text_status');?></th>
                             <th><a style="display: none;" href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <input type="text" name="id" class="form-control" value="<?php echo $this->input->get('id', true);?>" style="width: 60px">
                                 </div>
                             </td>
+
                             <td>
                                 <div class="form-group">
                                     <input type="text" name="first_name" class="form-control" value="<?php echo $this->input->get('first_name', true);?>">
@@ -91,7 +92,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </select>
                                 </div>
                             </td>
-                            <td></td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" name="login" class="form-control" value="<?php echo $this->input->get('login', true);?>" style="width: 60px">
+                                </div>
+                            </td>
                             <td>
                                 <div class="form-group">
                                 <select name="status" class="form-control">
@@ -123,12 +128,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $order['telephone'];?></td>
                                     <td><?php echo $delivery[$order['delivery_method_id']]['name'];?></td>
                                     <td><?php echo $payment[$order['payment_method_id']]['name'];?></td>
-                                    <td><?php echo $order['total'];?></td>
+                                    <td>
+                                        <b><?php echo $order['total'];?></b><br />
+                                        <small><?php echo $order['login'];?></small>
+                                    </td>
                                     <td><b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b></td>
                                     <td>
                                         <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/order/delete/<?php echo $order['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <a href="/autoxadmin/order/edit/<?php echo $order['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_view');?></a>
+                                            <a href="/autoxadmin/order/delete/<?php echo $order['id'];?>" class="confirm"><?php echo lang('button_delete');?></a>
+                                            <a href="/autoxadmin/order/edit/<?php echo $order['id'];?>"><?php echo lang('button_view');?></a>
                                         </div>
                                     </td>
                                 </tr>
