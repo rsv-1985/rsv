@@ -209,7 +209,7 @@ class Product_model extends Default_model{
             }
         }
         //Получаем список брендов в локальной базе, которых нет в базе текдок
-        $local_brand = $this->get_local_brand($search, $tecdoc_brand);
+        $local_brand = $this->get_local_brand($search_query, $tecdoc_brand);
         if($local_brand){
             $return = array_merge($return, $local_brand);
         }
