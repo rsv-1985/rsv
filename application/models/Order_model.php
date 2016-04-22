@@ -17,25 +17,25 @@ class Order_model extends Default_model{
                         $sql .= " AND login = '".$this->input->get('login', true)."'";
                     }
                     if ($this->input->get('id')) {
-                        $sql .= " AND id = '".(int)$this->input->get('id', true)."'";
+                        $sql .= " AND ax_order.id = '".(int)$this->input->get('id', true)."'";
                     }
                     if ($this->input->get('first_name')) {
-                        $sql .= " AND first_name LIKE '%".$this->input->get('first_name', true)."%'";
+                        $sql .= " AND ax_order.first_name LIKE '%".$this->input->get('first_name', true)."%'";
                     }
                     if ($this->input->get('last_name')) {
-                        $sql .= " AND last_name LIKE '%".$this->input->get('last_name', true)."%'";
+                        $sql .= " AND ax_order.last_name LIKE '%".$this->input->get('last_name', true)."%'";
                     }
                     if ($this->input->get('email')) {
-                        $sql .= " AND email LIKE '%".$this->input->get('email', true)."%'";
+                        $sql .= " AND ax_order.email LIKE '%".$this->input->get('email', true)."%'";
                     }
                     if ($this->input->get('telephone')) {
-                        $sql .= " AND telephone LIKE '%".$this->input->get('telephone', true)."%'";
+                        $sql .= " AND ax_order.telephone LIKE '%".$this->input->get('telephone', true)."%'";
                     }
                     if ($this->input->get('delivery_method_id')) {
-                        $sql .= " AND delivery_method_id = '".(int)$this->input->get('delivery_method_id', true)."'";
+                        $sql .= " AND ax_order.delivery_method_id = '".(int)$this->input->get('delivery_method_id', true)."'";
                     }
                     if ($this->input->get('payment_method_id')) {
-                        $sql .= " AND payment_method_id = '".(int)$this->input->get('payment_method_id', true)."'";
+                        $sql .= " AND ax_order.payment_method_id = '".(int)$this->input->get('payment_method_id', true)."'";
                     }
                 }
                 $sql .= ") as sum_".$status_id;
@@ -58,28 +58,28 @@ class Order_model extends Default_model{
                 $this->db->where('login', $this->input->get('login', true));
             }
             if($this->input->get('id')){
-                $this->db->where('id', (int)$this->input->get('id', true));
+                $this->db->where('order.id', (int)$this->input->get('id', true));
             }
             if($this->input->get('first_name')){
-                $this->db->like('first_name', $this->input->get('first_name', true));
+                $this->db->like('order.first_name', $this->input->get('first_name', true));
             }
             if($this->input->get('last_name')){
-                $this->db->like('last_name', $this->input->get('last_name', true));
+                $this->db->like('order.last_name', $this->input->get('last_name', true));
             }
             if($this->input->get('email')){
-                $this->db->like('email', $this->input->get('email', true));
+                $this->db->like('order.email', $this->input->get('email', true));
             }
             if($this->input->get('telephone')){
-                $this->db->like('telephone', $this->input->get('telephone', true));
+                $this->db->like('order.telephone', $this->input->get('telephone', true));
             }
             if($this->input->get('delivery_method_id')){
-                $this->db->where('delivery_method_id', (int)$this->input->get('delivery_method_id', true));
+                $this->db->where('order.delivery_method_id', (int)$this->input->get('delivery_method_id', true));
             }
             if($this->input->get('payment_method_id')){
-                $this->db->where('payment_method_id', (int)$this->input->get('payment_method_id', true));
+                $this->db->where('order.payment_method_id', (int)$this->input->get('payment_method_id', true));
             }
             if($this->input->get('status')){
-                $this->db->where('status', (int)$this->input->get('status', true));
+                $this->db->where('order.status', (int)$this->input->get('status', true));
             }
             return $this->db->count_all_results($this->table);
         }else{
@@ -95,28 +95,28 @@ class Order_model extends Default_model{
                 $this->db->where('login', $this->input->get('login', true));
             }
             if($this->input->get('id')){
-                $this->db->where('id', (int)$this->input->get('id', true));
+                $this->db->where('order.id', (int)$this->input->get('id', true));
             }
             if($this->input->get('first_name')){
-                $this->db->like('first_name', $this->input->get('first_name', true));
+                $this->db->like('order.first_name', $this->input->get('first_name', true));
             }
             if($this->input->get('last_name')){
-                $this->db->like('last_name', $this->input->get('last_name', true));
+                $this->db->like('order.last_name', $this->input->get('last_name', true));
             }
             if($this->input->get('email')){
-                $this->db->like('email', $this->input->get('email', true));
+                $this->db->like('order.email', $this->input->get('email', true));
             }
             if($this->input->get('telephone')){
-                $this->db->like('telephone', $this->input->get('telephone', true));
+                $this->db->like('order.telephone', $this->input->get('telephone', true));
             }
             if($this->input->get('delivery_method_id')){
-                $this->db->where('delivery_method_id', (int)$this->input->get('delivery_method_id', true));
+                $this->db->where('order.delivery_method_id', (int)$this->input->get('delivery_method_id', true));
             }
             if($this->input->get('payment_method_id')){
-                $this->db->where('payment_method_id', (int)$this->input->get('payment_method_id', true));
+                $this->db->where('order.payment_method_id', (int)$this->input->get('payment_method_id', true));
             }
             if($this->input->get('status')){
-                $this->db->where('status', (int)$this->input->get('status', true));
+                $this->db->where('order.status', (int)$this->input->get('status', true));
             }
         }
         if($limit && $start){
