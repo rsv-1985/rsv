@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $.each(trees, function (index, tree) {
             if (tree.ID_parent == ID_tree) {
                 if (tree.Childs > 0) {
-                    html += '<li id="' + tree.ID_tree + '"><i class="fa fa-plus-square-o"></i> <a href="#" onclick="show_tree(\'' + tree.ID_tree + '\')">' + tree.Name + '</a></li>';
+                    html += '<li id="' + tree.ID_tree + '"><i class="fa fa-plus-square-o"></i> <a href="#" onclick="show_tree(\'' + tree.ID_tree + '\', event)">' + tree.Name + '</a></li>';
                 } else {
                     html += '<li id="' + tree.ID_tree + '"><i class="fa fa-circle-o"></i> <a href="<?php echo current_url();?>?id_tree=' + tree.ID_tree + '">' + tree.Name + '</a></li>';
                 }
