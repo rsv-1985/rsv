@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice']:$product['price']); ?>
                                             </td>
                                             <td>
-                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($product['slug']) . '\')']); ?>
+                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($product['slug']) . '\', event)']); ?>
                                                 <div class="input-group" style="width: 100px;">
                                                     <input type="number" name="quantity" class="form-control" value="1">
                                                     <input type="hidden" name="slug"
