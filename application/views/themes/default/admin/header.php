@@ -67,6 +67,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <span class="hidden-xs"><?php echo lang('text_logout');?></span>
                         </a>
                     </li>
+                    <li>
+                        <a target="_blank" href="<?php echo base_url();?>"><?php echo lang('text_site');?></a>
+                    </li>
                 </ul>
             </div>
 

@@ -53,9 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <?php } ?>
                                 </select>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><input type="text" class="form-control" disabled></td>
+                            <td><input type="text" class="form-control" disabled></td>
+                            <td><input type="text" class="form-control" disabled></td>
                             <td>
                                 <select name="status" class="form-control">
                                     <option></option>
@@ -64,8 +64,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </select>
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-info"><?php echo lang('button_search');?></button>
-                                <a href="/autoxadmin/product" class="btn btn-danger"><?php echo lang('button_reset');?></a>
+                                <button type="submit" class="btn btn btn-link"><?php echo lang('button_search');?></button>
+                                <a href="/autoxadmin/product" class="btn btn btn-link"><?php echo lang('button_reset');?></a>
                             </td>
                         </tr>
                         </form>
@@ -100,9 +100,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
-                                                <a href="/autoxadmin/product/delete/<?php echo $product['slug'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                                <a href="/autoxadmin/product/edit/<?php echo $product['slug'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
-                                                <button type="submit" class="btn btn-default"><?php echo lang('button_submit');?></button>
+                                                <a href="/autoxadmin/product/delete/<?php echo $product['slug'];?>" class="btn btn-link"><?php echo lang('button_delete');?></a>
+                                                <a href="/autoxadmin/product/edit/<?php echo $product['slug'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
+                                                <button type="submit" class="btn btn-link"><?php echo lang('button_submit');?></button>
                                             </div>
                                         </td>
                                     </tr>

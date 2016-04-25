@@ -51,6 +51,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div><!-- /.tab-pane -->
                     <div class="tab-pane" id="seo">
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Sitemap</label>
+                                    <?php echo base_url('map/sitemap.xml');?> <a href="<?php echo base_url('sitemap');?>">generate new</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <h4>Product SEO template</h4>
                                 <div class="form-group">
@@ -99,14 +107,127 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     {brand} - brand<br>
                                 </p>
                             </div>
-                            <div class="col-md-12">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Tecdoc SEO template</h4>
                                 <div class="form-group">
-                                    <label>Sitemap</label>
-                                    <?php echo base_url('map/sitemap.xml');?> <a href="<?php echo base_url('sitemap');?>">generate new</a>
+                                    <label>SEO title</label>
+                                    <input type="text" name="settings[seo_tecdoc][title]" value="<?php echo @$settings['seo_tecdoc']['title'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO Description</label>
+                                    <input type="text" name="settings[seo_tecdoc][description]" value="<?php echo @$settings['seo_tecdoc']['description'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO keywords</label>
+                                    <input type="text" name="settings[seo_tecdoc][keywords]" value="<?php echo @$settings['seo_tecdoc']['keywords'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO h1</label>
+                                    <input type="text" name="settings[seo_tecdoc][h1]" value="<?php echo @$settings['seo_tecdoc']['h1'];?>" class="form-control">
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <h4>Tecdoc Manufacturer SEO template</h4>
+                                <div class="form-group">
+                                    <label>SEO title</label>
+                                    <input type="text" name="settings[seo_tecdoc_manufacturer][title]" value="<?php echo @$settings['seo_tecdoc_manufacturer']['title'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO Description</label>
+                                    <input type="text" name="settings[seo_tecdoc_manufacturer][description]" value="<?php echo @$settings['seo_tecdoc_manufacturer']['description'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO keywords</label>
+                                    <input type="text" name="settings[seo_tecdoc_manufacturer][keywords]" value="<?php echo @$settings['seo_tecdoc_manufacturer']['keywords'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO h1</label>
+                                    <input type="text" name="settings[seo_tecdoc_manufacturer][h1]" value="<?php echo @$settings['seo_tecdoc_manufacturer']['h1'];?>" class="form-control">
+                                </div>
+                                <p class="help-block">
+                                    {manuf} - Manufacturer name<br>
+                                </p>
+                            </div>
                         </div>
-                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Tecdoc Model SEO template</h4>
+                                <div class="form-group">
+                                    <label>SEO title</label>
+                                    <input type="text" name="settings[seo_tecdoc_model][title]" value="<?php echo @$settings['seo_tecdoc_model']['title'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO Description</label>
+                                    <input type="text" name="settings[seo_tecdoc_model][description]" value="<?php echo @$settings['seo_tecdoc_model']['description'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO keywords</label>
+                                    <input type="text" name="settings[seo_tecdoc_model][keywords]" value="<?php echo @$settings['seo_tecdoc_model']['keywords'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO h1</label>
+                                    <input type="text" name="settings[seo_tecdoc_model][h1]" value="<?php echo @$settings['seo_tecdoc_model']['h1'];?>" class="form-control">
+                                </div>
+                                <p class="help-block">
+                                    {manuf} - Manufacturer name<br>
+                                    {model} - Model name<br>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Tecdoc Type SEO template</h4>
+                                <div class="form-group">
+                                    <label>SEO title</label>
+                                    <input type="text" name="settings[seo_tecdoc_type][title]" value="<?php echo @$settings['seo_tecdoc_type']['title'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO Description</label>
+                                    <input type="text" name="settings[seo_tecdoc_type][description]" value="<?php echo @$settings['seo_tecdoc_type']['description'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO keywords</label>
+                                    <input type="text" name="settings[seo_tecdoc_type][keywords]" value="<?php echo @$settings['seo_tecdoc_type']['keywords'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO h1</label>
+                                    <input type="text" name="settings[seo_tecdoc_type][h1]" value="<?php echo @$settings['seo_tecdoc_type']['h1'];?>" class="form-control">
+                                </div>
+                                <p class="help-block">
+                                    {manuf} - Manufacturer name<br>
+                                    {model} - Model name<br>
+                                    {type} - Type name
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Tecdoc Tree SEO template</h4>
+                                <div class="form-group">
+                                    <label>SEO title</label>
+                                    <input type="text" name="settings[seo_tecdoc_tree][title]" value="<?php echo @$settings['seo_tecdoc_tree']['title'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO Description</label>
+                                    <input type="text" name="settings[seo_tecdoc_tree][description]" value="<?php echo @$settings['seo_tecdoc_tree']['description'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO keywords</label>
+                                    <input type="text" name="settings[seo_tecdoc_tree][keywords]" value="<?php echo @$settings['seo_tecdoc_tree']['keywords'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO h1</label>
+                                    <input type="text" name="settings[seo_tecdoc_tree][h1]" value="<?php echo @$settings['seo_tecdoc_tree']['h1'];?>" class="form-control">
+                                </div>
+                                <p class="help-block">
+                                    {manuf} - Manufacturer name<br>
+                                    {model} - Model name<br>
+                                    {type} - Type name<br>
+                                    {tree} - Tree name
+                                </p>
+                            </div>
+                        </div>
                     </div><!-- /.tab-pane -->
                     <div class="tab-pane" id="contact">
                         <div class="form-group">

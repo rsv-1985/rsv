@@ -27,6 +27,7 @@ class Product extends Admin_controller
         $config['base_url'] = base_url('autoxadmin/product/index');
         $config['total_rows'] = $this->product_model->product_count_all();
         $config['per_page'] = 10;
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
 

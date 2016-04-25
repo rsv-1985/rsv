@@ -45,7 +45,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="customer_group_id" value="<?php echo $this->input->get('customer_group_id');?>">
+                                    <select name="customer_group_id" class="form-control">
+                                        <option></option>
+                                        <?php foreach ($customergroup as $cg){?>
+                                            <option value="<?php echo $cg['id'];?>" <?php echo set_select('customer_group_id',$cg['id'], $cg['id'] == $this->input->get('customer_group_id'));?>><?php echo $cg['name'];?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </td>
                             <td>
@@ -68,7 +73,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <input type="text" class="form-control" name="phone" value="<?php echo $this->input->get('phone');?>">
                                 </div>
                             </td>
-                            <td></td>
+                            <td><div class="form-group">
+                                    <input type="text" class="form-control" disabled>
+                                </div></td>
                             <td>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="status" value="<?php echo $this->input->get('status');?>">
