@@ -29,7 +29,7 @@ class Catalog extends Front_controller
             }
         }
 
-        $this->title = @$seo['title'] ? $seo['h1'] : lang('text_heading');
+        $this->title = @$seo['title'] ? $seo['title'] : lang('text_heading');
         $this->description = @$seo['description'] ? $seo['description'] : lang('text_meta_description');
         $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
 
@@ -60,11 +60,25 @@ class Catalog extends Front_controller
         $models_type = $this->tecdoc->getModel($ID_mfa);
         $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
 
-        $this->title = $manufacturer_info[0]->Name;
-        $this->description = $this->title;
-        $data['h1'] = $this->title;
+        $settings = $this->settings_model->get_by_key('seo_tecdoc_manufacturer');
+        if($settings){
+            $seo = [];
+            foreach($settings as $field => $value){
+                $seo[$field] = strip_tags(str_replace([
+                    '{manuf}',
+                ],[
+                    $manufacturer_info[0]->Name
+                ], $value));
+            }
+        }
+
+        $this->title = @$seo['title'] ? $seo['title'] : lang('text_heading');
+        $this->description = @$seo['description'] ? $seo['description'] : lang('text_meta_description');
+        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
+
+        $data['h1'] = @$seo['h1'] ? $seo['h1'] : lang('text_h1');
     
-        $data['breadcrumb'][] = ['href' => $data['breadcrumb'][0]['href'].'/'.url_title($manufacturer_info[0]->Name).'_'.$ID_mfa, 'title' => $this->title];
+        $data['breadcrumb'][] = ['href' => $data['breadcrumb'][0]['href'].'/'.url_title($manufacturer_info[0]->Name).'_'.$ID_mfa, 'title' => $manufacturer_info[0]->Name];
     
         $data['models_type'] = [];
         foreach ($models_type as $model_type) {
@@ -91,13 +105,29 @@ class Catalog extends Front_controller
         if($model_info){
             $data['breadcrumb'][] = ['href' => false, 'title' => $model_info[0]->Name];
         }
+
+        $settings = $this->settings_model->get_by_key('seo_tecdoc_model');
         
+        if($settings){
+            $seo = [];
+            foreach($settings as $field => $value){
+                $seo[$field] = strip_tags(str_replace([
+                    '{manuf}',
+                    '{model}'
+                ],[
+                    $manufacturer_info[0]->Name,
+                    $model_info[0]->Name
+                ], $value));
+            }
+        }
 
         $models_type = $this->tecdoc->getModel($ID_mfa, $ID_mod);
 
-        $this->title = $manufacturer_info[0]->Name.' '.$models_type[0]->Name;
-        $this->description = $this->title;
-        $data['h1'] = $this->title;
+
+        $this->title = @$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$models_type[0]->Name;
+        $this->description = @$seo['description'] ? $seo['description'] : $this->title;
+        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
+        $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
         
         $typs = $this->tecdoc->getType($ID_mod);
 
@@ -139,21 +169,63 @@ class Catalog extends Front_controller
         $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
         $typ_info = $this->tecdoc->getType($ID_mod, $ID_typ);
 
+        $settings = $this->settings_model->get_by_key('seo_tecdoc_type');
+
+        if($settings){
+            $seo = [];
+            foreach($settings as $field => $value){
+                $seo[$field] = strip_tags(str_replace([
+                    '{manuf}',
+                    '{model}',
+                    '{type}'
+                ],[
+                    $manufacturer_info[0]->Name,
+                    $model_info[0]->Name,
+                    $typ_info[0]->Name
+                ], $value));
+            }
+        }
+
+        $this->title = @$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name;
+        $this->description = @$seo['description'] ? $seo['description'] : $this->title;
+        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
+        $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
+
 
 
         $data['breadcrumb'][] = ['href' => '/catalog', 'title' => lang('text_index')];
         $data['breadcrumb'][] = ['href' => base_url('catalog') . '/' . url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/', 'title' => $manufacturer_info[0]->Name];
         $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod, 'title' => $model_info[0]->Name];
-
-        $this->title = $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name;
-        $this->description = $this->title;
-        $data['h1'] = $this->title;
+        $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod.'/'.url_title($typ_info[0]->Name).'_'.$typ_info[0]->ID_typ, 'title' => $typ_info[0]->Name];
 
         if($ID_tree != 10001){
             $tree_info = $this->tecdoc->getTreeNode($ID_tree);
-            $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod.'/'.url_title($typ_info[0]->Name).'_'.$typ_info[0]->ID_typ, 'title' => $typ_info[0]->Name];
+
             $data['breadcrumb'][] = ['href' => false, 'title' => $tree_info[0]->Name];
-            $data['h1'] .= ' '.$tree_info[0]->Name;
+            $settings = $this->settings_model->get_by_key('seo_tecdoc_tree');
+
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{manuf}',
+                        '{model}',
+                        '{type}',
+                        '{tree}'
+                    ],[
+                        $manufacturer_info[0]->Name,
+                        $model_info[0]->Name,
+                        $typ_info[0]->Name,
+                        $tree_info[0]->Name
+                    ], $value));
+                }
+            }
+
+            $this->title = @$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name.' '.$tree_info[0]->Name;
+            $this->description = @$seo['description'] ? $seo['description'] : $this->title;
+            $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
+
+            $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
             foreach($data['parts'] as &$tecdoc_part){
                 $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, false, false, false);
