@@ -21,10 +21,19 @@ class Catalog extends Front_controller
 
     public function index()
     {
-        $this->title = lang('text_heading');
-        $this->description = lang('text_meta_description');
-        $this->keywords = lang('text_meta_keywords');
-        $data['h1'] = lang('text_h1');
+        $settings = $this->settings_model->get_by_key('seo_tecdoc');
+        if($settings){
+            $seo = [];
+            foreach($settings as $field => $value){
+                $seo[$field] = strip_tags($value);
+            }
+        }
+
+        $this->title = @$seo['title'] ? $seo['h1'] : lang('text_heading');
+        $this->description = @$seo['description'] ? $seo['description'] : lang('text_meta_description');
+        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
+
+        $data['h1'] = @$seo['h1'] ? $seo['h1'] : lang('text_h1');
         $manufacturers = $this->tecdoc->getManufacturer();
         if ($manufacturers) {
             $data['manufacturers'] = [];
@@ -36,7 +45,7 @@ class Catalog extends Front_controller
                 }
             }
         }
-        $this->output->cache(2,628e+6);
+        $this->output->cache(131400);
         $this->load->view('header');
         $this->load->view('catalog/index', $data);
         $this->load->view('footer');
@@ -63,7 +72,7 @@ class Catalog extends Front_controller
                 DateStart, 'date_end' => $model_type->DateEnd, 'slug' => url_title($model_type->
                 Name). '_' . $model_type->ID_mod];
         }
-        $this->output->cache(2,628e+6);
+        $this->output->cache(131400);
         $this->load->view('header');
         $this->load->view('catalog/model', $data);
         $this->load->view('footer');
@@ -110,7 +119,7 @@ class Catalog extends Front_controller
             'Description' => $type->Description, 
             'slug' => url_title($type->Name). '_' . $type->ID_typ];
         }
-        $this->output->cache(2,628e+6);
+        $this->output->cache(131400);
         $this->load->view('header');
         $this->load->view('catalog/typ', $data);
         $this->load->view('footer');
