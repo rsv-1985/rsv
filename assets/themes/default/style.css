@@ -1267,3 +1267,6 @@ p#page_404 span{
 .fa-shopping-cart{
     cursor: pointer !important;
 }
+#tree ul ul{
+    display: none;
+}

@@ -109,8 +109,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </td>
                             <td>
                                 <div class="btn-group pull-right">
-                                    <a href="/autoxadmin/order" type="button" class="btn btn-danger"><?php echo lang('button_reset');?></a>
-                                    <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_search');?></button>
+                                    <a href="/autoxadmin/order" type="button" class="btn btn-link"><?php echo lang('button_reset');?></a>
+                                    <button type="submit" class="btn btn-link pull-right"><?php echo lang('button_search');?></button>
                                 </div>
                             </td>
                         </tr>

@@ -4,6 +4,12 @@ $(document).ready(function(){
         send_request(event);
     });
 
+    $("#tree li").mouseover(function(){
+       if($(this).children("ul").length){
+           $(this).children("ul").show();
+       }
+    });
+
     $("#call_back_form").submit(function (e) {
        e.preventDefault();
         $.ajax({
