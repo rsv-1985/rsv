@@ -19,6 +19,7 @@ class Order extends Admin_controller
         $this->load->model('payment_model');
         $this->load->model('delivery_model');
         $this->load->model('supplier_model');
+        $this->load->model('order_history_model');
     }
 
     public function index(){
@@ -43,26 +44,7 @@ class Order extends Admin_controller
     }
 
     public function create(){
-        $data = [];
-        if($this->input->post()){
-            $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|trim');
-            $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[255]|trim');
-            $this->form_validation->set_rules('meta_description', lang('text_meta_description'), 'max_length[3000]|trim');
-            $this->form_validation->set_rules('meta_keywords', lang('text_meta_keywords'), 'max_length[255]|trim');
-            $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]|trim');
-            $this->form_validation->set_rules('slug', lang('text_slug'), 'is_unique[order.slug]|max_length[255]|trim');
-            $this->form_validation->set_rules('sort', lang('text_sort'), 'integer');
-
-            if ($this->form_validation->run() !== false){
-                $this->save_data();
-            }else{
-                $this->error = validation_errors();
-            }
-        }
-
-        $this->load->view('admin/header');
-        $this->load->view('admin/order/create',$data);
-        $this->load->view('admin/footer');
+        
     }
 
     public function edit($id){
@@ -77,6 +59,7 @@ class Order extends Admin_controller
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
         $data['supplier'] = $this->supplier_model->supplier_get_all();
+        $data['history'] = $this->order_history_model->history_get($id);
         $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']]);
 
         if($this->input->post()){
@@ -152,12 +135,30 @@ class Order extends Admin_controller
                             'name' => $item['name'],
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
-                            'supplier_id' => $item['supplier_id']
+                            'supplier_id' => $item['supplier_id'],
+                            'status_id' => $item['status_id']
                         ];
                     }
 
                     $this->order_product_model->insert_batch($products);
                     $this->session->set_flashdata('success', lang('text_success'));
+
+                    //history
+                    if($this->input->post('history')){
+                        $history = [];
+                        $history['order_id'] = $order_id;
+                        $history['date'] = date("Y-m-d H:i:s");
+                        $history['text'] = $this->input->post('history', true);
+                        $history['send_sms'] = (bool)$this->input->post('send_sms');
+                        $history['send_email'] = (bool)$this->input->post('send_email');
+                        $history['user_id'] = $this->User_model->is_login();
+                        $this->order_history_model->insert($history);
+                        if($history['send_email'] && mb_strlen($save['email']) > 0){
+                            $this->load->library('sender');
+                            $contacts = $this->settings_model->get_by_key('contact_settings');
+                            $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$history['text'], $save['email'],explode(';',$contacts['email']));
+                        }
+                    }
                     redirect('autoxadmin/order/edit/'.$id);
                 }
             }else{

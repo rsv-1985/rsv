@@ -97,6 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th><?php echo lang('text_brand');?></th>
                         <th><?php echo lang('text_qty');?></th>
                         <th><?php echo lang('text_price');?></th>
+                        <th><?php echo lang('text_status');?></th>
                         <th><?php echo lang('text_subtotal');?></th>
                     </tr>
                     </thead>
@@ -128,6 +129,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td>
                                 <input onkeyup="row_subtotal(<?php echo $row;?>)" id="price<?php echo $row;?>" name="products[<?php echo $row;?>][price]" type="text" value="<?php echo $product['price'];?>" class="form-control" style="width: 100px;">
                             </td>
+                            <td>
+                                <select name="products[<?php echo $row;?>][status_id]" class="form-control">
+                                    <?php foreach($status as $st){?>
+                                        <option value="<?php echo $st['id'];?>" <?php echo set_select('products['.$row.'][status_id]',$st['id'],$st['id'] == $product['status_id']);?>><?php echo $st['name'];?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
                             <td><span id="row_subtotal<?php echo $row;?>"><?php echo $product['quantity'] * $product['price']; $subtotal += $product['quantity'] * $product['price'];?></span></td>
                         </tr>
                     <?php $row++; } ?>
@@ -139,8 +147,46 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <!-- accepted payments column -->
             <div class="col-xs-6">
-                <b>Comments</b>
-                <textarea rows="7" name="comments" class="form-control" style="margin-top: 10px;"><?php echo $order['comments'];?></textarea>
+                <b><?php echo lang('text_comments');?></b>
+                <textarea disabled rows="3" name="comments" class="form-control" style="margin-top: 10px;"><?php echo $order['comments'];?></textarea>
+                <hr>
+                <b><?php echo lang('text_manager_comments');?></b>
+                <textarea rows="3" name="history" class="form-control"></textarea>
+                <input type="checkbox" value="1" name="send_sms" disabled>Send_sms
+                <input type="checkbox" value="1" name="send_email">Send_email
+                <?php if($history){?>
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>date</th>
+                            <th>text</th>
+                            <th>sms</th>
+                            <th>email</th>
+                            <th>manager</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($history as $history){?>
+                            <tr>
+                                <td><?php echo $history['date'];?></td>
+                                <td><?php echo $history['text'];?></td>
+                                <td align="center">
+                                    <?php if($history['send_sms']){?>
+                                        <i class="fa fa-check-circle-o"></i>
+                                    <?php } ?>
+                                </td>
+                                <td align="center">
+                                    <?php if($history['send_email']){?>
+                                        <i class="fa fa-check-circle-o"></i>
+                                    <?php } ?>
+                                </td>
+                                <td><?php echo $history['manager'];?></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                <?php } ?>
+
             </div><!-- /.col -->
             <div class="col-xs-6">
                 <div class="table-responsive">
@@ -167,8 +213,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td>
                                 <div class="form-group">
                                     <select class="form-control" name="status">
-                                        <?php foreach($status as $status){?>
-                                            <option value="<?php echo $status['id'];?>" <?php echo set_select('status', $status['id'], $status['id'] == $order['status']);?>><?php echo $status['name'];?></option>
+                                        <?php foreach($status as $st){?>
+                                            <option value="<?php echo $st['id'];?>" <?php echo set_select('status', $st['id'], $st['id'] == $order['status']);?>><?php echo $st['name'];?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -323,6 +369,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     html +='        <td>';
                     html +='            <input onkeyup="row_subtotal('+row+')" id="price'+row+'" name="products['+row+'][price]" type="text" value="'+product['price']+'" class="form-control" style="width: 100px;">';
                     html +='        </td>';
+                    html +='<td>';
+                    html +='<select name="products['+row+'][status_id]" class="form-control">';
+                    <?php foreach($status as $st){?>
+                    html +='<option value="<?php echo $st['id'];?>"><?php echo $st['name'];?></option>';
+                    <?php } ?>
+                    html +='</select>';
+                    html +='</td>';
                     html +='       <td><span id="row_subtotal'+row+'">'+product['price']+'</span></td>';
                     html +='</tr>';
                 }

@@ -97,7 +97,8 @@ class Cart extends Front_controller
                             'name' => $item['name'],
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
-                            'supplier_id' => $item['supplier_id']
+                            'supplier_id' => $item['supplier_id'],
+                            'status_id' => $order_status['id']
                         ];
                         
                         $this->product_model->update_bought($item['id']);
@@ -116,7 +117,7 @@ class Cart extends Front_controller
 
                     $this->sender->email(sprintf(lang('text_email_subject'), $order_id), $email_html, explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
                     if(strlen($save['email']) > 0){
-                        $this->sender->email(sprintf(lang('text_email_subject'), $order_id), $save['email'],explode(';',$this->contacts['email']));
+                        $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$email_html, $save['email'],explode(';',$this->contacts['email']));
                     }
                     $this->cart->destroy();
                     $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));
