@@ -116,7 +116,6 @@ class Order extends Admin_controller
                 $save['telephone'] = $this->input->post('telephone', true);
                 $save['delivery_method_id'] = $this->input->post('delivery_method', true);
                 $save['payment_method_id'] = $this->input->post('payment_method', true);
-                $save['comments'] = $this->input->post('comments', true);
                 $save['total'] = (float)$total;
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
