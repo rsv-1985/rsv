@@ -161,7 +161,7 @@ class Product extends Admin_controller
         $save['currency_id'] = (int)$this->input->post('currency_id', true);
         $save['delivery_price'] = (float)$this->input->post('delivery_price', true);
         $save['saleprice'] = (float)$this->input->post('saleprice', true);
-        $save['price'] = (float)$this->input->post('saleprice', true);
+        $save['price'] = (float)$this->input->post('price', true);
         $save['quantity'] = (int)$this->input->post('quantity', true);
         $save['term'] = (int)$this->input->post('term', true);
         $save['updated_at'] = date('Y-m-d H:i:s');
