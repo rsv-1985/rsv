@@ -21,27 +21,33 @@ class Category_model extends Default_model{
     }
     
     public function category_get_all($parent_id = 0){
+        if ( ! $cats = $this->cache->file->get('all_category'))
+        {
+            $this->db->where('status', true);
+            $query = $this->db->get($this->table);
+            if($query->num_rows() > 0){
+                $cats = [];
+                foreach ($query->result_array() as $cat){
+                    $cat['brands'] = false;
+                    $this->db->distinct();
+                    $this->db->select('brand');
+                    $this->db->where('category_id', $cat['id']);
+                    $this->db->limit(20);
 
-        $this->db->where('status', true);
-        $query = $this->db->get($this->table);
-        if($query->num_rows() > 0){
-            $cats = [];
-            foreach ($query->result_array() as $cat){
-                $cat['brands'] = false;
-                $this->db->distinct();
-                $this->db->select('brand');
-                $this->db->where('category_id', $cat['id']);
-                $this->db->limit(20);
-               
-                $query = $this->db->get('product');
-                
-                if($query->num_rows() > 0){
-                    $cat['brands'] = $query->result_array();
+                    $query = $this->db->get('product');
+
+                    if($query->num_rows() > 0){
+                        $cat['brands'] = $query->result_array();
+                    }
+                    $cats[$cat['parent_id']][$cat['id']] =  $cat;
                 }
-                $cats[$cat['parent_id']][$cat['id']] =  $cat;
+                $this->cache->file->save('all_category', $cats, 604800);
+                return $cats;
             }
+        }else{
             return $cats;
         }
+
         return false;
     }
 

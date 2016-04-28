@@ -123,6 +123,7 @@ class Category extends Admin_controller
         $id = $this->category_model->insert($save, $id);
         if($id){
             $this->session->set_flashdata('success', lang('text_success'));
+            $this->cache->file->delete('all_category');
             redirect('autoxadmin/category');
         }
     }
