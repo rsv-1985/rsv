@@ -104,7 +104,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <input type="text" name="settings[seo_brand][h1]" value="<?php echo @$settings['seo_brand']['h1'];?>" class="form-control">
                                 </div>
                                 <p class="help-block">
-                                    {brand} - brand<br>
+                                    {brand} - brand name<br>
+                                    {category} - category name<br>
                                 </p>
                             </div>
 

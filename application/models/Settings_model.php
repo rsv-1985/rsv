@@ -9,6 +9,7 @@ class Settings_model extends Default_model{
     public $table = 'settings';
 
     public function get_by_key($key){
+        $this->db->select('value');
         $this->db->where('key_settings', $key);
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){

@@ -1270,3 +1270,7 @@ p#page_404 span{
 #tree ul ul{
     display: none;
 }
+#filter-brand{
+    max-height: 600px;
+    overflow: auto;
+}

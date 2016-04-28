@@ -31,6 +31,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </div>
                     </div>
                 <?php } ?>
+                <?php if($brands){?>
+                    <div class="panel panel-default" id="filter-brand">
+                        <div class="panel-heading"><?php echo lang('text_filter_brand');?>
+                            <?if($this->uri->segment(4)){?>
+                                <small class="pull-right"><a href="/category/<?php echo $slug;?>"><?php echo lang('text_filter_reset');?></a> </small>
+                            <?php } ?>
+
+                        </div>
+
+                            <ul class="list-group">
+                                <?php foreach ($brands as $brand){?>
+                                    <li class="list-group-item"><a href="/category/<?php echo $slug;?>/brand/<?php echo str_replace('/','_',$brand['brand']);?>"><?php echo $brand['brand'];?></a></li>
+                                <?php } ?>
+                            </ul>
+                       
+                    </div>
+                <?php } ?>
             </div>
             <div class="col-md-8">
                 <?php if($products){?>

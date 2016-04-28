@@ -106,8 +106,6 @@ class Product_model extends Default_model{
             status=1;';
             $this->db->query($sql);
         }
-        
-        $this->db->cache_delete_all();
     }
 
     //При добавлении и обновлении синонима бренда
@@ -115,7 +113,6 @@ class Product_model extends Default_model{
         $this->db->where('brand', $brand1);
         $this->db->set('brand', $brand2);
         $this->db->update($this->table);
-        $this->db->cache_delete_all();
     }
 
     //Установка цен по поставщику
@@ -132,7 +129,6 @@ class Product_model extends Default_model{
                 }
             }
         }
-        $this->db->cache_delete_all();
     }
 
     private function query_price($supplier_id){
@@ -223,10 +219,6 @@ class Product_model extends Default_model{
         $this->db->where('status', true);
         $this->db->group_by('brand');
         
-        if($this->config->item('cache_on')){
-            $this->db->cache_on();
-        }
-        
         $query = $this->db->get();
         if($query->num_rows() > 0){
             return $query->result_array();
@@ -301,10 +293,6 @@ class Product_model extends Default_model{
         $this->db->order_by('price', 'ASC');
         $this->db->order_by('term', 'ASC');
 
-        if($this->config->item('cache_on')){
-            $this->db->cache_on();
-        }
-
         $query = $this->db->get();
         if($query->num_rows() > 0){
             $return['products'] = $query->result_array();
@@ -342,10 +330,6 @@ class Product_model extends Default_model{
 
             $this->db->order_by('price', 'ASC');
             $this->db->order_by('term', 'ASC');
-
-            if($this->config->item('cache_on')){
-                $this->db->cache_on();
-            }
 
             $query = $this->db->get();
             if($query->num_rows() > 0){
@@ -395,10 +379,6 @@ class Product_model extends Default_model{
             $this->db->order_by('price', 'ASC');
             $this->db->order_by('term', 'ASC');
 
-            if($this->config->item('cache_on')){
-                $this->db->cache_on();
-            }
-            
             $query = $this->db->get();
             if($query->num_rows() > 0){
                 $p_about = $query->result_array();
@@ -466,9 +446,6 @@ class Product_model extends Default_model{
         $this->db->where('status', true);
         $this->db->order_by('created_at', 'DESC');
         $this->db->limit(3);
-        if($this->config->item('cache_on')){
-            $this->db->cache_on();
-        }
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
             $results = $query->result_array();
@@ -499,9 +476,6 @@ class Product_model extends Default_model{
         $this->db->where('status', true);
         $this->db->order_by('bought', 'DESC');
         $this->db->limit(3);
-        if($this->config->item('cache_on')){
-            $this->db->cache_on();
-        }
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
             $results = $query->result_array();

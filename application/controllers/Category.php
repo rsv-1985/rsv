@@ -10,13 +10,14 @@ class category extends Front_controller{
     public function __construct()
     {
         parent::__construct();
+        $this->load->language('category');
         $this->load->model('category_model');
         $this->load->model('product_model');
         $this->load->helper('security');
         $this->load->helper('text');
     }
 
-    public function index($slug){
+    public function index($slug, $brand = false){
         $slug = xss_clean($slug);
         $category = $this->category_model->get_by_slug($slug);
         if(!$category){
@@ -26,18 +27,46 @@ class category extends Front_controller{
             $this->load->view('footer');
             return;
         }
-        $data = [];
-        $this->title = !empty($category['title']) ? $category['title'] : $category['name'];
-        $this->description = $category['meta_description'];
-        $this->keywords = $category['meta_keywords'];
+        if($brand){
+            $settings = $this->settings_model->get_by_key('seo_brand');
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{category}',
+                        '{brand}'
+                    ],[
+                        $category['name'],
+                        str_replace('_','/',urldecode($brand)),
 
-        $data['h1'] = !empty($category['h1']) ? $category['h1'] : $category['name'];
+                    ], $value));
+                }
+            }
+        }
+        //print_r($seo);
+        $data = [];
+        $this->title = !empty($category['title']) ? $category['title'] : @$seo['title'] ? $seo['title'] : $category['name'];
+        $this->description = @$seo['description'] ? $seo['description'] : $category['meta_description'];
+        $this->keywords = @$seo['meta_keywords'] ? $seo['meta_keywords'] : $category['meta_keywords'];
+
+        $data['brands'] = $this->category_model->get_brends($category['id']);
+
+        $data['h1'] = !empty($category['h1']) ? $category['h1'] : @$seo['h1'] ? $seo['h1'] : $category['name'];
+
         $data['description'] = !$this->uri->segment(3) ? $category['description'] : '';
-       
+        $data['slug'] = $category['slug'];
         $this->load->library('pagination');
 
-        $config['base_url'] = base_url('/category/'.$category['slug']);
-        $config['total_rows'] = $this->product_model->count_all(['status' => true, 'category_id' => $category['id']]);
+        if($brand){
+            $config['base_url'] = base_url('/category/'.$category['slug'].'/brand/'.$brand);
+        }else{
+            $config['base_url'] = base_url('/category/'.$category['slug']);
+        }
+        if($brand){
+            $config['total_rows'] = $this->product_model->count_all(['status' => true, 'category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))]);
+        }else{
+            $config['total_rows'] = $this->product_model->count_all(['status' => true, 'category_id' => $category['id']]);
+        }
         $config['per_page'] = 12;
         $config['full_tag_open'] = "<ul class='pagination'>";
         $config['full_tag_close'] ="</ul>";
@@ -55,8 +84,11 @@ class category extends Front_controller{
         $config['last_tagl_close'] = "</li>";
 
         $this->pagination->initialize($config);
-
-        $data['products'] = $this->product_model->product_get_all($config['per_page'], $this->uri->segment(3), ['status' => true, 'category_id' => $category['id']]);
+        if($brand){
+            $data['products'] = $this->product_model->product_get_all($config['per_page'], $this->uri->segment(5), ['status' => true, 'category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))]);
+        }else{
+            $data['products'] = $this->product_model->product_get_all($config['per_page'], $this->uri->segment(3), ['status' => true, 'category_id' => $category['id']]);
+        }
 
 
         $this->load->view('header');

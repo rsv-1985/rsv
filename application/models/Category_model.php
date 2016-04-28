@@ -21,12 +21,21 @@ class Category_model extends Default_model{
     }
     
     public function category_get_all($parent_id = 0){
+
         $this->db->where('status', true);
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
             $cats = [];
             foreach ($query->result_array() as $cat){
-                $cats_ID[$cat['id']][] = $cat;
+                $cat['brands'] = false;
+                $this->db->distinct();
+                $this->db->select('brand');
+                $this->db->where('category_id', $cat['id']);
+                $this->db->limit(300);
+                $query = $this->db->get('product');
+                if($query->num_rows() > 0){
+                    $cat['brands'] = $query->result_array();
+                }
                 $cats[$cat['parent_id']][$cat['id']] =  $cat;
             }
             return $cats;
@@ -41,6 +50,20 @@ class Category_model extends Default_model{
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
             return $query->row_array();
+        }
+        return false;
+    }
+    
+    public function get_brends($id){
+        $this->db->distinct();
+        $this->db->select('brand');
+        $this->db->where('category_id', (int)$id);
+        $this->db->where('brand !=', '');
+        $this->db->limit(500);
+        $this->db->order_by('brand', 'ASC');
+        $query = $this->db->get('product');
+        if($query->num_rows() > 0){
+            return $query->result_array();
         }
         return false;
     }
