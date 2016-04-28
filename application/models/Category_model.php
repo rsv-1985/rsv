@@ -31,8 +31,10 @@ class Category_model extends Default_model{
                 $this->db->distinct();
                 $this->db->select('brand');
                 $this->db->where('category_id', $cat['id']);
-                $this->db->limit(300);
+                $this->db->limit(20);
+               
                 $query = $this->db->get('product');
+                
                 if($query->num_rows() > 0){
                     $cat['brands'] = $query->result_array();
                 }
