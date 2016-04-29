@@ -163,7 +163,7 @@ class Product_model extends Default_model{
 
     //Чистка цены от лишних сиволов
     public function clear_price($price){
-        return floatval(str_replace([' ','.'],['',''],$price));
+        return (float)preg_replace("/[^0-9,.]+/iu","", str_replace(',','.',$price));
     }
 
     //Чистка бренда
