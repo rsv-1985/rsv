@@ -150,13 +150,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script src="<?php echo theme_url();?>js/function.js"></script>
 <!-- Bootstrap JS form CDN -->
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
-
 <!-- jQuery sticky menu -->
 <script src="<?php echo theme_url();?>js/owl.carousel.min.js"></script>
 <script src="<?php echo theme_url();?>js/jquery.sticky.js"></script>
-
-<!-- jQuery easing -->
-<script src="<?php echo theme_url();?>js/jquery.easing.1.3.min.js"></script>
 
 <!-- Main Script -->
 <script src="<?php echo theme_url();?>js/main.js"></script>

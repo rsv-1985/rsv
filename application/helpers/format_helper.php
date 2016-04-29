@@ -32,7 +32,12 @@ function format_term($term){
 
 function build_tree($cats,$parent_id,$only_parent = false){
     if(is_array($cats) and isset($cats[$parent_id])){
-        $tree = '<ul>';
+        if($parent_id == 0){
+            $tree = '<ul class="dropdown-menu categories" role="menu" aria-labelledby="dropdownMenu">';
+        }else{
+            $tree = ' <ul class="dropdown-menu"><span class="block_cat">';
+        }
+
         if($only_parent==false){
             foreach($cats[$parent_id] as $cat){
                 $tree .= '<li><a href="/category/'.$cat['slug'].'">'.$cat['name'].'</a>';
@@ -45,7 +50,12 @@ function build_tree($cats,$parent_id,$only_parent = false){
             $tree .=  build_tree($cats,$cat['id']);
             $tree .= '</li>';
         }
-        $tree .= '</ul>';
+        if($parent_id == 0){
+            $tree .= '</ul>';
+        }else{
+            $tree .= '</span></ul>';
+        }
+
     }
     else return null;
     return $tree;

@@ -48,18 +48,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php } ?>
     <div class="container">
     <div class="row">
+        
         <hr>
         <div class="col-md-4">
-            <?php if($this->category){?>
-                <div class="panel panel-default">
-                    <div class="panel-heading"><?php echo lang('text_category');?></div>
-                    <div class="panel-body">
-                        <div id="tree">
-                            <?php echo build_tree($this->category,0);?>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
+            <?php echo $this->load->view('form/category', '',true);?>
+            
             <?php if($news){?>
                 <div class="panel panel-default">
                     <div class="panel-heading"><?php echo lang('text_news');?></div>

@@ -23,14 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <?php if($this->category){?>
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><?php echo lang('text_category');?></div>
-                        <div class="panel-body">
-                            <?php echo build_tree($this->category,0);?>
-                        </div>
-                    </div>
-                <?php } ?>
+                <?php echo $this->load->view('form/category', '',true);?>
                 <?php if($brands){?>
                     <div class="panel panel-default" id="filter-brand">
                         <div class="panel-heading"><?php echo lang('text_filter_brand');?>
