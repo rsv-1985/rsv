@@ -37,7 +37,7 @@ function format_category($categories){
         if($category['brands']){
             $return .= '<ul>';
             foreach ($category['brands'] as $brand){
-                $return .= '<li><a href="/category/'.$category['slug'].'/brand/'.$brand['brand'].'">qwe</a>';
+                $return .= '<li><a href="/category/'.$category['slug'].'/brand/'.$brand['brand'].'">'.$brand['brand'].'</a>';
             }
             $return .= '</ul>';
         }
