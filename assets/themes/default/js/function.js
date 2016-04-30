@@ -1,5 +1,13 @@
 $(document).ready(function(){
     $('[rel="tooltip"]').tooltip();
+    
+    $('#mega-1').dcVerticalMegaMenu({
+        rowItems: '3',
+        speed: 'slow',
+        effect: 'show',
+        direction: 'right'
+    });
+
     $(".vin_request").submit(function(event){
         send_request(event);
     });

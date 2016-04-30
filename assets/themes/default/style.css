@@ -1274,32 +1274,6 @@ p#page_404 span{
     max-height: 600px;
     overflow: auto;
 }
-.categories{
-    display: block;
-    border-radius: 0;
-    box-shadow: none;
-    width: 100%;
-    border: 0px;
-}
-.categories ul.dropdown-menu {
-    border-radius: 0;
-}
-.block_cat {
-    width: auto;
-    display: table-cell;
-}
-.block_cat a {
-    display: block;
-    padding: 3px 20px;
-    clear: both;
-    font-weight: normal;
-    line-height: 20px;
-    color: #333;
-    white-space: nowrap;
-}
-.block_cat a:hover {
-    color: #BD0505;
-}
-.dropdown-menu{
-    position: relative;
+li.list-group-item.active a {
+    color: white;
 }

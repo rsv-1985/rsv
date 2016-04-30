@@ -30,33 +30,24 @@ function format_term($term){
     return $term.lang('text_time');
 }
 
-function build_tree($cats,$parent_id,$only_parent = false){
-    if(is_array($cats) and isset($cats[$parent_id])){
-        if($parent_id == 0){
-            $tree = '<ul class="dropdown-menu categories" role="menu" aria-labelledby="dropdownMenu">';
-        }else{
-            $tree = ' <ul class="dropdown-menu"><span class="block_cat">';
-        }
-
-        if($only_parent==false){
-            foreach($cats[$parent_id] as $cat){
-                $tree .= '<li><a href="/category/'.$cat['slug'].'">'.$cat['name'].'</a>';
-                $tree .=  build_tree($cats,$cat['id']);
-                $tree .= '</li>';
+function format_category($categories){
+    $return = '<ul>';
+    foreach ($categories as $category){
+        $return .= '<li><a href="/category/'.$category['slug'].'">'.$category['name'].'</a>';
+        if($category['brands']){
+            $return .= '<ul>';
+            foreach ($category['brands'] as $brand){
+                $return .= '<li><a href="/category/'.$category['slug'].'/brand/'.$brand['brand'].'">qwe</a>';
             }
-        }elseif(is_numeric($only_parent)){
-            $cat = $cats[$parent_id][$only_parent];
-            $tree .= '<li>'.$cat['name'].' #'.$cat['id'];
-            $tree .=  build_tree($cats,$cat['id']);
-            $tree .= '</li>';
+            $return .= '</ul>';
         }
-        if($parent_id == 0){
-            $tree .= '</ul>';
-        }else{
-            $tree .= '</span></ul>';
+        if($category['children']){
+            format_category($category['children']);
         }
+        $return .= '</li>';
 
     }
-    else return null;
-    return $tree;
+    $return .= '</ul>';
+    return $return;
+
 }

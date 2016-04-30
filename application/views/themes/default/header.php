@@ -15,18 +15,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <meta name="description" content="<?php echo $this->description;?>">
     <meta name="keywords" content="<?php echo $this->keywords;?>">
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
-    <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
+    <link href="<?php echo theme_url();?>css/menu/dcverticalmegamenu.css" rel="stylesheet" type="text/css" />
     <?php if($this->config->item('my_style')){?>
         <?php foreach ($this->config->item('my_style') as $style){?>
             <link rel="stylesheet" href="<?php echo $style;?>">
