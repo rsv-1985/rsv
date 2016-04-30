@@ -47,15 +47,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <?php foreach($products as $product){?>
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-shop-product">
-
                                     <div class="product-upper">
-                                        <?php if($product['image']){?>
-                                            <img src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
-                                        <?php }elseif($product['tecdoc_info']){?>
-                                            <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
-                                        <?php }else{ ?>
-                                            <img src="/image?width=165" alt="<?php echo $product['name'];?>">
-                                        <?php } ?>
+                                        <a href="/category/<?php echo $product['slug'];?>">
+                                            <?php if($product['image']){?>
+                                                <img src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
+                                            <?php }elseif($product['tecdoc_info']){?>
+                                                <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
+                                            <?php }else{ ?>
+                                                <img src="/image?width=165" alt="<?php echo $product['name'];?>">
+                                            <?php } ?>
+                                        </a>
                                     </div>
                                     <small><?php echo $product['brand'].' '.$product['sku'];?></small>
                                     <h2><a href="/product/<?php echo $product['slug'];?>"><?php echo character_limiter($product['name'],25);?></a></h2>
