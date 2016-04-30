@@ -14,7 +14,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <li><a href="/category/<?php echo $category['slug'];?>"><?php echo $category['name'];?></a>
                 <?php if($category['children']){?>
                     <?php echo format_category($category['children']);?>
-                    
                 <?php } ?>
             </li>
             <?php } ?>
