@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('[rel="tooltip"]').tooltip();
-    
+
     $('#mega-1').dcVerticalMegaMenu({
         rowItems: '3',
         speed: 'slow',
@@ -140,7 +140,6 @@ function catalog_search(ID_art, sku, brand, event){
 }
 
 function tecdoc_info(sku, brand){
-    $("#popover").hide();
     $("#popover").empty();
     $.ajax({
         url: '/ajax/get_tecdoc_info',

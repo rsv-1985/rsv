@@ -7,7 +7,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="panel panel-default">
-    <div class="panel-heading"><?php echo $sku.' '.$brand;?><a href="#" class="pull-right" onclick="$('#popover').fadeOut().empty();return false;">x</a> </div>
+    <div class="panel-heading"><?php echo $sku.' '.$brand;?><a href="#" class="pull-right" onclick="$('#popover').empty();return false;">x</a> </div>
     <div class="panel-body">
         <?php if($tecdoc_info){?>
             <img src="/image?img=<?php echo $tecdoc_info->Image;?>&width=200">

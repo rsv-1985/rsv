@@ -77,6 +77,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_product][h1]" value="<?php echo @$settings['seo_product']['h1'];?>" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_product][text]" value="<?php echo @$settings['seo_product']['text'];?>" class="form-control">
+                                </div>
                                 <p class="help-block">
                                     {name} - name<br>
                                     {brand} - brand<br>
@@ -102,6 +106,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="form-group">
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_brand][h1]" value="<?php echo @$settings['seo_brand']['h1'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_brand][text]" value="<?php echo @$settings['seo_brand']['text'];?>" class="form-control">
                                 </div>
                                 <p class="help-block">
                                     {brand} - brand name<br>
@@ -129,6 +137,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_tecdoc][h1]" value="<?php echo @$settings['seo_tecdoc']['h1'];?>" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_tecdoc][text]" value="<?php echo @$settings['seo_tecdoc']['text'];?>" class="form-control">
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <h4>Tecdoc Manufacturer SEO template</h4>
@@ -147,6 +159,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="form-group">
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_tecdoc_manufacturer][h1]" value="<?php echo @$settings['seo_tecdoc_manufacturer']['h1'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_tecdoc_manufacturer][text]" value="<?php echo @$settings['seo_tecdoc_manufacturer']['text'];?>" class="form-control">
                                 </div>
                                 <p class="help-block">
                                     {manuf} - Manufacturer name<br>
@@ -172,6 +188,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_tecdoc_model][h1]" value="<?php echo @$settings['seo_tecdoc_model']['h1'];?>" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_tecdoc_model][text]" value="<?php echo @$settings['seo_tecdoc_model']['text'];?>" class="form-control">
+                                </div>
                                 <p class="help-block">
                                     {manuf} - Manufacturer name<br>
                                     {model} - Model name<br>
@@ -194,6 +214,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="form-group">
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_tecdoc_type][h1]" value="<?php echo @$settings['seo_tecdoc_type']['h1'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_tecdoc_type][text]" value="<?php echo @$settings['seo_tecdoc_type']['text'];?>" class="form-control">
                                 </div>
                                 <p class="help-block">
                                     {manuf} - Manufacturer name<br>
@@ -220,6 +244,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="form-group">
                                     <label>SEO h1</label>
                                     <input type="text" name="settings[seo_tecdoc_tree][h1]" value="<?php echo @$settings['seo_tecdoc_tree']['h1'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <input type="text" name="settings[seo_tecdoc_tree][text]" value="<?php echo @$settings['seo_tecdoc_tree']['text'];?>" class="form-control">
                                 </div>
                                 <p class="help-block">
                                     {manuf} - Manufacturer name<br>

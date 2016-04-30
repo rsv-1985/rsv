@@ -1277,3 +1277,9 @@ p#page_404 span{
 li.list-group-item.active a {
     color: white;
 }
+#popover{
+    margin-top: 32px;
+}
+.label-success {
+    background-color: #17A78B;
+}

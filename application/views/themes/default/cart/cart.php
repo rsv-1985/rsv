@@ -24,16 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <div class="single-sidebar">
-                    <?php echo form_open('ajax/pre_search', ['method' => 'get', 'class' => 'search_form']);?>
-                        <input type="text" name="search" placeholder="OC90" required>
-                        <input type="submit" value="<?php echo lang('button_search');?>">
-                    </form>
-                </div>
-            </div>
-
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <?php if($this->cart->total_items() > 0){?>
                     <div class="product-content-right">
                     <div class="woocommerce">

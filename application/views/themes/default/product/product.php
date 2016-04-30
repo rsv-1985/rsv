@@ -13,14 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <div class="single-sidebar">
-                    <div class="single-sidebar">
-                        <?php echo form_open('ajax/pre_search', ['method' => 'get', 'class' => 'search_form']); ?>
-                        <input type="text" name="search" placeholder="OC90" required>
-                        <input type="submit" value="<?php echo lang('button_search'); ?>">
-                        </form>
-                    </div>
-                </div>
+                <?php echo $this->load->view('form/category', null, true);?>
                 <?php if ($banner) { ?>
                     <div class="single-sidebar">
                         <?php foreach ($banner as $banner) { ?>

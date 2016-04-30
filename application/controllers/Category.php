@@ -53,7 +53,7 @@ class category extends Front_controller{
 
         $data['h1'] = !empty($category['h1']) ? $category['h1'] : @$seo['h1'] ? $seo['h1'] : $category['name'];
 
-        $data['description'] = !$this->uri->segment(3) ? $category['description'] : '';
+        $data['description'] = !$this->uri->segment(3) || !$this->uri->segment(5) ? $category['description'].@$seo['text'] : '';
         $data['slug'] = $category['slug'];
         $this->load->library('pagination');
 

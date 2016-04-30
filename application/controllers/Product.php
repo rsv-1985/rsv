@@ -60,7 +60,7 @@ class Product extends Front_controller{
         $data['sku'] = $product['sku'];
         $data['term'] = $product['term'];
         $data['quantity'] = $product['quantity'];
-        $data['description'] = $product['description'].'<br>';
+        $data['description'] = $product['description'].'<br>'.@$seo['text'].'<br/>';
         if(isset($product['tecdoc_info']['article']['Info']) && mb_strlen($product['tecdoc_info']['article']['Info']) > 0){
             $data['description'] .= $product['tecdoc_info']['article']['Info'];
         }
