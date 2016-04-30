@@ -48,6 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <?php foreach($products as $product){?>
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-shop-product">
+
                                     <div class="product-upper">
                                         <?php if($product['image']){?>
                                             <img src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
@@ -64,6 +65,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <?php if($product['saleprice'] > 0){?>
                                             <del><?php echo format_currency($product['price']);?></del>
                                         <?php } ?>
+                                        <span class="label label-success">
+                                            <?php echo lang('text_term');?>: <?php echo format_term($product['term']);?>
+                                            <?php echo lang('text_quantity');?>: <?php echo format_quantity($product['quantity']);?>
+                                        </span>
                                     </div>
 
                                     <div class="product-option-shop">
