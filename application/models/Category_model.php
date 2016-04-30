@@ -31,16 +31,8 @@ class Category_model extends Default_model
         if ($query->num_rows() > 0) {
             $category = [];
             foreach ($query->result_array() as $cat) {
-                $cat['brands'] = false;
+                $cat['brands'] = $this->get_brends($cat['id']);
                 $cat['children'] = $this->category_get_all($cat['id']);
-                $this->db->distinct();
-                $this->db->select('brand');
-                $this->db->where('category_id', $cat['id']);
-                $this->db->limit(20);
-                $query = $this->db->get('product');
-                if ($query->num_rows() > 0) {
-                    $cat['brands'] = $query->result_array();
-                }
                 $category[] = $cat;
             }
             return $category;
@@ -62,17 +54,23 @@ class Category_model extends Default_model
 
     public function get_brends($id)
     {
-        $this->db->distinct();
-        $this->db->select('brand');
-        $this->db->where('category_id', (int)$id);
-        $this->db->where('brand !=', '');
-        $this->db->limit(500);
-        $this->db->order_by('brand', 'ASC');
-        $query = $this->db->get('product');
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
+        if(!$cache = $this->cache->file->get('category_brands_'.$id)){
+            $this->db->distinct();
+            $this->db->select('brand');
+            $this->db->where('category_id', (int)$id);
+            $this->db->where('brand !=', '');
+            $this->db->limit(500);
+            $this->db->order_by('brand', 'ASC');
+            $query = $this->db->get('product');
+            if ($query->num_rows() > 0) {
+                $this->cache->file->save('category_brands_'.$id,$query->result_array(), 604800);
+                return $query->result_array();
+            }
+            return false;
+        }else{
+            return $cache;
         }
-        return false;
+
     }
 
     public function get_sitemap()
