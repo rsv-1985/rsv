@@ -14,12 +14,15 @@ class Vin extends Front_controller{
     public function index(){
         $data = [];
 
-        $this->title = lang('text_h1');
-        $this->description = lang('text_h1');
-        $this->keywords = lang('text_h1');;
+        $seo = $this->settings_model->get_by_key('seo_vin');
 
-        $data['h1'] = lang('text_h1');
+        $this->title = @$seo['title'] ? $seo['title'] : lang('text_h1');
+        $this->description = @$seo['description '] ? $seo['description '] : lang('text_h1');
+        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_h1');;
 
+        $data['h1'] = @$seo['h1'] ? $seo['h1']:lang('text_h1');
+        $data['text']  = @$seo['text'];
+        
         $this->load->view('header');
         $this->load->view('vin/vin', $data);
         $this->load->view('footer');

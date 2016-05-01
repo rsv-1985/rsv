@@ -23,7 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="container">
         <div class="row">
             <?php echo form_open('ajax/vin', ['class' => 'vin_request']);?>
-            <div class="col-md-6">
+            <div class="col-md-5">
+                <?php echo $text;?>
+            </div>
+            <div class="col-md-7">
                 <div class="well">
 
                     <div class="alert alert-danger" role="alert" style="display: none;">
@@ -54,8 +57,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <textarea class="form-control" name="parts" required></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="form-group">
                     <label><?php echo lang('text_vin_name');?></label>
                     <input type="text" name="name" class="form-control" required/>

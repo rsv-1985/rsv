@@ -256,6 +256,29 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     {tree} - Tree name
                                 </p>
                             </div>
+                            <div class="col-md-6">
+                                <h4>VIN SEO template</h4>
+                                <div class="form-group">
+                                    <label>SEO title</label>
+                                    <input type="text" name="settings[seo_vin][title]" value="<?php echo @$settings['seo_vin']['title'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO Description</label>
+                                    <input type="text" name="settings[seo_vin][description]" value="<?php echo @$settings['seo_vin']['description'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO keywords</label>
+                                    <input type="text" name="settings[seo_vin][keywords]" value="<?php echo @$settings['seo_vin']['keywords'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO h1</label>
+                                    <input type="text" name="settings[seo_vin][h1]" value="<?php echo @$settings['seo_vin']['h1'];?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>SEO text</label>
+                                    <textarea class="form-control" name="settings[seo_vin][text]"><?php echo @$settings['seo_vin']['text'];?></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div><!-- /.tab-pane -->
                     <div class="tab-pane" id="contact">
