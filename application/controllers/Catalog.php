@@ -34,6 +34,7 @@ class Catalog extends Front_controller
         $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
 
         $data['h1'] = @$seo['h1'] ? $seo['h1'] : lang('text_h1');
+        $data['text'] = @$seo['text'];
         $manufacturers = $this->tecdoc->getManufacturer();
         if ($manufacturers) {
             $data['manufacturers'] = [];
@@ -77,7 +78,7 @@ class Catalog extends Front_controller
         $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
 
         $data['h1'] = @$seo['h1'] ? $seo['h1'] : lang('text_h1');
-    
+        $data['text'] = @$seo['text'];
         $data['breadcrumb'][] = ['href' => $data['breadcrumb'][0]['href'].'/'.url_title($manufacturer_info[0]->Name).'_'.$ID_mfa, 'title' => $manufacturer_info[0]->Name];
     
         $data['models_type'] = [];
@@ -128,7 +129,7 @@ class Catalog extends Front_controller
         $this->description = @$seo['description'] ? $seo['description'] : $this->title;
         $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
         $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
-        
+        $data['text'] = @$seo['text'];
         $typs = $this->tecdoc->getType($ID_mod);
 
         foreach ($typs as $type) {
@@ -190,7 +191,7 @@ class Catalog extends Front_controller
         $this->description = @$seo['description'] ? $seo['description'] : $this->title;
         $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
         $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
-
+        $data['text'] = @$seo['text'];
 
 
         $data['breadcrumb'][] = ['href' => '/catalog', 'title' => lang('text_index')];
@@ -226,6 +227,7 @@ class Catalog extends Front_controller
             $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
 
             $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
+            $data['text'] = @$seo['text'];
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
             foreach($data['parts'] as &$tecdoc_part){
                 $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, false, false, false);
