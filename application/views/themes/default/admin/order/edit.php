@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php $row = 0; $subtotal = 0; foreach($products as $product){?>
                         <tr id="row<?php echo $row;?>">
                             <input type="hidden" name="products[<?php echo $row;?>][slug]" value="<?php echo $product['slug'];?>">
-                            <td><a href="#" onclick="remove_item(<?php echo $row;?>)"><i class="fa fa-fw fa-remove"></i></a></td>
+                            <td><a href="#" onclick="remove_item(<?php echo $row;?>, event)"><i class="fa fa-fw fa-remove"></i></a></td>
                             <td>
                                 <a data-toggle="tooltip" data-placement="right" title="<?php echo $supplier[$product['supplier_id']]['description'];?>" target="_blank" href="/autoxadmin/supplier/edit/<?php echo $supplier[$product['supplier_id']]['id'];?>">
                                     <?php echo $supplier[$product['supplier_id']]['name'];?></td>
@@ -267,7 +267,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             $("[type='submit']").show();
         });
 
-        $("#search").click(function(){
+        $("#search").click(function(event){
             var search = $("#search_val").val();
             event.preventDefault();
             $.ajax({
@@ -293,7 +293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             });
         });
     });
-    function remove_item(row){
+    function remove_item(row, event){
         event.preventDefault();
         $("#row"+row).remove();
         total();
@@ -346,7 +346,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 if(product){
                     html +='<tr id="row'+row+'">';
                     html +='    <input type="hidden" name="products['+row+'][slug]" value="'+product['slug']+'">';
-                    html +='       <td><a href="#" onclick="remove_item('+row+')"><i class="fa fa-fw fa-remove"></i></a></td>';
+                    html +='       <td><a href="#" onclick="remove_item('+row+', event)"><i class="fa fa-fw fa-remove"></i></a></td>';
                     html +='        <td>';
                     html +='            <a data-toggle="tooltip" data-placement="right" title="'+product['sup_description']+'" target="_blank" href="/autoxadmin/supplier/edit/'+product['supplier_id']+'">'+product['sup_name']+'</td>';
                     html +='    </a>';

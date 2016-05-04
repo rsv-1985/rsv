@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </td>
                                     <td><input type="text" name="pricing[<?php echo $q;?>][value]" value="<?php echo $price['value'];?>" class="form-control"></td>
                                     <td>
-                                        <a href="#" class="btn btn-danger" onclick="delete_row(<?php echo $q;?>);"><?php echo lang('button_delete');?></a>
+                                        <a href="#" class="btn btn-danger" onclick="delete_row(<?php echo $q;?>, event);"><?php echo lang('button_delete');?></a>
                                     </td>
                                 </tr>
                             <?php $q++; } ?>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </td>
                                 <td><input type="text" name="pricing[0][value]" class="form-control"></td>
                                 <td>
-                                    <a href="#" class="btn btn-danger" onclick="delete_row(0);"><?php echo lang('button_delete');?></a>
+                                    <a href="#" class="btn btn-danger" onclick="delete_row(0, event);"><?php echo lang('button_delete');?></a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         html += '</td>';
         html += '<td><input type="text" name="pricing['+row+'][value]" class="form-control"></td>';
         html += '<td>';
-        html += '<a href="#" class="btn btn-danger" onclick="delete_row('+row+');"><?php echo lang('button_delete');?></a>';
+        html += '<a href="#" class="btn btn-danger" onclick="delete_row('+row+', event);"><?php echo lang('button_delete');?></a>';
         html += '</td>';
         html += '</tr>';
 
@@ -153,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         row++;
     }
 
-    function delete_row(id){
+    function delete_row(id, event){
         event.preventDefault();
         $("#row"+id).remove();
     }

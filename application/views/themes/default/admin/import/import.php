@@ -211,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 </section><!-- /.content -->
 <script>
     $(document).ready(function(){
-        $("#sample_add").click(function(){
+        $("#sample_add").click(function(event){
             event.preventDefault();
             $("#sample_form").toggle();
         });
@@ -223,7 +223,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 data: {supplier_id:$(this).val()},
                 dateType: 'json',
                 success: function(json){
-
                     if(json['samples']){
                         var html = '';
                         $.each(json['samples'], function( index, item ) {
@@ -241,9 +240,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             html += '</div>';
                         });
                         $("#sample").html(html).removeAttr('disabled');
+                        $("#sample_form").hide();
                     }else{
                         $("#sample").empty().attr('disabled', true);
-                        $("#sample_add").click();
+                        $("#sample_form").show();
                     }
                 }
             });
