@@ -2,7 +2,7 @@ $(document).ready(function(){
     $('[rel="tooltip"]').tooltip();
 
     $('#mega-1').dcVerticalMegaMenu({
-        rowItems: '5',
+        rowItems: '8',
         speed: 'slow',
         effect: 'show',
         direction: 'right'
