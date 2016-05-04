@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <ins><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></ins>
                                         <?php if($product['saleprice'] > 0){?>
                                             <del><?php echo format_currency($product['price']);?></del>
-                                        <?php } ?>
+                                        <?php } ?><br />
                                         <span class="label label-success">
                                             <?php echo lang('text_term');?>: <?php echo format_term($product['term']);?>
                                             <?php echo lang('text_quantity');?>: <?php echo format_quantity($product['quantity']);?>
