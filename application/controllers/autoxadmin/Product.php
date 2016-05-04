@@ -90,12 +90,10 @@ class Product extends Admin_controller
             $this->form_validation->set_rules('bought', lang('text_bought'), 'integer');
             $this->form_validation->set_rules('category_id', lang('text_category_id'), 'integer');
             if ($this->form_validation->run() !== false){
+                $file_name = $this->input->post('image');
                 if(isset($_FILES['userfile']['name']) && !empty($_FILES['userfile']['name'])){
                     $config['upload_path']          = './uploads/product/';
                     $config['allowed_types']        = 'gif|jpg|png';
-                    $config['max_size']             = 10000;
-                    $config['max_width']            = 2500;
-                    $config['max_height']           = 1200;
                     $config['encrypt_name']         = true;
 
                     $this->load->library('upload', $config);
@@ -106,10 +104,10 @@ class Product extends Admin_controller
                         @unlink('./uploads/product/'.$data['product']['image']);
                     }
                     else{
-                        $this->error =  $this->upload->display_errors();
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect('autoxadmin/product/edit/'.$slug);
                     }
                 }else{
-                    $file_name = $this->input->post('image');
                     if(mb_strlen($file_name) == 0){
                         @unlink('./uploads/product/'.$data['product']['image']);
                     }
