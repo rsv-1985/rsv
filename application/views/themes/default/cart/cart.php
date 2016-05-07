@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('text_last_name');?></label>
-                                    <input required type="text" class="form-control" name="last_name" value="<?php echo set_value('last_name',@$customer['last_name']);?>" >
+                                    <input required type="text" class="form-control" name="last_name" value="<?php echo set_value('last_name',@$customer['second_name']);?>" >
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('text_telephone');?></label>
