@@ -9,13 +9,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
+
             <div class="col-md-3 col-sm-6">
-                    <div <?php if($this->config->item('is_buy')){?>style="display: none;" <?php } ?>>
-                        Powered by<br>
-                        <a href="http://cms.autoxcatalog.com/">
-                            <img src="/image?img=/assets/themes/default/img/autox.png&height=150">
-                        </a>
+                <?php echo form_open('/ajax/newsletter',['id' => 'newsletter']);?>
+
+                    <div class="form-group">
+                        <label><?php echo lang('text_heading_newsletter');?></label>
+                        <input type="email" name="email" class="form-control" placeholder="email" required>
+                        <div class="alert-danger"></div>
                     </div>
+                    <div class="form-group">
+                        <button class="btn-default" type="submit"><?php echo lang('button_newsletter');?></button>
+                    </div>
+                <p><?php echo lang('text_newsletter');?></p>
+                </form>
             </div>
 
             <div class="col-md-3 col-sm-6">
@@ -58,7 +65,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 
             </div>
             <div class="col-md-4">
-                
+                <div class="pull-right">
+                    Powered by <a href="http://cms.autoxcatalog.com/">cms.autoxcatalog.com</a>
+                </div>
             </div>
         </div>
     </div>
@@ -69,9 +78,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="modal-dialog" role="document">
         <?php echo form_open('/ajax/login',['id' => 'login_form']);?>
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><?php echo lang('text_login_link');?></h4>
+                <div class="product-big-title-area">
+                    <div class="product-bit-title text-center">
+                        <?php echo lang('text_login_link');?>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger" role="alert" style="display: none"></div>
@@ -121,9 +131,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="modal fade" id="call-back-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"><?php echo lang('text_call_back');?></h4>
+            <div class="product-big-title-area">
+                <div class="product-bit-title text-center">
+                    <?php echo lang('text_call_back');?>
+                </div>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger" role="alert" style="display: none"></div>
@@ -137,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input type="text" class="form-control" name="telephone" minlength="3" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-default pull-right" value="<?php echo lang('button_send');?>" >
+                        <button type="submit" class="pull-right"><?php echo lang('button_send');?></button>
                     </div>
                 <div class="clearfix"></div>
                 </form>

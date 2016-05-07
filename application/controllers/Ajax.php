@@ -14,7 +14,23 @@ class Ajax extends Front_controller{
             redirect('/');
         }
     }
-    
+    public function newsletter(){
+        $json = [];
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[newsletter.email]');
+        if ($this->form_validation->run() == true){
+            $this->load->model('newsletter_model');
+            $this->newsletter_model->insert(['email' => $this->input->post('email', true)]);
+            $this->session->set_flashdata('success', 'Newsletter Ok!');
+            $json['success'] = true;
+        }else{
+            $json['error'] = validation_errors();
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+
     public function call_back(){
         $json = [];
         $this->load->library('form_validation');

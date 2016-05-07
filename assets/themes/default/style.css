@@ -1283,3 +1283,10 @@ li.list-group-item.active a {
 .label-success {
     background-color: #17A78B;
 }
+.product-bit-title.text-center {
+    color: white;
+    font-size: 24px;
+}
+#newsletter{
+    text-align: center;
+}

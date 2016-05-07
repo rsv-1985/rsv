@@ -49,3 +49,6 @@ $lang['text_search_term'] = 'Срок доставки';
 $lang['text_cross'] = 'Поиск замен';
 $lang['text_login'] = 'Логин';
 $lang['text_password'] = 'Пароль';
+$lang['text_newsletter'] = 'Будь в курсе наших акций и новостей';
+$lang['button_newsletter'] = 'Подписаться';
+$lang['text_heading_newsletter'] = 'ПОДПИСКА';
