@@ -97,6 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <small class="label pull-right bg-yellow"><?php echo $this->new_customer;?></small>
                                 <?php } ?>
                             </a></li>
+                        <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_newsletter');?></a></li>
                         <li><a href="/autoxadmin/customergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_customer_group');?></a></li>
                     </ul>
                 </li>

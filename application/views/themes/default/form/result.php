@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <br>
                         <small><?php echo $product['name'];?></small>
                     </td>
-                    <td class="price"><?php echo format_currency($product['price']);?></td>
+                    <td class="price"><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <br>
                         <small><?php echo $product['name'];?></small><br>
                     </td>
-                    <td class="price"><?php echo format_currency($product['price']);?></td>
+                    <td class="price"><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <br>
                         <small><?php echo $product['name'];?></small><br>
                     </td>
-                    <td class="price"><?php echo format_currency($product['price']);?></td>
+                    <td class="price"><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></td>
                     <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>

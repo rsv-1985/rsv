@@ -44,3 +44,5 @@ $lang['text_catalog'] = 'Каталог';
 $lang['text_catalog_category'] = 'Категории';
 $lang['text_success_cache'] = 'Кэш очищен';
 $lang['text_site'] = 'На сайт';
+$lang['text_shop_newsletter'] = 'Подписчики';
+$lang['button_delete_all'] = 'Удалить все';

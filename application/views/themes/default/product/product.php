@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="product-inner-price">
-                                    <ins><?php echo $saleprice > 0 ? $slaeprice : $price; ?></ins>
+                                    <ins><?php echo $saleprice > 0 ? $saleprice : $price; ?></ins>
                                     <?php if ($saleprice > 0) { ?>
                                         <del><?php echo $price; ?></del>
                                     <?php } ?>
