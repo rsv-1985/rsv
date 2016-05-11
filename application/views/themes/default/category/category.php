@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </a>
                                     </div>
                                     <small><?php echo $product['brand'].' '.$product['sku'];?></small>
-                                    <h2><a href="/product/<?php echo $product['slug'];?>"><?php echo character_limiter($product['name'],25);?></a></h2>
+                                    <h2><a href="/product/<?php echo $product['slug'];?>"><?php echo character_limiter($product['name'],75);?></a></h2>
                                     <div class="product-carousel-price">
                                         <ins><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></ins>
                                         <?php if($product['saleprice'] > 0){?>
