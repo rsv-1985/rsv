@@ -69,7 +69,7 @@ class Product extends Admin_controller
         if($this->input->post()){
             $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('brand', lang('text_brand'), 'required|max_length[32]|trim');
-            $this->form_validation->set_rules('name', lang('text_name'), 'max_length[32]|trim');
+            $this->form_validation->set_rules('name', lang('text_name'), 'max_length[155]|trim');
             $this->form_validation->set_rules('image', lang('text_image'), 'max_length[255]|trim');
             $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[250]|trim');
             $this->form_validation->set_rules('title', lang('text_title'), 'max_length[250]|trim');
