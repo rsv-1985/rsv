@@ -1,6 +1,6 @@
 /* Page */
-body,html,div,blockquote,img,label,p,h1,h2,h3,h4,h5,h6,pre,ul,ol,li,dl,dt,dd,form,a,fieldset,input,th,td{border:0;outline:none;margin:0;padding:0;}
-ul{list-style:none;}
+.mega-menu {border:0;outline:none;margin:0;padding:0;}
+ul.mega-menu{list-style:none;}
 
 /* Vertical Mega Menu Styles */
 .mega-menu{
