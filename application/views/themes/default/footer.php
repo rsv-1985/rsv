@@ -59,14 +59,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </div> <!-- End footer top area -->
 
 <div class="footer-bottom-area">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
-                
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="pull-right">
-                    Powered by <a href="http://cms.autoxcatalog.com/">cms.autoxcatalog.com</a>
+                    Powered by <a href="http://cms.autoxcatalog.com/">cms.autoxcatalog.com <img src="/assets/themes/default/img/autox.png"></a>
                 </div>
             </div>
         </div>
