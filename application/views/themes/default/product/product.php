@@ -43,6 +43,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div class="col-md-6">
                                         <small><?php echo lang('text_brand'); ?>:</small> <?php echo $brand; ?><br/>
                                         <small><?php echo lang('text_sku'); ?>:</small> <?php echo $sku; ?><br/>
+                                        <?php if($excerpt){?>
+                                            <small><?php echo lang('text_excerpt'); ?>:</small> <?php echo $excerpt; ?>
+                                        <?php } ?>
+
                                     </div>
                                     <div class="col-md-6">
                                         <small><?php echo lang('text_qty'); ?>:</small> <?php echo format_quantity($quantity); ?><br/>
@@ -71,10 +75,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php } ?>
                                 ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                                 </form>
-
-                                <div class="product-inner-category">
-                                    <p><?php echo $excerpt; ?></p>
-                                </div>
 
                                 <div role="tabpanel">
                                     <ul class="product-tab" role="tablist">

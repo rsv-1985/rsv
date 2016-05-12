@@ -59,6 +59,7 @@ class Category_model extends Default_model
             $this->db->select('brand');
             $this->db->where('category_id', (int)$id);
             $this->db->where('brand !=', '');
+            $this->db->where('status', true);
             $this->db->limit(500);
             $this->db->order_by('brand', 'ASC');
             $query = $this->db->get('product');
