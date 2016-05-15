@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th style="width: 10px">#</th>
                             <th><?php echo lang('text_name');?></th>
                             <th><?php echo lang('text_stock');?></th>
+                            <th><?php echo lang('text_statistics_updated_at');?></th>
                             <th><a href="/autoxadmin/supplier/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php if($supplieres){?>
@@ -40,6 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <i class="fa fa-check-circle-o"></i>
                                         <?php } ?>
                                     </td>
+                                    <td><?php echo $supplier['updated_at'];?></td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <a href="/autoxadmin/supplier/delete/<?php echo $supplier['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
