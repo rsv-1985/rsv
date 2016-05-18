@@ -54,7 +54,8 @@ class Category_model extends Default_model
 
     public function get_brends($id)
     {
-        if(!$cache = $this->cache->file->get('category_brands_'.$id)){
+        $cache = $this->cache->file->get('category_brands_'.$id);
+        if(!$cache && !is_null($cache)){
             $this->db->distinct();
             $this->db->select('brand');
             $this->db->where('category_id', (int)$id);
@@ -67,6 +68,7 @@ class Category_model extends Default_model
                 $this->cache->file->save('category_brands_'.$id,$query->result_array(), 604800);
                 return $query->result_array();
             }
+            $this->cache->file->save('category_brands_'.$id,null, 604800);
             return false;
         }else{
             return $cache;
