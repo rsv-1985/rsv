@@ -346,8 +346,8 @@ class Product_model extends Default_model{
             $return['cross'] = $product_cross;
             unset($product_cross);
         }
-        //Если включен режим поиска по тексту
-        if($text_search){
+        //Если включен режим поиска по тексту и нет резудьтата по номеру
+        if($text_search && empty($return['cross']) && empty($return['products'])){
             //Похожие товары
             $where = "";
             $query = explode(' ', trim($sku));
