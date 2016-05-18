@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <script src="<?php echo theme_url();?>admin/dist/js/demo.js"></script>
 
 <script src="<?php echo theme_url();?>admin/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
-<script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>
 <script>
     //color picker with addon
     $(".my-colorpicker2").colorpicker();
