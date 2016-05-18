@@ -43,3 +43,4 @@ $lang['text_import_settings_disble'] = 'Скрыть товары поставщ
 $lang['text_sample_default_term_unit_hour'] = 'В часах';
 $lang['text_sample_default_term_unit_day'] = 'В днях';
 $lang['text_sample_term'] = 'Срок поставки в';
+$lang['text_sample_default_excerpt'] = 'Доп.инфо по умолчанию';
