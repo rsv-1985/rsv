@@ -112,6 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <?php } ?>
                                 <?php } ?>
                             </select>
+                            <label><?php echo lang('text_sample_default_excerpt');?></label>
+                            <input type="text" class="form-control" name="sample[default_excerpt]">
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
