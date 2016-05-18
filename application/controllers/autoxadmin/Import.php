@@ -236,7 +236,7 @@ class Import extends Admin_controller
                 if(isset($data_f[$params['sample']['excerpt'] - 1])){
                     $excerpt = trim($data_f[$params['sample']['excerpt'] - 1]);
                 } else {
-                    $excerpt = '';
+                    $excerpt = @$params['sample']['default_excerpt'];
                 }
 
                 if(isset($data_f[$params['sample']['term'] - 1])){
@@ -358,6 +358,9 @@ class Import extends Admin_controller
                 }
                 $description = trim($excel->sheets[0]['cells'][$i][$sample['description']]);
                 $excerpt = trim($excel->sheets[0]['cells'][$i][$sample['excerpt']]);
+                if(mb_strlen($excerpt) == 0){
+                    $excerpt = @$sample['default_excerpt'];
+                }
                 $image = trim($excel->sheets[0]['cells'][$i][$sample['image']]);
                 $currency_id = $sample['currency_id'];
 
