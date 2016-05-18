@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <?php foreach($products as $product){?>
                 <tr>
                     <td>
-                        <i onmouseover="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
+                        <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
                         <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <?php foreach($cross as $product){?>
                 <tr>
                     <td>
-                        <i onmouseover="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
+                        <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
                         <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <?php foreach($about as $product){?>
                 <tr>
                     <td>
-                        <i onmouseover="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
+                        <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
                         <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
