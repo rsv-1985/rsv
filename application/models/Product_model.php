@@ -564,7 +564,6 @@ class Product_model extends Default_model{
         $this->db->join('supplier', 'supplier.id='.$this->table.'.supplier_id', 'left');
         $this->db->join('currency', 'currency.id='.$this->table.'.currency_id', 'left');
         $this->db->where('slug', $slug);
-        $this->db->where('status', true);
         $query = $this->db->get();
         if($query->num_rows() > 0){
             return $query->row_array();
