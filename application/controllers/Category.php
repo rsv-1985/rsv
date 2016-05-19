@@ -45,13 +45,13 @@ class category extends Front_controller{
         }
         //print_r($seo);
         $data = [];
-        $this->title = !empty($category['title']) ? $category['title'] : @$seo['title'] ? $seo['title'] : $category['name'];
-        $this->description = @$seo['description'] ? $seo['description'] : $category['meta_description'];
-        $this->keywords = @$seo['meta_keywords'] ? $seo['meta_keywords'] : $category['meta_keywords'];
+        $this->title = !empty($category['title']) ? $category['title'] : @$seo['title'] ? @$seo['title'] : $category['name'];
+        $this->description = @$seo['description'] ? @$seo['description'] : $category['meta_description'];
+        $this->keywords = @$seo['meta_keywords'] ? @$seo['meta_keywords'] : $category['meta_keywords'];
 
         $data['brands'] = $this->category_model->get_brends($category['id']);
 
-        $data['h1'] = !empty($category['h1']) ? $category['h1'] : @$seo['h1'] ? $seo['h1'] : $category['name'];
+        $data['h1'] = !empty($category['h1']) ? $category['h1'] : @$seo['h1'] ? @$seo['h1'] : $category['name'];
 
         $data['description'] = !$this->uri->segment(3) || !$this->uri->segment(5) ? $category['description'].@$seo['text'] : '';
         $data['slug'] = $category['slug'];

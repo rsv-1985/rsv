@@ -1,22 +1,10 @@
 $(document).ready(function(){
     $('[rel="tooltip"]').tooltip();
 
-    $('#mega-1').dcVerticalMegaMenu({
-        rowItems: '6',
-        speed: 'slow',
-        effect: 'show',
-        direction: 'right'
-    });
-
     $(".vin_request").submit(function(event){
         send_request(event);
     });
-
-    $("#tree li").mouseover(function(){
-       if($(this).children("ul").length){
-           $(this).children("ul").show();
-       }
-    });
+    
 
     $("#newsletter").submit(function (event) {
         event.preventDefault();

@@ -168,13 +168,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!-- Slider -->
 <script type="text/javascript" src="<?php echo theme_url();?>js/bxslider.min.js"></script>
 <script type="text/javascript" src="<?php echo theme_url();?>js/script.slider.js"></script>
-<script type='text/javascript' src='<?php echo theme_url();?>js/menu/jquery.hoverIntent.minified.js'></script>
-<script type='text/javascript' src='<?php echo theme_url();?>js/menu/jquery.dcverticalmegamenu.1.3.js'></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active');
     });
 </script>
+
+<script src="<?php echo theme_url();?>mega-dropdown/js/jquery.menu-aim.js"></script> <!-- menu aim -->
+<script src="<?php echo theme_url();?>mega-dropdown/js/main.js"></script> <!-- Resource jQuery -->
+
+
 <?php if($this->config->item('my_script')){?>
     <?php foreach ($this->config->item('my_script') as $script){?>
         <?php echo @file_get_contents(base_url($script));?>
