@@ -443,63 +443,79 @@ class Product_model extends Default_model{
     }
     //Новинки
     public function get_novelty(){
-        $this->db->where('status', true);
-        $this->db->order_by('created_at', 'DESC');
-        $this->db->limit(3);
-        $query = $this->db->get($this->table);
-        if($query->num_rows() > 0){
-            $results = $query->result_array();
+        $cache = $this->cache->file->get('novelty');
+        if(!$cache && !is_null($cache)){
+            $this->db->where('status', true);
+            $this->db->order_by('created_at', 'DESC');
+            $this->db->limit(3);
+            $query = $this->db->get($this->table);
+            if($query->num_rows() > 0){
+                $results = $query->result_array();
 
-            $customer_group = false;
-            if($this->is_login){
-                $this->load->model('customergroup_model');
-                $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-            }
-
-            foreach($results as &$result){
-                $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
-                $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
-                $result['image'] = theme_url().'img/no_image.png';
-                $result['brand_image'] = false;
-                if($tecdoc_info){
-                    $result['image'] = isset($tecdoc_info['article']['Image']) && strlen($tecdoc_info['article']['Image']) > 0 ? $tecdoc_info['article']['Image'] : theme_url().'img/no_image.png';
-                    $result['brand_image'] = isset($tecdoc_info['article']['Logo']) && strlen($tecdoc_info['article']['Logo']) > 0 ? $tecdoc_info['article']['Logo'] : false;
-                    $result['name'] = mb_strlen($result['name'] == 0) ? @$tecdoc_info['article']['Name'] : $result['name'];
+                $customer_group = false;
+                if($this->is_login){
+                    $this->load->model('customergroup_model');
+                    $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
                 }
+
+                foreach($results as &$result){
+                    $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+                    $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
+                    $result['image'] = theme_url().'img/no_image.png';
+                    $result['brand_image'] = false;
+                    if($tecdoc_info){
+                        $result['image'] = isset($tecdoc_info['article']['Image']) && strlen($tecdoc_info['article']['Image']) > 0 ? $tecdoc_info['article']['Image'] : theme_url().'img/no_image.png';
+                        $result['brand_image'] = isset($tecdoc_info['article']['Logo']) && strlen($tecdoc_info['article']['Logo']) > 0 ? $tecdoc_info['article']['Logo'] : false;
+                        $result['name'] = mb_strlen($result['name'] == 0) ? @$tecdoc_info['article']['Name'] : $result['name'];
+                    }
+                }
+                $this->cache->file->save('novelty',$results,604800);
+                return $results;
             }
-            return $results;
+            $this->cache->file->save('novelty',null,604800);
+            return false;
+        }else{
+            return $cache;
         }
-        return false;
+
     }
     //Топ
     public function top_sellers(){
-        $this->db->where('status', true);
-        $this->db->order_by('bought', 'DESC');
-        $this->db->limit(3);
-        $query = $this->db->get($this->table);
-        if($query->num_rows() > 0){
-            $results = $query->result_array();
+        $cache = $this->cache->file->get('top_sellers');
+        if(!$cache && !is_null($cache)){
+            $this->db->where('status', true);
+            $this->db->order_by('bought', 'DESC');
+            $this->db->limit(3);
+            $query = $this->db->get($this->table);
+            if($query->num_rows() > 0){
+                $results = $query->result_array();
 
-            $customer_group = false;
-            if($this->is_login){
-                $this->load->model('customergroup_model');
-                $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-            }
-
-            foreach($results as &$result){
-                $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
-                $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
-                $result['image'] = theme_url().'img/no_image.png';
-                $result['brand_image'] = false;
-                if($tecdoc_info){
-                    $result['image'] = strlen(@$tecdoc_info['article']['Image']) > 0 ? @$tecdoc_info['article']['Image'] : theme_url().'img/no_image.png';
-                    $result['brand_image'] =  strlen(@$tecdoc_info['article']['Logo']) > 0 ? @$tecdoc_info['article']['Logo'] : false;
-                    $result['name'] = strlen($result['name'] == 0) ? @$tecdoc_info['article']['Name'] : $result['name'];
+                $customer_group = false;
+                if($this->is_login){
+                    $this->load->model('customergroup_model');
+                    $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
                 }
+
+                foreach($results as &$result){
+                    $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+                    $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
+                    $result['image'] = theme_url().'img/no_image.png';
+                    $result['brand_image'] = false;
+                    if($tecdoc_info){
+                        $result['image'] = strlen(@$tecdoc_info['article']['Image']) > 0 ? @$tecdoc_info['article']['Image'] : theme_url().'img/no_image.png';
+                        $result['brand_image'] =  strlen(@$tecdoc_info['article']['Logo']) > 0 ? @$tecdoc_info['article']['Logo'] : false;
+                        $result['name'] = strlen($result['name'] == 0) ? @$tecdoc_info['article']['Name'] : $result['name'];
+                    }
+                }
+                $this->cache->file->save('top_sellers',$results,604800);
+                return $results;
             }
-            return $results;
+            $this->cache->file->save('top_sellers',null,604800);
+            return false;
+        }else{
+            return $cache;
         }
-        return false;
+
     }
     //Информация по запчасти с текдока
     private function tecdoc_info($sku, $brand, $full_info = false){
