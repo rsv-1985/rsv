@@ -94,8 +94,6 @@ class Product_model extends Default_model{
             unset($data['id']);
             $sql = $this->db->set($data)->get_compiled_insert($this->table) . '
             ON DUPLICATE KEY UPDATE
-            name=VALUES(name),
-            description=VALUES(description),
             excerpt=VALUES(excerpt),
             currency_id=VALUES(currency_id),
             delivery_price=VALUES(delivery_price),
