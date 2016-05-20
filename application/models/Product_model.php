@@ -459,7 +459,11 @@ class Product_model extends Default_model{
                 foreach($results as &$result){
                     $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
-                    $result['image'] = theme_url().'img/no_image.png';
+                    if(!empty($result['image'])){
+                        $result['image'] = '/uploads/product/'.$result['image'];
+                    }else{
+                        $result['image'] = theme_url().'img/no_image.png';
+                    }
                     $result['brand_image'] = false;
                     if($tecdoc_info){
                         $result['image'] = isset($tecdoc_info['article']['Image']) && strlen($tecdoc_info['article']['Image']) > 0 ? $tecdoc_info['article']['Image'] : theme_url().'img/no_image.png';
@@ -497,7 +501,12 @@ class Product_model extends Default_model{
                 foreach($results as &$result){
                     $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
-                    $result['image'] = theme_url().'img/no_image.png';
+                    if(!empty($result['image'])){
+                        $result['image'] = '/uploads/product/'.$result['image'];
+                    }else{
+                        $result['image'] = theme_url().'img/no_image.png';
+                    }
+
                     $result['brand_image'] = false;
                     if($tecdoc_info){
                         $result['image'] = strlen(@$tecdoc_info['article']['Image']) > 0 ? @$tecdoc_info['article']['Image'] : theme_url().'img/no_image.png';
