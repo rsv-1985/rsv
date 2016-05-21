@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Product_model extends Default_model{
     public $table = 'product';
-    
+    public $total_rows = 0;
     public function product_delete($slug){
         $this->db->where('slug', $slug);
         $this->db->delete($this->table);
@@ -39,6 +39,7 @@ class Product_model extends Default_model{
     }
 
     public function admin_product_get_all($limit = false, $start = false){
+        
         if($this->input->get()){
             if($this->input->get('sku')){
                 $this->db->where('sku', $this->input->get('sku',true));
@@ -64,7 +65,7 @@ class Product_model extends Default_model{
         }
         
         $query = $this->db->get($this->table);
-
+        
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
@@ -392,7 +393,7 @@ class Product_model extends Default_model{
 
     //Получаем товары для категории
     public function product_get_all($limit = false, $start = false, $where = false){
-        $this->db->select('*');
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
         $this->db->from($this->table);
         if($where){
             foreach($where as $field => $value){
@@ -406,6 +407,8 @@ class Product_model extends Default_model{
         }
 
         $query = $this->db->get();
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+        
 
         if ($query->num_rows() > 0) {
             //Проверяем залогинен ли пользователь
