@@ -6,7 +6,6 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="footer-top-area" xmlns="http://www.w3.org/1999/html">
-    <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
 
