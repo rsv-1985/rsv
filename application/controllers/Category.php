@@ -62,12 +62,15 @@ class category extends Front_controller{
         }else{
             $config['base_url'] = base_url('/category/'.$category['slug']);
         }
+
         if($brand){
-            $config['total_rows'] = $this->product_model->count_all(['status' => true, 'category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))]);
+            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(5), ['status' => true, 'category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))]);
         }else{
-            $config['total_rows'] = $this->product_model->count_all(['status' => true, 'category_id' => $category['id']]);
+            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(3), ['status' => true, 'category_id' => $category['id']]);
         }
-        $config['per_page'] = 12;
+
+        $config['total_rows'] = $this->product_model->total_rows;
+
         $config['full_tag_open'] = "<ul class='pagination'>";
         $config['full_tag_close'] ="</ul>";
         $config['num_tag_open'] = '<li>';
@@ -84,11 +87,7 @@ class category extends Front_controller{
         $config['last_tagl_close'] = "</li>";
 
         $this->pagination->initialize($config);
-        if($brand){
-            $data['products'] = $this->product_model->product_get_all($config['per_page'], $this->uri->segment(5), ['status' => true, 'category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))]);
-        }else{
-            $data['products'] = $this->product_model->product_get_all($config['per_page'], $this->uri->segment(3), ['status' => true, 'category_id' => $category['id']]);
-        }
+
 
 
         $this->load->view('header');
