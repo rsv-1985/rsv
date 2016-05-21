@@ -12,28 +12,6 @@ class Image extends CI_Controller
         if ($this->input->get('img', true)) {
             $file = $this->input->get('img', true);
             if(filter_var($file, FILTER_VALIDATE_URL)){
-                if(!getimagesize($file)){
-                    $this->resize();
-                    die();
-                }
-                $image_type = (exif_imagetype($file));
-                switch($image_type){
-                    case 1:
-                        $ext = '.gif';
-                        break;
-                    case 2:
-                        $ext = '.jpg';
-                        break;
-                    case 3:
-                        $ext = '.png';
-                        break;
-                    case 6:
-                        $ext = '.bmp';
-                        break;
-                    default:
-                        $ext = '.jpg';
-                        break;
-                }
 
                 $url = str_replace('.http', 'http',$file);
                 $ch = curl_init();
@@ -43,15 +21,18 @@ class Image extends CI_Controller
                 curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible;)");
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-                $file = curl_exec($ch);
+                $contents = curl_exec($ch);
                 curl_close($ch);
 
-                if(!$file){
+                if(!$contents){
                     $this->resize();
                     die();
                 }
-                file_put_contents('./uploads/resise'.$ext,$file);
-               $this->resize('/uploads/resise'.$ext);
+
+                $ext = explode('.',$file);
+                $ext = end($ext);
+                file_put_contents('./uploads/resise'.$ext,$contents);
+                $this->resize('/uploads/resise'.$ext);
             }else{
                 $this->resize($file);
             }
