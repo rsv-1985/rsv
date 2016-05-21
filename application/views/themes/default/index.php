@@ -56,14 +56,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if ($news) { ?>
                     <div class="panel panel-default">
                         <div class="panel-heading"><?php echo lang('text_news'); ?></div>
-                        <div class="panel-body">
-                            <ul>
-                                <?php foreach ($news as $news) { ?>
-                                    <li><a href="/news/<?php echo $news['slug']; ?>"><?php echo $news['name']; ?></a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
+                            <div class="list-group">
+                            <?php foreach ($news as $news) { ?>
+                                <a href="/news/<?php echo $news['slug'];?>" class="list-group-item"><?php echo $news['name'];?></a>
+                            <?php } ?>
+                            </div>
                     </div>
                 <?php } ?>
             </div>
