@@ -13,10 +13,6 @@
     margin: 0 auto 15px;
 }
 a:focus { outline: 0px solid }
-img {
-    max-width: 100%;
-    height: auto;
-}
 .fix { overflow: hidden }
 h1,
 h2,
@@ -1289,4 +1285,19 @@ li.list-group-item.active a {
 }
 #newsletter{
     text-align: center;
+}
+.extended-search{
+    border: 2px solid #FBFBFB;
+    text-align: center;
+    padding-top: 10px;
+    min-height: 300px;
+    position: absolute;
+    width: 99.8%;
+    background: white;
+    z-index: 9;
+    display: none;
+}
+.col-md-4.col-item {
+    max-height: 300px;
+    overflow: auto;
 }

@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="single-sidebar">
                         <?php foreach ($banner as $banner) { ?>
                             <div class="thubmnail-recent">
-                                <img src="/uploads/banner/<?php echo $banner['image']; ?>">
+                                <img onerror="imgError(this);" src="/uploads/banner/<?php echo $banner['image']; ?>">
                             </div>
                         <?php } ?>
                     </div>
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="col-sm-4">
                             <div class="product-images">
                                 <div class="product-main-img">
-                                    <img src="/image?img=<?php echo $image; ?>&width=300" alt="<?php echo $h1; ?>">
+                                    <img onerror="imgError(this, 300);" src="/image?img=<?php echo $image; ?>&width=300" alt="<?php echo $h1; ?>">
                                 </div>
                             </div>
                         </div>

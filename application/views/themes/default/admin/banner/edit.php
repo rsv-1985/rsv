@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div><!-- /.form group -->
                     </div>
                     <div class="col-md-6">
-                        <img src="/uploads/banner/<?php echo $banner['image'];?>" style="max-height: 100px;">
+                        <img onerror="imgError(this);" src="/uploads/banner/<?php echo $banner['image'];?>" style="max-height: 100px;">
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_description'); ?></label>

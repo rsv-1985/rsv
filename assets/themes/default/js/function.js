@@ -157,3 +157,22 @@ function tecdoc_info(sku, brand){
     });
 }
 
+function imgError(image, width, height) {
+    image.onerror = "";
+    if(width && height){
+        $(image).css('width', width);
+        $(image).css('height', height);
+        image.src = "/image?img=/assets/themes/default/img/no_image.png&width="+width+"&height="+height;
+    }else if(width){
+        $(image).css('width', width);
+        image.src = "/image?img=/assets/themes/default/img/no_image.png&width="+width;
+    }else if(height){
+        $(image).css('height', height);
+        image.src = "/image?img=/assets/themes/default/img/no_image.png&height="+height;
+    }else{
+        image.src = "/image?img=/assets/themes/default/img/no_image.png";
+    }
+
+    return true;
+}
+

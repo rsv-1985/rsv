@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($part->available['products']) { ?>
                                     <?php foreach ($part->available['products'] as $product) { ?>
                                         <tr>
-                                            <td width="50">
-                                                <img src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                            <td>
+                                                <img onerror="imgError(this,50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
                                                      title="<?php echo $part->Brand; ?>" >
                                             </td>
                                             <td>
@@ -86,8 +86,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($part->available['cross']) { ?>
                                     <?php foreach ($part->available['cross'] as $product) { ?>
                                         <tr>
-                                            <td width="50">
-                                                <img src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                            <td>
+                                                <img onerror="imgError(this, 50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
                                                      title="<?php echo $part->Brand; ?>" >
                                             </td>
                                             <td>
@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php if (!$part->available['products'] && !$part->available['cross']) { ?>
                                 <tr>
                                     <td>
-                                        <img src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                        <img onerror="imgError(this, 50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
                                              title="<?php echo $part->Brand; ?>" >
                                     </td>
                                     <td>

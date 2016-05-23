@@ -50,11 +50,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <div class="product-upper">
                                         <a href="/product/<?php echo $product['slug'];?>">
                                             <?php if($product['image']){?>
-                                                <img src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
+                                                <img onerror="imgError(this, 165, 165);" src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
                                             <?php }elseif($product['tecdoc_info']){?>
-                                                <img src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
+                                                <img onerror="imgError(this, 165, 165);" src="/image?img=<?php echo $product['tecdoc_info']['article']['Image'];?>&width=165&height=165" alt="<?php echo $product['name'];?>">
                                             <?php }else{ ?>
-                                                <img src="/image?width=165" alt="<?php echo $product['name'];?>">
+                                                <img onerror="imgError(this, 165);" src="/image?width=165" alt="<?php echo $product['name'];?>">
                                             <?php } ?>
                                         </a>
                                     </div>

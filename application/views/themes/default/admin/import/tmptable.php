@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <td><?php echo $item['term'];?></td>
                         <td>
                             <?php if(mb_strlen($item['image']) > 0){?>
-                                <img src="/image?img=/uploads/product/<?php echo $item['image'];?>&width=50&height=50"/>
+                                <img onerror="imgError(this);" src="/image?img=/uploads/product/<?php echo $item['image'];?>&width=50&height=50"/>
                             <?php } ?>
                         </td>
                     </tr>

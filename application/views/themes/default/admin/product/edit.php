@@ -25,10 +25,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="box-body">
                         <div style="text-align: center;">
                             <?php if(mb_strlen($product['image']) > 0){?>
-                                <img id="product-image" src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=200&height=200"/><br />
+                                <img onerror="imgError(this);" id="product-image" src="/image?img=/uploads/product/<?php echo $product['image'];?>&width=200&height=200"/><br />
                                 <a href="#" onclick="$('#image').val('');$('#product-image').attr('src', '/image?width=200');return false;"><?php echo lang('button_delete');?></a>
                             <?php }else{?>
-                                <img id="product-image" src="/image?img=<?php echo $product['image'];?>&width=200&height=200"/><br />
+                                <img onerror="imgError(this);" id="product-image" src="/image?img=<?php echo $product['image'];?>&width=200&height=200"/><br />
                             <?php } ?>
                         </div>
                         <input id="image" type="hidden" name="image" value="<?php echo set_value('image', $product['image']);?>">

@@ -319,7 +319,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             method: 'GET',
             data: {ID_art: ID_art, brand:brand, sku:sku, is_admin:1},
             beforeSend: function(){
-                $(".search_result").html('<img src="/assets/themes/default/img/loading.gif"/>');
+                $(".search_result").html('<img onerror="imgError(this);" src="/assets/themes/default/img/loading.gif"/>');
             },
             success: function(html){
                 $(".search_result").html(html);
