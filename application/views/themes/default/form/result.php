@@ -174,4 +174,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </div>
             </form>
 <?php } ?>
-<?php $this->output->enable_profiler($this->config->item('profiler'));?>
+<?php $this->output->enable_profiler(FALSE);?>
