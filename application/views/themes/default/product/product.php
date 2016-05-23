@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <td><?php echo $components->Name; ?></td>
                                                             <td>
                                                                 <a href="#"
-                                                                   onclick="catalog_search('<?php echo $components->ID_art; ?>', '<?php echo $components->Display; ?>','<?php echo $components->Brand; ?>')"><?php echo lang('button_search'); ?></a>
+                                                                   onclick="catalog_search('<?php echo $components->ID_art; ?>', '<?php echo $components->Display; ?>','<?php echo $components->Brand; ?>', event)"><?php echo lang('button_search'); ?></a>
                                                             </td>
                                                         </tr>
                                                     <?php } ?>
