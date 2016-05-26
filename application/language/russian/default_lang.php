@@ -52,3 +52,4 @@ $lang['text_password'] = 'Пароль';
 $lang['text_newsletter'] = 'Будь в курсе наших акций и новостей';
 $lang['button_newsletter'] = 'Подписаться';
 $lang['text_heading_newsletter'] = 'ПОДПИСКА';
+$lang['text_in_stock'] = 'На складе';
