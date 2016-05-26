@@ -25,19 +25,22 @@ class Image extends CI_Controller
                 curl_close($ch);
 
                 if(!$contents){
+
                     $this->resize();
                     die();
                 }
 
                 $ext = explode('.',$file);
                 $ext = end($ext);
-                file_put_contents('./uploads/resise'.$ext,$contents);
+
+                file_put_contents('./uploads/resise.'.$ext,$contents);
                 
-                if(!getimagesize('./uploads/resise'.$ext)){
+                if(!getimagesize('./uploads/resise.'.$ext)){
                     $this->resize();
                     die();
                 }
-                $this->resize('./uploads/resise'.$ext);
+
+                $this->resize('/uploads/resise.'.$ext);
             }else{
                 $this->resize($file);
             }
