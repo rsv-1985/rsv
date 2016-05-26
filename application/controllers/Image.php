@@ -24,7 +24,7 @@ class Image extends CI_Controller
                 $contents = curl_exec($ch);
                 curl_close($ch);
 
-                if(!$contents){
+                if(!$contents || $contents == '404'){
                     $this->resize();
                     die();
                 }
