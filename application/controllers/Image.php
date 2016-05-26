@@ -24,7 +24,7 @@ class Image extends CI_Controller
                 $contents = curl_exec($ch);
                 curl_close($ch);
 
-                if(!$contents || $contents == '404'){
+                if(!$contents){
                     $this->resize();
                     die();
                 }
@@ -32,7 +32,12 @@ class Image extends CI_Controller
                 $ext = explode('.',$file);
                 $ext = end($ext);
                 file_put_contents('./uploads/resise'.$ext,$contents);
-                $this->resize('/uploads/resise'.$ext);
+                
+                if(!getimagesize('./uploads/resise'.$ext)){
+                    $this->resize();
+                    die();
+                }
+                $this->resize('./uploads/resise'.$ext);
             }else{
                 $this->resize($file);
             }
