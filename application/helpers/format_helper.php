@@ -25,6 +25,8 @@ function format_term($term){
     if($term >= 24){
         $day = $term / 24;
         return $day.lang('text_day');
+    }elseif($term == 0){
+        return lang('text_in_stock');
     }
 
     return $term.lang('text_time');
