@@ -119,6 +119,10 @@ class Cart extends Front_controller
                     if(strlen($save['email']) > 0){
                         $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$email_html, $save['email'],explode(';',$this->contacts['email']));
                     }
+                    if(!empty($save['telephone'])){
+                        $text = sprintf(lang('text_success_order'), $order_id);
+                        $this->sender->sms($save['telephone'], $text);
+                    }
                     $this->cart->destroy();
                     $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));
                     redirect('/');

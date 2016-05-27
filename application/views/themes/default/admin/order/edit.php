@@ -152,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <hr>
                 <b><?php echo lang('text_manager_comments');?></b>
                 <textarea rows="3" name="history" class="form-control"></textarea>
-                <input type="checkbox" value="1" name="send_sms" disabled>Send_sms
+                <input type="checkbox" value="1" name="send_sms">Send_sms
                 <input type="checkbox" value="1" name="send_email">Send_email
                 <?php if($history){?>
                     <table class="table table-condensed">
@@ -222,7 +222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tr>
                     </table>
                     <div class="pull-right">
-                        <button style="display: none;" class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit');?></button>
+                        <button class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit');?></button>
                         <a class="btn btn-default btn-flat" href="/autoxadmin/order"><?php echo lang('button_close');?></a>
                     </div>
                 </div>
@@ -260,7 +260,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     $(document).ready(function(){
         $("input").change(function(){
             total();
-            $("[type='submit']").show();
         });
 
         $("select").change(function(){

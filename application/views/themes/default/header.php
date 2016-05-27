@@ -14,13 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <title><?php echo $this->title;?></title>
     <meta name="description" content="<?php echo $this->description;?>">
     <meta name="keywords" content="<?php echo $this->keywords;?>">
-
     <link rel="stylesheet" href="<?php echo theme_url();?>mega-dropdown/css/reset.css"> <!-- CSS reset -->
     <link rel="stylesheet" href="<?php echo theme_url();?>mega-dropdown/css/style.css"> <!-- Resource style -->
     <script src="<?php echo theme_url();?>mega-dropdown/js/modernizr.js"></script> <!-- Modernizr -->
-
-
-
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
@@ -35,7 +31,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
-
 <div class="header-area">
     <div class="container">
         <div class="row">
@@ -76,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-sm-3">
                 <div class="logo">
                     <?php if($this->config->item('company_logo')){?>
-                        <a href="/"><img src="<?php echo $this->config->item('company_logo');?>"/></a>
+                        <a href="/"><img onerror="imgError(this);" src="<?php echo $this->config->item('company_logo');?>"/></a>
                     <?php }else{?>
                         <a href="/"><?php echo $this->config->item('company_name');?></a>
                     <?php } ?>
@@ -106,6 +101,89 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal" rel="tooltip" data-placement="top">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="extended-search">
+        <div class="row">
+            <div class="col-md-4 col-item">
+                <div class="product-big-title-area">
+                    <div class="product-bit-title text-center">
+                        <strong>История поиска</strong>
+                    </div>
+                </div>
+                <hr/>
+                <div class="single-wid-product">
+                    <h2>
+                        <a href="/product/maslo-castrol-magnatec10w40a3b41-castrol-11">Масло GTD 10W-40 Magnatek диз 4л</a>
+                    </h2>
+                    <div class="product-wid-price">
+                        <ins>520 грн.</ins>
+                        <del>630.5 грн.</del>
+                    </div>
+                </div>
+                <hr/>
+                <div class="single-wid-product">
+                    <h2>
+                        <a href="/product/maslo-castrol-magnatec10w40a3b41-castrol-11">Масло GTD 10W-40 Magnatek диз 4л</a>
+                    </h2>
+                    <div class="product-wid-price">
+                        <ins>520 грн.</ins>
+                        <del>630.5 грн.</del>
+                    </div>
+                </div>
+                <hr/>
+                <div class="single-wid-product">
+                    <h2>
+                        <a href="/product/maslo-castrol-magnatec10w40a3b41-castrol-11">Масло GTD 10W-40 Magnatek диз 4л</a>
+                    </h2>
+                    <div class="product-wid-price">
+                        <ins>520 грн.</ins>
+                        <del>630.5 грн.</del>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <div class="col-md-4 col-item">
+                <div class="product-big-title-area">
+                    <div class="product-bit-title text-center">
+                        <strong>Лучшая цена</strong>
+                    </div>
+                </div>
+                <hr/>
+                <div class="single-wid-product">
+                    <h2>
+                        <a href="/product/maslo-castrol-magnatec10w40a3b41-castrol-11">Масло GTD 10W-40 Magnatek диз 4л</a>
+                    </h2>
+                    <div class="product-wid-price">
+                        <ins>520 грн.</ins>
+                        <del>630.5 грн.</del>
+                    </div>
+                </div>
+                <hr/>
+                <div class="single-wid-product">
+                    <h2>
+                        <a href="/product/maslo-castrol-magnatec10w40a3b41-castrol-11">Масло GTD 10W-40 Magnatek диз 4л</a>
+                    </h2>
+                    <div class="product-wid-price">
+                        <ins>520 грн.</ins>
+                        <del>630.5 грн.</del>
+                    </div>
+                </div>
+                <hr/>
+                <div class="single-wid-product">
+                    <h2>
+                        <a href="/product/maslo-castrol-magnatec10w40a3b41-castrol-11">Масло GTD 10W-40 Magnatek диз 4л</a>
+                    </h2>
+                    <div class="product-wid-price">
+                        <ins>520 грн.</ins>
+                        <del>630.5 грн.</del>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <div class="col-md-4 col-item">
+                <img onerror="imgError(this);" src="http://nikaservis.kz/wp-content/uploads/2014/11/nika-4.png">
             </div>
         </div>
     </div>

@@ -69,9 +69,10 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
+                console.log(json);
                 $(".search_result").empty();
                 $("#search_brand_list").empty();
-                $("#search_query").text(json['search_query']);
+                $("#search_query").html(json['search_query']);
                 if(json['brand'].length > 0){
                     var html = '';
                     $.each(json['brand'], function( index, brand ) {

@@ -152,10 +152,16 @@ class Order extends Admin_controller
                         $history['send_email'] = (bool)$this->input->post('send_email');
                         $history['user_id'] = $this->User_model->is_login();
                         $this->order_history_model->insert($history);
+                        
+                        $this->load->library('sender');
+                        
                         if($history['send_email'] && mb_strlen($save['email']) > 0){
-                            $this->load->library('sender');
                             $contacts = $this->settings_model->get_by_key('contact_settings');
                             $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$history['text'], $save['email'],explode(';',$contacts['email']));
+                        }
+
+                        if($history['send_sms'] && mb_strlen($save['telephone']) > 0){
+                            $this->sender->sms($save['telephone'],$history['text']);
                         }
                     }
                     redirect('autoxadmin/order/edit/'.$id);

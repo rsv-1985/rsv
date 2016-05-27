@@ -36,4 +36,22 @@ class Sender{
         $this->CI->email->message($body);
         $this->CI->email->send();
     }
+
+    function sms($phone,$text){
+        $login = $this->CI->config->item('smsc_login');
+        $password = $this->CI->config->item('smsc_password');
+        $sender = $this->CI->config->item('smsc_sender');
+        if($login && $password && $sender){
+            $client = new SoapClient('http://smsc.ua/sys/soap.php?wsdl');
+            $res = $client->send_sms(array(
+                    'login'=>$login,
+                    'psw'=>$password,
+                    'phones'=>preg_replace("/[^0-9]/", '', $phone),
+                    'mes'=>strip_tags($text),
+                    'id'=>'',
+                    'sender'=>$sender,
+                    'time'=>0)
+            );
+        }
+    }
 }
