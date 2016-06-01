@@ -54,6 +54,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
+                                <?php if($this->is_admin){?>
+                                    <div class="well well-sm">
+                                        <div class="col-md-6">
+                                            <small><?php echo lang('text_supplier'); ?>:</small> <?php echo $supplier; ?><br/>
+                                            <small><?php echo lang('text_supplier_description'); ?>:</small> <?php echo $supplier_description; ?><br/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small><?php echo lang('text_qty'); ?>:</small> <?php echo $quantity; ?><br/>
+                                            <small><?php echo lang('text_delivery_price'); ?>:</small> <?php echo $delivery_price; ?><br/>
+                                            <small><?php echo lang('text_updated_at');?></small> <?php echo $updated_at;?>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                <?php } ?>
                                 <div class="product-inner-price">
                                     <ins><?php echo $saleprice > 0 ? $saleprice : $price; ?></ins>
                                     <?php if ($saleprice > 0) { ?>

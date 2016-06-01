@@ -76,6 +76,12 @@ class Product extends Front_controller{
         if(isset($product['tecdoc_info']['components']) && !empty($product['tecdoc_info']['components'])){
             $data['components'] = $product['tecdoc_info']['components'];
         }
+        
+        $data['supplier'] = $product['sup_name'];
+        $data['supplier_description'] = $product['sup_description'];
+        $data['delivery_price'] = $product['delivery_price'].' '.$product['cur_name'];
+        $data['updated_at'] = $product['updated_at'];
+
 
         $data['banner'] = $this->banner_model->get_product();
         $this->load->view('header');

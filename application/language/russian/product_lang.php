@@ -16,3 +16,7 @@ $lang['text_sku'] = 'Артикул';
 $lang['text_qty'] = 'Количество';
 $lang['text_excerpt'] = 'Доп.инфо';
 $lang['text_term'] = 'Срок доставки';
+$lang['text_supplier'] = 'Поставщик';
+$lang['text_supplier_description'] = 'Описание';
+$lang['text_delivery_price'] = 'Цена поставки';
+$lang['text_updated_at'] = 'Обновлено';
