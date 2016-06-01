@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <?php } ?>
         <?php if($cross){?>
             <tr>
-                <td colspan="7" class="heading"><?php echo lang('text_cross');?> <small>(<?php echo count($products);?>)</small></td>
+                <td colspan="7" class="heading"><?php echo lang('text_cross');?> <small>(<?php echo count($cross);?>)</small></td>
             </tr>
             <?php foreach($cross as $product){?>
                 <tr>
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <?php } ?>
         <?php if($about){?>
             <tr>
-                <td colspan="7" class="heading"><?php echo lang('text_about');?> <small>(<?php echo count($products);?>)</small></td>
+                <td colspan="7" class="heading"><?php echo lang('text_about');?> <small>(<?php echo count($about);?>)</small></td>
             </tr>
             <?php foreach($about as $product){?>
                 <tr>
