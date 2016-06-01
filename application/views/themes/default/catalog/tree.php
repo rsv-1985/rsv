@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php foreach ($part->available['cross'] as $product) { ?>
                                         <tr>
                                             <td>
-                                                <img onerror="imgError(this, 50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                                <img style="width: 50px;" onerror="imgError(this, 50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
                                                      title="<?php echo $part->Brand; ?>" >
                                             </td>
                                             <td>
