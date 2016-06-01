@@ -38,6 +38,7 @@ class Front_controller extends CI_Controller{
     public $footer_page;
     public $default_currency;
     public $is_login;
+    public $is_admin;
     public $success;
     public $error;
     public $currency_rates = [];
@@ -52,6 +53,7 @@ class Front_controller extends CI_Controller{
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();
         $this->is_login = $this->customer_model->is_login();
+        $this->is_admin = $this->User_model->is_login();
 
         if($this->session->flashdata('error')){
             $this->error = $this->session->flashdata('error');

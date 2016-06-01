@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <tbody>
         <?php if($products){?>
             <tr>
-                <td colspan="7" class="heading"><?php echo lang('text_exact');?></td>
+                <td colspan="7" class="heading"><?php echo lang('text_exact');?> <small>(<?php echo count($products);?>)</small></td>
             </tr>
             <?php foreach($products as $product){?>
                 <tr>
@@ -45,11 +45,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                     </td>
                 </tr>
+                <?php if($this->is_admin){?>
+                    <tr>
+                        <td></td>
+                        <td class="name"><?php echo $product['sup_name'];?></td>
+                        <td class="price">
+                            <?php echo $product['delivery_price'];?>
+                            <?php echo $product['cur_name'];?>
+                        </td>
+                        <td class="quan"><?php echo $product['quantity'];?></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <?php } ?>
             <?php } ?>
         <?php } ?>
         <?php if($cross){?>
             <tr>
-                <td colspan="7" class="heading"><?php echo lang('text_cross');?></td>
+                <td colspan="7" class="heading"><?php echo lang('text_cross');?> <small>(<?php echo count($products);?>)</small></td>
             </tr>
             <?php foreach($cross as $product){?>
                 <tr>
@@ -82,11 +96,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
                     </td>
                 </tr>
+                <?php if($this->is_admin){?>
+                    <tr>
+                        <td></td>
+                        <td class="name"><?php echo $product['sup_name'];?></td>
+                        <td class="price">
+                            <?php echo $product['delivery_price'];?>
+                            <?php echo $product['cur_name'];?>
+                        </td>
+                        <td class="quan"><?php echo $product['quantity'];?></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <?php } ?>
             <?php } ?>
         <?php } ?>
         <?php if($about){?>
             <tr>
-                <td colspan="7" class="heading"><?php echo lang('text_about');?></td>
+                <td colspan="7" class="heading"><?php echo lang('text_about');?> <small>(<?php echo count($products);?>)</small></td>
             </tr>
             <?php foreach($about as $product){?>
                 <tr>
@@ -120,6 +148,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                     </td>
                 </tr>
+                <?php if($this->is_admin){?>
+                    <tr>
+                        <td></td>
+                        <td class="name"><?php echo $product['sup_name'];?></td>
+                        <td class="price">
+                            <?php echo $product['delivery_price'];?>
+                            <?php echo $product['cur_name'];?>
+                        </td>
+                        <td class="quan"><?php echo $product['quantity'];?></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <?php } ?>
             <?php } ?>
         <?php } ?>
         </tbody>

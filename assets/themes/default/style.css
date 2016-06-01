@@ -26,6 +26,10 @@ body { font-family: 'Play', sans-serif;  font-size: 16px; font-weight: 400;}
 td{
     vertical-align: inherit !important;
 }
+img{
+    width: 100%;
+}
+
 .modal-lg {
     width: 80%;
 }
