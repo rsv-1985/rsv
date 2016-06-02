@@ -27,7 +27,7 @@ td{
     vertical-align: inherit !important;
 }
 img{
-    width: 100%;
+    width: auto;
 }
 
 .modal-lg {
