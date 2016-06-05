@@ -168,12 +168,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         var trees = [];
         <?php foreach ($trees as $tree){?>
         var p = {
-            'ID_tree': '<?php echo $tree->ID_tree;?>',
-            'ID_parent': '<?php echo $tree->ID_parent;?>',
-            'Name': '<?php echo $tree->Name;?>',
-            'Level': '<?php echo $tree->Level;?>',
-            'Path': '<?php echo $tree->Path;?>',
-            'Childs': '<?php echo $tree->Childs;?>'
+            'ID_tree': "<?php echo $tree->ID_tree;?>",
+            'ID_parent': "<?php echo $tree->ID_parent;?>",
+            'Name': "<?php echo $tree->Name;?>",
+            'Level': "<?php echo $tree->Level;?>",
+            'Path': "<?php echo $tree->Path;?>",
+            'Childs': "<?php echo $tree->Childs;?>"
         };
         trees.push(p);
         <?php } ?>
