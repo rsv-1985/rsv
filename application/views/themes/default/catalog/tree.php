@@ -172,7 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             'ID_parent': "<?php echo $tree->ID_parent;?>",
             'Name': "<?php echo $tree->Name;?>",
             'Level': "<?php echo $tree->Level;?>",
-            'Path': "<?php echo $tree->Path;?>",
+            'Path': '<?php echo $tree->Path;?>',
             'Childs': "<?php echo $tree->Childs;?>"
         };
         trees.push(p);
