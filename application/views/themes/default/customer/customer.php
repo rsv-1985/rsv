@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <tbody>
                                 <?php foreach($orders as $order){?>
                                     <tr>
-                                        <td><?php echo $order['id'];?></td>
+                                        <td><a target="_blank" href="/customer/orderinfo/<?php echo $order['id'];?>"><?php echo $order['id'];?></a></td>
                                         <td><b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b></td>
                                         <td><?php echo format_currency($order['total']);?></td>
                                     </tr>

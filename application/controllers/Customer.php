@@ -16,6 +16,7 @@ class Customer extends Front_controller
         $this->load->model('customergroup_model');
         $this->load->model('order_model');
         $this->load->model('orderstatus_model');
+        $this->load->model('order_product_model');
         $this->load->library('pagination');
     }
 
@@ -117,6 +118,21 @@ class Customer extends Front_controller
         if($this->is_login){
             redirect('/customer');
         }
+    }
+
+    public function orderinfo($id = false){
+        $data = [];
+        if(!$id){
+            show_404();
+        }
+
+        $data['order_info'] = $this->order_model->order_get($id);
+        if(!$data['order_info']){
+            show_404();
+        }
+        $data['order_products'] = $this->order_product_model->product_get($data['order_info']['id']);
+        
+        $this->load->view('customer/orderinfo', $data);
     }
 
     private function save_data($id = false){
