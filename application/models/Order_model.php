@@ -139,7 +139,9 @@ class Order_model extends Default_model{
         $this->db->join('payment_method p', 'p.id = o.payment_method_id');
         $this->db->join('order_status s', 's.id = o.status');
         $this->db->where('o.id',(int)$id);
-        $this->db->where('o.customer_id', $this->is_login);
+        if(!$this->is_admin){
+            $this->db->where('o.customer_id', $this->is_login);
+        }
         $query = $this->db->get();
         if($query->num_rows() > 0){
             return $query->row_array();
