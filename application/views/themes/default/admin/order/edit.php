@@ -223,6 +223,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </table>
                     <div class="pull-right">
                         <button class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit');?></button>
+                        <a target="_blank" class="btn btn-default btn-flat" href="/customer/orderinfo/<?php echo $order['id'];?>">Invoice</a>
                         <a class="btn btn-default btn-flat" href="/autoxadmin/order"><?php echo lang('button_close');?></a>
                     </div>
                 </div>
