@@ -10,36 +10,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Product_model extends Default_model{
     public $table = 'product';
     public $total_rows = 0;
+    public $currency_rates;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $currency = $this->currency_model->get_all();
+        foreach($currency as $cur){
+            $this->currency_rates[$cur['id']] = $cur;
+        }
+        unset($currency);
+    }
+
     public function product_delete($slug){
         $this->db->where('slug', $slug);
         $this->db->delete($this->table);
     }
 
-    public function product_count_all(){
-        if($this->input->get()){
-            if($this->input->get('sku')){
-                $this->db->where('sku', $this->input->get('sku',true));
-            }
-            if($this->input->get('brand')){
-                $this->db->where('brand', $this->input->get('brand',true));
-            }
-            if($this->input->get('name')){
-                $this->db->like('name', $this->input->get('name',true));
-            }
-            if($this->input->get('supplier_id')){
-                $this->db->where('supplier_id', $this->input->get('supplier_id',true));
-            }
-            if($this->input->get('status')){
-                $this->db->where('status', $this->input->get('status',true));
-            }
-            return $this->db->count_all_results($this->table);
-        }else{
-            return $this->db->count_all($this->table);
-        }
-    }
-
     public function admin_product_get_all($limit = false, $start = false){
-        
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
         if($this->input->get()){
             if($this->input->get('sku')){
                 $this->db->where('sku', $this->input->get('sku',true));
@@ -65,7 +54,8 @@ class Product_model extends Default_model{
         }
         
         $query = $this->db->get($this->table);
-        
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }

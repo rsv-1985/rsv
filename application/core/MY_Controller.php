@@ -41,7 +41,6 @@ class Front_controller extends CI_Controller{
     public $is_admin;
     public $success;
     public $error;
-    public $currency_rates = [];
     public $category = false;
     public $contacts;
 
@@ -61,13 +60,7 @@ class Front_controller extends CI_Controller{
         if($this->session->flashdata('success')){
             $this->success = $this->session->flashdata('success');
         }
-
-        $currency = $this->currency_model->get_all();
-        $currency_rates = [];
-        foreach($currency as $cur){
-           $this->currency_rates[$cur['id']] = $cur;
-        }
-        unset($currency);
+        
         $this->category = $this->category_model->category_get_all();
         $this->contacts = $this->settings_model->get_by_key('contact_settings');
     }

@@ -26,6 +26,9 @@ class Index extends Admin_controller{
         //Delete web cache
         $this->load->helper('file');
         delete_files('./application/cache/web/');
+        //Database optimeze
+        $this->load->dbutil();
+        $this->dbutil->optimize_database();
         $this->session->set_flashdata('success', lang('text_success_cache'));
         redirect('autoxadmin');
     }
