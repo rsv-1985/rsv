@@ -792,7 +792,7 @@ class CI_Output {
 		{
 			header('Pragma: public');
 			header('Cache-Control: max-age='.$max_age.', public');
-			//header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
+			header('Expires: '.gmdate('D, d M Y H:i:s', $expiration).' GMT');
 			header('Last-modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
 		}
 	}
