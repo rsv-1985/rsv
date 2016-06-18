@@ -47,7 +47,6 @@ class Front_controller extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        $this->output->set_header("Expires: " . gmdate("D, d M Y H:i:s", time() + 60*60) . " GMT");
         $this->default_currency = $this->currency_model->get_default();
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();
