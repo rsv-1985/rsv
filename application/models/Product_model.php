@@ -91,7 +91,6 @@ class Product_model extends Default_model{
             saleprice=VALUES(saleprice),
             quantity=VALUES(quantity),
             updated_at=VALUES(updated_at),
-            category_id=VALUES(category_id),
             status=1;';
             $this->db->query($sql);
         }
