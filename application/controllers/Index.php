@@ -35,7 +35,6 @@ class Index extends Front_controller {
         $data['carousel'] = $this->banner_model->get_carousel();
         $data['news'] = $this->news_model->get_all(10,false,['status' => true]);
         $data['novelty'] = $this->product_model->get_novelty();
-
         $data['top_sellers'] = $this->product_model->top_sellers();;
         $data['recently_viewed'] = false;
         $data['top_new'] = false;

@@ -154,7 +154,8 @@ class Ajax extends Front_controller{
                 'name'    => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]","",$product['name']),
                 'sku' => $product['sku'],
                 'brand' => $product['brand'],
-                'supplier_id' => (int)$product['supplier_id']
+                'supplier_id' => (int)$product['supplier_id'],
+                'is_stock' => (bool)$product['is_stock']
             ];
 
             if($this->cart->insert($data)){
@@ -172,78 +173,9 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function remove_cart(){
-        $json=[];
-        $rowid = $this->input->post('key', true);
-        $this->cart->remove($rowid);
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
+   
 
-    public function update_cart(){
-        $json=[];
-        $rowid = $this->input->post('key', true);
-        $quan = (int)$this->input->post('quan', true);
-        $data = [
-            'rowid' => $rowid,
-            'qty' => $quan
-        ];
-        $this->cart->update($data);
-        $cart = $this->cart->contents();
-        if(isset($cart[$rowid])){
-            $json['product_subtotal'] = format_currency($cart[$rowid]['subtotal']);
-        }
-        $json['subtotal'] = format_currency($this->cart->total());
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
-
-    public function total_cart(){
-        $json = [];
-        $delivery_price = 0;
-        $commissionpay = 0;
-        $total = $this->cart->total();
-
-        $json['delivery_description'] = '';
-        $delivery_id = (int)$this->input->post('delivery_id', true);
-        if($delivery_id){
-            $this->load->model('delivery_model');
-            $deliveryInfo = $this->delivery_model->get($delivery_id);
-            if($deliveryInfo['price'] > 0){
-                $delivery_price = $deliveryInfo['price'];
-            }
-            $json['delivery_description'] = $deliveryInfo['description'];
-        }
-
-        $json['payment_description'] = '';
-        $payment_id = (int)$this->input->post('payment_id', true);
-        if($payment_id){
-            $this->load->model('payment_model');
-            $paymentInfo = $this->payment_model->get($payment_id);
-            if($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0){
-
-                if($paymentInfo['comission'] > 0){
-                    $commissionpay = $paymentInfo['comission'] * ($total + $delivery_price) / 100;
-                }
-                if($paymentInfo['fix_cost'] > 0){
-                    $commissionpay = $commissionpay + $paymentInfo['fix_cost'];
-                }
-            }
-            $json['payment_description'] = $paymentInfo['description'];
-        }
-
-        $json['delivery_price'] = format_currency($delivery_price);
-        $json['commissionpay'] = format_currency($commissionpay);
-        $json['subtotal'] = format_currency($this->cart->total());
-        $json['total'] = format_currency($total + $delivery_price + $commissionpay);
-        $json['total_items'] = $this->cart->total_items();
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
+  
 
     public function get_tecdoc_info(){
         $json = [];

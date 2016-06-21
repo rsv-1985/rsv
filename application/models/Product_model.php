@@ -62,8 +62,11 @@ class Product_model extends Default_model{
         return false;
     }
     
-    public function update_bought($slug){
-        $this->db->where('slug', $slug);
+    public function update_bought($product){
+        $this->db->where('slug', $product['id']);
+        if($product['is_stock']){
+            $this->db->set('quantity', 'quantity - '.(int)$product['qty'], FALSE);
+        }
         $this->db->set('bought', 'bought + 1', FALSE);
         $this->db->update($this->table);
     }
@@ -539,6 +542,7 @@ class Product_model extends Default_model{
         $this->db->select('product.*,
         supplier.name as sup_name,
         supplier.description as sup_description,
+        supplier.stock as is_stock,
         currency.name as cur_name,
         currency.value as cur_value,
         currency.symbol_right as cur_symbol_right,

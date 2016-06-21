@@ -69,13 +69,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </tbody>
                             </table>
 
-                        <?php echo form_open();?>
+                        <?php echo form_open('',['id' => 'cart']);?>
                         <div class="cart-collaterals">
                             <div class="cross-sells">
                                 <h2><?php echo lang('text_customer_info');?></h2>
                                 <div class="form-group">
                                     <label><?php echo lang('text_delivery_method');?></label>
-                                    <select class="form-control" name="delivery_method" onchange="total();" required>
+                                    <select class="form-control" name="delivery_method" onchange="get_delivery();" required>
                                         <option></option>
                                         <?php foreach($delivery as $delivery){?>
                                             <option value="<?php echo $delivery['id'];?>" <?php echo set_select('delivery_method',$delivery['id'] );?>><?php echo $delivery['name'];?></option>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('text_payment_method');?></label>
-                                    <select class="form-control" name="payment_method" onchange="total();" required>
+                                    <select class="form-control" name="payment_method" onchange="get_payment();" required>
                                         <option></option>
                                         <?php foreach($payment as $payment){?>
                                             <option value="<?php echo $payment['id'];?>" <?php echo set_select('payment_method',$payment['id'] );?>><?php echo $payment['name'];?></option>
@@ -160,7 +160,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     function remove_cart(key, event){
         event.preventDefault();
         $.ajax({
-            url: '/ajax/remove_cart',
+            url: '/cart/remove_cart',
             method: 'POST',
             dataType: 'json',
             data: {key:key},
@@ -176,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         quan++;
         $("#quan"+key).val(quan);
         $.ajax({
-            url: '/ajax/update_cart',
+            url: '/cart/update_cart',
             method: 'POST',
             dataType: 'json',
             data: {key:key, quan:quan},
@@ -196,7 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         }
         $("#quan"+key).val(quan);
         $.ajax({
-            url: '/ajax/update_cart',
+            url: '/cart/update_cart',
             method: 'POST',
             dataType: 'json',
             data: {key:key, quan:quan},
@@ -221,14 +221,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         });
     }
 
-    function total(){
-        var delivery_id = $("[name=delivery_method] option:selected").val();
-        var payment_id = $("[name=payment_method] option:selected").val();
+    function get_delivery(){
         $.ajax({
-            url: '/ajax/total_cart',
+            url: '/cart/total_cart',
             method: 'POST',
             dataType: 'json',
-            data: {delivery_id: delivery_id, payment_id:payment_id},
+            data: $("#cart").serialize(),
+            success: function(json){
+                $(".total").html(json['total']);
+                $(".cart-amunt").html(json['total']);
+                $("#subtotal").html(json['subtotal']);
+                $("#shipping-cost").html(json['delivery_price']);
+                $("#delivery_description").html(json['delivery_description']);
+            }
+        });
+    }
+
+    function get_payment() {
+        $.ajax({
+            url: '/cart/total_cart',
+            method: 'POST',
+            dataType: 'json',
+            data: $("#cart").serialize(),
+            success: function(json){
+                $(".total").html(json['total']);
+                $(".cart-amunt").html(json['total']);
+                $("#subtotal").html(json['subtotal']);
+                $("#commission-pay").html(json['commissionpay']);
+                $(".product-count").html(json['total_items']);
+                $("#payment_description").html(json['payment_description']);
+            }
+        });
+    }
+
+    function total(){
+        $.ajax({
+            url: '/cart/total_cart',
+            method: 'POST',
+            dataType: 'json',
+            data: $("#cart").serialize(),
             success: function(json){
                 $(".total").html(json['total']);
                 $(".cart-amunt").html(json['total']);
@@ -237,7 +268,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 $("#commission-pay").html(json['commissionpay']);
                 $(".product-count").html(json['total_items']);
                 $("#delivery_description").html(json['delivery_description']);
-                $("#payment_description").html(json['payment_description']);
             }
         });
     }
