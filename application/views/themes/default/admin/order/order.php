@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_delivery_method');?></th>
                             <th><?php echo lang('text_payment_method');?></th>
                             <th><?php echo lang('text_total');?>/<?php echo lang('text_login');?></th>
-                            <th><?php echo lang('text_status');?></th>
+                            <th><?php echo lang('text_status');?>/<?php echo lang('text_paid');?></th>
                             <th><a style="display: none;" href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php echo form_open('/autoxadmin/order/index',['method' => 'GET']);?>
@@ -132,7 +132,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <b><?php echo $order['total'];?></b><br />
                                         <small><?php echo $order['login'];?></small>
                                     </td>
-                                    <td><b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b></td>
+                                    <td>
+                                        <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b>
+                                        <?php if($order['paid']){?>
+                                            <br/><?php echo lang('text_paid');?>
+                                        <?php } ?>
+                                    </td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <a href="/autoxadmin/order/delete/<?php echo $order['id'];?>" class="confirm"><?php echo lang('button_delete');?></a>

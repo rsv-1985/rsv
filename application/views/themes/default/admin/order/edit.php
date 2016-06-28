@@ -220,6 +220,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <th><?php echo lang('text_paid');?></th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="checkbox" name="paid" <?php echo set_checkbox('paid',true,(bool)$order['paid']);?>/>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                     <div class="pull-right">
                         <button class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit');?></button>

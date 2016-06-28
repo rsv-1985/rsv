@@ -122,6 +122,7 @@ class Order extends Admin_controller
                 $save['status'] = (int)$this->input->post('status', true);
                 $save['commission'] = (float)$commissionpay;
                 $save['delivery_price'] = (float)$delivery_price;
+                $save['paid'] = (bool)$this->input->post('paid', true);
                 $order_id = $this->order_model->insert($save, $id);
                 if ($order_id) {
                     $products = [];
