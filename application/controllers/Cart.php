@@ -94,6 +94,14 @@ class Cart extends Front_controller
                         $this->sender->sms($save['telephone'], $text);
                     }
                     $this->cart->destroy();
+                    
+                    //Если это api платежной системы передаем ей управление
+                    if(!empty($cart_data['paymentInfo']['api'])){
+                        $this->load->add_package_path(APPPATH.'third_party/payment/'.$cart_data['paymentInfo']['api'].'/', FALSE);
+                        $this->load->library($cart_data['paymentInfo']['api']);
+                        $this->{$cart_data['paymentInfo']['api']}->get_form($order_id);
+                    }
+                    
                     $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));
                     redirect('/');
                 }
@@ -196,5 +204,31 @@ class Cart extends Front_controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
+    }
+
+    public function success($order_id = false){
+        if(!$order_id){
+            show_404();
+        }
+
+        $orderInfo = $this->order_model->get($order_id);
+        if(!$orderInfo){
+            show_404();
+        }
+
+        $paymentInfo = $paymentInfo = $this->payment_model->get($orderInfo['payment_method_id']);
+        
+        if(!$paymentInfo){
+            show_404();
+        }
+
+        //Если это api платежной системы передаем ей управление
+        if(!empty($paymentInfo['api'])){
+            $this->load->add_package_path(APPPATH.'third_party/payment/'.$paymentInfo['api'].'/', FALSE);
+            $this->load->library($paymentInfo['api']);
+            $this->{$paymentInfo['api']}->success($orderInfo);
+        }
+        
+        
     }
 }
