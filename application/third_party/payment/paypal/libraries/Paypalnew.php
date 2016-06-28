@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Paypal
+class Paypalnew
 {
     private $CI;
 
