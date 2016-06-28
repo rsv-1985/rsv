@@ -8,12 +8,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Paypal
 {
-
     private $CI;
 
     public function __construct()
     {
         $this->CI = &get_instance();
+        
         $this->CI->load->model('order_model');
     }
 
