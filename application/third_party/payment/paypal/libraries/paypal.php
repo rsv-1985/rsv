@@ -13,7 +13,7 @@ class Paypal
     public function __construct()
     {
         $this->CI = &get_instance();
-        
+
         $this->CI->load->model('order_model');
     }
 
