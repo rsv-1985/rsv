@@ -142,8 +142,10 @@ class Ajax extends Front_controller{
 
     public function add_cart(){
         $json = [];
+        $json['error'] = lang('text_error_cart');
+
         $slug = $this->input->post('slug', true);
-        $quantity = (int)$this->input->post('quantity', true);
+        $quantity = (int)$this->input->post('quantity');
         $this->load->model('product_model');
         $product = $this->product_model->get_by_slug($slug, false);
         if($product){
@@ -158,16 +160,21 @@ class Ajax extends Front_controller{
                 'is_stock' => (bool)$product['is_stock']
             ];
 
-            if($this->cart->insert($data)){
-                $json['success'] = lang('text_success_cart');
-                $json['product_count'] = $this->cart->total_items();
-                $json['cart_amunt'] = format_currency($this->cart->total());
-            }else{
-                $json['error'] = lang('text_error_cart');
+            if($product['is_stock']){
+                $quan_in_cart = key_exists(md5($slug),$this->cart->contents()) ? $this->cart->contents()[md5($slug)]['qty'] : 0;
+                if($product['quantity'] < $quantity + $quan_in_cart){
+                    $json['error'] = lang('text_error_qty_cart_add');
+                    unset($data);
+                }
             }
-        }else{
-            $json['error'] = lang('text_error_cart');
         }
+
+        if(isset($data) && $this->cart->insert($data)){
+            $json['success'] = lang('text_success_cart');
+            $json['product_count'] = $this->cart->total_items();
+            $json['cart_amunt'] = format_currency($this->cart->total());
+        }
+
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));

@@ -53,3 +53,4 @@ $lang['text_newsletter'] = 'Будь в курсе наших акций и но
 $lang['button_newsletter'] = 'Подписаться';
 $lang['text_heading_newsletter'] = 'ПОДПИСКА';
 $lang['text_in_stock'] = 'На складе';
+$lang['text_error_qty_cart_add'] = 'Заказываемого количества нет в наличии';
