@@ -26,7 +26,9 @@ class DPDFrance
 		$mypudo			= file_get_contents('http://mypudo.pickup-services.com/mypudo/mypudo.asmx/GetPudoList?carrier=EXA&key=deecd7bc81b71fcc0e292b53e826c48f&address='.urlencode($address).'&zipCode='.urlencode($zipcode).'&city='.urlencode($city).'&countrycode=fr&requestID=0&date_from='.urlencode($date).'&max_pudo_number=&max_distance_search=&weight=&category=&holiday_tolerant=');
 		$xml 			= new SimpleXMLElement($mypudo);
 		$relais_items 	= $xml->PUDO_ITEMS;
-
+        if(!isset($relais_items->PUDO_ITEM)){
+            return false;
+        }
 		// Loop through each pudo
 		foreach ($relais_items->PUDO_ITEM as $item)
 		{

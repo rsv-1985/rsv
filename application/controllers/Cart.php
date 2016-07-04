@@ -38,6 +38,15 @@ class Cart extends Front_controller
             $this->form_validation->set_rules('email', 'email', 'valid_email');
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
             if ($this->form_validation->run() !== false){
+                //Получаем данные способа доставки, если это апи получаем текст для коментария
+                $additional_comment = '';
+                $deliveryInfo = $this->delivery_model->get((int)$this->input->post('delivery_method'));
+                if($deliveryInfo && !empty($deliveryInfo['api'])){
+                    $this->load->add_package_path(APPPATH.'third_party/delivery/'.$deliveryInfo['api'].'/', FALSE);
+                    $this->load->library($deliveryInfo['api']);
+                    $additional_comment = xss_clean($this->{$deliveryInfo['api']}->get_comment());
+                    $this->load->remove_package_path();
+                }
                 $order_status = $this->orderstatus_model->get_default();
                 $cart_data = $this->total_cart();
                 $save = [];
@@ -46,9 +55,9 @@ class Cart extends Front_controller
                 $save['last_name'] = $this->input->post('last_name', true);
                 $save['email'] = $this->input->post('email', true);
                 $save['telephone'] = $this->input->post('telephone', true);
-                $save['delivery_method_id'] = $this->input->post('delivery_method', true);
-                $save['payment_method_id'] = $this->input->post('payment_method', true);
-                $save['comments'] = $this->input->post('comment', true);
+                $save['delivery_method_id'] = (int)$this->input->post('delivery_method');
+                $save['payment_method_id'] = (int)$this->input->post('payment_method');
+                $save['comments'] = $this->input->post('comment', true)."\n".$additional_comment;
                 $save['total'] = (float)$cart_data['total'];
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
