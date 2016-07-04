@@ -62,7 +62,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-right">
-                    Powered by <a href="http://cms.autoxcatalog.com/">cms.autoxcatalog.com <img onerror="imgError(this);" src="/assets/themes/default/img/autox.png" style="width: 67px;"></a>
+                    Powered by <a href="http://cms.autoxcatalog.com/">cms Autox</a>
+                    Protected by <a href="http://scamdb.info/">Scamdb</a>
                 </div>
             </div>
         </div>
