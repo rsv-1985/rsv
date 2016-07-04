@@ -125,7 +125,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $order['first_name'];?></td>
                                     <td><?php echo $order['last_name'];?></td>
                                     <td><?php echo $order['email'];?></td>
-                                    <td><?php echo $order['telephone'];?></td>
+                                    <td>
+                                        <?php echo $order['telephone'];?><br/>
+                                        <?php
+                                            $scam_check = file_get_contents('http://scamdb.info/api/find?search='.$order['telephone']);
+                                            if($scam_check != 'false'){
+                                                $result = json_decode($scam_check);
+                                                echo '<small><a target="_blank" style="color:red" href="http://scamdb.info/fraud/'.$result[0]->id.'">scamdb.info</a></small>';
+                                            }
+                                        ?>
+                                    </td>
                                     <td><?php echo $delivery[$order['delivery_method_id']]['name'];?></td>
                                     <td><?php echo $payment[$order['payment_method_id']]['name'];?></td>
                                     <td>

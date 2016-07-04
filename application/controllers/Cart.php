@@ -130,7 +130,6 @@ class Cart extends Front_controller
                 $this->load->library($deliveryInfo['api']);
                 $form_data = $this->{$deliveryInfo['api']}->get_form();
                 $json['delivery_description'] = $this->load->view('form', $form_data, true);
-                
                 $delivery_price = $this->{$deliveryInfo['api']}->delivery_price;
                 $this->load->remove_package_path();
             }else{

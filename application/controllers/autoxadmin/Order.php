@@ -38,6 +38,7 @@ class Order extends Admin_controller
         $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
+        
         $this->load->view('admin/header');
         $this->load->view('admin/order/order', $data);
         $this->load->view('admin/footer');
