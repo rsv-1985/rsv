@@ -7,6 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('class-dpdfrance.php');
 class Dpd{
+    
     public $CI;
     public $delivery_price;
     public function __construct()
