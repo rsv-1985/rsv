@@ -42,6 +42,7 @@ class Cart extends Front_controller
                 $additional_comment = '';
                 $deliveryInfo = $this->delivery_model->get((int)$this->input->post('delivery_method'));
                 if($deliveryInfo && !empty($deliveryInfo['api'])){
+                    $this->load->helper('security');
                     $this->load->add_package_path(APPPATH.'third_party/delivery/'.$deliveryInfo['api'].'/', FALSE);
                     $this->load->library($deliveryInfo['api']);
                     $additional_comment = xss_clean($this->{$deliveryInfo['api']}->get_comment());
