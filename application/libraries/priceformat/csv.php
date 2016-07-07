@@ -9,11 +9,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Csv{
     public $CI;
     public $name = 'Csv format';
+
     public function __construct()
     {
         $this->CI = &get_instance();
     }
-    
+
     public function get_data($where){
         $this->CI->load->dbutil();
         $limit = 25000;
