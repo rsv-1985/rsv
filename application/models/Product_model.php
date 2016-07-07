@@ -384,7 +384,7 @@ class Product_model extends Default_model{
     }
 
     //Получаем товары для категории
-    public function product_get_all($limit = false, $start = false, $where = false){
+    public function product_get_all($limit = false, $start = false, $where = false, $order = false){
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
         $this->db->from($this->table);
         if($where){
@@ -396,6 +396,12 @@ class Product_model extends Default_model{
             $this->db->limit((int)$limit, (int)$start);
         }elseif($limit){
             $this->db->limit((int)$limit);
+        }
+
+        if($order){
+            foreach ($order as $field => $value){
+                $this->db->order_by($field, $value);
+            }
         }
 
         $query = $this->db->get();
