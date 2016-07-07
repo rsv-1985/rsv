@@ -46,9 +46,12 @@ class Price extends Admin_controller
         if($formats){
             foreach ($formats as $format){
                 $library_name = explode('.',$format)[0];
-                $this->load->library('priceformat/'.$library_name);
-                $obj = new $library_name;
-                $data['formats'][$library_name]=$obj->name;
+                $library_ext = @explode('.',$format)[1];
+                if($library_ext == 'php'){
+                    $this->load->library('priceformat/'.$library_name);
+                    $obj = new $library_name;
+                    $data['formats'][$library_name]=$obj->name;
+                }
             }
         }
         $this->load->view('admin/header');
