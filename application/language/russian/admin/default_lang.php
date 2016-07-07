@@ -33,6 +33,7 @@ $lang['text_instruments'] = 'Инструменты';
 $lang['text_instruments_synonym'] = 'Синонимы брендов';
 $lang['text_instruments_price'] = 'Загрузка прайс листов';
 $lang['text_instruments_cross'] = 'Загрузка кросс номеров';
+$lang['text_instruments_price'] = 'Экспорт прайс листов';
 $lang['text_settings'] = 'Настройки';
 $lang['text_settings_main'] = 'Настройки магазина';
 $lang['text_settings_currency'] = 'Валюта';
