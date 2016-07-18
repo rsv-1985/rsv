@@ -19,6 +19,7 @@ class Cart extends Front_controller
         $this->load->model('order_model');
         $this->load->model('order_product_model');
         $this->load->model('orderstatus_model');
+        $this->load->model('supplier_model');
     }
 
     public function index(){
@@ -26,6 +27,7 @@ class Cart extends Front_controller
         $this->title = lang('text_heading');
         $data['delivery'] = $this->delivery_model->get_all(false, false, false, ['sort' => 'ASC']);
         $data['payment'] = $this->payment_model->get_all(false, false, false, ['sort' => 'ASC']);
+        $data['suppliers'] = $this->supplier_model->supplier_get_all();
         if($this->is_login){
             $data['customer'] = $this->customer_model->get($this->is_login);
         }
@@ -213,6 +215,52 @@ class Cart extends Front_controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
+    }
+    
+    public function extended_cart(){
+        if($this->input->post() && $this->is_admin){
+            $this->form_validation->set_rules('sku', lang('text_extended_code'), 'required');
+            $this->form_validation->set_rules('brand', lang('text_extended_brand'), 'required');
+            $this->form_validation->set_rules('price', lang('text_extended_price'), 'required');
+            $this->form_validation->set_rules('supplier_id', lang('text_extended_supplier_id'), 'required');
+            if($this->form_validation->run() == true){
+                $save = [];
+                $save['sku'] = $this->product_model->clear_sku($this->input->post('sku', true));
+                $save['brand'] = $this->product_model->clear_brand($this->input->post('brand', true));
+                $save['name'] = $this->input->post('name', true);
+                $save['price'] = (float)$this->input->post('price');
+                $save['supplier_id'] = (int)$this->input->post('supplier_id');
+                $save['slug'] = url_title($save['name'].' '.$save['sku'].' '.$save['brand'].' '.$save['supplier_id'], 'dash', true);
+                $save['quantity'] = 1;
+                $save['excerpt'] = '';
+                $save['currency_id'] = $this->default_currency['id'];
+                $save['delivery_price'] = $save['price'];
+                $save['saleprice'] = 0;
+
+                $this->product_model->insert_on_duplicate_key([$save]);
+
+                $product = $this->product_model->get_by_slug($save['slug'], false);
+                if($product){
+                    $data = [
+                        'id'      => $product['slug'],
+                        'qty'     => (int)1,
+                        'price'   => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
+                        'name'    => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]","",$product['name']),
+                        'sku' => $product['sku'],
+                        'brand' => $product['brand'],
+                        'supplier_id' => (int)$product['supplier_id'],
+                        'is_stock' => (bool)$product['is_stock']
+                    ];
+
+                    $this->cart->insert($data);
+                    redirect('cart');
+                }
+
+            }else{
+                $this->session->set_flashdata('error', validation_errors());
+                redirect('cart');
+            }
+        }
     }
 
     public function success($order_id = false){

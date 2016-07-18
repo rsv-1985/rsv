@@ -21,6 +21,7 @@ class Product_model extends Default_model{
         }
         unset($currency);
     }
+    
 
     public function product_delete($slug){
         $this->db->where('slug', $slug);
