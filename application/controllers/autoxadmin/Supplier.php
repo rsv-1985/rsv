@@ -118,10 +118,11 @@ class supplier extends Admin_controller
         $supplier_id = $this->supplier_model->insert($save, $id);
         if ($supplier_id) {
             $pricing = $this->input->post('pricing');
+            //Удаляем ценобразование
+            $this->db->where('supplier_id', (int)$supplier_id)->delete('pricing');
             if (!empty($pricing)) {
-                $this->db->where('supplier_id', (int)$supplier_id)->delete('pricing');
                 foreach ($this->input->post('pricing', true) as $pricing) {
-                    if (!empty($pricing['price_from']) && !empty($pricing['price_to']) && !empty($pricing['value'])) {
+                    if ($pricing['price_from'] >= 0 && $pricing['price_to'] > 0 && $pricing['value'] > 0) {
                         $save = [];
                         $save['supplier_id'] = $supplier_id;
                         $save['price_from'] = (float)$pricing['price_from'];
