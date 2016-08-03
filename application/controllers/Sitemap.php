@@ -33,7 +33,7 @@ class Sitemap extends Front_controller{
             $url_page = $this->page_model->get_sitemap();
         }
 
-        $url_product = $this->product_model->get_sitemap(50000, $this->uri->segment(3));
+        $url_product = $this->product_model->get_sitemap(49000, $this->uri->segment(3));
         if($url_product){
             $urls = array_merge($url_page, $url_news, $url_product);
             $pagin = $this->uri->segment(3) + 50000;
