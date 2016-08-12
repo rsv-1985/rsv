@@ -47,13 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div><!-- /.col -->
             <div class="col-sm-4 invoice-col">
                 <div class="form-group">
-                    <label><?php echo lang('text_telephone');?> <?php
-                        $scam_check = file_get_contents('http://scamdb.info/api/find?search='.$order['telephone']);
-                        if($scam_check != 'false'){
-                            $result = json_decode($scam_check);
-                            echo '<small><a target="_blank" style="color:red" href="http://scamdb.info/fraud/'.$result[0]->id.'">scamdb.info</a></small>';
-                        }
-                        ?></label>
+                    <label><?php echo lang('text_telephone');?></label>
                     <input type="text" name="telephone" value="<?php echo set_value('telephone', $order['telephone']);?>" class="form-control">
 
                 </div>
