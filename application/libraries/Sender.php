@@ -38,9 +38,12 @@ class Sender{
     }
 
     function sms($phone,$text){
-        $login = $this->CI->config->item('smsc_login');
-        $password = $this->CI->config->item('smsc_password');
-        $sender = $this->CI->config->item('smsc_sender');
+        $settings = $this->CI->settings_model->get_by_key('sms');
+
+        $login = @$settings['login'] ? $settings['login'] : $this->CI->config->item('smsc_login');
+        $password = @$settings['password'] ? $settings['password'] : $this->CI->config->item('smsc_password');
+        $sender = @$settings['sender'] ? $settings['sender'] : $this->CI->config->item('smsc_sender');
+
         if($login && $password && $sender){
             $client = new SoapClient('http://smsc.ua/sys/soap.php?wsdl');
             $res = $client->send_sms(array(

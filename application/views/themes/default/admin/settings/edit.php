@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <li class="active"><a href="#main" data-toggle="tab"><?php echo lang('text_tab_main');?></a></li>
                     <li><a href="#seo" data-toggle="tab"><?php echo lang('text_tab_seo');?></a></li>
                     <li><a href="#contact" data-toggle="tab"><?php echo lang('text_tab_contact');?></a></li>
+                    <li><a href="#additional" data-toggle="tab"><?php echo lang('text_tab_additional');?></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="main">
@@ -308,6 +309,40 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                         </div>
                     </div><!-- /.tab-pane -->
+                    <div class="tab-pane" id="additional">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            SMS
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Login</label>
+                                                <input class="form-control" type="text" name="settings[sms][login]" value="<?php echo set_value('settings[sms][login]', @$settings['sms']['login']);?>" placeholder="login">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input class="form-control" type="text" name="settings[sms][password]" value="<?php echo set_value('settings[sms][password]', @$settings['sms']['password']);?>" placeholder="password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Sender ID</label>
+                                                <input class="form-control" type="text" name="settings[sms][sender]" value="<?php echo set_value('settings[sms][sender]', @$settings['sms']['sender']);?>" placeholder="sender">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo lang('text_sms_description');?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div><!-- /.tab-content -->
             </div><!-- nav-tabs-custom -->
             <div class="box">
