@@ -6,19 +6,31 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h1><?php echo $h1;?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
-    <div class="row">
-
+    <div class="row-fluid">
         <div class="col-md-12">
-
-            <h1><?php echo $h1; ?></h1>
-
             <ol class="breadcrumb">
                 <?php foreach ($breadcrumb as $breadcrumb) { ?>
                     <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['title']; ?></a></li>
                 <?php } ?>
             </ol>
-            <table class="table">
+            <table class="table table-responsive">
+                <tr>
+                    <th>Модель</th>
+                    <th>Год выпуска</th>
+                    <th>Год снятия с производства</th>
+                </tr>
                 <?php foreach ($models_type as $models_type) { ?>
                     <tr>
                         <td>

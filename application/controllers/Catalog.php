@@ -49,8 +49,9 @@ class Catalog extends Front_controller
                     ];
                 }
             }
+            $this->output->cache(131400);
         }
-        $this->output->cache(131400);
+        
         $this->load->view('header');
         $this->load->view('catalog/index', $data);
         $this->load->view('footer');
@@ -91,7 +92,11 @@ class Catalog extends Front_controller
                 DateStart, 'date_end' => $model_type->DateEnd, 'slug' => url_title($model_type->
                 Name). '_' . $model_type->ID_mod];
         }
-        $this->output->cache(131400);
+        
+        if($data['models_type']){
+            $this->output->cache(131400);
+        }
+        
         $this->load->view('header');
         $this->load->view('catalog/model', $data);
         $this->load->view('footer');
@@ -154,7 +159,10 @@ class Catalog extends Front_controller
             'Description' => $type->Description, 
             'slug' => url_title($type->Name). '_' . $type->ID_typ];
         }
-        $this->output->cache(131400);
+        if($data['typs']){
+            $this->output->cache(131400);
+        }
+
         $this->load->view('header');
         $this->load->view('catalog/typ', $data);
         $this->load->view('footer');
@@ -170,9 +178,28 @@ class Catalog extends Front_controller
         }
 
         $data = [];
-        $model_info = $this->tecdoc->getModel($ID_mfa, $ID_mod);
-        $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
-        $typ_info = $this->tecdoc->getType($ID_mod, $ID_typ);
+        $model_info = $this->cache->file->get('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod);
+        if(!$model_info){
+            $model_info = $this->tecdoc->getModel($ID_mfa, $ID_mod);
+            if($model_info){
+                $this->cache->file->save('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod,$model_info,604800);
+            }
+        }
+        $manufacturer_info = $this->cache->file->get('manufacturer_info_id_mfa_'.$ID_mfa);
+        if(!$manufacturer_info){
+            $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
+            if($manufacturer_info){
+                $this->cache->file->save('manufacturer_info_id_mfa_'.$ID_mfa,$manufacturer_info,604800);
+            }
+        }
+        $typ_info = $this->cache->file->get('typ_info_id_mod_'.$ID_mod.'_id_typ_'.$ID_typ);
+        if(!$typ_info){
+            $typ_info = $this->tecdoc->getType($ID_mod, $ID_typ);
+            if($typ_info){
+                $this->cache->file->save('typ_info_id_mod_'.$ID_mod.'_id_typ_'.$ID_typ,$typ_info,604800);
+            }
+        }
+
 
         $settings = $this->settings_model->get_by_key('seo_tecdoc_type');
 
@@ -204,7 +231,14 @@ class Catalog extends Front_controller
         $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod.'/'.url_title($typ_info[0]->Name).'_'.$typ_info[0]->ID_typ, 'title' => $typ_info[0]->Name];
 
         if($ID_tree != 10001){
-            $tree_info = $this->tecdoc->getTreeNode($ID_tree);
+            $tree_info = $this->cache->file->get('tree_info_id_tree_'.$ID_tree);
+            if(!$tree_info){
+                $tree_info = $this->tecdoc->getTreeNode($ID_tree);
+                if($tree_info){
+                    $this->cache->file->save('tree_info_id_tree_'.$ID_tree,$tree_info,604800);
+                }
+            }
+
 
             $data['breadcrumb'][] = ['href' => false, 'title' => $tree_info[0]->Name];
             $settings = $this->settings_model->get_by_key('seo_tecdoc_tree');

@@ -6,12 +6,20 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
-
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h1><?php echo $h1;?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
-    <div class="row">
+    <div class="row-fluid">
         <div class="col-md-12">
-            <h1><?php echo $h1; ?></h1>
             <ol class="breadcrumb">
                 <?php foreach ($breadcrumb as $b) { ?>
                     <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
@@ -33,20 +41,28 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </li>
                             <?php } ?>
                         <?php } ?>
-
                     </ul>
                 <?php } ?>
             </div>
             <div class="col-md-8">
                 <?php if (isset($parts)) { ?>
-                    <table class="table">
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>Изображение</th>
+                            <th>Артикул</th>
+                            <th>Производитель</th>
+                            <th>Наименование</th>
+                            <th>Доставка</th>
+                            <th>Цена</th>
+                            <th></th>
+                        </tr>
                         <?php foreach ($parts as $part) { ?>
                             <?php if ($part->available['products'] || $part->available['cross']) { ?>
                                 <?php if ($part->available['products']) { ?>
                                     <?php foreach ($part->available['products'] as $product) { ?>
                                         <tr>
                                             <td>
-                                                <img style="width: 50px;" onerror="imgError(this,50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                                <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
                                                      title="<?php echo $part->Brand; ?>" >
                                             </td>
                                             <td>
