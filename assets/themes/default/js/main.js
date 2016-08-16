@@ -83,6 +83,16 @@ jQuery(document).ready(function($){
     $('body').scrollspy({ 
         target: '.navbar-collapse',
         offset: 95
-    })      
+    })   
+
+	//PodMenu_mob
+	if($(window).width()<767){
+		$('.mainmenu-area ul.navbar-nav li > ul').parent().find($('a')).after('<i class="glyphicon glyphicon-chevron-down"></i>');
+		
+		$('.nav>li > a + i').click(function (){
+			$(this).parent().find($('ul')).toggleClass('pod_menu_mob');
+		});
+	}
+	
 });
 

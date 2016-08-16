@@ -125,10 +125,11 @@ class Page extends Admin_controller
             $save['updated_at'] = date('Y-m-d H:i:s');
         }
         $save['link'] = $this->input->post('link', true);
-        $save['new_window'] = (bool)$this->input->post('new_window', true);
-        $save['show_footer'] = (bool)$this->input->post('show_footer', true);
-        $save['sort'] = (int)$this->input->post('sort', true);
-        $save['status'] = (bool)$this->input->post('status', true);
+        $save['new_window'] = (bool)$this->input->post('new_window');
+        $save['show_footer'] = (bool)$this->input->post('show_footer');
+        $save['show_for_user'] = (bool)$this->input->post('show_for_user');
+        $save['sort'] = (int)$this->input->post('sort');
+        $save['status'] = (bool)$this->input->post('status');
 
         $id = $this->page_model->insert($save, $id);
         if($id){

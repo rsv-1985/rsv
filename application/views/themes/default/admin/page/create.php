@@ -90,6 +90,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php echo lang('text_show_footer');?>
                             </label>
                             <label>
+                                <input type="checkbox" name="show_for_user" value="1" <?php echo set_checkbox('show_for_user', 1);?>>
+                                <?php echo lang('text_show_for_user');?>
+                            </label>
+                            <label>
                                 <input type="checkbox" name="status" value="1" <?php echo set_checkbox('status', 1, true);?>>
                                 <?php echo lang('text_status');?>
                             </label>

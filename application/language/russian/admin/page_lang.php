@@ -22,5 +22,6 @@ $lang['text_new_window'] = 'В новом окне';
 $lang['text_created_at'] = 'Создано';
 $lang['text_updated_at'] = 'Обновлено';
 $lang['text_show_footer'] = 'Отображать в footer';
+$lang['text_show_for_user'] = 'Отображать авторизованным пользователям';
 $lang['text_status'] = 'Активна';
 $lang['text_sort'] = 'Сортировка';

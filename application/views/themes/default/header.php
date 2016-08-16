@@ -29,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <link rel="stylesheet" href="<?php echo $style;?>">
         <?php } ?>
     <?php } ?>
+	
 </head>
 <body>
 <div class="header-area">
@@ -122,7 +123,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <li><a href="/"><?php echo lang('text_home');?></a></li>
                     <?php if($this->header_page){?>
                         <?php foreach($this->header_page as $hpage){?>
-                            <li><a target="<?php echo $hpage['target'];?>" href="<?php echo $hpage['href'];?>" title="<?php echo $hpage['title'];?>"><?php echo $hpage['menu_title'];?></a></li>
+                            <?php if(!$this->is_login && $hpage['show_for_user']){continue;}?>
+                            <li>
+                                <a target="<?php echo $hpage['target'];?>" href="<?php echo $hpage['href'];?>" title="<?php echo $hpage['title'];?>"><?php echo $hpage['menu_title'];?></a>
+                                <?php if($hpage['children']){?>
+                                    <ul>
+                                        <?php foreach ($hpage['children'] as $child){?>
+                                            <?php if(!$this->is_login && $child['show_for_user']){continue;}?>
+                                            <li>
+                                                <a target="<?php echo $child['target'];?>" href="<?php echo $child['href'];?>" title="<?php echo $child['title'];?>"><?php echo $child['menu_title'];?></a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                <?php } ?>
+                            </li>
                         <?php } ?>
                     <?php } ?>
                 </ul>

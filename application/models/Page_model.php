@@ -9,9 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Page_model extends Default_model{
     public $table = 'page';
 
-    public function get_header_page(){
+    public function get_header_page($parent_id = 0){
         $this->db->where('status',true);
-        $this->db->where('parent_id', 0);
+        $this->db->where('parent_id', (int)$parent_id);
         $this->db->order_by('sort', 'ASC');
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
@@ -21,7 +21,9 @@ class Page_model extends Default_model{
                     'href' => !empty($item['link']) ? $item['link'] : '/page/'.$item['slug'],
                     'target' => $item['new_window'] ? '_blank' : '_self',
                     'title' => strip_tags($item['name']),
-                    'menu_title' => strip_tags($item['menu_title'])
+                    'menu_title' => strip_tags($item['menu_title']),
+                    'show_for_user' => $item['show_for_user'],
+                    'children' => $this->get_header_page($item['id'])
                 ];
             }
             return $return;

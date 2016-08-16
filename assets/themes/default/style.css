@@ -233,10 +233,54 @@ z-index: 999;}
     padding: 20px;
 }
 
-.mainmenu-area ul.navbar-nav li:hover a, .mainmenu-area ul.navbar-nav li.active a {background: #5A88CA; color:#FFF;}
+.mainmenu-area ul.navbar-nav li > ul{
+	position: absolute;
+	z-index: 2;
+}
+
+.mainmenu-area ul.navbar-nav > li:hover > a, .mainmenu-area ul.navbar-nav > li.active > a {background: #5A88CA; color:#FFF;}
 .mainmenu-area .nav > li > a:focus {color: #FFF;}
 
 .slider-area { width:80%; position:relative; margin:0 auto; padding:5px;}
+
+.mainmenu-area ul.navbar-nav li > ul{
+		display: none;
+		position: absolute;
+		z-index: 2;
+		background: #fbfbfb;
+	}
+	.mainmenu-area ul.navbar-nav li:hover > ul{
+		display: block;
+	}
+	.mainmenu-area ul.navbar-nav li > ul  > li > a{
+		white-space: nowrap;
+		padding: 0;
+		padding: 10px 19px;
+		display: block;
+	}
+	.mainmenu-area ul.navbar-nav li > ul  > li > a:hover{
+		background: #5A88CA;
+		color: white;
+		text-decoration: none;
+	}
+	.mainmenu-area ul.navbar-nav li > ul > li {
+		padding: 0;
+	}
+	.mainmenu-area ul.navbar-nav li > ul > li > a + i{
+		display: none;
+	}
+	.nav>li > a + i {
+		display: none;
+		position: absolute;
+		right: 20px;
+		top: 24px;
+		color: white;
+	}
+	.pod_menu_mob{
+		position: relative !important;
+		display: block !important;
+		width: 100%;
+	}
 /*-------------------------
 [9. Block slider]
 ---------------------------*/
@@ -1306,3 +1350,15 @@ li.list-group-item.active a {
     max-height: 300px;
     overflow: auto;
 }
+
+@media (max-width: 767px){
+		.mainmenu-area ul.navbar-nav li:hover > ul{
+			display: none;
+		}
+		.nav>li > a + i {
+			display: block;
+			width: 30px;
+			height: 20px;
+			text-align: center;
+		}
+	}
