@@ -40,9 +40,13 @@ class Catalog extends Front_controller
             $data['manufacturers'] = [];
             foreach ($manufacturers as $item) {
                 if (file_exists('./uploads/model/' . $item->Name . '.png')) {
-                    $data['manufacturers'][] = ['slug' => url_title($item->Name). '_' . $item->
-                        ID_mfa, 'ID_mfa' => $item->ID_mfa, 'name' => $item->Name, 'logo' => strlen($item->
-                        Logo) > 0 ? $item->Logo : '/uploads/model/' . $item->Name . '.png', ];
+                    $data['manufacturers'][] = [
+                        'slug' => url_title($item->Name). '_' . $item->
+                        ID_mfa, 'ID_mfa' => $item->ID_mfa,
+                        'name' => $item->Name,
+                        'logo' => strlen($item->
+                        Logo) > 0 ? $item->Logo : '/uploads/model/' . $item->Name . '.png'
+                    ];
                 }
             }
         }
