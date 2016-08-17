@@ -34,7 +34,7 @@ class Image extends CI_Controller
                 $ext = end($ext);
 
                 file_put_contents('./uploads/resise.'.$ext,$contents);
-                
+
                 if(!getimagesize('./uploads/resise.'.$ext)){
                     $this->resize();
                     die();
@@ -52,7 +52,7 @@ class Image extends CI_Controller
     private function resize($file = false){
 
 
-        if(!$file || !file_exists('.'.$file)){
+        if(!$file || !$this->fileExists('.'.$file)){
             $file = theme_url().'img/no_image.png';
         }
 
@@ -71,5 +71,12 @@ class Image extends CI_Controller
         $this->load->library('image_lib', $config);
 
         $this->image_lib->resize();
+    }
+
+    private function fileExists($path){
+        if(is_dir($path) || !file_exists($path)){
+            return false;
+        }
+        return true;
     }
 }
