@@ -7,7 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <?php if ($this->category) { ?>
-    <div class="panel panel-default">
+    <div class="panel">
         <div class="panel-heading">
             <?php echo lang('text_category'); ?>
             <i class="glyphicon glyphicon-th-list category pull-right hidden-lg"></i>

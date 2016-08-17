@@ -21,9 +21,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
-        <div class="row">
+        <div class="row-fluid">
+            <?php if ($main || $parent){?>
                 <div class="col-md-4">
-                    <?php echo $this->load->view('form/category', null, true);?>
                     <div class="single-sidebar">
                         <ul>
                             <?php if($main){?>
@@ -31,15 +31,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <?php } ?>
                             <?php if($parent){?>
                                 <?php foreach($parent as $parent){?>
+                                    <?php if(!$this->is_login && $parent['show_for_user']){continue;}?>
                                     <li><a href="/page/<?php echo $parent['slug'];?>"><?php echo !empty($parent['menu_title']) ? $parent['menu_title'] : $parent['name'];?></a></li>
                                 <?php } ?>
                             <?php } ?>
                         </ul>
                     </div>
-
+                    <?php echo $this->load->view('form/category', null, true);?>
 
                 </div>
-            <div class="col-md-8">
+            <?php } ?>
+            <?php if ($main || $parent){?>
+                <div class="col-md-8">
+                <?php }else{?>
+                <div class="col-md-12">
+                <?php } ?>
                 <?php echo $description;?>
             </div>
         </div>

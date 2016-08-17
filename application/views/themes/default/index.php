@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-4">
                 <?php echo $this->load->view('form/category', '', true); ?>
                 <?php if ($news) { ?>
-                    <div class="panel panel-default">
+                    <div class="panel">
                         <div class="panel-heading"><?php echo lang('text_news'); ?></div>
                             <div class="list-group">
                             <?php foreach ($news as $news) { ?>
