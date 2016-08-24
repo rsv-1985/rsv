@@ -15,6 +15,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     .item-min{
         text-align: center;
     }
+    .min{
+        color: green;
+        font-weight: bold;
+    }
 </style>
 <?php if($products || $cross || $about){?>
     <?php if($min_price || $min_term){?>
