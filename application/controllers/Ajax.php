@@ -129,6 +129,51 @@ class Ajax extends Front_controller{
         $sku = $this->input->get('sku', true);
         $is_admin = $this->input->get('is_admin');
         $results = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
+
+        $min_price = 0;
+        $min_term = 0;
+        $results['min_price'] = false;
+        $results['min_term'] = false;
+
+        if($results['products']){
+            foreach ($results['products'] as $product){
+                if($product['price'] <= $min_price || !$results['min_price']){
+                    $results['min_price'] = $product;
+                    $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
+                }
+                if(($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']){
+                    $results['min_term'] = $product;
+                    $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
+                }
+            }
+        }
+
+        if($results['cross']){
+            foreach ($results['cross'] as $product){
+                if($product['price'] <= $min_price || !$results['min_price']){
+                    $results['min_price'] = $product;
+                    $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
+                }
+                if(($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']){
+                    $results['min_term'] = $product;
+                    $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
+                }
+            }
+        }
+
+        if($results['about']){
+            foreach ($results['about'] as $product){
+                if($product['price'] <= $min_price || !$results['min_price']){
+                    $results['min_price'] = $product;
+                    $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
+                }
+                if(($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']){
+                    $results['min_term'] = $product;
+                    $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
+                }
+            }
+        }
+
         if($is_admin){
             $html = $this->load->view('form/admin_result',$results, true);;
         }else{
