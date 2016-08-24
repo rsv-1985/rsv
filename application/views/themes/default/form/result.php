@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </label>
                 <div class="thumbnail">
                     <i onclick="tecdoc_info('<?php echo $min_price['sku'];?>', '<?php echo $min_price['brand'];?>')" class="fa fa-info-circle"></i>
-                    <a href="#" class="">
+                    <a href="/product/<?php echo $min_price['slug'];?>" class="">
                         <?php echo $min_price['brand'].' '. $min_price['sku'];?></a>
                         <br>
                         <small><?php echo $min_price['name'];?></small>
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </label>
                 <div class="thumbnail">
                     <i onclick="tecdoc_info('<?php echo $min_term['sku'];?>', '<?php echo $min_term['brand'];?>')" class="fa fa-info-circle"></i>
-                    <a href="#" class="">
+                    <a href="/product/<?php echo $min_term['slug'];?>" class="">
                         <?php echo $min_term['brand'].' '. $min_term['sku'];?></a>
                     <br>
                     <small><?php echo $min_term['name'];?></small>
