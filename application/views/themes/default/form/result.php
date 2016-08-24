@@ -6,7 +6,92 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
+<style>
+    .add-cart{
+        background: #e5e5e5;
+        padding: 2%;
+        margin: -4px;
+    }
+    .item-min{
+        text-align: center;
+    }
+</style>
 <?php if($products || $cross || $about){?>
+    <?php if($min_price || $min_term){?>
+        <hr>
+        <div class="row-fluid">
+            <div class="col-md-6 item-min">
+                <label>Самая низкая цена
+                    <i class="min"><?php echo format_currency($min_price['saleprice'] > 0 ? $min_price['saleprice'] : $min_price['price']);?></i>
+                </label>
+                <div class="thumbnail">
+                    <i onclick="tecdoc_info('<?php echo $min_price['sku'];?>', '<?php echo $min_price['brand'];?>')" class="fa fa-info-circle"></i>
+                    <a href="#" class="">
+                        <?php echo $min_price['brand'].' '. $min_price['sku'];?></a>
+                        <br>
+                        <small><?php echo $min_price['name'];?></small>
+                    </a>
+
+                    <br><small>Срок доставки:</small> <?php echo format_term($min_price['term']);?>
+                    <div class="product-inner-price">
+                        <ins><?php echo format_currency($min_price['saleprice'] > 0 ? $min_price['saleprice'] : $min_price['price']);?></ins>
+                    </div>
+                    <div class="add-cart">
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($min_price['slug']).'\', event)']);?>
+                        <div class="input-group">
+                            <input type="number" name="quantity" class="form-control" value="1">
+                            <input type="hidden" name="slug" value="<?php echo $min_price['slug'];?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                            </span>
+                        </div>
+                        </form>
+                        <a href="/cart" id="<?php echo md5($min_price['slug']);?>"
+                            <?php if(!key_exists(md5($min_price['slug']),$this->cart->contents())){?>
+                                style="display: none;"
+                            <?php } ?>
+                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-md-6 item-min">
+                <label>Наименьший срок
+                    <i class="min"><?php echo format_term($min_term['term']);?></i>
+                </label>
+                <div class="thumbnail">
+                    <i onclick="tecdoc_info('<?php echo $min_term['sku'];?>', '<?php echo $min_term['brand'];?>')" class="fa fa-info-circle"></i>
+                    <a href="#" class="">
+                        <?php echo $min_term['brand'].' '. $min_term['sku'];?></a>
+                    <br>
+                    <small><?php echo $min_term['name'];?></small>
+                    </a>
+
+                    <br><small>Срок доставки:</small> <?php echo format_term($min_term['term']);?>
+                    <div class="product-inner-price">
+                        <ins><?php echo format_currency($min_term['saleprice'] > 0 ? $min_term['saleprice'] : $min_term['price']);?></ins>
+                    </div>
+                    <div class="add-cart">
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($min_term['slug']).'\', event)']);?>
+                        <div class="input-group">
+                            <input type="number" name="quantity" class="form-control" value="1">
+                            <input type="hidden" name="slug" value="<?php echo $min_term['slug'];?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                            </span>
+                        </div>
+                        </form>
+                        <a href="/cart" id="<?php echo md5($min_term['slug']);?>"
+                            <?php if(!key_exists(md5($min_term['slug']),$this->cart->contents())){?>
+                                style="display: none;"
+                            <?php } ?>
+                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
     <table class="table table-condensed">
         <tbody>
         <?php if($products){?>
@@ -19,7 +104,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
-                        <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
+                        <a target="_blank" href="/product/<?php echo $product['slug'];?>">
+                            <?php echo $product['brand'].' '. $product['sku'];?></a>
                         <br>
                         <small><?php echo $product['name'];?></small>
                     </td>
