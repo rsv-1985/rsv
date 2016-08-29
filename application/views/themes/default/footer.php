@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </noindex>
 <script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
-<script src="<?php echo theme_url();?>js/function.js"></script>
+<script src="<?php echo theme_url();?>js/function.js?v1"></script>
 
 <!-- jQuery sticky menu -->
 <script src="<?php echo theme_url();?>js/owl.carousel.min.js"></script>
