@@ -34,3 +34,4 @@ $lang['text_extended_brand'] = 'Производитель';
 $lang['text_extended_price'] = 'Цена';
 $lang['text_extended_supplier_id'] = 'Поставщик';
 $lang['text_extended_cart'] = 'Дополнительный товар';
+$lang['text_clear_cart'] = 'Очистить корзину';

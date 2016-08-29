@@ -288,4 +288,9 @@ class Cart extends Front_controller
         
         
     }
+
+    public function clear_cart(){
+        $this->cart->destroy();
+        redirect('cart');
+    }
 }
