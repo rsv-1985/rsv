@@ -10,13 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Order
             <small>#<?php echo $order['id'];?></small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i>Главная</a></li>
             <li><a href="/autoxadmin/order"><?php echo lang('text_heading');?></a></li>
-            <li class="active">Order #<?php echo $order['id'];?></li>
+            <li class="active">#<?php echo $order['id'];?></li>
         </ol>
     </section>
 
@@ -28,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    #<?php echo $order['id'];?>
+                    Заказ #<?php echo $order['id'];?>
                     <small class="pull-right"><?php echo $order['created_at'];?></small>
                 </h2>
             </div><!-- /.col -->
@@ -153,8 +152,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <hr>
                 <b><?php echo lang('text_manager_comments');?></b>
                 <textarea rows="3" name="history" class="form-control"></textarea>
-                <input type="checkbox" value="1" name="send_sms">Send_sms
-                <input type="checkbox" value="1" name="send_email">Send_email
+                <input type="checkbox" value="1" name="send_sms"><?php echo lang('text_send_sms');?>
+                <input type="checkbox" value="1" name="send_email"><?php echo lang('text_send_email');?>
                 <?php if($history){?>
                     <table class="table table-condensed">
                         <thead>

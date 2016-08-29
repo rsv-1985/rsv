@@ -32,3 +32,5 @@ $lang['text_comments'] = 'Комментарий клиента';
 $lang['text_manager_comments'] = 'Комментарий менеджера';
 $lang['text_email_subject'] = 'Новый комментарий к заказу #%s';
 $lang['text_paid'] = 'Оплачен';
+$lang['text_send_sms'] = 'Отправить в sms';
+$lang['text_send_email'] = 'Отправить в email';
