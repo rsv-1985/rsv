@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </ul>      
                 </div>
             </div>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6 g_map">
                 <?php echo $this->contacts['map'];?>
             </div>
         </div>
