@@ -141,7 +141,7 @@ class Ajax extends Front_controller{
                     $results['min_price'] = $product;
                     $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
                 }
-                if(($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']){
+                if($product['term'] / 24 <= $min_term || !$results['min_term']){
                     $results['min_term'] = $product;
                     $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
                 }
@@ -154,7 +154,7 @@ class Ajax extends Front_controller{
                     $results['min_price'] = $product;
                     $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
                 }
-                if(($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']){
+                if($product['term'] / 24 <= $min_term || !$results['min_term']){
                     $results['min_term'] = $product;
                     $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
                 }
