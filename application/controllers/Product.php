@@ -69,9 +69,12 @@ class Product extends Front_controller{
 
         $data['applicability'] = false;
         if(isset($product['tecdoc_info']['applicability']) && !empty($product['tecdoc_info']['applicability'])){
-            $data['applicability'] = $product['tecdoc_info']['applicability'];
+            $applicability = $product['tecdoc_info']['applicability'];
+            foreach ($applicability as $ap){
+                $data['applicability'][$ap->Brand][]=$ap;
+            }
         }
-
+        
         $data['components'] = false;
         if(isset($product['tecdoc_info']['components']) && !empty($product['tecdoc_info']['components'])){
             $data['components'] = $product['tecdoc_info']['components'];

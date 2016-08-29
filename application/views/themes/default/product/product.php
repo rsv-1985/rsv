@@ -115,24 +115,45 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </div>
                                         <?php if ($applicability) { ?>
                                             <div role="tabpanel" class="tab-pane fade" id="applicability">
-                                                <table class="table table-condensed">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Brand</th>
-                                                        <th>Model</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <?php foreach ($applicability as $applicability) { ?>
-                                                        <tr>
-                                                            <td><?php echo $applicability->Brand; ?></td>
-                                                            <td><?php echo $applicability->Model; ?></td>
-                                                            <td><?php echo str_replace(';', '<br>', $applicability->Description); ?></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                    </tbody>
-                                                </table>
+
+                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <?php $q = 0; foreach ($applicability as $brand_name => $ap){?>
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading" role="tab" id="heading<?php echo $q;?>">
+                                                                <h4 class="panel-title">
+                                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $q;?>" aria-expanded="false" aria-controls="collapse<?php echo $q;?>">
+                                                                        <?php echo $brand_name;?>
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="collapse<?php echo $q;?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<?php echo $q;?>">
+                                                                <div class="panel-body">
+                                                                    <table class="table table-condensed">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>Производитель</th>
+                                                                            <th>Моель</th>
+                                                                            <th>Описание</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <?php foreach ($ap as $applicability) { ?>
+                                                                            <tr>
+                                                                                <td><?php echo $applicability->Brand; ?></td>
+                                                                                <td>
+                                                                                    <?php echo $applicability->Model; ?><br>
+                                                                                    <?php echo $applicability->Name; ?> <?php echo $applicability->Fuel; ?><br>
+                                                                                </td>
+                                                                                <td><?php echo str_replace(';', '<br>', $applicability->Description); ?></td>
+                                                                            </tr>
+                                                                        <?php } ?>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php $q++;} ?>
+                                                </div>
                                             </div>
                                         <?php } ?>
                                         <?php if ($components) { ?>

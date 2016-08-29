@@ -115,10 +115,16 @@ function add_cart(data, rowid, event){
         dataType: 'json',
         data: data,
         success: function(json){
+
             if(json['success']){
                 $(".product-count").html(json['product_count']).show();
                 $(".cart-amunt").html(json['cart_amunt']);
-                $("#"+rowid).fadeIn();
+                $("."+rowid).show().css({fontSize:'100%'}).animate({
+                    fontSize: '12px',
+                }, 1000 );
+                $("#"+rowid).show().css({fontSize:'100%'}).animate({
+                    fontSize: '12px',
+                }, 1000 );
             }else{
                 alert(json['error']);
             }

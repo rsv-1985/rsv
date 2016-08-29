@@ -131,8 +131,10 @@ class Ajax extends Front_controller{
         $results = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
 
         $min_price = 0;
+        $min_price_cross = 0;
         $min_term = 0;
         $results['min_price'] = false;
+        $results['min_price_cross'] = false;
         $results['min_term'] = false;
 
         if($results['products']){
@@ -150,11 +152,12 @@ class Ajax extends Front_controller{
 
         if($results['cross']){
             foreach ($results['cross'] as $product){
-                if($product['price'] <= $min_price || !$results['min_price']){
-                    $results['min_price'] = $product;
-                    $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
+                if($product['price'] <= $min_price_cross || !$results['min_price_cross']){
+                    $results['min_price_cross'] = $product;
+                    $min_price_cross = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
                 }
                 if($product['term'] / 24 <= $min_term || !$results['min_term']){
+                    $product['is_cross'] = true;
                     $results['min_term'] = $product;
                     $min_term = $product['term'] / 24;
                 }
