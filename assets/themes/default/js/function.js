@@ -119,12 +119,12 @@ function add_cart(data, rowid, event){
             if(json['success']){
                 $(".product-count").html(json['product_count']).show();
                 $(".cart-amunt").html(json['cart_amunt']);
-                $("."+rowid).show().css({fontSize:'100%'}).animate({
+                $("."+rowid).show().css({fontSize:'1px'}).animate({
                     fontSize: '12px',
-                }, 1000 );
-                $("#"+rowid).show().css({fontSize:'100%'}).animate({
+                }, 400 );
+                $("#"+rowid).show().css({fontSize:'1px'}).animate({
                     fontSize: '12px',
-                }, 1000 );
+                }, 400 );
             }else{
                 alert(json['error']);
             }

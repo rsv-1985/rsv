@@ -74,10 +74,9 @@ td.cart {
     max-width: 95px;
     text-align: center;
 }
-td.cart a {
+td.cart a, .add-cart a {
     color: green;
     font-size: 12px;
-    /* float: right; */
 }
 td.quan{
     text-align: center;
