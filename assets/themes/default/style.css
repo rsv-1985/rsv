@@ -51,6 +51,7 @@ img {
 .catalog img{
     margin: 0.6%;
     width: 94px;
+    height: 94px;
     border: 1px solid #EBEBEB;
     border-radius: 5px;
     background: #FBFBFB;
