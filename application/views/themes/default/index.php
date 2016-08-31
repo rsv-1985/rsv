@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php if ($manufacturers) { ?>
                         <?php foreach ($manufacturers as $manufacturer) { ?>
                             <a href="/catalog/<?php echo $manufacturer['slug']; ?>">
-                                <img onerror="imgError(this);" src="<?php echo $manufacturer['logo']; ?>"
+                                <img onerror="imgError(this);" src="/image?img=<?php echo $manufacturer['logo']; ?>&height=94"
                                      alt="<?php echo $manufacturer['name']; ?>">
                             </a>
                         <?php } ?>
