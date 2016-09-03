@@ -112,7 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input type="password" name="password" required class="form-control">
                     </div>
                     <div class="form-group" style="text-align: center">
-                        <a href="/customer/registration"><?php echo lang('text_registration');?></a>
+                        <a href="/customer/registration"><?php echo lang('text_registration');?></a> |
+                        <a href="/customer/forgot"><small><?php echo lang('text_remainder');?></small></a>
                     </div>
                     <div class="form-group">
                         <input class="pull-right" type="submit" value="<?php echo lang('text_login_link');?>">

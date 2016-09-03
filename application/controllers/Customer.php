@@ -42,7 +42,7 @@ class Customer extends Front_controller
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim|required');
             if($this->input->post('password')){
                 $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
                 $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
@@ -114,12 +114,6 @@ class Customer extends Front_controller
         redirect('/');
     }
 
-    public function login(){
-        if($this->is_login){
-            redirect('/customer');
-        }
-    }
-
     public function orderinfo($id = false){
         $data = [];
         if(!$id){
@@ -133,6 +127,48 @@ class Customer extends Front_controller
         $data['order_products'] = $this->order_product_model->product_get($data['order_info']['id']);
         
         $this->load->view('customer/orderinfo', $data);
+    }
+
+    public function forgot(){
+        $data = [];
+        if($this->input->post()){
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim|required');
+            if ($this->form_validation->run() !== false){
+                $this->load->helper('string');
+                $user = $this->customer_model->getByPhone($this->input->post('phone'));
+                if($user){
+                    $new_password = random_string();
+
+                    $save['password'] = password_hash($new_password, PASSWORD_BCRYPT);
+                    $this->customer_model->insert($save,$user['id']);
+
+                    $this->load->library('sender');
+
+                    $send_email = '';
+                    if($user['email']){
+                        $this->sender->email('News password','New password: '.$new_password, $user['email'], $this->contacts['email']);
+                        $send_email = 'в email';
+                    }
+
+                    $send_sms = '';
+                    if($user['phone']){
+                        $this->sender->sms($user['phone'], $new_password);
+                        $send_sms = 'в SMS';
+                    }
+
+                    $this->session->set_flashdata('success', lang('text_forgot_success').' '.$send_email.' '.$send_sms);
+                    redirect('/');
+                }else{
+                    $this->error = lang('error_by_phone');
+                }
+
+            }else{
+                $this->error = validation_errors();
+            }
+        }
+        $this->load->view('header');
+        $this->load->view('customer/forgot', $data);
+        $this->load->view('footer');
     }
 
     private function save_data($id = false){

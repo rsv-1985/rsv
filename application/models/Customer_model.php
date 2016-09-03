@@ -119,4 +119,13 @@ class Customer_model extends Default_model{
         }
         return false;
     }
+
+    public function getByPhone($phone){
+        $this->db->where('phone', $phone);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        }
+        return false;
+    }
 }
