@@ -108,6 +108,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                        data-toggle="tab"><?php echo lang('text_components'); ?></a>
                                             </li>
                                         <?php } ?>
+                                        <?php if($cross){?>
+                                            <li role="presentation"><a href="#cross" aria-controls="profile"
+                                                                       role="tab"
+                                                                       data-toggle="tab"><?php echo lang('text_cross'); ?></a>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="description">
@@ -180,6 +186,44 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         </tr>
                                                     <?php } ?>
                                                     </tbody>
+                                                </table>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if($cross){?>
+                                            <div role="tabpanel" class="tab-pane fade" id="cross">
+                                                <table class="table">
+                                                    <?php foreach($cross as $product){?>
+                                                    <tr>
+                                                        <td>
+                                                            <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
+                                                        </td>
+                                                        <td class="name">
+                                                            <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
+                                                            <br>
+                                                            <small><?php echo $product['name'];?></small><br>
+                                                        </td>
+                                                        <td class="price"><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']);?></td>
+                                                        <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
+                                                        <td class="excerpt"><?php echo $product['excerpt'];?></td>
+                                                        <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
+                                                        <td class="cart">
+                                                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
+                                                            <div class="input-group">
+                                                                <input type="number" name="quantity" class="form-control" value="1">
+                                                                <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                                                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                </span>
+                                                            </div>
+                                                            </form>
+                                                            <a href="/cart" class="<?php echo md5($product['slug']);?>"
+                                                                <?php if(!key_exists(md5($product['slug']),$this->cart->contents())){?>
+                                                                    style="display: none;"
+                                                                <?php } ?>
+                                                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
                                                 </table>
                                             </div>
                                         <?php } ?>

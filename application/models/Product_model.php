@@ -11,6 +11,7 @@ class Product_model extends Default_model{
     public $table = 'product';
     public $total_rows = 0;
     public $currency_rates;
+    public $customer_group;
 
     public function __construct()
     {
@@ -19,6 +20,15 @@ class Product_model extends Default_model{
         foreach($currency as $cur){
             $this->currency_rates[$cur['id']] = $cur;
         }
+
+        $customer_group = false;
+        if($this->is_login){
+            $this->load->model('customergroup_model');
+            $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
+        }
+
+        $this->customer_group = $customer_group;
+
         unset($currency);
     }
     
@@ -200,6 +210,7 @@ class Product_model extends Default_model{
         }
         return $return;
     }
+
     //Получаем список брендов в локальной базе, которых нет в базе текдок
     public function get_local_brand($search, $tecdoc_brand){
         $this->db->from($this->table);
@@ -218,6 +229,77 @@ class Product_model extends Default_model{
         return false;
     }
 
+    //Получаем кросс номера
+    public function getCross($ID_art,$brand,$sku){
+        //Получаем кросс номера
+        $search_data = false;
+        if($ID_art){
+            $cross = $this->tecdoc->getCrosses($ID_art);
+            if($cross){
+                foreach($cross as $item){
+                    if($this->clear_sku($item->Display) == $sku && $item->Brand == $brand ){
+                        continue;
+                    }
+                    $search_data[] = [
+                        'sku' => $this->clear_sku($item->Display),
+                        'brand' => $item->Brand,
+                    ];
+                }
+            }
+        }
+        //Получаем собственные кроссы
+        $this->db->select(['code2 as sku', 'brand2 as brand']);
+        $this->db->from('cross');
+        $this->db->where('code', $sku);
+        $this->db->where('brand', $brand);
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            $search_data = array_merge($search_data,$query->result_array());
+        }
+        if($search_data){
+            $search_data =array_unique($search_data, SORT_REGULAR );
+        }
+        return $search_data;
+    }
+
+    //Поиск товаров по кросс номерам
+    public function getProductsByCross($search_data){
+
+        $this->db->from($this->table);
+        $this->db->select('product.*,
+            supplier.name as sup_name,
+            supplier.description as sup_description,
+            currency.name as cur_name,
+            currency.value as cur_value,
+            currency.symbol_right as cur_symbol_right,
+            currency.symbol_left as cur_symbol_left,
+            currency.decimal_place as cur_decimal_place');
+        $this->db->join('supplier', 'supplier.id='.$this->table.'.supplier_id');
+        $this->db->join('currency', 'currency.id='.$this->table.'.currency_id');
+
+        foreach($search_data as $search_data) {
+            $this->db->or_group_start();
+            $this->db->where('sku', $search_data['sku']);
+            $this->db->where('brand', $search_data['brand']);
+            $this->db->where('status', true);
+            $this->db->group_end();
+        }
+
+        $this->db->order_by('price', 'ASC');
+        $this->db->order_by('term', 'ASC');
+
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            $p_cross = $query->result_array();
+            foreach($p_cross as $pc){
+                $pc['price'] = $this->calculate_customer_price($pc['price']) * $this->currency_rates[$pc['currency_id']]['value'];
+                $product_cross[] = $pc;
+                $slugs[] = $pc['slug'];
+            }
+            return $p_cross;
+        }
+    }
+
     //Поиск автозапчастей
     public function get_search($ID_art, $brand, $sku, $with_cross = false, $text_search = false){
         $return = [];
@@ -227,41 +309,10 @@ class Product_model extends Default_model{
         //Массив slug чтобы не дублировать товары
         $slugs = [];
 
-        //Проверяем залогинен ли пользователь
-        $customer_group = false;
-        if($this->is_login){
-            $this->load->model('customergroup_model');
-            $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-        }
+        $search_data = false;
         if($with_cross){
-            $search_data = [];
-            //Получаем кросс номера
-            if($ID_art){
-                $cross = $this->tecdoc->getCrosses($ID_art);
-                if($cross){
-                    foreach($cross as $item){
-                        if($this->clear_sku($item->Display) == $sku && $item->Brand == $brand ){
-                            continue;
-                        }
-                        $search_data[] = [
-                            'sku' => $this->clear_sku($item->Display),
-                            'brand' => $item->Brand,
-                        ];
-                    }
-                }
-            }
-            //Получаем собственные кроссы
-            $this->db->select(['code2 as sku', 'brand2 as brand']);
-            $this->db->from('cross');
-            $this->db->where('code', $sku);
-            $this->db->where('brand', $brand);
-            $query = $this->db->get();
-            if($query->num_rows() > 0){
-               $search_data = array_merge($search_data,$query->result_array());
-            }
-
-            $search_data =array_unique($search_data, SORT_REGULAR );
-
+            //Получаем кросс номера для поиска по базе
+            $search_data = $this->getCross($ID_art,$brand,$sku);
         }
 
         //Здесь будем получать товары через API поставщиков
@@ -290,48 +341,12 @@ class Product_model extends Default_model{
             $return['products'] = $query->result_array();
             foreach($return['products'] as &$pem){
                 $slugs[] = $pem['slug'];
-                $pem['price'] = $this->calculate_customer_price($customer_group, $pem['price']) * $this->currency_rates[$pem['currency_id']]['value'];
+                $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_rates[$pem['currency_id']]['value'];
             }
         }
-        //Если массив кросс намиров есть и он не пустой
-        if(isset($search_data) && !empty($search_data)){
-            $product_cross = [];
-
-            $this->db->from($this->table);
-            $this->db->select('product.*,
-            supplier.name as sup_name,
-            supplier.description as sup_description,
-            currency.name as cur_name,
-            currency.value as cur_value,
-            currency.symbol_right as cur_symbol_right,
-            currency.symbol_left as cur_symbol_left,
-            currency.decimal_place as cur_decimal_place');
-            $this->db->join('supplier', 'supplier.id='.$this->table.'.supplier_id');
-            $this->db->join('currency', 'currency.id='.$this->table.'.currency_id');
-
-            foreach($search_data as $search_data) {
-                $this->db->or_group_start();
-                $this->db->where('sku', $search_data['sku']);
-                $this->db->where('brand', $search_data['brand']);
-                $this->db->where('status', true);
-                if (count($slugs)) {
-                    $this->db->where_not_in('slug', $slugs);
-                }
-                $this->db->group_end();
-            }
-
-            $this->db->order_by('price', 'ASC');
-            $this->db->order_by('term', 'ASC');
-
-            $query = $this->db->get();
-            if($query->num_rows() > 0){
-                $p_cross = $query->result_array();
-                foreach($p_cross as $pc){
-                    $pc['price'] = $this->calculate_customer_price($customer_group, $pc['price']) * $this->currency_rates[$pc['currency_id']]['value'];
-                    $product_cross[] = $pc;
-                    $slugs[] = $pc['slug'];
-                }
-            }
+        //Если массив кросс номиров есть и он не пустой
+        if($search_data){
+            $product_cross = $this->getProductsByCross($search_data);
         }
 
         if(!empty($product_cross)){
@@ -375,7 +390,7 @@ class Product_model extends Default_model{
             if($query->num_rows() > 0){
                 $p_about = $query->result_array();
                 foreach($p_about  as &$pa){
-                    $pa['price'] = $this->calculate_customer_price($customer_group, $pa['price']) * $this->currency_rates[$pa['currency_id']]['value'];
+                    $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_rates[$pa['currency_id']]['value'];
                 }
                 $return['about'] = $p_about;
             }
@@ -410,37 +425,31 @@ class Product_model extends Default_model{
         
 
         if ($query->num_rows() > 0) {
-            //Проверяем залогинен ли пользователь
-            $customer_group = false;
-            if($this->is_login){
-                $this->load->model('customergroup_model');
-                $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-            }
-
             $products = $query->result_array();
             foreach($products  as &$product){
-                $product['price'] = $this->calculate_customer_price($customer_group, $product['price']) * $this->currency_rates[$product['currency_id']]['value'];
+                $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_rates[$product['currency_id']]['value'];
                 $product['tecdoc_info'] = $this->tecdoc_info($product['sku'], $product['brand']);
             }
            return $products;
         }
         return false;
     }
+
     //Расчет цены по группе покупателя
-    private function calculate_customer_price($customer_group, $price){
-        if($customer_group){
-            switch($customer_group['type']){
+    private function calculate_customer_price($price){
+        if( $this->customer_group){
+            switch( $this->customer_group['type']){
                 case '+':
-                    $price =$price + ($price * $customer_group['value'] / 100) + $customer_group['fix_value'];
+                    $price =$price + ($price *  $this->customer_group['value'] / 100) +  $this->customer_group['fix_value'];
                     break;
                 case '-':
-                    $price = $price - ($price * $customer_group['value'] / 100) + $customer_group['fix_value'];
+                    $price = $price - ($price *  $this->customer_group['value'] / 100) -  $this->customer_group['fix_value'];
                     break;
             }
         }
-
         return $price;
     }
+
     //Новинки
     public function get_novelty(){
         $cache = $this->cache->file->get('novelty');
@@ -452,14 +461,8 @@ class Product_model extends Default_model{
             if($query->num_rows() > 0){
                 $results = $query->result_array();
 
-                $customer_group = false;
-                if($this->is_login){
-                    $this->load->model('customergroup_model');
-                    $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-                }
-
                 foreach($results as &$result){
-                    $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_rates[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
                     if(!empty($result['image'])){
                         $result['image'] = '/uploads/product/'.$result['image'];
@@ -483,6 +486,7 @@ class Product_model extends Default_model{
         }
 
     }
+
     //Топ
     public function top_sellers(){
         $cache = $this->cache->file->get('top_sellers');
@@ -494,14 +498,8 @@ class Product_model extends Default_model{
             if($query->num_rows() > 0){
                 $results = $query->result_array();
 
-                $customer_group = false;
-                if($this->is_login){
-                    $this->load->model('customergroup_model');
-                    $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-                }
-
                 foreach($results as &$result){
-                    $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_rates[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
                     if(!empty($result['image'])){
                         $result['image'] = '/uploads/product/'.$result['image'];
@@ -526,6 +524,7 @@ class Product_model extends Default_model{
         }
 
     }
+
     //Информация по запчасти с текдока
     private function tecdoc_info($sku, $brand, $full_info = false){
         $return = false;
@@ -538,6 +537,10 @@ class Product_model extends Default_model{
                 if($full_info){
                     $return['applicability'] = $this->tecdoc->getUses($ID_art);
                     $return['components'] = $this->tecdoc->getPackage($ID_art);
+                    $search_data = $this->getCross($ID_art, $sku, $brand);
+                    if($search_data){
+                        $return['cross'] = $this->getProductsByCross($search_data);
+                    }
                 }
             }
         }
@@ -562,12 +565,8 @@ class Product_model extends Default_model{
         $query = $this->db->get();
         if($query->num_rows() > 0){
             $result = $query->row_array();
-            $customer_group = false;
-            if($this->is_login){
-                $this->load->model('customergroup_model');
-                $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-            }
-            $result['price'] = $this->calculate_customer_price($customer_group, $result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+
+            $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_rates[$result['currency_id']]['value'];
 
             if($get_tecdoc_info){
                 $result['tecdoc_info'] = $this->tecdoc_info($result['sku'], $result['brand'], true);

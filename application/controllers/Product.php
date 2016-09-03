@@ -79,7 +79,12 @@ class Product extends Front_controller{
         if(isset($product['tecdoc_info']['components']) && !empty($product['tecdoc_info']['components'])){
             $data['components'] = $product['tecdoc_info']['components'];
         }
-        
+
+        $data['cross'] = false;
+        if(isset($product['tecdoc_info']['cross'])){
+            $data['cross'] = $product['tecdoc_info']['cross'];
+        }
+
         $data['supplier'] = $product['sup_name'];
         $data['supplier_description'] = $product['sup_description'];
         $data['delivery_price'] = $product['delivery_price'].' '.$product['cur_name'];

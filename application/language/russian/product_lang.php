@@ -9,6 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $lang['text_description'] = 'Описание';
 $lang['text_applicability'] = 'Применяемость';
 $lang['text_components'] = 'Комплектация';
+$lang['text_cross'] = 'Аналоги';
 $lang['button_add_cart'] = 'В корзину';
 $lang['text_in_cart'] = 'В корзине';
 $lang['text_brand'] = 'Производитель';

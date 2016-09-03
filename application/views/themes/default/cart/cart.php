@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if ($this->cart->total_items() > 0) { ?>
                     <div class="product-content-right">
                         <div class="woocommerce">
-                            <a href="/cart/clear_cart" class="btn pull-right"><?php echo lang('text_clear_cart');?></a>
+
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
                                 <tr>
@@ -133,7 +133,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                                 </tbody>
                             </table>
-
+                            <a href="/cart/clear_cart" class="btn btn-danger pull-right"><?php echo lang('text_clear_cart');?></a>
+                            <div class="clearfix"></div>
                             <?php echo form_open('', ['id' => 'cart']); ?>
                             <div class="cart-collaterals">
                                 <div class="cross-sells">
