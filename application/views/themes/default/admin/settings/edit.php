@@ -306,7 +306,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="form-group">
                             <label>TExt</label>
                             <textarea class="textarea" name="settings[contact_settings][description]"><?php echo set_value('settings[contact_settings][description]', @$settings['contact_settings']['description']);?></textarea>
-
+                        </div>
+                        <div class="form-group">
+                            <label>VK</label>
+                            <input  type="text" name="settings[contact_settings][vk]" value="<?php echo set_value('settings[contact_settings][vk]', @$settings['contact_settings']['vk']);?>" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Facebook</label>
+                            <input  type="text" name="settings[contact_settings][fb]" value="<?php echo set_value('settings[contact_settings][fb]', @$settings['contact_settings']['fb']);?>" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Google</label>
+                            <input  type="text" name="settings[contact_settings][google]" value="<?php echo set_value('settings[contact_settings][google]', @$settings['contact_settings']['google']);?>" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Instagram</label>
+                            <input  type="text" name="settings[contact_settings][instagram]" value="<?php echo set_value('settings[contact_settings][instagram]', @$settings['contact_settings']['instagram']);?>" class="form-control">
                         </div>
                     </div><!-- /.tab-pane -->
                     <div class="tab-pane" id="additional">

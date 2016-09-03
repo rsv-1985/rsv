@@ -12,7 +12,7 @@
     display: block;
     margin: 0 auto 15px;
 }
-a:focus { outline: 0px solid }
+a:focus { outline: 0px solid ; }
 .fix { overflow: hidden }
 h1,
 h2,
@@ -761,7 +761,7 @@ padding: 35px 0 18px;}
     margin-top: 25px;
 }
 a {color: #5a88ca}
-a:hover, a:focus {color: #17a78b}
+a:hover, a:focus {color: #17a78b; text-decoration: none;}
 .footer-bottom-area {
   background: none repeat scroll 0 0 #000;
   color: #fff;
