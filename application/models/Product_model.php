@@ -437,6 +437,7 @@ class Product_model extends Default_model{
 
     //Расчет цены по группе покупателя
     private function calculate_customer_price($price){
+        //Если пользователь залогинен
         if( $this->customer_group){
             switch( $this->customer_group['type']){
                 case '+':
