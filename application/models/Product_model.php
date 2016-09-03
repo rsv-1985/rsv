@@ -22,7 +22,7 @@ class Product_model extends Default_model{
         }
 
         $customer_group = false;
-        if($this->is_login){
+        if(isset($this->is_login) && $this->is_login){
             $this->load->model('customergroup_model');
             $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
         }
