@@ -339,6 +339,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             dataType: 'json',
             data: $("#cart").serialize(),
             success: function (json) {
+                if(json['total_items'] == 0){
+                    location.reload();
+                }
                 $(".total").html(json['total']);
                 $(".cart-amunt").html(json['total']);
                 $("#subtotal").html(json['subtotal']);
