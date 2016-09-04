@@ -10,9 +10,9 @@ class Image extends CI_Controller
     public function index()
     {
         if ($this->input->get('img', true)) {
+
             $file = $this->input->get('img', true);
             if(filter_var($file, FILTER_VALIDATE_URL)){
-
                 $url = str_replace('.http', 'http',$file);
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -25,7 +25,6 @@ class Image extends CI_Controller
                 curl_close($ch);
 
                 if(!$contents){
-
                     $this->resize();
                     die();
                 }
@@ -35,11 +34,6 @@ class Image extends CI_Controller
 
                 file_put_contents('./uploads/resise.'.$ext,$contents);
 
-                if(!getimagesize('./uploads/resise.'.$ext)){
-                    $this->resize();
-                    die();
-                }
-
                 $this->resize('/uploads/resise.'.$ext);
             }else{
                 $this->resize($file);
@@ -47,6 +41,9 @@ class Image extends CI_Controller
         }else{
             $this->resize();
         }
+
+
+
     }
 
     private function resize($file = false){

@@ -22,18 +22,57 @@ class Order extends Admin_controller
         $this->load->model('order_history_model');
     }
 
+    public function products(){
+        $data = [];
+        $this->load->library('pagination');
+
+        if($this->input->post()){
+            $this->form_validation->set_rules('status_id', 'Статус', 'required|integer');
+            $this->form_validation->set_rules('slug', 'slug', 'required|trim');
+            $this->form_validation->set_rules('order_id', 'order_id', 'required|integer');
+
+            if ($this->form_validation->run() !== false){
+                $save = [];
+                $save['status_id'] = (int)$this->input->post('status_id');
+
+                $this->order_model->update_item($this->input->post('slug', true), (int)$this->input->post('order_id'),$save);
+                $this->session->set_flashdata('success', lang('text_success'));
+                redirect('autoxadmin/order/products');
+            }else{
+                $this->error = validation_errors();
+            }
+        }
+
+        $config['base_url'] = base_url('autoxadmin/order/products');
+        $config['per_page'] = 50;
+        $data['products'] = $this->order_model->order_get_all_products($config['per_page'], $this->uri->segment(4));
+        $config['total_rows'] = $this->order_model->total_rows;
+        $config['reuse_query_string'] = true;
+
+        $this->pagination->initialize($config);
+
+        $data['status'] = $this->orderstatus_model->status_get_all();
+        $data['suppliers'] = $this->supplier_model->supplier_get_all();
+        $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/order/products', $data);
+        $this->load->view('admin/footer');
+    }
+
     public function index(){
         $data = [];
         $this->load->library('pagination');
 
         $config['base_url'] = base_url('autoxadmin/order/index');
-        $config['total_rows'] = $this->order_model->order_count_all();
         $config['per_page'] = 10;
+        $data['orders'] = $this->order_model->order_get_all($config['per_page'], $this->uri->segment(4));
+        $config['total_rows'] = $this->order_model->total_rows;
         $config['reuse_query_string'] = true;
 
         $this->pagination->initialize($config);
 
-        $data['orders'] = $this->order_model->order_get_all($config['per_page'], $this->uri->segment(4));
+
         $data['status'] = $this->orderstatus_model->status_get_all();
         $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
         $data['payment'] = $this->payment_model->payment_get_all();

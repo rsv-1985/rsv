@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
                     <?php if($status_totals){?>
-                        <div class="pull-right">
+                        <div class="pull-right" style="text-align: right">
                             <?php foreach ($status as $stid => $v){
                                 if(isset($status_totals['sum_'.$stid])){
                                     echo '<small style="color:'.$v['color'].'">'.$v['name'].':</small>'.$status_totals['sum_'.$stid].' ';
@@ -31,6 +31,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
+
+                        <a style="color: green" href="/autoxadmin/order">В разрезе Заказов</a> /
+                        <a href="/autoxadmin/order/products">В разрезе товаров</a>
+
                     <table class="table table-condensed">
                         <tbody><tr>
                             <th>#</th>

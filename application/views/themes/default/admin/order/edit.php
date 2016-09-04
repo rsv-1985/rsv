@@ -107,8 +107,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <input type="hidden" name="products[<?php echo $row;?>][slug]" value="<?php echo $product['slug'];?>">
                             <td><a href="#" onclick="remove_item(<?php echo $row;?>, event)"><i class="fa fa-fw fa-remove"></i></a></td>
                             <td>
-                                <a data-toggle="tooltip" data-placement="right" title="<?php echo $supplier[$product['supplier_id']]['description'];?>" target="_blank" href="/autoxadmin/supplier/edit/<?php echo $supplier[$product['supplier_id']]['id'];?>">
-                                    <?php echo $supplier[$product['supplier_id']]['name'];?></td>
+                                <a data-toggle="tooltip" data-placement="right" title="<?php echo @$supplier[$product['supplier_id']]['description'];?>" target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>">
+                                    <?php echo @$supplier[$product['supplier_id']]['name'];?></td>
                                 </a>
                                 <input type="hidden" name="products[<?php echo $row;?>][supplier_id]" value="<?php echo $product['supplier_id'];?>">
                             <td>

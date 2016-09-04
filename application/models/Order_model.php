@@ -8,6 +8,8 @@
 class Order_model extends Default_model{
     public $table = 'order';
 
+    public $total_rows = 0;
+
     public function get_status_totals($statuses){
         if($statuses){
             foreach ($statuses as $status_id => $value){
@@ -50,45 +52,45 @@ class Order_model extends Default_model{
         return false;
     }
 
-    public function order_count_all(){
-        $this->db->select('order.*, customer.login', false);
-        $this->db->join('customer', 'customer.id = order.customer_id', 'left');
+    public function order_get_all_products($limit, $start){
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->from('order_product');
         if($this->input->get()){
-            if($this->input->get('login')){
-                $this->db->where('login', $this->input->get('login', true));
+            if($this->input->get('order_id')){
+                $this->db->where('order_id', (int)$this->input->get('order_id'));
             }
-            if($this->input->get('id')){
-                $this->db->where('order.id', (int)$this->input->get('id', true));
+            if($this->input->get('name')){
+                $this->db->like('name', $this->input->get('name', true));
             }
-            if($this->input->get('first_name')){
-                $this->db->like('order.first_name', $this->input->get('first_name', true));
+            if($this->input->get('sku')){
+                $this->db->where('sku', $this->input->get('sku', true));
             }
-            if($this->input->get('last_name')){
-                $this->db->like('order.last_name', $this->input->get('last_name', true));
+            if($this->input->get('brand')){
+                $this->db->where('brand', $this->input->get('brand', true));
             }
-            if($this->input->get('email')){
-                $this->db->like('order.email', $this->input->get('email', true));
-            }
-            if($this->input->get('telephone')){
-                $this->db->like('order.telephone', $this->input->get('telephone', true));
-            }
-            if($this->input->get('delivery_method_id')){
-                $this->db->where('order.delivery_method_id', (int)$this->input->get('delivery_method_id', true));
-            }
-            if($this->input->get('payment_method_id')){
-                $this->db->where('order.payment_method_id', (int)$this->input->get('payment_method_id', true));
+            if($this->input->get('supplier_id')){
+                $this->db->where('supplier_id', (int)$this->input->get('supplier_id'));
             }
             if($this->input->get('status')){
-                $this->db->where('order.status', (int)$this->input->get('status', true));
+                $this->db->where('status', (int)$this->input->get('status'));
             }
-            return $this->db->count_all_results($this->table);
-        }else{
-            return $this->db->count_all($this->table);
+        }
+        if($limit && $start){
+            $this->db->limit((int)$limit, (int)$start);
+        }elseif($limit){
+            $this->db->limit((int)$limit);
+        }
+        $this->db->order_by('order_id', 'DESC');
+        $query = $this->db->get();
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
         }
     }
 
     public function order_get_all($limit = false, $start = false){
-        $this->db->select('order.*, customer.login', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS `ax_order`.*, ax_customer.login', false);
+        $this->db->from($this->table);
         $this->db->join('customer', 'customer.id = order.customer_id', 'left');
         if($this->input->get()){
             if($this->input->get('login')){
@@ -125,7 +127,8 @@ class Order_model extends Default_model{
             $this->db->limit((int)$limit);
         }
         $this->db->order_by('order.id', 'DESC');
-        $query = $this->db->get($this->table);
+        $query = $this->db->get();
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
@@ -148,5 +151,12 @@ class Order_model extends Default_model{
         }
         
         return false;
+    }
+
+    //Обновление одной позиции в заказа
+    public function update_item($slug, $order_id, $data){
+        $this->db->where('slug', $slug);
+        $this->db->where('order_id', (int)$order_id);
+        $this->db->update('order_product', $data);
     }
 }
