@@ -71,8 +71,8 @@ class Order_model extends Default_model{
             if($this->input->get('supplier_id')){
                 $this->db->where('supplier_id', (int)$this->input->get('supplier_id'));
             }
-            if($this->input->get('status')){
-                $this->db->where('status', (int)$this->input->get('status'));
+            if($this->input->get('status_id')){
+                $this->db->where('status_id', (int)$this->input->get('status_id'));
             }
         }
         if($limit && $start){

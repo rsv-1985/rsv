@@ -44,7 +44,7 @@ class Order extends Admin_controller
         }
 
         $config['base_url'] = base_url('autoxadmin/order/products');
-        $config['per_page'] = 50;
+        $config['per_page'] = 20;
         $data['products'] = $this->order_model->order_get_all_products($config['per_page'], $this->uri->segment(4));
         $config['total_rows'] = $this->order_model->total_rows;
         $config['reuse_query_string'] = true;
