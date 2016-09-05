@@ -37,17 +37,30 @@ class Catalog extends Front_controller
         $data['text'] = @$seo['text'];
         $manufacturers = $this->tecdoc->getManufacturer();
         if ($manufacturers) {
+            $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
             $data['manufacturers'] = [];
             foreach ($manufacturers as $item) {
-                if (file_exists('./uploads/model/' . $item->Name . '.png')) {
-                    $data['manufacturers'][] = [
-                        'slug' => url_title($item->Name). '_' . $item->
-                        ID_mfa, 'ID_mfa' => $item->ID_mfa,
-                        'name' => $item->Name,
-                        'logo' => strlen($item->
-                        Logo) > 0 ? $item->Logo : '/uploads/model/' . $item->Name . '.png'
-                    ];
+                if($settings_tecdoc_manufacturer){
+                    if(isset($settings_tecdoc_manufacturer[$item->ID_mfa])){
+                        $data['manufacturers'][] = [
+                            'slug' => url_title($item->Name).'_'.$item->ID_mfa,
+                            'ID_mfa' => $item->ID_mfa,
+                            'name' => $item->Name,
+                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.$item->Name.'.png',
+                        ];
+                    }
+                }else{
+                    if (file_exists('./uploads/model/' . $item->Name . '.png')) {
+                        $data['manufacturers'][] = [
+                            'slug' => url_title($item->Name). '_' . $item->
+                                ID_mfa, 'ID_mfa' => $item->ID_mfa,
+                            'name' => $item->Name,
+                            'logo' => strlen($item->
+                            Logo) > 0 ? $item->Logo : '/uploads/model/' . $item->Name . '.png'
+                        ];
+                    }
                 }
+
             }
             $this->output->cache(131400);
         }

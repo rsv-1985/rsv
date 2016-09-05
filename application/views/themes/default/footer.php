@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="btn-social">
+                <div class="btn-social pull-left">
                     <?php if(isset($this->contacts['vk']) && $this->contacts['vk']){?>
                         <a href="<?php echo $this->contacts['vk'];?>" target="_blank">
                             <img src="<?php echo theme_url();?>/img/vk_hover.svg"/>

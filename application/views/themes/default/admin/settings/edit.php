@@ -334,7 +334,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="panel-body">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -355,6 +355,59 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading2">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapseOne">
+                                            <?php echo lang('text_scamdb_heading');?>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                                    <div class="panel-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>access-token</label>
+                                                <input class="form-control" type="text" name="settings[scamdb][access_token]" value="<?php echo set_value('settings[sms][login]', @$settings['scamdb']['access_token']);?>" placeholder="access-token">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo lang('text_scamdb_description');?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading3">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                            <?php echo lang('text_tecdoc_manufacturer_heading');?>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <?php if($tecdoc_manufacturer){?>
+                                    <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+                                    <div class="panel-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <?php foreach ($tecdoc_manufacturer as $tm){?>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[tecdoc_manufacturer][<?php echo $tm->ID_mfa;?>]" value="1" <?php echo set_checkbox('settings[tecdoc_manufacturer]['.$tm->ID_mfa.']',1,isset($settings['tecdoc_manufacturer'][$tm->ID_mfa]));?>>
+                                                            <?php echo $tm->Name;?><br>
+                                                            <small><b>image:</b><a target="_blank" href="/uploads/model/<?php echo $tm->Name;?>.png">/uploads/model/<?php echo $tm->Name;?>.png</a></small>
+                                                        </label>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <?php echo lang('text_tecdoc_manufacturer_description');?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
