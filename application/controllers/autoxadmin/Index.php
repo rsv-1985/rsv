@@ -24,11 +24,18 @@ class Index extends Admin_controller{
         //Delete mysql cache
         $this->db->cache_delete_all();
         //Delete web cache
-        $this->load->helper('file');
-        delete_files('./application/cache/web/');
-        //Database optimeze
-        //$this->load->dbutil();
-        //$this->dbutil->optimize_database();
+        $path = $this->config->item('cache_path');
+        $cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+        $handle = opendir($cache_path);
+        while (($file = readdir($handle))!== FALSE)
+        {
+            if ($file != '.htaccess' && $file != 'index.html' && $file != '.gitignore')
+            {
+                @unlink($cache_path.'/'.$file);
+            }
+        }
+        closedir($handle);
+
         $this->session->set_flashdata('success', lang('text_success_cache'));
         redirect('autoxadmin');
     }
