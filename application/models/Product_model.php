@@ -296,7 +296,7 @@ class Product_model extends Default_model{
                 $product_cross[] = $pc;
                 $slugs[] = $pc['slug'];
             }
-            return $p_cross;
+            return $product_cross;
         }
     }
 
