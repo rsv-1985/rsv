@@ -14,7 +14,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <li>
                         <a href="<?php echo $slider['link']; ?>"
                            <?php if ($slider['new_window']){ ?>target="_blank" <?php } ?>>
-                            <img onerror="imgError(this);" src="/image?img=/uploads/banner/<?php echo $slider['image']; ?>&height=300"
+                            <img onerror="imgError(this);"
+                                 src="/image?img=/uploads/banner/<?php echo $slider['image']; ?>&height=300"
                                  alt="<?php echo $slider['name']; ?>">
                             <div class="caption-group">
                                 <h2><?php echo $slider['name']; ?></h2>
@@ -36,9 +37,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php foreach ($box as $box) { ?>
                     <div class="col-md-3 col-sm-6">
                         <div class="single-promo promo1">
-                            <img onerror="imgError(this);" src="/image?img=/uploads/banner/<?php echo $box['image']; ?>&width=263"
+                            <img onerror="imgError(this);"
+                                 src="/image?img=/uploads/banner/<?php echo $box['image']; ?>&width=263"
                                  alt="<?php echo $box['name']; ?>">
-                        <span>
+                            <span>
                             <?php echo $box['name']; ?><br>
                             <small><?php echo $box['description']; ?></small>
                         </span>
@@ -56,11 +58,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if ($news) { ?>
                     <div class="panel">
                         <div class="panel-heading"><?php echo lang('text_news'); ?></div>
-                            <div class="list-group">
+                        <div class="panel-body" id="news-list">
                             <?php foreach ($news as $news) { ?>
-                                <a href="/news/<?php echo $news['slug'];?>" class="list-group-item"><?php echo $news['name'];?></a>
+                                <a href="/news/<?php echo $news['slug']; ?>"><?php echo $news['name']; ?></a>
+                                <br /><small><?php echo $news['created_at'];?></small><br />
                             <?php } ?>
-                            </div>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
@@ -70,7 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php if ($manufacturers) { ?>
                         <?php foreach ($manufacturers as $manufacturer) { ?>
                             <a href="/catalog/<?php echo $manufacturer['slug']; ?>">
-                                <img onerror="imgError(this);" src="/image?img=<?php echo $manufacturer['logo']; ?>&height=94&width=94"
+                                <img onerror="imgError(this);"
+                                     src="/image?img=<?php echo $manufacturer['logo']; ?>&height=94&width=94"
                                      alt="<?php echo $manufacturer['name']; ?>">
                             </a>
                         <?php } ?>
@@ -92,7 +96,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="single-wid-product">
                                     <a href="/product/<?php echo $top_sellers['slug']; ?>">
                                         <?php if ($top_sellers['image']){ ?>
-                                        <img onerror="imgError(this);" src="/image?img=<?php echo $top_sellers['image']; ?>&width=100"
+                                        <img onerror="imgError(this);"
+                                             src="/image?img=<?php echo $top_sellers['image']; ?>&width=100"
                                              alt="<?php echo $top_sellers['name']; ?>" class="product-thumb"></a>
                                     <?php } ?>
                                     <h2>
@@ -117,7 +122,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="single-wid-product">
                                     <a href="/product/<?php echo $novelty['slug']; ?>">
                                         <?php if ($novelty['image']){ ?>
-                                        <img onerror="imgError(this);" src="/image?img=<?php echo $novelty['image']; ?>&width=100"
+                                        <img onerror="imgError(this);"
+                                             src="/image?img=<?php echo $novelty['image']; ?>&width=100"
                                              alt="<?php echo $novelty['name']; ?>" class="product-thumb"></a>
                                     <?php } ?>
                                     <h2>

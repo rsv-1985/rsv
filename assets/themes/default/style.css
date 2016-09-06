@@ -66,6 +66,22 @@ img {
 .catalog a{
     text-decoration: none;
 }
+.panel-heading{
+    text-align: center;
+    border-bottom: 1px solid;
+    border-radius: 0px;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    /border-radius: 0px;
+     -webkit-box-shadow: none;
+    box-shadow: none;
+}
+#news-list small {
+    font-size: 60%;
+}
 button.btn.btn-default {
     padding: 21% 11px;
     background: #e5e5e5;

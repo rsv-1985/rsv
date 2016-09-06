@@ -294,7 +294,6 @@ class Product_model extends Default_model{
             foreach($p_cross as $pc){
                 $pc['price'] = $this->calculate_customer_price($pc['price']) * $this->currency_rates[$pc['currency_id']]['value'];
                 $product_cross[] = $pc;
-                $slugs[] = $pc['slug'];
             }
             return $product_cross;
         }
