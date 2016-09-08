@@ -175,7 +175,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php }else{?>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Экспесс навигация</h3>
+                            <h3>Экспресс навигация</h3>
                         </div>
                         <?php foreach ($trees as $tree){?>
                             <?php if(isset($popular_category[$tree->ID_tree])){?>
