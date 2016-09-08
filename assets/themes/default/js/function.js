@@ -183,3 +183,14 @@ function imgError(image, width, height) {
     return true;
 }
 
+function remove_garage(key,event) {
+    event.preventDefault();
+    $.ajax({
+       url:'/ajax/remove_garage',
+        method: 'post',
+        data: {key:key},
+        success: function(){
+            $('.'+key).remove();
+        }
+    });
+}

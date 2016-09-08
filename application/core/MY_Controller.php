@@ -43,6 +43,7 @@ class Front_controller extends CI_Controller{
     public $error;
     public $category = false;
     public $contacts;
+    public $garage;
 
     public function __construct()
     {
@@ -52,7 +53,8 @@ class Front_controller extends CI_Controller{
         $this->footer_page = $this->page_model->get_footer_page();
         $this->is_login = $this->customer_model->is_login();
         $this->is_admin = $this->User_model->is_login();
-
+        $this->garage = unserialize($this->input->cookie('garage'));
+        //print_r($this->garage);
         if($this->session->flashdata('error')){
             $this->error = $this->session->flashdata('error');
         }

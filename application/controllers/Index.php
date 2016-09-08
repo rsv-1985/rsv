@@ -64,7 +64,7 @@ class Index extends Front_controller {
                     }
                 }
             }
-            $this->output->cache('2628000');
+            //$this->output->cache('2628000');
         }
 
         $this->load->view('header');

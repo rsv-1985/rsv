@@ -40,7 +40,7 @@ img {
 
 .product-bit-title h1 {
     color: white;
-    padding: 4%;
+    padding: 2%;
 }
 .form-control {
     border-radius: 0px !important;
@@ -82,6 +82,14 @@ img {
 #news-list small {
     font-size: 60%;
 }
+.thumbnail.category-item {
+    min-height: 210px;
+    text-align: center;
+}
+.center{
+    text-align: center;
+}
+
 button.btn.btn-default {
     padding: 21% 11px;
     background: #e5e5e5;
@@ -1351,6 +1359,7 @@ li.list-group-item.active a {
 .product-bit-title.text-center {
     color: white;
     font-size: 24px;
+    padding-bottom: 2%;
 }
 #newsletter{
     text-align: center;

@@ -12,6 +12,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
                     <h1><?php echo $h1;?></h1>
+                    <?php if(isset($this->garage[md5($name)]) && $this->input->get('id_tree') && !isset($this->garage[md5($name)]['category'][$this->input->get('id_tree')])){?>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo $_SERVER['REQUEST_URI'];?>&add_tree=1">Добавить категорию в гараж</a>
+                    <?php } ?>
+                    <?php if(!isset($this->garage[md5($name)])){?>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo $_SERVER['REQUEST_URI'];?>?add_garage=1" role="button">Добавить автомобиль в гараж</a>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -27,6 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </ol>
             <div class="col-md-4">
                 <?php if (isset($trees) && !empty($trees)) { ?>
+                    <h3>Каталог запчастей</h3>
                     <ul class="list-unstyled trees">
                         <?php foreach ($trees as $tree) { ?>
                             <?php if ($tree->Level == 1) { ?>
@@ -165,6 +172,50 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         <?php } ?>
                     </table>
+                <?php }else{?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Экспесс навигация</h3>
+                        </div>
+                        <?php foreach ($trees as $tree){?>
+                            <?php if(isset($popular_category[$tree->ID_tree])){?>
+                                <a href="<?php echo current_url();?>?id_tree=<?php echo $tree->ID_tree;?>">
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="thumbnail category-item">
+                                            <img src="<?php echo $popular_category[$tree->ID_tree]['image'];?>" alt="<?php echo $popular_category[$tree->ID_tree]['name'];?>">
+                                            <div class="caption">
+                                                <p><?php echo $popular_category[$tree->ID_tree]['name'] ? $popular_category[$tree->ID_tree]['name'] : $tree->Name.'-'.$tree->ID_tree;?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            <?php } ?>
+                        <?php } ?>
+
+                    </div>
+                    <div class="jumbotron">
+                        <h3><?php echo $name;?></h3>
+                        <table class="table">
+                            <tr>
+                                <td>Объем</td>
+                                <td><?php echo $info->CCM;?></td>
+                            </tr>
+                            <tr>
+                                <td>Мощность Кв/Лс</td>
+                                <td><?php echo $info->KwHp;?></td>
+                            </tr>
+                            <tr>
+                                <td>Двигатель</td>
+                                <td><?php echo $info->Engines;?></td>
+                            </tr>
+                            <tr>
+                                <td>Кузов</td>
+                                <td><?php echo $info->Body;?></td>
+                            </tr>
+                        </table>
+                        <?php echo $info->Description;?>
+                    </div>
                 <?php } ?>
             </div>
         </div>

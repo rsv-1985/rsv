@@ -6,24 +6,41 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Ajax extends Front_controller{
+class Ajax extends Front_controller
+{
     public function __construct()
     {
         parent::__construct();
-        if(!$this->input->is_ajax_request()){
+        if (!$this->input->is_ajax_request()) {
             redirect('/');
         }
     }
-    public function newsletter(){
+
+    public function remove_garage()
+    {
+        $key = $this->input->post('key');
+        unset($this->garage[$key]);
+
+        $cookie = array(
+            'name' => 'garage',
+            'value' => serialize($this->garage),
+            'expire' => 60 * 60 * 24 * 365 * 10,
+        );
+
+        $this->input->set_cookie($cookie);
+    }
+
+    public function newsletter()
+    {
         $json = [];
         $this->load->library('form_validation');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[newsletter.email]');
-        if ($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
             $this->load->model('newsletter_model');
             $this->newsletter_model->insert(['email' => $this->input->post('email', true)]);
             $this->session->set_flashdata('success', 'Newsletter Ok!');
             $json['success'] = true;
-        }else{
+        } else {
             $json['error'] = validation_errors();
         }
         $this->output
@@ -31,24 +48,24 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function call_back(){
+    public function call_back()
+    {
         $json = [];
         $this->load->library('form_validation');
         $this->form_validation->set_rules('name', lang('text_call_back_name'), 'required|trim');
         $this->form_validation->set_rules('telephone', lang('text_call_back_telephone'), 'required|numeric|trim');
-        if ($this->form_validation->run() == true)
-        {
+        if ($this->form_validation->run() == true) {
             $name = $this->input->post('name', true);
             $telephone = $this->input->post('telephone', true);
             $subject = lang('text_call_back_subject');
-            $html = lang('text_call_back_name').':'.$name.'<br>';
-            $html .= lang('text_call_back_telephone').':'.$telephone.'<br>';
+            $html = lang('text_call_back_name') . ':' . $name . '<br>';
+            $html .= lang('text_call_back_telephone') . ':' . $telephone . '<br>';
             $this->load->library('sender');
-            $this->sender->email($subject, $html, explode(';',$this->contacts['email']), explode(';',$this->contacts['email']));
+            $this->sender->email($subject, $html, explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
             $this->session->set_flashdata('success', lang('text_call_back_success'));
 
             $json['success'] = lang('text_call_back_success');
-        }else{
+        } else {
             $json['error'] = validation_errors();
         }
         $this->output
@@ -56,7 +73,8 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function vin(){
+    public function vin()
+    {
         $json = [];
         $this->load->library('form_validation');
         $this->form_validation->set_rules('manufacturer', lang('text_vin_manufacturer'), 'required');
@@ -65,21 +83,18 @@ class Ajax extends Front_controller{
         $this->form_validation->set_rules('parts', lang('text_vin_parts'), 'required');
         $this->form_validation->set_rules('name', lang('text_vin_name'), 'required');
         $this->form_validation->set_rules('telephone', lang('text_vin_telephone'), 'required|numeric');
-        if ($this->form_validation->run() == true)
-        {
+        if ($this->form_validation->run() == true) {
             $this->load->library('sender');
             $subject = lang('text_vin_subject');
             $html = '';
-            foreach($this->input->post() as $key => $value){
-                $html .= lang('text_vin_'.$key).':'.$value.'<br>';
+            foreach ($this->input->post() as $key => $value) {
+                $html .= lang('text_vin_' . $key) . ':' . $value . '<br>';
             }
 
-            $this->sender->email($subject, $html, explode(';',$this->contacts['email']), explode(';',$this->contacts['email']));
+            $this->sender->email($subject, $html, explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
 
             $json['success'] = lang('text_vin_success');
-        }
-        else
-        {
+        } else {
             $json['error'] = validation_errors();
         }
 
@@ -88,21 +103,22 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function login(){
+    public function login()
+    {
         $json = [];
         $this->load->language('customer');
         $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim');
         $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
-        if ($this->form_validation->run() !== false){
+        if ($this->form_validation->run() !== false) {
             $login = $this->input->post('login', true);
             $password = $this->input->post('password', true);
-            if($this->customer_model->login($login, $password)){
-                $this->session->set_flashdata('success', sprintf(lang('text_success_login'),$this->session->customer_name));
+            if ($this->customer_model->login($login, $password)) {
+                $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
                 $json['success'] = true;
-            }else{
+            } else {
                 $json['error'] = lang('text_error');
             }
-        }else{
+        } else {
             $json['error'] = validation_errors();
         }
         $this->output
@@ -110,7 +126,8 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function pre_search(){
+    public function pre_search()
+    {
         $this->load->model('product_model');
         $search = $this->input->post('search', true);
         $json = [];
@@ -121,7 +138,8 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-    public function get_search(){
+    public function get_search()
+    {
         $this->load->model('product_model');
         $this->load->language('search');
         $ID_art = $this->input->get('ID_art', true);
@@ -137,26 +155,26 @@ class Ajax extends Front_controller{
         $results['min_price_cross'] = false;
         $results['min_term'] = false;
 
-        if($results['products']){
-            foreach ($results['products'] as $product){
-                if($product['price'] <= $min_price || !$results['min_price']){
+        if ($results['products']) {
+            foreach ($results['products'] as $product) {
+                if ($product['price'] <= $min_price || !$results['min_price']) {
                     $results['min_price'] = $product;
                     $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
                 }
-                if($product['term'] / 24 <= $min_term || !$results['min_term']){
+                if ($product['term'] / 24 <= $min_term || !$results['min_term']) {
                     $results['min_term'] = $product;
                     $min_term = $product['term'] / 24;
                 }
             }
         }
 
-        if($results['cross']){
-            foreach ($results['cross'] as $product){
-                if($product['price'] <= $min_price_cross || !$results['min_price_cross']){
+        if ($results['cross']) {
+            foreach ($results['cross'] as $product) {
+                if ($product['price'] <= $min_price_cross || !$results['min_price_cross']) {
                     $results['min_price_cross'] = $product;
                     $min_price_cross = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
                 }
-                if($product['term'] / 24 <= $min_term || !$results['min_term']){
+                if ($product['term'] / 24 <= $min_term || !$results['min_term']) {
                     $product['is_cross'] = true;
                     $results['min_term'] = $product;
                     $min_term = $product['term'] / 24;
@@ -164,23 +182,23 @@ class Ajax extends Front_controller{
             }
         }
 
-        if($results['about']){
-            foreach ($results['about'] as $product){
-                if($product['price'] <= $min_price || !$results['min_price']){
+        if ($results['about']) {
+            foreach ($results['about'] as $product) {
+                if ($product['price'] <= $min_price || !$results['min_price']) {
                     $results['min_price'] = $product;
                     $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
                 }
-                if(($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']){
+                if (($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']) {
                     $results['min_term'] = $product;
                     $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
                 }
             }
         }
 
-        if($is_admin){
-            $html = $this->load->view('form/admin_result',$results, true);;
-        }else{
-            $html = $this->load->view('form/result',$results, true);
+        if ($is_admin) {
+            $html = $this->load->view('form/admin_result', $results, true);;
+        } else {
+            $html = $this->load->view('form/result', $results, true);
         }
 
         $this->output
@@ -188,7 +206,8 @@ class Ajax extends Front_controller{
             ->set_output($html);
     }
 
-    public function add_cart(){
+    public function add_cart()
+    {
         $json = [];
         $json['error'] = lang('text_error_cart');
 
@@ -196,28 +215,28 @@ class Ajax extends Front_controller{
         $quantity = (int)$this->input->post('quantity');
         $this->load->model('product_model');
         $product = $this->product_model->get_by_slug($slug, false);
-        if($product){
+        if ($product) {
             $data = [
-                'id'      => $slug,
-                'qty'     => (int)$quantity,
-                'price'   => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
-                'name'    => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]","",$product['name']),
+                'id' => $slug,
+                'qty' => (int)$quantity,
+                'price' => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
+                'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
                 'sku' => $product['sku'],
                 'brand' => $product['brand'],
                 'supplier_id' => (int)$product['supplier_id'],
                 'is_stock' => (bool)$product['is_stock']
             ];
 
-            if($product['is_stock']){
-                $quan_in_cart = key_exists(md5($slug),$this->cart->contents()) ? $this->cart->contents()[md5($slug)]['qty'] : 0;
-                if($product['quantity'] < $quantity + $quan_in_cart){
+            if ($product['is_stock']) {
+                $quan_in_cart = key_exists(md5($slug), $this->cart->contents()) ? $this->cart->contents()[md5($slug)]['qty'] : 0;
+                if ($product['quantity'] < $quantity + $quan_in_cart) {
                     $json['error'] = lang('text_error_qty_cart_add');
                     unset($data);
                 }
             }
         }
 
-        if(isset($data) && $this->cart->insert($data)){
+        if (isset($data) && $this->cart->insert($data)) {
             $json['success'] = lang('text_success_cart');
             $json['product_count'] = $this->cart->total_items();
             $json['cart_amunt'] = format_currency($this->cart->total());
@@ -228,25 +247,23 @@ class Ajax extends Front_controller{
             ->set_output(json_encode($json));
     }
 
-   
 
-  
-
-    public function get_tecdoc_info(){
+    public function get_tecdoc_info()
+    {
         $json = [];
         $data = [];
         $data['sku'] = $this->input->post('sku', true);
         $data['brand'] = $this->input->post('brand', true);
         $data['tecdoc_info'] = false;
         $ID_art = $this->tecdoc->getIDart($data['sku'], $data['brand']);
-        if(isset($ID_art[0]->ID_art)){
+        if (isset($ID_art[0]->ID_art)) {
             $info = $this->tecdoc->getArticle($ID_art[0]->ID_art);
-            if(isset($info[0])){
+            if (isset($info[0])) {
                 $data['tecdoc_info'] = $info[0];
             }
         }
 
-        $json['html'] = $this->load->view('form/tecdocinfo',$data, true);
+        $json['html'] = $this->load->view('form/tecdocinfo', $data, true);
 
         $this->output
             ->set_content_type('application/json')

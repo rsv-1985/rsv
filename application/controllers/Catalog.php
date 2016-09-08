@@ -191,13 +191,54 @@ class Catalog extends Front_controller
         }
 
         $data = [];
+
+        $data['popular_category'] = [
+            10233 => ['name' => 'Стеклоочиститель', 'image' => '/uploads/category/ochestitel.png'],
+            10151 => ['name' => '', 'image' => '/uploads/category/kpmplekt-sc.png'],
+            //10447 => ['name' => '', 'image' => ''],
+            //10893 => ['name' => '', 'image' => ''],
+            10553 => ['name' => '', 'image' => '/uploads/category/komplekt-remney.png'],
+            10531 => ['name' => '', 'image' => '/uploads/category/rqmqn-grm.png'],
+            10835 => ['name' => '', 'image' => '/uploads/category/opora.png'],
+            10361 => ['name' => 'Топливный фильтр', 'image' => '/uploads/category/toplivnyy-filtr.png'],
+            10359 => ['name' => '', 'image' => ''],
+            10360 => ['name' => '', 'image' => ''],
+            10362 => ['name' => 'Гидравлический фильтр', 'image' => '/uploads/category/gidravlicheskiy-filtr.png'],
+            10363 => ['name' => '', 'image' => ''],
+            10907 => ['name' => 'Тормозной суппорт', 'image' => '/uploads/category/support.png'],
+            10131 => ['name' => 'Тормозные колодки', 'image' => '/uploads/category/kolodki-barabannye.png'],
+            10735 => ['name' => '', 'image' => '/uploads/category/rychagi.png'],
+            10132 => ['name' => 'Тормозные диски', 'image' => '/uploads/category/tormoznye-diski.png'],
+            10130 => ['name' => 'Тормозные колодки дисковые', 'image' => '/uploads/category/tormoznye-kolodki.png'],
+            10195 => ['name' => 'Термостат', 'image' => '/uploads/category/termostat.png'],
+            10204 => ['name' => 'Радиатор печки', 'image' => '/uploads/category/radiator-pechki.png'],
+            10203 => ['name' => 'Радиатор', 'image' => '/uploads/category/radiator.png'],
+            10191 => ['name' => 'Водяной насос', 'image' => '/uploads/category/vodyanoy-nasos.png'],
+            10251 => ['name' => '', 'image' => '/uploads/category/svecha-zajiganiya.png'],
+            10250 => ['name' => '', 'image' => '/uploads/category/katushka.png'],
+            10253 => ['name' => 'Провода высоковольтные', 'image' => '/uploads/category/provoda.png'],
+            10459 => ['name' => '', 'image' => '/uploads/category/starter.png'],
+            10450 => ['name' => 'Генератор', 'image' => '/uploads/category/generator.png'],
+            10221 => ['name' => '', 'image' => '/uploads/category/amortizator.png'],
+            10213 => ['name' => '', 'image' => '/uploads/category/podveska.png'],
+            10298 => ['name' => 'Шаровая опора', 'image' => '/uploads/category/sharnir.png'],
+            10174 => ['name' => 'Пыльник', 'image' => '/uploads/category/pylnik.png'],
+            10171 => ['name' => 'Шарнирный комплект', 'image' => '/uploads/category/sharnirnyy-komplekt.png'],
+            10324 => ['name' => '', 'image' => '/uploads/category/komplekt-prokladok-dvigatelya.png'],
+            10360 => ['name' => '', 'image' => '/uploads/category/vozdushny-filtr.png'],
+            10359 => ['name' => 'Фильтр масла', 'image' => '/uploads/category/maslyannyy-filtr.png']
+        ];
+
+
         $model_info = $this->cache->file->get('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod);
+
         if(!$model_info){
             $model_info = $this->tecdoc->getModel($ID_mfa, $ID_mod);
             if($model_info){
                 $this->cache->file->save('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod,$model_info,604800);
             }
         }
+
         $manufacturer_info = $this->cache->file->get('manufacturer_info_id_mfa_'.$ID_mfa);
         if(!$manufacturer_info){
             $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
@@ -212,7 +253,6 @@ class Catalog extends Front_controller
                 $this->cache->file->save('typ_info_id_mod_'.$ID_mod.'_id_typ_'.$ID_typ,$typ_info,604800);
             }
         }
-
 
         $settings = $this->settings_model->get_by_key('seo_tecdoc_type');
 
@@ -243,6 +283,8 @@ class Catalog extends Front_controller
         $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod, 'title' => $model_info[0]->Name];
         $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod.'/'.url_title($typ_info[0]->Name).'_'.$typ_info[0]->ID_typ, 'title' => $typ_info[0]->Name];
 
+        $data['name'] = $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name;
+
         if($ID_tree != 10001){
             $tree_info = $this->cache->file->get('tree_info_id_tree_'.$ID_tree);
             if(!$tree_info){
@@ -252,6 +294,23 @@ class Catalog extends Front_controller
                 }
             }
 
+            if($this->input->get('add_tree')){
+                $category = $this->garage[md5($data['name'])]['category'];
+                $category[$ID_tree] = $tree_info[0]->Name;
+                $this->garage[md5($data['name'])]['category'] = $category;
+
+                $cookie = array(
+                    'name'   => 'garage',
+                    'value'  => serialize($this->garage),
+                    'expire' => 60*60*24*365*10,
+                );
+
+                $this->input->set_cookie($cookie);
+
+                $this->session->set_flashdata('success', 'Категория добавлена в гараж');
+
+                redirect($this->uri->uri_string().'?id_tree='.$ID_tree);
+            }
 
             $data['breadcrumb'][] = ['href' => false, 'title' => $tree_info[0]->Name];
             $settings = $this->settings_model->get_by_key('seo_tecdoc_tree');
@@ -286,6 +345,27 @@ class Catalog extends Front_controller
         }
 
         $data['trees'] = $this->tecdoc->getTreeAll($ID_typ);
+        $data['info'] = $typ_info[0];
+
+        if($this->input->get('add_garage')){
+            $this->garage[md5($data['name'])] = [
+                'name' => $data['name'],
+                'href' => $this->uri->uri_string(),
+                'category' => []
+            ];
+
+            $cookie = array(
+                'name'   => 'garage',
+                'value'  => serialize($this->garage),
+                'expire' => 60*60*24*365*10,
+            );
+
+            $this->input->set_cookie($cookie);
+
+            $this->session->set_flashdata('success', 'Автомобиль добавлен в гараж');
+
+            redirect($this->uri->uri_string());
+        }
 
 
         $this->load->view('header');
