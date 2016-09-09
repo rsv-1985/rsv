@@ -13,10 +13,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="product-bit-title text-center">
                     <h1><?php echo $h1;?></h1>
                     <?php if(isset($this->garage[md5($name)]) && $this->input->get('id_tree') && !isset($this->garage[md5($name)]['category'][$this->input->get('id_tree')])){?>
-                        <a rel="nofollow" class="btn btn-info" href="<?php echo $_SERVER['REQUEST_URI'];?>&add_tree=1">Добавить категорию в гараж</a>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url();?>?add_tree=1">Добавить категорию в гараж</a>
                     <?php } ?>
                     <?php if(!isset($this->garage[md5($name)])){?>
-                        <a rel="nofollow" class="btn btn-info" href="<?php echo $_SERVER['REQUEST_URI'];?>?add_garage=1" role="button">Добавить автомобиль в гараж</a>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url();?>?add_garage=1" role="button">Добавить автомобиль в гараж</a>
                     <?php } ?>
                 </div>
             </div>
@@ -184,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="thumbnail category-item">
                                             <img src="<?php echo $popular_category[$tree->ID_tree]['image'];?>" alt="<?php echo $popular_category[$tree->ID_tree]['name'];?>">
                                             <div class="caption">
-                                                <p><?php echo $popular_category[$tree->ID_tree]['name'] ? $popular_category[$tree->ID_tree]['name'] : $tree->Name.'-'.$tree->ID_tree;?></p>
+                                                <p><?php echo $popular_category[$tree->ID_tree]['name'] ? $popular_category[$tree->ID_tree]['name'] : $tree->Name;?></p>
                                             </div>
                                         </div>
                                     </div>
