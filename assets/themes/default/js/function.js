@@ -4,6 +4,15 @@ $(document).ready(function(){
     $(".vin_request").submit(function(event){
         send_request(event);
     });
+
+    $('.filters').click(function(){
+        $(".filters-item").hide();
+        $(".filters").each(function () {
+            if($(this).prop('checked')){
+                $("."+$(this).val()).show();
+            }
+        })
+    });
     
 
     $("#newsletter").submit(function (event) {

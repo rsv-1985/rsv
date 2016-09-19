@@ -191,7 +191,8 @@ class Catalog extends Front_controller
         }
 
         $data = [];
-
+        $data['filters'] = false;
+        //Популярные категории
         $data['popular_category'] = [
             10233 => ['name' => 'Стеклоочиститель', 'image' => '/uploads/category/ochestitel.png'],
             10151 => ['name' => '', 'image' => '/uploads/category/kpmplekt-sc.png'],
@@ -339,8 +340,42 @@ class Catalog extends Front_controller
             $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
             $data['text'] = @$seo['text'];
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
-            foreach($data['parts'] as &$tecdoc_part){
-                $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, false, false, false);
+
+            if($data['parts']){
+                foreach($data['parts'] as &$tecdoc_part){
+                    $key = md5($tecdoc_part->Brand);
+                    $data['filters']['Производитель'][$key] = $tecdoc_part->Brand;
+                    $tecdoc_part->filter_key[] = $key;
+
+                    $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, false, false, false);
+
+                    if($tecdoc_part->available['products']){
+                        foreach ($tecdoc_part->available['products'] as $product){
+                            $key = md5($product['brand']);
+                            $data['filters']['Производитель'][$key] = $product['brand'];
+                            $tecdoc_part->filter_key[] = $key;
+                        }
+                    }
+                    if($tecdoc_part->available['cross']){
+                        foreach ($tecdoc_part->available['products'] as $product){
+                            $key = md5($product['brand']);
+                            $data['filters']['Производитель'][$key] = $product['brand'];
+                            $tecdoc_part->filter_key[] = $key;
+                        }
+                    }
+
+                    if($tecdoc_part->Info){
+                        $info = explode("</br>",$tecdoc_part->Info);
+                        if($info){
+                            foreach ($info as $inf){
+                                $inf = explode(':',$inf);
+                                $key = md5($inf[0].@$inf[1]);
+                                $data['filters'][$inf[0]][$key] = @$inf[1];
+                                $tecdoc_part->filter_key[] = $key;
+                            }
+                        }
+                    }
+                }
             }
         }
 

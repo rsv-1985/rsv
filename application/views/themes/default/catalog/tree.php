@@ -11,12 +11,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row-fluid">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
-                    <h1><?php echo $h1;?></h1>
-                    <?php if(isset($this->garage[md5($name)]) && $this->input->get('id_tree') && !isset($this->garage[md5($name)]['category'][$this->input->get('id_tree')])){?>
-                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url();?>?add_tree=1">Добавить категорию в гараж</a>
+                    <h1><?php echo $h1; ?></h1>
+                    <?php if (isset($this->garage[md5($name)]) && $this->input->get('id_tree') && !isset($this->garage[md5($name)]['category'][$this->input->get('id_tree')])) { ?>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_tree=1">Добавить
+                            категорию в гараж</a>
                     <?php } ?>
-                    <?php if(!isset($this->garage[md5($name)])){?>
-                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url();?>?add_garage=1" role="button">Добавить автомобиль в гараж</a>
+                    <?php if (!isset($this->garage[md5($name)])) { ?>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_garage=1"
+                           role="button">Добавить автомобиль в гараж</a>
                     <?php } ?>
                 </div>
             </div>
@@ -32,6 +34,25 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
             </ol>
             <div class="col-md-4">
+                <?php if ($filters) { ?>
+
+
+                    <?php foreach ($filters as $filter_name => $filter) { ?>
+                        <b><?php echo $filter_name; ?></b>
+                        <div class="ft">
+                        <ul>
+                        <?php foreach ($filter as $key => $value) { ?>
+                            <li><input class="filters" type="checkbox" value="<?php echo $key; ?>"><?php echo $value; ?>
+                            </li>
+                        <?php } ?>
+
+                        </ul>
+                        </div>
+                    <?php } ?>
+                    <a href="#" rel="nofollow" onclick="location.reload()" class="btn btn-info pull-right">Сбросить фильтр</a>
+<div class="clearfix"></div>
+                    <hr/>
+                <?php } ?>
                 <?php if (isset($trees) && !empty($trees)) { ?>
                     <h3>Каталог запчастей</h3>
                     <ul class="list-unstyled trees">
@@ -67,10 +88,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php if ($part->available['products'] || $part->available['cross']) { ?>
                                 <?php if ($part->available['products']) { ?>
                                     <?php foreach ($part->available['products'] as $product) { ?>
-                                        <tr>
+                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                            echo $filter_key . ' ';
+                                        } ?>" <?php } ?>>
                                             <td>
                                                 <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
-                                                     title="<?php echo $part->Brand; ?>" >
+                                                     title="<?php echo $part->Brand; ?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -80,9 +103,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php echo $product['brand']; ?>
                                             </td>
                                             <td><?php echo $product['name']; ?></td>
-                                            <td><?php echo format_term($product['term']);?></td>
+                                            <td><?php echo format_term($product['term']); ?></td>
                                             <td style="width: 150px;">
-                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice']:$product['price']); ?>
+                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
                                             </td>
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($product['slug']) . '\', event)']); ?>
@@ -90,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     <input type="number" name="quantity" class="form-control" value="1">
                                                     <input type="hidden" name="slug"
                                                            value="<?php echo $product['slug']; ?>">
-                                                <span class="input-group-btn">
+                                                    <span class="input-group-btn">
                                                     <button class="btn btn-default" type="submit"><i
                                                             class="fa fa-shopping-cart"></i></button>
                                                 </span>
@@ -108,10 +131,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                                 <?php if ($part->available['cross']) { ?>
                                     <?php foreach ($part->available['cross'] as $product) { ?>
-                                        <tr>
+                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                            echo $filter_key . ' ';
+                                        } ?>" <?php } ?>>
                                             <td>
-                                                <img style="width: 50px;" onerror="imgError(this, 50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
-                                                     title="<?php echo $part->Brand; ?>" >
+                                                <img style="width: 50px;" onerror="imgError(this, 50);"
+                                                     src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                                     title="<?php echo $part->Brand; ?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -120,9 +146,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo $product['brand']; ?>
                                             </td>
-                                            <td><?php echo format_term($product['term']);?></td>
+                                            <td><?php echo format_term($product['term']); ?></td>
                                             <td style="width: 150px;">
-                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice']:$product['price']); ?>
+                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
                                             </td>
 
                                             <td>
@@ -131,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     <input type="number" name="quantity" class="form-control" value="1">
                                                     <input type="hidden" name="slug"
                                                            value="<?php echo $product['slug']; ?>">
-                                                <span class="input-group-btn">
+                                                    <span class="input-group-btn">
                                                     <button class="btn btn-default" type="submit"><i
                                                             class="fa fa-shopping-cart"></i></button>
                                                 </span>
@@ -151,10 +177,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                         <?php foreach ($parts as $part) { ?>
                             <?php if (!$part->available['products'] && !$part->available['cross']) { ?>
-                                <tr>
+                                <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                    echo $filter_key . ' ';
+                                } ?>" <?php } ?>>
                                     <td>
-                                        <img onerror="imgError(this, 50);" src="/image?img=<?php echo $part->Preview; ?>&width=50"
-                                             title="<?php echo $part->Brand; ?>" >
+                                        <img onerror="imgError(this, 50);"
+                                             src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                             title="<?php echo $part->Brand; ?>">
                                     </td>
                                     <td>
                                         <?php echo $part->Article; ?>
@@ -166,25 +195,27 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <a href="#" onclick="catalog_search('<?php echo $part->ID_art;?>', '<?php echo $part->Search;?>','<?php echo $part->Brand;?>', event)"><?php echo lang('text_cross'); ?></a>
+                                        <a href="#"
+                                           onclick="catalog_search('<?php echo $part->ID_art; ?>', '<?php echo $part->Search; ?>','<?php echo $part->Brand; ?>', event)"><?php echo lang('text_cross'); ?></a>
                                     </td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>
                     </table>
-                <?php }else{?>
+                <?php } else { ?>
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Экспресс навигация</h3>
                         </div>
-                        <?php foreach ($trees as $tree){?>
-                            <?php if(isset($popular_category[$tree->ID_tree])){?>
-                                <a href="<?php echo current_url();?>?id_tree=<?php echo $tree->ID_tree;?>">
+                        <?php foreach ($trees as $tree) { ?>
+                            <?php if (isset($popular_category[$tree->ID_tree])) { ?>
+                                <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>">
                                     <div class="col-sm-6 col-md-4">
                                         <div class="thumbnail category-item">
-                                            <img src="<?php echo $popular_category[$tree->ID_tree]['image'];?>" alt="<?php echo $popular_category[$tree->ID_tree]['name'];?>">
+                                            <img src="<?php echo $popular_category[$tree->ID_tree]['image']; ?>"
+                                                 alt="<?php echo $popular_category[$tree->ID_tree]['name']; ?>">
                                             <div class="caption">
-                                                <p><?php echo $popular_category[$tree->ID_tree]['name'] ? $popular_category[$tree->ID_tree]['name'] : $tree->Name;?></p>
+                                                <p><?php echo $popular_category[$tree->ID_tree]['name'] ? $popular_category[$tree->ID_tree]['name'] : $tree->Name; ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -195,26 +226,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                     </div>
                     <div class="jumbotron">
-                        <h3><?php echo $name;?></h3>
+                        <h3><?php echo $name; ?></h3>
                         <table class="table">
                             <tr>
                                 <td>Объем</td>
-                                <td><?php echo $info->CCM;?></td>
+                                <td><?php echo $info->CCM; ?></td>
                             </tr>
                             <tr>
                                 <td>Мощность Кв/Лс</td>
-                                <td><?php echo $info->KwHp;?></td>
+                                <td><?php echo $info->KwHp; ?></td>
                             </tr>
                             <tr>
                                 <td>Двигатель</td>
-                                <td><?php echo $info->Engines;?></td>
+                                <td><?php echo $info->Engines; ?></td>
                             </tr>
                             <tr>
                                 <td>Кузов</td>
-                                <td><?php echo $info->Body;?></td>
+                                <td><?php echo $info->Body; ?></td>
                             </tr>
                         </table>
-                        <?php echo $info->Description;?>
+                        <?php echo $info->Description; ?>
                     </div>
                 <?php } ?>
             </div>

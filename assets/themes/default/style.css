@@ -48,6 +48,11 @@ img {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+.ft {
+    max-height: 200px;
+    overflow: auto;
+    margin-bottom: 6%;
+}
 .catalog img{
     margin: 0.6%;
     width: 94px;
