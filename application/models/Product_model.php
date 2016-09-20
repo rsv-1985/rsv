@@ -21,13 +21,14 @@ class Product_model extends Default_model{
             $this->currency_rates[$cur['id']] = $cur;
         }
 
-        $customer_group = false;
+        $this->load->model('customergroup_model');
         if(isset($this->is_login) && $this->is_login){
-            $this->load->model('customergroup_model');
-            $customer_group = $this->customergroup_model->get($this->session->customer_group_id);
+            $this->customer_group = $this->customergroup_model->get($this->session->customer_group_id);
+        }else{
+            $default_customer_group_id = $this->customergroup_model->get_default();
+            $this->customer_group =  $this->customergroup_model->get($default_customer_group_id);
         }
 
-        $this->customer_group = $customer_group;
 
         unset($currency);
     }

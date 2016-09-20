@@ -35,23 +35,37 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </ol>
             <div class="col-md-4">
                 <?php if ($filters) { ?>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Фильтр <i class="glyphicon glyphicon-list pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <?php foreach ($filters as $filter_name => $filter) { ?>
+                                        <b><?php echo $filter_name; ?></b>
+                                        <div class="ft">
+                                            <ul>
+                                                <?php foreach ($filter as $key => $value) { ?>
+                                                    <li><input class="filters" type="checkbox"
+                                                               value="<?php echo $key; ?>"><?php echo $value; ?>
+                                                    </li>
+                                                <?php } ?>
 
-
-                    <?php foreach ($filters as $filter_name => $filter) { ?>
-                        <b><?php echo $filter_name; ?></b>
-                        <div class="ft">
-                        <ul>
-                        <?php foreach ($filter as $key => $value) { ?>
-                            <li><input class="filters" type="checkbox" value="<?php echo $key; ?>"><?php echo $value; ?>
-                            </li>
-                        <?php } ?>
-
-                        </ul>
+                                            </ul>
+                                        </div>
+                                    <?php } ?>
+                                    <a href="#" rel="nofollow" onclick="location.reload()" class="btn btn-info pull-right">Сбросить
+                                        фильтр</a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
                         </div>
-                    <?php } ?>
-                    <a href="#" rel="nofollow" onclick="location.reload()" class="btn btn-info pull-right">Сбросить фильтр</a>
-<div class="clearfix"></div>
-                    <hr/>
+                    </div>
                 <?php } ?>
                 <?php if (isset($trees) && !empty($trees)) { ?>
                     <h3>Каталог запчастей</h3>
@@ -104,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </td>
                                             <td><?php echo $product['name']; ?></td>
                                             <td><?php echo format_term($product['term']); ?></td>
-                                            <td style="width: 150px;">
+                                            <td style="width: 150px;font-weight: bold">
                                                 <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
                                             </td>
                                             <td>

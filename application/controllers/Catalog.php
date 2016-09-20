@@ -369,9 +369,11 @@ class Catalog extends Front_controller
                         if($info){
                             foreach ($info as $inf){
                                 $inf = explode(':',$inf);
-                                $key = md5($inf[0].@$inf[1]);
-                                $data['filters'][$inf[0]][$key] = @$inf[1];
-                                $tecdoc_part->filter_key[] = $key;
+                                if(@$inf[0] && @$inf[1]){
+                                    $key = md5($inf[0].@$inf[1]);
+                                    $data['filters'][$inf[0]][$key] = @$inf[1];
+                                    $tecdoc_part->filter_key[] = $key;
+                                }
                             }
                         }
                     }
