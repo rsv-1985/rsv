@@ -315,15 +315,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $("#subtotal").html(json['subtotal']);
                 $("#shipping-cost").html(json['delivery_price']);
                 $("#delivery_description").html(json['delivery_description']);
-                console.log(json['link_payments']);
-                //Связка способов оплаты с выбранным способом доставки
-                $("#payment option").each(function(){
-                    if(jQuery.inArray( $(this).attr('value'), json['link_payments'] ) == -1){
-                        $("#payment-"+$(this).attr('value')).attr('disabled', 'disabled');
-                    }else{
-                        $("#payment-"+$(this).attr('value')).removeAttr('disabled');
-                    }
-                });
+                if(json['link_payments'].length){
+                    //Связка способов оплаты с выбранным способом доставки
+                    $("#payment option").each(function(){
+                        if(jQuery.inArray( $(this).attr('value'), json['link_payments'] ) == -1){
+                            $("#payment-"+$(this).attr('value')).attr('disabled', 'disabled');
+                        }else{
+                            $("#payment-"+$(this).attr('value')).removeAttr('disabled');
+                        }
+                    });
+                }
+
                 $("#payment").removeAttr('disabled');
             }
         });
