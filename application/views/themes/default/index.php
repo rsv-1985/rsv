@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                            <?php if ($slider['new_window']){ ?>target="_blank" <?php } ?>>
                             <img onerror="imgError(this);"
                                  src="/image?img=/uploads/banner/<?php echo $slider['image']; ?>&height=300"
-                                 alt="<?php echo $slider['name']; ?>">
+                                 alt="<?php echo $slider['name']; ?>" title="<?php echo $slider['name']; ?>">
                             <div class="caption-group">
                                 <h2><?php echo $slider['name']; ?></h2>
                                 <?php echo $slider['description']; ?>
@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="single-promo promo1">
                             <img onerror="imgError(this);"
                                  src="/image?img=/uploads/banner/<?php echo $box['image']; ?>&width=263"
-                                 alt="<?php echo $box['name']; ?>">
+                                 alt="<?php echo $box['name']; ?>" title="<?php echo $box['name']; ?>">
                             <span>
                             <?php echo $box['name']; ?><br>
                             <small><?php echo $box['description']; ?></small>
@@ -84,7 +84,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <a href="/catalog/<?php echo $manufacturer['slug']; ?>">
                                             <img onerror="imgError(this);"
                                                  src="<?php echo $manufacturer['logo']; ?>"
-                                                 alt="<?php echo $manufacturer['name']; ?>">
+                                                 alt="<?php echo $manufacturer['name']; ?>"
+                                                 title="<?php echo $manufacturer['name']; ?>">
+
                                         </a>
                                     <?php } ?>
                                 <?php } ?>
@@ -148,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php if ($top_sellers['image']){ ?>
                                         <img onerror="imgError(this);"
                                              src="/image?img=<?php echo $top_sellers['image']; ?>&width=100"
-                                             alt="<?php echo $top_sellers['name']; ?>" class="product-thumb"></a>
+                                             alt="<?php echo $top_sellers['name']; ?>" title="<?php echo $top_sellers['name']; ?>" class="product-thumb"></a>
                                     <?php } ?>
                                     <h2>
                                         <a href="/product/<?php echo $top_sellers['slug']; ?>"><?php echo $top_sellers['name']; ?></a>
@@ -174,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php if ($novelty['image']){ ?>
                                         <img onerror="imgError(this);"
                                              src="/image?img=<?php echo $novelty['image']; ?>&width=100"
-                                             alt="<?php echo $novelty['name']; ?>" class="product-thumb"></a>
+                                             alt="<?php echo $novelty['name']; ?>" title="<?php echo $novelty['name']; ?>" class="product-thumb"></a>
                                     <?php } ?>
                                     <h2>
                                         <a href="/product/<?php echo $novelty['slug']; ?>"><?php echo $novelty['name']; ?></a>
@@ -208,7 +210,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="brand-list">
                             <?php foreach ($carousel as $carousel) { ?>
                                 <img onerror="imgError(this);" src="/uploads/banner/<?php echo $carousel['image']; ?>"
-                                     alt="<?php echo $carousel['name']; ?>">
+                                     alt="<?php echo $carousel['name']; ?>" title="<?php echo $carousel['name']; ?>">
                             <?php } ?>
                         </div>
                     </div>
