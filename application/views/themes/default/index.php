@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php foreach ($manufacturers as $manufacturer) { ?>
                                         <a href="/catalog/<?php echo $manufacturer['slug']; ?>">
                                             <img onerror="imgError(this);"
-                                                 src="/image?img=<?php echo $manufacturer['logo']; ?>&height=94&width=94"
+                                                 src="<?php echo $manufacturer['logo']; ?>"
                                                  alt="<?php echo $manufacturer['name']; ?>">
                                         </a>
                                     <?php } ?>
