@@ -34,6 +34,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input type="text" class="form-control" name="price" value="<?php echo set_value('price', $delivery['price']); ?>">
                     </div><!-- /.form group -->
                     <div class="form-group">
+                        <label><?php echo lang('text_free_cost'); ?></label>
+                        <input type="text" class="form-control" name="free_cost" value="<?php echo set_value('free_cost', $delivery['free_cost']); ?>">
+                    </div><!-- /.form group -->
+                    <div class="form-group">
                         <label><?php echo lang('text_api'); ?></label>
                         <input type="text" class="form-control" name="api" value="<?php echo set_value('api', $delivery['api']); ?>" maxlength="32">
                     </div><!-- /.form group -->
@@ -41,6 +45,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <label><?php echo lang('text_sort'); ?></label>
                         <input type="text" class="form-control" name="sort" value="<?php echo set_value('sort', $delivery['sort']); ?>">
                     </div><!-- /.form group -->
+                    <?php if($payment_methods){?>
+                        <div class="form-group">
+                        <label><?php echo lang('text_link_payment');?></label>
+                        <?php foreach ($payment_methods as $pm){?>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="<?php echo $pm['id'];?>" name="payment_methods[]" <?php echo set_checkbox('payment_methods[]', $pm['id'], (bool)@in_array($pm['id'],$delivery['payment_methods']));?>>
+                                    <?php echo $pm['name'];?>
+                                </label>
+                            </div>
+                        <?php } ?>
+                        </div>
+                    <?php } ?>
                     <div class="form-group">
                         <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_submit');?></button>
                     </div>

@@ -14,3 +14,4 @@ $lang['text_api'] = 'API';
 $lang['text_sort'] = 'Сортировка';
 $lang['text_fix_cost'] = 'Фиксированная стоимость';
 $lang['text_success'] = 'Все прошло успешно';
+$lang['text_link_delivery'] = 'Связь с способами доставки';

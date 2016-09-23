@@ -14,7 +14,7 @@ class Payment extends Admin_controller
         parent::__construct();
         $this->load->language('admin/payment');
         $this->load->model('payment_model');
-
+        $this->load->model('delivery_model');
     }
 
     public function index(){
@@ -35,6 +35,8 @@ class Payment extends Admin_controller
     }
 
     public function create(){
+        $data['delivery_methods'] = $this->delivery_model->delivery_get_all();
+
         if($this->input->post()){
             $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[250]');
             $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]');
@@ -49,18 +51,19 @@ class Payment extends Admin_controller
             }
         }
         $this->load->view('admin/header');
-        $this->load->view('admin/payment/create');
+        $this->load->view('admin/payment/create', $data);
         $this->load->view('admin/footer');
     }
 
     public function edit($id){
 
         $data = [];
-        $data['payment'] = $this->payment_model->get($id);
+        $data['delivery_methods'] = $this->delivery_model->delivery_get_all();
+        $data['payment'] = $this->payment_model->payment_get($id);
         if(!$data['payment']){
             show_404();
         }
-
+   
         if($this->input->post()){
             $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[250]');
             $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]');
@@ -94,6 +97,8 @@ class Payment extends Admin_controller
         $save['api'] = (string)$this->input->post('api', true);
         $save['sort'] = (int)$this->input->post('sort', true);
         $save['fix_cost'] = (float)$this->input->post('fix_cost', true);
+        $save['delivery_methods'] = serialize($this->input->post('delivery_methods'));
+
         $id = $this->payment_model->insert($save, $id);
         if($id){
             $this->session->set_flashdata('success', lang('text_success'));

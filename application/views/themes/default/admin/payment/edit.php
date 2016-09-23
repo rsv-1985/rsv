@@ -45,10 +45,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <label><?php echo lang('text_sort'); ?></label>
                         <input type="text" class="form-control" name="sort" value="<?php echo set_value('sort', $payment['sort']); ?>">
                     </div><!-- /.form group -->
-
                     <div class="form-group">
                         <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_submit');?></button>
                     </div>
+                    <?php if($delivery_methods){?>
+                        <div class="form-group"  style="display: none">
+                            <label><?php echo lang('text_link_delivery');?></label>
+                            <?php foreach ($delivery_methods as $dm){?>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="<?php echo $dm['id'];?>" name="delivery_methods[]" <?php echo set_checkbox('delivery_methods[]', $dm['id'], (bool)@in_array($dm['id'],$payment['delivery_methods']));?>>
+                                        <?php echo $dm['name'];?>
+                                    </label>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
                 </div><!-- /.box-body -->
             </div>
         </div>

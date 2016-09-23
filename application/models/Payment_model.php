@@ -8,6 +8,17 @@
 class Payment_model extends Default_model{
     public $table = 'payment_method';
 
+    public function payment_get($id){
+        $this->db->where('id',(int)$id);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            $result = $query->row_array();
+            $result['delivery_methods'] = unserialize($result['delivery_methods']);
+            return $result;
+        }
+        return false;
+    }
+
     public function payment_get_all(){
         $results = $this->db->get($this->table)->result_array();
         $return = [];

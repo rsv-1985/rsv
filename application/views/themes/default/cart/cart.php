@@ -133,7 +133,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                                 </tbody>
                             </table>
-                            <a href="/cart/clear_cart" class="btn btn-danger pull-right"><?php echo lang('text_clear_cart');?></a>
+                            <a href="/cart/clear_cart"
+                               class="btn btn-danger pull-right"><?php echo lang('text_clear_cart'); ?></a>
                             <div class="clearfix"></div>
                             <?php echo form_open('', ['id' => 'cart']); ?>
                             <div class="cart-collaterals">
@@ -141,11 +142,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <h2><?php echo lang('text_customer_info'); ?></h2>
                                     <div class="form-group">
                                         <label><?php echo lang('text_delivery_method'); ?></label>
-                                        <select class="form-control" name="delivery_method" onchange="get_delivery();"
+                                        <select id="delivery" class="form-control" name="delivery_method" onchange="get_delivery();"
                                                 required>
                                             <option></option>
                                             <?php foreach ($delivery as $delivery) { ?>
                                                 <option
+                                                    id="delivery-<?php echo $delivery['id'];?>"
                                                     value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method', $delivery['id']); ?>><?php echo $delivery['name']; ?></option>
                                             <?php } ?>
                                         </select>
@@ -153,11 +155,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </div>
                                     <div class="form-group">
                                         <label><?php echo lang('text_payment_method'); ?></label>
-                                        <select class="form-control" name="payment_method" onchange="get_payment();"
+                                        <select disabled id="payment" class="form-control" name="payment_method" onchange="get_payment();"
                                                 required>
                                             <option></option>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
+                                                    id="payment-<?php echo $payment['id'];?>"
                                                     value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method', $payment['id']); ?>><?php echo $payment['name']; ?></option>
                                             <?php } ?>
                                         </select>
@@ -312,10 +315,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $("#subtotal").html(json['subtotal']);
                 $("#shipping-cost").html(json['delivery_price']);
                 $("#delivery_description").html(json['delivery_description']);
+                console.log(json['link_payments']);
+                //Связка способов оплаты с выбранным способом доставки
+                $("#payment option").each(function(){
+                    if(jQuery.inArray( $(this).attr('value'), json['link_payments'] ) == -1){
+                        $("#payment-"+$(this).attr('value')).attr('disabled', 'disabled');
+                    }else{
+                        $("#payment-"+$(this).attr('value')).removeAttr('disabled');
+                    }
+                });
+                $("#payment").removeAttr('disabled');
             }
         });
     }
-
     function get_payment() {
         $.ajax({
             url: '/cart/total_cart',
@@ -340,7 +352,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             dataType: 'json',
             data: $("#cart").serialize(),
             success: function (json) {
-                if(json['total_items'] == 0){
+                if (json['total_items'] == 0) {
                     location.reload();
                 }
                 $(".total").html(json['total']);
