@@ -23,6 +23,10 @@ class Cart extends Front_controller
     }
 
     public function index(){
+        if(@$this->options['order_only_registered'] && !$this->is_login){
+            $this->session->set_flashdata('error', lang('error_order_only_registered'));
+            redirect('customer/registration');
+        }
         $data = [];
         $this->title = lang('text_heading');
         $data['delivery'] = $this->delivery_model->get_all(false, false, false, ['sort' => 'ASC']);

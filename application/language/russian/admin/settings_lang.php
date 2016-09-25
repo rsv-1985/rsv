@@ -24,8 +24,8 @@ $lang['text_scamdb_heading'] = 'Черный список покупателей
 $lang['text_scamdb_description'] = 'Сервис проверки покупателей от сайта <a target="_blank" href="http://scamdb.info/ru/api">scamdb.info</a> Для получения ключа доступа, пройдите простую регистрацию и перейдите на страницу API там Вы увидете свой ключ';
 $lang['text_tecdoc_manufacturer_heading'] = 'Автомобили каталога Текдок';
 $lang['text_tecdoc_manufacturer_description'] = 'Настройка отображаемых моделей автомибилей в каталоге tecdoc. Для отображения логотипа, предварительно загрузите картинку с названием производителя в папку /uploads/model/';
-$lang[''] = '';
-$lang[''] = '';
+$lang['text_order_only_registered'] = 'Заказ только зарегистрированным пользователям';
+$lang['text_order_only_registered_description'] = 'Только зарегистрированные пользователи могут оформлять заказ на сайте';
 $lang[''] = '';
 $lang[''] = '';
 $lang[''] = '';

@@ -49,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
+                        <a href="#" data-toggle="modal" data-target="#login"><?php echo lang('text_login_link');?></a>
                         <input type="submit" value="<?php echo lang('button_register');?>" class="pull-right">
                     </div>
                 </div>

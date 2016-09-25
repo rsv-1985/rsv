@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-institution"></i> <span><?php echo lang('text_shop');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
