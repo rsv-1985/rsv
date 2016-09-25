@@ -193,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active');
-        console.log($('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active');)
+        console.log($('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active'));
     });
 </script>
 
