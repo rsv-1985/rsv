@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <?php if($brands){?>
                     <div class="panel panel-default">
                         <div class="panel-heading"><?php echo lang('text_filter_brand');?>
-                            <?if($this->uri->segment(4)){?>
+                            <?php if($this->uri->segment(4)){?>
                                 <small class="pull-right"><a href="/category/<?php echo $slug;?>"><?php echo lang('text_filter_reset');?></a> </small>
                             <?php } ?>
                         </div>

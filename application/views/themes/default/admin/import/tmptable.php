@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <div class="box-footer">
             <a href="/autoxadmin/import/cancel" class="btn btn-danger"><?php echo lang('button_delete');?></a>
             <div class="pull-right">
-                <?php echo form_open('/autoxadmin/import/add', ['method' => 'get']);?>
+                <?php echo form_open('/autoxadmin/import/add', ['method' => 'get', 'id' => 'import-form', 'onsubmit' => 'add(event)']);?>
                 <div class="form-group">
                     <label><?php echo lang('text_import_settings');?></label>
                     <select name="settings" class="form-control">
@@ -102,5 +102,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
         </div><!-- /.box-footer-->
     </div><!-- /.box -->
-
+    <div class="modal modal-danger" id="import-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Импорт работает</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Обработано строк: <b id="rows">0</b> </p>
+                    <div class="progress">
+                        <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="location.reload()">Отмена</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 </section><!-- /.content -->
+<script>
+    var totalRows = '<?php echo $total;?>';
+    function add(event){
+        event.preventDefault();
+        $("#import-modal").modal('show');
+        $.ajax({
+            url: $('#import-form').attr('action'),
+            method: 'get',
+            data: $('#import-form').serialize(),
+            success: function(json){
+                console.log(json);
+                if(json['continue']){
+                    doImport(json['continue']);
+                }else{
+                    location.href = json['success'];
+                }
+            }
+        });
+    }
+
+    function doImport(href){
+        $.ajax({
+            url: href,
+            method: 'get',
+            success: function(json){
+                if(json['continue']){
+                    var procent = json['row'] * 100 / totalRows;
+                    $(".sr-only").text(procent);
+                    $("#progress").css('width',procent+'%');
+                    $("#rows").text(json['row']);
+                    doImport(json['continue']);
+                }else{
+                    location.href = json['success'];
+                }
+            }
+        });
+    }
+
+
+</script>

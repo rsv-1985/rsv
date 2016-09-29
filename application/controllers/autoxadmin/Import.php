@@ -143,25 +143,27 @@ class Import extends Admin_controller
                 $product['slug'] = url_title($product['name'].' '.$product['sku'].' '.$product['brand'].' '.$product['supplier_id'], 'dash', true);
             }
 
-
             $this->product_model->insert_on_duplicate_key($products);
 
-            echo('<html>
-                    <head>
-                    <title>Import...</title>
-                    </head>
-                    <body>
-                    Import...<br /><a id="go" href="'.base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id').'"\'>.</a>
-                    <script type="text/javascript">document.getElementById(\'go\').click();</script>
-                    </body>
-                    </html>');
-            die();
+            $json = [
+                'continue' => base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id'),
+                'row' => $id
+            ];
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($json));
         }else{
             $this->import_model->truncate();
             delete_files('./uploads/import/');
             $this->product_model->set_price($this->input->get('supplier_id'));
             $this->session->set_flashdata('success', lang('text_success'));
-            redirect('autoxadmin/import');
+            $json = [
+                'success' => base_url('autoxadmin/import')
+            ];
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($json));
         }
     }
 

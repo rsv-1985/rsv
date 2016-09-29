@@ -21,7 +21,6 @@ class Index extends Front_controller {
 	{
         $data = [];
         $settings = $this->settings_model->get_by_key('main_settings');
-        
         if($settings){
             $this->title = $settings['title'];
             $this->description = $settings['meta_description'];
