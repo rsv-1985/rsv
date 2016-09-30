@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="/product/<?php echo $product['name'];?>" target="_blank">
+                                        <a href="/product/<?php echo $product['slug'];?>" target="_blank">
                                             <?php echo $product['name'];?>
                                         </a>
                                     </td>
