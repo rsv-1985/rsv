@@ -98,7 +98,7 @@ class Order extends Admin_controller
 
         $settings_fraud = $this->settings_model->get_by_key('scamdb');
         $data['scamdb_info'] = false;
-        if(isset($settings_fraud['access_token'])){
+        if(@$settings_fraud['access_token']){
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, 'http://scamdb.info/ru/v1/fraud/find?search='.$data['order']['telephone'].'&access-token='.$settings_fraud['access_token']);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -108,7 +108,7 @@ class Order extends Admin_controller
             curl_close($curl);
             $result = json_decode($result);
             if($result){
-                $data['scamdb_info'] = '<a href="http://scamdb.info/ru/fraud/'.$result[0]->id.'" target="_blank">Обнаружен в базе scamdb.info</a>';
+                $data['scamdb_info'] = '<a href="http://scamdb.info/ru/fraud/'.@$result[0]->id.'" target="_blank">Обнаружен в базе scamdb.info</a>';
             }
         }
         $data['status'] = $this->orderstatus_model->status_get_all();
