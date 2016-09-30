@@ -170,6 +170,12 @@ class Product extends Admin_controller
         $save['category_id'] = (int)$this->input->post('category_id', true);
         $save['status'] = (bool)$this->input->post('category_id', true);
         $this->product_model->update_item($save, $slug);
+
+        //Если сменился slug удаляем старый товар
+        if($save['slug'] != $slug){
+            $this->product_model->product_delete($slug);
+        }
+
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/product/edit/'.$save['slug']);
     }
