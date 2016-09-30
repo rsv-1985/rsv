@@ -68,12 +68,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="clearfix"></div>
                                     </div>
                                 <?php } ?>
-                                <div class="product-inner-price">
-                                    <ins><?php echo $saleprice > 0 ? $saleprice : $price; ?></ins>
-                                    <?php if ($saleprice > 0) { ?>
-                                        <del><?php echo $price; ?></del>
-                                    <?php } ?>
-                                </div>
+                                <?php if($status){?>
+                                    <div class="product-inner-price">
+                                        <ins><?php echo $saleprice > 0 ? $saleprice : $price; ?></ins>
+                                        <?php if ($saleprice > 0) { ?>
+                                            <del><?php echo $price; ?></del>
+                                        <?php } ?>
+                                    </div>
 
                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($slug) . '\', event)']); ?>
                                 <div class="quantity">
@@ -89,7 +90,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php } ?>
                                 ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                                 </form>
-
+                                <?php }else{?>
+                                    <?php echo lang('text_not_available');?>
+                                <?php } ?>
                                 <div role="tabpanel">
                                     <ul class="product-tab" role="tablist">
                                         <li role="presentation" class="active"><a href="#description"

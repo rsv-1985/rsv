@@ -21,3 +21,4 @@ $lang['text_supplier'] = 'Поставщик';
 $lang['text_supplier_description'] = 'Описание';
 $lang['text_delivery_price'] = 'Цена поставки';
 $lang['text_updated_at'] = 'Обновлено';
+$lang['text_not_available'] = 'В данный момент товара нет в наличии.';

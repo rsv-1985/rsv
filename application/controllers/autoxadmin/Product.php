@@ -168,7 +168,7 @@ class Product extends Admin_controller
         $save['viewed'] = (int)$this->input->post('viewed', true);
         $save['bought'] = (int)$this->input->post('bought', true);
         $save['category_id'] = (int)$this->input->post('category_id', true);
-        $save['status'] = (bool)$this->input->post('category_id', true);
+        $save['status'] = (bool)$this->input->post('status', true);
         $this->product_model->update_item($save, $slug);
 
         //Если сменился slug удаляем старый товар
