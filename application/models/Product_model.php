@@ -21,8 +21,8 @@ class Product_model extends Default_model{
             $this->currency_rates[$cur['id']] = $cur;
         }
 
-        $this->load->model('customergroup_model');
-        if(isset($this->is_login) && $this->is_login){
+        if(@$this->is_login){
+            $this->load->model('customergroup_model');
             $this->customer_group = $this->customergroup_model->get($this->session->customer_group_id);
         }
 
