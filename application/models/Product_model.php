@@ -24,11 +24,7 @@ class Product_model extends Default_model{
         $this->load->model('customergroup_model');
         if(isset($this->is_login) && $this->is_login){
             $this->customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-        }else{
-            $default_customer_group_id = $this->customergroup_model->get_default();
-            $this->customer_group =  $this->customergroup_model->get($default_customer_group_id);
         }
-
 
         unset($currency);
     }
@@ -105,6 +101,7 @@ class Product_model extends Default_model{
             delivery_price=VALUES(delivery_price),
             saleprice=VALUES(saleprice),
             quantity=VALUES(quantity),
+            term=VALUES(term),
             updated_at=VALUES(updated_at),
             status=1;';
             $this->db->query($sql);
