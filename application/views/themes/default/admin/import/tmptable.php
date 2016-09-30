@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     var totalRows = '<?php echo $total;?>';
     function add(event){
         event.preventDefault();
-        $("#import-modal").modal('show');
+        $("#import-modal").modal({backdrop: 'static', keyboard: false});
         $.ajax({
             url: $('#import-form').attr('action'),
             method: 'get',
