@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </form>
                                     <?php if($products){?>
                                         <br/>
-                                        <a href="#" onclick="$('.this-products').toggle();return false;"><?php echo sprintf(lang('text_this_products'), count($products));?></a>
+                                        <a href="#" rel="nofollow" onclick="$('.this-products').toggle();return false;"><?php echo sprintf(lang('text_this_products'), count($products));?></a>
                                         <div class="this-products" style="display: none">
                                             <?php foreach ($products as $product){?>
                                             <h3 class="center"><?php echo $product['name'];?></h3>
