@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo lang('text_price');?></h3>
-                        <span class="badge bg-aqua pull-right">1</span>
+                        <span class="badge bg-aqua pull-right">Шаг 1</span>
                     </div>
                     <div class="box-body">
                         <input type="file" name="filename" class="form-control" value="<?php echo set_value('filename');?>" required>
@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo lang('text_supplier');?></h3>
-                        <span class="badge bg-aqua pull-right">2</span>
+                        <span class="badge bg-aqua pull-right">Шаг 2</span>
                     </div>
                     <div class="box-body">
                         <?php if($suppliers){?>
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <?php } ?>
                     </div>
                     <div class="box-footer">
-                        <a href="/autoxadmin/supplier" target="_blank"><?php echo lang('button_add');?></a>
+                        <a href="/autoxadmin/supplier" target="_blank"><?php echo lang('button_add');?> поставщика</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo lang('text_sample');?></h3>
-                        <span class="badge bg-aqua pull-right">3</span>
+                        <span class="badge bg-aqua pull-right">Шаг 3</span>
                     </div>
                     <div class="box-body" >
                         <div class="form-group" id="sample">
@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </div>
                     </div>
                     <div class="box-footer">
-                        <a href="#" id="sample_add"><?php echo lang('button_add');?></a>
+                        <a href="#" id="sample_add"><?php echo lang('button_add');?> шаблон</a>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <input type="number" class="form-control" name="sample[default_term]" value="<?php echo set_value('sample[default_term]');?>">
                             </div>
                             <div class="form-group">
-                            <label><?php echo lang('text_sample_term');?></label><br>
+                            <label><?php echo lang('text_sample_term_unit');?></label><br>
                                 <input type="radio" name="sample[default_term_unit]" value="hour" checked>-<?php echo lang('text_sample_default_term_unit_hour');?>
                                 <input type="radio" name="sample[default_term_unit]" value="day">-<?php echo lang('text_sample_default_term_unit_day');?>
                             </div>

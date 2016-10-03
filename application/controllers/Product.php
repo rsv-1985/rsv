@@ -85,6 +85,16 @@ class Product extends Front_controller{
         if(isset($product['tecdoc_info']['cross'])){
             $data['cross'] = $product['tecdoc_info']['cross'];
         }
+        //Такой же товар по другим ценам
+        $data['products'] = false;
+        $products = $this->product_model->get_search(false, $product['brand'], $product['sku']);
+        if($products && $products['products']){
+            foreach ($products['products'] as $p){
+                if($p['slug'] !== $product['slug'] && $product['status']){
+                    $data['products'][] = $p;
+                }
+            }
+        }
 
         $data['supplier'] = $product['sup_name'];
         $data['supplier_description'] = $product['sup_description'];

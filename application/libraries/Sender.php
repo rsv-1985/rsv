@@ -16,11 +16,8 @@ class Sender{
 
     public function email($subject, $body, $to = false, $from = false){
 
-        if(!$to){
+        if(!$to || !$from){
            return false;
-        }
-        if(!$from){
-            return false;
         }
         if(is_array($to)){
             $to = implode(',',$to);

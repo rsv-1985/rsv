@@ -39,21 +39,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="col-sm-8">
                             <div class="product-inner">
                                 <h1 class="product-name"><?php echo $h1; ?></h1>
-                                <div class="well well-sm">
-                                    <div class="col-md-6">
-                                        <small><?php echo lang('text_brand'); ?>:</small> <?php echo $brand; ?><br/>
-                                        <small><?php echo lang('text_sku'); ?>:</small> <?php echo $sku; ?><br/>
-                                        <?php if($excerpt){?>
-                                            <small><?php echo lang('text_excerpt'); ?>:</small> <?php echo $excerpt; ?>
-                                        <?php } ?>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small><?php echo lang('text_qty'); ?>:</small> <?php echo format_quantity($quantity); ?><br/>
-                                        <small><?php echo lang('text_term'); ?>:</small> <?php echo format_term($term); ?>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
                                 <?php if($this->is_admin){?>
                                     <div class="well well-sm">
                                         <div class="col-md-6">
@@ -68,6 +53,30 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="clearfix"></div>
                                     </div>
                                 <?php } ?>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <span class="badge"><?php echo $brand; ?></span>
+                                        <?php echo lang('text_brand'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="badge"><?php echo $sku; ?></span>
+                                        <?php echo lang('text_sku'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="badge"><?php echo format_quantity($quantity); ?></span>
+                                        <?php echo lang('text_qty'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="badge"><?php echo format_term($term); ?></span>
+                                        <?php echo lang('text_term'); ?>
+                                    </li>
+                                    <?php if($excerpt){?>
+                                        <li class="list-group-item">
+                                            <span class="badge"><?php echo $excerpt; ?></span>
+                                            <?php echo lang('text_excerpt'); ?>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
                                 <?php if($status){?>
                                     <div class="product-inner-price">
                                         <ins><?php echo $saleprice > 0 ? $saleprice : $price; ?></ins>
@@ -90,6 +99,62 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php } ?>
                                 ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                                 </form>
+                                    <?php if($products){?>
+                                        <br/>
+                                        <a href="#" onclick="$('.this-products').toggle();return false;"><?php echo sprintf(lang('text_this_products'), count($products));?></a>
+                                        <div class="this-products" style="display: none">
+                                            <?php foreach ($products as $product){?>
+                                            <h3 class="center"><?php echo $product['name'];?></h3>
+                                            <div class="well">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">
+                                                        <span class="badge"><?php echo $product['brand']; ?></span>
+                                                        <?php echo lang('text_brand'); ?>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <span class="badge"><?php echo $product['sku']; ?></span>
+                                                        <?php echo lang('text_sku'); ?>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <span class="badge"><?php echo format_quantity($product['quantity']); ?></span>
+                                                        <?php echo lang('text_qty'); ?>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <span class="badge"><?php echo format_term($product['term']); ?></span>
+                                                        <?php echo lang('text_term'); ?>
+                                                    </li>
+                                                    <?php if($product['excerpt']){?>
+                                                        <li class="list-group-item">
+                                                            <span class="badge"><?php echo $product['excerpt']; ?></span>
+                                                            <?php echo lang('text_excerpt'); ?>
+                                                        </li>
+                                                    <?php } ?>
+                                                </ul>
+                                                <div class="product-inner-price">
+                                                    <ins><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?></ins>
+                                                    <?php if ($product['saleprice'] > 0) { ?>
+                                                        <del><?php echo format_currency($product['price']); ?></del>
+                                                    <?php } ?>
+                                                </div>
+                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\'' . md5($product['slug']) . '\', event)']); ?>
+                                                <div class="quantity">
+                                                    <input type="number" size="4" class="input-text qty text" value="1" name="quantity"
+                                                           min="1" step="1">
+                                                </div>
+                                                <input type="hidden" name="slug" value="<?php echo $product['slug']; ?>">
+                                                <button class="add_to_cart_button"
+                                                        type="submit"><?php echo lang('button_add_cart'); ?></button>
+                                                <a href="/cart" id="<?php echo md5($product['slug']); ?>"
+                                                    <?php if (!key_exists(md5($product['slug']), $this->cart->contents())) { ?>
+                                                        style="display: none; margin-left: 2%;"
+                                                    <?php } ?>
+                                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
+                                                </form>
+                                            </div>
+
+                                        <?php } ?>
+                                        </div>
+                                    <?php } ?>
                                 <?php }else{?>
                                     <?php echo lang('text_not_available');?>
                                 <?php } ?>

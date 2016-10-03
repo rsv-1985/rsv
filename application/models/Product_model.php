@@ -395,7 +395,6 @@ class Product_model extends Default_model{
 
         return $return;
     }
-
     //Получаем товары для категории
     public function product_get_all($limit = false, $start = false, $where = false, $order = false){
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
@@ -431,7 +430,6 @@ class Product_model extends Default_model{
         }
         return false;
     }
-
     //Расчет цены по группе покупателя
     private function calculate_customer_price($price){
         //Если пользователь залогинен
@@ -447,7 +445,6 @@ class Product_model extends Default_model{
         }
         return $price;
     }
-
     //Новинки
     public function get_novelty(){
         $cache = $this->cache->file->get('novelty');
@@ -484,7 +481,6 @@ class Product_model extends Default_model{
         }
 
     }
-
     //Топ
     public function top_sellers(){
         $cache = $this->cache->file->get('top_sellers');
@@ -522,7 +518,6 @@ class Product_model extends Default_model{
         }
 
     }
-
     //Информация по запчасти с текдока
     private function tecdoc_info($sku, $brand, $full_info = false){
         $return = false;
