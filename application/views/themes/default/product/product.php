@@ -18,7 +18,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="single-sidebar">
                         <?php foreach ($banner as $banner) { ?>
                             <div class="thubmnail-recent">
-                                <img onerror="imgError(this);" src="/uploads/banner/<?php echo $banner['image']; ?>">
+                                <a href="<?php echo $banner['link']; ?>" <?php if ($banner['new_window']){ ?>target="_blank" <?php } ?>>
+                                    <img onerror="imgError(this);" src="/uploads/banner/<?php echo $banner['image']; ?>">
+                                </a>
                             </div>
                         <?php } ?>
                     </div>
