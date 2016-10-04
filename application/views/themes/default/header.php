@@ -36,13 +36,110 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <link rel="stylesheet" href="<?php echo $style;?>">
         <?php } ?>
     <?php } ?>
-	
+	<style>
+		.col-md-3.col-sm-6.g_map iframe {
+			width: 100% !important;
+		}
+		@media (max-width: 991px){
+			.search #search_input {
+				width: 60%;
+			}
+			.catalog {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    flex-flow: row wrap;
+}
+			.shopping-item {
+				border: 1px solid #ddd;
+				float: right;
+				font-size: 18px;
+				margin-top: 40px;
+				padding: 10px 4px;
+				position: relative;
+			}
+			.enter_tablet ul li{
+				float: left;
+			}
+			.logo a {
+				color: #5A88CA;
+				font-weight: bold;
+				text-shadow: 1px 1px 1px black, 0 0 1px #777;
+				font-size: 31px;
+			}
+			.mainmenu-area ul.navbar-nav li a {
+				padding: 20px 18px;
+			}
+		}
+		@media (max-width: 767px){
+			.logo a {
+				color: #5a88ca;
+				font-weight: bold;
+				text-shadow: 1px 1px 1px black , 0 0 1px #777;
+				font-size: 45px;
+			}
+
+		}
+		@media (max-width: 557px){
+			.search_form_m{
+				width: 100%;
+			}
+
+			.search_form_m .search {
+    margin-top: 0;
+}
+.col-sm-4.col-xs-6.cart_m .shopping-item {
+    margin-top: 20px;
+}
+.col-sm-4.col-xs-6.cart_m .call-back {
+    margin-top: 20px;
+}
+.col-sm-4.col-xs-6.cart_m {
+    float: none;
+    margin: 0 auto;
+}
+.shopping-item {
+    padding: 10px;
+}
+
+		}
+		@media (max-width: 522px){
+			.col-sm-4.col-xs-6.cart_m {
+    float: left;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    height: 90px;
+}
+.logo {
+    text-align: center;
+}
+.col-sm-4.col-xs-6.cart_m>div {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+    width: 235px;
+}
+
+		}
+		@media (max-width: 365px){
+			.table-responsive th, .table-responsive td {
+    font-size: 12px !important;
+}
+		}
+	</style>
 </head>
 <body>
 <div class="header-area">
     <div class="container">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-7 col-xs-6 enter_tablet">
                 <div class="user-menu">
                     <ul>
                         <?php if($this->is_login){?>
@@ -56,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-5 col-xs-6">
                 <div class="pull-right" id="contact">
                     <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
                         <i class="fa fa-phone-square"></i> 
@@ -95,7 +192,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-xs-6 cart_m">
+				<div>
                 <div class="shopping-item">
                     <a href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
                          <span
