@@ -1,10 +1,8 @@
 $(document).ready(function(){
-    console.log('ready!');
     $(".confirm").click(function(){
-        if (confirm("")) {
+        if (confirm($(this).attr('data-confirm'))) {
             return true;
         } else {
-            event.preventDefault();
             return false;
         }
     });

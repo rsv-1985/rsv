@@ -41,10 +41,13 @@ class Front_controller extends CI_Controller{
     public $is_admin;
     public $success;
     public $error;
-    public $category = false;
+    public $category;
     public $contacts;
     public $options;
     public $garage;
+    public $next;
+    public $prev;
+    public $canonical;
 
     public function __construct()
     {

@@ -88,8 +88,6 @@ class category extends Front_controller{
 
         $this->pagination->initialize($config);
 
-
-
         $this->load->view('header');
         $this->load->view('category/category', $data);
         $this->load->view('footer');
