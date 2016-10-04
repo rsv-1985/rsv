@@ -55,6 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="clearfix"></div>
                                     </div>
                                 <?php } ?>
+                                <?php if($status){?>
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <span class="badge"><?php echo $brand; ?></span>
@@ -79,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </li>
                                     <?php } ?>
                                 </ul>
-                                <?php if($status){?>
+
                                     <div class="product-inner-price">
                                         <ins><?php echo $saleprice > 0 ? $saleprice : $price; ?></ins>
                                         <?php if ($saleprice > 0) { ?>
