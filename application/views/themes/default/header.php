@@ -155,11 +155,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-md-5 col-xs-6">
                 <div class="pull-right" id="contact">
-                    <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
-                        <i class="fa fa-phone-square"></i> 
-                        <a href="#" data-toggle="modal" data-target="#call-back-modal">
-                            <?php echo $phone;?>&nbsp;
-                        </a>
+                    <?php foreach(array_chunk(explode(';',$this->contacts['phone']),2) as $phone_array){?>
+                        <?php foreach ($phone_array as $phone){?>
+                            <i class="fa fa-phone-square"></i>
+                            <a href="#" data-toggle="modal" data-target="#call-back-modal">
+                                <?php echo $phone;?>&nbsp;
+                            </a>
+                        <?php } ?>
+                        <br />
                     <?php } ?>
                     <?php foreach(explode(';',$this->contacts['email']) as $email){?>
                         <i class="fa fa-envelope"></i> <a href="mailto:<?php echo $email;?>"><?php echo $email;?></a>
