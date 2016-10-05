@@ -31,8 +31,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <a href="/autoxadmin/order">В разрезе Заказов</a> /
-                    <a style="color: green" href="/autoxadmin/order/products">В разрезе товаров</a>
+                    <a href="/autoxadmin/order">Отобразить заказы</a> /
+                    <a style="color: green" href="/autoxadmin/order/products">Товары в заказах</a>
                     <table class="table table-condensed">
                         <tbody><tr>
                             <th>#</th>
