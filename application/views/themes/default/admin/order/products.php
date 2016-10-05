@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php echo form_open();?>
                                 <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
                                 <input type="hidden" name="order_id" value="<?php echo $product['order_id'];?>">
-                                <tr>
+                                <tr style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
                                     <td>
                                         <a href="/autoxadmin/order/edit/<?php echo $product['order_id'];?>">
                                             <b>#<?php echo $product['order_id'];?><br></b>
