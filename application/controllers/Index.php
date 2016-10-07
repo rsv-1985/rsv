@@ -32,7 +32,7 @@ class Index extends Front_controller {
         $data['slider'] = $this->banner_model->get_slider();
         $data['box'] = $this->banner_model->get_box();
         $data['carousel'] = $this->banner_model->get_carousel();
-        $data['news'] = $this->news_model->get_all(10,false,['status' => true]);
+        $data['news'] = $this->news_model->get_all(10,false,['status' => true],['id' => 'DESC']);
         $data['novelty'] = $this->product_model->get_novelty();
         $data['top_sellers'] = $this->product_model->top_sellers();;
         $data['recently_viewed'] = false;
