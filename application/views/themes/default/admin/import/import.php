@@ -122,8 +122,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </div>
                             <div class="form-group">
                             <label><?php echo lang('text_sample_term_unit');?></label><br>
-                                <input type="radio" name="sample[default_term_unit]" value="hour" checked>-<?php echo lang('text_sample_default_term_unit_hour');?>
-                                <input type="radio" name="sample[default_term_unit]" value="day">-<?php echo lang('text_sample_default_term_unit_day');?>
+                                <input type="radio" name="sample[default_term_unit]" value="hour" checked> <?php echo lang('text_sample_default_term_unit_hour');?>
+                                <input type="radio" name="sample[default_term_unit]" value="day"> <?php echo lang('text_sample_default_term_unit_day');?>
                             </div>
                         </div>
                         <table class="table">
