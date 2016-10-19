@@ -182,19 +182,6 @@ class Ajax extends Front_controller
             }
         }
 
-        if ($results['about']) {
-            foreach ($results['about'] as $product) {
-                if ($product['price'] <= $min_price || !$results['min_price']) {
-                    $results['min_price'] = $product;
-                    $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
-                }
-                if (($product['term'] >= 24 ? $product['term'] / 24 : $product['term']) <= $min_term || !$results['min_term']) {
-                    $results['min_term'] = $product;
-                    $min_term = ($product['term'] >= 24 ? $product['term'] / 24 : $product['term']);
-                }
-            }
-        }
-
         if ($is_admin) {
             $html = $this->load->view('form/admin_result', $results, true);;
         } else {
@@ -205,48 +192,6 @@ class Ajax extends Front_controller
             ->set_content_type('application/html')
             ->set_output($html);
     }
-
-    public function add_cart()
-    {
-        $json = [];
-        $json['error'] = lang('text_error_cart');
-
-        $slug = $this->input->post('slug', true);
-        $quantity = (int)$this->input->post('quantity');
-        $this->load->model('product_model');
-        $product = $this->product_model->get_by_slug($slug, false);
-        if ($product) {
-            $data = [
-                'id' => $slug,
-                'qty' => (int)$quantity,
-                'price' => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
-                'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
-                'sku' => $product['sku'],
-                'brand' => $product['brand'],
-                'supplier_id' => (int)$product['supplier_id'],
-                'is_stock' => (bool)$product['is_stock']
-            ];
-
-            if ($product['is_stock']) {
-                $quan_in_cart = key_exists(md5($slug), $this->cart->contents()) ? $this->cart->contents()[md5($slug)]['qty'] : 0;
-                if ($product['quantity'] < $quantity + $quan_in_cart) {
-                    $json['error'] = lang('text_error_qty_cart_add');
-                    unset($data);
-                }
-            }
-        }
-
-        if (isset($data) && $this->cart->insert($data)) {
-            $json['success'] = lang('text_success_cart');
-            $json['product_count'] = $this->cart->total_items();
-            $json['cart_amunt'] = format_currency($this->cart->total());
-        }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
-
 
     public function get_tecdoc_info()
     {

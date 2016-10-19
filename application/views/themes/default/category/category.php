@@ -44,7 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="col-md-8">
                 <?php if($products){?>
                     <div class="row">
-                        <?php foreach($products as $product){?>
+                        <?php foreach($products as $product){
+                            $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-shop-product">
                                     <div class="product-upper">
@@ -72,20 +73,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     </div>
 
                                     <div class="product-option-shop">
-                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
+                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                         <div class="input-group">
                                             <input type="number" name="quantity" class="form-control" value="1">
-                                            <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                            <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
+                                            <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                                            </span>
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                                         </div>
                                         </form>
-                                        <a href="/cart" id="<?php echo md5($product['slug']);?>"
-                                            <?php if(!key_exists(md5($product['slug']),$this->cart->contents())){?>
+                                        <a href="/cart" class="<?php echo $key; ?>"
+                                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
                                                 style="display: none;"
                                             <?php } ?>
-                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                                     </div>
                                 </div>
                             </div>

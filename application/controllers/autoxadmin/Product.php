@@ -44,7 +44,10 @@ class Product extends Admin_controller
                 $save['price'] = (float)$this->input->post('price', true);
                 $save['saleprice'] = (float)$this->input->post('saleprice', true);
                 $save['status'] = (bool)$this->input->post('status', true);
-                $this->product_model->update_item($save, $this->input->post('slug'));
+                $product_id = (int)$this->input->post('product_id');
+                $supplier_id = (int)$this->input->post('supplier_id');
+                $term = (int)$this->input->post('term');
+                $this->product_model->update_item($save, $product_id, $supplier_id, $term);
                 $this->session->set_flashdata('success', lang('text_success'));
                 redirect('autoxadmin/product');
             }else{
@@ -60,13 +63,14 @@ class Product extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function edit($slug){
+    public function edit($id){
 
         $data = [];
-        $data['product'] = $this->product_model->admin_get_by_slug($slug);
+        $data['product'] = $this->product_model->get($id);
         if(!$data['product']){
             redirect('autoxadmin/product');
         }
+        $data['prices'] = $this->product_model->get_product_price($id);
 
         if($this->input->post()){
             $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
@@ -77,20 +81,27 @@ class Product extends Admin_controller
             $this->form_validation->set_rules('title', lang('text_title'), 'max_length[250]|trim');
             $this->form_validation->set_rules('meta_description', lang('text_meta_description'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('meta_keywords', lang('text_meta_keywords'), 'max_length[250]|trim');
+            $this->form_validation->set_rules('bought', lang('text_bought'), 'integer');
+            $this->form_validation->set_rules('category_id', lang('text_category_id'), 'integer');
+
             if($this->input->post('slug') != $data['product']['slug']){
                 $this->form_validation->set_rules('slug', lang('text_slug'), 'max_length[255]|trim|is_unique[product.slug]');
             }
-            $this->form_validation->set_rules('description', lang('text_description'), 'max_length[12000]|trim');
-            $this->form_validation->set_rules('excerpt', lang('text_excerpt'), 'max_length[32]|trim');
-            $this->form_validation->set_rules('currency_id', lang('text_currency_id'), 'required|integer');
-            $this->form_validation->set_rules('delivery_price', lang('text_delivery_price'), 'required|numeric');
-            $this->form_validation->set_rules('saleprice', lang('text_saleprice'), 'numeric');
-            $this->form_validation->set_rules('price', lang('text_price'), 'required|numeric');
-            $this->form_validation->set_rules('quantity', lang('text_quantity'), 'integer');
-            $this->form_validation->set_rules('supplier_id', lang('text_supplier_id'), 'required|integer');
-            $this->form_validation->set_rules('term', lang('text_term'), 'integer');
-            $this->form_validation->set_rules('bought', lang('text_bought'), 'integer');
-            $this->form_validation->set_rules('category_id', lang('text_category_id'), 'integer');
+            if($this->input->post('prices')){
+                foreach ($this->input->post('prices') as $i => $item){
+                    $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'max_length[12000]|trim');
+                    $this->form_validation->set_rules('prices['.$i.'][excerpt]', lang('text_excerpt'), 'max_length[32]|trim');
+                    $this->form_validation->set_rules('prices['.$i.'][currency_id]', $i.lang('text_currency_id'), 'required|integer');
+                    $this->form_validation->set_rules('prices['.$i.'][delivery_price]', lang('text_delivery_price'), 'required|numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][saleprice]', lang('text_saleprice'), 'numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][price]', lang('text_price'), 'required|numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][quantity]', lang('text_quantity'), 'integer');
+                    $this->form_validation->set_rules('prices['.$i.'][supplier_id]', lang('text_supplier_id'), 'required|integer');
+                    $this->form_validation->set_rules('prices['.$i.'][term]', lang('text_term'), 'integer');
+                }
+            }
+
+
             if ($this->form_validation->run() !== false){
                 $file_name = $this->input->post('image');
                 if(isset($_FILES['userfile']['name']) && !empty($_FILES['userfile']['name'])){
@@ -114,7 +125,7 @@ class Product extends Admin_controller
                         @unlink('./uploads/product/'.$data['product']['image']);
                     }
                 }
-                $this->save_data($slug, $file_name);
+                $this->save_data($id, $file_name);
             }else{
                 $this->error = validation_errors();
             }
@@ -128,55 +139,72 @@ class Product extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function delete($slug){
-        $product_info = $this->product_model->admin_get_by_slug($slug,false);
-        if($product_info){
-            if(mb_strlen($product_info['image']) > 0){
-                @unlink('./uploads/product/'.$product_info['image']);
-            }
-        }
-        $this->product_model->product_delete($slug);
+    public function delete_product_cart(){
+        $this->db->query("DELETE a FROM `ax_product` a LEFT JOIN `ax_product_price` b ON a.id=b.product_id WHERE b.product_id IS NULL");
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/product');
     }
 
-    public function save_data($slug, $file_name){
-        $save = [];
-        $save['sku'] = $this->product_model->clear_sku($this->input->post('sku', true));
-        $save['brand'] = $this->product_model->clear_brand($this->input->post('brand', true));
-        $save['name'] = $this->input->post('name', true);
-        $save['image'] = $file_name;
-        $save['h1'] = $this->input->post('h1', true);
-        $save['title'] = $this->input->post('title', true);
-        $save['meta_description'] = $this->input->post('meta_description', true);
-        $save['meta_keywords'] = $this->input->post('meta_keywords', true);
-        $save['supplier_id'] = (int)$this->input->post('supplier_id', true);
-        if($this->input->post('slug')){
-            $save['slug'] = $this->input->post('slug', true);
+    public function delete(){
+        $product_id = (int)$this->input->get('product_id');
+        $supplier_id = (int)$this->input->get('supplier_id');
+        $term = (int)$this->input->get('term');
+        if($product_id && $supplier_id && $term){
+            $this->product_model->product_delete(['product_id' => (int)$product_id, 'supplier_id' => (int)$supplier_id, 'term' => (int)$term]);
+            $this->session->set_flashdata('success', lang('text_success'));
         }else{
-            $save['slug'] = url_title($save['name'].' '.$save['sku'].' '.$save['brand'].' '.$save['supplier_id'], 'dash', true);
-        }
-        $save['description'] = $this->input->post('description');
-        $save['excerpt'] = $this->input->post('excerpt', true);
-        $save['currency_id'] = (int)$this->input->post('currency_id', true);
-        $save['delivery_price'] = (float)$this->input->post('delivery_price', true);
-        $save['saleprice'] = (float)$this->input->post('saleprice', true);
-        $save['price'] = (float)$this->input->post('price', true);
-        $save['quantity'] = (int)$this->input->post('quantity', true);
-        $save['term'] = (int)$this->input->post('term', true);
-        $save['updated_at'] = date('Y-m-d H:i:s');
-        $save['viewed'] = (int)$this->input->post('viewed', true);
-        $save['bought'] = (int)$this->input->post('bought', true);
-        $save['category_id'] = (int)$this->input->post('category_id', true);
-        $save['status'] = (bool)$this->input->post('status', true);
-        $this->product_model->update_item($save, $slug);
-
-        //Если сменился slug удаляем старый товар
-        if($save['slug'] != $slug){
-            $this->product_model->product_delete($slug);
+            $this->session->set_flashdata('error', 'ERROR DELETE !');
         }
 
+        redirect('autoxadmin/product');
+    }
+
+    public function save_data($id = false, $file_name){
+        $product = [];
+        $product['sku'] = $this->product_model->clear_sku($this->input->post('sku', true));
+        $product['brand'] = $this->product_model->clear_brand($this->input->post('brand', true));
+        $product['name'] = $this->input->post('name', true);
+        $product['image'] = $file_name;
+        $product['h1'] = $this->input->post('h1', true);
+        $product['title'] = $this->input->post('title', true);
+        $product['meta_description'] = $this->input->post('meta_description', true);
+        $product['meta_keywords'] = $this->input->post('meta_keywords', true);
+        $product['viewed'] = (int)$this->input->post('viewed');
+        $product['bought'] = (int)$this->input->post('bought');
+        $product['category_id'] = (int)$this->input->post('category_id');
+        $product['description'] = $this->input->post('description',true);
+        if($this->input->post('slug')){
+            $product['slug'] = $this->input->post('slug', true);
+        }else{
+            $product['slug'] = $this->product_model->getSlug($product);
+        }
+
+        $product_id = $this->product_model->insert($product,$id);
+
+
+        if($product_id){
+            $this->product_model->product_delete(['product_id' => (int)$product_id]);
+            if($this->input->post('prices')){
+                foreach ($this->input->post('prices') as $price){
+                    $save = [];
+                    $save['product_id'] = (int)$product_id;
+                    $save['supplier_id'] = (int)$price['supplier_id'];
+                    $save['excerpt'] = $price['excerpt'];
+                    $save['currency_id'] = (int)$price['currency_id'];
+                    $save['delivery_price'] = (float)$price['delivery_price'];
+                    $save['saleprice'] = (float)$price['saleprice'];
+                    $save['price'] = (float)$price['price'];
+                    $save['quantity'] = (int)$price['quantity'];
+                    $save['term'] = (int)$price['term'];
+                    $save['updated_at'] = date('Y-m-d H:i:s');
+                    $save['status'] = (bool)$price['status'];
+                    $this->product_model->table = 'product_price';
+                    $this->product_model->insert($save);
+                }
+            }
+        }
+        $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success'));
-        redirect('autoxadmin/product/edit/'.$save['slug']);
+        redirect('autoxadmin/product/edit/'.$product_id);
     }
 }

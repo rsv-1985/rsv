@@ -95,10 +95,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th><?php echo lang('text_product');?></th>
                         <th><?php echo lang('text_sku');?></th>
                         <th><?php echo lang('text_brand');?></th>
+                        <th><?php echo lang('text_term');?></th>
                         <th><?php echo lang('text_qty');?></th>
                         <th><?php echo lang('text_price');?></th>
-                        <th><?php echo lang('text_status');?></th>
                         <th><?php echo lang('text_subtotal');?></th>
+                        <th><?php echo lang('text_status');?></th>
                     </tr>
                     </thead>
                     <tbody id="order-products">
@@ -124,11 +125,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <input type="hidden" name="products[<?php echo $row;?>][brand]" value="<?php echo $product['brand'];?>">
                             </td>
                             <td>
+                                <?php echo @format_term($product['term']);?>
+                                <input type="hidden" name="products[<?php echo $row;?>][term]" value="<?php echo $product['term'];?>">
+                            </td>
+                            <td>
                                 <input onkeyup="row_subtotal(<?php echo $row;?>)" id="qty<?php echo $row;?>" name="products[<?php echo $row;?>][quantity]" type="text" value="<?php echo $product['quantity'];?>" class="form-control" style="width: 80px;">
                             </td>
                             <td>
                                 <input onkeyup="row_subtotal(<?php echo $row;?>)" id="price<?php echo $row;?>" name="products[<?php echo $row;?>][price]" type="text" value="<?php echo $product['price'];?>" class="form-control" style="width: 100px;">
                             </td>
+                            <td><span id="row_subtotal<?php echo $row;?>"><?php echo $product['quantity'] * $product['price']; $subtotal += $product['quantity'] * $product['price'];?></span></td>
                             <td>
                                 <select name="products[<?php echo $row;?>][status_id]" class="form-control">
                                     <?php foreach($status as $st){?>
@@ -136,7 +142,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php } ?>
                                 </select>
                             </td>
-                            <td><span id="row_subtotal<?php echo $row;?>"><?php echo $product['quantity'] * $product['price']; $subtotal += $product['quantity'] * $product['price'];?></span></td>
                         </tr>
                     <?php $row++; } ?>
                     </tbody>
@@ -344,10 +349,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     }
 
     //Добавдение товара к заказу
-    function add_product(slug){
+    function add_product(product_id, supplier_id, term){
         $.ajax({
             url: '/autoxadmin/order/add_product',
-            data: {slug:slug},
+            data: {product_id:product_id,supplier_id:supplier_id,term:term},
             method: 'POST',
             success: function(product){
                 html = '';
@@ -372,11 +377,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     html +='            <input type="hidden" name="products['+row+'][brand]" value="'+product['brand']+'">';
                     html +='        </td>';
                     html +='        <td>';
+                    html +='            '+product['term']+'';
+                    html +='            <input type="hidden" name="products['+row+'][term]" value="'+product['term']+'">';
+                    html +='        </td>';
+                    html +='        <td>';
                     html +='            <input onkeyup="row_subtotal('+row+')" id="qty'+row+'" name="products['+row+'][quantity]" type="text" value="1" class="form-control" style="width: 80px;">';
                     html +='        </td>';
                     html +='        <td>';
                     html +='            <input onkeyup="row_subtotal('+row+')" id="price'+row+'" name="products['+row+'][price]" type="text" value="'+product['price']+'" class="form-control" style="width: 100px;">';
                     html +='        </td>';
+                    html +='       <td><span id="row_subtotal'+row+'">'+product['price']+'</span></td>';
                     html +='<td>';
                     html +='<select name="products['+row+'][status_id]" class="form-control">';
                     <?php foreach($status as $st){?>
@@ -384,7 +394,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
                     html +='</select>';
                     html +='</td>';
-                    html +='       <td><span id="row_subtotal'+row+'">'+product['price']+'</span></td>';
                     html +='</tr>';
                 }
                 $("#order-products").append(html);

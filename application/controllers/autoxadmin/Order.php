@@ -192,7 +192,8 @@ class Order extends Admin_controller
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
                             'supplier_id' => $item['supplier_id'],
-                            'status_id' => $item['status_id']
+                            'status_id' => $item['status_id'],
+                            'term' => $item['term']
                         ];
                     }
 
@@ -289,8 +290,12 @@ class Order extends Admin_controller
 
     public function add_product(){
         $this->load->model('product_model');
-        $slug = $this->input->post('slug', true);
-        $json = $this->product_model->admin_get_by_slug($slug,false);
+        $product_id = (int)$this->input->post('product_id');
+        $supplier_id = (int)$this->input->post('supplier_id');
+        $term = (int)$this->input->post('term');
+        $json = $this->product_model->get_product_for_cart($product_id, $supplier_id, $term);
+        $json['term'] = format_term($json['term']);
+
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));

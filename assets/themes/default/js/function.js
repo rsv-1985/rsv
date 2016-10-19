@@ -121,10 +121,10 @@ function send_request(event){
     });
 }
 
-function add_cart(data, rowid, event){
+function add_cart(data, event){
     event.preventDefault();
     $.ajax({
-        url: '/ajax/add_cart',
+        url: '/cart/add_cart',
         method: 'POST',
         dataType: 'json',
         data: data,
@@ -133,10 +133,10 @@ function add_cart(data, rowid, event){
             if(json['success']){
                 $(".product-count").html(json['product_count']).show();
                 $(".cart-amunt").html(json['cart_amunt']);
-                $("."+rowid).show().css({fontSize:'1px'}).animate({
+                $("."+json['cartId']).show().css({fontSize:'1px'}).animate({
                     fontSize: '12px',
                 }, 400 );
-                $("#"+rowid).show().css({fontSize:'1px'}).animate({
+                $("#"+json['cartId']).show().css({fontSize:'1px'}).animate({
                     fontSize: '12px',
                 }, 400 );
             }else{

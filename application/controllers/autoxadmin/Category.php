@@ -121,6 +121,7 @@ class Category extends Admin_controller
         $save['status'] = (bool)$this->input->post('status', true);
 
         $id = $this->category_model->insert($save, $id);
+        $this->clear_cache('categories');
         if($id){
             $this->session->set_flashdata('success', lang('text_success'));
             $this->cache->file->delete('all_category');

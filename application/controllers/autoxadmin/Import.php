@@ -124,29 +124,53 @@ class Import extends Admin_controller
             $supplier_id = (int)$this->input->get('supplier_id');
             switch($this->input->get('settings')){
                 case 2:
-                    $this->db->where('supplier_id',$supplier_id )->delete('product');
+                    $this->db->where('supplier_id',$supplier_id )->delete('product_price');
                     break;
                 case 1:
                     if($this->input->get('disable')){
-                        $this->db->where('supplier_id',$supplier_id)->update('product',['status' => false]);
+                        $this->db->where('supplier_id',$supplier_id)->update('product_price',['status' => false]);
                     }
                     break;
             }
         }
-        $products = $this->import_model->import_get_all($id);
+
+        $products = $this->import_model->import_get_all($id,1000);
 
         if($products){
-            foreach($products as &$product){
-                $product['created_at'] = date("Y-m-d H:i:s");
-                $product['updated_at'] = date("Y-m-d H:i:s");
-                $product['price'] = $product['delivery_price'];
-                $product['slug'] = url_title($product['name'].' '.$product['sku'].' '.$product['brand'].' '.$product['supplier_id'], 'dash', true);
+
+            foreach($products as $product){
+                $product_data = [
+                    'sku' => $product['sku'],
+                    'brand' => $product['brand'],
+                    'name' => $product['name'],
+                    'slug' => $this->product_model->getSlug($product),
+                    'category_id' => $product['currency_id'],
+                    'description' => $this->db->escape($product['description']),
+                ];
+
+                $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'));
+
+                $price_data[] = [
+                    'product_id' => $this->db->escape($product_id),
+                    'excerpt' => $this->db->escape($product['excerpt']),
+                    'currency_id' => $this->db->escape($product['currency_id']),
+                    'delivery_price' => $this->db->escape($product['delivery_price']),
+                    'saleprice' => $this->db->escape($product['saleprice']),
+                    'quantity' => $this->db->escape($product['quantity']),
+                    'supplier_id' => $this->db->escape($product['supplier_id']),
+                    'term' => $this->db->escape($product['term']),
+                    'created_at' => $this->db->escape(date("Y-m-d H:i:s")),
+                    'updated_at' => $this->db->escape(date("Y-m-d H:i:s")),
+                    'status' => true,
+                ];
             }
 
-            $this->product_model->insert_on_duplicate_key($products);
+            if(@$price_data){
+                $this->product_model->price_insert($price_data);
+            }
 
             $json = [
-                'continue' => base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id'),
+                'continue' => base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id').'&update_product_field='.$this->input->get('update_product_field'),
                 'row' => $id
             ];
 
@@ -154,10 +178,17 @@ class Import extends Admin_controller
                 ->set_content_type('application/json')
                 ->set_output(json_encode($json));
         }else{
+            //Чистим временную таблицу
             $this->import_model->truncate();
+            //Удаляем загруженные файлы
             delete_files('./uploads/import/');
+            //Устанавливаем цены по поставщику
             $this->product_model->set_price($this->input->get('supplier_id'));
+            //Чистим кэш
+            $this->clear_cache();
+
             $this->session->set_flashdata('success', lang('text_success'));
+
             $json = [
                 'success' => base_url('autoxadmin/import')
             ];
@@ -313,6 +344,7 @@ class Import extends Admin_controller
         $this->import_model->clear_importtmp();
         //Обновляем дату последнего обновления у поставщика
         $this->supplier_model->insert(['updated_at' => date("Y-m-d H:i:s")], $supplier_id);
+
         if($this->import_model->count_all() > 0){
             $this->session->set_flashdata('success', lang('text_success_import'));
             redirect('autoxadmin/import/tmptable?supplier_id='.$supplier_id);

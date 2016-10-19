@@ -59,11 +59,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div><!-- /.tab-pane -->
                     <div class="tab-pane" id="seo">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Sitemap</label>
                                     <?php echo base_url('map/sitemap.xml'); ?> <a
                                         href="<?php echo base_url('sitemap'); ?>">generate new</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Robots.txt</label>
+                                    <textarea class="form-control" name="robots"><?php echo $robots;?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -100,11 +106,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                            class="form-control">
                                 </div>
                                 <p class="help-block">
-                                    {name} - name<br>
-                                    {brand} - brand<br>
-                                    {sku} - sku<br>
-                                    {description} - description<br>
-                                    {excerpt} - excerpt
+                                    {name} - название<br>
+                                    {brand} - производитель<br>
+                                    {sku} - артикул<br>
+                                    {description} - орисание
                                 </p>
                             </div>
                             <div class="col-md-6">
@@ -137,8 +142,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                            value="<?php echo @$settings['seo_brand']['text']; ?>" class="form-control">
                                 </div>
                                 <p class="help-block">
-                                    {brand} - brand name<br>
-                                    {category} - category name<br>
+                                    {brand} - Название произаодителя<br>
+                                    {category} - Название категории<br>
                                 </p>
                             </div>
 
@@ -208,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                            class="form-control">
                                 </div>
                                 <p class="help-block">
-                                    {manuf} - Manufacturer name<br>
+                                    {manuf} - Название производителя<br>
                                 </p>
                             </div>
                         </div>
@@ -246,8 +251,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                            class="form-control">
                                 </div>
                                 <p class="help-block">
-                                    {manuf} - Manufacturer name<br>
-                                    {model} - Model name<br>
+                                    {manuf} - Название производителя<br>
+                                    {model} - Название модели<br>
                                 </p>
                             </div>
                             <div class="col-md-6">

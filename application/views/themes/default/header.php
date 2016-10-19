@@ -30,6 +30,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php if($this->next){?>
         <link rel="next" href="<?php echo $this->next;?>">
     <?php } ?>
+    <?php if($this->canonical){?>
+        <link rel="canonical" href="<?php echo $this->canonical;?>" />
+    <?php } ?>
 
     <?php if($this->config->item('my_style')){?>
         <?php foreach ($this->config->item('my_style') as $style){?>
@@ -147,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <li><a href="/cart"><?php echo lang('text_cart');?></a></li>
                             <li><a href="/customer/logout"><?php echo lang('text_logout');?></a></li>
                         <?php }else{?>
-                            <li><a href="#" data-toggle="modal" data-target="#login"><i class="fa fa-user"></i><?php echo lang('text_login_link');?></a></li>
+                            <li><a rel="nofollow" href="#" data-toggle="modal" data-target="#login"><i class="fa fa-user"></i><?php echo lang('text_login_link');?></a></li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -158,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php foreach(array_chunk(explode(';',$this->contacts['phone']),2) as $phone_array){?>
                         <?php foreach ($phone_array as $phone){?>
                             <i class="fa fa-phone-square"></i>
-                            <a href="#" data-toggle="modal" data-target="#call-back-modal">
+                            <a rel="nofollow" href="#" data-toggle="modal" data-target="#call-back-modal">
                                 <?php echo $phone;?>&nbsp;
                             </a>
                         <?php } ?>
@@ -198,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-sm-4 col-xs-6 cart_m">
 				<div>
                 <div class="shopping-item">
-                    <a href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
+                    <a rel="nofollow" href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
                          <span
                         <?php if($this->cart->total_items() == 0){?>
                             style="display: none;"

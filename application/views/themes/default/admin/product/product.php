@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
+                    <a href="/autoxadmin/product/delete_product_cart" class="btn btn-danger pull-right">Удалить пустые карточки товаров</a>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
@@ -37,19 +38,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <?php echo form_open('', ['method' => 'GET']);?>
                         <tr>
                             <td>
-                                <input type="text" name="sku" class="form-control">
+                                <input type="text" name="sku" class="form-control" value="<?php echo $this->input->get('sku');?>">
                             </td>
                             <td>
-                                <input type="text" name="brand" class="form-control">
+                                <input type="text" name="brand" class="form-control" value="<?php echo $this->input->get('brand');?>">
                             </td>
                             <td>
-                                <input type="text" name="name" class="form-control">
+                                <input type="text" name="name" class="form-control" value="<?php echo $this->input->get('name');?>">
                             </td>
                             <td>
                                 <select name="supplier_id" class="form-control">
                                     <option></option>
                                     <?php foreach ($supplier as $sup){?>
-                                        <option value="<?php echo $sup['id'];?>"><?php echo $sup['name'];?></option>
+                                        <option value="<?php echo $sup['id'];?>" <?php echo set_select('supplier_id',$sup['id'],$sup['id'] == (int)$this->input->get('supplier_id'));?>><?php echo $sup['name'];?></option>
                                     <?php } ?>
                                 </select>
                             </td>
@@ -73,7 +74,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                             <?php foreach($products as $product){?>
                                 <?php echo form_open();?>
-                                <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                                <input type="hidden" name="product_id" value="<?php echo $product['product_id'];?>">
+                                <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
+                                <input type="hidden" name="term" value="<?php echo $product['term'];?>">
                                     <tr>
                                         <td><?php echo $product['sku'];?></td>
                                         <td>
@@ -100,8 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
-                                                <a href="/autoxadmin/product/delete/<?php echo $product['slug'];?>" class="btn btn-link"><?php echo lang('button_delete');?></a>
-                                                <a href="/autoxadmin/product/edit/<?php echo $product['slug'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
+                                                <a href="/autoxadmin/product/delete?product_id=<?php echo $product['product_id'];?>&supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>" class="btn btn-link"><?php echo lang('button_delete');?></a>
+                                                <a href="/autoxadmin/product/edit/<?php echo $product['id'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
                                                 <button type="submit" class="btn btn-link"><?php echo lang('button_submit');?></button>
                                             </div>
                                         </td>

@@ -26,15 +26,16 @@ class Csv{
         product.name, 
        
         CONCAT("'.base_url().'product/",ax_product.slug) as url,
-        saleprice,
-        price,
+        product_price.saleprice,
+        product_price.price,
         currency.name as cur_name,
-        quantity,
-        term,
-        status as visible
+        product_price.quantity,
+        product_price.term,
+        product_price.status as visible
         ', false);
-        $this->CI->db->from('product');
-        $this->CI->db->join('currency','currency.id=currency_id');
+        $this->CI->db->from('product_price');
+        $this->CI->db->join('currency','currency.id=product_price.currency_id');
+        $this->CI->db->join('product','product.id=product_price.product_id');
         $this->CI->db->limit($limit,$offset);
         foreach ($where as $field => $value){
             $this->CI->db->where($field,$value);

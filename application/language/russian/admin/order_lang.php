@@ -34,3 +34,4 @@ $lang['text_email_subject'] = 'Новый комментарий к заказу
 $lang['text_paid'] = 'Оплачен';
 $lang['text_send_sms'] = 'Отправить в sms';
 $lang['text_send_email'] = 'Отправить в email';
+$lang['text_term'] = 'Доставка';

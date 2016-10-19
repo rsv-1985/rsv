@@ -23,63 +23,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
-        <?php if ($this->is_admin) { ?>
-            <div class="row">
-                <div class="well">
-                    <?php echo form_open('cart/extended_cart'); ?>
-                    <h4><?php echo lang('text_extended_cart'); ?></h4>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label><?php echo lang('text_extended_sku'); ?></label>
-                            <input type="text" name="sku" value="<?php echo set_value('sku'); ?>" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label><?php echo lang('text_extended_brand'); ?></label>
-                            <input type="text" name="brand" value="<?php echo set_value('brand'); ?>"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label><?php echo lang('text_extended_name'); ?></label>
-                            <input type="text" name="name" value="<?php echo set_value('name'); ?>"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label><?php echo lang('text_extended_price'); ?></label>
-                            <input type="text" name="price" value="<?php echo set_value('price'); ?>"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label><?php echo lang('text_extended_supplier_id'); ?></label>
-                            <select name="supplier_id" class="form-control">
-                                <?php foreach ($suppliers as $supplier) { ?>
-                                    <option
-                                        value="<?php echo $supplier['id']; ?>" <?php echo set_select('supplier_id', $supplier['id']); ?>><?php echo $supplier['name']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="pull-left">
-                        <small>Быстрое добавление товара в корзину, который не представлен на сайте</small>
-                    </div>
-                    <div class="pull-right">
-
-                        <button type="submit" class="btn">Добавить</button>
-                    </div>
-                    </form>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <hr>
-        <?php } ?>
-
         <div class="row">
             <div class="col-md-12">
                 <?php if ($this->cart->total_items() > 0) { ?>
@@ -105,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </td>
 
                                         <td class="product-name">
-                                            <a href="/product/<?php echo $item['id']; ?>"><?php echo $item['sku'] . ' ' . $item['brand'] . ' ' . $item['name']; ?></a>
+                                            <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['sku'] . ' ' . $item['brand'] . ' ' . $item['name']; ?></a>
                                         </td>
 
                                         <td class="product-price">

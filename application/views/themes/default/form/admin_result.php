@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <button onclick="add_product('<?php echo $product['slug'];?>');" class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                        <button onclick="add_product('<?php echo $product['product_id'];?>','<?php echo $product['supplier_id'];?>','<?php echo $product['term'];?>');" class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
                     </td>
                 </tr>
             <?php } ?>
@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <button onclick="add_product('<?php echo $product['slug'];?>');" class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                        <button onclick="add_product('<?php echo $product['product_id'];?>','<?php echo $product['supplier_id'];?>','<?php echo $product['term'];?>');" class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
                     </td>
                 </tr>
             <?php } ?>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <button onclick="add_product('<?php echo $product['slug'];?>');" class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                        <button onclick="add_product('<?php echo $product['product_id'];?>','<?php echo $product['supplier_id'];?>','<?php echo $product['term'];?>');" class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
                     </td>
                 </tr>
             <?php } ?>

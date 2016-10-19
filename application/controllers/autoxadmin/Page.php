@@ -132,6 +132,8 @@ class Page extends Admin_controller
         $save['status'] = (bool)$this->input->post('status');
 
         $id = $this->page_model->insert($save, $id);
+        $this->clear_cache('header_page');
+        $this->clear_cache('footer_page');
         if($id){
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin/page');

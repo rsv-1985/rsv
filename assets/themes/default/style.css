@@ -39,7 +39,9 @@ img {
     width: 80%;
 }
 
-
+.other{
+    display: none;
+}
 .product-bit-title h1 {
     color: white;
     padding: 2%;
@@ -1305,7 +1307,8 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     border: 1px solid whitesmoke;
     padding: 9px;
     text-align: center;
-    border-radius: 5px;}
+    border-radius: 5px;
+    height: 370px;}
 
 .pagination > li > a, .pagination > li > span {
     color: #5a88ca;

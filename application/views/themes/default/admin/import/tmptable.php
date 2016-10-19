@@ -96,6 +96,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="1" name="update_product_field">
+                            <label>Обновить основные данные карточки товара.</label>
+                        </label>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-success"><?php echo lang('button_import');?></button>
                 </form>
             </div>
@@ -125,6 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 </section><!-- /.content -->
 <script>
     var totalRows = '<?php echo $total;?>';
+    var row = 0;
     function add(event){
         event.preventDefault();
         $("#import-modal").modal({backdrop: 'static', keyboard: false});
@@ -149,10 +158,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             method: 'get',
             success: function(json){
                 if(json['continue']){
-                    var procent = json['row'] * 100 / totalRows;
+                    row += 1000;
+                    var procent = row * 100 / totalRows;
                     $(".sr-only").text(procent);
                     $("#progress").css('width',procent+'%');
-                    $("#rows").text(json['row']);
+                    $("#rows").text(row);
                     doImport(json['continue']);
                 }else{
                     location.href = json['success'];

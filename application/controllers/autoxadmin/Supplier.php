@@ -57,7 +57,6 @@ class supplier extends Admin_controller
 
     public function edit($id)
     {
-
         $data = [];
         $data['supplier'] = $this->supplier_model->get($id);
 
@@ -71,7 +70,7 @@ class supplier extends Admin_controller
             $this->form_validation->set_rules('stock', lang('text_stock'), 'integer');
             $this->form_validation->set_rules('api', lang('text_api'), 'max_length[12]');
             if ($this->form_validation->run() !== false) {
-                $this->save_data($id);
+                $this->save_data($id, true);
             } else {
                 $this->error = validation_errors();
             }
@@ -79,9 +78,9 @@ class supplier extends Admin_controller
         //Ценообразование по постащику
         $data['pricing'] = $this->db->where('supplier_id', (int)$id)->get('pricing')->result_array();
         //Статистика по поставщику
-        $data['count'] = $this->product_model->count_all(['supplier_id' => (int)$id]);
-        $data['quan'] = $this->product_model->count_all(['quantity >' => '0','supplier_id' => (int)$id]);
-        $data['visible'] = $this->product_model->count_all(['status' => true,'supplier_id' => (int)$id]);
+        $data['count'] = $this->product_model->product_count_all(['supplier_id' => (int)$id]);
+        $data['quan'] = $this->product_model->product_count_all(['quantity >' => '0','supplier_id' => (int)$id]);
+        $data['visible'] = $this->product_model->product_count_all(['status' => true,'supplier_id' => (int)$id]);
         $this->load->view('admin/header');
         $this->load->view('admin/supplier/edit', $data);
         $this->load->view('admin/footer');
@@ -93,7 +92,7 @@ class supplier extends Admin_controller
         //Удаляем ценообразование
         $this->db->where('supplier_id', (int)$id)->delete('pricing');
         //Удаляем товары
-        $this->db->where('supplier_id', (int)$id)->delete('product');
+        $this->db->where('supplier_id', (int)$id)->delete('product_price');
         //Удаляем шаблоны
         $this->db->where('supplier_id', (int)$id)->delete('sample');
 
@@ -103,12 +102,14 @@ class supplier extends Admin_controller
 
     public function delete_products($id){
         //Удаляем товары
-        $this->db->where('supplier_id', (int)$id)->delete('product');
+        $this->db->where('supplier_id', (int)$id)->delete('product_price');
+        //Чистим кэш
+        $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/supplier/edit/'.$id);
     }
 
-    private function save_data($id = false)
+    private function save_data($id = false, $update_price = false)
     {
         $save = [];
         $save['name'] = $this->input->post('name', true);
@@ -133,7 +134,11 @@ class supplier extends Admin_controller
                     }
                 }
             }
-            $this->product_model->set_price((int)$id);
+
+            if($update_price){
+                $this->product_model->set_price((int)$id);
+            }
+
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin/supplier');
         }

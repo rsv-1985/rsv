@@ -27,6 +27,30 @@ class Admin_controller extends CI_Controller{
         $this->load->model('orderstatus_model');
         $this->new_order = $this->db->where(['status' => $this->orderstatus_model->get_default()['id']])->count_all_results('order');
     }
+
+    public function clear_cache($file_name = false){
+        $path = $this->config->item('cache_path');
+        $cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+
+        if($file_name){
+           @unlink($cache_path.$file_name);
+        }else{
+            //Delete mysql cache
+            $this->db->cache_delete_all();
+            //Delete web cache
+
+
+            $handle = opendir($cache_path);
+            while (($file = readdir($handle))!== FALSE)
+            {
+                if ($file != '.htaccess' && $file != 'index.html' && $file != '.gitignore')
+                {
+                    @unlink($cache_path.'/'.$file);
+                }
+            }
+            closedir($handle);
+        }
+    }
 }
 
 class Front_controller extends CI_Controller{

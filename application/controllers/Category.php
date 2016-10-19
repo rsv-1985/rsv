@@ -43,15 +43,42 @@ class category extends Front_controller{
                 }
             }
         }
-        //print_r($seo);
+
         $data = [];
-        $this->title = !empty($category['title']) ? $category['title'] : @$seo['title'] ? @$seo['title'] : $category['name'];
-        $this->description = @$seo['description'] ? @$seo['description'] : $category['meta_description'];
-        $this->keywords = @$seo['meta_keywords'] ? @$seo['meta_keywords'] : $category['meta_keywords'];
+
+        if(mb_strlen($category['h1']) > 0){
+            $data['h1'] = $category['h1'];
+        }elseif (mb_strlen(@$seo['h1']) > 0){
+            $data['h1'] = @$seo['h1'];
+        }else{
+            $data['h1'] =  $category['name'];
+        }
+
+        if(mb_strlen($category['title']) > 0){
+            $this->title = $category['title'];
+        }elseif (mb_strlen(@$seo['title']) > 0){
+            $this->title = @$seo['title'];
+        }else{
+            $this->title = $data['h1'];
+        }
+
+        if(mb_strlen($category['meta_description']) > 0){
+            $this->description = $category['meta_description'];
+        }elseif (mb_strlen(@$seo['description']) > 0){
+            $this->description = @$seo['description'];
+        }else{
+            $this->description = '';
+        }
+
+        if(mb_strlen($category['meta_keywords']) > 0){
+            $this->keywords = $category['meta_keywords'];
+        }elseif (mb_strlen(@$seo['keywords']) > 0){
+            $this->keywords = @$seo['keywords'];
+        }else{
+            $this->keywords = str_replace(' ',',',$this->title);
+        }
 
         $data['brands'] = $this->category_model->get_brends($category['id']);
-
-        $data['h1'] = !empty($category['h1']) ? $category['h1'] : @$seo['h1'] ? @$seo['h1'] : $category['name'];
 
         $data['description'] = !$this->uri->segment(3) || !$this->uri->segment(5) ? $category['description'].@$seo['text'] : '';
         $data['slug'] = $category['slug'];

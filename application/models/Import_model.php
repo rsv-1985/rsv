@@ -19,9 +19,10 @@ class Import_model extends Default_model
         $this->db->delete($this->table);
     }
     
-    public function import_get_all($id){
+    public function import_get_all($id, $limit){
         $this->db->where('id >', (int)$id);
-        $this->db->limit(2000);
+        $this->db->limit($limit);
+        $this->db->order_by('id', 'ASC');
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
             return $query->result_array();

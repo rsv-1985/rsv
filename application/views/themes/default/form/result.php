@@ -24,7 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <?php if($min_price || $min_price_cross || $min_term){?>
         <hr>
         <div class="row-fluid">
-            <?php if($min_price){?>
+            <?php if($min_price){
+                $key = $min_price['product_id'].$min_price['supplier_id'].$min_price['term'];?>
                 <div class="col-md-4 item-min">
                     <label>Самая низкая цена</label>
                     <div class="thumbnail">
@@ -40,26 +41,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <ins><?php echo format_currency($min_price['saleprice'] > 0 ? $min_price['saleprice'] : $min_price['price']);?></ins>
                         </div>
                         <div class="add-cart">
-                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($min_price['slug']).'\', event)']);?>
+                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                             <div class="input-group">
                                 <input type="number" name="quantity" class="form-control" value="1">
-                                <input type="hidden" name="slug" value="<?php echo $min_price['slug'];?>">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                            </span>
+                                <input type="hidden" name="product_id" value="<?php echo $min_price['product_id']; ?>">
+                                <input type="hidden" name="supplier_id" value="<?php echo $min_price['supplier_id']; ?>">
+                                <input type="hidden" name="term" value="<?php echo $min_price['term']; ?>">
+                                <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                             </div>
                             </form>
-                            <a href="/cart" class="<?php echo md5($min_price['slug']);?>"
-                                <?php if(!key_exists(md5($min_price['slug']),$this->cart->contents())){?>
+                            <a href="/cart" class="<?php echo $key; ?>"
+                                <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
                                     style="display: none;"
                                 <?php } ?>
-                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             <?php } ?>
-            <?php if($min_price_cross){?>
+            <?php if($min_price_cross){
+                $key = $min_price_cross['product_id'].$min_price_cross['supplier_id'].$min_price_cross['term'];?>
                 <div class="col-md-4 item-min">
                     <label>Самая низкая цена аналог</label>
                     <div class="thumbnail">
@@ -76,26 +81,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </div>
 
                         <div class="add-cart">
-                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($min_price_cross['slug']).'\', event)']);?>
+                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                             <div class="input-group">
                                 <input type="number" name="quantity" class="form-control" value="1">
-                                <input type="hidden" name="slug" value="<?php echo $min_price_cross['slug'];?>">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                            </span>
+                                <input type="hidden" name="product_id" value="<?php echo $min_price_cross['product_id']; ?>">
+                                <input type="hidden" name="supplier_id" value="<?php echo $min_price_cross['supplier_id']; ?>">
+                                <input type="hidden" name="term" value="<?php echo $min_price_cross['term']; ?>">
+                                <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                             </div>
                             </form>
-                            <a href="/cart" class="<?php echo md5($min_price_cross['slug']);?>"
-                                <?php if(!key_exists(md5($min_price_cross['slug']),$this->cart->contents())){?>
+                            <a href="/cart" class="<?php echo $key; ?>"
+                                <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
                                     style="display: none;"
                                 <?php } ?>
-                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             <?php } ?>
-            <?php if($min_term){?>
+            <?php if($min_term){
+                $key = $min_term['product_id'].$min_term['supplier_id'].$min_term['term'];?>
                 <div class="col-md-4 item-min">
                     <label>Наименьший срок</label>
                     <div class="thumbnail">
@@ -111,20 +120,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <ins><?php echo format_currency($min_term['saleprice'] > 0 ? $min_term['saleprice'] : $min_term['price']);?></ins>
                         </div>
                         <div class="add-cart">
-                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($min_term['slug']).'\', event)']);?>
+                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                             <div class="input-group">
                                 <input type="number" name="quantity" class="form-control" value="1">
-                                <input type="hidden" name="slug" value="<?php echo $min_term['slug'];?>">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                            </span>
+                                <input type="hidden" name="product_id" value="<?php echo $min_term['product_id']; ?>">
+                                <input type="hidden" name="supplier_id" value="<?php echo $min_term['supplier_id']; ?>">
+                                <input type="hidden" name="term" value="<?php echo $min_term['term']; ?>">
+                                <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                             </div>
                             </form>
-                            <a href="/cart" class="<?php echo md5($min_term['slug']);?>"
-                                <?php if(!key_exists(md5($min_term['slug']),$this->cart->contents())){?>
+                            <a href="/cart" class="<?php echo $key; ?>"
+                                <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
                                     style="display: none;"
                                 <?php } ?>
-                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -139,7 +151,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <tr>
                 <td colspan="7" class="heading"><?php echo lang('text_exact');?> <small>(<?php echo count($products);?>)</small></td>
             </tr>
-            <?php foreach($products as $product){?>
+            <?php foreach($products as $product){
+                $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
                 <tr>
                     <td>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
@@ -155,20 +168,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                         <div class="input-group">
                             <input type="number" name="quantity" class="form-control" value="1">
-                            <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                            <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
+                            <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                            </span>
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                         </div>
                         </form>
-                        <a href="/cart" class="<?php echo md5($product['slug']);?>"
-                        <?php if(!key_exists(md5($product['slug']),$this->cart->contents())){?>
-                            style="display: none;"
-                        <?php } ?>
-                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                        <a href="/cart" class="<?php echo $key; ?>"
+                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                style="display: none;"
+                            <?php } ?>
+                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
 
                     </td>
                 </tr>
@@ -192,7 +208,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <tr>
                 <td colspan="7" class="heading"><?php echo lang('text_cross');?> <small>(<?php echo count($cross);?>)</small></td>
             </tr>
-            <?php foreach($cross as $product){?>
+            <?php foreach($cross as $product){
+                $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
                 <tr>
                     <td>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
@@ -207,20 +224,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                         <div class="input-group">
                             <input type="number" name="quantity" class="form-control" value="1">
-                            <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                            <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
+                            <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                            </span>
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                         </div>
                         </form>
-                        <a href="/cart" class="<?php echo md5($product['slug']);?>"
-                        <?php if(!key_exists(md5($product['slug']),$this->cart->contents())){?>
-                            style="display: none;"
-                        <?php } ?>
-                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
+                        <a href="/cart" class="<?php echo $key; ?>"
+                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                style="display: none;"
+                            <?php } ?>
+                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                     </td>
                 </tr>
                 <?php if($this->is_admin){?>
@@ -243,7 +263,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <tr>
                 <td colspan="7" class="heading"><?php echo lang('text_about');?> <small>(<?php echo count($about);?>)</small></td>
             </tr>
-            <?php foreach($about as $product){?>
+            <?php foreach($about as $product){
+                $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
                 <tr>
                     <td>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
@@ -258,21 +279,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td class="excerpt"><?php echo $product['excerpt'];?></td>
                     <td class="term"><i class="fa fa-road" title="<?php echo lang('text_search_term');?>"></i><?php echo format_term($product['term']);?></td>
                     <td class="cart">
-                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(),\''.md5($product['slug']).'\', event)']);?>
+                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                         <div class="input-group">
                             <input type="number" name="quantity" class="form-control" value="1">
-                            <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                            <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
+                            <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
-                            </span>
+                                        <button class="btn btn-default" type="submit"><i
+                                                class="fa fa-shopping-cart"></i></button>
+                                        </span>
                         </div>
                         </form>
-                       <a href="/cart" class="<?php echo md5($product['slug']);?>"
-                        <?php if(!key_exists(md5($product['slug']),$this->cart->contents())){?>
-                            style="display: none;"
-                        <?php } ?>
-                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart');?></a>
-
+                        <a href="/cart" class="<?php echo $key; ?>"
+                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                style="display: none;"
+                            <?php } ?>
+                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                     </td>
                 </tr>
                 <?php if($this->is_admin){?>
@@ -344,4 +367,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </div>
             </form>
 <?php } ?>
-<?php $this->output->enable_profiler(FALSE);?>
