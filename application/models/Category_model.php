@@ -24,32 +24,26 @@ class Category_model extends Default_model
 
     public function category_get_all($parent_id = 0)
     {
-        $cache = $this->cache->file->get('categories');
-        if(!$cache && !is_null($cache)){
-            $this->db->where('status', true);
-            $this->db->where('parent_id', (int)$parent_id);
-            $this->db->order_by('sort', 'ASC');
-            $query = $this->db->get($this->table);
-            if ($query->num_rows() > 0) {
-                $category = [];
-                foreach ($query->result_array() as $cat) {
-                    if($parent_id == 0){
-                        $cat['brands'] = false;
-                    }else{
-                        $cat['brands'] = $this->get_brends($cat['id'], 10);
-                    }
-
-                    $cat['children'] = $this->category_get_all($cat['id']);
-                    $category[] = $cat;
+        $this->db->where('status', true);
+        $this->db->where('parent_id', (int)$parent_id);
+        $this->db->order_by('sort', 'ASC');
+        $query = $this->db->get($this->table);
+        if ($query->num_rows() > 0) {
+            $category = [];
+            foreach ($query->result_array() as $cat) {
+                if ($parent_id == 0) {
+                    $cat['brands'] = false;
+                } else {
+                    $cat['brands'] = $this->get_brends($cat['id'], 10);
                 }
-                $this->cache->file->save('categories',$category, 604800);
-                return $category;
+
+                $cat['children'] = $this->category_get_all($cat['id']);
+                $category[] = $cat;
             }
-            $this->cache->file->save('categories',null, 604800);
-            return false;
-        }else{
-            return $cache;
+
+            return $category;
         }
+        return false;
     }
 
     public function get_by_slug($slug)
@@ -66,27 +60,27 @@ class Category_model extends Default_model
 
     public function get_brends($id, $limit = false)
     {
-        $cache = $this->cache->file->get('category_brands_'.$id.'_limit_'.$limit);
-        if(!$cache && !is_null($cache)){
+        $cache = $this->cache->file->get('category_brands_' . $id . '_limit_' . $limit);
+        if (!$cache && !is_null($cache)) {
             $this->db->distinct();
             $this->db->select('brand');
-            $this->db->join('product','product.id=product_price.product_id');
+            $this->db->join('product', 'product.id=product_price.product_id');
             $this->db->where('category_id', (int)$id);
             $this->db->where('brand !=', '');
             $this->db->where('status', true);
-            if($limit){
+            if ($limit) {
                 $this->db->limit((int)$limit);
             }
             $this->db->order_by('brand', 'ASC');
             $query = $this->db->get('product_price');
 
             if ($query->num_rows() > 0) {
-                $this->cache->file->save('category_brands_'.$id.'_limit_'.$limit,$query->result_array(), 604800);
+                $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, $query->result_array(), 604800);
                 return $query->result_array();
             }
-            $this->cache->file->save('category_brands_'.$id.'_limit_'.$limit,null, 604800);
+            $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, null, 604800);
             return false;
-        }else{
+        } else {
             return $cache;
         }
 
