@@ -145,7 +145,7 @@ class Import extends Admin_controller
                     'name' => $product['name'],
                     'slug' => $this->product_model->getSlug($product),
                     'category_id' => $product['category_id'],
-                    'description' => $this->db->escape($product['description']),
+                    'description' => $product['description'],
                 ];
 
                 $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'));
