@@ -144,7 +144,7 @@ class Import extends Admin_controller
                     'brand' => $product['brand'],
                     'name' => $product['name'],
                     'slug' => $this->product_model->getSlug($product),
-                    'category_id' => $product['currency_id'],
+                    'category_id' => $product['category_id'],
                     'description' => $this->db->escape($product['description']),
                 ];
 
