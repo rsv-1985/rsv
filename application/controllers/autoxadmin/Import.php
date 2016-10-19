@@ -143,6 +143,7 @@ class Import extends Admin_controller
                     'sku' => $product['sku'],
                     'brand' => $product['brand'],
                     'name' => $product['name'],
+                    'image' => $product['image'],
                     'slug' => $this->product_model->getSlug($product),
                     'category_id' => $product['category_id'],
                     'description' => $product['description'],
