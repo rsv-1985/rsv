@@ -13,6 +13,7 @@ class Sitemap extends Front_controller{
         parent::__construct();
         $this->load->helper('file');
         $this->load->model('product_model');
+        $this->load->model('category_model');
         $this->load->model('news_model');
         $this->load->model('page_model');
     }
@@ -25,12 +26,14 @@ class Sitemap extends Front_controller{
     {
         $url_page = [];
         $url_news = [];
+        $url_category = [];
         $url_product = [];
 
         if (!$this->uri->segment(3)) {
             delete_files('./map/', true);
             $url_news = $this->news_model->get_sitemap();
             $url_page = $this->page_model->get_sitemap();
+            $url_category = $this->category_model->get_sitemap();
         }
 
         $url_product = $this->product_model->get_sitemap(49000, $this->uri->segment(3));
