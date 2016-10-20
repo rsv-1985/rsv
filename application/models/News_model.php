@@ -22,6 +22,7 @@ class News_model extends Default_model{
     public function get_sitemap(){
         $return = false;
         $this->db->select('slug');
+        $this->db->where('status', true);
         $this->db->from($this->table);
         $query = $this->db->get();
         if($query->num_rows() > 0){

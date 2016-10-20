@@ -31,18 +31,35 @@ class Sitemap extends Front_controller{
 
         if (!$this->uri->segment(3)) {
             delete_files('./map/', true);
+
             $url_news = $this->news_model->get_sitemap();
+            if($url_news){
+                $text = implode(chr(10), $url_news);
+                $this->write_file($text, 'url_news');
+            }
+
+
             $url_page = $this->page_model->get_sitemap();
+            if($url_page){
+                $text = implode(chr(10), $url_page);
+                $this->write_file($text, 'url_page');
+            }
+
+
             $url_category = $this->category_model->get_sitemap();
+            if($url_category){
+                $text = implode(chr(10), $url_category);
+                $this->write_file($text, 'url_category');
+            }
+
         }
 
-        $url_product = $this->product_model->get_sitemap(49000, $this->uri->segment(3));
+        $url_product = $this->product_model->get_sitemap(30000, $this->uri->segment(3));
         if($url_product){
-            $urls = array_merge($url_page, $url_news, $url_product);
-            $pagin = $this->uri->segment(3) + 50000;
+            $pagin = $this->uri->segment(3) + 30000;
             $html = '<a id="next" href="/sitemap/index/'.$pagin.'">Загрузка</a>';
             $html .= '<script type="text/javascript">document.getElementById("next").click();</script>';
-            $text = implode(chr(10), $urls);
+            $text = implode(chr(10), $url_product);
             $this->write_file($text, time());
             echo $html;
             die();
