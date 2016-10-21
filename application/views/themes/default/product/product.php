@@ -82,16 +82,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </li>
                                     <li class="list-group-item">
                                         <span class="badge" itemprop="sku"><?php echo $sku; ?></span>
-                                        Артикул
+                                        <?php echo lang('text_sku');?>
                                     </li>
                                     <li class="list-group-item">
                                         <span class="badge"><?php echo format_quantity($product['quantity']); ?></span>
-                                        Количество
+                                        <?php echo lang('text_qty');?>
                                     </li>
                                     <li class="list-group-item">
                                         <span class="badge"><?php echo format_term($product['term']); ?></span>
-                                        Срок доставки
+                                        <?php echo lang('text_term');?>
                                     </li>
+                                    <?php if($product['excerpt']){?>
+                                        <li class="list-group-item">
+                                            <small><?php echo $product['excerpt'];?></small>
+                                        </li>
+                                    <?php } ?>
                                 </ul>
 
                                 <div class="product-inner-price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
