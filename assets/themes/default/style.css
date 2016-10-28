@@ -57,6 +57,14 @@ img {
     overflow: auto;
     margin-bottom: 6%;
 }
+.top{
+    right: 24px;
+    position: fixed;
+    display: block;
+    top: 3px;
+    z-index: 999;
+    width: 66px;
+}
 
 .catalog img{
     margin: 0.6%;
