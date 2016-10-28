@@ -1,6 +1,22 @@
 $(document).ready(function(){
     $('[rel="tooltip"]').tooltip();
 
+    $("a[href='#top']").click(function(event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: $(".container").offset().top
+        }, 1000);
+    });
+
+    $(document).scroll(function() {
+        var y = $(this).scrollTop();
+        if (y > 800) {
+            $("a[href='#top']").fadeIn();
+        } else {
+            $("a[href='#top']").fadeOut();
+        }
+    });
+
     $(".vin_request").submit(function(event){
         send_request(event);
     });
