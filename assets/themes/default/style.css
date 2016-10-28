@@ -60,7 +60,7 @@ img {
 .top{
     right: 24px;
     position: fixed;
-    display: block;
+    display: none;
     top: 3px;
     z-index: 999;
     width: 66px;
