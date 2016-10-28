@@ -250,11 +250,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </li>
                         <?php } ?>
                     <?php } ?>
+
                 </ul>
+
             </div>
         </div>
     </div>
 </div> <!-- End mainmenu area -->
+    <a href="#top" class="top"><img src="/assets/themes/default/img/up-arrow-icon-top.png"/></a>
 <?php if($this->error){?>
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
