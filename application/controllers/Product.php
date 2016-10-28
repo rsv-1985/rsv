@@ -21,7 +21,6 @@ class Product extends Front_controller{
         $slug = xss_clean($slug);
 
         $data = $this->product_model->get_by_slug($slug);
-        $data['breadcrumbs'][] = ['href' => base_url(),'text' => lang('text_home')];
 
         if(!$data){
             $this->output->set_status_header(404, lang('text_page_404'));
@@ -30,6 +29,10 @@ class Product extends Front_controller{
             $this->load->view('footer');
             return;
         }
+
+        $data['breadcrumbs'][] = ['href' => base_url(),'text' => lang('text_home')];
+
+
 
         $category_info = $this->category_model->get($data['category_id']);
         if($category_info){
