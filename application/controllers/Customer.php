@@ -18,6 +18,8 @@ class Customer extends Front_controller
         $this->load->model('orderstatus_model');
         $this->load->model('order_product_model');
         $this->load->library('pagination');
+        $this->load->model('message_template_model');
+        $this->load->library('sender');
     }
 
     public function index(){
@@ -93,6 +95,25 @@ class Customer extends Front_controller
 
             if ($this->form_validation->run() !== false){
                 $this->save_data();
+
+                //Получаем шаблон сообщения 2 - Смена статуса заказа
+                $message_template = $this->message_template_model->get(2);
+                foreach ($this->input->post() as $field => $value){
+                    $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
+                    $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
+                    $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
+                }
+
+                $this->sender->email($message_template['subject'], $message_template['text'], explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
+
+                if($this->input->post('email')){
+                    $this->sender->email($message_template['subject'],$message_template['text'], $this->input->post('email'),explode(';',$this->contacts['email']));
+                }
+
+                if($this->input->post('phone')){
+                    $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
+                }
+
                 if($this->customer_model->login($this->input->post('login', true),$this->input->post('password', true))){
                     $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
                     redirect('/');
@@ -176,6 +197,7 @@ class Customer extends Front_controller
         $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
         $save['login'] = $this->input->post('login', true);
         $save['password'] =  password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
+        $save['phone'] = $this->input->post('phone', true);
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['status'] = $this->config->item('active_new_customer');
         $this->customer_model->insert($save, $id);

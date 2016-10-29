@@ -21,6 +21,8 @@ class Order extends Admin_controller
         $this->load->model('supplier_model');
         $this->load->model('order_history_model');
         $this->load->model('settings_model');
+        $this->load->model('message_template_model');
+        $this->load->library('sender');
     }
 
     public function products(){
@@ -180,6 +182,7 @@ class Order extends Admin_controller
                 $save['delivery_price'] = (float)$delivery_price;
                 $save['paid'] = (bool)$this->input->post('paid', true);
                 $order_id = $this->order_model->insert($save, $id);
+
                 if ($order_id) {
                     $products = [];
                     foreach ($this->input->post('products') as $item) {
@@ -211,8 +214,6 @@ class Order extends Admin_controller
                         $history['user_id'] = $this->User_model->is_login();
                         $this->order_history_model->insert($history);
                         
-                        $this->load->library('sender');
-                        
                         if($history['send_email'] && mb_strlen($save['email']) > 0){
                             $contacts = $this->settings_model->get_by_key('contact_settings');
                             $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$history['text'], $save['email'],explode(';',$contacts['email']));
@@ -221,6 +222,32 @@ class Order extends Admin_controller
                         if($history['send_sms'] && mb_strlen($save['telephone']) > 0){
                             $this->sender->sms($save['telephone'],$history['text']);
                         }
+                    }
+                    //order_status
+                    if($save['status'] != $data['order']['status']){
+                        $order_info = $save;
+                        $order_info['order_id'] = $order_id;
+                        $order_info['status'] = $data['status'][$save['status']]['name'];
+                        $order_info['payment_method'] = $data['payment'][$save['payment_method_id']]['name'];
+                        $order_info['delivery_method'] = $data['delivery'][$save['delivery_method_id']]['name'];
+                        //Получаем шаблон сообщения 2 - Смена статуса заказа
+                        $message_template = $this->message_template_model->get(2);
+                        foreach ($order_info as $field => $value){
+                            if(in_array($field,['total','commission','delivery_price'])) $value = format_currency($value);
+                            $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
+                            $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
+                            $message_template['text'] = str_replace('{products}',$this->load->view('email/order', ['products' => $products], true), $message_template['text']);
+                            $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
+                        }
+
+                        $contacts = $this->settings_model->get_by_key('contact_settings');
+                        if($save['email'] != ''){
+                            $this->sender->email($message_template['subject'],$message_template['text'], $save['email'],explode(';',$contacts['email']));
+                        }
+                        if($save['telephone'] != ''){
+                            $this->sender->sms($save['telephone'],$message_template['text_sms']);
+                        }
+
                     }
                     redirect('autoxadmin/order/edit/'.$id);
                 }

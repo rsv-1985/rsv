@@ -11,6 +11,7 @@ class Admin_controller extends CI_Controller{
     public $success = false;
     public $new_customer = false;
     public $new_order = false;
+    public $default_currency;
 
     public function __construct()
     {
@@ -22,7 +23,7 @@ class Admin_controller extends CI_Controller{
         if($this->session->flashdata('success')){
             $this->success = $this->session->flashdata('success');
         }
-
+        $this->default_currency = $this->currency_model->get_default();
         $this->new_customer = $this->db->where(['status' => false])->count_all_results('customer');
         $this->load->model('orderstatus_model');
         $this->new_order = $this->db->where(['status' => $this->orderstatus_model->get_default()['id']])->count_all_results('order');

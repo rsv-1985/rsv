@@ -47,3 +47,4 @@ $lang['text_success_cache'] = 'Кэш очищен';
 $lang['text_site'] = 'На сайт';
 $lang['text_shop_newsletter'] = 'Подписчики';
 $lang['button_delete_all'] = 'Удалить все';
+$lang['text_message_template_user'] = 'Шаблоны сообщений';

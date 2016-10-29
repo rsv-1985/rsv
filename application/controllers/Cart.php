@@ -20,6 +20,7 @@ class Cart extends Front_controller
         $this->load->model('order_product_model');
         $this->load->model('orderstatus_model');
         $this->load->model('supplier_model');
+        $this->load->model('message_template_model');
     }
 
     public function index(){
@@ -72,6 +73,7 @@ class Cart extends Front_controller
                 $save['commission'] = (float)$cart_data['commissionpay'];
                 $save['delivery_price'] = (float)$cart_data['delivery_price'];
                 $order_id = $this->order_model->insert($save);
+                $save['order_id'] = (int)$order_id;
                 if($order_id){
                     $products = [];
                     foreach($this->cart->contents() as $item){
@@ -92,24 +94,29 @@ class Cart extends Front_controller
                     }
                     $this->order_product_model->insert_batch($products);
 
-                    $email_html = $this->load->view('email/order', [
-                        'order_id' => $order_id,
-                        'total' => $cart_data['total'],
-                        'payment' =>$cart_data['paymentInfo']['name'],
-                        'delivery' => $cart_data['deliveryInfo']['name'],
-                        'products' => $products
-                    ], true);
-
+                    //Получаем шаблон сообщения 1 - новый заказ
+                    $message_template = $this->message_template_model->get(1);
+                    foreach ($save as $field => $value){
+                        if(in_array($field,['total','commission','delivery_price'])) $value = format_currency($value);
+                        $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
+                        $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
+                        $message_template['text'] = str_replace('{payment_method}',$cart_data['paymentInfo']['name'], $message_template['text']);
+                        $message_template['text'] = str_replace('{delivery_method}',$cart_data['deliveryInfo']['name'], $message_template['text']);
+                        $message_template['text'] = str_replace('{products}',$this->load->view('email/order', ['products' => $products], true), $message_template['text']);
+                        $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
+                    }
                     $this->load->library('sender');
 
-                    $this->sender->email(sprintf(lang('text_email_subject'), $order_id), $email_html, explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
+                    $this->sender->email($message_template['subject'], $message_template['text'], explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
+
                     if(strlen($save['email']) > 0){
-                        $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$email_html, $save['email'],explode(';',$this->contacts['email']));
+                        $this->sender->email($message_template['subject'],$message_template['text'], $save['email'],explode(';',$this->contacts['email']));
                     }
+
                     if(!empty($save['telephone'])){
-                        $text = sprintf(lang('text_success_order'), $order_id);
-                        $this->sender->sms($save['telephone'], $text);
+                        $this->sender->sms($save['telephone'], $message_template['text_sms']);
                     }
+
                     $this->cart->destroy();
                     
                     //Если это api платежной системы передаем ей управление

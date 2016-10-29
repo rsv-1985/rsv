@@ -157,6 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/delivery"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_ship');?></a></li>
                         <li><a href="/autoxadmin/orderstatus"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_status');?></a></li>
                         <li><a href="/autoxadmin/admin"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user');?></a></li>
+                        <li><a href="/autoxadmin/message_template"><i class="fa fa-circle-o"></i><?php echo lang('text_message_template_user');?></a></li>
                         <li><a href="/autoxadmin/index/cache"><i class="fa fa-circle-o"></i>Clear Cache</a></li>
                         <li><a target="_blank" class="confirm" data-confirm="Вы ознакомились с обновлениями и хотите продолжить ?" href="/updatesystem.php"><i class="fa fa-circle-o"></i>Update system</a></li>
                     </ul>

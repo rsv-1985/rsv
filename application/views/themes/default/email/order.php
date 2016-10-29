@@ -7,9 +7,6 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
 
-<?php echo sprintf(lang('text_email_subject'), $order_id);?><br>
-<?php echo sprintf(lang('text_email_delivery_method'), $delivery);?><br>
-<?php echo sprintf(lang('text_email_payment_method'), $payment);?><br>
 <table cellspacing="0" class="shop_table cart">
     <thead>
     <tr>
@@ -34,4 +31,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <?php } ?>
     </tbody>
 </table>
-<?php echo lang('text_cart_total');?>:<?php echo format_currency($total);?>

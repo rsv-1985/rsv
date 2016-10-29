@@ -27,6 +27,7 @@ class category extends Front_controller{
             $this->load->view('footer');
             return;
         }
+
         if($brand){
             $settings = $this->settings_model->get_by_key('seo_brand');
             if($settings){
