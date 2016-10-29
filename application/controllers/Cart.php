@@ -190,7 +190,7 @@ class Cart extends Front_controller
                 'deliveryInfo' => $deliveryInfo,
                 'commissionpay' => $commissionpay,
                 'paymentInfo' => $paymentInfo,
-                'total' => $total
+                'total' => $total + $delivery_price + $commissionpay
             ];
         }
     }
