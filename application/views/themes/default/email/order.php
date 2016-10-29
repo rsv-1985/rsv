@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <?php foreach($products as $key => $item){?>
         <tr class="cart_item" id="<?php echo $key;?>">
             <td>
-                <a href="/product/<?php echo $item['slug'];?>"><?php echo $item['sku'].' '.$item['brand'].' '.$item['name'];?></a>
+                <a href="<?php echo base_url();?>/product/<?php echo $item['slug'];?>"><?php echo $item['sku'].' '.$item['brand'].' '.$item['name'];?></a>
             </td>
             <td>
                 <span class="amount"><?php echo format_currency($item['price']);?></span>
