@@ -58,6 +58,7 @@ class Product extends Front_controller{
                 ], $value));
             }
         }
+
         $this->product_model->update_viewed($data['id']);
 
         if(mb_strlen($data['h1']) > 0){
@@ -103,6 +104,8 @@ class Product extends Front_controller{
         if(isset($data['tecdoc_info']['article']['Info']) && mb_strlen($data['tecdoc_info']['article']['Info']) > 0){
             $data['description'] .= $data['tecdoc_info']['article']['Info'];
         }
+
+       $data['description'] .= '<br/>'.$seo['description'];
 
         $data['applicability'] = false;
         if(isset($data['tecdoc_info']['applicability']) && !empty($data['tecdoc_info']['applicability'])){
