@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </a>
                     <?php } ?>
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" id="powered">
                     Powered by <a href="http://cms.autoxcatalog.com/">cms Autox</a>
                     Protected by <a href="http://scamdb.info/">Scamdb</a>
                 </div>
