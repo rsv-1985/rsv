@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="container">
             <hr>
             <div class="row">
-                <?php if ($top_sellers && @$this->options['top_sellers']) { ?>
+                <?php if ($top_sellers) { ?>
                     <div class="col-md-4">
                         <div class="single-product-widget">
                             <h2 class="product-wid-title"><?php echo lang('text_top_sales'); ?></h2>
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
                 <?php } ?>
-                <?php if ($novelty && @$this->options['novelty']) { ?>
+                <?php if ($novelty) { ?>
                     <div class="col-md-4">
                         <div class="single-product-widget">
                             <h2 class="product-wid-title"><?php echo lang('text_novetly'); ?></h2>
