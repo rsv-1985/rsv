@@ -16,7 +16,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <meta name="keywords" content="<?php echo $this->keywords;?>">
     <link rel="stylesheet" href="<?php echo theme_url();?>mega-dropdown/css/reset.css"> <!-- CSS reset -->
     <link rel="stylesheet" href="<?php echo theme_url();?>mega-dropdown/css/style.css"> <!-- Resource style -->
-    <script src="<?php echo theme_url();?>mega-dropdown/js/modernizr.js"></script> <!-- Modernizr -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
