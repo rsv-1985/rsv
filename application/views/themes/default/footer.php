@@ -179,14 +179,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
 <script src="<?php echo theme_url();?>js/function.js?v1"></script>
-
 <!-- jQuery sticky menu -->
 <script src="<?php echo theme_url();?>js/owl.carousel.min.js"></script>
 <script src="<?php echo theme_url();?>js/jquery.sticky.js"></script>
-
 <!-- Main Script -->
 <script src="<?php echo theme_url();?>js/main.js"></script>
-
 <!-- Slider -->
 <script type="text/javascript" src="<?php echo theme_url();?>js/bxslider.min.js"></script>
 <script type="text/javascript" src="<?php echo theme_url();?>js/script.slider.js"></script>
