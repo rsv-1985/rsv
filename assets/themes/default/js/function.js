@@ -93,6 +93,7 @@ $(document).ready(function(){
     $(".search_form").submit(function(event){
         event.preventDefault();
         $("#popover").empty();
+        window.history.replaceState(null, '', '/search?sku='+$("#search_input").val());
         $.ajax({
             url: $(this).attr('action'),
             method: 'POST',
@@ -106,7 +107,7 @@ $(document).ready(function(){
                 if(json['brand'].length > 0){
                     var html = '';
                     $.each(json['brand'], function( index, brand ) {
-                        html += '<a href="#" onclick="get_search(\''+brand['ID_art']+'\',\''+brand['brand']+'\',\''+brand['sku']+'\')" class="list-group-item">'+brand['brand']+'<br><small>'+brand['name']+'</small></a>';
+                        html += '<a href="#" onclick="get_search(\''+brand['ID_art']+'\',\''+brand['brand']+'\',\''+brand['sku']+'\'); return false" class="list-group-item">'+brand['brand']+'<br><small>'+brand['name']+'</small></a>';
                     });
                     $("#search_brand_list").html(html);
                 }else{
@@ -163,10 +164,12 @@ function add_cart(data, event){
 }
 
 function get_search(ID_art, brand, sku){
+    window.history.replaceState(null, '', '/search?sku='+sku+'&ID_art='+ID_art+'&brand='+brand);
     $.ajax({
         url: '/ajax/get_search',
         method: 'GET',
         data: {ID_art: ID_art, brand:brand, sku:sku},
+
         beforeSend: function(){
             $(".search_result").html('<img style="width: 50px;" src="/assets/themes/default/img/loading.gif"/>');
         },
