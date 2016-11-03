@@ -44,7 +44,6 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
-                console.log(json);
                 if(json['success']){
                     location.reload();
                 } else {
@@ -62,7 +61,6 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
-                console.log(json);
                 if(json['success']){
                     location.reload();
                 } else {
@@ -80,7 +78,6 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
-                console.log(json);
                 if(json['success']){
                     location.reload();
                 } else {
@@ -100,7 +97,6 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
-                console.log(json);
                 $(".search_result").empty();
                 $("#search_brand_list").empty();
                 $("#search_query").html(json['search_query']);
@@ -127,7 +123,6 @@ function send_request(event){
         data: $('.vin_request').serialize(),
         dataType: 'json',
         success: function(json){
-            console.log(json);
             if(json['success']){
                 $(".vin_request").trigger('reset');
                 $(".alert-success").append(json['success']).fadeIn();
