@@ -615,7 +615,7 @@ class Product_model extends Default_model{
         }
         return false;
     }
-
+    //получаем цены по товару
     public function get_product_price($id, $where = false, $order = false, $calculate_customer_price = false){
 
         $this->db->from('product_price');
