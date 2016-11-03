@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="container">
             <hr>
             <div class="row">
-                <?php if ($top_sellers) { ?>
+                <?php if ($top_sellers && @$this->options['top_sellers']) { ?>
                     <div class="col-md-4">
                         <div class="single-product-widget">
                             <h2 class="product-wid-title"><?php echo lang('text_top_sales'); ?></h2>
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
                 <?php } ?>
-                <?php if ($novelty) { ?>
+                <?php if ($novelty && @$this->options['novelty']) { ?>
                     <div class="col-md-4">
                         <div class="single-product-widget">
                             <h2 class="product-wid-title"><?php echo lang('text_novetly'); ?></h2>
@@ -192,7 +192,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
                 <?php } ?>
+
+                <?php if( @$this->options['top_sellers'] && @$this->options['novelty']){?>
                 <div class="col-md-4">
+                <?php }else if(@$this->options['top_sellers'] || @$this->options['novelty']){?>
+                <div class="col-md-8">
+                <?php }else{?>
+                <div class="col-md-12">
+                <?php } ?>
                     <h2 class="product-wid-title"><?php echo $name; ?></h2>
                     <?php echo $description; ?>
                 </div>

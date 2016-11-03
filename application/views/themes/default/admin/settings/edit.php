@@ -544,18 +544,50 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div id="collapse4" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="heading4">
                                     <div class="panel-body">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" name="settings[options][order_only_registered]" value="1" <?php echo set_checkbox('settings[main_settings][order_only_registered]',true,(bool)@$settings['options']['order_only_registered']);?>>
-                                                       <?php echo lang('text_order_only_registered');?>
-                                                    </label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][order_only_registered]" value="1" <?php echo set_checkbox('settings[options][order_only_registered]',true,(bool)@$settings['options']['order_only_registered']);?>>
+                                                            <?php echo lang('text_order_only_registered');?>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <?php echo lang('text_order_only_registered_description');?>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <?php echo lang('text_order_only_registered_description');?>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][top_sellers]" value="1" <?php echo set_checkbox('settings[options][top_sellers]',true,(bool)@$settings['options']['top_sellers']);?>>
+                                                            Топ продаж на главной
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Отображать блок топ продаж на главной
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][novelty]" value="1" <?php echo set_checkbox('settings[options][novelty]',true,(bool)@$settings['options']['novelty']);?>>
+                                                            Новые товары
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Отображать блок новые товары на главной
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
