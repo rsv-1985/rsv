@@ -138,6 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="list-group" id="search_brand_list"></div>
             </div>
             <div class="col-md-9" style="overflow: auto; max-height: 600px">
+                <a href="#" class="pull-right" onclick="location.reload();return false;">Открыть в новом окне</a>
                 <div class="search_result">
                     <h3><?php echo lang('text_change_brand');?></h3>
                 </div>
