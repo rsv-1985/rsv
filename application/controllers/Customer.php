@@ -97,7 +97,7 @@ class Customer extends Front_controller
                 $this->save_data();
 
                 //Получаем шаблон сообщения 2 - Смена статуса заказа
-                $message_template = $this->message_template_model->get(2);
+                $message_template = $this->message_template_model->get(3);
                 foreach ($this->input->post() as $field => $value){
                     $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
                     $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
