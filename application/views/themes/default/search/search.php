@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="container">
         <div class="row">
             <?php if($brands){?>
-                <div class="col-md-3 well">
+                <div class="col-md-3">
                     Выберите производителя
                     <div id="popover"></div>
                     <?php foreach ($brands as $brand){?>
