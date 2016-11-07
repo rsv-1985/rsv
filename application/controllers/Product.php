@@ -14,6 +14,7 @@ class Product extends Front_controller
         $this->load->helper('security');
         $this->load->language('product');
         $this->load->model('product_model');
+        $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('banner_model');
     }
@@ -106,7 +107,7 @@ class Product extends Front_controller
             $data['description'] .= $data['tecdoc_info']['article']['Info'];
         }
 
-        $data['description'] .= '<br/>' . $seo['description'];
+        $data['description'] .= '<br/>' . $seo['text'];
 
         $data['applicability'] = false;
         if (isset($data['tecdoc_info']['applicability']) && !empty($data['tecdoc_info']['applicability'])) {
@@ -125,7 +126,6 @@ class Product extends Front_controller
         if (isset($data['tecdoc_info']['cross'])) {
             $data['cross'] = $data['tecdoc_info']['cross'];
         }
-
 
         $data['banner'] = $this->banner_model->get_product();
         $this->load->view('header');
