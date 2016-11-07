@@ -14,7 +14,6 @@ class Product extends Front_controller
         $this->load->helper('security');
         $this->load->language('product');
         $this->load->model('product_model');
-        $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('banner_model');
     }
