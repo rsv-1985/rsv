@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <a href="<?php echo $slider['link']; ?>"
                            <?php if ($slider['new_window']){ ?>target="_blank" <?php } ?>>
                             <img onerror="imgError(this);"
-                                 src="/image?img=/uploads/banner/<?php echo $slider['image']; ?>&height=300"
+                                 src="/image?img=/uploads/banner/<?php echo $slider['image']; ?>"
                                  alt="<?php echo $slider['name']; ?>" title="<?php echo $slider['name']; ?>">
                             <div class="caption-group">
                                 <h2><?php echo $slider['name']; ?></h2>
