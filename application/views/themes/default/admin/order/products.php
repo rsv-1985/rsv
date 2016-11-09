@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     </td>
                                     <td><?php echo $product['sku'];?></td>
                                     <td><?php echo $product['brand'];?></td>
-                                    <td><?php echo $product['price'];?></td>
+                                    <td><?php echo format_currency($product['price']);?></td>
                                     <td><?php echo $product['quantity'];?></td>
                                     <td><?php echo @$suppliers[$product['supplier_id']]['name'];?></td>
                                     <td>

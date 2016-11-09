@@ -455,15 +455,24 @@ class Product_model extends Default_model{
         return $return;
     }
     //Получаем товары для категории
-    public function product_get_all($limit = false, $start = false, $where = false, $order = false){
+    public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false){
+
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+
         $this->db->from('product_price');
+
         $this->db->join('product','product.id=product_price.product_id');
+
         if($where){
             foreach($where as $field => $value){
                 $this->db->where($field, $value);
             }
         }
+
+        if($filter_products_id){
+            $this->db->where_in('product_id',$filter_products_id);
+        }
+
         if($limit && $start){
             $this->db->limit((int)$limit, (int)$start);
         }elseif($limit){

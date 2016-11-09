@@ -13,6 +13,7 @@ class category extends Front_controller{
         $this->load->language('category');
         $this->load->model('category_model');
         $this->load->model('product_model');
+        $this->load->model('product_attribute_model');
         $this->load->helper('security');
         $this->load->helper('text');
     }
@@ -46,6 +47,27 @@ class category extends Front_controller{
         }
 
         $data = [];
+
+        $filter_products_id = false;
+
+        $filters = false;
+        if($this->input->get()){
+            foreach ($this->input->get() as $filter => $value){
+                $filters[] = $filter;
+            }
+            $filter_products_id = $this->product_attribute_model->get_filter_products_id($filters);
+        }
+
+
+        $data['attributes'] = false;
+
+        $attributes = $this->product_attribute_model->get_attributes($category['id'], $filter_products_id);
+
+        if($attributes){
+            foreach ($attributes as $attribute){
+                $data['attributes'][$attribute['attribute_name']][] = $attribute;
+            }
+        }
 
         if(mb_strlen($category['h1']) > 0){
             $data['h1'] = $category['h1'];
@@ -92,9 +114,9 @@ class category extends Front_controller{
         }
 
         if($brand){
-            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(5), ['status' => true, 'category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))]);
+            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(5), ['status' => true, 'product.category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))], false, $filter_products_id);
         }else{
-            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(3), ['status' => true, 'category_id' => $category['id']]);
+            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(3), ['status' => true, 'product.category_id' => $category['id']], false, $filter_products_id);
         }
 
         $config['total_rows'] = $this->product_model->total_rows;
@@ -113,6 +135,7 @@ class category extends Front_controller{
         $config['first_tagl_close'] = "</li>";
         $config['last_tag_open'] = "<li>";
         $config['last_tagl_close'] = "</li>";
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
 

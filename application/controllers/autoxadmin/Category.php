@@ -14,7 +14,7 @@ class Category extends Admin_controller
         parent::__construct();
         $this->load->language('admin/category');
         $this->load->model('category_model');
-
+        $this->load->model('product_attribute_model');
     }
 
     public function index(){
@@ -93,6 +93,7 @@ class Category extends Admin_controller
 
     public function delete($id){
         $this->category_model->delete($id);
+        $this->product_attribute_model->delete_by_category($id);
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/category');
     }

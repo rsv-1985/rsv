@@ -14,6 +14,7 @@ class Product extends Admin_controller
         parent::__construct();
         $this->load->language('admin/product');
         $this->load->model('product_model');
+        $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('supplier_model');
         $this->load->model('currency_model');
@@ -71,6 +72,7 @@ class Product extends Admin_controller
             redirect('autoxadmin/product');
         }
         $data['prices'] = $this->product_model->get_product_price($id);
+        $data['attributes'] = $this->product_attribute_model->get_product_attributes($id);
 
         if($this->input->post()){
             $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
@@ -100,6 +102,8 @@ class Product extends Admin_controller
                     $this->form_validation->set_rules('prices['.$i.'][term]', lang('text_term'), 'integer');
                 }
             }
+
+
 
 
             if ($this->form_validation->run() !== false){
@@ -202,6 +206,22 @@ class Product extends Admin_controller
                     $this->product_model->insert($save);
                 }
             }
+            //Атрибуты к товару
+            $this->product_attribute_model->delete($product_id);
+            if($this->input->post('attributes') && $product['category_id']){
+                foreach ($this->input->post('attributes') as $attribute){
+                    $attributes_data[] = [
+                        'product_id' => $product_id,
+                        'attribute_name' =>trim($attribute['attribute_name']),
+                        'attribute_value' =>trim($attribute['attribute_value']),
+                        'category_id' => $product['category_id'],
+                        'attribute_slug' => url_title($attribute['attribute_name'].' '.$attribute['attribute_value'])
+                    ];
+                }
+
+                $this->product_attribute_model->insert_batch($attributes_data);
+            }
+
         }
         $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success'));

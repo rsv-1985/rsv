@@ -44,3 +44,4 @@ $lang['text_sample_default_term_unit_hour'] = 'В часах';
 $lang['text_sample_default_term_unit_day'] = 'В днях';
 $lang['text_sample_term_unit'] = 'Единица измерения срока поставки';
 $lang['text_sample_default_excerpt'] = 'Доп.инфо по умолчанию для всех';
+$lang['text_sample_attributes'] = 'Атрибуты';

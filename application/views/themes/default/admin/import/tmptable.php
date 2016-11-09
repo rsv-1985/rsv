@@ -41,6 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <th><?php echo lang('text_sample_quantity');?></th>
                     <th><?php echo lang('text_sample_term');?></th>
                     <th><?php echo lang('text_sample_image');?></th>
+                    <th><?php echo lang('text_sample_attributes');?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,6 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <img onerror="imgError(this);" src="/image?img=/uploads/product/<?php echo $item['image'];?>&width=50&height=50"/>
                             <?php } ?>
                         </td>
+                        <td><?php echo $item['attributes'];?></td>
                     </tr>
                 <?php } ?>
                 </tbody>

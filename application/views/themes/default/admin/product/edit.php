@@ -75,6 +75,48 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                 </div>
             </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <b><?php echo lang('text_product_attribute'); ?></b>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped" id="attributes_form">
+                        <thead>
+                            <tr>
+                                <th><?php echo lang('text_product_attribute_name');?></th>
+                                <th><?php echo lang('text_product_attribute_value');?></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php $attribute_row = 0;?>
+                        <?php if($attributes){?>
+                            <?php foreach ($attributes as $attribute){?>
+                                <tr id="attribute<?php echo $attribute_row;?>">
+                                    <td>
+                                        <?php echo $attribute['attribute_name'];?>
+                                        <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_name]" value="<?php echo $attribute['attribute_name'];?>">
+                                    </td>
+                                    <td>
+                                        <?php echo $attribute['attribute_value'];?>
+                                        <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_value]" value="<?php echo $attribute['attribute_value'];?>">
+                                    </td>
+                                    <td><a href="#" onclick="$('#attribute<?php echo $attribute_row;?>').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td>
+                                </tr>
+                            <?php $attribute_row++; } ?>
+                        <?php } ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><input type="text" id="new_attribute_name" class="form-control"></td>
+                                <td><input type="text" id="new_attribute_value" class="form-control"></td>
+                                <td><a href="#" onclick="productAttribute(); return false;" class="btn btn-info btn-xs"><?php echo lang('button_add');?></a></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="box box-primary">
@@ -229,3 +271,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </section>
 </form>
+<script>
+    var attribute_row = '<?php echo $attribute_row;?>';
+    function productAttribute(){
+        var attribute_name = $("#new_attribute_name").val();
+        var attribute_value = $("#new_attribute_value").val();
+        if(attribute_name.length && attribute_value.length){
+            var html = '<tr id="attribute'+attribute_row+'"><td>'+attribute_name+'<input type="hidden" name="attributes['+attribute_row+'][attribute_name]" value="'+attribute_name+'"></td><td>'+attribute_value+'<input type="hidden" name="attributes['+attribute_row+'][attribute_value]" value="'+attribute_value+'"></td><td><a href="#" onclick="$(\'#attribute'+attribute_row+'\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td></tr>';
+            $('#attributes_form > tbody').append(html);
+        }
+    }
+</script>

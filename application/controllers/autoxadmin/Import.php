@@ -16,6 +16,7 @@ class Import extends Admin_controller
         $this->load->language('admin/import');
         $this->load->helper('file');
         $this->load->model('product_model');
+        $this->load->model('product_attribute_model');
         $this->load->model('import_model');
         $this->load->model('synonym_model');
         $this->load->model('supplier_model');
@@ -164,10 +165,33 @@ class Import extends Admin_controller
                     'updated_at' => $this->db->escape(date("Y-m-d H:i:s")),
                     'status' => true,
                 ];
+
+                if($product['attributes']  && $product['category_id']){
+                    $this->product_attribute_model->delete($product_id);
+                    $attribute_group = explode('|',$product['attributes']);
+                    if($attribute_group){
+                        foreach ($attribute_group as $ag){
+                            $attribute_values = explode(':',$ag);
+                            if(isset($attribute_values[0]) && isset($attribute_values[1])){
+                                $attributes_data[] = [
+                                    'product_id' => $product_id,
+                                    'attribute_name' =>trim($attribute_values[0]),
+                                    'attribute_value' =>trim($attribute_values[1]),
+                                    'category_id' => trim($product['category_id']),
+                                    'attribute_slug' => url_title($attribute_values[0].' '.$attribute_values[1])
+                                ];
+                            }
+                        }
+                    }
+                }
             }
 
             if(@$price_data){
                 $this->product_model->price_insert($price_data);
+            }
+
+            if(@$attribute_values){
+                $this->product_attribute_model->insert_batch($attributes_data);
             }
 
             $json = [
@@ -292,9 +316,15 @@ class Import extends Admin_controller
                 }
 
                 if(isset($data_f[$params['sample']['image'] - 1])){
-                    $image = (int)$data_f[$params['sample']['image'] - 1];
+                    $image = $data_f[$params['sample']['image'] - 1];
                 } else {
                     $image = '';
+                }
+
+                if(isset($data_f[$params['sample']['attributes'] - 1])){
+                    $attributes = $data_f[$params['sample']['attributes'] - 1];
+                } else {
+                    $attributes = '';
                 }
 
                 $currency_id = $params['sample']['currency_id'];
@@ -312,7 +342,8 @@ class Import extends Admin_controller
                     'supplier_id' => $params['supplier_id'],
                     'term' => $term,
                     'category_id' => $category_id,
-                    'image' => $image
+                    'image' => $image,
+                    'attributes' => $attributes
                 ];
 
                 if ($i == 2000) {
@@ -397,6 +428,7 @@ class Import extends Admin_controller
                     $excerpt = @$sample['default_excerpt'];
                 }
                 $image = trim($excel->sheets[0]['cells'][$i][$sample['image']]);
+                $attributes = trim($excel->sheets[0]['cells'][$i][$sample['attributes']]);
                 $currency_id = $sample['currency_id'];
 
                 $save[]= [
@@ -412,7 +444,8 @@ class Import extends Admin_controller
                     'supplier_id' => $supplier_id,
                     'term' => $term,
                     'category_id' => $category_id,
-                    'image' => $image
+                    'image' => $image,
+                    'attributes' => $attributes
                 ];
                 $q++;
                 if ($q > 2000) {

@@ -302,3 +302,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 </div>
+<?php if($attributes){?>
+    <table class="table table-striped">
+        <?php foreach ($attributes as $attribute){;?>
+            <tr>
+                <td><?php echo $attribute['attribute_name'];?></td>
+                <td><?php echo $attribute['attribute_value'];?></td>
+            </tr>
+        <?php } ?>
+    </table>
+<?php } ?>

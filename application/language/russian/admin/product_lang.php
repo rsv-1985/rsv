@@ -38,3 +38,6 @@ $lang['text_product_prices'] = 'Ценообразование';
 $lang['text_product_seo'] = 'SEO настройки';
 $lang['text_product_main'] = 'Основная информация';
 $lang['text_product_info'] = 'Дополнтельная информация';
+$lang['text_product_attribute'] = 'Характеристики';
+$lang['text_product_attribute_name'] = 'Название';
+$lang['text_product_attribute_value'] = 'Значение';
