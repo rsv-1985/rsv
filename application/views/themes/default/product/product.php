@@ -143,6 +143,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                           data-toggle="tab"><?php echo lang('text_description'); ?></a>
                                 </li>
                             <?php } ?>
+                            <?php if($attributes){?>
+                                <li role="presentation"><a href="#attributes" aria-controls="profile"
+                                                           role="tab"
+                                                           data-toggle="tab"><?php echo lang('text_attributes'); ?></a>
+                                </li>
+                            <?php } ?>
                             <?php if ($applicability) { ?>
                                 <li role="presentation"><a href="#applicability" aria-controls="profile"
                                                            role="tab"
@@ -161,11 +167,24 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                            data-toggle="tab"><?php echo lang('text_cross'); ?></a>
                                 </li>
                             <?php } ?>
+
                         </ul>
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="description" itemprop="description">
                                 <?php echo $description; ?>
                             </div>
+                            <?php if($attributes){?>
+                                <div role="tabpanel" class="tab-pane fade fade" id="attributes">
+                                    <table class="table table-striped">
+                                        <?php foreach ($attributes as $attribute){;?>
+                                            <tr>
+                                                <td><?php echo $attribute['attribute_name'];?></td>
+                                                <td><?php echo $attribute['attribute_value'];?></td>
+                                            </tr>
+                                        <?php } ?>
+                                    </table>
+                                </div>
+                            <?php } ?>
                             <?php if ($applicability) { ?>
                                 <div role="tabpanel" class="tab-pane fade" id="applicability">
 
@@ -302,13 +321,3 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 </div>
-<?php if($attributes){?>
-    <table class="table table-striped">
-        <?php foreach ($attributes as $attribute){;?>
-            <tr>
-                <td><?php echo $attribute['attribute_name'];?></td>
-                <td><?php echo $attribute['attribute_value'];?></td>
-            </tr>
-        <?php } ?>
-    </table>
-<?php } ?>

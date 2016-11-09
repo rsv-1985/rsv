@@ -14,6 +14,7 @@ class Product extends Front_controller
         $this->load->helper('security');
         $this->load->language('product');
         $this->load->model('product_model');
+        $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('banner_model');
     }
@@ -127,6 +128,9 @@ class Product extends Front_controller
         }
 
         $data['banner'] = $this->banner_model->get_product();
+
+        $data['attributes'] = $this->product_attribute_model->get_product_attributes($data['id']);
+
         $this->load->view('header');
         $this->load->view('product/product', $data);
         $this->load->view('footer');
