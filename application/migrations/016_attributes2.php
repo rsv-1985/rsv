@@ -15,6 +15,6 @@ class Migration_attributes2 extends CI_Migration {
     }
     public function down()
     {
-
+        return;
     }
 }
