@@ -13,7 +13,7 @@ class Import_model extends Default_model
 
     public function clear_importtmp(){
         $this->db->where('sku', null);
-        //$this->db->or_where('brand', null);
+        $this->db->or_where('brand', null);
         $this->db->or_where('delivery_price', 0);
         $this->db->or_where('quantity', 0);
         $this->db->delete($this->table);
