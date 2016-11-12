@@ -60,7 +60,7 @@ class Index extends Front_controller {
                             'slug' => url_title($item->Name).'_'.$item->ID_mfa,
                             'ID_mfa' => $item->ID_mfa,
                             'name' => $item->Name,
-                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.$item->Name.'.png',
+                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
                         ];
                     }
                 }else{
@@ -69,7 +69,7 @@ class Index extends Front_controller {
                             'slug' => url_title($item->Name).'_'.$item->ID_mfa,
                             'ID_mfa' => $item->ID_mfa,
                             'name' => $item->Name,
-                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.$item->Name.'.png',
+                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
                         ];
                     }
                 }
