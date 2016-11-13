@@ -64,7 +64,7 @@ class Index extends Front_controller {
                         ];
                     }
                 }else{
-                    if(file_exists('./uploads/model/'.$item->Name.'.png')){
+                    if(file_exists('./uploads/model/'.str_replace('Ë','E',$item->Name).'.png')){
                         $data['manufacturers'][] = [
                             'slug' => url_title($item->Name).'_'.$item->ID_mfa,
                             'ID_mfa' => $item->ID_mfa,
