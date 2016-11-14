@@ -1513,3 +1513,6 @@ li.list-group-item.active a {
 .item-min {
     text-align: center;
 }
+.fa-info-circle{
+    cursor: pointer;
+}
