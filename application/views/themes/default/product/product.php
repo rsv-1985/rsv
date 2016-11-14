@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
 
             <div class="col-md-4 col-sm-12">
-                <img itemprop="image" onerror="imgError(this, 300);" src="/image?img=<?php echo $image; ?>&width=300"
+                <img itemprop="image" onerror="imgError(this, 300);" src="/image?img=<?php echo $image; ?>"
                      alt="<?php echo $h1; ?>">
                 <?php if ($banner) { ?>
                     <div class="single-sidebar">
