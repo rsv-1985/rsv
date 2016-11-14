@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
             </div>
             <div class="col-md-8">
-                <?php if (isset($parts)) { ?>
+                <?php if (@$parts) { ?>
                     <table class="table table-responsive">
                         <tr>
                             <th>Изображение</th>
