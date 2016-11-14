@@ -22,15 +22,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <div class="row">
             <?php if($brands){?>
                 <div class="col-md-3">
-                    Выберите производителя
                     <div id="popover"></div>
-                    <?php foreach ($brands as $brand){?>
-                        <div class="list-group">
-                            <a href="/search?sku=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo $brand['brand'];?>" class="list-group-item"><?php echo $brand['brand'];?><br>
+                    <div class="list-group">
+                        <?php foreach ($brands as $brand){?>
+                            <a href="/search?sku=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo $brand['brand'];?>" class="list-group-item <?php if($this->input->get('brand') == $brand['brand']){?> active<?php } ?>"><?php echo $brand['brand'];?><br>
                                 <small><?php echo $brand['name'];?></small>
                             </a>
-                        </div>
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
                 </div>
                  <div class="col-md-9">
             <?php }else{?>
