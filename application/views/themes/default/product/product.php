@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </table>
                                 </div>
                             <?php } ?>
-                            <?php if ($applicability) { ?>
+                            <?php if ($applicability) {?>
                                 <div role="tabpanel" class="tab-pane fade" id="applicability">
 
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -215,7 +215,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <tbody>
                                                             <?php foreach ($ap as $applicability) { ?>
                                                                 <tr>
-                                                                    <td><?php echo $applicability->Brand; ?></td>
+                                                                    <td>
+                                                                        <?php echo $applicability->Brand; ?><br/>
+                                                                        <?php echo $applicability->DateMake;?>
+                                                                    </td>
                                                                     <td>
                                                                         <?php echo $applicability->Model; ?><br>
                                                                         <?php echo $applicability->Name; ?> <?php echo $applicability->Fuel; ?>
