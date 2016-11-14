@@ -84,8 +84,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
                 <div class="pull-right" id="powered">
                     Powered by <a href="http://cms.autoxcatalog.com/">cms Autox</a>
-                    Protected by <a href="http://scamdb.info/">Scamdb</a>
                     Design by <a href="http://headway.click/">Headway</a>
+                    Protected by <a href="http://scamdb.info/">Scamdb</a>
                 </div>
             </div>
         </div>
