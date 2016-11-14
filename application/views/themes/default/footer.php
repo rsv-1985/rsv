@@ -83,9 +83,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
                 </div>
                 <div class="pull-right" id="powered">
-                    Powered by <a href="http://cms.autoxcatalog.com/">Autox</a>
-                    Design by <a href="http://headway.click/">Headway</a>
-                    Protected by <a href="http://scamdb.info/">Scamdb</a>
+                    Powered by <a href="http://cms.autoxcatalog.com/" title="Создание интернет-магазина автозапчастей">Autox</a>
+                    Design by <a href="http://headway.click/" title="Полиграфия, сайт, дизайн">Headway</a>
+                    Protected by <a href="http://scamdb.info/" title="Черный список покупателей (клиентов)">Scamdb</a>
                 </div>
             </div>
         </div>
