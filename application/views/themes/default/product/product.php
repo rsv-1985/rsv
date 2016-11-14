@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-md-4 col-sm-12">
                 <img itemprop="image" onerror="imgError(this, 300);" src="/image?img=<?php echo $image; ?>"
-                     alt="<?php echo $h1; ?>">
+                     alt="<?php echo $h1; ?>" style="max-height: 340px;">
                 <?php if ($banner) { ?>
                     <div class="single-sidebar">
                         <?php foreach ($banner as $banner) { ?>
