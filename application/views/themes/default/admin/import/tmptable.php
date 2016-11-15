@@ -94,15 +94,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" value="1" name="disable">
-                            <label><?php echo lang('text_import_settings_disble');?></label>
+                            <?php echo lang('text_import_settings_disble');?>
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="1" name="update_product_field">
-                            <label>Обновить основные данные карточки товара.</label>
+                            <input type="checkbox" value="1" name="update_product_field" onchange="$('#checkbox-seo-url').toggle();">
+                            Обновить основные данные карточки товара.
+                        </label>
+                    </div>
+                    <div class="checkbox" id="checkbox-seo-url" style="display: none;">
+                        <label>
+                            <input type="checkbox" value="1" name="update_seo_url">
+                            Обвновить SEO url товаров
                         </label>
                     </div>
                 </div>

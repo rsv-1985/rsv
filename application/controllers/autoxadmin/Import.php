@@ -150,7 +150,7 @@ class Import extends Admin_controller
                     'description' => $product['description'],
                 ];
 
-                $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'));
+                $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'), $this->input->get('update_seo_url'));
 
                 $price_data[] = [
                     'product_id' => $this->db->escape($product_id),
@@ -195,7 +195,7 @@ class Import extends Admin_controller
             }
 
             $json = [
-                'continue' => base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id').'&update_product_field='.$this->input->get('update_product_field'),
+                'continue' => base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id').'&update_product_field='.$this->input->get('update_product_field').'&update_seo_url='.$this->input->get('update_seo_url'),
                 'row' => $id
             ];
 

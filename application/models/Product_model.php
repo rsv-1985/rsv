@@ -155,7 +155,7 @@ class Product_model extends Default_model{
         $this->db->query($sql);
     }
 
-    public function product_insert($product, $update = false)
+    public function product_insert($product, $update = false, $update_seo_url = false)
     {
         $this->db->select('id');
         $this->db->where('sku',$product['sku']);
@@ -164,6 +164,9 @@ class Product_model extends Default_model{
         if($query->num_rows() > 0){
             $product_id = $query->row_array()['id'];
             if($update){
+                if(!$update_seo_url){
+                    unset($product['slug']);
+                }
                 $this->insert($product,$product_id);
             }
         }else{
