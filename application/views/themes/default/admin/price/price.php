@@ -21,39 +21,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-body">
                     <div class="col-md-6">
-                        <h4><?php echo lang('text_product_settings');?></h4>
-                        <div class="form-group">
-                            <label><?php echo lang('text_category');?></label>
-                            <select name="category_id" class="form-control">
-                                <option value=""><?php echo lang('text_all');?></option>
-                                <?php foreach ($categories as $category) { ?>
-                                    <option value="<?php echo $category['id'];?>"><?php echo $category['name'];?></option>
-                                <?php }?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label><?php echo lang('text_supplier');?></label>
-                            <select name="supplier_id" class="form-control">
-                                <option value=""><?php echo lang('text_all');?></option>
-                                <?php foreach ($suppliers as $supplier){?>
-                                    <option value="<?php echo $supplier['id'];?>"><?php echo $supplier['name'];?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label><?php echo lang('text_saleprice');?></label>
-                            <select name="saleprice" class="form-control">
-                                <option value=""><?php echo lang('text_all');?></option>
-                                <option value="1">Да</option>
-                                <option value="0">Нет</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
                         <h4><?php echo lang('text_export_settings');?></h4>
                         <div class="form-group">
                             <label><?php echo lang('text_price_format');?></label>
-                            <select name="format" class="form-control">
+                            <select name="format" class="form-control" onchange="get_price_settings($(this).val())">
+                                <option></option>
                                 <?php if($formats){?>
                                     <?php foreach ($formats as $value => $name){?>
                                         <option value="<?php echo $value;?>"><?php echo $name;?></option>
@@ -63,10 +35,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </div>
                         <input type="submit" class="btn btn-info pull-right" value="Export">
                     </div>
+                    <div class="col-md-6" id="price-settings">
 
+                    </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div>
 </section><!-- /.content -->
 </form>
+
+<script>
+    function get_price_settings(library_name){
+        $.ajax({
+            url: '/autoxadmin/price/get_price_settings',
+            method: 'post',
+            data:{library_name:library_name},
+            success: function (html) {
+                $("#price-settings").html(html);
+            }
+        });
+    }
+</script>

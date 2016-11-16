@@ -13,34 +13,16 @@ class Price extends Admin_controller
     {
         parent::__construct();
         $this->load->language('admin/price');
-        $this->load->model('product_model');
-        $this->load->model('supplier_model');
-        $this->load->model('category_model');
         $this->load->helper('file');
     }
 
     public function index(){
         $data = [];
         if($this->input->post()){
-            
-            $where = [];
-            if($this->input->post('category_id')){
-                $where['category_id'] = (int)$this->input->post('category_id');
-            }
-            if($this->input->post('supplier_id')){
-                $where['supplier_id'] = (int)$this->input->post('supplier_id');
-            }
-            if($this->input->post('saleprice')){
-                $where['saleprice >'] = 0;
-            }
-            
-            $where['offset'] = 0;
-            
             $library_name = $this->input->post('format', true);
-            redirect('/autoxadmin/price/get_data?library_name='.$library_name.'&where='.serialize($where));
+            redirect('/autoxadmin/price/get_data?library_name='.$library_name.'&data='.serialize($this->input->post()));
         }
-        $data['suppliers'] = $this->supplier_model->supplier_get_all();
-        $data['categories'] = $this->category_model->admin_category_get_all();
+
         $formats = get_filenames(APPPATH.'/libraries/priceformat/');
         $data['formats'] = false;
         if($formats){
@@ -62,11 +44,21 @@ class Price extends Admin_controller
     public function get_data(){
         if($this->input->get()){
             $library_name = $this->input->get('library_name');
-            $where = unserialize($this->input->get('where'));
+            $data = unserialize($this->input->get('data'));
             $this->load->library('priceformat/'.$library_name);
             $obj = new $library_name;
-            $obj->get_data($where);
+            $obj->get_data($data);
         }
-        
+    }
+
+    public function get_price_settings(){
+        $library_name = $this->input->post('library_name',true);
+        if($library_name){
+            $this->load->library('priceformat/'.$library_name);
+            $obj = new $library_name;
+            $price_settings = $obj->get_price_settings();
+            $this->output
+                ->set_output($price_settings);
+        }
     }
 }
