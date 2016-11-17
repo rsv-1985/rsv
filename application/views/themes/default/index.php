@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-3 col-sm-6">
                         <div class="single-promo promo1">
                             <img onerror="imgError(this);"
-                                 src="/image?img=/uploads/banner/<?php echo $box['image']; ?>&width=263"
+                                 src="/uploads/banner/<?php echo $box['image']; ?>"
                                  alt="<?php echo $box['name']; ?>" title="<?php echo $box['name']; ?>">
                             <span>
                             <?php echo $box['name']; ?><br>
