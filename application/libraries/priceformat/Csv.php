@@ -93,7 +93,8 @@ class Csv{
 
         $html .= '<h4>Доп настройки</h4>';
         $html .= '<div class="form-group"><label>Наценка к цене поставки (новая цена сайта)</label>';
-        $html .= '<input type="text" name="margin" class="form-control">';
+        $html .= '<input type="text" name="margin" class="form-control" placeholder="0-100:50;100-99999:40">';
+        $html .= '<p>Шаблон: цена от-цена до:наценка;цена от-цена до:наценка;</p>';
         $html .= '</div></div>';
 
         $html .= '<h4>Формат файла</h4>';
@@ -250,7 +251,22 @@ class Csv{
                 $data['id'] = $product['id'];
                 $product['slug'] = base_url('product/'.$product['slug']);
                 if($data['margin']){
-                    $product['price'] = $product['delivery_price'] + $product['delivery_price'] * $data['margin'] / 100;
+                    $margins = explode(';',$data['margin']);
+                    if(count($margins)){
+                        foreach ($margins as $margin){
+                            $margin = explode(':',$margin);
+                            if(count($margin)){
+                                $percent = @$margin[1];
+                                $margin_price = explode('-',$margin[0]);
+                                $price_from = @$margin_price[0];
+                                $price_to = @$margin_price[1];
+                                $product['delivery_price'];
+                                if($percent > 0 && $price_from >= 0 && $price_to > 0 && $product['delivery_price'] >= $price_from && $product['delivery_price'] <=  $price_to){
+                                    $product['price'] = round($product['delivery_price'] + $product['delivery_price'] * $percent / 100,2);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 $product = array_intersect_key($product,$data['template']);
