@@ -47,6 +47,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <input type="checkbox" name="is_default" value="1" <?php echo set_checkbox('is_default', 1);?>>
                                 <?php echo lang('text_use_default');?>
                             </label>
+                            <label>
+                                <input type="checkbox" name="is_unregistered" value="1" <?php echo set_checkbox('is_unregistered', 1);?>>
+                                <?php echo lang('text_use_all');?>
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">

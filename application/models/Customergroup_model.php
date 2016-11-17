@@ -41,4 +41,13 @@ class Customergroup_model extends Default_model{
         }
         return $return;
     }
+
+    public function get_unregistered(){
+        $this->db->where('is_unregistered',true);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        }
+        return false;
+    }
 }

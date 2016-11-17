@@ -15,4 +15,5 @@ $lang['text_success'] = 'Все прошло успешно';
 $lang['text_margin'] = 'Наценка';
 $lang['text_discount'] = 'Скидка';
 $lang['text_error_delete'] = 'Нельзя удалить. Эта группа покупателей используется.';
-$lang['text_use_default'] = 'Использовать по умолчанию для новых клиентов';
+$lang['text_use_default'] = 'Для новых клиентов';
+$lang['text_use_all'] = 'Для незарегистрированных';

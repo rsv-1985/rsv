@@ -96,7 +96,8 @@ class Customergroup extends Admin_controller
         $save['type'] = $this->input->post('type', true);
         $save['value'] = $this->input->post('value', true);
         $save['fix_value'] = $this->input->post('fix_value', true);
-        $save['is_default'] = (bool)$this->input->post('is_default', true);
+        $save['is_default'] = (bool)$this->input->post('is_default');
+        $save['is_unregistered'] = (bool)$this->input->post('is_unregistered');
         if($save['is_default']){
             $this->customergroup_model->update('is_default',false);
         }

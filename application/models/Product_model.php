@@ -21,12 +21,14 @@ class Product_model extends Default_model{
             $this->currency_rates[$cur['id']] = $cur;
         }
 
-        if(@$this->is_login){
-            $this->load->model('customergroup_model');
-            $this->customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-        }
-
         unset($currency);
+
+        $this->load->model('customergroup_model');
+        if(@$this->is_login){
+            $this->customer_group = $this->customergroup_model->get($this->session->customer_group_id);
+        }else{
+            $this->customer_group = $this->customergroup_model->get_unregistered();
+        }
     }
 
     public function getSlug($product){
@@ -87,6 +89,18 @@ class Product_model extends Default_model{
         }
         return false;
     }
+
+    public function update_stock($product, $method = '-'){
+        $this->db->where('product_id',(int)$product['product_id']);
+        $this->db->where('supplier_id',(int)$product['supplier_id']);
+        $this->db->where('term',(int)$product['term']);
+        if($method == '+'){
+            $this->db->set('quantity', 'quantity + '.(int)$product['quantity'], FALSE);
+        }else{
+            $this->db->set('quantity', 'quantity - '.(int)$product['quantity'], FALSE);
+        }
+        $this->db->update('product_price');
+    }
     
     public function update_bought($product){
         $this->db->where('id', (int)$product['product_id']);
@@ -94,11 +108,8 @@ class Product_model extends Default_model{
         $this->db->update($this->table);
 
         if($product['is_stock']){
-            $this->db->where('product_id',(int)$product['product_id']);
-            $this->db->where('supplier_id',(int)$product['supplier_id']);
-            $this->db->where('term',(int)$product['term']);
-            $this->db->set('quantity', 'quantity - '.(int)$product['qty'], FALSE);
-            $this->db->update('product_price');
+            $product['quantity'] = (int)$product['qty'];
+            $this->update_stock($product,'-');
         }
     }
     

@@ -1,6 +1,6 @@
 <?php 
 
-$lang['text_heading'] = 'Администраторы';
+$lang['text_heading'] = 'Пользователи';
 $lang['text_firstname'] = 'Имя';
 $lang['text_lastname'] = 'Фамилия';
 $lang['text_email'] = 'Email';

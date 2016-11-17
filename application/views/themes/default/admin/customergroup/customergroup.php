@@ -30,6 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_value');?></th>
                             <th><?php echo lang('text_fix_value');?></th>
                             <th><?php echo lang('text_use_default');?></th>
+                            <th><?php echo lang('text_use_all');?></th>
                             <th><a href="/autoxadmin/customergroup/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php if($customergroupes){?>
@@ -42,6 +43,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $customergroup['fix_value'];?></td>
                                     <td>
                                         <?php if ($customergroup['is_default']){?>
+                                            <i class="fa fa-check-circle-o"></i>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($customergroup['is_unregistered']){?>
                                             <i class="fa fa-check-circle-o"></i>
                                         <?php } ?>
                                     </td>

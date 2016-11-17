@@ -79,6 +79,7 @@ class Cart extends Front_controller
                     foreach($this->cart->contents() as $item){
                         $products[] = [
                             'order_id' => $order_id,
+                            'product_id' => $item['product_id'],
                             'slug' => $item['slug'],
                             'quantity' => $item['qty'],
                             'price' => $item['price'],

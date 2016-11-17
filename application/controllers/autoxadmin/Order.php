@@ -22,6 +22,7 @@ class Order extends Admin_controller
         $this->load->model('order_history_model');
         $this->load->model('settings_model');
         $this->load->model('message_template_model');
+        $this->load->model('product_model');
         $this->load->library('sender');
     }
 
@@ -130,8 +131,6 @@ class Order extends Admin_controller
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
             if ($this->form_validation->run() !== false) {
 
-                $this->order_product_model->delete_by_order($id);
-
                 $delivery_price = 0;
                 $commissionpay = 0;
                 $total = 0;
@@ -182,7 +181,16 @@ class Order extends Admin_controller
                 $save['delivery_price'] = (float)$delivery_price;
                 $save['paid'] = (bool)$this->input->post('paid', true);
                 $order_id = $this->order_model->insert($save, $id);
-
+                //Возвращаем товары на склад если у поставщик отмечено "Наш склад"
+                if($data['products']){
+                    foreach ($data['products'] as $return_product){
+                        $supplier_info = $this->supplier_model->get($return_product['supplier_id']);
+                        if($supplier_info['stock']){
+                            $this->product_model->update_stock($return_product,'+');
+                        }
+                    }
+                }
+                $this->order_product_model->delete_by_order($id);
                 if ($order_id) {
                     $products = [];
                     foreach ($this->input->post('products') as $item) {
