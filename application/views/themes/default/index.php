@@ -34,18 +34,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
-                <?php foreach ($box as $box) { ?>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="single-promo promo1">
-                            <img onerror="imgError(this);"
-                                 src="/uploads/banner/<?php echo $box['image']; ?>"
-                                 alt="<?php echo $box['name']; ?>" title="<?php echo $box['name']; ?>">
-                            <span>
-                            <?php echo $box['name']; ?><br>
-                            <small><?php echo $box['description']; ?></small>
-                        </span>
+                <?php foreach ($box as $box) {?>
+                    <a href="<?php echo $box['link']; ?>"
+                           <?php if ($box['new_window']){ ?>target="_blank" <?php } ?>>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="single-promo promo1">
+                                <img onerror="imgError(this);"
+                                     src="/uploads/banner/<?php echo $box['image']; ?>"
+                                     alt="<?php echo $box['name']; ?>" title="<?php echo $box['name']; ?>">
+                                <span>
+                                <?php echo $box['name']; ?><br>
+                                <small><?php echo $box['description']; ?></small>
+                            </span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 <?php } ?>
             </div>
         </div>
