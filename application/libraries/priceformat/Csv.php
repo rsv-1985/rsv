@@ -176,10 +176,10 @@ class Csv{
 
 
         $this->CI->db->from('product_price');
-        $this->CI->db->join('currency','currency.id=product_price.currency_id');
-        $this->CI->db->join('product','product.id=product_price.product_id');
-        $this->CI->db->join('category','category.id=product.category_id');
-        $this->CI->db->join('supplier','supplier.id=product_price.supplier_id');
+        $this->CI->db->join('currency','currency.id=product_price.currency_id','left');
+        $this->CI->db->join('product','product.id=product_price.product_id','left');
+        $this->CI->db->join('category','category.id=product.category_id','left');
+        $this->CI->db->join('supplier','supplier.id=product_price.supplier_id','left');
 
         $this->CI->db->where('product.id >',(int)@$data['id']);
 
