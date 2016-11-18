@@ -45,7 +45,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <li><i class="fa fa-envelope"></i><a href="mailto:<?php echo $email;?>"> <?php echo $email;?></a></li>
                         <?php } ?>
                         <li><i class="fa fa-map-marker"></i> <?php echo $this->contacts['address'];?></li>
-                        <li><i class="fa fa-link"></i><a href="<?php echo base_url();?>"> <?php echo $this->config->item('company_name');?></a></li>
                     </ul>      
                 </div>
             </div>
