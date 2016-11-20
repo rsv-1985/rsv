@@ -231,7 +231,7 @@ class Csv{
 
 
         $this->CI->db->order_by('product_id','ASC');
-        $this->CI->db->limit(25000);
+        $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
         if($query->num_rows() == 0 && $data['id'] == 0){
             exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Empty results');
