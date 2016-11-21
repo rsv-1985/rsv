@@ -169,6 +169,8 @@ class Hotline{
         }
 
 
+
+
         $this->CI->db->order_by('product_id','ASC');
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
@@ -193,7 +195,6 @@ class Hotline{
                     base_url('product/'.$result['slug']),
                     $result['image'] ? base_url('uploads/product/'.$result['image']) : ''
                 ];
-
                 $content .= implode(';',$product).PHP_EOL;
             }
             if($data['id'] == 0){
