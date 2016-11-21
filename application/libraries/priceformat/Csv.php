@@ -225,7 +225,7 @@ class Csv{
         }
 
         if(@$data['unique']){
-            $this->CI->db->group_by('product.id');
+            $this->CI->db->group_by('product_price.product_id');
             $this->CI->db->order_by('product_price.price', 'ASC');
         }
 
