@@ -121,7 +121,7 @@ class Hotline{
         $this->CI->db->join('category','category.id=product.category_id','left');
         $this->CI->db->join('supplier','supplier.id=product_price.supplier_id','left');
 
-        $this->CI->db->where('product_pricet.product_id >',(int)@$data['id']);
+        $this->CI->db->where('product_price.product_id >',(int)@$data['id']);
 
         if(@$data['category_id']){
             $this->CI->db->where('category.id',(int)$data['category_id']);
@@ -171,7 +171,7 @@ class Hotline{
 
 
 
-        $this->CI->db->order_by('product_id','ASC');
+        $this->CI->db->order_by('product_price.product_id','ASC');
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
         if($query->num_rows() == 0 && $data['id'] == 0){
