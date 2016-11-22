@@ -681,17 +681,20 @@ class Product_model extends Default_model{
     }
 
     //Для карты сайта
-    public function get_sitemap($limit, $offset){
+    public function get_sitemap($id){
         $return = false;
-        $this->db->select('slug');
+        $this->db->select(['slug','id']);
         $this->db->from($this->table);
-        $this->db->limit($limit, $offset);
+        $this->db->limit(30000);
+        $this->db->where('id >',$id);
+        $this->db->order_by('id','ASC');
         $query = $this->db->get();
         if($query->num_rows() > 0){
             $return = [];
             foreach($query->result_array() as $row){
-                $return[] = base_url('product/'.$row['slug']);
+                $return['urls'][] = base_url('product/'.$row['slug']);
             }
+            $return['id'] = $row['id'];
         }
         return $return;
     }

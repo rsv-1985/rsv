@@ -54,12 +54,12 @@ class Sitemap extends Front_controller{
 
         }
 
-        $url_product = $this->product_model->get_sitemap(30000, $this->uri->segment(3));
-        if($url_product){
-            $pagin = $this->uri->segment(3) + 30000;
-            $html = '<a id="next" href="/sitemap/index/'.$pagin.'">Загрузка</a>';
+        $result = $this->product_model->get_sitemap((int)$this->uri->segment(3));
+
+        if($result){
+            $html = '<a id="next" href="/sitemap/index/'.$result['id'].'">Загрузка</a>';
             $html .= '<script type="text/javascript">document.getElementById("next").click();</script>';
-            $text = implode(chr(10), $url_product);
+            $text = implode(chr(10), $result['urls']);
             $this->write_file($text, time());
             echo $html;
             die();
@@ -77,8 +77,8 @@ class Sitemap extends Front_controller{
                 }
                 $text .= '</sitemapindex>';
                 write_file('./map/sitemap.xml', $text);
-                $this->session->set_flashdata('message', 'Генерация карты сайта закончена');
-                redirect(base_url('autoxadmin'));
+                $this->session->set_flashdata('success', 'Генерация карты сайта закончена');
+                redirect(base_url('autoxadmin/settings'));
             }
         }
     }
