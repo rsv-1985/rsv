@@ -164,16 +164,15 @@ class Hotline{
         }
 
         if(@$data['unique']){
-            $this->CI->db->group_by('product_price.product_id');
-            $this->CI->db->order_by('product_price.price', 'ASC');
+            $this->CI->db->group_by('id');
         }
 
+        $this->CI->db->order_by('id','ASC');
+        $this->CI->db->order_by('product_price.price', 'ASC');
 
-
-
-        $this->CI->db->order_by('product_price.product_id','ASC');
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
+
         if($query->num_rows() == 0 && $data['id'] == 0){
             exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Empty results');
         }
