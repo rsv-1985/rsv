@@ -104,63 +104,67 @@ class Hotline{
         if(!@$data['id']){
             $data['id'] = 0;
         }
+        $tmp_prefix = $this->CI->db->dbprefix;
+        $this->CI->db->dbprefix = '';
+// unusual query runs here
 
         $this->CI->db->select('
-        product.*, 
-        product_price.*,
-        category.name as category_name,
-        currency.name as currency_name,
-        currency.value as currency_value,
-        supplier.name as supplier_name,
-        ', false);
+        ax_product.*, 
+        ax_product_price.*,
+        ax_category.name as category_name,
+        ax_currency.name as currency_name,
+        ax_currency.value as currency_value,
+        ax_supplier.name as supplier_name,
+        ax_product_price.price * ax_currency.value as calculate_price
+        ', FALSE);
 
+        $this->CI->db->from('ax_product_price');
 
-        $this->CI->db->from('product_price');
-        $this->CI->db->join('currency','currency.id=product_price.currency_id','left');
-        $this->CI->db->join('product','product.id=product_price.product_id','left');
-        $this->CI->db->join('category','category.id=product.category_id','left');
-        $this->CI->db->join('supplier','supplier.id=product_price.supplier_id','left');
+        $this->CI->db->join('ax_currency','ax_currency.id=ax_product_price.currency_id','left');
+        $this->CI->db->join('ax_product','ax_product.id=ax_product_price.product_id','left');
+        $this->CI->db->join('ax_category','ax_category.id=ax_product.category_id','left');
+        $this->CI->db->join('ax_supplier','ax_supplier.id=ax_product_price.supplier_id','left');
 
-        $this->CI->db->where('product_price.product_id >',(int)@$data['id']);
+        $this->CI->db->where('ax_product_price.product_id >',(int)@$data['id']);
 
         if(@$data['category_id']){
-            $this->CI->db->where('category.id',(int)$data['category_id']);
+            $this->CI->db->where('ax_category.id',(int)$data['category_id']);
         }
 
         if(@$data['supplier_id']){
-            $this->CI->db->where('supplier.id',(int)$data['supplier_id']);
+            $this->CI->db->where('ax_supplier.id',(int)$data['supplier_id']);
         }
 
         if(@$data['saleprice']){
-            $this->CI->db->where('product_price.saleprice >',0);
+            $this->CI->db->where('ax_product_price.saleprice >',0);
         }
 
         if(@$data['status']){
-            $this->CI->db->where('product_price.status',true);
+            $this->CI->db->where('ax_product_price.status',true);
         }
 
         if(@$data['brand']){
-            $this->CI->db->where_in('product.brand',explode(',',$data['brand']));
+            $this->CI->db->where_in('ax_product.brand',explode(',',$data['brand']));
         }
 
         if(@$data['exclude_brand']){
-            $this->CI->db->where_not_in('product.brand',explode(',',$data['exclude_brand']));
+            $this->CI->db->where_not_in('ax_product.brand',explode(',',$data['exclude_brand']));
         }
 
         if(@$data['price_from']){
-            $this->CI->db->where('product_price.price >=',(float)$data['price_from']);
+            $this->CI->db->where('ax_product_price.price >=',(float)$data['price_from']);
         }
 
         if(@$data['price_to']){
-            $this->CI->db->where('product_price.price <=',(float)$data['price_to']);
+            $this->CI->db->where('ax_product_price.price <=',(float)$data['price_to']);
         }
 
         if(@$data['term_from']){
-            $this->CI->db->where('product_price.term >=',(float)$data['term_from']);
+            $this->CI->db->where('ax_product_price.term >=',(float)$data['term_from']);
         }
 
         if(@$data['term_to']){
-            $this->CI->db->where('product_price.term <=',(float)$data['term_to']);
+            $this->CI->db->where('ax_product_price.term <=',(float)$data['term_to']);
         }
 
         if(@$data['unique']){
@@ -168,7 +172,9 @@ class Hotline{
         }
 
         $this->CI->db->order_by('id','ASC');
-        $this->CI->db->order_by('product_price.price', 'ASC');
+        if(@$data['unique']){
+            $this->CI->db->order_by('calculate_price','ASC');
+        }
 
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
