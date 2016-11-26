@@ -40,6 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
+<?php echo @$this->options['analytics'];?>
 <div class="header-area">
     <div class="container">
         <div class="row">

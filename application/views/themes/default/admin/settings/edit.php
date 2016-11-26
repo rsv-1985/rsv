@@ -547,6 +547,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label>Google analytics</label>
+                                                    <textarea class="form-control"  name="settings[options][analytics]"><?php echo @$settings['options']['analytics'];?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Код отслеживания посетителей Google analytics
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" name="settings[options][order_only_registered]" value="1" <?php echo set_checkbox('settings[options][order_only_registered]',true,(bool)@$settings['options']['order_only_registered']);?>>
@@ -589,6 +600,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 Отображать блок новые товары на главной
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
 
