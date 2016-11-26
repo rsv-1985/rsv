@@ -44,14 +44,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <div role="tabpanel" class="tab-pane fade" id="profile">
                             <h2><?php echo lang('text_profile');?></h2>
                             <b><?php echo lang('text_group');?>:</b> <?php echo $customer_group['name'];?><br>
-                            <?php if($customer_group == '+'){?>
-                                <b><?php echo lang('text_margin');?>:</b> <?php echo $customer_group['value'];?>%<br>
-                            <?php }else{?>
-                                <b><?php echo lang('text_discount');?>:</b> <?php echo $customer_group['value'];?>%<br>
+                            <?php if(@$this->options['show_customer_group_type']){?>
+                                <?php if($customer_group['type'] == '+'){?>
+                                    <b><?php echo lang('text_margin');?>:</b> <?php echo $customer_group['value'];?>%<br>
+                                <?php }else{?>
+                                    <b><?php echo lang('text_discount');?>:</b> <?php echo $customer_group['value'];?>%<br>
+                                <?php } ?>
+                                <?php if($customer_group['fix_value'] > 0){?>
+                                    <b><?php echo lang('text_fix');?>:</b>  +<?php echo format_currency($customer_group['fix_value']);?>
+                                <?php } ?>
                             <?php } ?>
-                            <?php if($customer_group['fix_value'] > 0){?>
-                                <b><?php echo lang('text_fix');?>:</b>  +<?php echo format_currency($customer_group['fix_value']);?>
-                            <?php } ?>
+
                             <?php echo form_open();?>
                             <div class="col-md-12">
                                 <div class="form-group">
