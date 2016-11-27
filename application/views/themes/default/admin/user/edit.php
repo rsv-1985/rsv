@@ -45,44 +45,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </div>
 
     <div class="register-box-body">
-        <p class="login-box-msg"><?php echo lang('text_register_welcome');?></p>
         <?php echo form_open();?>
-            <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="firstname" name="firstname" maxlength="32" required>
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="lastname" name="lastname" maxlength="32" required>
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback">
-                <input type="email" class="form-control" placeholder="email" name="email" maxlength="128" required>
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Password" name="password" maxlength="32" required>
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Retype password" name="passconf" maxlength="32" required>
-                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-            </div>
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="firstname" name="firstname" value="<?php echo set_value('firstname',$user_info['firstname']);?>" maxlength="32" required>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="lastname" name="lastname" value="<?php echo set_value('lastname',$user_info['lastname']);?>" maxlength="32" required>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="email" class="form-control" placeholder="email" name="email" value="<?php echo set_value('email',$user_info['email']);?>" maxlength="128" required>
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo set_value('password');?>" maxlength="32">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Retype password" name="passconf" value="<?php echo set_value('passconf');?>" maxlength="32">
+            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+        </div>
         <?php if($user_group){?>
             <div class="form-group">
                 <select name="group_id" class="form-control">
                     <?php foreach ($user_group as $group){?>
                         <option></option>
-                        <option value="<?php echo $group['id'];?>"><?php echo $group['name'];?></option>
+                        <option value="<?php echo $group['id'];?>" <?php echo set_select('group_id',$group['id'],(bool)$group['id'] == $user_info['group_id']);?>><?php echo $group['name'];?></option>
                     <?php } ?>
                 </select>
             </div>
         <?php } ?>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat pull-right">Register</button>
-                </div><!-- /.col -->
-            </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-primary btn-block btn-flat pull-right">Save</button>
+            </div><!-- /.col -->
+        </div>
         </form>
     </div><!-- /.form-box -->
 </div><!-- /.register-box -->

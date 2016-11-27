@@ -79,6 +79,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
+            <div class="user-panel">
+                <div class="info">
+                    <p><?php echo $this->session->firstname.' '.$this->session->lastname;?></p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="treeview">
@@ -156,7 +162,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/payment"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_pay');?></a></li>
                         <li><a href="/autoxadmin/delivery"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_ship');?></a></li>
                         <li><a href="/autoxadmin/orderstatus"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_status');?></a></li>
-                        <li><a href="/autoxadmin/admin"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user');?></a></li>
+                        <li><a href="/autoxadmin/user"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user');?></a></li>
+                        <li><a href="/autoxadmin/usergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user_group');?></a></li>
                         <li><a href="/autoxadmin/message_template"><i class="fa fa-circle-o"></i><?php echo lang('text_message_template_user');?></a></li>
                         <li><a href="/autoxadmin/index/cache"><i class="fa fa-circle-o"></i>Clear Cache</a></li>
                         <li><a target="_blank" class="confirm" data-confirm="Вы ознакомились с обновлениями и хотите продолжить ?" href="/updatesystem.php"><i class="fa fa-circle-o"></i>Update system</a></li>

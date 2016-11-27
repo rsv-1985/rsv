@@ -12,10 +12,11 @@ class Admin_controller extends CI_Controller{
     public $new_customer = false;
     public $new_order = false;
     public $default_currency;
-
+    public $user_access;
     public function __construct()
     {
         parent::__construct();
+
         $this->User_model->is_login('autoxadmin/user/login');
         if($this->session->flashdata('error')){
             $this->error = $this->session->flashdata('error');
@@ -25,8 +26,17 @@ class Admin_controller extends CI_Controller{
         }
         $this->default_currency = $this->currency_model->get_default();
         $this->new_customer = $this->db->where(['status' => false])->count_all_results('customer');
+
         $this->load->model('orderstatus_model');
         $this->new_order = $this->db->where(['status' => $this->orderstatus_model->get_default()['id']])->count_all_results('order');
+
+        $this->load->model('usergroup_model');
+        $this->user_access = $this->usergroup_model->get_access($this->session->user_group_id);
+        $class_name = strtolower(get_called_class());
+        if($this->user_access && $class_name != 'index'  &&  !in_array($class_name,$this->user_access)){
+            $this->session->set_flashdata('error', lang('text_access_denied'));
+            redirect('autoxadmin');
+        }
     }
 
     public function clear_cache($file_name = false){

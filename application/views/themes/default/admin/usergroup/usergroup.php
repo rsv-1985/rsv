@@ -23,24 +23,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
-                        <thead><tr>
-                            <th><?php echo lang('text_firstname');?></th>
-                            <th><?php echo lang('text_lastname');?></th>
-                            <th><?php echo lang('text_email');?></th>
-                            <th><a href="/autoxadmin/user/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
+                        <tbody><tr>
+                            <th style="width: 10px">#</th>
+                            <th><?php echo lang('text_name');?></th>
+                            <th><a href="/autoxadmin/usergroup/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <?php if($users){?>
-                            <?php foreach($users as $user){?>
+                        <?php if($usergroupes){?>
+                            <?php foreach($usergroupes as $usergroup){?>
                                 <tr>
-                                    <td><?php echo $user['firstname'];?></td>
-                                    <td><?php echo $user['lastname'];?></td>
-                                    <td><?php echo $user['email'];?></td>
-                                    <td style="width: 190px;">
+                                    <td><?php echo $usergroup['id'];?></td>
+                                    <td><?php echo $usergroup['name'];?></td>
+                                    <td>
                                         <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/user/delete/<?php echo $user['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <a href="/autoxadmin/user/edit/<?php echo $user['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
+                                            <a href="/autoxadmin/usergroup/delete/<?php echo $usergroup['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
+                                            <a href="/autoxadmin/usergroup/edit/<?php echo $usergroup['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
                                         </div>
                                     </td>
                                 </tr>
