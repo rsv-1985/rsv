@@ -20,8 +20,7 @@ class Usergroup_model extends Default_model
             $str = strpos($controller, ".");
             $class_name = strtolower(substr($controller, 0, $str));
             if($class_name != 'index' && $class_name != 'admin'){
-                $this->load->language('admin/'.$class_name);
-                $return[$class_name] = $this->lang->line('text_heading', FALSE);
+                $return[$class_name] = lang('text_nav_'.$class_name);
             }
         }
         return $return;

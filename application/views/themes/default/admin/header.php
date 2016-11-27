@@ -92,28 +92,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i class="fa fa-institution"></i> <span><?php echo lang('text_shop');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/autoxadmin/order"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_order');?>
+                        <li><a href="/autoxadmin/order"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_order');?>
                                 <?php if($this->new_order){?>
                                     <small class="label pull-right bg-yellow"><?php echo $this->new_order;?></small>
                                 <?php } ?>
                             </a>
                         </li>
-                        <li><a href="/autoxadmin/customer"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_customer');?>
+                        <li><a href="/autoxadmin/customer"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customer');?>
                                 <?php if($this->new_customer){?>
                                     <small class="label pull-right bg-yellow"><?php echo $this->new_customer;?></small>
                                 <?php } ?>
                             </a></li>
-                        <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_newsletter');?></a></li>
-                        <li><a href="/autoxadmin/customergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_customer_group');?></a></li>
-                    </ul>
-                </li>
-
-                <li class="treeview" style="display: none;">
-                    <a href="#">
-                        <i class="fa fa-files-o"></i> <span><?php echo lang('text_catalog');?></span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="index.html"><i class="fa fa-circle-o"></i><?php echo lang('text_catalog_product');?></a></li>
+                        <li><a href="/autoxadmin/customergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customergroup');?></a></li>
+                        <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_newsletter');?></a></li>
                     </ul>
                 </li>
 
@@ -122,9 +113,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i class="fa fa-table"></i> <span><?php echo lang('text_catalog');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/autoxadmin/product"><i class="fa fa-circle-o"></i><?php echo lang('text_catalog_product');?></a></li>
-                        <li><a href="/autoxadmin/category"><i class="fa fa-circle-o"></i><?php echo lang('text_catalog_category');?></a></li>
-                        <li><a href="/autoxadmin/supplier"><i class="fa fa-circle-o"></i><?php echo lang('text_shop_supplier');?></a></li>
+                        <li><a href="/autoxadmin/product"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_product');?></a></li>
+                        <li><a href="/autoxadmin/category"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_category');?></a></li>
+                        <li><a href="/autoxadmin/supplier"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_supplier');?></a></li>
                     </ul>
                 </li>
 
@@ -133,9 +124,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i class="fa fa-pencil-square-o"></i> <span><?php echo lang('text_content');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/autoxadmin/page"><i class="fa fa-circle-o"></i><?php echo lang('text_content_page');?></a></li>
-                        <li><a href="/autoxadmin/news"><i class="fa fa-circle-o"></i><?php echo lang('text_content_news');?></a></li>
-                        <li><a href="/autoxadmin/banner"><i class="fa fa-circle-o"></i><?php echo lang('text_content_baner');?></a></li>
+                        <li><a href="/autoxadmin/page"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_page');?></a></li>
+                        <li><a href="/autoxadmin/news"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_news');?></a></li>
+                        <li><a href="/autoxadmin/banner"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_baner');?></a></li>
                     </ul>
                 </li>
 
@@ -144,10 +135,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i class="fa fa-wrench"></i> <span><?php echo lang('text_instruments');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/autoxadmin/synonym"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_synonym');?></a></li>
-                        <li><a href="/autoxadmin/import"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_import');?></a></li>
-                        <li><a href="/autoxadmin/cross"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_cross');?></a></li>
-                        <li><a href="/autoxadmin/price"><i class="fa fa-circle-o"></i><?php echo lang('text_instruments_price');?></a></li>
+                        <li><a href="/autoxadmin/synonym"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_synonym');?></a></li>
+                        <li><a href="/autoxadmin/import"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_import');?></a></li>
+                        <li><a href="/autoxadmin/cross"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_cross');?></a></li>
+                        <li><a href="/autoxadmin/price"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_price');?></a></li>
 
                     </ul>
                 </li>
@@ -157,14 +148,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i class="fa fa-dashboard"></i> <span><?php echo lang('text_settings');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/autoxadmin/settings"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_main');?></a></li>
-                        <li><a href="/autoxadmin/currency"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_currency');?></a></li>
-                        <li><a href="/autoxadmin/payment"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_pay');?></a></li>
-                        <li><a href="/autoxadmin/delivery"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_ship');?></a></li>
-                        <li><a href="/autoxadmin/orderstatus"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_status');?></a></li>
-                        <li><a href="/autoxadmin/user"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user');?></a></li>
-                        <li><a href="/autoxadmin/usergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_settings_user_group');?></a></li>
-                        <li><a href="/autoxadmin/message_template"><i class="fa fa-circle-o"></i><?php echo lang('text_message_template_user');?></a></li>
+                        <li><a href="/autoxadmin/settings"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_settings');?></a></li>
+                        <li><a href="/autoxadmin/currency"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_currency');?></a></li>
+                        <li><a href="/autoxadmin/payment"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_payment');?></a></li>
+                        <li><a href="/autoxadmin/delivery"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_delivery');?></a></li>
+                        <li><a href="/autoxadmin/orderstatus"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_orderstatus');?></a></li>
+                        <li><a href="/autoxadmin/user"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_user');?></a></li>
+                        <li><a href="/autoxadmin/usergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_usergroup');?></a></li>
+                        <li><a href="/autoxadmin/message_template"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_message_template');?></a></li>
                         <li><a href="/autoxadmin/index/cache"><i class="fa fa-circle-o"></i>Clear Cache</a></li>
                         <li><a target="_blank" class="confirm" data-confirm="Вы ознакомились с обновлениями и хотите продолжить ?" href="/updatesystem.php"><i class="fa fa-circle-o"></i>Update system</a></li>
                     </ul>
