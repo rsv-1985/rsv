@@ -6,6 +6,7 @@ class User extends Front_controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->language('admin/user');
         $this->load->language('user');
         $this->load->model('user_model');
@@ -14,6 +15,7 @@ class User extends Front_controller {
     }
 
     public function index(){
+        $this->access();
         $data = [];
         $this->load->library('pagination');
 
@@ -32,6 +34,7 @@ class User extends Front_controller {
     }
 
     public function create(){
+        $this->access();
         $data = [];
         $data['error'] = false;
         $data['user_group'] = $this->usergroup_model->get_all();
@@ -60,6 +63,7 @@ class User extends Front_controller {
     }
 
     public function edit($id){
+        $this->access();
         $data['user_info'] = $this->user_model->get($id);
         $data['error'] = false;
         if(!$data['user_info']){
@@ -149,9 +153,20 @@ class User extends Front_controller {
     }
 
     public function delete($id){
+        $this->access();
         $this->user_model->delete($id);
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/admin');
+    }
+
+    public function access(){
+        $this->load->model('usergroup_model');
+        $user_access = $this->usergroup_model->get_access($this->session->user_group_id);
+        $class_name = strtolower(get_called_class());
+        if($user_access &&  !in_array($class_name,$user_access)){
+            $this->session->set_flashdata('error', lang('text_access_denied'));
+            redirect('autoxadmin');
+        }
     }
 
 }

@@ -18,6 +18,7 @@ class Admin_controller extends CI_Controller{
         parent::__construct();
 
         $this->User_model->is_login('autoxadmin/user/login');
+
         if($this->session->flashdata('error')){
             $this->error = $this->session->flashdata('error');
         }
