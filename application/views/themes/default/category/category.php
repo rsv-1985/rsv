@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <div class="row">
                         <div class="pull-right">
-                            <?php echo $this->pagination->create_links(); ?>
+                            <?php echo $pagination; ?>
                         </div>
                     </div>
                 <?php } ?>
