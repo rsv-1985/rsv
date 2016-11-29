@@ -23,11 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
-    <?php if($this->prev){?>
-        <link rel="prev" href="<?php echo $this->prev;?>">
+    <?php if($this->rel_prev){?>
+        <link rel="prev" href="<?php echo $this->rel_prev;?>">
     <?php } ?>
-    <?php if($this->next){?>
-        <link rel="next" href="<?php echo $this->next;?>">
+    <?php if($this->rel_next){?>
+        <link rel="next" href="<?php echo $this->rel_next;?>">
     <?php } ?>
     <?php if($this->canonical){?>
         <link rel="canonical" href="<?php echo $this->canonical;?>" />
