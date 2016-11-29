@@ -8,6 +8,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php if(@$this->options['google_tag_head']){
+        echo $this->options['google_tag_head'];
+    }?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,6 +43,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
+<?php if(@$this->options['google_tag_body']){
+    echo $this->options['google_tag_body'];
+}?>
 <?php echo @$this->options['analytics'];?>
 <div class="header-area">
     <div class="container">
