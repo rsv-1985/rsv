@@ -138,6 +138,13 @@ class category extends Front_controller{
         $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
+        $data['pagination'] = $this->pagination->create_links();
+        if($this->pagination->rel_prev){
+            $this->rel_prev = $this->pagination->rel_prev;
+        }
+        if($this->pagination->rel_next){
+            $this->rel_next = $this->pagination->rel_next;
+        }
 
         $this->load->view('header');
         $this->load->view('category/category', $data);
