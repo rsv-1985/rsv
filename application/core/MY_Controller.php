@@ -81,8 +81,8 @@ class Front_controller extends CI_Controller{
     public $contacts;
     public $options;
     public $garage;
-    public $next;
-    public $prev;
+    public $rel_next;
+    public $rel_prev;
     public $canonical;
 
     public function __construct()
