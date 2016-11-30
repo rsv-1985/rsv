@@ -193,7 +193,7 @@ class Hotline{
                     $result['sku'],
                     $result['id'],
                     $result['description'],
-                    $result['price'] * $result['currency_value'],
+                    str_replace('.',',',$result['price'] * $result['currency_value']),
                     'от производителя',
                     $result['quantity'] > 0 ? 'в наличии' : 'под заказ',
                     0,
