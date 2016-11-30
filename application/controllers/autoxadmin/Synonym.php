@@ -80,9 +80,10 @@ class Synonym extends Admin_controller
     }
 
     private function save_data($id = false){
+        $this->load->model('product_model');
         $save = [];
-        $save['brand1'] = $this->input->post('brand1', true);
-        $save['brand2'] = $this->input->post('brand2', true);
+        $save['brand1'] = $this->product_model->clear_brand($this->input->post('brand1', true));
+        $save['brand2'] = $this->product_model->clear_brand($this->input->post('brand2', true));
         $id = $this->synonym_model->insert($save, $id);
         if($id){
             //Делаем замену бренда у всех товаров
