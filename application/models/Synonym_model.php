@@ -18,7 +18,7 @@ class Synonym_model extends Default_model
             $return = [];
             $results = $query->result_array();
             foreach($results as $result){
-                $return [$result['brand1']] = $result['brand2'];
+                $return [trim(mb_strtoupper($result['brand1'],'UTF-8'))] = trim(mb_strtoupper($result['brand2'],'UTF-8'));
             }
         }
         return $return;
