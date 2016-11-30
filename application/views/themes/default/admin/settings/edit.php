@@ -426,6 +426,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                    value="<?php echo set_value('settings[contact_settings][instagram]', @$settings['contact_settings']['instagram']); ?>"
                                    class="form-control">
                         </div>
+                        <div class="form-group">
+                            <label>Copyright</label>
+                            <input type="text" name="settings[contact_settings][copyright]"
+                                   value="<?php echo set_value('settings[contact_settings][copyright]', @$settings['contact_settings']['copyright']); ?>"
+                                   class="form-control">
+                        </div>
                     </div><!-- /.tab-pane -->
                     <div class="tab-pane" id="additional">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
