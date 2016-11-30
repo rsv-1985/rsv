@@ -131,21 +131,13 @@ class Order extends Admin_controller
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
             if ($this->form_validation->run() !== false) {
 
-                $delivery_price = 0;
+                $delivery_price = (float)$this->input->post('delivery_price');
                 $commissionpay = 0;
                 $total = 0;
 
                 if($this->input->post('products')){
                     foreach($this->input->post('products') as $product){
                         $total += $product['quantity'] * $product['price'];
-                    }
-                }
-
-                $delivery_id = (int)$this->input->post('delivery_method', true);
-                if ($delivery_id) {
-                    $deliveryInfo = $this->delivery_model->get($delivery_id);
-                    if ($deliveryInfo['price'] > 0) {
-                        $delivery_price = $deliveryInfo['price'];
                     }
                 }
 
@@ -171,8 +163,8 @@ class Order extends Admin_controller
                 $save['last_name'] = $this->input->post('last_name', true);
                 $save['email'] = $this->input->post('email', true);
                 $save['telephone'] = $this->input->post('telephone', true);
-                $save['delivery_method_id'] = $this->input->post('delivery_method', true);
-                $save['payment_method_id'] = $this->input->post('payment_method', true);
+                $save['delivery_method_id'] = (int)$this->input->post('delivery_method');
+                $save['payment_method_id'] = (int)$this->input->post('payment_method');
                 $save['total'] = (float)$total;
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
@@ -292,9 +284,12 @@ class Order extends Admin_controller
         if($delivery_id){
 
             $deliveryInfo = $this->delivery_model->get($delivery_id);
-            if($deliveryInfo['price'] > 0){
-                $delivery_price = $deliveryInfo['price'];
+            if($this->input->post('delivery_price')){
+                $delivery_price = (float)$this->input->post('delivery_price');
+            }else{
+                $delivery_price = (float)$deliveryInfo['price'];
             }
+
             $json['delivery_description'] = $deliveryInfo['description'];
         }
 
