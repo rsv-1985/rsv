@@ -14,9 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $this->title;?></title>
-    <meta name="description" content="<?php echo $this->description;?>">
-    <meta name="keywords" content="<?php echo $this->keywords;?>">
+    <title><?php echo str_replace('"','',$this->title);?></title>
+    <meta name="description" content="<?php echo str_replace('"','',$this->description);?>">
+    <meta name="keywords" content="<?php echo str_replace('"','',$this->keywords);?>">
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php echo theme_url();?>mega-dropdown/css/reset.css"> <!-- CSS reset -->
     <link rel="stylesheet" href="<?php echo theme_url();?>mega-dropdown/css/style.css"> <!-- Resource style -->
