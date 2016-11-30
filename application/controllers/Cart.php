@@ -150,6 +150,7 @@ class Cart extends Front_controller
         if($delivery_id){
             $this->load->model('delivery_model');
             $deliveryInfo = $this->delivery_model->delivery_get($delivery_id);
+
             if($deliveryInfo['api']){
                 $this->load->add_package_path(APPPATH.'third_party/delivery/'.$deliveryInfo['api'].'/', FALSE);
                 $this->load->library($deliveryInfo['api']);
@@ -158,8 +159,8 @@ class Cart extends Front_controller
                 $delivery_price = $this->{$deliveryInfo['api']}->delivery_price;
                 $this->load->remove_package_path();
             }else{
-                if($deliveryInfo['price'] > 0 && $total < $deliveryInfo['free_cost']){
-                    $delivery_price = $deliveryInfo['price'];
+                if($deliveryInfo['free_cost'] == 0  || $total < $deliveryInfo['free_cost']){
+                    $delivery_price = (float)$deliveryInfo['price'];
                 }
                 $json['delivery_description'] = $deliveryInfo['description'];
             }
