@@ -26,11 +26,20 @@ class Product extends Front_controller
         $data = $this->product_model->get_by_slug($slug);
 
         if (!$data) {
+            $old_slug = explode('-',$slug);
+            array_pop($old_slug);
+            $new_slug = implode('-',$old_slug);
+            $data = $this->product_model->get_by_slug($new_slug);
+            if($data){
+                redirect('/product/'.$new_slug,'auto',301);
+            }
+
             $this->output->set_status_header(404, lang('text_page_404'));
             $this->load->view('header');
             $this->load->view('page_404');
             $this->load->view('footer');
             return;
+
         }
 
         $data['breadcrumbs'][] = ['href' => base_url(), 'text' => lang('text_home')];
