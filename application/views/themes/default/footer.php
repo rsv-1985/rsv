@@ -81,10 +81,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </a>
                     <?php } ?>
                 </div>
+
                 <div class="pull-right" id="powered">
+                    <?php if(@$this->contacts['copyright']){?>
+                        <?php echo $this->contacts['copyright'];?>
+                        <div style="display: none">
+                    <?php }else{ ?>
+                            <div>
+                    <?php }?>
                     Powered by <a href="http://cms.autoxcatalog.com/" title="Создание интернет-магазина автозапчастей">Autox</a>
                     Design by <a href="http://headway.click/" title="Полиграфия, сайт, дизайн">Headway</a>
                     Protected by <a href="http://scamdb.info/" title="Черный список покупателей (клиентов)">Scamdb</a>
+                        </div>
                 </div>
             </div>
         </div>
