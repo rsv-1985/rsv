@@ -202,7 +202,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tr>
                         <tr>
                             <th><?php echo lang('text_shipping');?>:</th>
-                            <td><span id="delivery_price"><?php echo $order['delivery_price'];?></span></td>
+                            <td>
+                                <span id="delivery_price">
+                                    <input type="text" name="delivery_price" class="form-control" value="<?php echo set_value('delivery_price',$order['delivery_price']);?>">
+                                </span>
+                            </td>
                         </tr>
                         <tr>
                             <th><?php echo lang('text_commission');?></th>
@@ -272,7 +276,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     var row = '<?php echo $row;?>';
 
     $(document).ready(function(){
-        $("input").change(function(){
+        $("input,select").change(function(){
             total();
         });
 
@@ -319,7 +323,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             method: 'POST',
             success: function(json){
                 $("#subtotal").html(json['subtotal'].toFixed(2));
-                $("#delivery_price").html(json['delivery_price']);
+                $("[name='delivery_price']").val(json['delivery_price']);
                 $("#commission").html(json['commission'].toFixed(2));
                 $("#total").html(json['total'].toFixed(2));
             }
