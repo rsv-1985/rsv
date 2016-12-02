@@ -299,6 +299,12 @@ class Import extends Admin_controller
 
                 if(isset($data_f[$params['sample']['term'] - 1])){
                     $term = (int)$data_f[$params['sample']['term'] - 1];
+                    if(substr($params['sample']['default_term'],0,1) == '+'){
+                        $term += substr($params['sample']['default_term'],1);
+                    }else if(substr($params['sample']['default_term'],0,1) == '-'){
+                        $term -= substr($params['sample']['default_term'],1);
+                    }
+
                     if(isset($params['sample']['default_term_unit']) && $params['sample']['default_term_unit'] == 'day'){
                         $term = $term * 24;
                     }
@@ -405,9 +411,17 @@ class Import extends Admin_controller
                 $saleprice = $this->product_model->clear_price($excel->sheets[0]['cells'][$i][$sample['saleprice']]);
                 if(!empty($sample['term'])){
                     $term = (int)$excel->sheets[0]['cells'][$i][$sample['term']];
+
+                    if(substr($sample['default_term'],0,1) == '+'){
+                        $term += substr($sample['default_term'],1);
+                    }else if(substr($sample['default_term'],0,1) == '-'){
+                        $term -= substr($sample['default_term'],1);
+                    }
+
                     if(isset($sample['default_term_unit']) && $sample['default_term_unit'] == 'day'){
                         $term = $term * 24;
                     }
+
                 } else {
                     $term = $sample['default_term'];
                     if(isset($sample['default_term_unit']) && $sample['default_term_unit'] == 'day'){
