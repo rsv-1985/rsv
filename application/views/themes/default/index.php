@@ -81,19 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="catalog">
-                            <div class="catalog">
-                                <?php if ($manufacturers) { ?>
-                                    <?php foreach ($manufacturers as $manufacturer) { ?>
-                                        <a href="/catalog/<?php echo $manufacturer['slug']; ?>">
-                                            <img onerror="imgError(this);"
-                                                 src="<?php echo $manufacturer['logo']; ?>"
-                                                 alt="<?php echo $manufacturer['name']; ?>"
-                                                 title="<?php echo $manufacturer['name']; ?>">
-
-                                        </a>
-                                    <?php } ?>
-                                <?php } ?>
-                            </div>
+                            <?php echo $catalog;?>
                         </div>
                         <div role="tabpanel" class="tab-pane " id="garage">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
