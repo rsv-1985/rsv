@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label><?php echo lang('text_sample_default_term');?></label>
-                                <input type="number" class="form-control" name="sample[default_term]" value="<?php echo set_value('sample[default_term]');?>">
+                                <input type="text" class="form-control" name="sample[default_term]" value="<?php echo set_value('sample[default_term]');?>" placeholder="+3 или -1 или 3">
                             </div>
                             <div class="form-group">
                             <label><?php echo lang('text_sample_term_unit');?></label><br>
