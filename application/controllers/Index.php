@@ -79,9 +79,9 @@ class Index extends Front_controller {
                 $data['catalog'] = $this->load->view('widget/catalog',['manufacturers' => $array_manuf], true);
             }
         }else{
-            $catalog_settings = $this->config->item('manufacturers');
+            $catalog_settings = $this->config->item('catalog');
             if(isset($catalog_settings['views']) && isset($catalog_settings['manufacturers'])){
-                $data['catalog'] = $this->load->view($catalog_settings['views'],$catalog_settings['manufacturers']);
+                $data['catalog'] = $this->load->view($catalog_settings['views'],['manufacturers' => $catalog_settings['manufacturers']],true);
             }
         }
 
