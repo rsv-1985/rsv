@@ -48,34 +48,43 @@ class Index extends Front_controller {
 
         $data['recently_viewed'] = false;
         $data['top_new'] = false;
+        $data['catalog'] = false;
 
-        $manufacturers = $this->tecdoc->getManufacturer();
-        if($manufacturers){
-            $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
-            $data['manufacturers'] = [];
-            foreach($manufacturers as $item){
-                if($settings_tecdoc_manufacturer){
-                    if(isset($settings_tecdoc_manufacturer[$item->ID_mfa])){
-                        $data['manufacturers'][] = [
-                            'slug' => url_title($item->Name).'_'.$item->ID_mfa,
-                            'ID_mfa' => $item->ID_mfa,
-                            'name' => $item->Name,
-                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
-                        ];
-                    }
-                }else{
-                    if(file_exists('./uploads/model/'.str_replace('Ë','E',$item->Name).'.png')){
-                        $data['manufacturers'][] = [
-                            'slug' => url_title($item->Name).'_'.$item->ID_mfa,
-                            'ID_mfa' => $item->ID_mfa,
-                            'name' => $item->Name,
-                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
-                        ];
+        if(!$this->config->item('catalog')){
+            $manufacturers = $this->tecdoc->getManufacturer();
+            if($manufacturers){
+                $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
+                $array_manuf = [];
+                foreach($manufacturers as $item){
+                    if($settings_tecdoc_manufacturer){
+                        if(isset($settings_tecdoc_manufacturer[$item->ID_mfa])){
+                            $array_manuf[] = [
+                                'slug' => url_title($item->Name).'_'.$item->ID_mfa,
+                                'ID_mfa' => $item->ID_mfa,
+                                'name' => $item->Name,
+                                'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
+                            ];
+                        }
+                    }else{
+                        if(file_exists('./uploads/model/'.str_replace('Ë','E',$item->Name).'.png')){
+                            $array_manuf[] = [
+                                'slug' => url_title($item->Name).'_'.$item->ID_mfa,
+                                'ID_mfa' => $item->ID_mfa,
+                                'name' => $item->Name,
+                                'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
+                            ];
+                        }
                     }
                 }
+                $data['catalog'] = $this->load->view('widget/catalog',['manufacturers' => $array_manuf], true);
             }
-            //$this->output->cache('2628000');
+        }else{
+            $catalog_settings = $this->config->item('manufacturers');
+            if(isset($catalog_settings['views']) && isset($catalog_settings['manufacturers'])){
+                $data['catalog'] = $this->load->view($catalog_settings['views'],$catalog_settings['manufacturers']);
+            }
         }
+
 
         $this->load->view('header');
         $this->load->view('index', $data);
