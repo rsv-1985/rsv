@@ -20,15 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="catalog">
-                <?php if ($manufacturers) { ?>
-                    <?php foreach ($manufacturers as $manufacturer) { ?>
-                        <a href="/catalog/<?php echo $manufacturer['slug']; ?>">
-                            <img onerror="imgError(this, 94, 94);" src="<?php echo $manufacturer['logo']; ?>" alt="<?php echo $manufacturer['name']; ?>">
-                        </a>
-                    <?php } ?>
-                <?php } ?>
-            </div>
+            <?php echo $catalog;?>
         </div>
     </div>
     <div class="row">
