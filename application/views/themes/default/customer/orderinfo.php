@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body onload="window.print()">
+<body>
 <div class="wrapper">
     <!-- Main content -->
     <section class="invoice">
