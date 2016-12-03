@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <a href="/product/<?php echo $top_sellers['slug']; ?>">
                                         <?php if ($top_sellers['image']){ ?>
                                         <img onerror="imgError(this);"
-                                             src="/image?img=<?php echo $top_sellers['image']; ?>&width=100"
+                                             src="/image?img=<?php echo $top_sellers['image']; ?>&height=100"
                                              alt="<?php echo $top_sellers['name']; ?>" title="<?php echo $top_sellers['name']; ?>" class="product-thumb"></a>
                                     <?php } ?>
                                     <h2>
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <a href="/product/<?php echo $novelty['slug']; ?>">
                                         <?php if ($novelty['image']){ ?>
                                         <img onerror="imgError(this);"
-                                             src="/image?img=<?php echo $novelty['image']; ?>&width=100"
+                                             src="/image?img=<?php echo $novelty['image']; ?>&height=100"
                                              alt="<?php echo $novelty['name']; ?>" title="<?php echo $novelty['name']; ?>" class="product-thumb"></a>
                                     <?php } ?>
                                     <h2>
