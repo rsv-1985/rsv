@@ -74,8 +74,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#catalog" aria-controls="catalog" role="tab" data-toggle="tab">Каталог</a></li>
-                        <li role="presentation"><a href="#garage" aria-controls="garage" role="tab" data-toggle="tab">Гараж</a></li>
+                        <li role="presentation" class="active"><a href="#catalog" aria-controls="catalog" role="tab" data-toggle="tab"><?php echo lang('text_catalog');?></a></li>
+                        <li role="presentation"><a href="#garage" aria-controls="garage" role="tab" data-toggle="tab"><?php echo lang('text_garage');?></a></li>
                     </ul>
 
                     <!-- Tab panes -->
@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <div id="<?php echo $key;?>" class="panel-collapse collapse <?php if($q){?>in<?php } ?>" role="tabpanel" aria-labelledby="<?php echo $key;?>">
                                                 <div class="panel-body">
                                                     <?php if($garage['category']){?>
-                                                        <b>Избранные разделы</b>
+                                                        <b><?php echo lang('text_selected_topics');?></b>
                                                         <ul>
                                                             <?php foreach ($garage['category'] as $ID_tree => $garage_category){?>
                                                                 <li><a href="<?php echo $garage['href'];?>?id_tree=<?php echo $ID_tree;?>"><?php echo $garage_category;?></a></li>
@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         </ul>
                                                     <?php } ?>
                                                     <div class="center">
-                                                        <a class="btn btn-default" href="<?php echo $garage['href'];?>">Перейти в каталог</a>
+                                                        <a class="btn btn-default" href="<?php echo $garage['href'];?>"><?php echo lang('text_go_catalog');?></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                                 <hr />
                                 <div class="center">
-                                    <a href="/catalog" class="btn btn-info">Добавить автомобиль</a>
+                                    <a href="/catalog" class="btn btn-info"><?php echo lang('text_add_auto');?></a>
                                 </div>
                             </div>
                         </div>
