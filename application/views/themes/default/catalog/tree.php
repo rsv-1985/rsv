@@ -13,12 +13,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="product-bit-title text-center">
                     <h1><?php echo $h1; ?></h1>
                     <?php if (isset($this->garage[md5($name)]) && $this->input->get('id_tree') && !isset($this->garage[md5($name)]['category'][$this->input->get('id_tree')])) { ?>
-                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_tree=1">Добавить
-                            категорию в гараж</a>
+                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_tree=1"><?php echo lang('text_add_tree_garage');?></a>
                     <?php } ?>
                     <?php if (!isset($this->garage[md5($name)])) { ?>
                         <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_garage=1"
-                           role="button">Добавить автомобиль в гараж</a>
+                           role="button"><?php echo lang('text_add_auto_garage');?></a>
                     <?php } ?>
                 </div>
             </div>
@@ -40,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="panel-heading" role="tab" id="headingOne">
                                 <h4 class="panel-title">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Фильтр <i class="glyphicon glyphicon-list pull-right"></i>
+                                        <?php echo lang('text_filter');?> <i class="glyphicon glyphicon-list pull-right"></i>
                                     </a>
                                 </h4>
                             </div>
@@ -59,8 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </ul>
                                         </div>
                                     <?php } ?>
-                                    <a href="#" rel="nofollow" onclick="location.reload()" class="btn btn-info pull-right">Сбросить
-                                        фильтр</a>
+                                    <a href="#" rel="nofollow" onclick="location.reload()" class="btn btn-info pull-right"><?php echo lang('text_resset_filter');?></a>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -90,12 +88,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if (@$parts) { ?>
                     <table class="table table-responsive">
                         <tr>
-                            <th>Изображение</th>
-                            <th>Артикул</th>
-                            <th>Производитель</th>
-                            <th>Наименование</th>
-                            <th>Доставка</th>
-                            <th>Цена</th>
+                            <th><?php echo lang('text_column_image');?></th>
+                            <th><?php echo lang('text_column_sku');?></th>
+                            <th><?php echo lang('text_column_brand');?></th>
+                            <th><?php echo lang('text_column_name');?></th>
+                            <th><?php echo lang('text_column_ship');?></th>
+                            <th><?php echo lang('text_column_price');?></th>
                             <th></th>
                         </tr>
                         <?php foreach ($parts as $part) { ?>
@@ -221,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } else { ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Экспресс навигация</h3>
+                            <h3><?php echo lang('text_quick_navigation');?></h3>
                         </div>
                         <?php foreach ($trees as $tree) { ?>
                             <?php if (isset($popular_category[$tree->ID_tree])) { ?>
@@ -245,19 +243,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <h3><?php echo $name; ?></h3>
                         <table class="table">
                             <tr>
-                                <td>Объем</td>
+                                <td><?php echo lang('text_CCM');?></td>
                                 <td><?php echo $info->CCM; ?></td>
                             </tr>
                             <tr>
-                                <td>Мощность Кв/Лс</td>
+                                <td><?php echo lang('text_KwHp');?></td>
                                 <td><?php echo $info->KwHp; ?></td>
                             </tr>
                             <tr>
-                                <td>Двигатель</td>
+                                <td><?php echo lang('text_Engines');?></td>
                                 <td><?php echo $info->Engines; ?></td>
                             </tr>
                             <tr>
-                                <td>Кузов</td>
+                                <td><?php echo lang('text_Body');?></td>
                                 <td><?php echo $info->Body; ?></td>
                             </tr>
                         </table>
