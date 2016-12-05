@@ -111,7 +111,7 @@ class Order extends Admin_controller
             curl_close($curl);
             $result = json_decode($result);
 
-            if($result && isset($result[0])){
+            if(is_array($result)){
                 $data['scamdb_info'] = '<a href="http://scamdb.info/ru/fraud/'.@$result[0]->id.'" target="_blank">Обнаружен в базе scamdb.info</a>';
             }
         }
