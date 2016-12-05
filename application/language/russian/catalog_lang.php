@@ -12,3 +12,6 @@ $lang['text_meta_keywords'] = 'Каталог';
 $lang['text_h1'] = 'Каталог';
 $lang['text_index'] = 'Каталог';
 $lang['text_in_cart'] = 'В корзине';
+$lang['text_model'] = 'Модель';
+$lang['text_model_date'] = 'Год выпуска';
+$lang['text_model_date_end'] = 'Год снятия с производства';
