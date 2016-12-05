@@ -27,13 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </ol>
             <table class="table table-responsive">
                 <tr>
-                    <th>Двигатель</th>
-                    <th>Код двигателя</th>
-                    <th>Объем двигателя(куб.см)</th>
-                    <th>Мощность двигателя(кВт/л.с.)</th>
-                    <th>Топливо</th>
-                    <th>Привод</th>
-                    <th>Кузов</th>
+                    <th><?php echo lang('text_column_engine');?></th>
+                    <th><?php echo lang('text_column_engine_code');?></th>
+                    <th><?php echo lang('text_column_ccm');?></th>
+                    <th><?php echo lang('text_column_KwHp');?></th>
+                    <th><?php echo lang('text_column_Fuel');?></th>
+                    <th><?php echo lang('text_column_Drive');?></th>
+                    <th><?php echo lang('text_column_Body');?></th>
                 </tr>
                 <?php foreach($typs as $typ){?>
                     <tr>
