@@ -27,9 +27,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </ol>
             <table class="table table-responsive">
                 <tr>
-                    <th>Модель</th>
-                    <th>Год выпуска</th>
-                    <th>Год снятия с производства</th>
+                    <th><?php echo lang('text_model');?></th>
+                    <th><?php echo lang('text_model_date');?></th>
+                    <th><?php echo lang('text_model_date_end');?></th>
                 </tr>
                 <?php foreach ($models_type as $models_type) { ?>
                     <tr>
