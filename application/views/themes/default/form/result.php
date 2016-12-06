@@ -158,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
-                        <a target="_blank" href="/product/<?php echo $product['slug'];?>">
+                        <a  href="/product/<?php echo $product['slug'];?>">
                             <?php echo $product['brand'].' '. $product['sku'];?></a>
                         <br>
                         <small><?php echo $product['name'];?></small>
@@ -215,7 +215,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
-                        <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
+                        <a  href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
                         <br>
                         <small><?php echo $product['name'];?></small><br>
                     </td>
@@ -270,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <i onclick="tecdoc_info('<?php echo $product['sku'];?>', '<?php echo $product['brand'];?>')" class="fa fa-info-circle"></i>
                     </td>
                     <td class="name">
-                        <a target="_blank" href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
+                        <a  href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'].' '. $product['sku'];?></a>
                         <br>
                         <small><?php echo $product['name'];?></small><br>
                     </td>
