@@ -229,7 +229,7 @@ class Csv{
         }
 
 
-        $this->CI->db->order_by('id','ASC');
+        $this->CI->db->order_by('product.id','ASC');
 
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
