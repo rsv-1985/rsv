@@ -271,8 +271,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
                                             <tr>
                                                 <td class="name">
-                                                    <a target="_blank"
-                                                       href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
+                                                    <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
                                                     <br>
                                                     <small><?php echo $product['name']; ?></small>
                                                     <br>
