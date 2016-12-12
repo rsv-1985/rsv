@@ -643,6 +643,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 Отображать уровень скидки или наценки клиента в личном кабинете
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][search_new_window]" value="1" <?php echo set_checkbox('settings[options][search_new_window]',true,(bool)@$settings['options']['search_new_window']);?>>
+                                                            Поиск на отдельной странице
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Отключить модальное окно и отображать поиск запчастей на отдельной странице
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

@@ -309,6 +309,7 @@ class Product_model extends Default_model{
         //Получаем кросс номера
         $search_data = false;
         if($ID_art){
+
             $cross = $this->tecdoc->getCrosses($ID_art);
             if($cross){
                 foreach($cross as $item){
@@ -322,6 +323,7 @@ class Product_model extends Default_model{
                 }
             }
         }
+
         //Получаем собственные кроссы
         $this->db->select(['code2 as sku', 'brand2 as brand']);
         $this->db->from('cross');

@@ -97,6 +97,10 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
+                if(json['search_new_window']){
+                    location.reload();
+                    return false;
+                }
                 $(".search_result").empty();
                 $("#search_brand_list").empty();
                 $("#search_query").html(json['search_query']);

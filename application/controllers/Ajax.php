@@ -133,6 +133,7 @@ class Ajax extends Front_controller
         $json = [];
         $json['brand'] = $this->product_model->get_pre_search($search);
         $json['search_query'] = $search;
+        $json['search_new_window'] = $this->options['search_new_window'];
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));

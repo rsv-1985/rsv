@@ -22,6 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <div class="row">
             <?php if($brands){?>
                 <div class="col-md-3">
+                    <h4><?php echo lang('text_select_manufacturer');?></h4>
                     <div id="popover"></div>
                     <div class="list-group">
                         <?php foreach ($brands as $brand){?>
@@ -328,55 +329,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </tbody>
                         </table>
                     <?php }else{?>
-                        <h3 style="text-align: center"><?php echo lang('text_no_results');?></h3>
-                        <p class="alert-warning"><?php echo lang('text_no_results_description');?></p>
-                        <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request(event)']);?>
-                        <div class="col-md-6">
-                            <div class="well">
+                        <?php if($this->input->get('brand')){?>
+                            <h3 style="text-align: center"><?php echo lang('text_no_results');?></h3>
+                            <p class="alert-warning"><?php echo lang('text_no_results_description');?></p>
+                            <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request(event)']);?>
+                            <div class="col-md-6">
+                                <div class="well">
 
-                                <div class="alert alert-danger" role="alert" style="display: none;">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                </div>
-                                <div class="alert alert-success" role="alert" style="display: none;">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                </div>
+                                    <div class="alert alert-danger" role="alert" style="display: none;">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    </div>
+                                    <div class="alert alert-success" role="alert" style="display: none;">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label><?php echo lang('text_vin_manufacturer');?></label>
-                                    <input type="text" class="form-control" name="manufacturer" required>
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('text_vin_model');?></label>
-                                    <input type="text" class="form-control" name="model" required>
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('text_vin_engine');?></label>
-                                    <input type="text" class="form-control" name="engine" required>
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('text_vin_vin');?></label>
-                                    <input type="text" class="form-control" name="vin">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('text_vin_parts');?></label>
-                                    <textarea class="form-control" name="parts" required></textarea>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_vin_manufacturer');?></label>
+                                        <input type="text" class="form-control" name="manufacturer" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_vin_model');?></label>
+                                        <input type="text" class="form-control" name="model" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_vin_engine');?></label>
+                                        <input type="text" class="form-control" name="engine" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_vin_vin');?></label>
+                                        <input type="text" class="form-control" name="vin">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_vin_parts');?></label>
+                                        <textarea class="form-control" name="parts" required></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo lang('text_vin_name');?></label>
-                                <input type="text" name="name" class="form-control" required/>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><?php echo lang('text_vin_name');?></label>
+                                    <input type="text" name="name" class="form-control" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('text_vin_telephone');?></label>
+                                    <input type="text" name="telephone" class="form-control" required/>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label><?php echo lang('text_vin_telephone');?></label>
-                                <input type="text" name="telephone" class="form-control" required/>
+                            <div class="form-group pull-right">
+                                <button type="submit"><?php echo lang('button_send');?></button>
                             </div>
-                        </div>
-                        <div class="form-group pull-right">
-                            <button type="submit"><?php echo lang('button_send');?></button>
-                        </div>
-                        </form>
+                            </form>
+                        <?php } ?>
                     <?php } ?>
             </div>
         </div>
