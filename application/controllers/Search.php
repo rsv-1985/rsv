@@ -23,7 +23,13 @@ class Search extends Front_controller {
         $sku = $this->input->get('sku', true);
 
         $is_admin = $this->input->get('is_admin');
-        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
+        $data['products'] = false;
+        $data['cross'] = false;
+        $data['about'] = false;
+        if($this->input->get('brand')){
+            $data = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
+        }
+
 
         $min_price = 0;
         $min_price_cross = 0;
