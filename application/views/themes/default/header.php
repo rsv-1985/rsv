@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <?php if(@$this->options['google_tag_head']){
         echo $this->options['google_tag_head'];
