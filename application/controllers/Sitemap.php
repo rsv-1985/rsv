@@ -18,8 +18,17 @@ class Sitemap extends Front_controller{
         $this->load->model('page_model');
     }
 
-    public function write_file($text,$i = ''){
-        write_file('./map/map'.$i.'.txt', $text);
+    public function write_file($urls,$index = '', $priority = '0.5'){
+        $xml = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        foreach ($urls as $url){
+            $xml .= '<url>';
+            $xml .= '<loc>'.$url['url'].'</loc>';
+            $xml .= '<lastmod>'.date('Y-m-d',strtotime($url['updated_at'])).'</lastmod>';
+            $xml .= '<priority>'.$priority.'</priority>';
+            $xml .= '</url>';
+        }
+        $xml .= '</urlset>';
+        write_file('./map/map'.$index.'.xml', $xml);
     }
     
     public function index()
@@ -32,24 +41,19 @@ class Sitemap extends Front_controller{
         if (!$this->uri->segment(3)) {
             delete_files('./map/', true);
 
-            $url_news = $this->news_model->get_sitemap();
-            if($url_news){
-                $text = implode(chr(10), $url_news);
-                $this->write_file($text, 'url_news');
-            }
-
-
             $url_page = $this->page_model->get_sitemap();
             if($url_page){
-                $text = implode(chr(10), $url_page);
-                $this->write_file($text, 'url_page');
+                $this->write_file($url_page, 'url_page','0.8');
             }
 
+            $url_news = $this->news_model->get_sitemap();
+            if($url_news){
+                $this->write_file($url_news, 'url_news','0.7');
+            }
 
             $url_category = $this->category_model->get_sitemap();
             if($url_category){
-                $text = implode(chr(10), $url_category);
-                $this->write_file($text, 'url_category');
+                $this->write_file($url_category, 'url_category','0.9');
             }
 
         }
@@ -60,8 +64,8 @@ class Sitemap extends Front_controller{
             $file_number = (int)$this->input->get('file_number');
             $html = '<a id="next" href="/sitemap/index/'.$result['id'].'?file_number='.($file_number + 1).'">Загрузка</a>';
             $html .= '<script type="text/javascript">document.getElementById("next").click();</script>';
-            $text = implode(chr(10), $result['urls']);
-            $this->write_file($text, 'product'.$file_number);
+
+            $this->write_file($result['urls'], 'product'.$file_number,'0.6');
             echo $html;
             die();
         } else {

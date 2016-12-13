@@ -96,15 +96,17 @@ class Page_model extends Default_model
     public function get_sitemap()
     {
         $return = false;
-        $this->db->select('slug');
+        $this->db->select(['slug','updated_at']);
         $this->db->where('link','');
         $this->db->where('status', true);
         $this->db->from($this->table);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
-            $return = [];
             foreach ($query->result_array() as $row) {
-                $return[] = base_url('page/' . $row['slug']);
+                $return[] = [
+                    'url' => base_url('page/' . $row['slug']),
+                    'updated_at' => $row['updated_at']
+                ];
             }
         }
         return $return;

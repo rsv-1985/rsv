@@ -686,16 +686,21 @@ class Product_model extends Default_model{
     //Для карты сайта
     public function get_sitemap($id){
         $return = false;
-        $this->db->select(['slug','id']);
+        $this->db->select(['slug','id','updated_at']);
         $this->db->from($this->table);
+        $this->db->join('product_price','product_price.product_id=product.id');
         $this->db->limit(30000);
         $this->db->where('id >',$id);
+        $this->db->group_by('product_id');
         $this->db->order_by('id','ASC');
         $query = $this->db->get();
         if($query->num_rows() > 0){
             $return = [];
             foreach($query->result_array() as $row){
-                $return['urls'][] = base_url('product/'.$row['slug']);
+                $return['urls'][] = [
+                    'url' => base_url('product/'.$row['slug']),
+                    'updated_at' => $row['updated_at']
+                ];
             }
             $return['id'] = $row['id'];
         }
