@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <small><?php echo $order['login'];?></small>
                                     </td>
                                     <td>
-                                        <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b>
+                                        <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></b>
                                         <?php if($order['paid']){?>
                                             <br/><?php echo lang('text_paid');?>
                                         <?php } ?>
