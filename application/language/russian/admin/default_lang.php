@@ -42,6 +42,7 @@ $lang['text_nav_delivery'] = 'Способы доставки';
 $lang['text_nav_orderstatus'] = 'Статусы заказов';
 $lang['text_nav_user'] = 'Пользователи';
 $lang['text_nav_usergroup'] = 'Группы пользователей';
+$lang['text_nav_apikey'] = 'API Key';
 $lang['text_catalog'] = 'Каталог';
 $lang['text_nav_category'] = 'Категории';
 $lang['text_success_cache'] = 'Кэш очищен';
