@@ -128,4 +128,13 @@ class Customer_model extends Default_model{
         }
         return false;
     }
+
+    public function getByLogin($login){
+        $this->db->where('login',$login);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        }
+        return false;
+    }
 }
