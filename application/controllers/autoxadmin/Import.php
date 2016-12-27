@@ -315,7 +315,7 @@ class Import extends Admin_controller
                     }
                 }
 
-                if(isset($data_f[$params['sample']['category'] - 1])){
+                if(isset($data_f[$params['sample']['category'] - 1]) && (int)$data_f[$params['sample']['category'] - 1] > 0){
                     $category_id = (int)$data_f[$params['sample']['category'] - 1];
                 } else {
                     $category_id = $params['sample']['default_category_id'];
