@@ -36,8 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <td>
                             <a href="<?php echo current_url(); ?>/<?php echo $models_type['slug']; ?>"><?php echo $models_type['name']; ?></a>
                         </td>
-                        <td><?php echo $models_type['date_start']; ?></td>
-                        <td><?php echo $models_type['date_end']; ?></td>
+                        <td><?php echo format_data($models_type['date_start']); ?></td>
+                        <td><?php echo format_data($models_type['date_end']); ?></td>
                     </tr>
                 <?php } ?>
             </table>
