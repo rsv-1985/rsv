@@ -206,7 +206,7 @@ class Catalog extends Front_controller
             10359 => ['name' => '', 'image' => ''],
             10360 => ['name' => '', 'image' => ''],
             10362 => ['name' => 'Гидравлический фильтр', 'image' => '/uploads/category/gidravlicheskiy-filtr.png'],
-            10363 => ['name' => '', 'image' => ''],
+            10363 => ['name' => '', 'image' => '/uploads/category/filtr-salona.png'],
             10907 => ['name' => 'Тормозной суппорт', 'image' => '/uploads/category/support.png'],
             10131 => ['name' => 'Тормозные колодки', 'image' => '/uploads/category/kolodki-barabannye.png'],
             10735 => ['name' => '', 'image' => '/uploads/category/rychagi.png'],
