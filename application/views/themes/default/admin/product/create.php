@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="form-group">
                             <label><?php echo lang('text_name'); ?></label>
                             <input id="input-name" type="text" name="name" value="<?php echo set_value('name'); ?>"
-                                   class="form-control">
+                                   class="form-control" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -165,7 +165,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="box-header with-border">
                     <div class="form-group">
                         <label><?php echo lang('text_supplier_id');?></label>
-                        <select name="prices[0][supplier_id]" class="form-control">
+                        <select name="prices[0][supplier_id]" class="form-control" required onchange="getPricing($(this).val())">
+                            <option></option>
                             <?php foreach ($supplier as $supplier){?>
                                 <option value="<?php echo $supplier['id'];?>"><?php echo $supplier['name'];?></option>
                             <?php } ?>
@@ -189,8 +190,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <tr>
                             <td><input type="text" name="prices[0][delivery_price]"
                                        value="<?php echo set_value('delivery_price'); ?>"
-                                       class="form-control" required></td>
+                                       class="form-control"
+                                       onkeyup="calculate_price($(this).val())"
+                                       required></td>
                             <td><input type="text" name="prices[0][price]"
+                                       id="price"
                                        value="<?php echo set_value('price'); ?>"
                                        class="form-control"></td>
                             <td><input type="text" name="prices[0][saleprice]"
@@ -290,5 +294,35 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $("#input-brand").val(brand);
         $("#input-name").val(name);
         $("#autocomplite").empty().hide();
+    }
+
+    var pricing;
+    function getPricing(supplier_id){
+        $.ajax({
+            url:'/autoxadmin/product/get_supplier_prices',
+            data:{supplier_id:supplier_id},
+            method: 'post',
+            success: function (json) {
+                pricing = json;
+            }
+        });
+    }
+
+    function calculate_price(delivery_price){
+        var price = parseFloat(delivery_price);
+        if(pricing){
+            $.each(pricing, function( index, formula ) {
+               if(price >= formula['price_from'] && price <= formula['price_to']){
+                   if(formula['method_price'] == '+'){
+                       price = price + (price * formula['value'] / 100);
+                   }else{
+                       price = price - (price * formula['value'] / 100);
+                   }
+                   return false;
+               }
+            });
+        }
+
+        $("#price").val(price);
     }
 </script>

@@ -17,6 +17,7 @@ class Product extends Admin_controller
         $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('supplier_model');
+        $this->load->model('pricing_model');
         $this->load->model('currency_model');
     }
 
@@ -165,6 +166,13 @@ class Product extends Admin_controller
 
     public function create(){
         if($this->input->post()){
+            if(!$this->input->post('slug')){
+                $_POST['slug'] = $this->product_model->getSlug([
+                    'name' => $this->input->post('name',true),
+                    'sku' => $this->input->post('sku',true),
+                    'brand' => $this->input->post('brand',true),
+                ]);
+            }
             $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('brand', lang('text_brand'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('name', lang('text_name'), 'max_length[155]|trim');
@@ -280,7 +288,6 @@ class Product extends Admin_controller
                         'attribute_slug' => url_title($attribute['attribute_name'].' '.$attribute['attribute_value'])
                     ];
                 }
-
                 $this->product_attribute_model->insert_batch($attributes_data);
             }
 
@@ -288,5 +295,13 @@ class Product extends Admin_controller
         $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/product/edit/'.$product_id);
+    }
+
+    public function get_supplier_prices(){
+        $supplier_id = (int)$this->input->post('supplier_id');
+        $pricing = $this->pricing_model->get_by_supplier($supplier_id);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($pricing));
     }
 }
