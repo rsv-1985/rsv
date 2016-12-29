@@ -20,7 +20,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
-                    <a href="/autoxadmin/product/delete_product_cart" class="btn btn-danger pull-right">Удалить пустые карточки товаров</a>
+                    <div class="pull-right">
+                        <a href="/autoxadmin/product/delete_product_cart" class="btn btn-danger">Удалить пустые карточки товаров</a>
+                        <a href="/autoxadmin/product/create" class="btn btn-info"><?php echo lang('button_add');?></a>
+                    </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">

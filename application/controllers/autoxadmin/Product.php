@@ -153,7 +153,7 @@ class Product extends Admin_controller
         $product_id = (int)$this->input->get('product_id');
         $supplier_id = (int)$this->input->get('supplier_id');
         $term = (int)$this->input->get('term');
-        if($product_id && $supplier_id && $term){
+        if($product_id && $supplier_id) {
             $this->product_model->product_delete(['product_id' => (int)$product_id, 'supplier_id' => (int)$supplier_id, 'term' => (int)$term]);
             $this->session->set_flashdata('success', lang('text_success'));
         }else{
@@ -161,6 +161,68 @@ class Product extends Admin_controller
         }
 
         redirect('autoxadmin/product');
+    }
+
+    public function create(){
+        if($this->input->post()){
+            $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
+            $this->form_validation->set_rules('brand', lang('text_brand'), 'required|max_length[32]|trim');
+            $this->form_validation->set_rules('name', lang('text_name'), 'max_length[155]|trim');
+            $this->form_validation->set_rules('image', lang('text_image'), 'max_length[255]|trim');
+            $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[250]|trim');
+            $this->form_validation->set_rules('title', lang('text_title'), 'max_length[250]|trim');
+            $this->form_validation->set_rules('meta_description', lang('text_meta_description'), 'max_length[3000]|trim');
+            $this->form_validation->set_rules('meta_keywords', lang('text_meta_keywords'), 'max_length[250]|trim');
+            $this->form_validation->set_rules('bought', lang('text_bought'), 'integer');
+            $this->form_validation->set_rules('category_id', lang('text_category_id'), 'integer');
+            $this->form_validation->set_rules('slug', lang('text_slug'), 'max_length[255]|trim|is_unique[product.slug]');
+
+            if($this->input->post('prices')){
+                foreach ($this->input->post('prices') as $i => $item){
+                    $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'max_length[12000]|trim');
+                    $this->form_validation->set_rules('prices['.$i.'][excerpt]', lang('text_excerpt'), 'max_length[32]|trim');
+                    $this->form_validation->set_rules('prices['.$i.'][currency_id]', $i.lang('text_currency_id'), 'required|integer');
+                    $this->form_validation->set_rules('prices['.$i.'][delivery_price]', lang('text_delivery_price'), 'required|numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][saleprice]', lang('text_saleprice'), 'numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][price]', lang('text_price'), 'required|numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][quantity]', lang('text_quantity'), 'integer');
+                    $this->form_validation->set_rules('prices['.$i.'][supplier_id]', lang('text_supplier_id'), 'required|integer');
+                    $this->form_validation->set_rules('prices['.$i.'][term]', lang('text_term'), 'integer');
+                }
+            }
+
+
+            if ($this->form_validation->run() !== false){
+                $file_name = $this->input->post('image');
+                if(isset($_FILES['userfile']['name']) && !empty($_FILES['userfile']['name'])){
+                    $config['upload_path']          = './uploads/product/';
+                    $config['allowed_types']        = 'gif|jpg|png';
+                    $config['encrypt_name']         = true;
+
+                    $this->load->library('upload', $config);
+
+                    if($this->upload->do_upload('userfile')){
+                        $upload_data = $this->upload->data();
+                        $file_name = $upload_data['file_name'];
+                    }
+                    else{
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect('autoxadmin/product/create');
+                    }
+                }
+                $this->save_data(false, $file_name);
+            }else{
+                $this->error = validation_errors();
+            }
+        }
+
+        $data['supplier'] = $this->supplier_model->supplier_get_all();
+        $data['currency'] = $this->currency_model->currency_get_all();
+        $data['category'] = $this->category_model->admin_category_get_all();
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/product/create', $data);
+        $this->load->view('admin/footer');
     }
 
     public function save_data($id = false, $file_name){
