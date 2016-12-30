@@ -364,6 +364,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         if(attribute_name.length && attribute_value.length){
             var html = '<tr id="attribute'+attribute_row+'"><td>'+attribute_name+'<input type="hidden" name="attributes['+attribute_row+'][attribute_name]" value="'+attribute_name+'"></td><td>'+attribute_value+'<input type="hidden" name="attributes['+attribute_row+'][attribute_value]" value="'+attribute_value+'"></td><td><a href="#" onclick="$(\'#attribute'+attribute_row+'\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td></tr>';
             $('#attributes_form > tbody').append(html);
+            $("#new_attribute_name").val('');
+            $("#new_attribute_value").val('');
+            attribute_row++;
         }
     }
 
