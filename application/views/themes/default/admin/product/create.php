@@ -214,10 +214,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                        class="form-control"></td>
                             <td>
                                 <select name="prices[0][status]" class="form-control">
+                                   <option
+                                        value="1" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_on'); ?></option>
                                     <option
                                         value="0" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_off'); ?></option>
-                                    <option
-                                        value="1" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_on'); ?></option>
+
                                 </select>
                             </td>
                         </tr>
