@@ -90,7 +90,7 @@ class Product extends Admin_controller
             if($this->input->post('slug') != $data['product']['slug']){
                 $this->form_validation->set_rules('slug', lang('text_slug'), 'max_length[255]|trim|is_unique[product.slug]');
             }
-            if($this->input->post('prices')){
+            if($this->input->post('prices') && $_POST['prices'][0]['supplier_id']){
                 foreach ($this->input->post('prices') as $i => $item){
                     $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'max_length[12000]|trim');
                     $this->form_validation->set_rules('prices['.$i.'][excerpt]', lang('text_excerpt'), 'max_length[32]|trim');

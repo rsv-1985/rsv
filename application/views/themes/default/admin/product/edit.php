@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
             <?php if ($prices) { ?>
-                <?php $q = 0; foreach ($prices as $price) { ?>
+                <?php $q = 1; foreach ($prices as $price) {?>
                     <div class="box box-primary" id="row<?php echo $q; ?>">
                         <input type="hidden" name="prices[<?php echo $q;?>][supplier_id]" value="<?php echo $price['supplier_id'];?>"/>
                         <div class="box-header with-border">
@@ -259,8 +259,95 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
 
-                    <?php $q++;} ?>
+                    <?php $q++;unset($supplier[$price['supplier_id']]);} ?>
             <?php } ?>
+            <div class="box box-primary" id="row">
+                <div class="box-header with-border">
+                    <div class="form-group">
+                        <label><?php echo lang('text_supplier_id');?></label>
+                        <select name="prices[0][supplier_id]" class="form-control" onchange="getPricing($(this).val())">
+                            <option></option>
+                            <?php foreach ($supplier as $sup){?>
+                                <option value="<?php echo $sup['id'];?>"><?php echo $sup['name'];?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th><?php echo lang('text_delivery_price'); ?></th>
+                            <th><?php echo lang('text_price'); ?></th>
+                            <th><?php echo lang('text_saleprice'); ?></th>
+                            <th><?php echo lang('text_currency_id'); ?></th>
+                            <th><?php echo lang('text_quantity'); ?></th>
+                            <th><?php echo lang('text_status'); ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td><input type="text" name="prices[0][delivery_price]"
+                                       value="<?php echo set_value('delivery_price'); ?>"
+                                       class="form-control"
+                                       onkeyup="calculate_price($(this).val())"
+                                ></td>
+                            <td><input type="text" name="prices[0][price]"
+                                       id="price"
+                                       value="<?php echo set_value('price'); ?>"
+                                       class="form-control"></td>
+                            <td><input type="text" name="prices[0][saleprice]"
+                                       value="<?php echo set_value('saleprice'); ?>"
+                                       class="form-control"></td>
+                            <td>
+                                <select class="form-control" name="prices[0][currency_id]"
+                                >
+                                    <option></option>
+                                    <?php foreach ($currency as $cur) { ?>
+                                        <option
+                                            value="<?php echo $cur['id']; ?>" <?php echo set_select('currency_id', $cur['id']); ?>><?php echo $cur['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                            <td><input type="number" name="prices[0][quantity]"
+                                       value="<?php echo set_value('quantity'); ?>"
+                                       class="form-control"></td>
+                            <td>
+                                <select name="prices[0][status]" class="form-control">
+                                    <option></option>
+                                    <option
+                                        value="0" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_off'); ?></option>
+                                    <option
+                                        value="1" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_on'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="#"
+                       onclick="$('.product_info').toggle();return false;"><?php echo lang('text_product_info'); ?></a>
+                    <div class="product_info" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><?php echo lang('text_excerpt'); ?></label>
+                                <input type="text" name="prices[0][excerpt]"
+                                       value="<?php echo set_value('excerpt'); ?>"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><?php echo lang('text_term'); ?></label>
+                                <input type="text" name="prices[0][term]"
+                                       value="<?php echo set_value('term'); ?>"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
             <div class="pull-right">
                 <button type="submit" class="btn btn-info"><?php echo lang('button_submit'); ?></button>
                 <a href="/autoxadmin/product" class="btn btn-default"><?php echo lang('button_close'); ?></a>
@@ -278,5 +365,35 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             var html = '<tr id="attribute'+attribute_row+'"><td>'+attribute_name+'<input type="hidden" name="attributes['+attribute_row+'][attribute_name]" value="'+attribute_name+'"></td><td>'+attribute_value+'<input type="hidden" name="attributes['+attribute_row+'][attribute_value]" value="'+attribute_value+'"></td><td><a href="#" onclick="$(\'#attribute'+attribute_row+'\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td></tr>';
             $('#attributes_form > tbody').append(html);
         }
+    }
+
+    var pricing;
+    function getPricing(supplier_id){
+        $.ajax({
+            url:'/autoxadmin/product/get_supplier_prices',
+            data:{supplier_id:supplier_id},
+            method: 'post',
+            success: function (json) {
+                pricing = json;
+            }
+        });
+    }
+
+    function calculate_price(delivery_price){
+        var price = parseFloat(delivery_price);
+        if(pricing){
+            $.each(pricing, function( index, formula ) {
+                if(price >= formula['price_from'] && price <= formula['price_to']){
+                    if(formula['method_price'] == '+'){
+                        price = price + (price * formula['value'] / 100);
+                    }else{
+                        price = price - (price * formula['value'] / 100);
+                    }
+                    return false;
+                }
+            });
+        }
+
+        $("#price").val(price);
     }
 </script>
