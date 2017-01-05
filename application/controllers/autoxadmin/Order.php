@@ -196,7 +196,7 @@ class Order extends Admin_controller
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
                             'supplier_id' => $item['supplier_id'],
-                            'status_id' => $item['status_id'],
+                            'status_id' => $save['status'] != $data['order']['status'] ? $save['status'] : $item['status_id'],
                             'term' => $item['term']
                         ];
                     }
