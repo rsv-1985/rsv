@@ -19,6 +19,7 @@ class Product extends Admin_controller
         $this->load->model('supplier_model');
         $this->load->model('pricing_model');
         $this->load->model('currency_model');
+        $this->load->model('synonym_model');
     }
 
     public function index(){
@@ -234,9 +235,10 @@ class Product extends Admin_controller
     }
 
     public function save_data($id = false, $file_name){
+        $synonym = $this->synonym_model->get_synonyms();
         $product = [];
         $product['sku'] = $this->product_model->clear_sku($this->input->post('sku', true));
-        $product['brand'] = $this->product_model->clear_brand($this->input->post('brand', true));
+        $product['brand'] = $this->product_model->clear_brand($this->input->post('brand', true),$synonym);
         $product['name'] = $this->input->post('name', true);
         $product['image'] = $file_name;
         $product['h1'] = $this->input->post('h1', true);
