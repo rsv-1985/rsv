@@ -357,7 +357,7 @@ class Product_model extends Default_model{
         foreach($search_data as $search_data) {
             $this->db->or_group_start();
             $this->db->where('sku', $search_data['sku']);
-            $this->db->where('brand', $search_data['brand']);
+            $this->db->where('brand', $this->clear_brand($search_data['brand']));
             $this->db->where('status', true);
             $this->db->group_end();
         }
