@@ -43,6 +43,7 @@ class Product extends REST_Controller
                 foreach ($results['products'] as $product){
                     $response[] = [
                         'id' => $product['product_id'],
+                        'supplier_id' => $product['supplier_id'],
                         'sku' => $product['sku'],
                         'brand' => $product['brand'],
                         'name' => $product['name'],
