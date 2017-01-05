@@ -19,9 +19,15 @@ class Product extends REST_Controller
 
     public function  index_get()
     {
+        $search_by_text = false;
+
         $synonyms = $this->synonym_model->get_synonyms();
 
         $brand = $this->product_model->clear_brand($this->input->get('brand',true),$synonyms);
+
+        if(!$brand){
+            $search_by_text = true;
+        }
 
         $sku = $this->product_model->clear_sku($this->input->get('sku',true));
 
@@ -34,7 +40,7 @@ class Product extends REST_Controller
         $product_model = new Product_model();
         $product_model->customer_group = $this->customergroup_model->get($customer_info['customer_group_id']);
 
-        $results = $product_model->get_search($ID_art,$brand,$sku,$with_cross);
+        $results = $product_model->get_search($ID_art,$brand,$sku,$with_cross,$search_by_text);
 
         $response = false;
 
@@ -61,6 +67,7 @@ class Product extends REST_Controller
                 foreach ($results['cross'] as $product){
                     $response[] = [
                         'id' => $product['product_id'],
+                        'supplier_id' => $product['supplier_id'],
                         'sku' => $product['sku'],
                         'brand' => $product['brand'],
                         'name' => $product['name'],
@@ -71,6 +78,24 @@ class Product extends REST_Controller
                         'quantity' => $product['quantity'],
                         'term' => $product['term'],
                         'cross' => true
+                    ];
+                }
+            }
+            if($results['about']){
+                foreach ($results['about'] as $product){
+                    $response[] = [
+                        'id' => $product['product_id'],
+                        'supplier_id' => $product['supplier_id'],
+                        'sku' => $product['sku'],
+                        'brand' => $product['brand'],
+                        'name' => $product['name'],
+                        'href' => base_url('product/'.$product['slug']),
+                        'excerpt' => $product['excerpt'],
+                        'description' => $product['description'],
+                        'price' => $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
+                        'quantity' => $product['quantity'],
+                        'term' => $product['term'],
+                        'cross' => false
                     ];
                 }
             }
