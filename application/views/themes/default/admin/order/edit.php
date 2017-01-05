@@ -152,14 +152,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <!-- accepted payments column -->
             <div class="col-xs-6">
-                <b><?php echo lang('text_comments');?></b>
-                <textarea disabled rows="3" name="comments" class="form-control" style="margin-top: 10px;"><?php echo $order['comments'];?></textarea>
-                <hr>
+                <?php if(trim($order['comments']) != ''){?>
+                    <b><?php echo lang('text_comments');?></b>
+                    <textarea disabled rows="3" name="comments" class="form-control" style="margin-top: 10px;"><?php echo $order['comments'];?></textarea>
+                    <hr>
+                <?php } ?>
                 <b><?php echo lang('text_manager_comments');?></b>
                 <textarea rows="3" name="history" class="form-control"></textarea>
                 <input type="checkbox" value="1" name="send_sms"><?php echo lang('text_send_sms');?>
                 <input type="checkbox" value="1" name="send_email"><?php echo lang('text_send_email');?>
                 <?php if($history){?>
+                    <hr>
+                    <b>Order history</b>
                     <table class="table table-condensed">
                         <thead>
                         <tr>
