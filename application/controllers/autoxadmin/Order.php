@@ -241,13 +241,25 @@ class Order extends Admin_controller
                             $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
                         }
 
+                        //Добавляем историю смены статуса заказа
+                        $history = [];
+
                         $contacts = $this->settings_model->get_by_key('contact_settings');
                         if($save['email'] != ''){
+                            $history['send_email'] = true;
                             $this->sender->email($message_template['subject'],$message_template['text'], $save['email'],explode(';',$contacts['email']));
                         }
                         if($save['telephone'] != ''){
+                            $history['send_sms'] = true;
                             $this->sender->sms($save['telephone'],$message_template['text_sms']);
                         }
+
+
+                        $history['order_id'] = $order_id;
+                        $history['date'] = date("Y-m-d H:i:s");
+                        $history['text'] = $data['status'][$save['status']]['name'];
+                        $history['user_id'] = $this->User_model->is_login();
+                        $this->order_history_model->insert($history);
 
                     }
                     redirect('autoxadmin/order/edit/'.$id);
