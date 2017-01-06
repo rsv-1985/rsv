@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                 <div class="input-group">
-                                                    <input type="number" name="quantity" class="form-control" value="1">
+                                                    <input type="number" name="quantity" class="form-control" value="1" style="min-width: 50px">
                                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                                     <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
                                                     <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
@@ -168,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                 <div class="input-group">
-                                                    <input type="number" name="quantity" class="form-control" value="1">
+                                                    <input type="number" name="quantity" class="form-control" value="1" style="min-width: 50px>
                                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                                     <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
                                                     <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
