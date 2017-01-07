@@ -475,10 +475,9 @@ class Product_model extends Default_model{
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false){
 
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->from('product');
 
-        $this->db->from('product_price');
-
-        $this->db->join('product','product.id=product_price.product_id');
+        $this->db->join('product_price','product_price.product_id=product.id');
 
         if($where){
             foreach($where as $field => $value){
@@ -501,6 +500,8 @@ class Product_model extends Default_model{
                 $this->db->order_by($field, $value);
             }
         }
+
+        $this->db->group_by('product_price.product_id');
 
         $query = $this->db->get();
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
