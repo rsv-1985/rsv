@@ -22,7 +22,7 @@ class Category extends Front_controller{
         $slug = xss_clean($slug);
         $category = $this->category_model->get_by_slug($slug);
         if(!$category){
-            $this->output->set_status_header(404, lang('text_page_404'));
+            $this->output->set_status_header(410, lang('text_page_404'));
             $this->load->view('header');
             $this->load->view('page_404');
             $this->load->view('footer');
