@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class category extends Front_controller{
+class Category extends Front_controller{
     public function __construct()
     {
         parent::__construct();
@@ -29,6 +29,9 @@ class category extends Front_controller{
             return;
         }
 
+        $data = [];
+        $data['brands'] = $this->category_model->get_brends($category['id']);
+
         if($brand){
             $settings = $this->settings_model->get_by_key('seo_brand');
             if($settings){
@@ -39,14 +42,14 @@ class category extends Front_controller{
                         '{brand}'
                     ],[
                         $category['name'],
-                        str_replace('_','/',urldecode($brand)),
+                        $data['brands'][$brand],
 
                     ], $value));
                 }
             }
         }
 
-        $data = [];
+
 
         $filter_products_id = false;
 
@@ -101,8 +104,6 @@ class category extends Front_controller{
             $this->keywords = str_replace(' ',',',$this->title);
         }
 
-        $data['brands'] = $this->category_model->get_brends($category['id']);
-
         $data['description'] = !$this->uri->segment(3) || !$this->uri->segment(5) ? $category['description'].@$seo['text'] : '';
         $data['slug'] = $category['slug'];
         $this->load->library('pagination');
@@ -114,7 +115,7 @@ class category extends Front_controller{
         }
 
         if($brand){
-            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(5), ['status' => true, 'product.category_id' => $category['id'], 'brand' => str_replace('_','/',urldecode($brand))], false, $filter_products_id);
+            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(5), ['status' => true, 'product.category_id' => $category['id'], 'brand' => $data['brands'][$brand]], false, $filter_products_id);
         }else{
             $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(3), ['status' => true, 'product.category_id' => $category['id']], false, $filter_products_id);
         }
