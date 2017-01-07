@@ -29,8 +29,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <ul class="is-hidden">
                                             <li class="go-back"><a href="#0"><?php echo $child['name'];?></a></li>
                                             <?php if($child['brands']){?>
-                                                <?php foreach ($child['brands'] as $brand){?>
-                                                    <li><a href="/category/<?php echo $child['slug'];?>/brand/<?php echo $brand['brand'];?> "><?php echo $brand['brand'];?></a></li>
+                                                <?php foreach ($child['brands'] as $url_brand => $name_brand){?>
+                                                    <li><a href="/category/<?php echo $child['slug'];?>/brand/<?php echo $url_brand;?> "><?php echo $name_brand;?></a></li>
                                                 <?php } ?>
                                             <?php } ?>
                                         </ul>

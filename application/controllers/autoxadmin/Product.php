@@ -146,6 +146,7 @@ class Product extends Admin_controller
     }
 
     public function delete_product_cart(){
+        $this->db->query('DELETE FROM `ax_product_price` WHERE supplier_id = 0');
         $this->db->query("DELETE a FROM `ax_product` a LEFT JOIN `ax_product_price` b ON a.id=b.product_id WHERE b.product_id IS NULL");
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/product');
@@ -235,7 +236,9 @@ class Product extends Admin_controller
     }
 
     public function save_data($id = false, $file_name){
+
         $synonym = $this->synonym_model->get_synonyms();
+
         $product = [];
         $product['sku'] = $this->product_model->clear_sku($this->input->post('sku', true));
         $product['brand'] = $this->product_model->clear_brand($this->input->post('brand', true),$synonym);
@@ -262,20 +265,22 @@ class Product extends Admin_controller
             $this->product_model->product_delete(['product_id' => (int)$product_id]);
             if($this->input->post('prices')){
                 foreach ($this->input->post('prices') as $price){
-                    $save = [];
-                    $save['product_id'] = (int)$product_id;
-                    $save['supplier_id'] = (int)$price['supplier_id'];
-                    $save['excerpt'] = $price['excerpt'];
-                    $save['currency_id'] = (int)$price['currency_id'];
-                    $save['delivery_price'] = (float)$price['delivery_price'];
-                    $save['saleprice'] = (float)$price['saleprice'];
-                    $save['price'] = (float)$price['price'];
-                    $save['quantity'] = (int)$price['quantity'];
-                    $save['term'] = (int)$price['term'];
-                    $save['updated_at'] = date('Y-m-d H:i:s');
-                    $save['status'] = (bool)$price['status'];
-                    $this->product_model->table = 'product_price';
-                    $this->product_model->insert($save);
+                    if((int)$price['supplier_id'] > 0){
+                        $save = [];
+                        $save['product_id'] = (int)$product_id;
+                        $save['supplier_id'] = (int)$price['supplier_id'];
+                        $save['excerpt'] = $price['excerpt'];
+                        $save['currency_id'] = (int)$price['currency_id'];
+                        $save['delivery_price'] = (float)$price['delivery_price'];
+                        $save['saleprice'] = (float)$price['saleprice'];
+                        $save['price'] = (float)$price['price'];
+                        $save['quantity'] = (int)$price['quantity'];
+                        $save['term'] = (int)$price['term'];
+                        $save['updated_at'] = date('Y-m-d H:i:s');
+                        $save['status'] = (bool)$price['status'];
+                        $this->product_model->table = 'product_price';
+                        $this->product_model->insert($save);
+                    }
                 }
             }
             //Атрибуты к товару
