@@ -46,9 +46,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div class="panel panel-default">
                                         <div id="filter-brand">
                                             <ul class="list-group">
-                                                <?php foreach ($brands as $brand) { ?>
+                                                <?php foreach ($brands as $url_brand => $name_brand) { ?>
                                                     <li class="list-group-item"><a
-                                                            href="/category/<?php echo $slug; ?>/brand/<?php echo str_replace('/', '_', $brand['brand']); ?>"><?php echo $brand['brand']; ?></a>
+                                                            href="/category/<?php echo $slug; ?>/brand/<?php echo $url_brand; ?>"><?php echo $name_brand; ?></a>
                                                     </li>
                                                 <?php } ?>
                                             </ul>

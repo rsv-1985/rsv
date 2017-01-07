@@ -75,8 +75,12 @@ class Category_model extends Default_model
             $query = $this->db->get('product_price');
 
             if ($query->num_rows() > 0) {
-                $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, $query->result_array(), 604800);
-                return $query->result_array();
+                $brands = [];
+                foreach ($query->result_array() as $item){
+                    $brands[url_title($item['brand'])] = $item['brand'];
+                }
+                $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, $brands, 604800);
+                return $brands;
             }
             $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, null, 604800);
             return false;
