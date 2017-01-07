@@ -31,7 +31,9 @@ class Category extends Front_controller{
 
         $data = [];
         $data['brands'] = $this->category_model->get_brends($category['id']);
-
+        if($brand && !isset($data['brands'][$brand])){
+            $brand = false;
+        }
         if($brand){
             $settings = $this->settings_model->get_by_key('seo_brand');
             if($settings){
