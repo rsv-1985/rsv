@@ -227,7 +227,7 @@ class Import extends Admin_controller
         $synonyms = $this->synonym_model->get_synonyms();
 
         if($this->input->get('params')){
-            $params = unserialize($this->input->get('params'));
+            $params = unserialize(rawurldecode($this->input->get('params')));
         }else{
             $params = array(
                 'file_name' => $file_name,
@@ -354,12 +354,13 @@ class Import extends Admin_controller
 
                 if ($i == 2000) {
                     $this->import_model->insert_batch($save);
+                    $url = base_url('autoxadmin/import/csv_read') . '?params=' .rawurlencode(serialize($params));
                     echo('<html>
                     <head>
                     <title>Загрузка</title>
                     </head>
                     <body>
-                    Идет загрузка.<br /><a id="go" href=\''.base_url('autoxadmin/import/csv_read') . '?params=' . serialize($params).
+                    Идет загрузка.<br /><a id="go" href=\''.$url.
                         '&x=' . $x . '&ftell=' . ftell($handle_f) .'\'>.</a>
                     <script type="text/javascript">document.getElementById(\'go\').click();</script>
                     </body>
