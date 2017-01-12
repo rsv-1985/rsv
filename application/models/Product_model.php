@@ -55,8 +55,8 @@ class Product_model extends Default_model{
 
     public function admin_product_get_all($limit = false, $start = false){
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
-        $this->db->from('product_price');
-        $this->db->join('product','product.id = product_price.product_id');
+        $this->db->from('product');
+        $this->db->join('product_price','product_price.product_id = product.id');
         if($this->input->get()){
             if($this->input->get('sku')){
                 $this->db->where('sku', $this->input->get('sku',true));
