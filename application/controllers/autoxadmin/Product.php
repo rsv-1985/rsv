@@ -57,8 +57,6 @@ class Product extends Admin_controller
                 $this->error = validation_errors();
             }
         }
-
-        $data['products'] = $this->product_model->admin_product_get_all($config['per_page'], $this->uri->segment(4));
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['currency'] = $this->currency_model->currency_get_all();
         $this->load->view('admin/header');
