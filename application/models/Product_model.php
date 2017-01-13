@@ -58,7 +58,6 @@ class Product_model extends Default_model{
 (SELECT sku FROM ax_product WHERE id = product_id) as sku,
 (SELECT brand FROM ax_product WHERE id = product_id) as brand', false);
         $this->db->from('product');
-        $this->db->join('product_price','product_price.product_id = product.id');
         if($this->input->get()){
             if($this->input->get('sku')){
                 $this->db->where('sku', $this->input->get('sku',true));
