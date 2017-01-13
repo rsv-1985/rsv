@@ -24,15 +24,30 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
-                    <?php foreach ($breadcrumbs as $index => $breadcrumb){?>
-                        <li itemprop="itemListElement" itemscope
+				      <?php foreach ($breadcrumbs as $index => $breadcrumb) { ?>
+
+					<?  if($index == end($breadcrumb)) {
+        ?>
+   	  <li itemprop="itemListElement" itemscope
                             itemtype="http://schema.org/ListItem" class="breadcrumb-item">
                             <a itemprop="item" href="<?php echo $breadcrumb['href'];?>">
                                 <span itemprop="name"><?php echo $breadcrumb['text'];?></span>
                             </a>
                             <meta itemprop="position" content="<?php echo $index;?>" />
                         </li>
-                    <?php } ?>
+   <?
+  }
+  else {
+	  ?>
+	   <li><?php echo $breadcrumb['text']; ?></li>
+
+
+	   <?
+
+  }
+	?>
+                <?php } ?>
+
                 </ol>
             </div>
         </div>

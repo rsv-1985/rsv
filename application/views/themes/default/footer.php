@@ -5,7 +5,7 @@
  * Email: sergey.rasputniy@gmail.com
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="footer-top-area" xmlns="http://www.w3.org/1999/html">
+<div class="footer-top-area" xmlns="http://www.w3.org/1999/xhtml">
     <div class="container">
         <div class="row">
 
@@ -61,22 +61,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-12">
                 <div class="btn-social pull-left">
                     <?php if(isset($this->contacts['vk']) && $this->contacts['vk']){?>
-                        <a href="<?php echo $this->contacts['vk'];?>" target="_blank">
+                        <a href="<?php echo $this->contacts['vk'];?>" target="_blank" rel="nofollow">
                             <img src="<?php echo theme_url();?>/img/vk_hover.svg"/>
                         </a>
                     <?php } ?>
                     <?php if(isset($this->contacts['google']) && $this->contacts['google']){?>
-                        <a href="<?php echo $this->contacts['google'];?>" target="_blank">
+                        <a href="<?php echo $this->contacts['google'];?>" target="_blank" rel="nofollow">
                             <img src="<?php echo theme_url();?>/img/google-plus_hover.svg"/>
                         </a>
                     <?php } ?>
                     <?php if(isset($this->contacts['instagram']) && $this->contacts['instagram']){?>
-                        <a href="<?php echo $this->contacts['instagram'];?>" target="_blank">
+                        <a href="<?php echo $this->contacts['instagram'];?>" target="_blank" rel="nofollow">
                             <img src="<?php echo theme_url();?>/img/insta_hover.svg"/>
                         </a>
                     <?php } ?>
                     <?php if(isset($this->contacts['fb']) && $this->contacts['fb']){?>
-                        <a href="<?php echo $this->contacts['fb'];?>" target="_blank">
+                        <a href="<?php echo $this->contacts['fb'];?>" target="_blank" rel="nofollow">
                             <img src="<?php echo theme_url();?>/img/fb_hover.svg"/>
                         </a>
                     <?php } ?>
@@ -90,17 +90,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div>
                     <?php }?>
                     Powered by <a href="http://cms.autoxcatalog.com/" title="Создание интернет-магазина автозапчастей">Autox</a>
-                    Design by <a href="http://headway.click/" title="Полиграфия, сайт, дизайн">Headway</a>
-                    Protected by <a href="http://scamdb.info/" title="Черный список покупателей (клиентов)">Scamdb</a>
                         </div>
                 </div>
             </div>
         </div>
     </div>
 </div> <!-- End footer bottom area -->
-<noindex>
 <!-- Modal login-->
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="login" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <?php echo form_open('/ajax/login',['id' => 'login_form']);?>
             <div class="modal-content">
@@ -133,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <!-- Modal search-->
-<div class="modal fade bs-example-modal-lg" id="search_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-lg" id="search_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="product-big-title-area">
@@ -145,10 +142,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div id="popover"></div>
                 <div class="list-group" id="search_brand_list"></div>
             </div>
-            <div class="col-md-9" style="overflow: auto;">
+            <div class="col-md-9" style="overflow: auto; max-height: 600px">
                 <a href="#" class="pull-right" onclick="location.reload();return false;">Открыть в новом окне</a>
                 <div class="search_result">
-                    <h3><?php echo lang('text_change_brand');?></h3>
+                    <div style="text-align: center;font-size: 24px;margin: 0 0 15px;"><?php echo lang('text_change_brand');?></div>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -156,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <!-- Modal call-back-->
-<div class="modal fade" id="call-back-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="call-back-modal" tabindex="-1" role="dialog" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="product-big-title-area">
@@ -184,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
-</noindex>
+
 <script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
 <script src="<?php echo theme_url();?>js/function.js?v1"></script>
@@ -211,6 +208,5 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <?php echo @file_get_contents(base_url($script));?>
     <?php } ?>
 <?php } ?>
-
 </body>
 </html>

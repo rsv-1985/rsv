@@ -21,8 +21,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="row-fluid">
         <div class="col-md-12">
             <ol class="breadcrumb">
-                <?php foreach ($breadcrumb as $breadcrumb) { ?>
-                    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['title']; ?></a></li>
+               <?php foreach ($breadcrumb as $key => $breadcrumb) { ?>
+
+					<?  if($key == end($breadcrumb)) {
+        ?>
+   <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['title']; ?></a></li>
+   <?
+  }
+  else {
+	  ?>
+	  <li><?php echo $breadcrumb['title']; ?></li>
+	   <?
+
+  }
+	?>
                 <?php } ?>
             </ol>
             <table class="table table-responsive">

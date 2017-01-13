@@ -28,8 +28,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="row-fluid">
         <div class="col-md-12">
             <ol class="breadcrumb">
-                <?php foreach ($breadcrumb as $b) { ?>
-                    <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
+               <?php foreach ($breadcrumb as  $b) { ?>
+
+					<?  if($b == end($breadcrumb)) {
+        ?>
+		 <li><?php echo $b['title']; ?></li>
+
+   <?
+  }
+  else {
+	  ?>
+	  <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
+	   <?
+
+  }
+	?>
                 <?php } ?>
             </ol>
             <div class="col-md-4">
@@ -106,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         } ?>" <?php } ?>>
                                             <td>
                                                 <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
-                                                     title="<?php echo $part->Brand; ?>">
+                                                    alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -123,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                 <div class="input-group">
-                                                    <input type="number" name="quantity" class="form-control" value="1" style="min-width: 80px">
+                                                    <input type="number" name="quantity" class="form-control" value="1">
                                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                                     <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
                                                     <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
@@ -151,7 +164,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <img style="width: 50px;" onerror="imgError(this, 50);"
                                                      src="/image?img=<?php echo $part->Preview; ?>&width=50"
-                                                     title="<?php echo $part->Brand; ?>">
+                                                      alt="<?php echo $part->Name.' '.$part->Brand.' купить';?>" title="<?php echo $part->Name.' '.$part->Brand.' купить';?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -168,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                 <div class="input-group">
-                                                    <input type="number" name="quantity" class="form-control" value="1" style="min-width: 80px>
+                                                    <input type="number" name="quantity" class="form-control" value="1">
                                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                                     <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
                                                     <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
@@ -197,7 +210,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <td>
                                         <img onerror="imgError(this, 50);"
                                              src="/image?img=<?php echo $part->Preview; ?>&width=50"
-                                             title="<?php echo $part->Brand; ?>">
+                                              alt="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>" title="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>">
                                     </td>
                                     <td>
                                         <?php echo $part->Article; ?>

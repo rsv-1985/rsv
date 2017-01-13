@@ -21,11 +21,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="container">
         <div class="col-md-12">
             <ol class="breadcrumb">
-              <?php foreach($breadcrumb as $breadcrumb){?>
-                <li><a href="<?php echo $breadcrumb['href'];?>"><?php echo $breadcrumb['title'];?></a></li>
-              <?php } ?>
+                 <?php foreach ($breadcrumb as $b) { ?>
+
+					<?  if($b == end($breadcrumb)) {
+        ?>
+   	  <li><?php echo $b['title']; ?></li>
+   <?
+  }
+  else {
+	  ?>
+	  <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
+
+	   <?
+
+  }
+	?>
+                <?php } ?>
             </ol>
-            <table class="table table-responsive">
+			<div class="table-responsive">
+            <table class="table table-bordered table-striped ">
                 <tr>
                     <th><?php echo lang('text_column_engine');?></th>
                     <th><?php echo lang('text_column_engine_code');?></th>
@@ -46,7 +60,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <td><?php echo $typ['Body'];?></td>
                     </tr>
                 <?php } ?>
-            </table>
+            </table>       </div>
+
         </div>
     </div>
 </div>

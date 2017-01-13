@@ -56,7 +56,7 @@ class Product_attribute_model extends Default_model{
     }
 
     public function get_attributes($category_id, $products_id = false){
-
+        $this->db->cache_on();
         $this->db->select('*');
         $this->db->where('category_id', (int)$category_id);
         if($products_id){
