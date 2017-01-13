@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td>
                                             <div class="pull-right">
                                                 <a href="/autoxadmin/product/delete?product_id=<?php echo $product['product_id'];?>&supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>" class="btn btn-link"><?php echo lang('button_delete');?></a>
-                                                <a href="/autoxadmin/product/edit/<?php echo $product['id'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
+                                                <a href="/autoxadmin/product/edit/<?php echo $product['product_id'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
                                                 <button type="submit" class="btn btn-link"><?php echo lang('button_submit');?></button>
                                             </div>
                                         </td>
