@@ -57,7 +57,7 @@ class Product_model extends Default_model{
         $this->db->select('SQL_CALC_FOUND_ROWS *,(SELECT name FROM ax_product WHERE id = product_id) as name,
 (SELECT sku FROM ax_product WHERE id = product_id) as sku,
 (SELECT brand FROM ax_product WHERE id = product_id) as brand', false);
-        $this->db->from('product');
+        $this->db->from('product_price');
         if($this->input->get()){
             if($this->input->get('sku')){
                 $this->db->where('sku', $this->input->get('sku',true));
