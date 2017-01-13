@@ -31,12 +31,6 @@ class Category_model extends Default_model
         if ($query->num_rows() > 0) {
             $category = [];
             foreach ($query->result_array() as $cat) {
-                if ($parent_id == 0) {
-                    $cat['brands'] = false;
-                } else {
-                    $cat['brands'] = $this->get_brends($cat['id'], 10);
-                }
-
                 $cat['children'] = $this->category_get_all($cat['id']);
                 $category[] = $cat;
             }
