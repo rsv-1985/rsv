@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                         <?php }else{ ?>
                             <a href="/category/<?php echo $category['slug'];?>">
-                                <?php echo $category['name'];?> <span class="caret pull-right"></span>
+                                <?php echo $category['name'];?>
                             </a>
                         <?php } ?>
                     </li>
