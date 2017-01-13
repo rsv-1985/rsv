@@ -17,13 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <title><?php echo str_replace('"','',$this->title);?></title>
     <meta name="description" content="<?php echo str_replace('"','',$this->description);?>">
     <meta name="keywords" content="<?php echo str_replace('"','',$this->keywords);?>">
-    <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
+
     <?php if($this->rel_prev){?>
         <link rel="prev" href="<?php echo $this->rel_prev;?>">
     <?php } ?>
