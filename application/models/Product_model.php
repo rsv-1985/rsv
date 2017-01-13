@@ -502,7 +502,7 @@ class Product_model extends Default_model{
             }
         }
 
-        $this->db->group_by('product_price.product_id');
+        $this->db->group_by('product_id');
 
         $query = $this->db->get();
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
