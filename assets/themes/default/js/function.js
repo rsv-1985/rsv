@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $('body').fadeIn('slow');
     $('[rel="tooltip"]').tooltip();
 
     $("a[href='#top']").click(function(event) {
@@ -118,7 +119,6 @@ $(document).ready(function(){
         });
     });
 });
-
 function send_request(event){
     event.preventDefault();
     $.ajax({
