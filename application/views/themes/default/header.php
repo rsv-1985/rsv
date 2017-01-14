@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <title><?php echo str_replace('"','',$this->title);?></title>
     <meta name="description" content="<?php echo str_replace('"','',$this->description);?>">
     <meta name="keywords" content="<?php echo str_replace('"','',$this->keywords);?>">
-
+    <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
     <?php if($this->rel_prev){?>
         <link rel="prev" href="<?php echo $this->rel_prev;?>">
     <?php } ?>
