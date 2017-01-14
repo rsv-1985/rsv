@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <?php } ?>
     <?php } ?>
 </head>
-<body style="display: none">
+<body>
 <?php if(@$this->options['google_tag_body']){
     echo $this->options['google_tag_body'];
 }?>
