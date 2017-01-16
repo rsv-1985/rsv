@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('body').fadeIn('slow');
+    $('.preload').remove();
     $('[rel="tooltip"]').tooltip();
 
     $("a[href='#top']").click(function(event) {

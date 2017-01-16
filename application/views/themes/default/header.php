@@ -35,6 +35,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
+<div class="preload" style="
+    background: url(/assets/themes/default/img/loading.gif);
+    position: fixed;
+    z-index: 999999;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;"></div>
 <?php if(@$this->options['google_tag_body']){
     echo $this->options['google_tag_body'];
 }?>
