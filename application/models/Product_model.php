@@ -455,8 +455,11 @@ class Product_model extends Default_model
             $return['cross'] = $product_cross;
             unset($product_cross);
         }
+
+
         //Если включен режим поиска по тексту и нет резудьтата по номеру
         if ($text_search && empty($return['cross']) && empty($return['products'])) {
+
             //Похожие товары
             $where = "";
             $query = explode(' ', trim($sku));
@@ -469,8 +472,19 @@ class Product_model extends Default_model
                 }
                 $q++;
             }
-            $this->db->from('product_price');
-            $this->db->select('product.*,product_price.*,
+            $this->db->from('product');
+            $this->db->select('id');
+            $this->db->where($where);
+            $this->db->limit(50);
+            $query = $this->db->get();
+
+            if($query->num_rows() > 0){
+                $products_id = [];
+                foreach ($query->result_array() as $item){
+                    $products_id[] = $item['id'];
+                }
+                $this->db->from('product_price');
+                $this->db->select('product.*,product_price.*,
             supplier.name as sup_name,
             supplier.description as sup_description,
             currency.name as cur_name,
@@ -478,24 +492,26 @@ class Product_model extends Default_model
             currency.symbol_right as cur_symbol_right,
             currency.symbol_left as cur_symbol_left,
             currency.decimal_place as cur_decimal_place');
-            $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
-            $this->db->join('currency', 'currency.id=product_price.currency_id');
-            $this->db->join('product', 'product.id=product_price.product_id');
-            $this->db->limit(50);
-            $this->db->where($where . " AND status = 1");
-            $this->db->order_by('price', 'ASC');
-            $this->db->order_by('term', 'ASC');
+                $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
+                $this->db->join('currency', 'currency.id=product_price.currency_id');
+                $this->db->join('product', 'product.id=product_price.product_id');
+                $this->db->limit(50);
+                $this->db->where_in('product_id',$products_id);
+                $this->db->order_by('price', 'ASC');
+                $this->db->order_by('term', 'ASC');
 
-            $query = $this->db->get();
-            if ($query->num_rows() > 0) {
-                $p_about = $query->result_array();
-                foreach ($p_about as &$pa) {
-                    $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_rates[$pa['currency_id']]['value'];
+                $query = $this->db->get();
+
+                if ($query->num_rows() > 0) {
+                    $p_about = $query->result_array();
+                    foreach ($p_about as &$pa) {
+                        $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_rates[$pa['currency_id']]['value'];
+                    }
+                    $return['about'] = $p_about;
                 }
-                $return['about'] = $p_about;
             }
-        }
 
+        }
         return $return;
     }
 
