@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
 <script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
-<script src="<?php echo theme_url();?>js/function.js?v2"></script>
+<script src="<?php echo theme_url();?>js/function.js?v3"></script>
 
 <script src="<?php echo theme_url();?>js/owl.carousel.min.js"></script>
 <script src="<?php echo theme_url();?>js/jquery.sticky.js"></script>
