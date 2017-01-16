@@ -329,7 +329,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </tbody>
                         </table>
                     <?php }else{?>
-                        <?php if(!$brands && !($products || $cross || $about)){?>
+                        <?php if(!$brands || ($this->input->get('brand') && !$products)){?>
                             <div style="text-align: center;font-size: 24px;margin: 0 0 15px;"><?php echo lang('text_no_results');?></div>
                             <p class="alert-warning"><?php echo lang('text_no_results_description');?></p>
                             <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request(event)']);?>
