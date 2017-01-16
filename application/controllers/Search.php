@@ -26,9 +26,7 @@ class Search extends Front_controller {
         $data['products'] = false;
         $data['cross'] = false;
         $data['about'] = false;
-        if($this->input->get('brand')){
-            $data = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
-        }
+        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
 
 
         $min_price = 0;
