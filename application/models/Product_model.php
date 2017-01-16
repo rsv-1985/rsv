@@ -463,9 +463,9 @@ class Product_model extends Default_model
             $q = 0;
             foreach ($query as $term) {
                 if ($q == 0) {
-                    $where .= "CONCAT(ax_product.sku,ax_product.brand,ax_product.name) LIKE '%" . $this->db->escape_like_str($term) . "%'";
+                    $where .= "(ax_product.sku LIKE '%" . $this->db->escape_like_str($term) . "%' OR ax_product.brand LIKE '%" . $this->db->escape_like_str($term) . "%' OR ax_product.name LIKE '%" . $this->db->escape_like_str($term) . "%')";
                 } else {
-                    $where .= " AND CONCAT(ax_product.sku,ax_product.brand,ax_product.name) LIKE '%" . $this->db->escape_like_str($term) . "%'";
+                    $where .= " AND (ax_product.sku LIKE '%" . $this->db->escape_like_str($term) . "%' OR ax_product.brand LIKE '%" . $this->db->escape_like_str($term) . "%' OR ax_product.name LIKE '%" . $this->db->escape_like_str($term) . "%')";
                 }
                 $q++;
             }
