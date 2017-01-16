@@ -26,7 +26,8 @@ class Search extends Front_controller {
         $data['products'] = false;
         $data['cross'] = false;
         $data['about'] = false;
-        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
+        $brands = $this->product_model->get_pre_search($sku);
+        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, (bool)!$brands);
 
 
         $min_price = 0;
@@ -37,7 +38,7 @@ class Search extends Front_controller {
         $data['min_term'] = false;
 
         $data['h1'] = $sku.' '.$brand;
-        $data['brands'] = $this->product_model->get_pre_search($sku);
+        $data['brands'] = $brands;
 
         if ($data['products']) {
             foreach ($data['products'] as $product) {
