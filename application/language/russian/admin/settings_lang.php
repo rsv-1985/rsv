@@ -17,7 +17,7 @@ $lang['text_settings_main_meta_description'] = 'Meta Description магазин�
 $lang['text_settings_main_meta_keywords'] = 'Meta Keywords магазина';
 $lang['text_settings_main_title'] = 'Title магазина';
 $lang['text_sms_description'] = '<p>Для отправки СМС сообщений с сайта:</p>
-                                            1.Пройдите регистрацию на  <a href="http://smsc.ru/?pp367810" target="_blank">сайте</a><br>
+                                            1.Пройдите регистрацию на  <a href="http://smsc.ru/?pp367810" target="_blank">smsc.ru</a> или на <a href="https://turbosms.ua" target="_blank">turbosms.ua</a><br>
                                             2.Добавьте имя отправителя (Sender ID)<br>
                                             3.Укажите Логин, Пароль, Sender на сайте и сохраните данные.';
 $lang['text_scamdb_heading'] = 'Черный список покупателей';

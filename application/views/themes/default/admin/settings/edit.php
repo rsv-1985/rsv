@@ -448,6 +448,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                      aria-labelledby="headingOne">
                                     <div class="panel-body">
                                         <div class="col-md-6">
+                                            <h4>smsc.ru</h4>
                                             <div class="form-group">
                                                 <label>Login</label>
                                                 <input class="form-control" type="text" name="settings[sms][login]"
@@ -466,9 +467,34 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                        value="<?php echo set_value('settings[sms][sender]', @$settings['sms']['sender']); ?>"
                                                        placeholder="sender">
                                             </div>
+
+                                            <hr>
+                                            <h4>turbosms.ua</h4>
+                                            <div class="form-group">
+                                                <label>Login</label>
+                                                <input class="form-control" type="text" name="settings[sms2][login]"
+                                                       value="<?php echo set_value('settings[sms2][login]', @$settings['sms2']['login']); ?>"
+                                                       placeholder="login">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input class="form-control" type="text" name="settings[sms2][password]"
+                                                       value="<?php echo set_value('settings[sms2][password]', @$settings['sms2']['password']); ?>"
+                                                       placeholder="password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Sender ID</label>
+                                                <input class="form-control" type="text" name="settings[sms2][sender]"
+                                                       value="<?php echo set_value('settings[sms2][sender]', @$settings['sms2']['sender']); ?>"
+                                                       placeholder="sender">
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <?php echo lang('text_sms_description'); ?>
+
+                                            <hr>
+
+                                            <?php echo lang('text_sms2_description'); ?>
                                         </div>
                                     </div>
                                 </div>

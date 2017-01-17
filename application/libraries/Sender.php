@@ -35,23 +35,46 @@ class Sender{
     }
 
     function sms($phone,$text){
+        $method_send = 'smsc';
         $settings = $this->CI->settings_model->get_by_key('sms');
+        if(!@$settings['login']){
+            $method_send = 'turbosms';
+            $settings = $this->CI->settings_model->get_by_key('sms2');
+        }
 
         $login = @$settings['login'] ? $settings['login'] : $this->CI->config->item('smsc_login');
         $password = @$settings['password'] ? $settings['password'] : $this->CI->config->item('smsc_password');
         $sender = @$settings['sender'] ? $settings['sender'] : $this->CI->config->item('smsc_sender');
 
         if($login && $password && $sender){
-            $client = new SoapClient('http://smsc.ua/sys/soap.php?wsdl');
-            $res = $client->send_sms(array(
-                    'login'=>$login,
-                    'psw'=>$password,
-                    'phones'=>preg_replace("/[^0-9]/", '', $phone),
-                    'mes'=>strip_tags($text),
-                    'id'=>'',
-                    'sender'=>$sender,
-                    'time'=>0)
-            );
+            switch ($method_send){
+                case 'smsc':
+                    $client = new SoapClient('http://smsc.ua/sys/soap.php?wsdl');
+                    $res = $client->send_sms(array(
+                            'login'=>$login,
+                            'psw'=>$password,
+                            'phones'=>preg_replace("/[^0-9]/", '', $phone),
+                            'mes'=>strip_tags($text),
+                            'id'=>'',
+                            'sender'=>$sender,
+                            'time'=>0)
+                    );
+                    break;
+                case 'turbosms':
+                    $client = new SoapClient('http://turbosms.in.ua/api/wsdl.html');
+
+                    $auth = array('login' => $login, 'password' => $password);
+                    $result = $client->Auth($auth);
+
+                    $sms = array(
+                        'sender' => $sender,
+                        'destination' => '+' . preg_replace("/[^0-9]/", '', $phone),
+                        'text' => $text);
+
+                    $client->SendSMS($sms);
+                    break;
+            }
+
         }
     }
 }
