@@ -182,6 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <script>
+
     function remove_cart(key, event) {
         event.preventDefault();
         $.ajax({

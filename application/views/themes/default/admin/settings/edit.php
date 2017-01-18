@@ -684,6 +684,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 Отключить модальное окно и отображать поиск запчастей на отдельной странице
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Маска ввода номера телефона <small>(пример: 38(999)999-99-99)</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

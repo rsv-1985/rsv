@@ -188,8 +188,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
-<script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
+
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
+    <script src="<?php echo theme_url();?>js/jquery.maskedinput.min.js"></script>
 <script src="<?php echo theme_url();?>js/function.js?v3"></script>
 
 <script src="<?php echo theme_url();?>js/owl.carousel.min.js"></script>
@@ -202,6 +203,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active');
+        $("[name='telephone']").mask("<?php echo @$this->options['phonemask'];?>");
+        $("[name='phone']").mask("<?php echo @$this->options['phonemask'];?>");
     });
 </script>
 <?php if($this->config->item('my_script')){?>
