@@ -97,8 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-8">
                 <?php if ($products) { ?>
                     <div class="row">
-                        <?php foreach ($products as $product) {
-                            $key = $product['product_id'] . $product['supplier_id'] . $product['term']; ?>
+                        <?php foreach ($products as $product) {?>
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-shop-product">
                                     <div class="product-upper">
@@ -122,38 +121,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 75); ?></a>
                                     </h2>
                                     <div class="product-carousel-price">
-                                        <ins><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?></ins>
-                                        <?php if ($product['saleprice'] > 0) { ?>
-                                            <del><?php echo format_currency($product['price']); ?></del>
-                                        <?php } ?><br/>
-                                        <span class="label label-success">
-                                            <?php echo lang('text_term'); ?>
-                                            : <?php echo format_term($product['term']); ?>
-                                            <?php echo lang('text_quantity'); ?>
-                                            : <?php echo format_quantity($product['quantity']); ?>
-                                        </span>
+                                        <b>
+                                            <?php echo format_currency($product['min_price']);?>
+                                            <small> - </small>
+                                            <?php echo format_currency($product['max_price']);?>
+                                        </b>
                                     </div>
-
                                     <div class="product-option-shop">
-                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                        <div class="input-group">
-                                            <input type="number" name="quantity" class="form-control" value="1">
-                                            <input type="hidden" name="product_id"
-                                                   value="<?php echo $product['product_id']; ?>">
-                                            <input type="hidden" name="supplier_id"
-                                                   value="<?php echo $product['supplier_id']; ?>">
-                                            <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
-                                            <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i
-                                                class="fa fa-shopping-cart"></i></button>
-                                        </span>
-                                        </div>
-                                        </form>
-                                        <a href="/cart" class="<?php echo $key; ?>"
-                                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                style="display: none;"
-                                            <?php } ?>
-                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
+                                        <a href=""><?php echo plural_form($product['countPrice'],['предложение', 'предложения', 'предложений']);?></a>
                                     </div>
                                 </div>
                             </div>

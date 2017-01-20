@@ -519,10 +519,14 @@ class Product_model extends Default_model
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
 
-        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS *, 
+        (SELECT MIN(price)*(SELECT value FROM ax_currency WHERE id = currency_id) FROM ax_product_price WHERE product_id = id) as min_price, 
+        (SELECT MAX(price)*(SELECT value FROM ax_currency WHERE id = currency_id) FROM ax_product_price WHERE product_id = id) as max_price,
+        (SELECT count(product_id) FROM ax_product_price WHERE product_id = ax_product.id) as countPrice', false);
+
         $this->db->from('product');
 
-        $this->db->join('product_price', 'product_price.product_id=product.id');
+        //$this->db->join('product_price', 'product_price.product_id=product.id');
 
         if ($where) {
             foreach ($where as $field => $value) {
@@ -546,15 +550,15 @@ class Product_model extends Default_model
             }
         }
 
-        $this->db->group_by('product_id');
-
         $query = $this->db->get();
+
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
 
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
             foreach ($products as &$product) {
-                $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_rates[$product['currency_id']]['value'];
+                $product['min_price'] = $this->calculate_customer_price($product['min_price']);
+                $product['max_price'] = $this->calculate_customer_price($product['max_price']);
                 $product['tecdoc_info'] = $this->tecdoc_info($product['sku'], $product['brand']);
             }
             return $products;
