@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </b>
                                     </div>
                                     <div class="product-option-shop">
-                                        <a href=""><?php echo plural_form($product['countPrice'],['предложение', 'предложения', 'предложений']);?></a>
+                                        <a href="/product/<?php echo $product['slug'];?>"><?php echo plural_form($product['countPrice'],['предложение', 'предложения', 'предложений']);?></a>
                                     </div>
                                 </div>
                             </div>
