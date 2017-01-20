@@ -519,14 +519,7 @@ class Product_model extends Default_model
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
 
-        $this->db->select('SQL_CALC_FOUND_ROWS *, 
-        (SELECT MIN(price)*(SELECT value FROM ax_currency WHERE id = currency_id) FROM ax_product_price WHERE product_id = id) as min_price, 
-        (SELECT MAX(price)*(SELECT value FROM ax_currency WHERE id = currency_id) FROM ax_product_price WHERE product_id = id) as max_price,
-        (SELECT count(product_id) FROM ax_product_price WHERE product_id = ax_product.id) as countPrice', false);
-
-        $this->db->from('product');
-
-        //$this->db->join('product_price', 'product_price.product_id=product.id');
+        $this->db->select('SQL_CALC_FOUND_ROWS *,(SELECT COUNT(product_id) FROM ax_product_price WHERE product_id = id) as countPrice FROM ax_product', false);
 
         if ($where) {
             foreach ($where as $field => $value) {
@@ -557,8 +550,12 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
             foreach ($products as &$product) {
-                $product['min_price'] = $this->calculate_customer_price($product['min_price']);
-                $product['max_price'] = $this->calculate_customer_price($product['max_price']);
+                $min_price = $this->db->select('currency_id')->select_min('price')->where('product_id',(int)$product['id'])->get('product_price')->row_array();
+                $product['min_price'] = $this->calculate_customer_price($min_price['price']) * $this->currency_rates[$min_price['currency_id']]['value'];
+
+                $max_price = $this->db->select('currency_id')->select_max('price')->where('product_id',(int)$product['id'])->get('product_price')->row_array();
+                $product['max_price'] = $this->calculate_customer_price($min_price['price']) * $this->currency_rates[$max_price['currency_id']]['value'];
+                //$product['countPrice'] = $this->db->where('product_id',(int)$product['id'])->count_all_results('product_price');
                 $product['tecdoc_info'] = $this->tecdoc_info($product['sku'], $product['brand']);
             }
             return $products;
