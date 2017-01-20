@@ -554,7 +554,7 @@ class Product_model extends Default_model
                 $product['min_price'] = $this->calculate_customer_price($min_price['price']) * $this->currency_rates[$min_price['currency_id']]['value'];
 
                 $max_price = $this->db->select('currency_id')->select_max('price')->where('product_id',(int)$product['id'])->get('product_price')->row_array();
-                $product['max_price'] = $this->calculate_customer_price($min_price['price']) * $this->currency_rates[$max_price['currency_id']]['value'];
+                $product['max_price'] = $this->calculate_customer_price($max_price['price']) * $this->currency_rates[$max_price['currency_id']]['value'];
                 //$product['countPrice'] = $this->db->where('product_id',(int)$product['id'])->count_all_results('product_price');
                 $product['tecdoc_info'] = $this->tecdoc_info($product['sku'], $product['brand']);
             }
