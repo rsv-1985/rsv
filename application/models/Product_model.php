@@ -519,7 +519,7 @@ class Product_model extends Default_model
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
 
-        $this->db->select('SQL_CALC_FOUND_ROWS *,(SELECT COUNT(product_id) FROM ax_product_price WHERE product_id = id) as countPrice FROM ax_product', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS *,(SELECT COUNT(product_id) FROM ax_product_price WHERE ax_product_price.product_id = ax_product.id) as countPrice FROM ax_product', false);
 
         if ($where) {
             foreach ($where as $field => $value) {
