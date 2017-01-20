@@ -519,7 +519,7 @@ class Product_model extends Default_model
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
 
-        $this->db->select('SQL_CALC_FOUND_ROWS *,(SELECT COUNT(product_id) FROM ax_product_price WHERE ax_product_price.product_id = ax_product.id) as countPrice FROM ax_product', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS * FROM ax_product', false);
 
         if ($where) {
             foreach ($where as $field => $value) {
@@ -550,12 +550,11 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
             foreach ($products as &$product) {
-                $min_price = $this->db->select('currency_id')->select_min('price')->where('product_id',(int)$product['id'])->get('product_price')->row_array();
-                $product['min_price'] = $this->calculate_customer_price($min_price['price']) * $this->currency_rates[$min_price['currency_id']]['value'];
+                $prices = $this->get_product_price($product['id']);
 
-                $max_price = $this->db->select('currency_id')->select_max('price')->where('product_id',(int)$product['id'])->get('product_price')->row_array();
-                $product['max_price'] = $this->calculate_customer_price($max_price['price']) * $this->currency_rates[$max_price['currency_id']]['value'];
-                //$product['countPrice'] = $this->db->where('product_id',(int)$product['id'])->count_all_results('product_price');
+                $product['countPrice'] = count($prices);
+                $product['min_price'] = $prices[0]['price'];
+                $product['max_price'] = end($prices)['price'];
                 $product['tecdoc_info'] = $this->tecdoc_info($product['sku'], $product['brand']);
             }
             return $products;
@@ -726,6 +725,8 @@ class Product_model extends Default_model
             foreach ($order as $field => $value) {
                 $this->db->order_by($field, $value);
             }
+        }else{
+            $this->db->order_by('price', 'ASC');
         }
 
         $query = $this->db->get();
