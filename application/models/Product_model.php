@@ -550,7 +550,7 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
             foreach ($products as &$product) {
-                $prices = $this->get_product_price($product['id']);
+                $prices = $this->get_product_price($product['id'],false,false,true);
 
                 $product['countPrice'] = count($prices);
                 $product['min_price'] = $prices[0]['price'];
