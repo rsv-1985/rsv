@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                  src="/image?img=/uploads/banner/<?php echo $slider['image']; ?>"
                                  alt="<?php echo $slider['name']; ?>" title="<?php echo $slider['name']; ?>">
                             <div class="caption-group">
-                                <h2><?php echo $slider['name']; ?></h2>
+                                <b><?php echo $slider['name']; ?></b>
                                 <?php echo $slider['description']; ?>
                             </div>
                         </a>
