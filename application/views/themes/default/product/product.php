@@ -72,84 +72,73 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="col-md-8 col-sm-12">
                 <?php if ($prices) { ?>
-                    <div class="list-group">
-                        <?php $q = false; foreach ($prices as $product) {
-                            $key = $product['product_id'] . $product['supplier_id'] . $product['term']; ?>
-                            <div class="product-inner <?php if($q){?>well other<?php } ?>">
-                                <?php if ($this->is_admin) { ?>
-                                    <div class="well well-sm">
-                                        <div class="col-md-6">
-                                            <small><?php echo lang('text_supplier'); ?>:</small> <?php echo $product['sup_name']; ?><br/>
-                                            <small><?php echo lang('text_supplier_description'); ?>:</small> <?php echo $product['sup_description']; ?><br/>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <small><?php echo lang('text_qty'); ?>:</small> <?php echo $product['quantity']; ?><br/>
-                                            <small><?php echo lang('text_delivery_price'); ?>:</small> <?php echo $product['delivery_price'].' '.$product['cur_name']; ?><br/>
-                                            <small><?php echo lang('text_updated_at');?></small> <?php echo $product['sup_updated_at'];?>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                <?php } ?>
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <span class="badge" itemprop="brand"><?php echo $brand; ?></span>
-                                        <?php echo lang('text_brand');?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <span class="badge" itemprop="sku"><?php echo $sku; ?></span>
-                                        <?php echo lang('text_sku');?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <span class="badge"><?php echo format_quantity($product['quantity']); ?></span>
-                                        <?php echo lang('text_qty');?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <span class="badge"><?php echo format_term($product['term']); ?></span>
-                                        <?php echo lang('text_term');?>
-                                    </li>
-                                    <?php if($product['excerpt']){?>
-                                        <li class="list-group-item">
-                                            <small><?php echo $product['excerpt'];?></small>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-
-                                <div class="product-inner-price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                    <meta itemprop="priceCurrency" content="<?php echo $this->default_currency['code'];?>" />
-                                    <ins itemprop="price" content="<?php echo $product['saleprice'] > 0 ? $product['saleprice'] : $product['price']; ?>">
-                                        <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
-                                    </ins>
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><?php echo lang('text_brand');?> / <?php echo lang('text_sku');?></th>
+                                <th><?php echo lang('text_price');?></th>
+                                <th><?php echo lang('text_qty');?></th>
+                                <th><?php echo lang('text_excerpt');?></th>
+                                <th colspan="2"><?php echo lang('text_term');?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($prices as $product){
+                            $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
+                            <tr>
+                                <td class="name">
+                                    <?php echo $brand.' '.$sku;?></a>
+                                    <small><?php echo $name;?></small>
+                                </td>
+                                <td class="price">
+                                    <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
                                     <?php if ($product['saleprice'] > 0) { ?>
                                         <del><?php echo format_currency($product['price']); ?></del>
                                     <?php } ?>
-                                </div>
-
-                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                <div class="quantity">
-                                    <input type="number" size="4" class="input-text qty text" value="1" name="quantity"
-                                           min="1" step="1">
-                                </div>
-                                <input type="hidden" name="product_id"
-                                       value="<?php echo $product['product_id']; ?>">
-                                <input type="hidden" name="supplier_id"
-                                       value="<?php echo $product['supplier_id']; ?>">
-                                <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
-
-                                <button class="add_to_cart_button" type="submit">В корзину</button>
-                                <a rel="nofollow" href="/cart" class="<?php echo $key; ?>"
-                                    <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                </td>
+                                <td class="quan"><?php echo format_quantity($product['quantity']);?></td>
+                                <td class="excerpt"><?php echo $product['excerpt'];?></td>
+                                <td class="term">
+                                    <i class="fa fa-road" title="Срок доставки"></i><?php echo format_term($product['term']);?>
+                                </td>
+                                <td class="cart">
+                                    <?php echo form_open('/ajax/add_cart',['onsubmit' => 'add_cart($(this).serialize(), event)']);?>
+                                        <div class="input-group">
+                                            <input type="number" name="quantity" class="form-control" value="1">
+                                            <input type="hidden" name="product_id" value="<?php echo $product['product_id'];?>">
+                                            <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
+                                            <input type="hidden" name="term" value="<?php echo $product['term'];?>">
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <a href="/cart" class="<?php echo $key; ?>"
+                                        <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
                                         style="display: none;"
-                                    <?php } ?>
-                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
-                                </form>
+                                    <?php } ?>>
+                                        <i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                    </a>
 
-                            </div>
-                            <br />
-                            <?php if(count($prices) > 1 && !$q){?>
-                                <a href="#" rel="nofollow" onclick="$('.other').toggle(); return false;"><?php echo sprintf(lang('text_this_products'),plural_form(count($prices) - 1,['предложение', 'предложения', 'предложений']));?></a>
+                                </td>
+                            </tr>
+                            <?php if($this->is_admin){?>
+                                <tr>
+                                    <td class="name"><?php echo $product['sup_name'];?></td>
+                                    <td class="price">
+                                        <?php echo $product['delivery_price'];?>
+                                        <?php echo $product['cur_name'];?>
+                                    </td>
+                                    <td class="quan"><?php echo $product['quantity'];?></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                             <?php } ?>
-                        <?php $q = true;} ?>
-                    </div>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+
                     <div role="tabpanel">
                         <ul class="product-tab" role="tablist">
                             <?php if($description){?>
