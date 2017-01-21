@@ -88,6 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <tr>
                                 <td class="name">
                                     <?php echo $brand.' '.$sku;?></a>
+                                    <br>
                                     <small><?php echo $name;?></small>
                                 </td>
                                 <td class="price">
