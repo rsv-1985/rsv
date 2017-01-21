@@ -134,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if ($top_sellers) { ?>
                     <div class="col-md-4">
                         <div class="single-product-widget">
-                            <h1 class="product-wid-title"><?php echo lang('text_top_sales'); ?></h1>
+                            <h2 class="product-wid-title"><?php echo lang('text_top_sales'); ?></h2>
                             <?php foreach ($top_sellers as $top_sellers) { ?>
                                 <div class="single-wid-product">
                                     <a href="/product/<?php echo $top_sellers['slug']; ?>">
@@ -191,7 +191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php }else{?>
                 <div class="col-md-12">
                 <?php } ?>
-                    <h2 class="product-wid-title"><?php echo $name; ?></h2>
+                    <h1 class="product-wid-title"><?php echo $name; ?></h1>
                     <?php echo $description; ?>
                 </div>
             </div>
