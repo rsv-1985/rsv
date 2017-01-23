@@ -11,7 +11,7 @@ class Migration_Supplieridindex extends CI_Migration {
 
     public function up()
     {
-        $this->db->query("ALTER TABLE `cmsautox`.`ax_product_price` ADD INDEX (`supplier_id`);");
+        $this->db->query("ALTER TABLE `ax_product_price` ADD INDEX (`supplier_id`);");
     }
     public function down()
     {
