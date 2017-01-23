@@ -51,8 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <li><?php echo lang('text_statistics_updated_at'); ?>
                             :<b><?php echo $supplier['updated_at']; ?></b></li>
                         <li><?php echo lang('text_statistics_count_all'); ?>:<b><?php echo $count; ?></b></li>
-                        <li><?php echo lang('text_statistics_quan'); ?>:<b><?php echo $quan; ?></b></li>
-                        <li><?php echo lang('text_statistics_visible'); ?>:<b><?php echo $visible; ?></b></li>
                     </ul>
                     <?php if ($count > 0) { ?>
                         <a href="/autoxadmin/supplier/delete_products/<?php echo $supplier['id']; ?>"
