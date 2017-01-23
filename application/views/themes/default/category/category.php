@@ -58,36 +58,41 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                         <?php } ?>
                         <?php if ($attributes) { ?>
-                            <?php echo form_open(null,['method' => 'get', 'id' => 'filter']);?>
-                            <?php $q = 0; foreach ($attributes as $attribute_name => $attribute_values){?>
+                            <?php echo form_open(null, ['method' => 'get', 'id' => 'filter']); ?>
+                            <?php $q = 0;
+                            foreach ($attributes as $attribute_name => $attribute_values) { ?>
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="heading<?php echo $q;?>">
+                                    <div class="panel-heading" role="tab" id="heading<?php echo $q; ?>">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse"
-                                               data-parent="#accordion" href="#collapse<?php echo $q;?>" aria-expanded="false"
-                                               aria-controls="collapse<?php echo $q;?>">
-                                                <?php echo $attribute_name;?>
+                                               data-parent="#accordion" href="#collapse<?php echo $q; ?>"
+                                               aria-expanded="false"
+                                               aria-controls="collapse<?php echo $q; ?>">
+                                                <?php echo $attribute_name; ?>
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapse<?php echo $q;?>" class="panel-collapse collapse" role="tabpanel"
-                                         aria-labelledby="heading<?php echo $q;?>">
+                                    <div id="collapse<?php echo $q; ?>" class="panel-collapse collapse" role="tabpanel"
+                                         aria-labelledby="heading<?php echo $q; ?>">
                                         <div class="panel-body">
-                                           <?php foreach ($attribute_values as $attr){?>
-                                               <div class="form-group">
-                                                   <div class="checkbox">
-                                                       <label>
-                                                           <input onchange="$('#filter').submit()" type="checkbox" name="<?php echo $attr['attribute_slug'];?>" value="1" <?php echo set_checkbox( $attr['attribute_slug'],1,(bool)$this->input->get($attr['attribute_slug']));?>>
-                                                           <?php echo $attr['attribute_value'];?>
-                                                       </label>
-                                                   </div>
-                                               </div>
-                                           <?php } ?>
+                                            <?php foreach ($attribute_values as $attr) { ?>
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input onchange="$('#filter').submit()" type="checkbox"
+                                                                   name="<?php echo $attr['attribute_slug']; ?>"
+                                                                   value="1" <?php echo set_checkbox($attr['attribute_slug'], 1, (bool)$this->input->get($attr['attribute_slug'])); ?>>
+                                                            <?php echo $attr['attribute_value']; ?>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
 
                                         </div>
                                     </div>
                                 </div>
-                            <?php $q++;} ?>
+                                <?php $q++;
+                            } ?>
                             </form>
                         <?php } ?>
                     </div>
@@ -97,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-8">
                 <?php if ($products) { ?>
                     <div class="row">
-                        <?php foreach ($products as $product) {?>
+                        <?php foreach ($products as $product) { ?>
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-shop-product">
                                     <div class="product-upper">
@@ -122,13 +127,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </h2>
                                     <div class="product-carousel-price">
                                         <b>
-                                            <?php echo format_currency($product['min_price']);?>
-                                            <small> - </small>
-                                            <?php echo format_currency($product['max_price']);?>
+                                            <?php if ($product['min_price'] == $product['max_price']) { ?>
+                                                <?php echo format_currency($product['min_price']); ?>
+                                            <?php } else { ?>
+                                                <?php echo format_currency($product['min_price']); ?>
+                                                <small> -</small>
+                                                <?php echo format_currency($product['max_price']); ?>
+
+                                            <?php } ?>
                                         </b>
+
                                     </div>
                                     <div class="product-option-shop">
-                                        <a href="/product/<?php echo $product['slug'];?>"><?php echo plural_form($product['countPrice'],['предложение', 'предложения', 'предложений']);?></a>
+                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo plural_form($product['countPrice'], ['предложение', 'предложения', 'предложений']); ?></a>
                                     </div>
                                 </div>
                             </div>
