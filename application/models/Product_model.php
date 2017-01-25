@@ -528,7 +528,7 @@ class Product_model extends Default_model
         }
 
         if ($filter_products_id) {
-            $this->db->where_in('product_id', $filter_products_id);
+            $this->db->where_in('id', $filter_products_id);
         }
 
         if ($limit && $start) {
