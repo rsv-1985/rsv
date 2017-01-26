@@ -27,12 +27,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php if($this->canonical){?>
         <link rel="canonical" href="<?php echo $this->canonical;?>" />
     <?php } ?>
-
-    <?php if($this->config->item('my_style')){?>
-        <?php foreach ($this->config->item('my_style') as $style){?>
-            <link rel="stylesheet" href="<?php echo $style;?>">
-        <?php } ?>
-    <?php } ?>
 </head>
 <body>
 <div class="preload" style="
