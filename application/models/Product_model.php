@@ -753,12 +753,10 @@ class Product_model extends Default_model
     public function get_sitemap($id)
     {
         $return = false;
-        $this->db->select(['slug', 'id', 'updated_at']);
+        $this->db->select('id, slug,(SELECT MAX(updated_at) FROM ax_product_price WHERE product_id = id) as updated_at',false);
         $this->db->from($this->table);
-        $this->db->join('product_price', 'product_price.product_id=product.id');
         $this->db->limit(30000);
         $this->db->where('id >', $id);
-        $this->db->group_by('product_id');
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
