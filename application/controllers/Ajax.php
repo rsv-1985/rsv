@@ -83,6 +83,7 @@ class Ajax extends Front_controller
         $this->form_validation->set_rules('parts', lang('text_vin_parts'), 'required');
         $this->form_validation->set_rules('name', lang('text_vin_name'), 'required');
         $this->form_validation->set_rules('telephone', lang('text_vin_telephone'), 'required');
+        $this->form_validation->set_rules('email', lang('text_vin_email'), 'required|valid_email');
         if ($this->form_validation->run() == true) {
             $this->load->library('sender');
             $subject = lang('text_vin_subject');
@@ -91,7 +92,7 @@ class Ajax extends Front_controller
                 $html .= lang('text_vin_' . $key) . ':' . $value . '<br>';
             }
 
-            $this->sender->email($subject, $html, explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
+            $this->sender->email($subject, $html, explode(';', $this->contacts['email']),$this->input->post('email',true));
 
             $json['success'] = lang('text_vin_success');
         } else {

@@ -46,31 +46,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="header-area">
     <div class="container">
         <div class="row">
-            <div class="col-md-7 col-xs-6 enter_tablet">
-                <div class="user-menu">
-                    <ul>
-                        <?php if($this->is_login){?>
-                            <li><a href="/customer"><i class="fa fa-user"></i><?php echo lang('text_account');?></a></li>
-                            <li><a href="/cart"><?php echo lang('text_cart');?></a></li>
-                            <li><a href="/customer/logout"><?php echo lang('text_logout');?></a></li>
-                        <?php }else{?>
-                            <li><a rel="nofollow" href="#" data-toggle="modal" data-target="#login"><i class="fa fa-user"></i><?php echo lang('text_login_link');?></a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-5 col-xs-6">
-                <div class="pull-right" id="contact">
-                    <?php foreach(array_chunk(explode(';',$this->contacts['phone']),2) as $phone_array){?>
-                        <?php foreach ($phone_array as $phone){?>
-                            <i class="fa fa-phone-square"></i>
-                            <?php echo $phone;?>&nbsp;
-                        <?php } ?>
-                        <br />
-                    <?php } ?>
-                    <?php foreach(explode(';',$this->contacts['email']) as $email){?>
-                        <i class="fa fa-envelope"></i> <a href="mailto:<?php echo $email;?>"><?php echo $email;?></a>
+            <div class="col-md-12">
+                <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
+                        <i class="fa fa-phone-square"></i> <?php echo $phone;?>&nbsp;
+                <?php } ?>
+                <?php foreach(explode(';',$this->contacts['email']) as $email){?>&nbsp;
+                    <i class="fa fa-envelope"></i> <?php echo $email;?>
+                <?php } ?>
+                <div class="pull-right">
+                    <?php if($this->is_login){?>
+                        <a href="/customer"><?php echo lang('text_account');?></a>/
+                        <a href="/customer/logout"><?php echo lang('text_logout');?></a>
+                    <?php }else{?>
+                        <a rel="nofollow" href="#" data-toggle="modal" data-target="#login"><?php echo lang('text_login_link');?></a>
                     <?php } ?>
                 </div>
             </div>
@@ -100,8 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
             </div>
 
-            <div class="col-sm-4 col-xs-6 cart_m">
-				<div>
+            <div class="col-sm-4 col-xs-12 cart_m">
                 <div class="shopping-item">
                     <a rel="nofollow" href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
                          <span
@@ -111,11 +98,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             class="product-count"><?php echo $this->cart->total_items();?></span>
 
                     </a>
+
                 </div>
                 <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal" rel="tooltip" data-placement="top">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
+
         </div>
     </div>
 </div> <!-- End site branding area -->

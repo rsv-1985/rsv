@@ -36,6 +36,7 @@ $lang['text_vin_vin'] = 'VIN автомобиля';
 $lang['text_vin_parts'] = 'Нужные запчасти';
 $lang['text_vin_name'] = 'Имя';
 $lang['text_vin_telephone'] = 'Телефон';
+$lang['text_vin_email'] = 'Email';
 $lang['text_h1'] = 'VIN запрос';
 $lang['text_vin_success'] = 'Запрос отправлен';
 $lang['text_vin_subject'] = 'VIN запрос';

@@ -14,6 +14,13 @@ class Sender{
         $this->CI = &get_instance();
     }
 
+    /**
+     * @param $subject
+     * @param $body
+     * @param $to
+     * @param $from
+     * @return bool
+     */
     public function email($subject, $body, $to = false, $from = false){
 
         if(!$to || !$from){
@@ -31,7 +38,7 @@ class Sender{
         $this->CI->email->mailtype = 'html';
         $this->CI->email->subject($subject);
         $this->CI->email->message($body);
-        $this->CI->email->send();
+        return $this->CI->email->send();
     }
 
     function sms($phone,$text){
