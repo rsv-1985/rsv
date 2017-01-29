@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
 
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                     <div class="search">
                         <?php echo form_open('ajax/pre_search', ['method' => 'get', 'class' => 'search_form']);?>
                             <input required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>">
@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
             </div>
 
-            <div class="col-sm-4 col-xs-12 cart_m">
+            <div class="col-sm-3 col-xs-12 cart_m">
                 <div class="shopping-item">
                     <a rel="nofollow" href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
                          <span
