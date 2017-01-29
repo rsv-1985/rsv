@@ -44,7 +44,7 @@ class Customer extends Front_controller
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim|required');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required');
             if($this->input->post('password')){
                 $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
                 $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
@@ -89,6 +89,10 @@ class Customer extends Front_controller
         if($this->input->post()){
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             $this->form_validation->set_rules('phone', lang('text_phone'), 'required|max_length[32]|trim');
+
+            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'trim|required');
+            $this->form_validation->set_rules('second_name', lang('text_second_name'), 'trim|required');
+            $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email');
 
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
@@ -153,7 +157,7 @@ class Customer extends Front_controller
     public function forgot(){
         $data = [];
         if($this->input->post()){
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim|required');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required');
             if ($this->form_validation->run() !== false){
                 $this->load->helper('string');
                 $user = $this->customer_model->getByPhone($this->input->post('phone'));
@@ -194,6 +198,10 @@ class Customer extends Front_controller
 
     private function save_data($id = false){
         $save = [];
+        $save['first_name'] = $this->input->post('first_name', true);
+        $save['second_name'] = $this->input->post('second_name', true);
+        $save['email'] = $this->input->post('email', true);
+        $save['address'] = $this->input->post('address', true);
         $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
         $save['login'] = $this->input->post('login', true);
         $save['password'] =  password_hash($this->input->post('password', true), PASSWORD_BCRYPT);

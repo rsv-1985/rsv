@@ -25,6 +25,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <?php echo form_open();?>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label><?php echo lang('text_first_name');?></label>
+                        <input type="text" name="first_name" class="form-control" value="<?php echo set_value('first_name');?>" required maxlength="32">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><?php echo lang('text_second_name');?></label>
+                        <input type="text" name="second_name" class="form-control" value="<?php echo set_value('second_name');?>" required maxlength="32">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><?php echo lang('text_email');?></label>
+                        <input type="email" name="email" class="form-control" value="<?php echo set_value('email');?>" required maxlength="32">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><?php echo lang('text_address');?></label>
+                        <input type="text" name="address" class="form-control" value="<?php echo set_value('address');?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label><?php echo lang('text_login');?></label>
                         <input type="text" name="login" class="form-control" value="<?php echo set_value('login');?>" required maxlength="32">
                     </div>

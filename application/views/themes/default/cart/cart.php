@@ -165,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <hr>
                                     <div class="form-group">
                                         <label><?php echo lang('text_comment'); ?></label>
-                                        <textarea name="comment" style="height: 268px;" class="form-control"></textarea>
+                                        <textarea name="comment" style="height: 268px;" class="form-control"><?php echo set_value('comment',@$customer['address']);?></textarea>
                                     </div>
                                     <button class="btn pull-right"
                                             type="submit"><?php echo lang('button_order'); ?></button>

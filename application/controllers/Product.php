@@ -71,7 +71,7 @@ class Product extends Front_controller
             $data['h1'] = $data['name'];
         }
 
-        $data['breadcrumbs'][] = ['href' => base_url('product/' . $data['slug']), 'text' => $data['h1']];
+        $data['breadcrumbs'][] = ['href' => false, 'text' => $data['h1']];
 
 
         if (mb_strlen($data['title']) > 0) {
