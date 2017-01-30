@@ -162,9 +162,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <img style="width: 50px;" onerror="imgError(this, 50);"
-                                                     src="/image?img=<?php echo $part->Preview; ?>&width=50"
-                                                      alt="<?php echo $part->Name.' '.$part->Brand.' купить';?>" title="<?php echo $part->Name.' '.$part->Brand.' купить';?>">
+                                                <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
+                                                     alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -173,11 +172,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo $product['brand']; ?>
                                             </td>
+                                            <td><?php echo $product['name']; ?></td>
                                             <td><?php echo format_term($product['term']); ?></td>
-                                            <td style="width: 150px;">
+                                            <td style="width: 150px;font-weight: bold">
                                                 <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
                                             </td>
-
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                 <div class="input-group">
