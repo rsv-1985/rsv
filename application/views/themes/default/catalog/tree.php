@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
+                                                <img onerror="this.src='/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
                                                     alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
                                             </td>
                                             <td>
@@ -158,11 +158,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($part->available['cross']) { ?>
                                     <?php foreach ($part->available['cross'] as $product) {
                                         $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
-                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                        <tr style="border-left: 2px solid orangered;" class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
+                                                <small>Аналог <?php echo $part->Search.' '.$part->Brand;?></small>
+                                                <img onerror="this.src='/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
                                                      alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
                                             </td>
                                             <td>
@@ -207,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     echo $filter_key . ' ';
                                 } ?>" <?php } ?>>
                                     <td>
-                                        <img onerror="imgError(this, 50);"
+                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'"
                                              src="/image?img=<?php echo $part->Preview; ?>&width=50"
                                               alt="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>" title="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>">
                                     </td>

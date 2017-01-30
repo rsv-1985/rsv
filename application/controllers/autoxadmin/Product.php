@@ -148,6 +148,7 @@ class Product extends Admin_controller
         //$this->db->query("DELETE a FROM `ax_product` a LEFT JOIN `ax_product_price` b ON a.id=b.product_id WHERE b.product_id IS NULL");
         $this->db->query('DELETE FROM ax_product WHERE id NOT IN (SELECT product_id FROM ax_product_price GROUP BY product_id)');
         $this->session->set_flashdata('success', lang('text_success'));
+        $this->clear_cache();
         redirect('autoxadmin/product');
     }
 
@@ -161,7 +162,7 @@ class Product extends Admin_controller
         }else{
             $this->session->set_flashdata('error', 'ERROR DELETE !');
         }
-
+        $this->clear_cache();
         redirect('autoxadmin/product');
     }
 

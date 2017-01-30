@@ -355,32 +355,32 @@ class Catalog extends Front_controller
                     }else{
                         $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, true, false, false);
                         $this->cache->file->save($tecdoc_part->ID_art.$tecdoc_part->Brand.$tecdoc_part->Search, $tecdoc_part->available, 604800);
+                    }
 
-                        if($tecdoc_part->available['products']){
-                            foreach ($tecdoc_part->available['products'] as $product){
-                                $key = md5($product['brand']);
-                                $data['filters']['Производитель'][$key] = $product['brand'];
-                                $tecdoc_part->filter_key[] = $key;
-                            }
+                    if($tecdoc_part->available['products']){
+                        foreach ($tecdoc_part->available['products'] as $product){
+                            $key = md5($product['brand']);
+                            $data['filters']['Производитель'][$key] = $product['brand'];
+                            $tecdoc_part->filter_key[] = $key;
                         }
-                        if($tecdoc_part->available['cross']){
-                            foreach ($tecdoc_part->available['cross'] as $product){
-                                $key = md5($product['brand']);
-                                $data['filters']['Производитель'][$key] = $product['brand'];
-                                $tecdoc_part->filter_key[] = $key;
-                            }
+                    }
+                    if($tecdoc_part->available['cross']){
+                        foreach ($tecdoc_part->available['cross'] as $product){
+                            $key = md5($product['brand']);
+                            $data['filters']['Производитель'][$key] = $product['brand'];
+                            $tecdoc_part->filter_key[] = $key;
                         }
+                    }
 
-                        if($tecdoc_part->Info){
-                            $info = explode("</br>",$tecdoc_part->Info);
-                            if($info){
-                                foreach ($info as $inf){
-                                    $inf = explode(':',$inf);
-                                    if(@$inf[0] && @$inf[1]){
-                                        $key = md5($inf[0].@$inf[1]);
-                                        $data['filters'][$inf[0]][$key] = @$inf[1];
-                                        $tecdoc_part->filter_key[] = $key;
-                                    }
+                    if($tecdoc_part->Info){
+                        $info = explode("</br>",$tecdoc_part->Info);
+                        if($info){
+                            foreach ($info as $inf){
+                                $inf = explode(':',$inf);
+                                if(@$inf[0] && @$inf[1]){
+                                    $key = md5($inf[0].@$inf[1]);
+                                    $data['filters'][$inf[0]][$key] = @$inf[1];
+                                    $tecdoc_part->filter_key[] = $key;
                                 }
                             }
                         }
