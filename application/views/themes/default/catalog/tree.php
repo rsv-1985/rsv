@@ -28,21 +28,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="row-fluid">
         <div class="col-md-12">
             <ol class="breadcrumb">
-               <?php foreach ($breadcrumb as  $b) { ?>
+                <?php foreach ($breadcrumb as  $b) { ?>
 
-					<?  if($b == end($breadcrumb)) {
-        ?>
-		 <li><?php echo $b['title']; ?></li>
+                    <?  if($b == end($breadcrumb)) {
+                        ?>
+                        <li><?php echo $b['title']; ?></li>
 
-   <?
-  }
-  else {
-	  ?>
-	  <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
-	   <?
+                        <?
+                    }
+                    else {
+                        ?>
+                        <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
+                        <?
 
-  }
-	?>
+                    }
+                    ?>
                 <?php } ?>
             </ol>
             <div class="col-md-4">
@@ -118,8 +118,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <img onerror="this.src='/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
-                                                    alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
+                                                <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
+                                                     alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -158,13 +158,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($part->available['cross']) { ?>
                                     <?php foreach ($part->available['cross'] as $product) {
                                         $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
-                                        <tr style="border-left: 2px solid orangered;" class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <small>Аналог <?php echo $part->Search.' '.$part->Brand;?></small>
-                                                <img onerror="this.src='/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
-                                                     alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
+                                                <img style="width: 50px;" onerror="imgError(this, 50);"
+                                                     src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                                     alt="<?php echo $part->Name.' '.$part->Brand.' купить';?>" title="<?php echo $part->Name.' '.$part->Brand.' купить';?>">
                                             </td>
                                             <td>
                                                 <a target="_blank"
@@ -173,11 +173,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <td>
                                                 <?php echo $product['brand']; ?>
                                             </td>
-                                            <td><?php echo $product['name']; ?></td>
                                             <td><?php echo format_term($product['term']); ?></td>
-                                            <td style="width: 150px;font-weight: bold">
+                                            <td style="width: 150px;">
                                                 <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
                                             </td>
+
                                             <td>
                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                 <div class="input-group">
@@ -208,9 +208,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     echo $filter_key . ' ';
                                 } ?>" <?php } ?>>
                                     <td>
-                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'"
+                                        <img onerror="imgError(this, 50);"
                                              src="/image?img=<?php echo $part->Preview; ?>&width=50"
-                                              alt="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>" title="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>">
+                                             alt="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>" title="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>">
                                     </td>
                                     <td>
                                         <?php echo $part->Article; ?>
@@ -288,6 +288,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <script>
+    $(document).ready(function(){
+        $('.filters').click(function(){
+            var countChecked = 0;
+            $(".filters-item").hide();
+            $(".filters").each(function () {
+                if($(this).prop('checked')){
+                    countChecked++;
+                    $("."+$(this).val()).show();
+                }
+            });
+            if(countChecked == 0){
+                $(".filters-item").show();
+            }
+        });
+    });
     function show_tree(ID_tree, event) {
         event.preventDefault();
         var trees = [];

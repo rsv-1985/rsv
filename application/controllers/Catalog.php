@@ -181,7 +181,7 @@ class Catalog extends Front_controller
         $this->load->view('catalog/typ', $data);
         $this->load->view('footer');
     }
-    
+
     public function tree($ID_mfa, $ID_mod, $ID_typ, $ID_tree = 10001){
         $this->load->model('product_model');
         $ID_mfa = $this->int($ID_mfa);
@@ -340,7 +340,6 @@ class Catalog extends Front_controller
 
             $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
             $data['text'] = @$seo['text'];
-
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
 
             if($data['parts']){
@@ -349,13 +348,7 @@ class Catalog extends Front_controller
                     $data['filters']['Производитель'][$key] = $tecdoc_part->Brand;
                     $tecdoc_part->filter_key[] = $key;
 
-                    $cache = $this->cache->file->get($tecdoc_part->ID_art.$tecdoc_part->Brand.$tecdoc_part->Search);
-                    if($cache){
-                        $tecdoc_part->available = $cache;
-                    }else{
-                        $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, true, false, false);
-                        $this->cache->file->save($tecdoc_part->ID_art.$tecdoc_part->Brand.$tecdoc_part->Search, $tecdoc_part->available, 604800);
-                    }
+                    $tecdoc_part->available = $this->product_model->get_search($tecdoc_part->ID_art, $tecdoc_part->Brand, $tecdoc_part->Search, false, false, false);
 
                     if($tecdoc_part->available['products']){
                         foreach ($tecdoc_part->available['products'] as $product){
@@ -365,7 +358,7 @@ class Catalog extends Front_controller
                         }
                     }
                     if($tecdoc_part->available['cross']){
-                        foreach ($tecdoc_part->available['cross'] as $product){
+                        foreach ($tecdoc_part->available['products'] as $product){
                             $key = md5($product['brand']);
                             $data['filters']['Производитель'][$key] = $product['brand'];
                             $tecdoc_part->filter_key[] = $key;
@@ -416,10 +409,8 @@ class Catalog extends Front_controller
         $this->load->view('header');
         $this->load->view('catalog/tree', $data);
         $this->load->view('footer');
-        
+
     }
-
-
     private function int($string)
     {
         $array = explode('_', $string);

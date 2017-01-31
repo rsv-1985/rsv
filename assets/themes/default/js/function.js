@@ -21,20 +21,6 @@ $(document).ready(function(){
     $(".vin_request").submit(function(event){
         send_request(event);
     });
-
-    $('.filters').click(function(){
-        var countChecked = 0;
-        $(".filters-item").hide();
-        $(".filters").each(function () {
-            if($(this).prop('checked')){
-                countChecked++;
-                $("."+$(this).val()).show();
-            }
-        });
-        if(countChecked == 0){
-            $(".filters-item").show();
-        }
-    });
     
 
     $("#newsletter").submit(function (event) {
