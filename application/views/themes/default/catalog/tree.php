@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <img onerror="imgError(this,50);" src="<?php echo $part->Preview; ?>"
+                                                <img onerror="this.src='/cmsautox.dev/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
                                                      alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
                                             </td>
                                             <td>
@@ -162,8 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
                                             <td>
-                                                <img style="width: 50px;" onerror="imgError(this, 50);"
-                                                     src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                                <img onerror="this.src='/cmsautox.dev/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
                                                      alt="<?php echo $part->Name.' '.$part->Brand.' купить';?>" title="<?php echo $part->Name.' '.$part->Brand.' купить';?>">
                                             </td>
                                             <td>
@@ -208,8 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     echo $filter_key . ' ';
                                 } ?>" <?php } ?>>
                                     <td>
-                                        <img onerror="imgError(this, 50);"
-                                             src="/image?img=<?php echo $part->Preview; ?>&width=50"
+                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
                                              alt="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>" title="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>">
                                     </td>
                                     <td>
