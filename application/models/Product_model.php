@@ -206,9 +206,13 @@ class Product_model extends Default_model
     //При добавлении и обновлении синонима бренда
     public function update_brand($brand1, $brand2)
     {
+        $this->db->db_debug = FALSE;
         $this->db->where('brand', $brand1);
         $this->db->set('brand', $brand2);
         $this->db->update($this->table);
+
+        $this->db->where('brand',$brand1);
+        $this->db->delete($this->table);
     }
 
     //Установка цен по поставщику

@@ -10,4 +10,4 @@ $lang['text_heading'] = 'Синонимы брендов';
 $lang['text_help'] = '';
 $lang['text_brand1'] = 'Бренд в прайсе';
 $lang['text_brand2'] = 'Бренд в TecDoc';
-$lang['text_success'] = 'Все прошло успешно';
+$lang['text_success'] = 'Все бренды были заменены по синониму, если в системы были дубли товаров, они были удалены!';
