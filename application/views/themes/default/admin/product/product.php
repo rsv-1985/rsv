@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                             <?php foreach($products as $product){?>
                                 <?php echo form_open();?>
-                                <input type="hidden" name="product_id" value="<?php echo $product['product_id'];?>">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id'];?>">
                                 <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
                                 <input type="hidden" name="term" value="<?php echo $product['term'];?>">
                                     <tr>
@@ -86,14 +86,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <?php echo $product['brand'];?>
                                         </td>
                                         <td><?php echo $product['name'];?></td>
-                                        <td><?php echo $supplier[$product['supplier_id']]['name'];?></td>
+                                        <td><?php echo isset($supplier[$product['supplier_id']]) ? $supplier[$product['supplier_id']]['name'] : '';?></td>
                                         <td>
                                             <input type="text" name="delivery_price" value="<?php echo $product['delivery_price'];?>" class="form-control">
-                                            <small><?php echo $currency[$product['currency_id']]['name'];?></small>
+                                            <small><?php echo isset($currency[$product['currency_id']]) ? $currency[$product['currency_id']]['name'] : '';?></small>
                                         </td>
                                         <td>
                                             <input type="text" name="price" value="<?php echo $product['price'];?>" class="form-control">
-                                            <small><?php echo $currency[$product['currency_id']]['name'];?></small>
+                                            <small><?php echo isset($currency[$product['currency_id']]) ? $currency[$product['currency_id']]['name'] : '';?></small>
                                         </td>
                                         <td>
                                             <input type="text" name="saleprice" value="<?php echo $product['saleprice'];?>" class="form-control">
@@ -106,8 +106,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <div class="pull-right">
-                                                <a href="/autoxadmin/product/delete?product_id=<?php echo $product['product_id'];?>&supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>" class="btn btn-link"><?php echo lang('button_delete');?></a>
-                                                <a href="/autoxadmin/product/edit/<?php echo $product['product_id'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
+                                                <a href="/autoxadmin/product/delete?product_id=<?php echo $product['id'];?>&supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>" class="btn btn-link"><?php echo lang('button_delete');?></a>
+                                                <a href="/autoxadmin/product/edit/<?php echo $product['id'];?>" class="btn btn-link"><?php echo lang('button_edit');?></a>
                                                 <button type="submit" class="btn btn-link"><?php echo lang('button_submit');?></button>
                                             </div>
                                         </td>
