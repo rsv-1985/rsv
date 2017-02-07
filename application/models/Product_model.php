@@ -425,7 +425,7 @@ class Product_model extends Default_model
         }
 
         //Здесь будем получать товары через API поставщиков
-        /*$this->api_supplier()*/
+        $this->api_supplier($sku,$brand,$search_data);
 
         //Ищем по точному совпадению
         $this->db->from('product_price');
@@ -801,5 +801,17 @@ class Product_model extends Default_model
             return $product;
         }
         return false;
+    }
+
+    private function api_supplier($sku,$brand,$search_data){
+        if($sku && $brand){
+            $api_supplier = $this->db->select(['id','api'])->where('api !=','')->get('supplier')->result_array();
+            if($api_supplier){
+                foreach ($api_supplier as $supplier){
+                    $this->load->library('apisupplier/'.$supplier['api']);
+                    $this->{$supplier['api']}->get_search($supplier['id'], $sku ,$brand ,$search_data);
+                }
+            }
+        }
     }
 }
