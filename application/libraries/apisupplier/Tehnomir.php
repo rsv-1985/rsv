@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * $config['api_tehnomir_login']
  * $config['api_tehnomir_password']
  * $config['api_tehnomir_currency']-код валюты обязательно должен быть в системе
+ * $config['api_tehnomir_plus_day'] - + к сроку поставки
  */
 class Tehnomir{
     public $CI;
@@ -28,6 +29,7 @@ class Tehnomir{
         $login = $this->CI->config->item('api_tehnomir_login');;
         $password = $this->CI->config->item('api_tehnomir_password');
         $currency = $this->CI->config->item('api_tehnomir_currency');
+        $plus_day =  $this->CI->config->item('api_tehnomir_plus_day');
 
         $system_currency_id = 0;
         foreach ($this->CI->product_model->currency_rates as $system_currency){
@@ -49,7 +51,7 @@ class Tehnomir{
                   'delivery_price' => $result['Price'],
                   'quantity' => $result['Quantity'],
                   'supplier_id' => (int)$supplier_id,
-                  'term' => $result['DeliveryTime'] * 24
+                  'term' => $result['DeliveryTime'] * 24 + (int)$plus_day
               ];
 
                $product_data = [
