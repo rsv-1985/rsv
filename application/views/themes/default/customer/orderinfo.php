@@ -66,6 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="col-sm-4 invoice-col">
                 <b><?php echo lang('text_delivery_method');?>: </b><?php echo $order_info['delivery_name'];?><br/>
                 <b><?php echo lang('text_payment_method');?>: </b><?php echo $order_info['payment_name'];?><br/>
+                <b><?php echo lang('text_address');?>: </b><?php echo $order_info['address'];?><br/>
             </div>
         </div><!-- /.row -->
 

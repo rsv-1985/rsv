@@ -44,6 +44,7 @@ class Cart extends Front_controller
             $this->form_validation->set_rules('telephone', lang('text_telephone'), 'required|max_length[32]');
             $this->form_validation->set_rules('email', 'email', 'valid_email');
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
+            $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]');
             if ($this->form_validation->run() !== false){
                 //Получаем данные способа доставки, если это апи получаем текст для коментария
                 $additional_comment = '';
@@ -65,6 +66,7 @@ class Cart extends Front_controller
                 $save['telephone'] = $this->input->post('telephone', true);
                 $save['delivery_method_id'] = (int)$this->input->post('delivery_method');
                 $save['payment_method_id'] = (int)$this->input->post('payment_method');
+                $save['address'] = $this->input->post('address', true);
                 $save['comments'] = $this->input->post('comment', true)."\n".$additional_comment;
                 $save['total'] = (float)$cart_data['total'];
                 $save['created_at'] = date('Y-m-d H:i:s');

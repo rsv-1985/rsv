@@ -131,6 +131,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <input type="email" class="form-control" name="email"
                                                value="<?php echo set_value('email', @$customer['email']); ?>">
                                     </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_address');?></label>
+                                        <input type="text" class="form-control" name="address"
+                                               value="<?php echo set_value('address', @$customer['address']); ?>">
+                                    </div>
 
                                 </div>
                                 <div class="cart_totals ">
@@ -165,8 +170,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <hr>
                                     <div class="form-group">
                                         <label><?php echo lang('text_comment'); ?></label>
-                                        <textarea name="comment" style="height: 268px;" class="form-control"><?php echo set_value('comment',@$customer['address']);?></textarea>
+                                        <textarea name="comment" style="height: 342px;" class="form-control"><?php echo set_value('comment');?></textarea>
                                     </div>
+
                                     <button class="btn pull-right"
                                             type="submit"><?php echo lang('button_order'); ?></button>
                                 </div>

@@ -35,3 +35,4 @@ $lang['text_paid'] = 'Оплачен';
 $lang['text_send_sms'] = 'Отправить в sms';
 $lang['text_send_email'] = 'Отправить в email';
 $lang['text_term'] = 'Доставка';
+$lang['text_address'] = 'Адрес';
