@@ -86,7 +86,7 @@ class Customer extends Front_controller
             redirect('/customer');
         }
 
-        if($this->input->post()){
+        if($this->input->post() && $this->input->post('cmsautox') == 'true'){
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             $this->form_validation->set_rules('phone', lang('text_phone'), 'required|max_length[32]|trim');
 
