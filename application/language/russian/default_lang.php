@@ -55,3 +55,5 @@ $lang['button_newsletter'] = 'Подписаться';
 $lang['text_heading_newsletter'] = 'ПОДПИСКА';
 $lang['text_in_stock'] = 'На складе';
 $lang['text_error_qty_cart_add'] = 'Заказываемого количества нет в наличии';
+$lang['text_search_type_1'] = 'По коду';
+$lang['text_search_type_2'] = 'По названию';

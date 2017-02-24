@@ -18,15 +18,21 @@ class Search extends Front_controller {
 
     public function index(){
 
-        $ID_art = $this->input->get('ID_art', true);
+        $ID_art = (int)$this->input->get('ID_art');
         $brand = $this->input->get('brand', true);
         $sku = $this->input->get('sku', true);
+        $search_type = (int)$this->input->get('search_type');
 
         $is_admin = $this->input->get('is_admin');
         $data['products'] = false;
         $data['cross'] = false;
         $data['about'] = false;
-        $brands = $this->product_model->get_pre_search($sku);
+
+        $brands = false;
+        if($search_type == 1){
+            $brands = $this->product_model->get_pre_search($sku);
+        }
+
         $data = $this->product_model->get_search($ID_art, $brand, $sku, true, (bool)!$brands);
 
 

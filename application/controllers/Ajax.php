@@ -131,10 +131,12 @@ class Ajax extends Front_controller
     {
         $this->load->model('product_model');
         $search = $this->input->post('search', true);
+        $search_type = (int)$this->input->post('search_type');
         $json = [];
         $json['brand'] = $this->product_model->get_pre_search($search);
         $json['search_query'] = $search;
         $json['search_new_window'] = @$this->options['search_new_window'];
+        $json['search_type'] = $search_type;
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
@@ -147,8 +149,17 @@ class Ajax extends Front_controller
         $ID_art = $this->input->get('ID_art', true);
         $brand = $this->input->get('brand', true);
         $sku = $this->input->get('sku', true);
+
+        $search_type = (int)$this->input->get('search_type');
+        if($search_type == 1){
+            $text_search = false;
+        }else{
+            $text_search = true;
+        }
+
         $is_admin = $this->input->get('is_admin');
-        $results = $this->product_model->get_search($ID_art, $brand, $sku, true, true);
+
+        $results = $this->product_model->get_search($ID_art, $brand, $sku, true, $text_search );
 
         $min_price = 0;
         $min_price_cross = 0;

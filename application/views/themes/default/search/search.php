@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <div id="popover"></div>
                     <div class="list-group">
                         <?php foreach ($brands as $brand){?>
-                            <a href="/search?sku=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo $brand['brand'];?>" class="list-group-item <?php if($this->input->get('brand') == $brand['brand']){?> active<?php } ?>"><?php echo $brand['brand'];?><br>
+                            <a href="/search?sku=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo $brand['brand'];?>&search_type=<?php echo $this->input->get('search_type');?>" class="list-group-item <?php if($this->input->get('brand') == $brand['brand']){?> active<?php } ?>"><?php echo $brand['brand'];?><br>
                                 <small><?php echo $brand['name'];?></small>
                             </a>
                         <?php } ?>

@@ -67,8 +67,8 @@ class Product_model extends Default_model
             (SELECT brand FROM ax_product WHERE id = product_id) as brand', false);
         } else {
             $this->db->from('product');
-            $this->db->select('SQL_CALC_FOUND_ROWS *',false);
-            $this->db->join('product_price', 'product_price.product_id=product.id','left');
+            $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+            $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
             if ($this->input->get('sku')) {
                 $this->db->where('sku', $this->input->get('sku', true));
             }
@@ -211,7 +211,7 @@ class Product_model extends Default_model
         $this->db->set('brand', $brand2);
         $this->db->update($this->table);
 
-        $this->db->where('brand',$brand1);
+        $this->db->where('brand', $brand1);
         $this->db->delete($this->table);
     }
 
@@ -278,7 +278,7 @@ class Product_model extends Default_model
                 $brand = $synonym[$brand];
             }
         }
-        return str_replace('-',' ',$brand);
+        return str_replace('-', ' ', $brand);
     }
 
     //Чистка количества
@@ -416,55 +416,7 @@ class Product_model extends Default_model
         $return['products'] = false;
         $return['cross'] = false;
         $return['about'] = false;
-
-
-        $search_data = false;
-        if ($with_cross) {
-            //Получаем кросс номера для поиска по базе
-            $search_data = $this->getCross($ID_art, $brand, $sku);
-        }
-
-        //Здесь будем получать товары через API поставщиков
-        $this->api_supplier($sku,$brand,$search_data);
-
-        //Ищем по точному совпадению
-        $this->db->from('product_price');
-        $this->db->select('product.*,product_price.*,
-        supplier.name as sup_name,
-        supplier.description as sup_description,
-        currency.name as cur_name,
-        currency.value as cur_value,
-        currency.symbol_right as cur_symbol_right,
-        currency.symbol_left as cur_symbol_left,
-        currency.decimal_place as cur_decimal_place');
-        $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
-        $this->db->join('currency', 'currency.id=product_price.currency_id');
-        $this->db->join('product', 'product.id=product_price.product_id');
-        $this->db->where('sku', $sku);
-        $this->db->where('brand', $brand);
-        $this->db->where('status', true);
-        $this->db->order_by('price', 'ASC');
-        $this->db->order_by('term', 'ASC');
-
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            $return['products'] = $query->result_array();
-            foreach ($return['products'] as &$pem) {
-                $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_rates[$pem['currency_id']]['value'];
-            }
-        }
-        //Если массив кросс номиров есть и он не пустой
-        if ($search_data) {
-            $product_cross = $this->getProductsByCross($search_data);
-        }
-
-        if (!empty($product_cross)) {
-            $return['cross'] = $product_cross;
-            unset($product_cross);
-        }
-
-
-        //Если включен режим поиска по тексту и нет резудьтата по номеру
+        //Если активен способ поиска по названию
         if ($text_search && empty($return['cross']) && empty($return['products'])) {
 
             //Похожие товары
@@ -485,9 +437,9 @@ class Product_model extends Default_model
             $this->db->limit(50);
             $query = $this->db->get();
 
-            if($query->num_rows() > 0){
+            if ($query->num_rows() > 0) {
                 $products_id = [];
-                foreach ($query->result_array() as $item){
+                foreach ($query->result_array() as $item) {
                     $products_id[] = $item['id'];
                 }
                 $this->db->from('product_price');
@@ -503,7 +455,7 @@ class Product_model extends Default_model
                 $this->db->join('currency', 'currency.id=product_price.currency_id');
                 $this->db->join('product', 'product.id=product_price.product_id');
                 $this->db->limit(50);
-                $this->db->where_in('product_id',$products_id);
+                $this->db->where_in('product_id', $products_id);
                 $this->db->order_by('price', 'ASC');
                 $this->db->order_by('term', 'ASC');
 
@@ -518,7 +470,54 @@ class Product_model extends Default_model
                 }
             }
 
+        } else {
+            $search_data = false;
+            if ($with_cross) {
+                //Получаем кросс номера для поиска по базе
+                $search_data = $this->getCross($ID_art, $brand, $sku);
+            }
+
+            //Здесь будем получать товары через API поставщиков
+            $this->api_supplier($sku, $brand, $search_data);
+
+            //Ищем по точному совпадению
+            $this->db->from('product_price');
+            $this->db->select('product.*,product_price.*,
+        supplier.name as sup_name,
+        supplier.description as sup_description,
+        currency.name as cur_name,
+        currency.value as cur_value,
+        currency.symbol_right as cur_symbol_right,
+        currency.symbol_left as cur_symbol_left,
+        currency.decimal_place as cur_decimal_place');
+            $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
+            $this->db->join('currency', 'currency.id=product_price.currency_id');
+            $this->db->join('product', 'product.id=product_price.product_id');
+            $this->db->where('sku', $sku);
+            $this->db->where('brand', $brand);
+            $this->db->where('status', true);
+            $this->db->order_by('price', 'ASC');
+            $this->db->order_by('term', 'ASC');
+
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                $return['products'] = $query->result_array();
+                foreach ($return['products'] as &$pem) {
+                    $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_rates[$pem['currency_id']]['value'];
+                }
+            }
+            //Если массив кросс номиров есть и он не пустой
+            if ($search_data) {
+                $product_cross = $this->getProductsByCross($search_data);
+            }
+
+            if (!empty($product_cross)) {
+                $return['cross'] = $product_cross;
+                unset($product_cross);
+            }
         }
+
         return $return;
     }
 
@@ -562,8 +561,8 @@ class Product_model extends Default_model
                 $product['min_price'] = 0;
                 $product['max_price'] = 0;
 
-                $prices = $this->get_product_price($product['id'],false,false,true);
-                if($prices){
+                $prices = $this->get_product_price($product['id'], false, false, true);
+                if ($prices) {
                     $product['countPrice'] = count($prices);
                     $product['min_price'] = $prices[0]['price'];
                     $product['max_price'] = end($prices)['price'];
@@ -739,7 +738,7 @@ class Product_model extends Default_model
             foreach ($order as $field => $value) {
                 $this->db->order_by($field, $value);
             }
-        }else{
+        } else {
             $this->db->order_by('price', 'ASC');
         }
 
@@ -760,7 +759,7 @@ class Product_model extends Default_model
     public function get_sitemap($id)
     {
         $return = false;
-        $this->db->select('id, slug,(SELECT MAX(updated_at) FROM ax_product_price WHERE product_id = id) as updated_at',false);
+        $this->db->select('id, slug,(SELECT MAX(updated_at) FROM ax_product_price WHERE product_id = id) as updated_at', false);
         $this->db->from($this->table);
         $this->db->limit(30000);
         $this->db->where('id >', $id);
@@ -803,13 +802,14 @@ class Product_model extends Default_model
         return false;
     }
 
-    private function api_supplier($sku,$brand,$search_data){
-        if($sku && $brand){
-            $api_supplier = $this->db->select(['id','api'])->where('api !=','')->get('supplier')->result_array();
-            if($api_supplier){
-                foreach ($api_supplier as $supplier){
-                    $this->load->library('apisupplier/'.$supplier['api']);
-                    $this->{$supplier['api']}->get_search($supplier['id'], $sku ,$brand ,$search_data);
+    private function api_supplier($sku, $brand, $search_data)
+    {
+        if ($sku && $brand) {
+            $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
+            if ($api_supplier) {
+                foreach ($api_supplier as $supplier) {
+                    $this->load->library('apisupplier/' . $supplier['api']);
+                    $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $search_data);
                 }
             }
         }
