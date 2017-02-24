@@ -471,6 +471,7 @@ class Product_model extends Default_model
             }
 
         } else {
+            $sku = $this->clear_sku($sku);
             $search_data = false;
             if ($with_cross) {
                 //Получаем кросс номера для поиска по базе

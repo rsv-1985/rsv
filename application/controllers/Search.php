@@ -28,12 +28,16 @@ class Search extends Front_controller {
         $data['cross'] = false;
         $data['about'] = false;
 
-        $brands = false;
+
         if($search_type == 1){
             $brands = $this->product_model->get_pre_search($sku);
+            $text_search = false;
+        }else{
+            $brands = false;
+            $text_search = true;
         }
 
-        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, (bool)!$brands);
+        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, $text_search);
 
 
         $min_price = 0;
