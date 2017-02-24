@@ -216,7 +216,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <?php echo @file_get_contents(base_url($script));?>
     <?php } ?>
 <?php } ?>
-    <?php if(ENVIRONMENT == 'development'){
+    <?php if(ENVIRONMENT == 'development' || $this->input->get('debug_show')){
         $this->output->enable_profiler(TRUE);
     }?>
 </body>
