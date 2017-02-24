@@ -6,7 +6,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-$lang['text_about'] = 'Не точное совпадение';
+$lang['text_about'] = 'Результат поиска по названию';
 $lang['text_exact'] = 'Точное совпадение';
 $lang['text_cross'] = 'Аналоги';
 $lang['text_in_cart'] = 'В корзине';
