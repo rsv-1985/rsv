@@ -8,9 +8,9 @@
 function format_currency($value){
     $CI = &get_instance();
     return
-        $CI->default_currency['symbol_left']
-        .round($value,$CI->default_currency['decimal_place'])
-        .$CI->default_currency['symbol_right'];
+        $CI->currency_model->default_currency['symbol_left']
+        .round($value,$CI->currency_model->default_currency['decimal_place'])
+        .$CI->currency_model->default_currency['symbol_right'];
 }
 
 function format_quantity($value){

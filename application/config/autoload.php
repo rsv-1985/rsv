@@ -126,4 +126,4 @@ $autoload['language'] = array('default','admin/default');
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Default_model','User_model', 'customer_model', 'settings_model', 'page_model', 'currency_model', 'category_model');
+$autoload['model'] = array('Default_model','User_model', 'customer_model', 'customergroup_model', 'settings_model', 'page_model', 'currency_model', 'category_model');

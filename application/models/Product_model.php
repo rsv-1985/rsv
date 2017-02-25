@@ -11,27 +11,7 @@ class Product_model extends Default_model
 {
     public $table = 'product';
     public $total_rows = 0;
-    public $currency_rates;
-    public $customer_group;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $currency = $this->currency_model->get_all();
-        foreach ($currency as $cur) {
-            $this->currency_rates[$cur['id']] = $cur;
-        }
-
-        unset($currency);
-
-        $this->load->model('customergroup_model');
-        if (@$this->is_login) {
-            $this->customer_group = $this->customergroup_model->get($this->session->customer_group_id);
-        } else {
-            $this->customer_group = $this->customergroup_model->get_unregistered();
-        }
-    }
-
+    
     public function getSlug($product)
     {
         return url_title($product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'], 'dash', true);
@@ -402,7 +382,7 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $p_cross = $query->result_array();
             foreach ($p_cross as $pc) {
-                $pc['price'] = $this->calculate_customer_price($pc['price']) * $this->currency_rates[$pc['currency_id']]['value'];
+                $pc['price'] = $this->calculate_customer_price($pc['price']) * $this->currency_model->rates[$pc['currency_id']]['value'];
                 $product_cross[] = $pc;
             }
             return $product_cross;
@@ -464,7 +444,7 @@ class Product_model extends Default_model
                 if ($query->num_rows() > 0) {
                     $p_about = $query->result_array();
                     foreach ($p_about as &$pa) {
-                        $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_rates[$pa['currency_id']]['value'];
+                        $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_model->rates[$pa['currency_id']]['value'];
                     }
                     $return['about'] = $p_about;
                 }
@@ -505,7 +485,7 @@ class Product_model extends Default_model
             if ($query->num_rows() > 0) {
                 $return['products'] = $query->result_array();
                 foreach ($return['products'] as &$pem) {
-                    $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_rates[$pem['currency_id']]['value'];
+                    $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_model->rates[$pem['currency_id']]['value'];
                 }
             }
             //Если массив кросс номиров есть и он не пустой
@@ -518,7 +498,6 @@ class Product_model extends Default_model
                 unset($product_cross);
             }
         }
-
         return $return;
     }
 
@@ -580,17 +559,18 @@ class Product_model extends Default_model
     private function calculate_customer_price($price)
     {
         $customer_price = 0;
-        //Если пользователь залогинен
-        if ($this->customer_group) {
-            switch ($this->customer_group['type']) {
+
+        if ($this->customergroup_model->customer_group) {
+            switch ($this->customergroup_model->customer_group['type']) {
                 case '+':
-                    $customer_price = $price + ($price * $this->customer_group['value'] / 100) + $this->customer_group['fix_value'];
+                    $customer_price = $price + ($price * $this->customergroup_model->customer_group['value'] / 100) + $this->customergroup_model->customer_group['fix_value'];
                     break;
                 case '-':
-                    $customer_price = $price - ($price * $this->customer_group['value'] / 100) - $this->customer_group['fix_value'];
+                    $customer_price = $price - ($price * $this->customergroup_model->customer_group['value'] / 100) - $this->customergroup_model->customer_group['fix_value'];
                     break;
             }
         }
+
         return $customer_price <= 0 ? $price : $customer_price;
     }
 
@@ -608,7 +588,7 @@ class Product_model extends Default_model
                 $results = $query->result_array();
 
                 foreach ($results as &$result) {
-                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_model->rates[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
                     if (!empty($result['image'])) {
                         $result['image'] = '/uploads/product/' . $result['image'];
@@ -647,7 +627,7 @@ class Product_model extends Default_model
                 $results = $query->result_array();
 
                 foreach ($results as &$result) {
-                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_rates[$result['currency_id']]['value'];
+                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_model->rates[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
                     if (!empty($result['image'])) {
                         $result['image'] = '/uploads/product/' . $result['image'];
@@ -748,7 +728,7 @@ class Product_model extends Default_model
             $products = $query->result_array();
             if ($calculate_customer_price) {
                 foreach ($products as &$product) {
-                    $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_rates[$product['currency_id']]['value'];
+                    $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_model->rates[$product['currency_id']]['value'];
                 }
             }
             return $products;
@@ -797,7 +777,7 @@ class Product_model extends Default_model
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $product = $query->row_array();
-            $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_rates[$product['currency_id']]['value'];
+            $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_model->rates[$product['currency_id']]['value'];
             return $product;
         }
         return false;

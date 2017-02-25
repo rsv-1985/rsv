@@ -9,6 +9,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Customergroup_model extends Default_model{
     public $table = 'customer_group';
+    public $customer_group;
+
+    public function __construct()
+    {
+        $this->customer_group = $this->get_customer_group();
+    }
+
+    public function get_customer_group(){
+        if (@$this->is_login) {
+            return $this->get($this->session->customer_group_id);
+        } else {
+            return $this->get_unregistered();
+        }
+    }
 
     public function get_default(){
         $this->db->where('is_default', true);
@@ -16,6 +30,7 @@ class Customergroup_model extends Default_model{
         if($query->num_rows() > 0){
             return $query->row_array()['id'];
         }
+
         return false;
     }
 

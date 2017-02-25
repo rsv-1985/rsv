@@ -72,7 +72,6 @@ class Front_controller extends CI_Controller{
     public $keywords;
     public $header_page;
     public $footer_page;
-    public $default_currency;
     public $is_login;
     public $is_admin;
     public $success;
@@ -88,7 +87,6 @@ class Front_controller extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        $this->default_currency = $this->currency_model->get_default();
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();
         $this->is_login = $this->customer_model->is_login();

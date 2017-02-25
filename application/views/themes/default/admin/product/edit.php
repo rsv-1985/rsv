@@ -225,7 +225,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </td>
                                     <td><input type="number" name="prices[<?php echo $q; ?>][quantity]"
                                                value="<?php echo set_value('quantity', $price['quantity']); ?>"
-                                               class="form-control"></td>
+                                               class="form-control">
+                                    </td>
+                                    </td>
                                     <td>
                                         <select name="prices[<?php echo $q; ?>][status]" class="form-control">
                                             <option
@@ -259,7 +261,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
 
-                    <?php $q++;unset($supplier[$price['supplier_id']]);} ?>
+                    <?php $q++;} ?>
             <?php } ?>
             <div class="box box-primary" id="row">
                 <div class="box-header with-border">

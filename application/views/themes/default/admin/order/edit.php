@@ -343,11 +343,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     if (json['brand'].length > 0) {
                         var html = '';
                         $.each(json['brand'], function (index, brand) {
-                            html += '<a href="#" onclick="get_search(\'' + brand['ID_art'] + '\',\'' + brand['brand'] + '\',\'' + brand['sku'] + '\')" class="list-group-item">' + brand['brand'] + '<br><small>' + brand['name'] + '</small></a>';
+                            html += '<a href="#" onclick="get_search(\'' + brand['ID_art'] + '\',\'' + brand['brand'] + '\',\'' + brand['sku'] + '\',\'1\')" class="list-group-item">' + brand['brand'] + '<br><small>' + brand['name'] + '</small></a>';
                         });
                         $("#search_brand_list").html(html);
                     } else {
-                        get_search(false, false, json['search_query']);
+                        get_search(false, false, json['search_query'],1);
                     }
                     $("#search_modal").modal();
                 }
@@ -378,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $.ajax({
             url: '/ajax/get_search',
             method: 'GET',
-            data: {ID_art: ID_art, brand: brand, sku: sku, is_admin: 1},
+            data: {ID_art: ID_art, brand: brand, sku: sku, is_admin: 1,search_type:1},
             beforeSend: function () {
                 $(".search_result").html('<img onerror="imgError(this);" src="/assets/themes/default/img/loading.gif"/>');
             },
