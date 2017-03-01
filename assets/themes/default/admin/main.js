@@ -7,4 +7,5 @@ $(document).ready(function(){
         }
     });
     CKEDITOR.replaceClass = 'textarea';
+    CKEDITOR.config.allowedContent = true;
 });
