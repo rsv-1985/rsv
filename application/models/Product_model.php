@@ -219,18 +219,24 @@ class Product_model extends Default_model
                         WHERE `supplier_id` = '" . $supplier_id . "'";
         $this->db->query($sql);
 
-        $pricing_array = $this->db->where('supplier_id', (int)$supplier_id)->get('pricing')->result_array();
+        $pricing_array = $this->db->where('supplier_id', (int)$supplier_id)->order_by('price_from','ASC')->order_by('brand','DESC')->get('pricing')->result_array();
         if (!empty($pricing_array)) {
             foreach ($pricing_array as $price) {
                 if ($price['method_price'] == '+') {
                     $sql = "UPDATE `ax_product_price`
                                 SET `price` = (`delivery_price` + (`delivery_price` * " . $price['value'] . " / 100))
                                 WHERE `delivery_price` BETWEEN " . (float)$price['price_from'] . " AND " . (float)$price['price_to'] . " AND `supplier_id` = '" . (int)$supplier_id . "'";
+                    if($price['brand'] != ''){
+                        $sql .= " AND product_id IN (SELECT id FROM ax_product WHERE brand = ".$this->db->escape($price['brand']).")";
+                    }
                     $this->db->query($sql);
                 } else {
                     $sql = "UPDATE `ax_product_price`
                                 SET `price` = (`delivery_price` - (`delivery_price` * " . $price['value'] . " / 100))
                                 WHERE `delivery_price` BETWEEN " . (float)$price['price_from'] . " AND " . (float)$price['price_to'] . " AND `supplier_id` = '" . (int)$supplier_id . "'";
+                    if($price['brand'] != ''){
+                        $sql .= " AND product_id IN (SELECT id FROM product WHERE brand = ".$this->db->escape($price['brand']).")";
+                    }
                     $this->db->query($sql);
                 }
             }
@@ -356,16 +362,6 @@ class Product_model extends Default_model
     {
 
         $this->db->from('product_price');
-        $this->db->select('product.*,product_price.*,
-            supplier.name as sup_name,
-            supplier.description as sup_description,
-            currency.name as cur_name,
-            currency.value as cur_value,
-            currency.symbol_right as cur_symbol_right,
-            currency.symbol_left as cur_symbol_left,
-            currency.decimal_place as cur_decimal_place');
-        $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
-        $this->db->join('currency', 'currency.id=product_price.currency_id');
         $this->db->join('product', 'product.id=product_price.product_id');
         foreach ($search_data as $search_data) {
             $this->db->or_group_start();
@@ -382,7 +378,7 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $p_cross = $query->result_array();
             foreach ($p_cross as $pc) {
-                $pc['price'] = $this->calculate_customer_price($pc['price']) * $this->currency_model->rates[$pc['currency_id']]['value'];
+                $pc['price'] = $this->calculate_customer_price($pc['price']) * $this->currency_model->currencies[$pc['currency_id']]['value'];
                 $product_cross[] = $pc;
             }
             return $product_cross;
@@ -396,6 +392,7 @@ class Product_model extends Default_model
         $return['products'] = false;
         $return['cross'] = false;
         $return['about'] = false;
+
         //Если активен способ поиска по названию
         if ($text_search) {
 
@@ -414,7 +411,7 @@ class Product_model extends Default_model
             $this->db->from('product');
             $this->db->select('id');
             $this->db->where($where);
-            $this->db->limit(50);
+            $this->db->limit(100);
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -423,16 +420,6 @@ class Product_model extends Default_model
                     $products_id[] = $item['id'];
                 }
                 $this->db->from('product_price');
-                $this->db->select('product.*,product_price.*,
-            supplier.name as sup_name,
-            supplier.description as sup_description,
-            currency.name as cur_name,
-            currency.value as cur_value,
-            currency.symbol_right as cur_symbol_right,
-            currency.symbol_left as cur_symbol_left,
-            currency.decimal_place as cur_decimal_place');
-                $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
-                $this->db->join('currency', 'currency.id=product_price.currency_id');
                 $this->db->join('product', 'product.id=product_price.product_id');
                 $this->db->limit(50);
                 $this->db->where_in('product_id', $products_id);
@@ -444,7 +431,7 @@ class Product_model extends Default_model
                 if ($query->num_rows() > 0) {
                     $p_about = $query->result_array();
                     foreach ($p_about as &$pa) {
-                        $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_model->rates[$pa['currency_id']]['value'];
+                        $pa['price'] = $this->calculate_customer_price($pa['price']) * $this->currency_model->currencies[$pa['currency_id']]['value'];
                     }
                     $return['about'] = $p_about;
                 }
@@ -463,16 +450,6 @@ class Product_model extends Default_model
 
             //Ищем по точному совпадению
             $this->db->from('product_price');
-            $this->db->select('product.*,product_price.*,
-        supplier.name as sup_name,
-        supplier.description as sup_description,
-        currency.name as cur_name,
-        currency.value as cur_value,
-        currency.symbol_right as cur_symbol_right,
-        currency.symbol_left as cur_symbol_left,
-        currency.decimal_place as cur_decimal_place');
-            $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
-            $this->db->join('currency', 'currency.id=product_price.currency_id');
             $this->db->join('product', 'product.id=product_price.product_id');
             $this->db->where('sku', $sku);
             $this->db->where('brand', $brand);
@@ -485,7 +462,7 @@ class Product_model extends Default_model
             if ($query->num_rows() > 0) {
                 $return['products'] = $query->result_array();
                 foreach ($return['products'] as &$pem) {
-                    $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_model->rates[$pem['currency_id']]['value'];
+                    $pem['price'] = $this->calculate_customer_price($pem['price']) * $this->currency_model->currencies[$pem['currency_id']]['value'];
                 }
             }
             //Если массив кросс номиров есть и он не пустой
@@ -588,7 +565,7 @@ class Product_model extends Default_model
                 $results = $query->result_array();
 
                 foreach ($results as &$result) {
-                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_model->rates[$result['currency_id']]['value'];
+                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_model->currencies[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
                     if (!empty($result['image'])) {
                         $result['image'] = '/uploads/product/' . $result['image'];
@@ -627,7 +604,7 @@ class Product_model extends Default_model
                 $results = $query->result_array();
 
                 foreach ($results as &$result) {
-                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_model->rates[$result['currency_id']]['value'];
+                    $result['price'] = $this->calculate_customer_price($result['price']) * $this->currency_model->currencies[$result['currency_id']]['value'];
                     $tecdoc_info = $this->tecdoc_info($result['sku'], $result['brand']);
                     if (!empty($result['image'])) {
                         $result['image'] = '/uploads/product/' . $result['image'];
@@ -728,7 +705,7 @@ class Product_model extends Default_model
             $products = $query->result_array();
             if ($calculate_customer_price) {
                 foreach ($products as &$product) {
-                    $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_model->rates[$product['currency_id']]['value'];
+                    $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_model->currencies[$product['currency_id']]['value'];
                 }
             }
             return $products;
@@ -777,7 +754,7 @@ class Product_model extends Default_model
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $product = $query->row_array();
-            $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_model->rates[$product['currency_id']]['value'];
+            $product['price'] = $this->calculate_customer_price($product['price']) * $this->currency_model->currencies[$product['currency_id']]['value'];
             return $product;
         }
         return false;

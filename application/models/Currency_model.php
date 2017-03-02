@@ -7,17 +7,17 @@
 
 class Currency_model extends Default_model{
     public $table = 'currency';
-    public $rates;
+    public $currencies;
     public $default_currency;
 
     public function __construct()
     {
         parent::__construct();
-        $this->rates = $this->get_rates();
+        $this->currencies = $this->get_currencies();
         $this->default_currency = $this->get_default();
     }
 
-    public function get_rates(){
+    public function get_currencies(){
         $rates = [];
         $currency = $this->get_all();
         foreach ($currency as $cur) {
@@ -28,7 +28,7 @@ class Currency_model extends Default_model{
 
     public function get_default(){
         $default = false;
-        foreach ($this->rates as $currency_id => $currency){
+        foreach ($this->currencies as $currency_id => $currency){
             if($currency['value'] <= 1){
                 $default = $currency;
             }

@@ -41,5 +41,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         $('a[href="/<?php echo $this->uri->uri_string() ?>"]').parents('li').addClass('active');
     });
 </script>
+<?php if(ENVIRONMENT == 'development' || $this->input->get('debug_show')){
+    $this->output->enable_profiler(TRUE);
+}?>
 </body>
 </html>

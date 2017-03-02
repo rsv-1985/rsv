@@ -16,6 +16,7 @@ $lang['text_api'] = 'API class';
 $lang['text_pricing'] = 'Ценообразование';
 $lang['text_pricing_from'] = 'Цена от';
 $lang['text_pricing_to'] = 'Цена до';
+$lang['text_pricing_brand'] = 'Производитель';
 $lang['text_pricing_method'] = 'Метод';
 $lang['text_pricing_margin'] = 'Наценка';
 $lang['text_pricing_discount'] = 'Скидка';

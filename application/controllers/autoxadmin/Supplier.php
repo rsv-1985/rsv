@@ -125,6 +125,7 @@ class supplier extends Admin_controller
                     if ($pricing['price_from'] >= 0 && $pricing['price_to'] > 0 && $pricing['value'] > 0) {
                         $save = [];
                         $save['supplier_id'] = $supplier_id;
+                        $save['brand'] = $pricing['brand'];
                         $save['price_from'] = (float)$pricing['price_from'];
                         $save['price_to'] = (float)$pricing['price_to'];
                         $save['method_price'] = (string)$pricing['method_price'];

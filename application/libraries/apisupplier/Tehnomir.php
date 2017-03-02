@@ -47,7 +47,7 @@ class Tehnomir{
             if(isset($results['QueryStatus']) && $results['QueryStatus']['QueryStatusCode'] == 0 && count($results['Prices']) > 0){
 
                 $system_currency_id = 0;
-                foreach ($this->CI->product_model->currency_rates as $system_currency){
+                foreach ($this->CI->currency_model->currencies as $system_currency){
                     if($system_currency['code'] == $currency){
                         $system_currency_id = $system_currency['id'];
                     }

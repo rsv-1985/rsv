@@ -22,6 +22,18 @@ function format_quantity($value){
 }
 
 function format_term($term){
+    $CI = &get_instance();
+    if(@$CI->options['check_day_off']){
+        $to_day = getdate();
+        switch ($to_day['wday']){
+            case 6:
+                $term += 48;
+                break;
+            case 0:
+                $term += 24;
+                break;
+        }
+    }
     if($term >= 24){
         $day = $term / 24;
         return $day.lang('text_day');

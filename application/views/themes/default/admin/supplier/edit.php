@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <section class="content">
     <?php echo form_open(); ?>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_supplier'); ?></h3>
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div><!-- /.box-body -->
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_pricing'); ?></h3>
@@ -73,6 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <th>#</th>
                             <th><?php echo lang('text_pricing_from'); ?></th>
                             <th><?php echo lang('text_pricing_to'); ?></th>
+                            <th><?php echo lang('text_pricing_brand'); ?></th>
                             <th><?php echo lang('text_pricing_method'); ?></th>
                             <th><?php echo lang('text_pricing_value'); ?></th>
                             <th></th>
@@ -89,6 +90,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                value="<?php echo $price['price_from']; ?>" class="form-control"></td>
                                     <td><input type="text" name="pricing[<?php echo $q; ?>][price_to]"
                                                value="<?php echo $price['price_to']; ?>" class="form-control"></td>
+                                    <td><input type="text" name="pricing[<?php echo $q; ?>][brand]"
+                                              value="<?php echo $price['brand']; ?>" class="form-control"></td>
                                     <td>
                                         <select name="pricing[<?php echo $q; ?>][method_price]" class="form-control">
                                             <option value="+"
@@ -112,6 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <td></td>
                                 <td><input type="text" name="pricing[0][price_from]" class="form-control"></td>
                                 <td><input type="text" name="pricing[0][price_to]" class="form-control"></td>
+                                <td><input type="text" name="pricing[0][brand]" class="form-control"></td>
                                 <td>
                                     <select name="pricing[0][method_price]" class="form-control">
                                         <option value="+"><?php echo lang('text_pricing_margin'); ?></option>
@@ -154,6 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         html += '<td></td>';
         html += '<td><input type="text" name="pricing[' + row + '][price_from]" class="form-control"></td>';
         html += '<td><input type="text" name="pricing[' + row + '][price_to]" class="form-control"></td>';
+        html += '<td><input type="text" name="pricing[' + row + '][brand]" class="form-control"></td>';
         html += '<td>';
         html += '<select name="pricing[' + row + '][method_price]" class="form-control">';
         html += '<option value="+"><?php echo lang('text_pricing_margin');?></option>';

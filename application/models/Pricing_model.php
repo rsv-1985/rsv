@@ -9,6 +9,7 @@ class Pricing_model extends Default_model{
     public $table = 'pricing';
 
     public function get_by_supplier($id){
-        return $this->db->where('supplier_id', (int)$id)->get('pricing')->result_array();
+        return
+            $this->db->where('supplier_id', (int)$id)->order_by('price_from','ASC')->order_by('brand','DESC')->get('pricing')->result_array();
     }
 }

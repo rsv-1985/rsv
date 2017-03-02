@@ -7,6 +7,12 @@
 
 class Supplier_model extends Default_model{
     public $table = 'supplier';
+    public $suppliers;
+
+    public function __construct()
+    {
+        $this->suppliers = $this->supplier_get_all();
+    }
 
     public function supplier_get_all(){
         $results = $this->db->get($this->table)->result_array();
