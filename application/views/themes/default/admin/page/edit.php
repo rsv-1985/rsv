@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="form-group">
                         <label><?php echo lang('text_description'); ?></label>
                         <textarea class="textarea" name="description"><?php echo set_value('description',$page['description']); ?></textarea>
+                        {vin} - виджет формы запроса по VIN коду
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_h1'); ?></label>
@@ -59,7 +60,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="form-group">
                         <label><?php echo lang('text_meta_description'); ?></label>
                         <textarea class="form-control" name="meta_description"><?php echo set_value('meta_description',$page['meta_description']); ?></textarea>
-                        {vin} - виджет формы запроса по VIN коду
                     </div>
 
                     <div class="form-group">
