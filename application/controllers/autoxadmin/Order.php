@@ -103,7 +103,7 @@ class Order extends Admin_controller
         $data['scamdb_info'] = false;
         if(@$settings_fraud['access_token']){
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'http://scamdb.info/ru/v1/fraud/find?search='.$data['order']['telephone'].'&access-token='.$settings_fraud['access_token']);
+            curl_setopt($curl, CURLOPT_URL, 'https://scamdb.info/ru/v1/fraud/find?search='.$data['order']['telephone'].'&access-token='.$settings_fraud['access_token']);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
             curl_setopt($curl, CURLOPT_TIMEOUT, 2);
