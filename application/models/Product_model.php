@@ -556,6 +556,7 @@ class Product_model extends Default_model
     {
         $cache = $this->cache->file->get('novelty');
         if (!$cache && !is_null($cache)) {
+            return false;
             $this->db->join('product', 'product.id=product_price.product_id');
             $this->db->where('status', true);
             $this->db->order_by('created_at', 'DESC');
