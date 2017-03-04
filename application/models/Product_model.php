@@ -672,20 +672,7 @@ class Product_model extends Default_model
     //получаем цены по товару
     public function get_product_price($id, $where = false, $order = false, $calculate_customer_price = false)
     {
-
         $this->db->from('product_price');
-        $this->db->select('product.*,product_price.*,
-            supplier.name as sup_name,
-            supplier.description as sup_description,
-            supplier.updated_at as sup_updated_at,
-            currency.name as cur_name,
-            currency.value as cur_value,
-            currency.symbol_right as cur_symbol_right,
-            currency.symbol_left as cur_symbol_left,
-            currency.decimal_place as cur_decimal_place');
-        $this->db->join('supplier', 'supplier.id=product_price.supplier_id');
-        $this->db->join('currency', 'currency.id=product_price.currency_id');
-        $this->db->join('product', 'product.id=product_price.product_id');
         $this->db->where('product_id', (int)$id);
         if ($where) {
             foreach ($where as $field => $value) {

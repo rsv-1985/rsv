@@ -119,10 +119,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </tr>
                                     <?php if ($this->is_admin) { ?>
                                         <tr>
-                                            <td class="name"><?php echo $product['sup_name']; ?></td>
+                                            <td class="name"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name']; ?></td>
                                             <td class="price">
                                                 <?php echo $product['delivery_price']; ?>
-                                                <?php echo $product['cur_name']; ?>
+                                                <?php echo $this->currency_model->currencies[$product['currency_id']]['name']; ?>
                                             </td>
                                             <td class="quan"><?php echo $product['quantity']; ?></td>
                                             <td></td>
