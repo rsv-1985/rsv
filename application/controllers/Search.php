@@ -32,12 +32,14 @@ class Search extends Front_controller {
         if($search_type == 1){
             $brands = $this->product_model->get_pre_search($sku);
             $text_search = false;
+            $with_api_supplier = true;
         }else{
             $brands = false;
             $text_search = true;
+            $with_api_supplier = false;
         }
 
-        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, $text_search);
+        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, $text_search, $with_api_supplier);
 
 
         $min_price = 0;
