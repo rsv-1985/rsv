@@ -386,7 +386,7 @@ class Product_model extends Default_model
     }
 
     //Поиск автозапчастей
-    public function get_search($ID_art, $brand, $sku, $with_cross = false, $text_search = false)
+    public function get_search($ID_art, $brand, $sku, $with_cross = false, $text_search = false, $with_api_supplier = false)
     {
         $return = [];
         $return['products'] = false;
@@ -445,8 +445,10 @@ class Product_model extends Default_model
                 $search_data = $this->getCross($ID_art, $brand, $sku);
             }
 
-            //Здесь будем получать товары через API поставщиков
-            $this->api_supplier($sku, $brand, $search_data);
+            if($with_api_supplier){
+                //Здесь будем получать товары через API поставщиков
+                $this->api_supplier($sku, $brand, $search_data);
+            }
 
             //Ищем по точному совпадению
             $this->db->from('product_price');
