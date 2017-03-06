@@ -43,6 +43,9 @@ class Tehnomir{
             $xml = simplexml_load_string($res);
             $json = json_encode($xml);
             $results = json_decode($json,TRUE);
+            if($this->input->get('debug_show')){
+                print_r($results);
+            }
             if(isset($results['QueryStatus']) && $results['QueryStatus']['QueryStatusCode'] == 0 && count($results['Prices']) > 0){
 
                 $system_currency_id = 0;
