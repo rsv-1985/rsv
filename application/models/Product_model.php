@@ -715,7 +715,7 @@ class Product_model extends Default_model
         return false;
     }
 
-    private function api_supplier($sku, $brand, $crosses_search)
+    public function api_supplier($sku, $brand, $crosses_search)
     {
         $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
         if ($api_supplier) {
