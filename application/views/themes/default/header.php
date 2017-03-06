@@ -81,14 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-sm-6">
                     <div class="search">
-                        <?php echo form_open('ajax/pre_search', ['method' => 'get', 'class' => 'search_form']);?>
-                            <label>
-                                <input type="radio" name="search_type" value="1" <?php echo set_radio('search_type',1,$this->input->get('search_type') == 1 || !isset($_GET['search_type']));?>> <?php echo lang('text_search_type_1');?>
-                            </label>
-                            <label>
-                                <input type="radio" name="search_type" value="2" <?php echo set_radio('search_type',2,$this->input->get('search_type') == 2);?>> <?php echo lang('text_search_type_2');?>
-                            </label>
-                        <br/>
+                        <?php echo form_open('search', ['method' => 'get', 'class' => 'search_form']);?>
                             <input required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>" value="<?php echo set_value('search',$this->input->get('sku'));?>">
                             <input type="submit" data-value="<?php echo lang('button_search');?>" value="<?php echo lang('button_search');?>" class="button alt">
                         </form>

@@ -133,10 +133,8 @@ class Ajax extends Front_controller
         $search = $this->input->post('search', true);
         $search_type = (int)$this->input->post('search_type');
         $json = [];
-        $json['brand'] = $this->product_model->get_pre_search($search);
+        $json['brand'] = $this->product_model->get_brands($search);
         $json['search_query'] = $search;
-        $json['search_new_window'] = @$this->options['search_new_window'];
-        $json['search_type'] = $search_type;
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
@@ -150,56 +148,9 @@ class Ajax extends Front_controller
         $brand = $this->input->get('brand', true);
         $sku = $this->input->get('sku', true);
 
-        $search_type = (int)$this->input->get('search_type');
-        if($search_type == 1){
-            $text_search = false;
-        }else{
-            $text_search = true;
-        }
+        $results['products'] = $this->product_model->get_search_products($sku, $brand);
 
-        $is_admin = $this->input->get('is_admin');
-
-        $results = $this->product_model->get_search($ID_art, $brand, $sku, true, $text_search );
-
-        $min_price = 0;
-        $min_price_cross = 0;
-        $min_term = 0;
-        $results['min_price'] = false;
-        $results['min_price_cross'] = false;
-        $results['min_term'] = false;
-
-        if ($results['products']) {
-            foreach ($results['products'] as $product) {
-                if ($product['price'] <= $min_price || !$results['min_price']) {
-                    $results['min_price'] = $product;
-                    $min_price = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
-                }
-                if ($product['term'] / 24 <= $min_term || !$results['min_term']) {
-                    $results['min_term'] = $product;
-                    $min_term = $product['term'] / 24;
-                }
-            }
-        }
-
-        if ($results['cross']) {
-            foreach ($results['cross'] as $product) {
-                if ($product['price'] <= $min_price_cross || !$results['min_price_cross']) {
-                    $results['min_price_cross'] = $product;
-                    $min_price_cross = $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
-                }
-                if ($product['term'] / 24 <= $min_term || !$results['min_term']) {
-                    $product['is_cross'] = true;
-                    $results['min_term'] = $product;
-                    $min_term = $product['term'] / 24;
-                }
-            }
-        }
-
-        if ($is_admin) {
-            $html = $this->load->view('form/admin_result', $results, true);;
-        } else {
-            $html = $this->load->view('form/result', $results, true);
-        }
+        $html = $this->load->view('form/admin_result', $results, true);;
 
         $this->output
             ->set_content_type('application/html')

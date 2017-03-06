@@ -20,37 +20,36 @@ class Search extends Front_controller {
 
         $ID_art = (int)$this->input->get('ID_art');
         $brand = $this->input->get('brand', true);
-        $sku = $this->input->get('sku', true);
-        $search_type = (int)$this->input->get('search_type');
+        $search = $this->input->get('search', true);
 
-        $is_admin = $this->input->get('is_admin');
         $data['products'] = false;
         $data['cross'] = false;
         $data['about'] = false;
+        $data['brands'] = false;
+
+        $data['brands'] = $this->product_model->get_brands($search);
 
 
-        if($search_type == 1){
-            $brands = $this->product_model->get_pre_search($sku);
-            $text_search = false;
-            $with_api_supplier = true;
-        }else{
-            $brands = false;
-            $text_search = true;
-            $with_api_supplier = false;
+        if($ID_art && $brand && $search){
+            $data['products'] = $this->product_model->get_search_products($search, $brand);
+
+            $crosses_search = $this->product_model->get_crosses($ID_art, $brand, $search);
+            if($crosses_search){
+                $data['cross'] = $this->product_model->get_search_crosses($crosses_search);
+            }
+        }elseif(!$data['products'] && !$data['brands'] && !$data['cross']){
+            $data['about'] = $this->product_model->get_search_text($search);
         }
-
-        $data = $this->product_model->get_search($ID_art, $brand, $sku, true, $text_search, $with_api_supplier);
-
 
         $min_price = 0;
         $min_price_cross = 0;
         $min_term = 0;
+
         $data['min_price'] = false;
         $data['min_price_cross'] = false;
         $data['min_term'] = false;
 
-        $data['h1'] = $sku.' '.$brand;
-        $data['brands'] = $brands;
+        $data['h1'] = $search.' '.$brand;
 
         if ($data['products']) {
             foreach ($data['products'] as $product) {

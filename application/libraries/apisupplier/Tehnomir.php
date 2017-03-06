@@ -39,7 +39,6 @@ class Tehnomir{
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         $res = curl_exec($curl);
         curl_close($curl);
-
         if($res != ''){
             $xml = simplexml_load_string($res);
             $json = json_encode($xml);

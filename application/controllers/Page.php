@@ -34,14 +34,6 @@ class Page extends Front_controller{
             $data['h1'] = $data['name'];
         }
 
-        $widgets = [
-            '{vin}' => $this->load->view('widget/vin',null,TRUE),
-        ];
-
-        foreach ($widgets as $key => $widget){
-            $data['description'] = str_replace($key, $widget, $data['description']);
-        }
-
         $data['parent'] = $this->page_model->get_parent($data['id']);
         $data['main'] = $this->page_model->get_main($data['parent_id']);
         $this->load->view('header');

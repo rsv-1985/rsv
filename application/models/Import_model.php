@@ -20,13 +20,19 @@ class Import_model extends Default_model
     }
     
     public function import_get_all($id, $limit){
-        $this->db->where('id >', (int)$id);
+        $return = false;
         $this->db->limit($limit);
-        $this->db->order_by('id', 'ASC');
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
-            return $query->result_array();
+            $return = $query->result_array();
+            $id = [];
+            foreach ($return as $item){
+                $id[] = $item['id'];
+            }
+            $this->db->where_in('id',$id);
+            $this->db->delete('importtmp');
+            unset($id);
         }
-        return false;
+        return $return;
     }
 }

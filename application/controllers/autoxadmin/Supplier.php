@@ -70,7 +70,7 @@ class supplier extends Admin_controller
             $this->form_validation->set_rules('stock', lang('text_stock'), 'integer');
             $this->form_validation->set_rules('api', lang('text_api'), 'max_length[12]');
             if ($this->form_validation->run() !== false) {
-                $this->save_data($id, true);
+                $this->save_data($id);
             } else {
                 $this->error = validation_errors();
             }
@@ -108,7 +108,7 @@ class supplier extends Admin_controller
         redirect('autoxadmin/supplier/edit/'.$id);
     }
 
-    private function save_data($id = false, $update_price = false)
+    private function save_data($id = false)
     {
         $save = [];
         $save['name'] = $this->input->post('name', true);
@@ -133,10 +133,6 @@ class supplier extends Admin_controller
                         $this->pricing_model->insert($save);
                     }
                 }
-            }
-
-            if($update_price){
-                $this->product_model->set_price((int)$id);
             }
 
             $this->session->set_flashdata('success', lang('text_success'));

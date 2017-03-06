@@ -290,11 +290,12 @@ class Cart extends Front_controller
                 'product_id' => (int)$product['id'],
                 'supplier_id' => (int)$product['supplier_id'],
                 'term' => (int)$product['term'],
-                'is_stock' => (bool)$product['stock']
+                'is_stock' => (bool)$this->supplier_model->suppliers[$supplier_id]['stock']
             ];
 
-            if ($product['stock']) {
-                $quan_in_cart = key_exists($cartId, $this->cart->contents()) ? $this->cart->contents()[$cartId]['qty'] : 0;
+            if ($this->supplier_model->suppliers[$supplier_id]['stock']){
+                $quan_in_cart = key_exists(md5($cartId), $this->cart->contents()) ? $this->cart->contents()[md5($cartId)]['qty'] : 0;
+
                 if ($product['quantity'] < $quantity + $quan_in_cart) {
                     $json['error'] = lang('text_error_qty_cart_add');
                     unset($data);

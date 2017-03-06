@@ -207,8 +207,7 @@ class Import extends Admin_controller
             $this->import_model->truncate();
             //Удаляем загруженные файлы
             delete_files('./uploads/import/');
-            //Устанавливаем цены по поставщику
-            $this->product_model->set_price($this->input->get('supplier_id'));
+
             //Чистим кэш
             $this->clear_cache();
 

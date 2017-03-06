@@ -98,11 +98,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php } ?>
                             </a>
                         </li>
+                        <li><a href="/autoxadmin/category"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_category');?></a></li>
+                        <li><a href="/autoxadmin/product"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_product');?></a></li>
+                        <li><a href="/autoxadmin/supplier"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_supplier');?></a></li>
                         <li><a href="/autoxadmin/customer"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customer');?>
                                 <?php if($this->new_customer){?>
                                     <small class="label pull-right bg-yellow"><?php echo $this->new_customer;?></small>
                                 <?php } ?>
-                            </a></li>
+                            </a>
+                        </li>
                         <li><a href="/autoxadmin/customergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customergroup');?></a></li>
                         <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_newsletter');?></a></li>
                     </ul>
@@ -110,12 +114,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-table"></i> <span><?php echo lang('text_catalog');?></span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-wrench"></i> <span>СТО</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/autoxadmin/product"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_product');?></a></li>
-                        <li><a href="/autoxadmin/category"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_category');?></a></li>
-                        <li><a href="/autoxadmin/supplier"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_supplier');?></a></li>
+                        <li><a href="/autoxadmin/sto"><i class="fa fa-circle-o"></i>Заявки</a></li>
+                        <li><a href="/autoxadmin/sto/settings"><i class="fa fa-circle-o"></i>Настройки</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-automobile"></i> <span>VIN</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i>Заявки</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>Настройки</a></li>
                     </ul>
                 </li>
 

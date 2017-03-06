@@ -340,6 +340,7 @@ class Order extends Admin_controller
         $term = (int)$this->input->post('term');
         $json = $this->product_model->get_product_for_cart($product_id, $supplier_id, $term);
         $json['term'] = format_term($json['term']);
+        $json['sup_name'] = $this->supplier_model->suppliers[$json['supplier_id']]['name'];
 
         $this->output
             ->set_content_type('application/json')

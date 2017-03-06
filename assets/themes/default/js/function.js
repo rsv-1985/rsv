@@ -74,7 +74,7 @@ $(document).ready(function(){
         });
     });
 
-    $(".search_form").submit(function(event){
+    /*$(".search_form").submit(function(event){
         event.preventDefault();
         $("#popover").empty();
         window.history.replaceState(null, '', '/search?sku='+$("#search_input").val()+'&search_type='+$("[name='search_type']:checked").val());
@@ -103,7 +103,7 @@ $(document).ready(function(){
                 $("#search_modal").modal();
             }
         });
-    });
+    });*/
 });
 function send_request(event){
     event.preventDefault();

@@ -33,6 +33,8 @@ class Product extends Front_controller
             return;
         }
 
+        $this->canonical = base_url('product/' . $slug);
+
         $data['breadcrumbs'][] = ['href' => base_url(), 'text' => lang('text_home')];
 
 
@@ -42,7 +44,7 @@ class Product extends Front_controller
         }
 
 
-        $this->canonical = base_url('product/' . $slug);
+
         $settings = $this->settings_model->get_by_key('seo_product');
         if ($settings) {
             $seo = [];
