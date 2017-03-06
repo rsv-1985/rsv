@@ -37,8 +37,7 @@ class Search extends Front_controller {
         $data['brands'] = $this->product_model->get_brands($search);
 
 
-        if($ID_art && $brand && $search){
-
+        if($brand && $search){
             $data['products'] = $this->product_model->get_search_products($search, $brand);
 
             if($crosses_search){
