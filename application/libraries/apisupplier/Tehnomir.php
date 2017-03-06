@@ -44,7 +44,7 @@ class Tehnomir{
             $json = json_encode($xml);
             $results = json_decode($json,TRUE);
             if($this->input->get('debug_show')){
-                print_r($results);
+                var_dump($results);
             }
             if(isset($results['QueryStatus']) && $results['QueryStatus']['QueryStatusCode'] == 0 && count($results['Prices']) > 0){
 
