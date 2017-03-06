@@ -365,26 +365,35 @@ class Product_model extends Default_model
     }
     //Поиск запчастей по тексу
     public function get_search_text($search){
+        $products = false;
+
         $search = explode(' ',trim($search));
-        $this->db->from('product_price');
-        $this->db->join('product', 'product.id=product_price.product_id');
+        $this->db->select('id');
+        $this->db->from('product');
+
         foreach ($search as $search){
             $this->db->group_start();
             $this->db->or_like('name',$search,'both');
             $this->db->or_like('brand', $search,'both');
-            $this->db->where('status', true);
             $this->db->group_end();
         }
-        $this->db->limit(500);
-        $this->db->order_by('price', 'ASC');
-        $this->db->order_by('term', 'ASC');
-
+        $this->db->limit(200);
         $query = $this->db->get();
-        $products = false;
+
         if ($query->num_rows() > 0) {
-            $products = $query->result_array();
-            foreach ($products as &$product) {
-                $product['price'] = $this->calculate_customer_price($product);
+            foreach($query->result_array() as $item){
+                $id[] = $item['id'];
+            }
+
+            $this->db->where_in('product_id', $id);
+            $this->db->where('status',1);
+            $this->db->join('product', 'product.id=product_price.product_id');
+            $query = $this->db->get('product_price');
+            if($query->num_rows() > 0){
+                $products = $query->result_array();
+                foreach ($products as &$product) {
+                    $product['price'] = $this->calculate_customer_price($product);
+                }
             }
         }
 
