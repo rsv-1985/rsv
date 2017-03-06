@@ -31,9 +31,12 @@ class Search extends Front_controller {
 
 
         if($ID_art && $brand && $search){
+            $crosses_search = $this->product_model->get_crosses($ID_art, $brand, $search);
+
+            $this->product_model->api_supplier($search, $brand, $crosses_search);
             $data['products'] = $this->product_model->get_search_products($search, $brand);
 
-            $crosses_search = $this->product_model->get_crosses($ID_art, $brand, $search);
+
             if($crosses_search){
                 $data['cross'] = $this->product_model->get_search_crosses($crosses_search);
             }

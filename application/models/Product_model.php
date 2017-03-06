@@ -11,7 +11,7 @@ class Product_model extends Default_model
 {
     public $table = 'product';
     public $total_rows = 0;
-    
+
     public function getSlug($product)
     {
         return url_title($product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'], 'dash', true);
@@ -264,7 +264,8 @@ class Product_model extends Default_model
     }
 
     //Получаем бренды для уточнения поиска
-    public function get_brands($sku){
+    public function get_brands($sku)
+    {
         $sku = $this->clear_sku($sku);
 
         $return = [];
@@ -311,7 +312,8 @@ class Product_model extends Default_model
     }
 
     //Поиск запчастей по точному совпадению
-    public function get_search_products($sku, $brand){
+    public function get_search_products($sku, $brand)
+    {
         $sku = $this->clear_sku($sku);
 
         $this->db->from('product_price');
@@ -334,13 +336,15 @@ class Product_model extends Default_model
 
         return $products;
     }
+
     //Поиск запчастей по кросс номерам
-    public function get_search_crosses($crosses){
+    public function get_search_crosses($crosses)
+    {
         $this->db->from('product_price');
         $this->db->join('product', 'product.id=product_price.product_id');
         foreach ($crosses as $cross) {
             $this->db->or_group_start();
-            $this->db->where('sku',$cross['sku']);
+            $this->db->where('sku', $cross['sku']);
             $this->db->where('brand', $cross['brand']);
             $this->db->where('status', true);
             $this->db->group_end();
@@ -363,33 +367,35 @@ class Product_model extends Default_model
         return $products;
 
     }
+
     //Поиск запчастей по тексу
-    public function get_search_text($search){
+    public function get_search_text($search)
+    {
         $products = false;
 
-        $search = explode(' ',trim($search));
+        $search = explode(' ', trim($search));
         $this->db->select('id');
         $this->db->from('product');
 
-        foreach ($search as $search){
+        foreach ($search as $search) {
             $this->db->group_start();
-            $this->db->or_like('name',$search,'both');
-            $this->db->or_like('brand', $search,'both');
+            $this->db->or_like('name', $search, 'both');
+            $this->db->or_like('brand', $search, 'both');
             $this->db->group_end();
         }
         $this->db->limit(200);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            foreach($query->result_array() as $item){
+            foreach ($query->result_array() as $item) {
                 $id[] = $item['id'];
             }
 
             $this->db->where_in('product_id', $id);
-            $this->db->where('status',1);
+            $this->db->where('status', 1);
             $this->db->join('product', 'product.id=product_price.product_id');
             $query = $this->db->get('product_price');
-            if($query->num_rows() > 0){
+            if ($query->num_rows() > 0) {
                 $products = $query->result_array();
                 foreach ($products as &$product) {
                     $product['price'] = $this->calculate_customer_price($product);
@@ -444,7 +450,7 @@ class Product_model extends Default_model
                 $prices = $this->get_product_price($product['id'], false, false, true);
                 if ($prices) {
                     $price_arrray = [];
-                    foreach ($prices as $price){
+                    foreach ($prices as $price) {
                         $price_arrray[] = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
                     }
                     $product['countPrice'] = count($price_arrray);
@@ -462,23 +468,23 @@ class Product_model extends Default_model
     //Расчет цены по группе покупателя
     private function calculate_customer_price($product)
     {
-        if($product['price'] > 0){
+        if ($product['price'] > 0) {
             return $product['price'];
         }
 
         $price = $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
 
         //Ценообразование по поставщику
-        if($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])){
+        if ($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])) {
             foreach ($this->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
-                if($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price){
+                if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
 
                     if ($supplier_price['brand'] && $product['brand'] != $supplier_price['brand']) {
                         continue;
                     }
 
-                    if($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']){
-                        switch ($supplier_price['method_price']){
+                    if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
+                        switch ($supplier_price['method_price']) {
                             case '+':
                                 $price = $price + $price * $supplier_price['value'] / 100;
                                 break;
@@ -489,7 +495,7 @@ class Product_model extends Default_model
                         break;
                     }
 
-                    switch ($supplier_price['method_price']){
+                    switch ($supplier_price['method_price']) {
                         case '+':
                             $price = $price + $price * $supplier_price['value'] / 100;
                             break;
@@ -640,7 +646,7 @@ class Product_model extends Default_model
     public function get_product_price($id, $where = false, $order = false, $calculate_customer_price = false)
     {
         $this->db->from('product_price');
-        $this->db->join('product','product.id=product_price.product_id');
+        $this->db->join('product', 'product.id=product_price.product_id');
         $this->db->where('product_id', (int)$id);
         if ($where) {
             foreach ($where as $field => $value) {
@@ -709,16 +715,15 @@ class Product_model extends Default_model
         return false;
     }
 
-    private function api_supplier($sku, $brand, $search_data)
+    private function api_supplier($sku, $brand, $crosses_search)
     {
-        if ($sku && $brand) {
-            $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
-            if ($api_supplier) {
-                foreach ($api_supplier as $supplier) {
-                    $this->load->library('apisupplier/' . $supplier['api']);
-                    $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $search_data);
-                }
+        $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
+        if ($api_supplier) {
+            foreach ($api_supplier as $supplier) {
+                $this->load->library('apisupplier/' . $supplier['api']);
+                $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
             }
         }
+
     }
 }

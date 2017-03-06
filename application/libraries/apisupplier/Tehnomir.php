@@ -93,8 +93,6 @@ class Tehnomir{
                 if(@$price_data){
                     $this->CI->product_model->price_insert($price_data);
                 }
-
-                $this->CI->product_model->set_price($supplier_id);
             }
         }
     }
