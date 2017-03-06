@@ -293,7 +293,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td><input type="text" name="prices[0][delivery_price]"
                                        value="<?php echo set_value('delivery_price'); ?>"
                                        class="form-control"
-                                       onkeyup="calculate_price($(this).val())"
                                 ></td>
                             <td><input type="text" name="prices[0][price]"
                                        id="price"
@@ -382,23 +381,5 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 pricing = json;
             }
         });
-    }
-
-    function calculate_price(delivery_price){
-        var price = parseFloat(delivery_price);
-        if(pricing){
-            $.each(pricing, function( index, formula ) {
-                if(price >= formula['price_from'] && price <= formula['price_to']){
-                    if(formula['method_price'] == '+'){
-                        price = price + (price * formula['value'] / 100);
-                    }else{
-                        price = price - (price * formula['value'] / 100);
-                    }
-                    return false;
-                }
-            });
-        }
-
-        $("#price").val(price);
     }
 </script>

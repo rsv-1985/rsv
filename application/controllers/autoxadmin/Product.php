@@ -39,7 +39,7 @@ class Product extends Admin_controller
 
         if($this->input->post()){
             $this->form_validation->set_rules('delivery_price', lang('text_delivery_price'), 'required|numeric|trim');
-            $this->form_validation->set_rules('price', lang('text_price'), 'required|numeric|trim');
+            $this->form_validation->set_rules('price', lang('text_price'), 'numeric|trim');
             $this->form_validation->set_rules('saleprice', lang('text_saleprice'), 'numeric|trim');
             $this->form_validation->set_rules('status', lang('text_status'), 'numeric|trim');
             if ($this->form_validation->run() !== false){
@@ -97,7 +97,7 @@ class Product extends Admin_controller
                     $this->form_validation->set_rules('prices['.$i.'][currency_id]', $i.lang('text_currency_id'), 'required|integer');
                     $this->form_validation->set_rules('prices['.$i.'][delivery_price]', lang('text_delivery_price'), 'required|numeric');
                     $this->form_validation->set_rules('prices['.$i.'][saleprice]', lang('text_saleprice'), 'numeric');
-                    $this->form_validation->set_rules('prices['.$i.'][price]', lang('text_price'), 'required|numeric');
+                    $this->form_validation->set_rules('prices['.$i.'][price]', lang('text_price'), 'numeric');
                     $this->form_validation->set_rules('prices['.$i.'][quantity]', lang('text_quantity'), 'integer');
                     $this->form_validation->set_rules('prices['.$i.'][supplier_id]', lang('text_supplier_id'), 'required|integer');
                     $this->form_validation->set_rules('prices['.$i.'][term]', lang('text_term'), 'integer');

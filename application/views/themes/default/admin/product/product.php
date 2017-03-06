@@ -93,7 +93,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <input type="text" name="price" value="<?php echo $product['price'];?>" class="form-control">
-                                            <small><?php echo isset($currency[$product['currency_id']]) ? $currency[$product['currency_id']]['name'] : '';?></small>
                                         </td>
                                         <td>
                                             <input type="text" name="saleprice" value="<?php echo $product['saleprice'];?>" class="form-control">

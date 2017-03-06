@@ -443,9 +443,13 @@ class Product_model extends Default_model
 
                 $prices = $this->get_product_price($product['id'], false, false, true);
                 if ($prices) {
-                    $product['countPrice'] = count($prices);
-                    $product['min_price'] = $prices[0]['price'];
-                    $product['max_price'] = end($prices)['price'];
+                    $price_arrray = [];
+                    foreach ($prices as $price){
+                        $price_arrray[] = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
+                    }
+                    $product['countPrice'] = count($price_arrray);
+                    $product['min_price'] = min($price_arrray);
+                    $product['max_price'] = max($price_arrray);
                 }
 
                 $product['tecdoc_info'] = $this->tecdoc_info($product['sku'], $product['brand']);
