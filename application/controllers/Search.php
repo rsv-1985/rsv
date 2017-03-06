@@ -44,6 +44,7 @@ class Search extends Front_controller {
             if($crosses_search){
                 $data['cross'] = $this->product_model->get_search_crosses($crosses_search);
             }
+
         }elseif(!$data['products'] && !$data['brands'] && !$data['cross']){
             $data['about'] = $this->product_model->get_search_text($search);
         }
