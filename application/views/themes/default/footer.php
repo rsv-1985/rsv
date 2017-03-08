@@ -187,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
+    <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v1">
     <?php if($this->config->item('my_style')){?>
         <?php foreach ($this->config->item('my_style') as $style){?>
             <link rel="stylesheet" href="<?php echo $style;?>">
@@ -195,13 +195,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
     <script src="<?php echo theme_url();?>js/jquery.maskedinput.min.js"></script>
-<script src="<?php echo theme_url();?>js/function.js?v4"></script>
-
+<script src="<?php echo theme_url();?>js/function.js?v5"></script>
 <script src="<?php echo theme_url();?>js/owl.carousel.min.js"></script>
-<script src="<?php echo theme_url();?>js/jquery.sticky.js"></script>
-
-<script src="<?php echo theme_url();?>js/main.js"></script>
-
+<script src="<?php echo theme_url();?>js/main.js?v5"></script>
 <script type="text/javascript" src="<?php echo theme_url();?>js/bxslider.min.js"></script>
 <script type="text/javascript" src="<?php echo theme_url();?>js/script.slider.js"></script>
 <script type="text/javascript">

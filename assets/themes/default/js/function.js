@@ -11,10 +11,12 @@ $(document).ready(function(){
 
     $(document).scroll(function() {
         var y = $(this).scrollTop();
-        if (y > 800) {
+        if (y > 200) {
             $("a[href='#top']").fadeIn();
+            $('.search').addClass('search_fixed');
         } else {
             $("a[href='#top']").fadeOut();
+            $('.search').removeClass('search_fixed');
         }
     });
 
@@ -73,37 +75,6 @@ $(document).ready(function(){
             }
         });
     });
-
-    /*$(".search_form").submit(function(event){
-        event.preventDefault();
-        $("#popover").empty();
-        window.history.replaceState(null, '', '/search?sku='+$("#search_input").val()+'&search_type='+$("[name='search_type']:checked").val());
-        $.ajax({
-            url: $(this).attr('action'),
-            method: 'POST',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function(json){
-                if(json['search_new_window']){
-                    location.reload();
-                    return false;
-                }
-                $(".search_result").empty();
-                $("#search_brand_list").empty();
-                $("#search_query").html(json['search_query']);
-                if(json['brand'].length > 0){
-                    var html = '';
-                    $.each(json['brand'], function( index, brand ) {
-                        html += '<a href="#" onclick="get_search(\''+brand['ID_art']+'\',\''+brand['brand']+'\',\''+brand['sku']+'\',\''+json['search_type']+'\'); return false" class="list-group-item">'+brand['brand']+'<br><small>'+brand['name']+'</small></a>';
-                    });
-                    $("#search_brand_list").html(html);
-                }else{
-                    get_search(false, false, json['search_query'],$("[name='search_type']:checked").val());
-                }
-                $("#search_modal").modal();
-            }
-        });
-    });*/
 });
 function send_request(event){
     event.preventDefault();
