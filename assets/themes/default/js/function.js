@@ -119,22 +119,6 @@ function add_cart(data, event){
     });
 }
 
-function get_search(ID_art, brand, sku, search_type){
-    window.history.replaceState(null, '', '/search?sku='+sku+'&ID_art='+ID_art+'&brand='+brand+'&search_type='+search_type);
-    $.ajax({
-        url: '/ajax/get_search',
-        method: 'GET',
-        data: {ID_art: ID_art, brand:brand, sku:sku, search_type:search_type},
-
-        beforeSend: function(){
-            $(".search_result").html('<img style="width: 50px;" src="/assets/themes/default/img/loading.gif"/>');
-        },
-        success: function(html){
-            $(".search_result").html(html);
-        }
-    });
-}
-
 function catalog_search(ID_art, sku, brand, event){
     event.preventDefault();
     $("#search_modal").modal();
@@ -182,4 +166,25 @@ function remove_garage(key,event) {
             $('.'+key).remove();
         }
     });
+}
+
+function getSearchBrand(search){
+    if(search.length >=3){
+        $.ajax({
+            url:'/ajax/get_brands',
+            data:{search:search},
+            method:'post',
+            dataType: "json",
+            success: function(json){
+                if(json['brands']){
+                    console.log(json['brands']);
+                    var html = '';
+                    $(json['brands']).each(function(index, brand){
+                        html += '<li onclick="location.href=\'/search?search='+brand['sku']+'&ID_art='+brand['ID_art']+'&brand='+brand['brand']+'\'">'+brand['sku']+' '+brand['brand']+'<br><small>'+brand['name']+'</small></li>';
+                    })
+                    $("#search_brand").html(html).show();
+                }
+            }
+        });
+    }
 }

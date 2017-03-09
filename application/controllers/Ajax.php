@@ -140,21 +140,15 @@ class Ajax extends Front_controller
             ->set_output(json_encode($json));
     }
 
-    public function get_search()
+    public function get_brands()
     {
         $this->load->model('product_model');
-        $this->load->language('search');
-        $ID_art = $this->input->get('ID_art', true);
-        $brand = $this->input->get('brand', true);
-        $sku = $this->input->get('sku', true);
-
-        $results['products'] = $this->product_model->get_search_products($sku, $brand);
-
-        $html = $this->load->view('form/admin_result', $results, true);;
+        $search = $this->input->post('search',true);
+        $json['brands'] = $this->product_model->get_brands($search);
 
         $this->output
             ->set_content_type('application/html')
-            ->set_output($html);
+            ->set_output(json_encode($json));
     }
 
     public function get_tecdoc_info()
