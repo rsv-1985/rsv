@@ -45,7 +45,7 @@ class Customer extends Admin_controller
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim');
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
 
@@ -78,7 +78,7 @@ class Customer extends Admin_controller
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'numeric|trim');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim');
             if($this->input->post('password')){
                 $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
                 $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
