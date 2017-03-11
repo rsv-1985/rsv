@@ -208,14 +208,6 @@ class Csv{
             $this->CI->db->where_not_in('product.brand',explode(',',$data['exclude_brand']));
         }
 
-        if(@$data['price_from']){
-            $this->CI->db->where('product_price.price >=',(float)$data['price_from']);
-        }
-
-        if(@$data['price_to']){
-            $this->CI->db->where('product_price.price <=',(float)$data['price_to']);
-        }
-
         if(@$data['term_from']){
             $this->CI->db->where('product_price.term >=',(float)$data['term_from']);
         }
@@ -234,7 +226,7 @@ class Csv{
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
         if($query->num_rows() == 0 && $data['id'] == 0){
-            exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Empty results');
+            exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Товары по фильтру не найдены');
         }
         if($query->num_rows() > 0){
 
@@ -260,13 +252,58 @@ class Csv{
                                 $margin_price = explode('-',$margin[0]);
                                 $price_from = @$margin_price[0];
                                 $price_to = @$margin_price[1];
-                                $product['delivery_price'];
                                 if($percent > 0 && $price_from >= 0 && $price_to > 0 && $product['delivery_price'] >= $price_from && $product['delivery_price'] <=  $price_to){
                                     $product['price'] = round($product['delivery_price'] + $product['delivery_price'] * $percent / 100,2);
                                 }
                             }
                         }
                     }
+                }else{
+
+                    $price = $product['delivery_price'] * $this->CI->currency_model->currencies[$product['currency_id']]['value'];
+
+                    //Ценообразование по поставщику
+                    if ($this->CI->pricing_model->pricing && isset($this->CI->pricing_model->pricing[$product['supplier_id']])) {
+                        foreach ($this->CI->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
+                            if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
+
+                                if ($supplier_price['brand'] && $product['brand'] != $supplier_price['brand']) {
+                                    continue;
+                                }
+
+                                if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
+                                    switch ($supplier_price['method_price']) {
+                                        case '+':
+                                            $price = $price + $price * $supplier_price['value'] / 100;
+                                            break;
+                                        case '-':
+                                            $price = $price - $price * $supplier_price['value'] / 100;
+                                            break;
+                                    }
+                                    break;
+                                }
+
+                                switch ($supplier_price['method_price']) {
+                                    case '+':
+                                        $price = $price + $price * $supplier_price['value'] / 100;
+                                        break;
+                                    case '-':
+                                        $price = $price - $price * $supplier_price['value'] / 100;
+                                        break;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    $product['price'] = $price;
+                }
+
+                if($data['price_from'] != '' && $product['price'] < $data['price_from']){
+                    continue;
+                }
+
+                if($data['price_to'] != '' && $product['price'] > $data['price_to']){
+                    continue;
                 }
 
                 $product = array_intersect_key($product,$data['template']);

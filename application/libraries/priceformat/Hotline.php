@@ -151,22 +151,6 @@ class Hotline{
             $this->CI->db->where_not_in('ax_product.brand',explode(',',$data['exclude_brand']));
         }
 
-        if(@$data['price_from']){
-            $this->CI->db->where('ax_product_price.price >=',(float)$data['price_from']);
-        }
-
-        if(@$data['price_to']){
-            $this->CI->db->where('ax_product_price.price <=',(float)$data['price_to']);
-        }
-
-        if(@$data['term_from']){
-            $this->CI->db->where('ax_product_price.term >=',(float)$data['term_from']);
-        }
-
-        if(@$data['term_to']){
-            $this->CI->db->where('ax_product_price.term <=',(float)$data['term_to']);
-        }
-
         if(@$data['unique']){
             $this->CI->db->group_by('id');
         }
@@ -186,6 +170,50 @@ class Hotline{
             $content = '';
             $results = $query->result_array();
             foreach ($results as $result){
+                $price = $result['delivery_price'] * $this->CI->currency_model->currencies[$result['currency_id']]['value'];
+
+                //Ценообразование по поставщику
+                if ($this->CI->pricing_model->pricing && isset($this->CI->pricing_model->pricing[$result['supplier_id']])) {
+                    foreach ($this->CI->pricing_model->pricing[$result['supplier_id']] as $supplier_price) {
+                        if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
+
+                            if ($supplier_price['brand'] && $result['brand'] != $supplier_price['brand']) {
+                                continue;
+                            }
+
+                            if ($supplier_price['brand'] && $result['brand'] == $supplier_price['brand']) {
+                                switch ($supplier_price['method_price']) {
+                                    case '+':
+                                        $price = $price + $price * $supplier_price['value'] / 100;
+                                        break;
+                                    case '-':
+                                        $price = $price - $price * $supplier_price['value'] / 100;
+                                        break;
+                                }
+                                break;
+                            }
+
+                            switch ($supplier_price['method_price']) {
+                                case '+':
+                                    $price = $price + $price * $supplier_price['value'] / 100;
+                                    break;
+                                case '-':
+                                    $price = $price - $price * $supplier_price['value'] / 100;
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if($data['price_from'] != '' && $price < $data['price_from']){
+                    continue;
+                }
+
+                if($data['price_to'] != '' && $price > $data['price_to']){
+                    continue;
+                }
+
                 $product = [
                     $result['category_name'],
                     $result['brand'],
@@ -193,7 +221,7 @@ class Hotline{
                     $result['sku'],
                     $result['id'],
                     $result['description'],
-                    str_replace('.',',',$result['price'] * $result['currency_value']),
+                    str_replace('.',',',$price),
                     'от производителя',
                     $result['quantity'] > 0 ? 'в наличии' : 'под заказ',
                     0,
