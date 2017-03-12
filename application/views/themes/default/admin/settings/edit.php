@@ -398,11 +398,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                    class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>TExt</label>
-                            <textarea class="textarea"
-                                      name="settings[contact_settings][description]"><?php echo set_value('settings[contact_settings][description]', @$settings['contact_settings']['description']); ?></textarea>
-                        </div>
-                        <div class="form-group">
                             <label>VK</label>
                             <input type="text" name="settings[contact_settings][vk]"
                                    value="<?php echo set_value('settings[contact_settings][vk]', @$settings['contact_settings']['vk']); ?>"
@@ -688,6 +683,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>
+                                                        <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
                                                         <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
                                                     </label>
                                                 </div>
