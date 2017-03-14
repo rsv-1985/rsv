@@ -220,8 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <a href="#"
-                                           onclick="catalog_search('<?php echo $part->ID_art; ?>', '<?php echo $part->Search; ?>','<?php echo $part->Brand; ?>', event)"><?php echo lang('text_cross'); ?></a>
+                                        <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
                                     </td>
                                 </tr>
                             <?php } ?>
