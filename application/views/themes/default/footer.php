@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php foreach(explode(';',$this->contacts['email']) as $email){?>
                             <li><i class="fa fa-envelope"></i><a href="mailto:<?php echo $email;?>"> <?php echo $email;?></a></li>
                         <?php } ?>
-                        <li><i class="fa fa-map-marker"></i> <?php echo $this->contacts['address'];?></li>
+                        <li><i class="fa fa-map-marker"></i> <?php echo $this->contacts['city'];?> <?php echo $this->contacts['address'];?></li>
                     </ul>      
                 </div>
             </div>

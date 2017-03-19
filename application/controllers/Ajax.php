@@ -16,6 +16,30 @@ class Ajax extends Front_controller
         }
     }
 
+    public function get_model(){
+        $ID_mfa = (int)$this->input->post('ID_mfa');
+        $models = $this->tecdoc->getModel($ID_mfa);
+        $html = '';
+        if($models){
+            foreach ($models as $model){
+                $html .= '<option value="'.$model->ID_mod.'">'.$model->Name.'</option>';
+            }
+        }
+        exit($html);
+    }
+
+    public function get_typ(){
+        $ID_mod = (int)$this->input->post('ID_mod');
+        $types = $this->tecdoc->getType($ID_mod);
+        $html = '';
+        if($types){
+            foreach ($types as $typ){
+                $html .= '<option value="'.$typ->ID_typ.'">'.$typ->Name.'</option>';
+            }
+        }
+        exit($html);
+    }
+
     public function remove_garage()
     {
         $key = $this->input->post('key');
