@@ -169,7 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <div class="form-group">
                                 <label>Утро</label><br>
                                 <?php foreach ($time_morning as $time_morning){?>
-                                    <a href="#" onclick="change_time('<?php echo $time_morning;?>','<?php echo md5($time_morning);?>',event)">
+                                    <a href="#" onclick="change_time('<?php echo trim($time_morning);?>','<?php echo md5($time_morning);?>',event)">
                                         <span id="<?php echo md5($time_morning);?>" class="label label-default"><?php echo $time_morning;?></span>
                                     </a>
                                 <?php } ?>
@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <div class="form-group">
                                 <label>День</label><br>
                                 <?php foreach ($time_afternoon as $time_afternoon){?>
-                                    <a href="#" onclick="change_time('<?php echo $time_afternoon;?>','<?php echo md5($time_afternoon);?>',event)">
+                                    <a href="#" onclick="change_time('<?php echo trim($time_afternoon);?>','<?php echo md5($time_afternoon);?>',event)">
                                         <span id="<?php echo md5($time_afternoon);?>" class="label label-default"><?php echo $time_afternoon;?></span>
                                     </a>
                                 <?php } ?>
