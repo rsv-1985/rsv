@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <select name="service" class="form-control" required onchange="$('#manufacturer').removeAttr('disabled')">
                                             <option value="">Услуга</option>
                                             <?php foreach ($services as $service){?>
-                                                <option value="<?php echo $service;?>"><?php echo $service;?></option>
+                                                <option value="<?php echo $service;?>" <?php echo set_select('service',$service);?>><?php echo $service;?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -194,13 +194,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <input type="text" name="name" class="form-control" placeholder="ФИО*" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="phone" class="form-control" placeholder="Телефон*">
+                                <input type="text" name="phone" class="form-control" placeholder="Телефон*" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="carnumber" class="form-control" placeholder="Номер автомобиля*">
+                                <input type="text" name="carnumber" class="form-control" placeholder="Номер автомобиля*" required>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control" placeholder="E-email">
+                                <input type="email" name="email" class="form-control" placeholder="E-email" required>
                             </div>
                             <div class="form-group">
                                 <textarea name="comment" class="form-control" placeholder="Комментарий"></textarea>
