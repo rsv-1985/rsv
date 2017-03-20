@@ -684,7 +684,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <label>
                                                         <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
-                                                        <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
                                                     </label>
                                                 </div>
                                             </div>
