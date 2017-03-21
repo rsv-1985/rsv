@@ -55,4 +55,5 @@ $lang['text_commission'] = 'Комиссия';
 $lang['text_login'] = 'Логин';
 $lang['text_comments'] = 'Комментарий клиента';
 $lang['error_by_phone'] = 'Пользователь с таким номером телефона не найден';
+$lang['error_by_email'] = 'Пользователь не найден';
 $lang['text_forgot_success'] = 'Новый пароль отправлен Вам';

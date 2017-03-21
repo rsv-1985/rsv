@@ -157,10 +157,10 @@ class Customer extends Front_controller
     public function forgot(){
         $data = [];
         if($this->input->post()){
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required');
+            $this->form_validation->set_rules('email', lang('text_email'), 'trim|required|valid_email');
             if ($this->form_validation->run() !== false){
                 $this->load->helper('string');
-                $user = $this->customer_model->getByPhone($this->input->post('phone'));
+                $user = $this->customer_model->getByEmail($this->input->post('email',true));
                 if($user){
                     $new_password = random_string();
 
@@ -184,7 +184,7 @@ class Customer extends Front_controller
                     $this->session->set_flashdata('success', lang('text_forgot_success').' '.$send_email.' '.$send_sms);
                     redirect('/');
                 }else{
-                    $this->error = lang('error_by_phone');
+                    $this->error = lang('error_by_email');
                 }
 
             }else{
