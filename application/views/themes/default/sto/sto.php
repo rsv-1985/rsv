@@ -200,7 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <input type="text" name="carnumber" class="form-control" placeholder="Номер автомобиля*" required>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control" placeholder="E-email" required>
+                                <input type="email" name="email" class="form-control" placeholder="E-email">
                             </div>
                             <div class="form-group">
                                 <textarea name="comment" class="form-control" placeholder="Комментарий"></textarea>

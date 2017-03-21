@@ -78,7 +78,7 @@ class Sto extends Front_controller
             $this->form_validation->set_rules('name', 'ФИО', 'required|trim|max_length[255]');
             $this->form_validation->set_rules('phone', 'Телефон', 'required|trim|max_length[32]');
             $this->form_validation->set_rules('carnumber', 'Номер автомобиля', 'required|trim|max_length[32]');
-            $this->form_validation->set_rules('email', 'E-mail', 'required|trim|max_length[255]|valid_email');
+            $this->form_validation->set_rules('email', 'E-mail', 'max_length[255]|valid_email');
             $this->form_validation->set_rules('comment', 'Комментарий', 'trim|max_length[3000]');
             $this->form_validation->set_rules('cmsautox', 'cmsautox', 'required|trim');
             if ($this->form_validation->run() == true && $this->input->post('cmsautox') == 'true') {
