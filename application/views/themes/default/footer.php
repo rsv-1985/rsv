@@ -187,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v6">
+    <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v7">
     <?php if($this->config->item('my_style')){?>
         <?php foreach ($this->config->item('my_style') as $style){?>
             <link rel="stylesheet" href="<?php echo $style;?>">
