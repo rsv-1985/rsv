@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview" style="display: none">
                     <a href="#">
                         <i class="fa fa-automobile"></i> <span>VIN</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
