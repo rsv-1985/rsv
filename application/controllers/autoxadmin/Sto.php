@@ -68,7 +68,7 @@ class Sto extends Admin_controller {
         $this->load->library('pagination');
         $config['base_url'] = base_url('autoxadmin/sto/index');
         $config['total_rows'] = $this->sto_model->count_all();
-        $config['per_page'] = 2;
+        $config['per_page'] = 20;
         $config['page_query_string'] = TRUE;
         //$config['enable_query_strings'] = TRUE;
         $this->pagination->initialize($config);
