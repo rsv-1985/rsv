@@ -7,7 +7,7 @@
 exec('git pull', $output);
 
 if($output){
-    exit('Success!<br><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    exit('<h3 style="text-align: center;">Система обновлена.</h3>><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- Адаптивный1 -->
 <ins class="adsbygoogle"
      style="display:block"
