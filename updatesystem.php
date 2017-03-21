@@ -7,7 +7,6 @@
 exec('git pull', $output);
 
 if($output){
-    foreach ($output as $text){
-        echo $text.'<br>';
-    }
+    exit('Success!');
 }
+exit('Error');
