@@ -83,6 +83,14 @@ class Sto extends Front_controller
             $this->form_validation->set_rules('cmsautox', 'cmsautox', 'required|trim');
             if ($this->form_validation->run() == true && $this->input->post('cmsautox') == 'true') {
                 $this->_save_data($status);
+                $this->load->library('sender');
+                $subject = 'Заявка СТО';
+                $html = '';
+                foreach ($this->input->post() as $key => $value) {
+                    $html .= $key . ':' . $value . '<br>';
+                }
+
+                $this->sender->email($subject, $html, explode(';', $this->contacts['email']),$this->input->post('email',true));
                 $this->session->set_flashdata('success', 'Ваша заявка отправлена');
                 redirect('/sto');
             } else {
