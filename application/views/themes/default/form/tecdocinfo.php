@@ -6,15 +6,19 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
-<div class="panel panel-default">
-    <div class="panel-heading"><?php echo $sku.' '.$brand;?><a href="#" class="pull-right" onclick="$('#popover').empty();return false;">x</a> </div>
-    <div class="panel-body">
+<div class="div-info">
+    <div class="col-md-4">
         <?php if($tecdoc_info){?>
             <img onerror="imgError(this, 200);" src="/image?img=<?php echo $tecdoc_info->Image;?>&width=200">
-            <?php echo str_replace(';','<br>',$tecdoc_info->Info);?>
         <?php }else{ ?>
             <img onerror="imgError(this, 200);" src="/image?width=200">
         <?php } ?>
+    </div>
+    <div class="col-md-8">
+        <a href="#" class="pull-right" onclick="$('.div-info').remove();return false;">x</a>
+        <?php if($tecdoc_info){?>
+            <?php echo str_replace(';','<br>',$tecdoc_info->Info);?>
+        <?php }?>
 
     </div>
 </div>

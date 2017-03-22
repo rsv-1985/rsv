@@ -125,14 +125,19 @@ function catalog_search(ID_art, sku, brand, event){
     get_search(ID_art, brand, sku);
 }
 
-function tecdoc_info(sku, brand){
+function tecdoc_info(sku, brand, blockInfo){
     $("#popover").empty();
     $.ajax({
         url: '/ajax/get_tecdoc_info',
         method: 'POST',
         data: {sku:sku, brand:brand},
         success: function(json){
-            $("#popover").html(json['html']).fadeIn('slow');
+            if(blockInfo){
+                $("."+blockInfo).html(json['html']);
+            }else{
+                $("#popover").html(json['html']).fadeIn('slow');
+            }
+
         }
     });
 }

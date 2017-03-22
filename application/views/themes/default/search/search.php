@@ -79,11 +79,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 $key = $item['product_id'] . $item['supplier_id'] . $item['term']?>
                                                 <div class="row item">
                                                     <div class="col-md-4">
-                                                        <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>')" class="fa fa-info-circle"></i>
+                                                        <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>','info<?php echo $key;?>')" class="fa fa-info-circle"></i>
                                                         <a href="/product/<?php echo $products['slug']; ?>"><?php echo $products['brand'] . ' ' . $products['sku']; ?></a><br>
                                                         <small><?php echo $products['name']; ?></small>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
                                                         <?php if($item['saleprice'] > 0){?>
                                                             <b><?php echo format_currency($item['saleprice']); ?></b>
                                                             <br/>
@@ -91,7 +91,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         <?php }else{?>
                                                             <b><?php echo format_currency($item['price']); ?></b>
                                                         <?php } ?>
-
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <b><?php echo format_quantity($item['quantity']); ?></b>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <b><?php echo format_term($item['term']); ?></b><br>
@@ -123,6 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         </small>
                                                     </div>
                                                 </div>
+                                                <div class="row info<?php echo $key;?>"></div>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -164,11 +167,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         $key = $item['product_id'] . $item['supplier_id'] . $item['term']?>
                                                         <div class="row item">
                                                             <div class="col-md-4">
-                                                                <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>')" class="fa fa-info-circle"></i>
+                                                                <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>','info<?php echo $key;?>')" class="fa fa-info-circle"></i>
                                                                 <a href="/product/<?php echo $products['slug']; ?>"><?php echo $products['brand'] . ' ' . $products['sku']; ?></a><br>
                                                                 <small><?php echo $products['name']; ?></small>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-2">
                                                                 <?php if($item['saleprice'] > 0){?>
                                                                     <b><?php echo format_currency($item['saleprice']); ?></b>
                                                                     <br/>
@@ -176,7 +179,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                 <?php }else{?>
                                                                     <b><?php echo format_currency($item['price']); ?></b>
                                                                 <?php } ?>
-
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <b><?php echo format_quantity($item['quantity']); ?></b>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <b><?php echo format_term($item['term']); ?></b><br>
@@ -208,6 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                 </small>
                                                             </div>
                                                         </div>
+                                                        <div class="row info<?php echo $key;?>"></div>
                                                     <?php } ?>
                                                 </div>
                                             </div>
