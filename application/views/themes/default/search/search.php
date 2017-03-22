@@ -130,87 +130,89 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                             <?php if ($cross) { ?>
                                 <?php foreach ($cross as $products) { ?>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading<?php echo $products['id'];?>">
-                                            <h4 class="panel-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse"
-                                                   data-parent="#accordion" href="#collapse<?php echo $products['id'];?>" aria-expanded="false"
-                                                   aria-controls="<?php echo $products['id'];?>">
-                                                    <span class="badge pull-left">Аналог</span>
-                                                    <?php echo $products['brand'].' '.$products['sku']; ?>
-                                                    <small class="pull-right">
-                                                        Цена:
-                                                        <b>
-                                                            <?php if ($products['prices']['min_price'] != $products['prices']['max_price']) { ?>
-                                                                <?php echo format_currency($products['prices']['min_price']); ?> ... <?php echo format_currency($products['prices']['max_price']); ?>
+                                    <?php if(count($products['prices']['items'])){?>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading<?php echo $products['id'];?>">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#collapse<?php echo $products['id'];?>" aria-expanded="false"
+                                                       aria-controls="<?php echo $products['id'];?>">
+                                                        <span class="badge pull-left">Аналог</span>
+                                                        <?php echo $products['brand'].' '.$products['sku']; ?>
+                                                        <small class="pull-right">
+                                                            Цена:
+                                                            <b>
+                                                                <?php if ($products['prices']['min_price'] != $products['prices']['max_price']) { ?>
+                                                                    <?php echo format_currency($products['prices']['min_price']); ?> ... <?php echo format_currency($products['prices']['max_price']); ?>
+                                                                <?php }else{?>
+                                                                    <?php echo format_currency($products['prices']['min_price']); ?>
+                                                                <?php } ?></b>
+                                                            Доставка:
+                                                            <?php if ($products['prices']['min_term'] != $products['prices']['max_term']) { ?>
+                                                                <?php echo format_term($products['prices']['min_term']); ?> ... <?php echo format_term($products['prices']['max_term']); ?>
                                                             <?php }else{?>
-                                                                <?php echo format_currency($products['prices']['min_price']); ?>
-                                                            <?php } ?></b>
-                                                        Доставка:
-                                                        <?php if ($products['prices']['min_term'] != $products['prices']['max_term']) { ?>
-                                                            <?php echo format_term($products['prices']['min_term']); ?> ... <?php echo format_term($products['prices']['max_term']); ?>
-                                                        <?php }else{?>
-                                                            <?php echo format_term($products['prices']['min_term']); ?>
-                                                        <?php } ?>
-                                                    </small>
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapse<?php echo $products['id'];?>" class="panel-collapse collapse" role="tabpanel"
-                                             aria-labelledby="heading<?php echo $products['id'];?>">
-                                            <div class="panel-body">
-                                                <?php foreach ($products['prices']['items'] as $item) {
-                                                    $key = $item['product_id'] . $item['supplier_id'] . $item['term']?>
-                                                    <div class="row item">
-                                                        <div class="col-md-4">
-                                                            <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>')" class="fa fa-info-circle"></i>
-                                                            <a href="/product/<?php echo $products['slug']; ?>"><?php echo $products['brand'] . ' ' . $products['sku']; ?></a><br>
-                                                            <small><?php echo $products['name']; ?></small>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <?php if($item['saleprice'] > 0){?>
-                                                                <b><?php echo format_currency($item['saleprice']); ?></b>
-                                                                <br/>
-                                                                <small><s><?php echo format_currency($item['price']); ?></s></small>
-                                                            <?php }else{?>
-                                                                <b><?php echo format_currency($item['price']); ?></b>
+                                                                <?php echo format_term($products['prices']['min_term']); ?>
                                                             <?php } ?>
+                                                        </small>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse<?php echo $products['id'];?>" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="heading<?php echo $products['id'];?>">
+                                                <div class="panel-body">
+                                                    <?php foreach ($products['prices']['items'] as $item) {
+                                                        $key = $item['product_id'] . $item['supplier_id'] . $item['term']?>
+                                                        <div class="row item">
+                                                            <div class="col-md-4">
+                                                                <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>')" class="fa fa-info-circle"></i>
+                                                                <a href="/product/<?php echo $products['slug']; ?>"><?php echo $products['brand'] . ' ' . $products['sku']; ?></a><br>
+                                                                <small><?php echo $products['name']; ?></small>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php if($item['saleprice'] > 0){?>
+                                                                    <b><?php echo format_currency($item['saleprice']); ?></b>
+                                                                    <br/>
+                                                                    <small><s><?php echo format_currency($item['price']); ?></s></small>
+                                                                <?php }else{?>
+                                                                    <b><?php echo format_currency($item['price']); ?></b>
+                                                                <?php } ?>
 
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <b><?php echo format_term($item['term']); ?></b><br>
-                                                            <small><?php echo $item['excerpt'];?></small>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
-                                                            <div class="input-group">
-                                                                <input type="number" name="quantity"
-                                                                       class="form-control" value="1">
-                                                                <input type="hidden" name="product_id"
-                                                                       value="<?php echo $products['id']; ?>">
-                                                                <input type="hidden" name="supplier_id"
-                                                                       value="<?php echo $item['supplier_id']; ?>">
-                                                                <input type="hidden" name="term"
-                                                                       value="<?php echo $item['term']; ?>">
-                                                                <span class="input-group-btn">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <b><?php echo format_term($item['term']); ?></b><br>
+                                                                <small><?php echo $item['excerpt'];?></small>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
+                                                                <div class="input-group">
+                                                                    <input type="number" name="quantity"
+                                                                           class="form-control" value="1">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="<?php echo $products['id']; ?>">
+                                                                    <input type="hidden" name="supplier_id"
+                                                                           value="<?php echo $item['supplier_id']; ?>">
+                                                                    <input type="hidden" name="term"
+                                                                           value="<?php echo $item['term']; ?>">
+                                                                    <span class="input-group-btn">
                                                                     <button class="btn btn-default" type="submit"><i
                                                                                 class="fa fa-shopping-cart"></i></button>
                                                                     </span>
+                                                                </div>
+                                                                </form>
+                                                                <small>
+                                                                    <a href="/cart" class="<?php echo $key; ?>"
+                                                                        <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                                            style="display: none;"
+                                                                        <?php } ?>
+                                                                    ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
+                                                                </small>
                                                             </div>
-                                                            </form>
-                                                            <small>
-                                                                <a href="/cart" class="<?php echo $key; ?>"
-                                                                    <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                                        style="display: none;"
-                                                                    <?php } ?>
-                                                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
-                                                            </small>
                                                         </div>
-                                                    </div>
-                                                <?php } ?>
+                                                    <?php } ?>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php } ?>
                                 <?php } ?>
                             <?php } ?>
                             <?php if($about){?>
