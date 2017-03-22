@@ -225,7 +225,6 @@ class Product_model extends Default_model
         return (int)preg_replace("/[^-0-9\.]/", "", $q);
     }
 
-
     //Получаем кросс номера
     public function get_crosses($ID_art, $brand, $sku)
     {
@@ -316,56 +315,64 @@ class Product_model extends Default_model
     {
         $sku = $this->clear_sku($sku);
 
-        $this->db->from('product_price');
-        $this->db->join('product', 'product.id=product_price.product_id');
+        $this->db->from('product');
         $this->db->where('sku', $sku);
         $this->db->where('brand', $brand);
-        $this->db->where('status', true);
         $this->db->limit(500);
-        $this->db->order_by('price', 'ASC');
-        $this->db->order_by('term', 'ASC');
-
         $query = $this->db->get();
-        $products = false;
+
+        $product = false;
         if ($query->num_rows() > 0) {
-            $products = $query->result_array();
-            foreach ($products as &$product) {
-                $product['price'] = $this->calculate_customer_price($product);
+            $product = $query->row_array();
+            $product['prices'] = $this->get_product_price2($product['id']);
+
+        }
+        return $product;
+    }
+
+    public function get_product_price2($product_id){
+        $product_prices = [];
+        $this->db->where('product_id', (int)$product_id);
+        $this->db->order_by('delivery_price','ASC');
+        $this->db->order_by('term', 'ASC');
+        $query = $this->db->get('product_price');
+        if($query->num_rows() > 0){
+            $product_prices['items'] = $query->result_array();
+            foreach ($product_prices['items'] as &$product_price){
+                $product_price['price'] = $this->calculate_customer_price($product_price);
+                $price_array[] = $product_price['price'];
+                $term_array[] = $product_price['term'];
             }
         }
+        $product_prices['max_price'] = max($price_array);
+        $product_prices['min_price'] = min($price_array);
+        $product_prices['max_term'] = max($term_array);
+        $product_prices['min_term'] = min($term_array);
 
-        return $products;
+        return $product_prices;
     }
 
     //Поиск запчастей по кросс номерам
     public function get_search_crosses($crosses)
     {
-        $this->db->from('product_price');
-        $this->db->join('product', 'product.id=product_price.product_id');
+        $this->db->from('product');
         foreach ($crosses as $cross) {
             $this->db->or_group_start();
             $this->db->where('sku', $cross['sku']);
             $this->db->where('brand', $cross['brand']);
-            $this->db->where('status', true);
             $this->db->group_end();
         }
         $this->db->limit(500);
-        $this->db->order_by('price', 'ASC');
-        $this->db->order_by('term', 'ASC');
-
         $query = $this->db->get();
 
         $products = false;
-
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
             foreach ($products as &$product) {
-                $product['price'] = $this->calculate_customer_price($product);
+                $product['prices'] = $this->get_product_price2($product['id']);
             }
         }
-
         return $products;
-
     }
 
     //Поиск запчастей по тексу
@@ -531,7 +538,7 @@ class Product_model extends Default_model
         if (!$cache && !is_null($cache)) {
             return false;
             $this->db->join('product', 'product.id=product_price.product_id');
-            $this->db->where('status', true);
+            //$this->db->where('status', true);
             $this->db->order_by('created_at', 'DESC');
             $this->db->limit(3);
             $query = $this->db->get('product_price');
@@ -570,7 +577,7 @@ class Product_model extends Default_model
         $cache = $this->cache->file->get('top_sellers');
         if (!$cache && !is_null($cache)) {
             $this->db->join('product', 'product.id=product_price.product_id');
-            $this->db->where('status', true);
+            //$this->db->where('status', true);
             $this->db->order_by('bought', 'DESC');
             $this->db->limit(3);
             $query = $this->db->get('product_price');
