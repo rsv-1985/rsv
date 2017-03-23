@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
                     <?php if ($products || $cross || $about) { ?>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <?php if ($products) { ?>
+                            <?php if ($products && $products['prices']['items']) { ?>
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title">
@@ -77,6 +77,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="panel-body">
                                             <?php foreach ($products['prices']['items'] as $item) {
                                                 $key = $item['product_id'] . $item['supplier_id'] . $item['term']?>
+                                                <?php if ($this->is_admin){?>
+                                                    <div class="row">
+                                                        <div class="col-md-12 well well-sm">
+                                                            <small class="pull-right">Эти данные видит только администратор сайта</small>
+                                                            <b>Поставщик: </b><?php echo $this->supplier_model->suppliers[$item['supplier_id']]['name'];?><br/>
+                                                            <b>Количество: </b><?php echo $item['quantity'];?><br/>
+                                                            <b>Закупочная цена: </b><?php echo $item['delivery_price'].' '.$this->currency_model->currencies[$item['currency_id']]['name'];?><br/>
+                                                            <b>Дата обновления: </b><?php echo $item['updated_at'];?>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
                                                 <div class="row item">
                                                     <div class="col-md-4">
                                                         <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>','info<?php echo $key;?>')" class="fa fa-info-circle"></i>
@@ -165,6 +176,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="panel-body">
                                                     <?php foreach ($products['prices']['items'] as $item) {
                                                         $key = $item['product_id'] . $item['supplier_id'] . $item['term']?>
+                                                        <?php if ($this->is_admin){?>
+                                                            <div class="row">
+                                                                <div class="col-md-12 well well-sm">
+                                                                    <small class="pull-right">Эти данные видит только администратор сайта</small>
+                                                                    <b>Поставщик: </b><?php echo $this->supplier_model->suppliers[$item['supplier_id']]['name'];?><br/>
+                                                                    <b>Количество: </b><?php echo $item['quantity'];?><br/>
+                                                                    <b>Закупочная цена: </b><?php echo $item['delivery_price'].' '.$this->currency_model->currencies[$item['currency_id']]['name'];?><br/>
+                                                                    <b>Дата обновления: </b><?php echo $item['updated_at'];?>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
                                                         <div class="row item">
                                                             <div class="col-md-4">
                                                                 <i onclick="tecdoc_info('<?php echo $products['sku']; ?>', '<?php echo $products['brand']; ?>','info<?php echo $key;?>')" class="fa fa-info-circle"></i>
