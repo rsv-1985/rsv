@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="search">
                         <?php echo form_open('search', ['method' => 'get', 'class' => 'search_form']);?>
                             <div class="wrapper_search">
-								<input onkeyup="getSearchBrand($(this).val())" required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>" value="<?php echo set_value('search',$this->input->get('search'));?>">
+								<input autocomplete="off" onkeyup="getSearchBrand($(this).val())" required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>" value="<?php echo set_value('search',$this->input->get('search'));?>">
 								<ul id="search_brand">
 
 								</ul>
