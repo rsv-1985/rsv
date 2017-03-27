@@ -13,11 +13,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="product-bit-title text-center">
                     <h1><?php echo $h1; ?></h1>
                     <?php if (isset($this->garage[md5($name)]) && $this->input->get('id_tree') && !isset($this->garage[md5($name)]['category'][$this->input->get('id_tree')])) { ?>
-                        <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_tree=1"><?php echo lang('text_add_tree_garage');?></a>
+                        <a rel="nofollow" class="btn btn-info"
+                           href="<?php echo current_url(); ?>?add_tree=1"><?php echo lang('text_add_tree_garage'); ?></a>
                     <?php } ?>
                     <?php if (!isset($this->garage[md5($name)])) { ?>
                         <a rel="nofollow" class="btn btn-info" href="<?php echo current_url(); ?>?add_garage=1"
-                           role="button"><?php echo lang('text_add_auto_garage');?></a>
+                           role="button"><?php echo lang('text_add_auto_garage'); ?></a>
                     <?php } ?>
                 </div>
             </div>
@@ -28,15 +29,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="row-fluid">
         <div class="col-md-12">
             <ol class="breadcrumb">
-                <?php foreach ($breadcrumb as  $b) { ?>
+                <?php foreach ($breadcrumb as $b) { ?>
 
-                    <?  if($b == end($breadcrumb)) {
+                    <? if ($b == end($breadcrumb)) {
                         ?>
                         <li><?php echo $b['title']; ?></li>
 
                         <?
-                    }
-                    else {
+                    } else {
                         ?>
                         <li><a href="<?php echo $b['href']; ?>"><?php echo $b['title']; ?></a></li>
                         <?
@@ -51,12 +51,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
                                 <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <?php echo lang('text_filter');?> <i class="glyphicon glyphicon-list pull-right"></i>
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                       aria-expanded="true" aria-controls="collapseOne">
+                                        <?php echo lang('text_filter'); ?> <i
+                                                class="glyphicon glyphicon-list pull-right"></i>
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                 aria-labelledby="headingOne">
                                 <div class="panel-body">
                                     <?php foreach ($filters as $filter_name => $filter) { ?>
                                         <b><?php echo $filter_name; ?></b>
@@ -71,7 +74,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </ul>
                                         </div>
                                     <?php } ?>
-                                    <a href="#" rel="nofollow" onclick="location.reload()" class="btn btn-info pull-right"><?php echo lang('text_resset_filter');?></a>
+                                    <a href="#" rel="nofollow" onclick="location.reload()"
+                                       class="btn btn-info pull-right"><?php echo lang('text_resset_filter'); ?></a>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -89,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                                onclick="show_tree('<?php echo $tree->ID_tree; ?>', event)"><?php echo $tree->Name; ?></a>
                                     <?php } else { ?>
                                         <i class="fa fa-circle-o"></i> <a
-                                            href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>"><?php echo $tree->Name; ?></a>
+                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>"><?php echo $tree->Name; ?></a>
                                     <?php } ?>
                                 </li>
                             <?php } ?>
@@ -101,114 +105,63 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php if (@$parts) { ?>
                     <table class="table table-responsive">
                         <tr>
-                            <th><?php echo lang('text_column_image');?></th>
-                            <th><?php echo lang('text_column_sku');?></th>
-                            <th><?php echo lang('text_column_brand');?></th>
-                            <th><?php echo lang('text_column_name');?></th>
-                            <th><?php echo lang('text_column_ship');?></th>
-                            <th><?php echo lang('text_column_price');?></th>
+                            <th><?php echo lang('text_column_image'); ?></th>
+                            <th><?php echo lang('text_column_sku'); ?></th>
+                            <th><?php echo lang('text_column_brand'); ?></th>
+                            <th><?php echo lang('text_column_name'); ?></th>
+                            <th><?php echo lang('text_column_ship'); ?></th>
+                            <th><?php echo lang('text_column_price'); ?></th>
                             <th></th>
                         </tr>
                         <?php foreach ($parts as $part) { ?>
-                            <?php if ($part->available['products'] || $part->available['cross']) { ?>
-                                <?php if ($part->available['products']) { ?>
-                                    <?php foreach ($part->available['products'] as $product) {
-                                        $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
-                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
-                                            echo $filter_key . ' ';
-                                        } ?>" <?php } ?>>
-                                            <td>
-                                                <img onerror="this.src='/cmsautox.dev/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
-                                                     alt="<?php echo $part->Name.' '.$part->Brand .' купить';?>" title="<?php echo $part->Name.' '.$part->Brand .' купить';?>">
-                                            </td>
-                                            <td>
-                                                <a target="_blank"
-                                                   href="/product/<?php echo $product['slug']; ?>"><?php echo $product['sku']; ?></a>
-                                            </td>
-                                            <td>
-                                                <?php echo $product['brand']; ?>
-                                            </td>
-                                            <td><?php echo $product['name']; ?></td>
-                                            <td><?php echo format_term($product['term']); ?></td>
-                                            <td style="width: 150px;font-weight: bold">
-                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                                <div class="input-group">
-                                                    <input type="number" name="quantity" class="form-control" value="1">
-                                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
-                                                    <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
-                                                    <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
-                                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i
-                                                class="fa fa-shopping-cart"></i></button>
-                                        </span>
-                                                </div>
-                                                </form>
-                                                <a href="/cart" class="<?php echo $key; ?>"
-                                                    <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                        style="display: none;"
-                                                    <?php } ?>
-                                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                <?php } ?>
-                                <?php if ($part->available['cross']) { ?>
-                                    <?php foreach ($part->available['cross'] as $product) {
-                                        $key = $product['product_id'] . $product['supplier_id'] . $product['term'];?>
-                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
-                                            echo $filter_key . ' ';
-                                        } ?>" <?php } ?>>
-                                            <td>
-                                                <img onerror="this.src='/cmsautox.dev/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
-                                                     alt="<?php echo $part->Name.' '.$part->Brand.' купить';?>" title="<?php echo $part->Name.' '.$part->Brand.' купить';?>">
-                                            </td>
-                                            <td>
-                                                <a target="_blank"
-                                                   href="/product/<?php echo $product['slug']; ?>"><?php echo $product['sku']; ?></a>
-                                            </td>
-                                            <td>
-                                                <?php echo $product['brand']; ?>
-                                            </td>
-                                            <td><?php echo format_term($product['term']); ?></td>
-                                            <td style="width: 150px;">
-                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
-                                            </td>
-
-                                            <td>
-                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                                <div class="input-group">
-                                                    <input type="number" name="quantity" class="form-control" value="1">
-                                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
-                                                    <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id']; ?>">
-                                                    <input type="hidden" name="term" value="<?php echo $product['term']; ?>">
-                                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i
-                                                class="fa fa-shopping-cart"></i></button>
-                                        </span>
-                                                </div>
-                                                </form>
-                                                <a href="/cart" class="<?php echo $key; ?>"
-                                                    <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                        style="display: none;"
-                                                    <?php } ?>
-                                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                <?php } ?>
-                            <?php } ?>
-                        <?php } ?>
-                        <?php foreach ($parts as $part) { ?>
-                            <?php if (!$part->available['products'] && !$part->available['cross']) { ?>
+                            <?php if ($part->product && $part->product['prices']) { ?>
                                 <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
                                     echo $filter_key . ' ';
                                 } ?>" <?php } ?>>
                                     <td>
-                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'" src="<?php echo $part->Preview; ?>"
-                                             alt="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>" title="<?php echo $part->Name.' '.$part->Brand.' купить'; ?>">
+                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'"
+                                             src="<?php echo $part->Preview; ?>"
+                                             alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                             title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
+                                    </td>
+                                    <td>
+                                        <a target="_blank"
+                                           href="/product/<?php echo $part->product['slug']; ?>"><?php echo $part->product['sku']; ?></a>
+                                    </td>
+                                    <td>
+                                        <?php echo $part->product['brand']; ?>
+                                    </td>
+                                    <td><?php echo $part->product['name']; ?></td>
+                                    <td>
+                                        <?php if($part->product['prices']['min_term'] == $part->product['prices']['max_term']){?>
+                                            <?php echo format_term($part->product['prices']['min_term']);?>
+                                        <?php }else{?>
+                                            <?php echo format_term($part->product['prices']['min_term']).'...'.format_term($part->product['prices']['max_term']); ?>
+                                        <?php } ?>
+                                       </td>
+                                    <td style="width: 150px;font-weight: bold">
+                                        <?php if($part->product['prices']['min_price'] == $part->product['prices']['max_price']){?>
+                                            <?php echo format_currency($part->product['prices']['min_price']);?>
+                                        <?php }else{?>
+                                            <?php echo format_currency($part->product['prices']['min_price']).'...'.format_currency($part->product['prices']['max_price']); ?>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <a href="/product/<?php echo $part->product['slug'];?>"><?php echo lang('text_go_product');?></a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        <?php } ?>
+                        <?php foreach ($parts as $part) { ?>
+                            <?php if (!$part->product && !$part->product['prices']) { ?>
+                                <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                    echo $filter_key . ' ';
+                                } ?>" <?php } ?>>
+                                    <td>
+                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'"
+                                             src="<?php echo $part->Preview; ?>"
+                                             alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                             title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
                                     </td>
                                     <td>
                                         <?php echo $part->Article; ?>
@@ -229,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } else { ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3><?php echo lang('text_quick_navigation');?></h3>
+                            <h3><?php echo lang('text_quick_navigation'); ?></h3>
                         </div>
                         <?php foreach ($trees as $tree) { ?>
                             <?php if (isset($popular_category[$tree->ID_tree])) { ?>
@@ -253,19 +206,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <h3><?php echo $name; ?></h3>
                         <table class="table">
                             <tr>
-                                <td><?php echo lang('text_CCM');?></td>
+                                <td><?php echo lang('text_CCM'); ?></td>
                                 <td><?php echo $info->CCM; ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo lang('text_KwHp');?></td>
+                                <td><?php echo lang('text_KwHp'); ?></td>
                                 <td><?php echo $info->KwHp; ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo lang('text_Engines');?></td>
+                                <td><?php echo lang('text_Engines'); ?></td>
                                 <td><?php echo $info->Engines; ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo lang('text_Body');?></td>
+                                <td><?php echo lang('text_Body'); ?></td>
                                 <td><?php echo $info->Body; ?></td>
                             </tr>
                         </table>
@@ -285,17 +238,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <script>
-    $(document).ready(function(){
-        $('.filters').click(function(){
+    $(document).ready(function () {
+        $('.filters').click(function () {
             var countChecked = 0;
             $(".filters-item").hide();
             $(".filters").each(function () {
-                if($(this).prop('checked')){
+                if ($(this).prop('checked')) {
                     countChecked++;
-                    $("."+$(this).val()).show();
+                    $("." + $(this).val()).show();
                 }
             });
-            if(countChecked == 0){
+            if (countChecked == 0) {
                 $(".filters-item").show();
             }
         });

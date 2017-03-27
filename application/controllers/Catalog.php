@@ -348,25 +348,7 @@ class Catalog extends Front_controller
                     $data['filters']['Производитель'][$key] = $tecdoc_part->Brand;
                     $tecdoc_part->filter_key[] = $key;
 
-                    $tecdoc_part->available['products'] = $this->product_model->get_search_products($tecdoc_part->Search, $tecdoc_part->Brand);
-
-                    if($tecdoc_part->available['products']){
-                        foreach ($tecdoc_part->available['products'] as $product){
-                            $key = md5($product['brand']);
-                            $data['filters']['Производитель'][$key] = $product['brand'];
-                            $tecdoc_part->filter_key[] = $key;
-                        }
-                    }
-                    //Пока заглушка
-                    $tecdoc_part->available['cross'] = false;
-
-                    if($tecdoc_part->available['cross']){
-                        foreach ($tecdoc_part->available['products'] as $product){
-                            $key = md5($product['brand']);
-                            $data['filters']['Производитель'][$key] = $product['brand'];
-                            $tecdoc_part->filter_key[] = $key;
-                        }
-                    }
+                    $tecdoc_part->product = $this->product_model->get_search_products($tecdoc_part->Search, $tecdoc_part->Brand);
 
                     if($tecdoc_part->Info){
                         $info = explode("</br>",$tecdoc_part->Info);

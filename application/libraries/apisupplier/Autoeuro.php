@@ -34,6 +34,9 @@ class Autoeuro{
             $results = $this->getData('Get_Element_Details',[$brand,$sku,1]);
             if($results){
                 foreach ($results as $result){
+                    if(!isset($result['name'])){
+                        continue;
+                    }
                     $product = [
                         'name' => mb_convert_encoding($result['name'],'UTF-8','windows-1251'),
                         'sku' =>  mb_convert_encoding($result['code'],'UTF-8','windows-1251'),
