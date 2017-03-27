@@ -270,47 +270,51 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($cross) { ?>
                                     <div role="tabpanel" class="tab-pane fade" id="cross">
                                         <table class="table">
-                                            <?php foreach ($cross as $product) {
-                                                $key = $product['product_id'] . $product['supplier_id'] . $product['term'];
-                                                if(!$product['prices']) continue;?>
-                                                <tr>
-                                                    <td class="name">
-                                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
-                                                        <br>
-                                                        <small><?php echo $product['name']; ?></small>
-                                                        <br>
-                                                    </td>
-                                                    <td class="price"><?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?></td>
-                                                    <td class="quan"><?php echo format_quantity($product['quantity']); ?></td>
-                                                    <td class="excerpt"><?php echo $product['excerpt']; ?></td>
-                                                    <td class="term"><i class="fa fa-road"
-                                                                        title="<?php echo lang('text_search_term'); ?>"></i><?php echo format_term($product['term']); ?>
-                                                    </td>
-                                                    <td class="cart">
-                                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                                        <div class="input-group">
-                                                            <input type="number" name="quantity" class="form-control"
-                                                                   value="1">
-                                                            <input type="hidden" name="product_id"
-                                                                   value="<?php echo $product['product_id']; ?>">
-                                                            <input type="hidden" name="supplier_id"
-                                                                   value="<?php echo $product['supplier_id']; ?>">
-                                                            <input type="hidden" name="term"
-                                                                   value="<?php echo $product['term']; ?>">
-                                                            <span class="input-group-btn">
+                                            <?php foreach ($cross as $product) { ?>
+                                                <?php if($product['prices']){?>
+                                                    <?php foreach ($product['prices']['items'] as $item){?>
+                                                        <?php $key = $item['product_id'] . $item['supplier_id'] . $item['term'];
+                                                        if(!$product['prices']) continue;?>
+                                                        <tr>
+                                                            <td class="name">
+                                                                <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
+                                                                <br>
+                                                                <small><?php echo $product['name']; ?></small>
+                                                                <br>
+                                                            </td>
+                                                            <td class="price"><?php echo format_currency($item['saleprice'] > 0 ? $item['saleprice'] : $item['price']); ?></td>
+                                                            <td class="quan"><?php echo format_quantity($item['quantity']); ?></td>
+                                                            <td class="excerpt"><?php echo $item['excerpt']; ?></td>
+                                                            <td class="term"><i class="fa fa-road"
+                                                                                title="<?php echo lang('text_search_term'); ?>"></i><?php echo format_term($item['term']); ?>
+                                                            </td>
+                                                            <td class="cart">
+                                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
+                                                                <div class="input-group">
+                                                                    <input type="number" name="quantity" class="form-control"
+                                                                           value="1">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="<?php echo $item['product_id']; ?>">
+                                                                    <input type="hidden" name="supplier_id"
+                                                                           value="<?php echo $item['supplier_id']; ?>">
+                                                                    <input type="hidden" name="term"
+                                                                           value="<?php echo $item['term']; ?>">
+                                                                    <span class="input-group-btn">
                                         <button class="btn btn-default" type="submit"><i
-                                                class="fa fa-shopping-cart"></i></button>
+                                                    class="fa fa-shopping-cart"></i></button>
                                         </span>
-                                                        </div>
-                                                        </form>
-                                                        <a href="/cart" class="<?php echo $key; ?>"
-                                                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                                style="display: none;"
-                                                            <?php } ?>
-                                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                                </div>
+                                                                </form>
+                                                                <a href="/cart" class="<?php echo $key; ?>"
+                                                                    <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                                        style="display: none;"
+                                                                    <?php } ?>
+                                                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                <?php } ?>
                                             <?php } ?>
                                         </table>
                                     </div>

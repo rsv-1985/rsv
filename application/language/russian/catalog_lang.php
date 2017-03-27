@@ -37,4 +37,3 @@ $lang['text_column_KwHp'] = 'Мощность двигателя(кВт/л.с.)'
 $lang['text_column_Fuel'] = 'Топливо';
 $lang['text_column_Drive'] = 'Привод';
 $lang['text_column_Body'] = 'Кузов';
-$lang['text_go_product'] = 'Перейти к товару';

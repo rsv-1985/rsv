@@ -57,3 +57,4 @@ $lang['text_in_stock'] = 'На складе';
 $lang['text_error_qty_cart_add'] = 'Заказываемого количества нет в наличии';
 $lang['text_search_type_1'] = 'По коду';
 $lang['text_search_type_2'] = 'По названию';
+$lang['text_go_product'] = 'Перейти к товару';
