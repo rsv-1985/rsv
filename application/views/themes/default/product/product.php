@@ -271,7 +271,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div role="tabpanel" class="tab-pane fade" id="cross">
                                         <table class="table">
                                             <?php foreach ($cross as $product) {
-                                                $key = $product['product_id'] . $product['supplier_id'] . $product['term']; ?>
+                                                $key = $product['product_id'] . $product['supplier_id'] . $product['term'];
+                                                if(!$product['prices']) continue;?>
                                                 <tr>
                                                     <td class="name">
                                                         <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
