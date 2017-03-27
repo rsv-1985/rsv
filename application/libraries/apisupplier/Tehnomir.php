@@ -73,7 +73,7 @@ class Tehnomir{
                         'delivery_price' => $result['Price'],
                         'quantity' => $result['Quantity'] == 0 ? 1 : $result['Quantity'],
                         'supplier_id' => (int)$supplier_id,
-                        'term' => $result['DeliveryDays'] * 24 + (int)$plus_day
+                        'term' => (int)$result['DeliveryDays'] * 24 + (int)$plus_day
                     ];
 
                     $product_data = [
