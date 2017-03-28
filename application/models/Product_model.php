@@ -724,13 +724,14 @@ class Product_model extends Default_model
 
     public function api_supplier($sku, $brand, $crosses_search)
     {
+        $cross_suppliers = [];
         $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
         if ($api_supplier) {
             foreach ($api_supplier as $supplier) {
                 $this->load->library('apisupplier/' . $supplier['api']);
-                $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
+                $cross_suppliers[] = $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
             }
         }
-
+        return $cross_suppliers;
     }
 }

@@ -22,6 +22,7 @@ class Tehnomir{
     }
 
     public function get_search($supplier_id, $sku, $brand, $search_data){
+        $cross_supplier = [];
         //Удаляем все ценовые предложения перед поиском
         $this->CI->product_model->product_delete(['supplier_id' => (int)$supplier_id, 'updated_at <' => date('Y-m-d H:i:s', strtotime('- 1 day'))]);
 
@@ -49,11 +50,6 @@ class Tehnomir{
 
         }
 
-        if($this->CI->input->get('debug_show')){
-            echo '<pre>';
-            print_r($results);
-            echo '</pre>';
-        }
         if(isset($results['QueryStatus']) && $results['QueryStatus']['QueryStatusCode'] == 0 && count($results['Prices']) > 0){
 
             $system_currency_id = 0;
@@ -68,13 +64,20 @@ class Tehnomir{
 
                     $product = [
                         'name' => $result['PartDescriptionRus'],
-                        'sku' => $result['PartNumberShort'],
-                        'brand' => $result['Brand'],
-                        'delivery_price' => $result['Price'],
-                        'quantity' => $result['Quantity'] == 0 ? 1 : $result['Quantity'],
+                        'sku' => $this->CI->product_model->clear_sku($result['PartNumberShort']),
+                        'brand' =>  $this->CI->product_model->clear_brand($result['Brand']),
+                        'delivery_price' => (float)$result['Price'],
+                        'quantity' => (int)$result['Quantity'] == 0 ? 1 : $result['Quantity'],
                         'supplier_id' => (int)$supplier_id,
                         'term' => (int)$result['DeliveryDays'] * 24 + (int)$plus_day
                     ];
+
+                    if($product['sku'] != $sku || $product['brand'] != $brand){
+                        $cross_supplier[] = [
+                            'sku' => $product['sku'],
+                            'brand' => $product['brand']
+                        ];
+                    }
 
                     $product_data = [
                         'sku' => $product['sku'],
@@ -104,6 +107,8 @@ class Tehnomir{
                 $this->CI->product_model->price_insert($price_data);
             }
         }
+
+        return  $cross_supplier;
     }
 
     public function get_products($url){

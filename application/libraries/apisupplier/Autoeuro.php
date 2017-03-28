@@ -28,6 +28,7 @@ class Autoeuro{
     }
 
     public function get_search($supplier_id, $sku, $brand, $search_data){
+        $cross_supplier = [];
         //Удаляем все ценовые предложения перед поиском
         $this->CI->product_model->product_delete(['supplier_id' => (int)$supplier_id, 'updated_at <' => date('Y-m-d H:i:s', strtotime('- 1 day'))]);
         if($brand){
@@ -53,12 +54,19 @@ class Autoeuro{
                     $product = [
                         'name' => mb_convert_encoding($result['name'],'UTF-8','windows-1251'),
                         'sku' =>  $this->CI->product_model->clear_sku(mb_convert_encoding($result['code'],'UTF-8','windows-1251')),
-                        'brand' =>  mb_convert_encoding($result['maker'],'UTF-8','windows-1251'),
+                        'brand' =>  $this->CI->product_model->clear_brand(mb_convert_encoding($result['maker'],'UTF-8','windows-1251')),
                         'delivery_price' => $result['price'],
                         'quantity' => (int)$result['amount'],
                         'supplier_id' => (int)$supplier_id,
                         'term' => $term
                     ];
+
+                    if($result['is_kross']){
+                        $cross_supplier[]=[
+                            'sku' =>  $product['sku'],
+                            'brand' => $product['brand']
+                        ];
+                    }
 
                     $product_data = [
                         'sku' => $product['sku'],
@@ -89,6 +97,8 @@ class Autoeuro{
                 }
             }
         }
+
+        return $cross_supplier;
     }
 
     private function getData($proc,$parm=false) {

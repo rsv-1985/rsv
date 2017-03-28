@@ -27,7 +27,13 @@ class Search extends Front_controller {
             $crosses_search = $this->product_model->get_crosses($ID_art, $brand, $search);
         }
 
-        $this->product_model->api_supplier($search, $brand, $crosses_search);
+        $cross_suppliers = $this->product_model->api_supplier($search, $brand, $crosses_search);
+        if($cross_suppliers){
+            foreach ($cross_suppliers as $cross_supplier){
+                $crosses_search = array_merge($crosses_search,$cross_supplier);
+            }
+            $crosses_search = array_unique($crosses_search, SORT_REGULAR);
+        }
 
         $data['products'] = false;
         $data['cross'] = false;
