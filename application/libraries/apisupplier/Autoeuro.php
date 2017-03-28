@@ -29,7 +29,7 @@ class Autoeuro{
 
     public function get_search($supplier_id, $sku, $brand, $search_data){
         //Удаляем все ценовые предложения перед поиском
-        $this->CI->product_model->product_delete(['supplier_id' => (int)$supplier_id]);
+        $this->CI->product_model->product_delete(['supplier_id' => (int)$supplier_id, 'updated_at <' => date('Y-m-d H:i:s', strtotime('- 1 day'))]);
         if($brand){
             $results = $this->getData('Get_Element_Details',[$brand,$sku,1]);
             if($results){
@@ -37,14 +37,27 @@ class Autoeuro{
                     if(!isset($result['name'])){
                         continue;
                     }
+
+                    switch ($result['order_time']){
+                        case '':
+                            $term = $this->CI->config->item('api_autoeuro_term_in_stock');
+                            break;
+                        case '0-0':
+                            $term = $this->CI->config->item('api_autoeuro_term_0_0');
+                            break;
+                        default:
+                            $term = (int)$result['order_time'] * 24 + $this->CI->config->item('api_autoeuro_term_other');
+                    }
+
+
                     $product = [
                         'name' => mb_convert_encoding($result['name'],'UTF-8','windows-1251'),
-                        'sku' =>  mb_convert_encoding($result['code'],'UTF-8','windows-1251'),
+                        'sku' =>  $this->CI->product_model->clear_sku(mb_convert_encoding($result['code'],'UTF-8','windows-1251')),
                         'brand' =>  mb_convert_encoding($result['maker'],'UTF-8','windows-1251'),
                         'delivery_price' => $result['price'],
                         'quantity' => (int)$result['amount'],
                         'supplier_id' => (int)$supplier_id,
-                        'term' => (int)$result['order_time']
+                        'term' => $term
                     ];
 
                     $product_data = [
