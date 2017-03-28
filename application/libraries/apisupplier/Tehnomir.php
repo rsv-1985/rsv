@@ -23,7 +23,7 @@ class Tehnomir{
 
     public function get_search($supplier_id, $sku, $brand, $search_data){
         //Удаляем все ценовые предложения перед поиском
-        $this->CI->product_model->product_delete(['supplier_id' => (int)$supplier_id]);
+        $this->CI->product_model->product_delete(['supplier_id' => (int)$supplier_id, 'updated_at <' => date('Y-m-d H:i:s', strtotime('- 1 day'))]);
 
         $login = $this->CI->config->item('api_tehnomir_login');;
         $password = $this->CI->config->item('api_tehnomir_password');
