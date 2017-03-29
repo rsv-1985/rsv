@@ -30,6 +30,8 @@ class Tehnomir{
         $password = $this->CI->config->item('api_tehnomir_password');
         $currency = $this->CI->config->item('api_tehnomir_currency');
         $plus_day =  $this->CI->config->item('api_tehnomir_plus_day');
+        $deliveryType = $this->CI->config->item('api_tehnomir_delivery_type');
+        $deliveryPercent = $this->CI->config->item('api_tehnomir_delivery_percent');
 
         $url = 'https://www.tehnomir.com.ua/ws/xml.php?act=GetPriceWithCrosses&usr_login='.$login.'&currency='.$currency.'&usr_passwd='.$password.'&PartNumber='.$sku;
 
@@ -61,6 +63,14 @@ class Tehnomir{
 
 
             foreach ($results['Prices']['Price'] as $result) {
+
+                if($deliveryType && !in_array($result['DeliveryType'],$deliveryType)){
+                    continue;
+                }
+
+                if($deliveryPercent && $result['DeliveryPercent'] < $deliveryPercent){
+                    continue;
+                }
 
                     $product = [
                         'name' => $result['PartDescriptionRus'],
