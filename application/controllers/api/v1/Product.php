@@ -1,11 +1,12 @@
 <?php
-require(APPPATH.'libraries/REST_Controller.php');
+require(APPPATH . 'libraries/REST_Controller.php');
 /**
  * Developer: Распутний Сергей Викторович
  * Site: cms.autoxcatalog.com
  * Email: sergey.rasputniy@gmail.com
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Product extends REST_Controller
 {
     public function __construct()
@@ -17,13 +18,13 @@ class Product extends REST_Controller
         $this->load->model('customer_model');
     }
 
-    public function  index_get()
+    public function index_get()
     {
         $synonyms = $this->synonym_model->get_synonyms();
 
-        $brand = $this->product_model->clear_brand($this->input->get('brand',true),$synonyms);
+        $brand = $this->product_model->clear_brand($this->input->get('brand', true), $synonyms);
 
-        $sku = $this->product_model->clear_sku($this->input->get('sku',true));
+        $sku = $this->product_model->clear_sku($this->input->get('sku', true));
 
         $ID_art = $this->tecdoc->getIDart($sku, $brand);
 
@@ -38,52 +39,70 @@ class Product extends REST_Controller
 
         $response = false;
 
-        if($brand){
-            $results['products'] = $this->product_model->get_search_products($sku,$brand);
-            if($with_cross){
-                $crosses = $this->product_model->get_crosses($ID_art, $sku, $brand);
-                if($crosses){
-                    $results['cross'] = $this->product_model->get_search_crosses($crosses);
-                }
+        if ($sku && $brand) {
+
+            if ($with_cross) {
+                $crosses_search = $this->product_model->get_crosses($ID_art, $sku, $brand);
             }
 
-            if($results){
-                if($results['products']){
-                    foreach ($results['products'] as $product){
-                        $response[] = [
-                            'id' => $product['product_id'],
-                            'supplier_id' => $product['supplier_id'],
-                            'sku' => $product['sku'],
-                            'brand' => $product['brand'],
-                            'name' => $product['name'],
-                            'href' => base_url('product/'.$product['slug']),
-                            'excerpt' => $product['excerpt'],
-                            'description' => $product['description'],
-                            'price' => $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
-                            'quantity' => $product['quantity'],
-                            'term' => $product['term'],
-                            'cross' => false
-                        ];
-                    }
+
+            //Делаем поиск по апи поставщиков c возвратом крос номеров от поставщика
+            $cross_suppliers = $this->product_model->api_supplier($sku, $brand, $crosses_search);
+
+            if ($cross_suppliers) {
+                foreach ($cross_suppliers as $cross_supplier) {
+                    $crosses_search = array_merge($crosses_search, $cross_supplier);
                 }
-                if($results['cross']){
-                    foreach ($results['cross'] as $product){
-                        $response[] = [
-                            'id' => $product['product_id'],
-                            'supplier_id' => $product['supplier_id'],
-                            'sku' => $product['sku'],
-                            'brand' => $product['brand'],
-                            'name' => $product['name'],
-                            'href' => base_url('product/'.$product['slug']),
-                            'excerpt' => $product['excerpt'],
-                            'description' => $product['description'],
-                            'price' => $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
-                            'quantity' => $product['quantity'],
-                            'term' => $product['term'],
-                            'cross' => true
-                        ];
-                    }
+                $crosses_search = array_unique($crosses_search, SORT_REGULAR);
+            }
+
+            $product = $this->product_model->get_search_products($sku, $brand);
+
+            $crosses = false;
+            if ($with_cross && $crosses_search) {
+                $crosses = $this->product_model->get_search_crosses($crosses_search);
+            }
+
+
+            if ($product && $product['prices']) {
+                foreach ($product['prices']['items'] as $item) {
+                    $response[] = [
+                        'id' => $item['product_id'],
+                        'supplier_id' => $item['supplier_id'],
+                        'sku' => $product['sku'],
+                        'brand' => $product['brand'],
+                        'name' => $product['name'],
+                        'href' => base_url('product/' . $product['slug']),
+                        'excerpt' => $item['excerpt'],
+                        'description' => $product['description'],
+                        'price' => $item['saleprice'] > 0 ? $item['saleprice'] : $item['price'],
+                        'quantity' => $item['quantity'],
+                        'term' => $item['term'],
+                        'cross' => false
+                    ];
                 }
+            }
+            if ($crosses) {
+               foreach ($crosses as $cross){
+                   if($cross['prices']){
+                       foreach ($cross['prices']['items'] as $item) {
+                           $response[] = [
+                               'id' => $item['product_id'],
+                               'supplier_id' =>$item['supplier_id'],
+                               'sku' => $cross['sku'],
+                               'brand' => $cross['brand'],
+                               'name' => $cross['name'],
+                               'href' => base_url('product/' . $cross['slug']),
+                               'excerpt' => $item['excerpt'],
+                               'description' => $cross['description'],
+                               'price' => $item['saleprice'] > 0 ? $item['saleprice'] : $item['price'],
+                               'quantity' => $item['quantity'],
+                               'term' => $item['term'],
+                               'cross' => true
+                           ];
+                       }
+                   }
+               }
             }
         }
 
