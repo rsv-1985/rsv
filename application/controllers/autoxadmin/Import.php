@@ -127,11 +127,6 @@ class Import extends Admin_controller
                 case 2:
                     $this->db->where('supplier_id',$supplier_id )->delete('product_price');
                     break;
-                case 1:
-                    if($this->input->get('disable')){
-                        $this->db->where('supplier_id',$supplier_id)->update('product_price',['status' => false]);
-                    }
-                    break;
             }
         }
 
