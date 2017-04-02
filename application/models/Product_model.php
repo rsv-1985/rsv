@@ -324,33 +324,12 @@ class Product_model extends Default_model
         $product = false;
         if ($query->num_rows() > 0) {
             $product = $query->row_array();
-            $product['prices'] = $this->get_product_price2($product['id']);
+            $product['prices'] = $this->get_product_price2($product);
 
         }
         return $product;
     }
 
-    public function get_product_price2($product_id){
-        $product_prices = [];
-        $this->db->where('product_id', (int)$product_id);
-        $this->db->order_by('delivery_price','ASC');
-        $this->db->order_by('term', 'ASC');
-        $query = $this->db->get('product_price');
-        if($query->num_rows() > 0){
-            $product_prices['items'] = $query->result_array();
-            foreach ($product_prices['items'] as &$product_price){
-                $product_price['price'] = $this->calculate_customer_price($product_price);
-                $price_array[] = $product_price['price'];
-                $term_array[] = $product_price['term'];
-            }
-        }
-        $product_prices['max_price'] = max($price_array);
-        $product_prices['min_price'] = min($price_array);
-        $product_prices['max_term'] = max($term_array);
-        $product_prices['min_term'] = min($term_array);
-
-        return $product_prices;
-    }
 
     //Поиск запчастей по кросс номерам
     public function get_search_crosses($crosses)
@@ -369,7 +348,7 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
             foreach ($products as &$product) {
-                $product['prices'] = $this->get_product_price2($product['id']);
+                $product['prices'] = $this->get_product_price2($product);
             }
         }
         return $products;
@@ -411,6 +390,30 @@ class Product_model extends Default_model
         }
 
         return $products;
+    }
+
+    public function get_product_price2($product){
+        $product_prices = [];
+        $this->db->where('product_id', (int)$product['id']);
+        $this->db->order_by('delivery_price','ASC');
+        $this->db->order_by('term', 'ASC');
+        $query = $this->db->get('product_price');
+        if($query->num_rows() > 0){
+            $product_prices['items'] = $query->result_array();
+            foreach ($product_prices['items'] as &$product_price){
+                $product_price['brand'] = $product['brand'];
+                $product_price['price'] = $this->calculate_customer_price($product_price);
+                unset($product_price['brand']);
+                $price_array[] = $product_price['price'];
+                $term_array[] = $product_price['term'];
+            }
+        }
+        $product_prices['max_price'] = max($price_array);
+        $product_prices['min_price'] = min($price_array);
+        $product_prices['max_term'] = max($term_array);
+        $product_prices['min_term'] = min($term_array);
+
+        return $product_prices;
     }
 
 
