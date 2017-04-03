@@ -151,7 +151,7 @@ class Hotline{
             $this->CI->db->order_by('calculate_price','ASC');
         }
 
-        $this->CI->db->limit(2000);
+        $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
 
         if($query->num_rows() == 0 && $data['id'] == 0){
