@@ -166,6 +166,8 @@ class Csv{
             $data['id'] = 0;
         }
 
+        $this->CI->load->model('product_model');
+
         $this->CI->db->select('
         product.*, 
         product_price.*,
@@ -180,6 +182,7 @@ class Csv{
 
 
         $this->CI->db->where('product.id >',(int)@$data['id']);
+        $this->CI->db->where('product_price.delivery_price != ', null);
 
         if(@$data['category_id']){
             $this->CI->db->where('category.id',(int)$data['category_id']);
@@ -221,6 +224,7 @@ class Csv{
         $this->CI->db->order_by('product.id','ASC');
 
         $this->CI->db->limit(10000);
+
         $query = $this->CI->db->get();
 
         if($query->num_rows() == 0 && $data['id'] == 0){
@@ -228,17 +232,10 @@ class Csv{
         }
         if($query->num_rows() > 0){
 
-            if($data['id'] == 0){
-                $fp = fopen('./uploads/price/csv/price.csv', 'w');
-                fputcsv($fp, array_keys($data['template']));
-            }else{
-                $fp = fopen('./uploads/price/csv/price.csv', 'a');
-            }
-
-
             $products = $query->result_array();
+
             foreach ($products as $product){
-                $data['id'] = $product['id'];
+
                 $product['slug'] = base_url('product/'.$product['slug']);
                 if($data['margin']){
                     $margins = explode(';',$data['margin']);
@@ -257,43 +254,7 @@ class Csv{
                         }
                     }
                 }else{
-
-                    $price = $product['delivery_price'] * $this->CI->currency_model->currencies[$product['currency_id']]['value'];
-
-                    //Ценообразование по поставщику
-                    if ($this->CI->pricing_model->pricing && isset($this->CI->pricing_model->pricing[$product['supplier_id']])) {
-                        foreach ($this->CI->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
-                            if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
-
-                                if ($supplier_price['brand'] && $product['brand'] != $supplier_price['brand']) {
-                                    continue;
-                                }
-
-                                if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
-                                    switch ($supplier_price['method_price']) {
-                                        case '+':
-                                            $price = $price + $price * $supplier_price['value'] / 100;
-                                            break;
-                                        case '-':
-                                            $price = $price - $price * $supplier_price['value'] / 100;
-                                            break;
-                                    }
-                                    break;
-                                }
-
-                                switch ($supplier_price['method_price']) {
-                                    case '+':
-                                        $price = $price + $price * $supplier_price['value'] / 100;
-                                        break;
-                                    case '-':
-                                        $price = $price - $price * $supplier_price['value'] / 100;
-                                        break;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    $product['price'] = $price;
+                    $product['price'] = $this->CI->product_model->calculate_customer_price($product);
                 }
 
                 if($data['price_from'] != '' && $product['price'] < $data['price_from']){
@@ -304,8 +265,21 @@ class Csv{
                     continue;
                 }
 
+                if($data['id'] == 0){
+                    $data['id'] = $product['id'];
+                    $fp = fopen('./uploads/price/csv/price.csv', 'w');
+                    $product = array_intersect_key($product,$data['template']);
+                    fputcsv($fp, array_keys($product));
+                }else{
+                    $data['id'] = $product['id'];
+                    $fp = fopen('./uploads/price/csv/price.csv', 'a');
+                }
+
                 $product = array_intersect_key($product,$data['template']);
+
                 fputcsv($fp, $product);
+
+
             }
 
             echo('<html>

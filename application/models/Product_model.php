@@ -476,7 +476,7 @@ class Product_model extends Default_model
     }
 
     //Расчет цены по группе покупателя
-    private function calculate_customer_price($product)
+    public function calculate_customer_price($product)
     {
         if ($product['price'] > 0) {
             return $product['price'];
