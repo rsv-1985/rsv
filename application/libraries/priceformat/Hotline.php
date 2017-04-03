@@ -100,55 +100,45 @@ class Hotline{
     }
 
     public function get_data($data){
-
+        $this->CI->load->model('product_model');
+        
         if(!@$data['id']){
             $data['id'] = 0;
         }
-        $tmp_prefix = $this->CI->db->dbprefix;
-        $this->CI->db->dbprefix = '';
-// unusual query runs here
+
 
         $this->CI->db->select('
-        ax_product.*, 
-        ax_product_price.*,
-        ax_category.name as category_name,
-        ax_currency.name as currency_name,
-        ax_currency.value as currency_value,
-        ax_supplier.name as supplier_name,
-        ax_product_price.price * ax_currency.value as calculate_price
-        ', FALSE);
+        product.*, 
+        product_price.*,
+        (SELECT name FROM ax_category WHERE ax_category.id= ax_product.category_id) as category_name', false);
 
-        $this->CI->db->from('ax_product_price');
+        $this->CI->db->from('product');
+        $this->CI->db->join('product_price','product_price.product_id=product.id','left');
 
-        $this->CI->db->join('ax_currency','ax_currency.id=ax_product_price.currency_id','left');
-        $this->CI->db->join('ax_product','ax_product.id=ax_product_price.product_id','left');
-        $this->CI->db->join('ax_category','ax_category.id=ax_product.category_id','left');
-        $this->CI->db->join('ax_supplier','ax_supplier.id=ax_product_price.supplier_id','left');
-
-        $this->CI->db->where('ax_product_price.product_id >',(int)@$data['id']);
+        $this->CI->db->where('product_price.product_id >',(int)@$data['id']);
 
         if(@$data['category_id']){
-            $this->CI->db->where('ax_category.id',(int)$data['category_id']);
+            $this->CI->db->where('category.id',(int)$data['category_id']);
         }
 
         if(@$data['supplier_id']){
-            $this->CI->db->where('ax_supplier.id',(int)$data['supplier_id']);
+            $this->CI->db->where('supplier.id',(int)$data['supplier_id']);
         }
 
         if(@$data['saleprice']){
-            $this->CI->db->where('ax_product_price.saleprice >',0);
+            $this->CI->db->where('product_price.saleprice >',0);
         }
 
         if(@$data['status']){
-            $this->CI->db->where('ax_product_price.status',true);
+            $this->CI->db->where('product_price.status',true);
         }
 
         if(@$data['brand']){
-            $this->CI->db->where_in('ax_product.brand',explode(',',$data['brand']));
+            $this->CI->db->where_in('product.brand',explode(',',$data['brand']));
         }
 
         if(@$data['exclude_brand']){
-            $this->CI->db->where_not_in('ax_product.brand',explode(',',$data['exclude_brand']));
+            $this->CI->db->where_not_in('product.brand',explode(',',$data['exclude_brand']));
         }
 
         if(@$data['unique']){
@@ -168,74 +158,59 @@ class Hotline{
         }
         if($query->num_rows() > 0){
             $content = '';
-            $results = $query->result_array();
-            foreach ($results as $result){
-                $price = $result['delivery_price'] * $this->CI->currency_model->currencies[$result['currency_id']]['value'];
-
+            $products = $query->result_array();
+            foreach ($products as $product){
                 //Ценообразование по поставщику
-                if ($this->CI->pricing_model->pricing && isset($this->CI->pricing_model->pricing[$result['supplier_id']])) {
-                    foreach ($this->CI->pricing_model->pricing[$result['supplier_id']] as $supplier_price) {
-                        if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
-
-                            if ($supplier_price['brand'] && $result['brand'] != $supplier_price['brand']) {
-                                continue;
-                            }
-
-                            if ($supplier_price['brand'] && $result['brand'] == $supplier_price['brand']) {
-                                switch ($supplier_price['method_price']) {
-                                    case '+':
-                                        $price = $price + $price * $supplier_price['value'] / 100;
-                                        break;
-                                    case '-':
-                                        $price = $price - $price * $supplier_price['value'] / 100;
-                                        break;
+                if($data['margin']){
+                    $margins = explode(';',$data['margin']);
+                    if(count($margins)){
+                        foreach ($margins as $margin){
+                            $margin = explode(':',$margin);
+                            if(count($margin)){
+                                $percent = @$margin[1];
+                                $margin_price = explode('-',$margin[0]);
+                                $price_from = @$margin_price[0];
+                                $price_to = @$margin_price[1];
+                                if($percent > 0 && $price_from >= 0 && $price_to > 0 && $product['delivery_price'] >= $price_from && $product['delivery_price'] <=  $price_to){
+                                    $product['price'] = round($product['delivery_price'] + $product['delivery_price'] * $percent / 100,2);
                                 }
-                                break;
                             }
-
-                            switch ($supplier_price['method_price']) {
-                                case '+':
-                                    $price = $price + $price * $supplier_price['value'] / 100;
-                                    break;
-                                case '-':
-                                    $price = $price - $price * $supplier_price['value'] / 100;
-                                    break;
-                            }
-                            break;
                         }
                     }
+                }else{
+                    $product['price'] = $this->CI->product_model->calculate_customer_price($product);
                 }
 
-                if($data['price_from'] != '' && $price < $data['price_from']){
+                if($data['price_from'] != '' && $product['price'] < $data['price_from']){
                     continue;
                 }
 
-                if($data['price_to'] != '' && $price > $data['price_to']){
+                if($data['price_to'] != '' && $product['price'] > $data['price_to']){
                     continue;
                 }
 
-                $product = [
-                    $result['category_name'],
-                    $result['brand'],
-                    $result['name'],
-                    $result['sku'],
-                    $result['id'],
-                    $result['description'],
-                    str_replace('.',',',$price),
+                $item = [
+                    $product['category_name'],
+                    $product['brand'],
+                    $product['name'],
+                    $product['sku'],
+                    $product['id'],
+                    $product['description'],
+                    str_replace('.',',',$product['price']),
                     'от производителя',
-                    $result['quantity'] > 0 ? 'в наличии' : 'под заказ',
+                    $product['quantity'] > 0 ? 'в наличии' : 'под заказ',
                     0,
-                    base_url('product/'.$result['slug']),
-                    $result['image'] ? base_url('uploads/product/'.$result['image']) : ''
+                    base_url('product/'.$product['slug']),
+                    $product['image'] ? base_url('uploads/product/'.$product['image']) : ''
                 ];
-                $content .= implode(';',$product).PHP_EOL;
+                $content .= implode(';',$item).PHP_EOL;
             }
             if($data['id'] == 0){
                 file_put_contents('./uploads/price/hotline/price.csv',$content);
             }else{
                 file_put_contents('./uploads/price/hotline/price.csv',$content,FILE_APPEND);
             }
-            $data['id'] = $result['id'];
+            $data['id'] = $product['id'];
             echo('<html>
                     <head>
                     <title>Export...</title>
