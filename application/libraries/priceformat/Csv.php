@@ -176,11 +176,11 @@ class Csv{
         ', false);
 
 
-        $this->CI->db->from('product_price');
-        $this->CI->db->join('currency','currency.id=product_price.currency_id','left');
-        $this->CI->db->join('product','product.id=product_price.product_id','left');
+        $this->CI->db->from('product');
+        $this->CI->db->join('product_price','product_price.product_id=product.id');
         $this->CI->db->join('category','category.id=product.category_id','left');
         $this->CI->db->join('supplier','supplier.id=product_price.supplier_id','left');
+        $this->CI->db->join('currency','currency.id=product_price.currency_id','left');
 
         $this->CI->db->where('product.id >',(int)@$data['id']);
 
@@ -223,7 +223,7 @@ class Csv{
 
         $this->CI->db->order_by('product.id','ASC');
 
-        $this->CI->db->limit(2000);
+        $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
         if($query->num_rows() == 0 && $data['id'] == 0){
             exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Товары по фильтру не найдены');
