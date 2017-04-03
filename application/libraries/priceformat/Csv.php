@@ -169,18 +169,15 @@ class Csv{
         $this->CI->db->select('
         product.*, 
         product_price.*,
-        category.name as category_name,
-        currency.name as currency_name,
-        currency.value as currency_value,
-        supplier.name as supplier_name,
-        ', false);
+       (SELECT name FROM ax_category WHERE ax_category.id= ax_product.category_id) as category_name,
+       (SELECT name FROM ax_supplier WHERE ax_supplier.id= ax_product_price.supplier_id) as supplier_name,
+       (SELECT name FROM ax_currency WHERE ax_currency.id= ax_product_price.currency_id) as currency_name,
+       (SELECT value FROM ax_currency WHERE ax_currency.id= ax_product_price.currency_id) as currency_value', false);
 
 
         $this->CI->db->from('product');
-        $this->CI->db->join('product_price','product_price.product_id=product.id');
-        $this->CI->db->join('category','category.id=product.category_id','left');
-        $this->CI->db->join('supplier','supplier.id=product_price.supplier_id','left');
-        $this->CI->db->join('currency','currency.id=product_price.currency_id','left');
+        $this->CI->db->join('product_price','product_price.product_id=product.id','left');
+
 
         $this->CI->db->where('product.id >',(int)@$data['id']);
 
@@ -225,6 +222,7 @@ class Csv{
 
         $this->CI->db->limit(10000);
         $query = $this->CI->db->get();
+
         if($query->num_rows() == 0 && $data['id'] == 0){
             exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Товары по фильтру не найдены');
         }
