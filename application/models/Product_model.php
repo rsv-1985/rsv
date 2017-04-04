@@ -407,11 +407,11 @@ class Product_model extends Default_model
                 $price_array[] = $product_price['price'];
                 $term_array[] = $product_price['term'];
             }
+            $product_prices['max_price'] = max($price_array);
+            $product_prices['min_price'] = min($price_array);
+            $product_prices['max_term'] = max($term_array);
+            $product_prices['min_term'] = min($term_array);
         }
-        $product_prices['max_price'] = max($price_array);
-        $product_prices['min_price'] = min($price_array);
-        $product_prices['max_term'] = max($term_array);
-        $product_prices['min_term'] = min($term_array);
 
         return $product_prices;
     }

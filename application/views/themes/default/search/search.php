@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                             <?php if ($cross) { ?>
                                 <?php foreach ($cross as $products) { ?>
-                                    <?php if(count($products['prices']['items'])){?>
+                                    <?php if($products['prices']){?>
                                         <div class="panel panel-default">
                                             <div class="panel-heading" role="tab" id="heading<?php echo $products['id'];?>">
                                                 <h4 class="panel-title">
