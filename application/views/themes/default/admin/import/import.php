@@ -125,6 +125,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <input type="radio" name="sample[default_term_unit]" value="hour" checked> <?php echo lang('text_sample_default_term_unit_hour');?>
                                 <input type="radio" name="sample[default_term_unit]" value="day"> <?php echo lang('text_sample_default_term_unit_day');?>
                             </div>
+                            <div class="form-group">
+                                <label>Очистка номера <small><a target="_blank" href="http://www.nncron.ru/help/RU/add_info/regexp.htm">регулярное выражение</a></small> </label>
+                                <input type="text" name="sample[default_regular]" value="<?php echo set_value('sample[default_regular]');?>" placeholder="BM|^00" class="form-control">
+                            </div>
                         </div>
                         <table class="table">
                             <thead>

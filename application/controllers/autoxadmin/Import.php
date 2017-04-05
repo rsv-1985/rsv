@@ -244,7 +244,11 @@ class Import extends Admin_controller
             // построчное считывание и анализ строк из файла
             while (($data_f = fgetcsv($handle_f, 1000, ';')) !== false) {
                 if(isset($data_f[$params['sample']['sku'] - 1])){
-                    $sku = $this->product_model->clear_sku($data_f[$params['sample']['sku'] - 1]);
+                    $sku = $data_f[$params['sample']['sku'] - 1];
+                    if($params['sample']['default_regular'] != ''){
+                        $sku = preg_replace('/'.$params['sample']['default_regular'].'/','',$sku);
+                    }
+                    $sku = $this->product_model->clear_sku($sku);
                 } else {
                     $sku = '';
                 }
@@ -398,7 +402,11 @@ class Import extends Admin_controller
             $save = [];
             $q = 0;
             for ($i = 1; $i <= $excel->sheets[0]['numRows']; $i++) {
-                $sku = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][$sample['sku']]);
+                $sku = $excel->sheets[0]['cells'][$i][$sample['sku']];
+                if($sample['default_regular'] != ''){
+                    $sku = preg_replace('/'.$sample['default_regular'].'/','',$sku);
+                }
+                $sku = $this->product_model->clear_sku($sku);
                 $brand = $this->product_model->clear_brand($excel->sheets[0]['cells'][$i][$sample['brand']], $synonyms);
                 $name = trim($excel->sheets[0]['cells'][$i][$sample['name']]);
                 $quantity = $this->product_model->clear_quan($excel->sheets[0]['cells'][$i][$sample['quantity']]);
