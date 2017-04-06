@@ -31,6 +31,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
+<?php if(@$this->options['google_tag_body']){
+    echo $this->options['google_tag_body'];
+}?>
+
+<?php echo @$this->options['analytics'];?>
 <div class="preload" style="
     background: url(/assets/themes/default/img/loading.gif);
     position: fixed;
@@ -41,10 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;"></div>
-<?php if(@$this->options['google_tag_body']){
-    echo $this->options['google_tag_body'];
-}?>
-<?php echo @$this->options['analytics'];?>
 <div class="header-area">
     <div class="container">
         <div class="row">
@@ -148,9 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </li>
                         <?php } ?>
                     <?php } ?>
-
                 </ul>
-
             </div>
         </div>
     </div>
@@ -159,14 +158,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php if($this->error){?>
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-ban"></i> Warning!</h4>
+        <h4><i class="icon fa fa-ban"></i></h4>
         <?php echo $this->error;?>
     </div>
 <?php } ?>
 <?php if($this->success){?>
     <div class="alert alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4>	<i class="icon fa fa-check"></i> Success!</h4>
-        <?php echo $this->success;?>.
+        <h4><i class="icon fa fa-check"></i></h4>
+        <?php echo $this->success;?>
     </div>
 <?php } ?>
