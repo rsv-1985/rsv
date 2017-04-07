@@ -35,6 +35,14 @@ class Customer_model extends Default_model{
                     'customer_name' => $query->row_array()['first_name']. ' ' . $query->row_array()['second_name']
                 );
                 $this->session->set_userdata($newdata);
+                //Если у пользователя была наполнена корзина, возвращаем ее
+                $this->load->model('cart_model');
+                $cart_data = $this->cart_model->cart_get($query->row_array()['id']);
+
+                if($cart_data){
+                    $cart_contents = unserialize($cart_data['cart_data']);
+                    $this->cart->set_cart_contents($cart_contents);
+                }
                 return true;
             }else{
                 return false;
