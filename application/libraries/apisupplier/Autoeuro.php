@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * $config['api_tehnomir_currency']-код валюты обязательно должен быть в системе
  * $config['api_tehnomir_plus_day'] - + к сроку поставки
  */
-class Tehnomir{
+class Autoeuro{
     public $CI;
 
     public function __construct()
