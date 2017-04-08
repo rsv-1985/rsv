@@ -13,6 +13,7 @@ class Default_model extends CI_Model{
     public function get_table_name(){
         return $this->table;
     }
+
     public function count_all($where = false){
         if($where){
             foreach($where as $field => $value){

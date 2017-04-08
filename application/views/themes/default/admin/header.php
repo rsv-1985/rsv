@@ -121,17 +121,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/sto/settings"><i class="fa fa-circle-o"></i>Настройки</a></li>
                     </ul>
                 </li>
-
-                <li class="treeview" style="display: none">
-                    <a href="#">
-                        <i class="fa fa-automobile"></i> <span>VIN</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i>Заявки</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i>Настройки</a></li>
-                    </ul>
-                </li>
-
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-pencil-square-o"></i> <span><?php echo lang('text_content');?></span> <i class="fa fa-angle-left pull-right"></i>
@@ -155,7 +144,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                     </ul>
                 </li>
-
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-area-chart" aria-hidden="true"></i> Отчеты</a>
+                    <ul class="treeview-menu">
+                        <li><a href="/autoxadmin/report/cart"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_cart');?></a></li>
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span><?php echo lang('text_settings');?></span> <i class="fa fa-angle-left pull-right"></i>

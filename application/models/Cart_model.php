@@ -30,4 +30,43 @@ class Cart_model extends CI_Model{
 
         return false;
     }
+
+    public function get_all($limit = false, $start = false, $where = false, $order = false){
+        $this->db->select('*');
+        $this->db->from($this->table);
+        if($where){
+            foreach($where as $field => $value){
+                $this->db->where($field, $value);
+            }
+        }
+        if($limit && $start){
+            $this->db->limit((int)$limit, (int)$start);
+        }elseif($limit){
+            $this->db->limit((int)$limit);
+        }
+
+        if($order){
+            foreach($order as $field => $value){
+                $this->db->order_by($field, $value);
+            }
+        }
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+        return false;
+    }
+
+    public function count_all($where = false){
+        if($where){
+            foreach($where as $field => $value){
+                $this->db->where($field, $value);
+            }
+            return $this->db->count_all_results($this->table);
+        }else{
+            return $this->db->count_all($this->table);
+        }
+    }
 }

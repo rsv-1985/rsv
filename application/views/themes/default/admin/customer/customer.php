@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td>
                                         <?php echo $customer['login'];?>
                                     </td>
-                                    <td><?php echo $customergroup[$customer['customer_group_id']]['name'];?></td>
+                                    <td><?php echo @$customergroup[$customer['customer_group_id']]['name'];?></td>
                                     <td><?php echo $customer['first_name'];?></td>
                                     <td><?php echo $customer['second_name'];?></td>
                                     <td><?php echo $customer['email'];?></td>
