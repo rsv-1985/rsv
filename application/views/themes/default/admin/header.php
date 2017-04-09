@@ -148,6 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <a href="#"><i class="fa fa-area-chart" aria-hidden="true"></i> Отчеты</a>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/report/cart"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_cart');?></a></li>
+                        <li><a href="/autoxadmin/report/search_history"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_search_history');?></a></li>
                     </ul>
                 </li>
                 <li class="treeview">

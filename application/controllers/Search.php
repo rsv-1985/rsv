@@ -22,12 +22,25 @@ class Search extends Front_controller {
         $brand = $this->input->get('brand', true);
         $search = $this->input->get('search', true);
 
-        $crosses_search = false;
+        $this->load->library('user_agent');
+        //Если это не робот, пишем историю поиска в базу данных
+        if(!$this->agent->is_robot()){
+            $this->load->model('search_history_model');
+            $search_history = [
+                'customer_id' => (int)$this->is_login,
+                'sku' => (string)$search,
+                'brand' => (string)$brand
+            ];
+            $this->search_history_model->insert($search_history);
+        }
+
+        $crosses_search = [];
         if($ID_art){
             $crosses_search = $this->product_model->get_crosses($ID_art, $brand, $search);
         }
 
         $cross_suppliers = $this->product_model->api_supplier($search, $brand, $crosses_search);
+
         if($cross_suppliers){
             foreach ($cross_suppliers as $cross_supplier){
                 $crosses_search = array_merge($crosses_search,$cross_supplier);

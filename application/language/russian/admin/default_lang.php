@@ -43,6 +43,7 @@ $lang['text_nav_orderstatus'] = 'Статусы заказов';
 $lang['text_nav_user'] = 'Пользователи';
 $lang['text_nav_usergroup'] = 'Группы пользователей';
 $lang['text_nav_cart'] = 'Корзина покупателей';
+$lang['text_nav_search_history'] = 'История поиска на сайте';
 $lang['text_nav_apikey'] = 'API Key';
 $lang['text_catalog'] = 'Каталог';
 $lang['text_nav_category'] = 'Категории';
