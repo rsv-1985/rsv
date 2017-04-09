@@ -70,8 +70,9 @@ class Armtek{
 
             if($results->STATUS == 200){
                 foreach ($results->RESP as $result){
-
-
+                    if(!isset($result->DLVDT)){
+                        continue;
+                    }
                     $delivery_data = (date('Y-m-d',strtotime($result->DLVDT)));
                     $datetime1 = new DateTime(date('Y-m-d'));
                     $datetime2 = new DateTime($delivery_data);

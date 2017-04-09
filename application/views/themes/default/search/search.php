@@ -27,23 +27,23 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <?php if ($brands){ ?>
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <h4><?php echo lang('text_select_manufacturer'); ?></h4>
-                <div id="popover"></div>
-                <div class="list-group">
                     <?php foreach ($brands as $brand) { ?>
                         <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
-                           class="list-group-item <?php if ($this->input->get('brand') == $brand['brand']) { ?> active<?php } ?>"><?php echo $brand['brand']; ?>
+                           class="btn <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php }else{?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
                             <br>
                             <small><?php echo $brand['name']; ?></small>
                         </a>
                     <?php } ?>
-                </div>
+                <hr>
             </div>
-            <div class="col-md-9">
-                <?php }else{ ?>
+
+            <?php } ?>
+        </div>
+            <div class="row">
                 <div class="col-md-12">
-                    <?php } ?>
+
                     <?php if ($products || $cross || $about) { ?>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <?php if ($products && $products['prices']['items']) { ?>
