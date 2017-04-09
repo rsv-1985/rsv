@@ -114,7 +114,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-wrench"></i> <span>СТО</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-wrench"></i> <span><?php echo lang('text_nav_sto');?>
+                        </span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/sto"><i class="fa fa-circle-o"></i>Заявки</a></li>
