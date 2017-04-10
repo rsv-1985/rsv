@@ -14,7 +14,13 @@ class Product_model extends Default_model
 
     public function getSlug($product)
     {
-        return url_title($product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'], 'dash', true);
+        $slug = url_title($product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'], 'dash', true);
+        $seo_url_template= $this->settings_model->get_by_key('seo_url_template');
+        if($seo_url_template){
+            $replace = array_map(function($str){return '{'.$str.'}';},array_keys($product));
+            $slug = url_title(str_replace($replace, array_values($product),$seo_url_template));
+        }
+        return $slug;
     }
 
     public function product_count_all($where = false)

@@ -65,6 +65,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php echo base_url('map/sitemap.xml'); ?> <a
                                         href="<?php echo base_url('sitemap'); ?>">generate new</a>
                                 </div>
+                                <div class="form-group">
+                                    <label>SEO url template</label>
+                                    <input type="text" placeholder="{name}-{sku}-{brand}" class="form-control" name="settings[seo_url_template]" value="<?php echo @$settings['seo_url_template']; ?>">
+                                    <p class="help-block">
+                                        {sku}<br>
+                                        {brand}<br>
+                                        {name}<br>
+                                        {description}<br>
+                                        {excerpt}
+                                    </p>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

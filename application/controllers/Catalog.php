@@ -368,6 +368,7 @@ class Catalog extends Front_controller
         }
 
         $data['trees'] = $this->tecdoc->getTreeAll($ID_typ);
+
         $data['info'] = $typ_info[0];
 
         if($this->input->get('add_garage')){
