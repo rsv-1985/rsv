@@ -189,7 +189,7 @@ class Csv{
         }
 
         if(@$data['supplier_id']){
-            $this->CI->db->where('supplier.id',(int)$data['supplier_id']);
+            $this->CI->db->where('product_price.supplier_id',(int)$data['supplier_id']);
         }
 
         if(@$data['saleprice']){
