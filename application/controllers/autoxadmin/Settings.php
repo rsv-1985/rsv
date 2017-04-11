@@ -24,7 +24,7 @@ class Settings extends Admin_controller
 
         if($this->input->post()){
             $this->form_validation->set_rules('settings[main_settings][name]', lang('text_settings_main_name'), 'required');
-            $this->form_validation->set_rules('settings[main_settings][description]', lang('text_settings_main_description'), 'max_length[3000]');
+            $this->form_validation->set_rules('settings[main_settings][description]', lang('text_settings_main_description'), 'trim');
             $this->form_validation->set_rules('settings[main_settings][meta_description]', lang('text_settings_main_meta_description'), 'max_length[3000]');
             $this->form_validation->set_rules('settings[main_settings][meta_keywords]', lang('text_settings_main_meta_keywords'), 'max_length[3000]');
             if ($this->form_validation->run() !== false){
