@@ -92,7 +92,7 @@ class Product extends Admin_controller
             }
             if($this->input->post('prices') && $_POST['prices'][0]['supplier_id']){
                 foreach ($this->input->post('prices') as $i => $item){
-                    $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'max_length[12000]|trim');
+                    $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'trim');
                     $this->form_validation->set_rules('prices['.$i.'][excerpt]', lang('text_excerpt'), 'max_length[32]|trim');
                     $this->form_validation->set_rules('prices['.$i.'][currency_id]', $i.lang('text_currency_id'), 'required|integer');
                     $this->form_validation->set_rules('prices['.$i.'][delivery_price]', lang('text_delivery_price'), 'required|numeric');
@@ -190,7 +190,7 @@ class Product extends Admin_controller
 
             if($this->input->post('prices')){
                 foreach ($this->input->post('prices') as $i => $item){
-                    $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'max_length[12000]|trim');
+                    $this->form_validation->set_rules('prices['.$i.'][description]', lang('text_description'), 'trim');
                     $this->form_validation->set_rules('prices['.$i.'][excerpt]', lang('text_excerpt'), 'max_length[32]|trim');
                     $this->form_validation->set_rules('prices['.$i.'][currency_id]', $i.lang('text_currency_id'), 'required|integer');
                     $this->form_validation->set_rules('prices['.$i.'][delivery_price]', lang('text_delivery_price'), 'required|numeric');
