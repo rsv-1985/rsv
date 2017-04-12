@@ -34,6 +34,7 @@ class Autoeuro{
         if($brand){
             $results = $this->getData('Get_Element_Details',[$brand,$sku,1]);
             if($results){
+                $results = array_reverse($results);
                 foreach ($results as $result){
                     if(!isset($result['name'])){
                         continue;
