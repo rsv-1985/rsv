@@ -36,13 +36,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_first_name'); ?></label>
-                    <input type="text" class="form-control" name="first_name" value="<?php echo set_value('first_name', $customer['first_name']); ?>" maxlength="32">
+                    <input type="text" class="form-control" name="first_name" value="<?php echo set_value('first_name', $customer['first_name']); ?>" maxlength="250">
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_second_name'); ?></label>
-                    <input type="text" class="form-control" name="second_name" value="<?php echo set_value('second_name', $customer['second_name']); ?>" maxlength="32">
+                    <input type="text" class="form-control" name="second_name" value="<?php echo set_value('second_name', $customer['second_name']); ?>" maxlength="250">
                 </div>
-
+                <div class="form-group">
+                    <label><?php echo lang('text_patronymic'); ?></label>
+                    <input type="text" class="form-control" name="patronymic" value="<?php echo set_value('patronymic', $customer['patronymic']); ?>" maxlength="255">
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">

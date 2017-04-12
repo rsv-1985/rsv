@@ -41,6 +41,7 @@ class Cart extends Front_controller
             $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'required|max_length[250]');
             $this->form_validation->set_rules('last_name', lang('text_last_name'), 'required|max_length[250]');
+            $this->form_validation->set_rules('patronymic', lang('text_patronymic'), 'max_length[255]');
             $this->form_validation->set_rules('telephone', lang('text_telephone'), 'required|max_length[32]');
             $this->form_validation->set_rules('email', 'email', 'valid_email');
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
@@ -62,6 +63,7 @@ class Cart extends Front_controller
                 $save['customer_id'] = $this->is_login;
                 $save['first_name'] = $this->input->post('first_name', true);
                 $save['last_name'] = $this->input->post('last_name', true);
+                $save['patronymic'] = $this->input->post('patronymic', true);
                 $save['email'] = $this->input->post('email', true);
                 $save['telephone'] = $this->input->post('telephone', true);
                 $save['delivery_method_id'] = (int)$this->input->post('delivery_method');

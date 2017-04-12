@@ -40,7 +40,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <label><?php echo lang('text_second_name'); ?></label>
                     <input type="text" class="form-control" name="second_name" value="<?php echo set_value('second_name'); ?>" maxlength="32">
                 </div>
-
+                <div class="form-group">
+                    <label><?php echo lang('text_patronymic'); ?></label>
+                    <input type="text" class="form-control" name="patronymic" value="<?php echo set_value('patronymic'); ?>" maxlength="255">
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">

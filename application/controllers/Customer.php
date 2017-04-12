@@ -40,8 +40,9 @@ class Customer extends Front_controller
             if($this->input->post('login') != $data['customer']['login']){
                 $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             }
-            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[32]|trim');
-            $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
+            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[250]|trim');
+            $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[250]|trim');
+            $this->form_validation->set_rules('patronymic', lang('patronymic'), 'max_length[255]|trim|required');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
             $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required');
@@ -56,6 +57,7 @@ class Customer extends Front_controller
                 $save['customer_group_id'] = (int)$data['customer']['customer_group_id'];
                 $save['first_name'] = $this->input->post('first_name', true);
                 $save['second_name'] = $this->input->post('second_name', true);
+                $save['patronymic'] = $this->input->post('patronymic', true);
                 $save['address'] = $this->input->post('address', true);
                 $save['email'] = $this->input->post('email', true);
                 $save['phone'] = $this->input->post('phone', true);
@@ -92,21 +94,26 @@ class Customer extends Front_controller
 
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'trim|required');
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'trim|required');
+            $this->form_validation->set_rules('patronymic', lang('patronymic'), 'trim|required');
             $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email');
 
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
 
             if ($this->form_validation->run() !== false){
-                $this->save_data();
+                 $customer_id = $this->save_data();
 
-                //Получаем шаблон сообщения 2 - Смена статуса заказа
+                //Получаем шаблон сообщения 3 - Регистрация
                 $message_template = $this->message_template_model->get(3);
                 foreach ($this->input->post() as $field => $value){
                     $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
                     $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
                     $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
                 }
+
+                $message_template['subject'] = str_replace('{customer_id}',$customer_id, $message_template['subject']);
+                $message_template['text'] = str_replace('{customer_id}',$customer_id, $message_template['text']);
+                $message_template['text_sms'] = str_replace('{customer_id}',customer_id, $message_template['text_sms']);
 
                 $this->sender->email($message_template['subject'], $message_template['text'], explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
 
@@ -200,6 +207,7 @@ class Customer extends Front_controller
         $save = [];
         $save['first_name'] = $this->input->post('first_name', true);
         $save['second_name'] = $this->input->post('second_name', true);
+        $save['patronymic'] = $this->input->post('patronymic', true);
         $save['email'] = $this->input->post('email', true);
         $save['address'] = $this->input->post('address', true);
         $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
@@ -208,6 +216,6 @@ class Customer extends Front_controller
         $save['phone'] = $this->input->post('phone', true);
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['status'] = $this->config->item('active_new_customer');
-        $this->customer_model->insert($save, $id);
+        return $this->customer_model->insert($save, $id);
     }
 }

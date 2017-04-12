@@ -74,6 +74,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <input type="text" name="first_name" class="form-control" value="<?php echo set_value('first_name', $customer['first_name']);?>">
                                 </div>
                                 <div class="form-group">
+                                    <label><?php echo lang('text_patronymic');?></label>
+                                    <input type="text" name="patronymic" class="form-control" value="<?php echo set_value('patronymic', $customer['patronymic']);?>">
+                                </div>
+                                <div class="form-group">
                                     <label><?php echo lang('text_email');?></label>
                                     <input type="email" name="email" class="form-control" value="<?php echo set_value('email', $customer['email']);?>">
                                 </div>

@@ -46,12 +46,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                        class="form-control">
             </div>
             <div class="form-group">
-                <label><?php echo lang('text_address'); ?></label>
-                <input type="text" name="address" value="<?php echo set_value('address', $order['address']); ?>"
+                <label><?php echo lang('text_patronymic'); ?></label>
+                <input type="text" name="patronymic" value="<?php echo set_value('patronymic', $order['patronymic']); ?>"
                        class="form-control">
             </div>
         </div><!-- /.col -->
         <div class="col-sm-4 invoice-col">
+            <div class="form-group">
+                <label><?php echo lang('text_address'); ?></label>
+                <input type="text" name="address" value="<?php echo set_value('address', $order['address']); ?>"
+                       class="form-control">
+            </div>
             <div class="form-group">
                 <label><?php echo lang('text_telephone'); ?></label>
                 <input type="text" name="telephone" value="<?php echo set_value('telephone', $order['telephone']); ?>"

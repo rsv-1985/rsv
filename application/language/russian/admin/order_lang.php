@@ -9,6 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $lang['text_heading'] = 'Заказы';
 $lang['text_first_name'] = 'Имя';
 $lang['text_last_name'] = 'Фамилия';
+$lang['text_patronymic'] = 'Отчество';
 $lang['text_email'] = 'Email';
 $lang['text_telephone'] = 'Телефон';
 $lang['text_delivery_method'] = 'Способ доставки';

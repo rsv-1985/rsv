@@ -37,6 +37,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label><?php echo lang('text_patronymic');?></label>
+                        <input type="text" name="patronymic" class="form-control" value="<?php echo set_value('patronymic');?>" required maxlength="255">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label><?php echo lang('text_email');?></label>
                         <input type="email" name="email" class="form-control" value="<?php echo set_value('email');?>" required maxlength="32">
                     </div>

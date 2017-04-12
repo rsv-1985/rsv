@@ -41,8 +41,9 @@ class Customer extends Admin_controller
         if($this->input->post()){
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             $this->form_validation->set_rules('customer_group_id', lang('text_customer_group_id'), 'required|integer|trim');
-            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[32]|trim');
+            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[250]|trim');
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
+            $this->form_validation->set_rules('patronymic', lang('text_patronymic'), 'max_length[255]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
             $this->form_validation->set_rules('phone', lang('text_phone'), 'trim');
@@ -107,6 +108,7 @@ class Customer extends Admin_controller
         $save['customer_group_id'] = (int)$this->input->post('customer_group_id', true);
         $save['first_name'] = $this->input->post('first_name', true);
         $save['second_name'] = $this->input->post('second_name', true);
+        $save['patronymic'] = $this->input->post('patronymic', true);
         $save['address'] = $this->input->post('address', true);
         $save['email'] = $this->input->post('email', true);
         $save['phone'] = $this->input->post('phone', true);

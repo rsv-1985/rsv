@@ -41,8 +41,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <label>Доступные переменные</label><br/>
                         <?php if ($message_template['id'] == 1) { ?>
                             <strong>Номер заказа:&nbsp;</strong>{order_id}<br/>
+                            <strong>ID клиента:</strong>{customer_id}<br/>
                             <strong>Имя:&nbsp;</strong>{first_name}<br/>
                             <strong>Фамилия:&nbsp;</strong>{last_name}<br/>
+                            <strong>Отчество:&nbsp;</strong>{patronymic}<br/>
                             <strong>Телефон:&nbsp;</strong>{telephone}<br/>
                             <strong>Email:&nbsp;</strong>{email}<br/>
                             <strong>Комментарий:&nbsp;</strong>{comments}<br/>
@@ -55,9 +57,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <strong>Сумма:&nbsp;</strong>{total}
                         <?php }else if($message_template['id'] == 2){?>
                             <strong>Номер заказа:&nbsp;</strong>{order_id}<br/>
+                            <strong>ID клиента:</strong>{customer_id}<br/>
                             <strong>Имя:&nbsp;</strong>{first_name}<br/>
                             <strong>Фамилия:&nbsp;</strong>{last_name}<br/>
                             <strong>Телефон:&nbsp;</strong>{telephone}<br/>
+                            <strong>Отчество:&nbsp;</strong>{patronymic}<br/>
                             <strong>Email:&nbsp;</strong>{email}<br/>
                             <strong>Дата:&nbsp;</strong>{created_at}<br/>
                             <strong>Способ доставки:&nbsp;</strong>{delivery_method}<br/>
@@ -68,6 +72,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <strong>Сумма:&nbsp;</strong>{total}<br/>
                             <strong>Статус:&nbsp;</strong>{status}
                         <?php }else if($message_template['id'] == 3){?>
+                            <strong>Имя:</strong>{first_name}<br/>
+                            <strong>Фамилия:</strong>{second_name}<br/>
+                            <strong>Отчество:</strong>{patronymic}<br/>
+                            <strong>Email:</strong>{email}<br/>
+                            <strong>Адрес:</strong>{address}<br/>
+                            <strong>Имя:</strong>{first_name}<br/>
                             <strong>Логин:&nbsp;</strong>{login}<br/>
                             <strong>Телефон:&nbsp;</strong>{phone}<br/>
                         <?php } ?>

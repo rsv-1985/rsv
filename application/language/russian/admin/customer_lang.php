@@ -12,6 +12,7 @@ $lang['text_login'] = 'Логин';
 $lang['text_customer_group_id'] = 'Группа';
 $lang['text_first_name'] = 'Имя';
 $lang['text_second_name'] = 'Фамилия';
+$lang['text_patronymic'] = 'Отчество';
 $lang['text_address'] = 'Адрес';
 $lang['text_email'] = 'Email';
 $lang['text_phone'] = 'Телефон';

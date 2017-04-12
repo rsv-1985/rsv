@@ -17,6 +17,7 @@ $lang['text_shipping'] = 'Доставка';
 $lang['text_commissionpay'] = 'Комиссия';
 $lang['text_first_name'] = 'Имя';
 $lang['text_last_name'] = 'Фамилия';
+$lang['text_patronymic'] = 'Отчество';
 $lang['text_email'] = 'Email';
 $lang['text_telephone'] = 'Телефон';
 $lang['text_delivery_method'] = 'Способ доставки';
