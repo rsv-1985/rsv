@@ -47,7 +47,8 @@ class Autoeuro{
                             $term = $this->CI->config->item('api_autoeuro_term_0_0');
                             break;
                         default:
-                            $term = (int)$result['order_time'] * 24 + $this->CI->config->item('api_autoeuro_term_other');
+                            $term = explode('-',$result['order_time']);
+                            $term = end($term) * 24 + $this->CI->config->item('api_autoeuro_term_other');
                     }
 
 
