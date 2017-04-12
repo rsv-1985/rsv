@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $currency['name'];?></td>
                                     <td><?php echo $currency['value'];?></td>
                                     <td style="text-align: center; width:90px;">
-                                        <?php if ($currency['value'] <= 1){?>
+                                        <?php if ($currency['value'] == 1){?>
                                             <i class="fa fa-check-circle-o"></i>
                                         <?php } ?>
                                     </td>
