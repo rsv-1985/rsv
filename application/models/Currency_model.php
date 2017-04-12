@@ -29,7 +29,7 @@ class Currency_model extends Default_model{
     public function get_default(){
         $default = false;
         foreach ($this->currencies as $currency_id => $currency){
-            if($currency['value'] <= 1){
+            if($currency['value'] == 1){
                 $default = $currency;
             }
         }
