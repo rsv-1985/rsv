@@ -82,7 +82,7 @@ class Currency extends Admin_controller
     }
 
     public function delete($id){
-        $is_used = $this->product_model->count_all(['currency_id' => (int)$id]);
+        $is_used = $this->db->where('currency_id',(int)$id)->count_all_results('product_price');
         if($is_used > 0){
             $this->session->set_flashdata('error', lang('text_error_delete'));
         }else{
