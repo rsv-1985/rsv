@@ -72,6 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <strong>Сумма:&nbsp;</strong>{total}<br/>
                             <strong>Статус:&nbsp;</strong>{status}
                         <?php }else if($message_template['id'] == 3){?>
+                            <strong>ID клиента:</strong>{customer_id}<br/>
                             <strong>Имя:</strong>{first_name}<br/>
                             <strong>Фамилия:</strong>{second_name}<br/>
                             <strong>Отчество:</strong>{patronymic}<br/>
