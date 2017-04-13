@@ -11,5 +11,5 @@ $lang['text_exact'] = 'Точное совпадение';
 $lang['text_cross'] = 'Аналоги';
 $lang['text_in_cart'] = 'В корзине';
 $lang['text_no_results'] = 'По Вашему запросу ничего не нашлось';
-$lang['text_select_manufacturer'] = 'Выберите производителя';
+$lang['text_select_manufacturer'] = 'Для более точного поиска, уточните производителя';
 $lang['text_no_results_description'] = 'Заполните форму ниже и мы найдем нужную Вам запчасть.';

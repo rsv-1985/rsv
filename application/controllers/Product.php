@@ -33,6 +33,8 @@ class Product extends Front_controller
             return;
         }
 
+        $data['prices'] = $this->product_model->get_product_price($data);
+
         $this->canonical = base_url('product/' . $slug);
 
         $data['breadcrumbs'][] = ['href' => base_url(), 'text' => lang('text_home')];
@@ -100,7 +102,7 @@ class Product extends Front_controller
             $this->keywords = str_replace(' ', ',', $this->title);
         }
 
-        $data['prices'] = $this->product_model->get_product_price($data['id'], ['status' => true], ['price' => 'ASC', 'term' => 'ASC'], true);
+
 
         $data['image'] = mb_strlen($data['image']) > 0 ? '/uploads/product/' . $data['image'] : @$data['tecdoc_info']['article']['Image'];
 

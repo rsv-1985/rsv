@@ -72,7 +72,8 @@ class Product extends Admin_controller
         if(!$data['product']){
             redirect('autoxadmin/product');
         }
-        $data['prices'] = $this->product_model->get_product_price($id);
+        $data['prices'] = $this->product_model->get_product_price($data['product']);
+
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($id);
 
         if($this->input->post()){
