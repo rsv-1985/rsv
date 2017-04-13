@@ -77,7 +77,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <strong>Отчество:</strong>{patronymic}<br/>
                             <strong>Email:</strong>{email}<br/>
                             <strong>Адрес:</strong>{address}<br/>
-                            <strong>Имя:</strong>{first_name}<br/>
                             <strong>Логин:&nbsp;</strong>{login}<br/>
                             <strong>Телефон:&nbsp;</strong>{phone}<br/>
                         <?php } ?>
