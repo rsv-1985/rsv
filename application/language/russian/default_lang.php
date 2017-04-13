@@ -25,6 +25,7 @@ $lang['text_registration'] = 'Регистрация';
 $lang['text_remainder'] = 'Забыли пароль?';
 $lang['text_change_brand'] = 'Уточните поиск, выбрав бренд';
 $lang['text_st'] = 'шт.';
+$lang['text_product'] = 'Товар';
 $lang['text_time'] = 'час.';
 $lang['text_day'] = 'дн.';
 $lang['text_success_cart'] = 'Товар добавлен в корзину';
