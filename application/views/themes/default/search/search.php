@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
         <div class="row">
             <?php if($products){?>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Фильтр
@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <?php }else{?>
                 <div class="col-md-12">
                 <?php } ?>
