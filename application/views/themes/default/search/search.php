@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input id="term-max" style="width: 45%;" type="number" placeholder="до">
                     </div>
                     <?php if($filter_brands){?>
-                        <div class="form-group">
+                        <div class="form-group" style="max-height: 300px;overflow: auto;">
                             <label>Производитель</label>
                             <?php foreach ($filter_brands as $fb){?>
                             <div class="checkbox">
