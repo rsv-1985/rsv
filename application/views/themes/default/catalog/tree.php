@@ -115,41 +115,35 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tr>
                         <?php foreach ($parts as $part) { ?>
                             <?php if ($part->product && $part->product['prices']) { ?>
-                                <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
-                                    echo $filter_key . ' ';
-                                } ?>" <?php } ?>>
-                                    <td>
-                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'"
-                                             src="<?php echo $part->Preview; ?>"
-                                             alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                             title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
-                                    </td>
-                                    <td>
-                                        <a target="_blank"
-                                           href="/product/<?php echo $part->product['slug']; ?>"><?php echo $part->product['sku']; ?></a>
-                                    </td>
-                                    <td>
-                                        <?php echo $part->product['brand']; ?>
-                                    </td>
-                                    <td><?php echo $part->product['name']; ?></td>
-                                    <td>
-                                        <?php if($part->product['prices']['min_term'] == $part->product['prices']['max_term']){?>
-                                            <?php echo format_term($part->product['prices']['min_term']);?>
-                                        <?php }else{?>
-                                            <?php echo format_term($part->product['prices']['min_term']).'...'.format_term($part->product['prices']['max_term']); ?>
-                                        <?php } ?>
-                                       </td>
-                                    <td style="width: 150px;font-weight: bold">
-                                        <?php if($part->product['prices']['min_price'] == $part->product['prices']['max_price']){?>
-                                            <?php echo format_currency($part->product['prices']['min_price']);?>
-                                        <?php }else{?>
-                                            <?php echo format_currency($part->product['prices']['min_price']).'...'.format_currency($part->product['prices']['max_price']); ?>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <a href="/product/<?php echo $part->product['slug'];?>"><?php echo lang('text_go_product');?></a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($part->product['prices'] as $price){?>
+                                    <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                        echo $filter_key . ' ';
+                                    } ?>" <?php } ?>>
+                                        <td>
+                                            <img onerror="this.src='/assets/themes/default/img/no_image.png'"
+                                                 src="<?php echo $part->Preview; ?>"
+                                                 alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                                 title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
+                                        </td>
+                                        <td>
+                                            <a target="_blank"
+                                               href="/product/<?php echo $part->product['slug']; ?>"><?php echo $part->product['sku']; ?></a>
+                                        </td>
+                                        <td>
+                                            <?php echo $part->product['brand']; ?>
+                                        </td>
+                                        <td><?php echo $part->product['name']; ?></td>
+                                        <td>
+                                            <?php echo format_term($price['term']);?>
+                                        </td>
+                                        <td style="width: 150px;font-weight: bold">
+                                            <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'] ); ?>
+                                        </td>
+                                        <td>
+                                            <a href="/product/<?php echo $part->product['slug'];?>"><?php echo lang('text_go_product');?></a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             <?php } ?>
                         <?php } ?>
                         <?php foreach ($parts as $part) { ?>
