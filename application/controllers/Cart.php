@@ -276,6 +276,9 @@ class Cart extends Front_controller
         $supplier_id = (int)$this->input->post('supplier_id');
         $term = (int)$this->input->post('term');
         $quantity = (int)$this->input->post('quantity');
+        if(!$quantity){
+            $quantity = 1;
+        }
 
         $this->load->model('product_model');
         $product = $this->product_model->get_product_for_cart($product_id,$supplier_id,$term);
