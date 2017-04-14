@@ -127,12 +127,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if($this->is_admin){?>
                                     <br>
                                     <div class="well well-sm" style="font-size: 11px">
-                                        <p>Данный раздел видит только администратор</p>
-                                        <p>
                                             Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
                                             Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
                                             Дата обновления: <b><?php echo $product['updated_at'];?></b>
-                                        </p>
                                     </div>
                                 <?php } ?>
                             </td>
