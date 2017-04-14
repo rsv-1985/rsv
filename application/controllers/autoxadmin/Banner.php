@@ -100,6 +100,7 @@ class Banner extends Admin_controller
                     }
                     else{
                         $this->error =  $this->upload->display_errors();
+                        redirect('/autoxadmin/banner');
                     }
                 }else{
                     $file_name = $data['banner']['image'];
