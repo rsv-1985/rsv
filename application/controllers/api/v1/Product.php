@@ -65,7 +65,7 @@ class Product extends REST_Controller
 
 
             if ($product && $product['prices']) {
-                foreach ($product['prices']['items'] as $item) {
+                foreach ($product['prices'] as $item) {
                     $response[] = [
                         'id' => $item['product_id'],
                         'supplier_id' => $item['supplier_id'],
@@ -85,7 +85,7 @@ class Product extends REST_Controller
             if ($crosses) {
                foreach ($crosses as $cross){
                    if($cross['prices']){
-                       foreach ($cross['prices']['items'] as $item) {
+                       foreach ($cross['prices'] as $item) {
                            $response[] = [
                                'id' => $item['product_id'],
                                'supplier_id' =>$item['supplier_id'],
