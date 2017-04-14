@@ -98,12 +98,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <hr>
         <div class="col-lg-4 pull-right">
             <div class="input-group">
-                <input id="search_val" type="text" class="form-control" placeholder="add products">
+                <input autocomplete="off" id="search_val" type="text" class="form-control" placeholder="add products">
                 <span class="input-group-btn">
                             <button id="search" class="btn btn-default"
                                     type="button"><?php echo lang('button_search'); ?></button>
                           </span>
             </div><!-- /input-group -->
+            <div class="search-results"></div>
         </div><!-- /.col-lg-6 -->
         <div class="col-xs-12 table-responsive">
             <table class="table">
@@ -297,30 +298,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </form>
 </section><!-- /.content -->
 <div class="clearfix"></div>
-<!-- Modal search-->
-<div class="modal fade bs-example-modal-lg" id="search_modal" tabindex="-1" role="dialog"
-     aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="product-big-title-area">
-                <div class="product-bit-title text-center">
-                    <strong id="search_query"></strong>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="list-group" id="search_brand_list">
-
-                </div>
-            </div>
-            <div class="col-md-9" style="overflow: auto; max-height: 600px">
-                <div class="search_result">
-                    <h3><?php echo lang('text_change_brand'); ?></h3>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
 <script>
     var row = '<?php echo $row;?>';
 
@@ -337,24 +314,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             var search = $("#search_val").val();
             event.preventDefault();
             $.ajax({
-                url: '/ajax/pre_search',
+                url: '/autoxadmin/order/search_products',
                 method: 'POST',
                 data: {search: search},
-                dataType: 'json',
-                success: function (json) {
-                    $(".search_result").empty();
-                    $("#search_brand_list").empty();
-                    $("#search_query").text(json['search_query']);
-                    if (json['brand'].length > 0) {
-                        var html = '';
-                        $.each(json['brand'], function (index, brand) {
-                            html += '<a href="#" onclick="get_search(\'' + brand['ID_art'] + '\',\'' + brand['brand'] + '\',\'' + brand['sku'] + '\',\'1\')" class="list-group-item">' + brand['brand'] + '<br><small>' + brand['name'] + '</small></a>';
-                        });
-                        $("#search_brand_list").html(html);
-                    } else {
-                        get_search(false, false, json['search_query'],1);
-                    }
-                    $("#search_modal").modal();
+                success: function (html) {
+                    $(".search-results").html(html);
                 }
             });
         });
@@ -375,20 +339,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $("[name='delivery_price']").val(json['delivery_price']);
                 $("#commission").html(json['commission'].toFixed(2));
                 $("#total").html(json['total'].toFixed(2));
-            }
-        });
-    }
-
-    function get_search(ID_art, brand, sku) {
-        $.ajax({
-            url: '/ajax/get_search',
-            method: 'GET',
-            data: {ID_art: ID_art, brand: brand, sku: sku, is_admin: 1,search_type:1},
-            beforeSend: function () {
-                $(".search_result").html('<img onerror="imgError(this);" src="/assets/themes/default/img/loading.gif"/>');
-            },
-            success: function (html) {
-                $(".search_result").html(html);
             }
         });
     }
@@ -450,7 +400,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     html += '</tr>';
                 }
                 $("#order-products").append(html);
-                $("#search_modal").modal('hide');
+                $(".search-results").empty();
                 row++;
                 total();
             }

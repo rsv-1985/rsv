@@ -151,19 +151,6 @@ class Ajax extends Front_controller
             ->set_output(json_encode($json));
     }
 
-    public function pre_search()
-    {
-        $this->load->model('product_model');
-        $search = $this->input->post('search', true);
-        $search_type = (int)$this->input->post('search_type');
-        $json = [];
-        $json['brand'] = $this->product_model->get_brands($search);
-        $json['search_query'] = $search;
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
-
     public function get_brands()
     {
         $this->load->model('product_model');

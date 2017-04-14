@@ -348,4 +348,18 @@ class Order extends Admin_controller
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
+
+    public function search_products(){
+        $search = $this->input->post('search', true);
+        $products = $this->product_model->get_search_text($search);
+        $html = 'Ничего не найдено';
+        if($products){
+            $html = '<ul class="list-group">';
+            foreach ($products as $product){
+                $html .= '<li class="list-group-item">'.$this->supplier_model->suppliers[$product['supplier_id']]['name'].' '.$product['name'].' '.$product['sku'].' '.$product['brand'].' '.format_currency($product['price']).' '.format_term($product['term']).'<a href="#" onclick="add_product('.$product['id'].','.$product['supplier_id'].','.$product['term'].')"> Добавить</a> </li>';
+            }
+            $html .= '</ul>';
+        }
+        exit($html);
+    }
 }
