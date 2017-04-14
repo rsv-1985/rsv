@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th>Название</th>
                         <th>Цена</th>
                         <th>Наличие</th>
-                        <th>Срок поставки</th>
+                        <th>Срок</th>
                         <th>Купить</th>
                     </tr>
                     </thead>
@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th>Название</th>
                         <th>Цена</th>
                         <th>Наличие</th>
-                        <th>Срок поставки</th>
+                        <th>Срок</th>
                         <th>Купить</th>
                     </tr>
                     </tfoot>
@@ -144,8 +144,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td>
                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
                                 <div class="input-group">
-                                    <input type="number" name="quantity"
-                                           class="form-control" value="1">
+                                    <input type="text" name="quantity"
+                                           class="form-control">
                                     <input type="hidden" name="product_id"
                                            value="<?php echo $product['id']; ?>">
                                     <input type="hidden" name="supplier_id"
