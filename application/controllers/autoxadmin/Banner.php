@@ -99,7 +99,7 @@ class Banner extends Admin_controller
                         @unlink('./uploads/banner/'.$data['banner']['image']);
                     }
                     else{
-                        $this->error =  $this->upload->display_errors();
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
                         redirect('/autoxadmin/banner');
                     }
                 }else{
