@@ -487,7 +487,7 @@ class Product_model extends Default_model
                 $product['min_price'] = 0;
                 $product['max_price'] = 0;
 
-                $prices = $this->get_product_price($product['id'], false, false, true);
+                $prices = $this->get_product_price($product);
                 if ($prices) {
                     $price_arrray = [];
                     foreach ($prices as $price) {

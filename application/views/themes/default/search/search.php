@@ -13,6 +13,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     td{
         word-break: break-all;
     }
+    .brands{
+        text-align: center;
+    }
+    .brands b{
+        color: #31708f
+    }
+    .brands b.active{
+        color: white;
+    }
+    .filter input[type='number']{
+        width: 45%;
+    }
+    .filter-brand{
+        max-height: 400px;
+        overflow: auto;
+    }
 </style>
 <div class="product-big-title-area">
     <div class="container">
@@ -29,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <?php if ($brands) { ?>
-                <div class="col-md-12 brands" style="text-align: center;">
+                <div class="col-md-12 brands">
                     <h3><?php echo lang('text_select_manufacturer'); ?></h3>
                     <?php foreach ($brands as $brand) { ?>
                         <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
@@ -37,9 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <br>
                             <small><?php echo $brand['name']; ?></small><br>
                             <?php if ($this->input->get('brand') !== $brand['brand']) { ?>
-                            <b style="color: #31708f">Поиск</b>
+                            <b>Поиск</b>
                             <?php }else{?>
-                                <b>Найдено (<?php echo count($products);?>)</b>
+                                <b class="active">Найдено (<?php echo count($products);?>)</b>
                             <?php } ?>
                         </a>
                     <?php } ?>
@@ -50,23 +66,23 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <?php if($products){?>
             <div class="col-md-2">
-                <div class="panel panel-default">
+                <div class="panel panel-default filter">
                     <div class="panel-heading">
                         Фильтр
                     </div>
                     <div class="form-group">
                         <label>Цена</label><br/>
-                        <input id="price-min" style="width: 45%;" type="number" placeholder="от">-
-                        <input id="price-max" style="width: 45%;" type="number" placeholder="до">
+                        <input id="price-min" type="number" placeholder="от">-
+                        <input id="price-max" type="number" placeholder="до">
                     </div>
 
                     <div class="form-group">
                         <label>Срок поставки (час.)</label><br/>
-                        <input id="term-min" style="width: 45%;" type="number" placeholder="от">-
-                        <input id="term-max" style="width: 45%;" type="number" placeholder="до">
+                        <input id="term-min" type="number" placeholder="от">-
+                        <input id="term-max" type="number" placeholder="до">
                     </div>
                     <?php if($filter_brands){?>
-                        <div class="form-group" style="max-height: 300px;overflow: auto;">
+                        <div class="form-group filter-brand">
                             <label>Производитель</label>
                             <?php foreach ($filter_brands as $fb){?>
                             <div class="checkbox">
@@ -85,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="col-md-12">
                 <?php } ?>
                 <?php if($products){?>
-                <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Тип</th>
@@ -125,8 +141,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <br><small><?php echo $product['excerpt'];?></small>
                                 <?php } ?>
                                 <?php if($this->is_admin){?>
-                                    <br>
-                                    <div class="well well-sm" style="font-size: 11px">
+                                    <hr/>
+                                    <div style="font-size: 11px">
                                             Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
                                             Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
                                             Дата обновления: <b><?php echo $product['updated_at'];?></b>
@@ -141,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td>
                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
                                 <div class="input-group">
-                                    <input type="text" name="quantity"
+                                    <input style="width: 50px;" placeholder="кол." type="text" name="quantity"
                                            class="form-control">
                                     <input type="hidden" name="product_id"
                                            value="<?php echo $product['id']; ?>">
