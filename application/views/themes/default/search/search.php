@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th>Бренд</th>
                         <th>Название</th>
                         <th>Цена</th>
-                        <th>Наличие</th>
+                        <th>Кол.</th>
                         <th>Срок</th>
                         <th>Купить</th>
                     </tr>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th>Бренд</th>
                         <th>Название</th>
                         <th>Цена</th>
-                        <th>Наличие</th>
+                        <th>Кол.</th>
                         <th>Срок</th>
                         <th>Купить</th>
                     </tr>
