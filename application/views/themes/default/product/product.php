@@ -272,7 +272,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <table class="table">
                                             <?php foreach ($cross as $product) { ?>
                                                 <?php if($product['prices']){?>
-                                                    <?php foreach ($product['prices']['items'] as $item){?>
+                                                    <?php foreach ($product['prices'] as $item){?>
                                                         <?php $key = $item['product_id'] . $item['supplier_id'] . $item['term'];
                                                         if(!$product['prices']) continue;?>
                                                         <tr>
