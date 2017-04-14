@@ -9,7 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-
+<style>
+    td{
+        word-break: break-all;
+    }
+</style>
 <div class="product-big-title-area">
     <div class="container">
         <div class="row">
