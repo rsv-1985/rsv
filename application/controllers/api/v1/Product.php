@@ -41,6 +41,7 @@ class Product extends REST_Controller
 
         if ($sku && $brand) {
 
+            $crosses_search = false;
             if ($with_cross) {
                 $crosses_search = $this->product_model->get_crosses($ID_art, $sku, $brand);
             }
