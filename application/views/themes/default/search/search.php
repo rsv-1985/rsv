@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                            class="btn <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php } else { ?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
                             <br>
                             <small><?php echo $brand['name']; ?></small><br>
-                            <?php if ($this->input->get('brand') !== $brand['brand']) { ?>
+                            <?php if ($this->input->get('brand') != $brand['brand']) { ?>
                             <b>Поиск</b>
                             <?php }else{?>
                                 <b class="active">Найдено (<?php echo count($products);?>)</b>
