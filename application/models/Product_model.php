@@ -310,7 +310,7 @@ class Product_model extends Default_model
         }
 
         if ($local_brand) {
-            $return = array_merge($return, $local_brand);
+            $return = array_merge($local_brand,$return);
         }
         return $return;
 
