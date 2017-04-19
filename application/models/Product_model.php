@@ -287,7 +287,7 @@ class Product_model extends Default_model
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
-                    'brand' => $item->Brand,
+                    'brand' => $this->clear_brand($item->Brand),
                     'sku' => $this->clear_sku($item->Article),
                 ];
             }
