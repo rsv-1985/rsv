@@ -81,7 +81,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
                                 <input type="hidden" name="term" value="<?php echo $product['term'];?>">
                                     <tr>
-                                        <td><?php echo $product['sku'];?></td>
+                                        <td>
+                                            <?php echo $product['sku'];?>
+                                            <?php if(!$this->tecdoc->getIDart($product['sku'],$product['brand'])){?>
+                                                <br>
+                                                <span class="label label-warning"><?php echo lang('error_tecdoc');?></span>
+                                            <?php } ?>
+                                        </td>
                                         <td>
                                             <?php echo $product['brand'];?>
                                         </td>

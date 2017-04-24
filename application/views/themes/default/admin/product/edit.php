@@ -126,7 +126,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label><?php echo lang('text_sku'); ?></label>
+                            <label><?php echo lang('text_sku'); ?>
+
+                                <?php if(!$tecdoc_info){?>
+                                    <span class="label label-warning"><?php echo lang('error_tecdoc');?></span>
+                                <?php } ?></label>
                             <input type="text" name="sku" value="<?php echo set_value('sku', $product['sku']); ?>"
                                    class="form-control" required>
                         </div>

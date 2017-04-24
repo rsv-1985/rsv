@@ -72,6 +72,13 @@ class Product extends Admin_controller
         if(!$data['product']){
             redirect('autoxadmin/product');
         }
+
+        $data['tecdoc_info'] = false;
+        $ID_art = $this->tecdoc->getIDart($data['product']['sku'],$data['product']['brand']);
+        if($ID_art){
+            $data['tecdoc_info'] = true;
+        }
+
         $data['prices'] = $this->product_model->get_product_price($data['product']);
 
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($id);
