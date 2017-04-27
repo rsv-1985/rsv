@@ -44,7 +44,7 @@ class Category extends Admin_controller
             $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[255]|trim');
             $this->form_validation->set_rules('meta_description', lang('text_meta_description'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('meta_keywords', lang('text_meta_keywords'), 'max_length[255]|trim');
-            $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]|trim');
+            $this->form_validation->set_rules('description', lang('text_description'), 'trim');
             $this->form_validation->set_rules('slug', lang('text_slug'), 'is_unique[category.slug]|max_length[255]|trim');
             $this->form_validation->set_rules('sort', lang('text_sort'), 'integer');
 
@@ -73,7 +73,7 @@ class Category extends Admin_controller
             $this->form_validation->set_rules('h1', lang('text_h1'), 'max_length[255]|trim');
             $this->form_validation->set_rules('meta_description', lang('text_meta_description'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('meta_keywords', lang('text_meta_keywords'), 'max_length[255]|trim');
-            $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]|trim');
+            $this->form_validation->set_rules('description', lang('text_description'), 'trim');
             if($data['category']['slug'] != $this->input->post('slug')){
                 $this->form_validation->set_rules('slug', lang('text_slug'), 'is_unique[category.slug]|max_length[255]|trim');
             }
