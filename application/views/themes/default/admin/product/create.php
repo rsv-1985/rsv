@@ -182,7 +182,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <th><?php echo lang('text_saleprice'); ?></th>
                             <th><?php echo lang('text_currency_id'); ?></th>
                             <th><?php echo lang('text_quantity'); ?></th>
-                            <th><?php echo lang('text_status'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -211,15 +210,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td><input type="number" name="prices[0][quantity]"
                                        value="<?php echo set_value('quantity'); ?>"
                                        class="form-control"></td>
-                            <td>
-                                <select name="prices[0][status]" class="form-control">
-                                   <option
-                                        value="1" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_on'); ?></option>
-                                    <option
-                                        value="0" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_off'); ?></option>
-
-                                </select>
-                            </td>
                         </tr>
                         </tbody>
                     </table>

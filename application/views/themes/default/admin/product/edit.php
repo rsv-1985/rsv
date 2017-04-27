@@ -203,7 +203,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <th><?php echo lang('text_saleprice'); ?></th>
                                     <th><?php echo lang('text_currency_id'); ?></th>
                                     <th><?php echo lang('text_quantity'); ?></th>
-                                    <th><?php echo lang('text_status'); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -231,14 +230,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                value="<?php echo set_value('quantity', $price['quantity']); ?>"
                                                class="form-control">
                                     </td>
-                                    </td>
-                                    <td>
-                                        <select name="prices[<?php echo $q; ?>][status]" class="form-control">
-                                            <option
-                                                value="0" <?php echo set_select('status', 0, 0 == $price['status']); ?>><?php echo lang('text_status_off'); ?></option>
-                                            <option
-                                                value="1" <?php echo set_select('status', 0, 1 == $price['status']); ?>><?php echo lang('text_status_on'); ?></option>
-                                        </select>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -288,7 +279,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <th><?php echo lang('text_saleprice'); ?></th>
                             <th><?php echo lang('text_currency_id'); ?></th>
                             <th><?php echo lang('text_quantity'); ?></th>
-                            <th><?php echo lang('text_status'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -318,15 +308,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td><input type="number" name="prices[0][quantity]"
                                        value="<?php echo set_value('quantity'); ?>"
                                        class="form-control"></td>
-                            <td>
-                                <select name="prices[0][status]" class="form-control">
-                                    <option></option>
-                                    <option
-                                        value="0" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_off'); ?></option>
-                                    <option
-                                        value="1" <?php echo set_select('status', 0); ?>><?php echo lang('text_status_on'); ?></option>
-                                </select>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -373,17 +354,5 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             $("#new_attribute_value").val('');
             attribute_row++;
         }
-    }
-
-    var pricing;
-    function getPricing(supplier_id){
-        $.ajax({
-            url:'/autoxadmin/product/get_supplier_prices',
-            data:{supplier_id:supplier_id},
-            method: 'post',
-            success: function (json) {
-                pricing = json;
-            }
-        });
     }
 </script>

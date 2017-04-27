@@ -41,13 +41,11 @@ class Product extends Admin_controller
             $this->form_validation->set_rules('delivery_price', lang('text_delivery_price'), 'required|numeric|trim');
             $this->form_validation->set_rules('price', lang('text_price'), 'numeric|trim');
             $this->form_validation->set_rules('saleprice', lang('text_saleprice'), 'numeric|trim');
-            $this->form_validation->set_rules('status', lang('text_status'), 'numeric|trim');
             if ($this->form_validation->run() !== false){
                 $save = [];
                 $save['delivery_price'] = (float)$this->input->post('delivery_price', true);
                 $save['price'] = (float)$this->input->post('price', true);
                 $save['saleprice'] = (float)$this->input->post('saleprice', true);
-                $save['status'] = (bool)$this->input->post('status', true);
                 $product_id = (int)$this->input->post('product_id');
                 $supplier_id = (int)$this->input->post('supplier_id');
                 $term = (int)$this->input->post('term');
@@ -79,7 +77,7 @@ class Product extends Admin_controller
             $data['tecdoc_info'] = true;
         }
 
-        $data['prices'] = $this->product_model->get_product_price($data['product']);
+        $data['prices'] = $this->product_model->get_product_price($data['product'],false);
 
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($id);
 
@@ -286,8 +284,8 @@ class Product extends Admin_controller
                         $save['quantity'] = (int)$price['quantity'];
                         $save['term'] = (int)$price['term'];
                         $save['updated_at'] = date('Y-m-d H:i:s');
-                        $save['status'] = (bool)$price['status'];
                         $this->product_model->table = 'product_price';
+
                         $this->product_model->insert($save);
                     }
                 }
@@ -311,13 +309,5 @@ class Product extends Admin_controller
         $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/product/edit/'.$product_id);
-    }
-
-    public function get_supplier_prices(){
-        $supplier_id = (int)$this->input->post('supplier_id');
-        $pricing = $this->pricing_model->get_by_supplier($supplier_id);
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($pricing));
     }
 }

@@ -35,7 +35,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_delivery_price');?></th>
                             <th><?php echo lang('text_price');?></th>
                             <th><?php echo lang('text_saleprice');?></th>
-                            <th><?php echo lang('text_status');?></th>
                             <th><a style="display: none;" href="/autoxadmin/product/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php echo form_open('', ['method' => 'GET']);?>
@@ -60,13 +59,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <td><input type="text" class="form-control" disabled></td>
                             <td><input type="text" class="form-control" disabled></td>
                             <td><input type="text" class="form-control" disabled></td>
-                            <td>
-                                <select name="status" class="form-control">
-                                    <option></option>
-                                    <option value="no"><?php echo lang('text_status_off');?></option>
-                                    <option value="yes"><?php echo lang('text_status_on');?></option>
-                                </select>
-                            </td>
                             <td>
                                 <button type="submit" class="btn btn btn-link"><?php echo lang('button_search');?></button>
                                 <a href="/autoxadmin/product" class="btn btn btn-link"><?php echo lang('button_reset');?></a>
@@ -102,12 +94,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <input type="text" name="saleprice" value="<?php echo $product['saleprice'];?>" class="form-control">
-                                        </td>
-                                        <td>
-                                            <select name="status" class="form-control">
-                                                <option value="0" <?php echo set_select('status',0, 0 == $product['status']);?>><?php echo lang('text_status_off');?></option>
-                                                <option value="1" <?php echo set_select('status',0, 1 == $product['status']);?>><?php echo lang('text_status_on');?></option>
-                                            </select>
                                         </td>
                                         <td>
                                             <div class="pull-right">

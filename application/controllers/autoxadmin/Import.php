@@ -158,7 +158,6 @@ class Import extends Admin_controller
                     'term' => $this->db->escape($product['term']),
                     'created_at' => $this->db->escape(date("Y-m-d H:i:s")),
                     'updated_at' => $this->db->escape(date("Y-m-d H:i:s")),
-                    'status' => true,
                 ];
 
                 if($product['attributes']  && $product['category_id']){

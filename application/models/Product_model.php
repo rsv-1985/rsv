@@ -67,9 +67,6 @@ class Product_model extends Default_model
             if ($this->input->get('supplier_id')) {
                 $this->db->where('supplier_id', $this->input->get('supplier_id', true));
             }
-            if ($this->input->get('status')) {
-                $this->db->where('status', str_replace(['yes', 'no'], [1, 0], $this->input->get('status', true)));
-            }
         }
 
         if ($limit && $start) {
@@ -141,7 +138,6 @@ class Product_model extends Default_model
             'term',
             'created_at',
             'updated_at',
-            'status'
         ];
 
         $first = true;
@@ -163,8 +159,8 @@ class Product_model extends Default_model
             saleprice=VALUES(saleprice),
             quantity=VALUES(quantity),
             term=VALUES(term),
-            updated_at=VALUES(updated_at),
-            status=1;";
+            updated_at=VALUES(updated_at)
+            ;";
 
         $this->db->query($sql);
     }
@@ -384,7 +380,6 @@ class Product_model extends Default_model
             }
 
             $this->db->where_in('product_id', $id);
-            $this->db->where('status', 1);
             $this->db->join('product', 'product.id=product_price.product_id');
             $query = $this->db->get('product_price');
             if ($query->num_rows() > 0) {
@@ -398,16 +393,18 @@ class Product_model extends Default_model
         return $products;
     }
 
-    public function get_product_price($product){
+    public function get_product_price($product, $calculate = true){
         $product_prices = [];
         $this->db->where('product_id', (int)$product['id']);
         $query = $this->db->get('product_price');
         if($query->num_rows() > 0){
             $product_prices = $query->result_array();
-            foreach ($product_prices as &$product_price){
-                $product_price['brand'] = $product['brand'];
-                $product_price['price'] = $this->calculate_customer_price($product_price);
-                unset($product_price['brand']);
+            if($calculate){
+                foreach ($product_prices as &$product_price){
+                    $product_price['brand'] = $product['brand'];
+                    $product_price['price'] = $this->calculate_customer_price($product_price);
+                    unset($product_price['brand']);
+                }
             }
         }
 
@@ -572,7 +569,6 @@ class Product_model extends Default_model
         if (!$cache && !is_null($cache)) {
             return false;
             $this->db->join('product', 'product.id=product_price.product_id');
-            //$this->db->where('status', true);
             $this->db->order_by('created_at', 'DESC');
             $this->db->limit(3);
             $query = $this->db->get('product_price');
@@ -611,7 +607,6 @@ class Product_model extends Default_model
         $cache = $this->cache->file->get('top_sellers');
         if (!$cache && !is_null($cache)) {
             $this->db->join('product', 'product.id=product_price.product_id');
-            //$this->db->where('status', true);
             $this->db->order_by('bought', 'DESC');
             $this->db->limit(3);
             $query = $this->db->get('product_price');
