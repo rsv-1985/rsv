@@ -54,14 +54,6 @@ class Hotline{
         $html .= '</select>';
         $html .= '</div>';
 
-        $html .= '<div class="form-group"><label>Статус товара</label>';
-        $html .= '<select name="status" class="form-control">';
-        $html .= '<option></option>';
-        $html .= '<option value="1">Отображается</option>';
-        $html .= '<option value="0">Скрыто</option>';
-        $html .= '</select>';
-        $html .= '</div>';
-
         $html .= '<div class="form-group"><label>Бренд</label>';
         $html .= '<textarea name="brand" class="form-control" placeholder="BOSCH,DEPO,MAHLE"></textarea>';
         $html .= '</div>';
@@ -128,10 +120,6 @@ class Hotline{
 
         if(@$data['saleprice']){
             $this->CI->db->where('product_price.saleprice >',0);
-        }
-
-        if(@$data['status']){
-            $this->CI->db->where('product_price.status',true);
         }
 
         if(@$data['brand']){

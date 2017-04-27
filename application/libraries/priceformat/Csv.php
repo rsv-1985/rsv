@@ -54,14 +54,6 @@ class Csv{
         $html .= '</select>';
         $html .= '</div>';
 
-        $html .= '<div class="form-group"><label>Статус товара</label>';
-        $html .= '<select name="status" class="form-control">';
-        $html .= '<option></option>';
-        $html .= '<option value="1">Отображается</option>';
-        $html .= '<option value="0">Скрыто</option>';
-        $html .= '</select>';
-        $html .= '</div>';
-
         $html .= '<div class="form-group"><label>Бренд</label>';
         $html .= '<textarea name="brand" class="form-control" placeholder="BOSCH,DEPO,MAHLE"></textarea>';
         $html .= '</div>';
@@ -154,9 +146,6 @@ class Csv{
         $html .= '<input type="checkbox" checked name="template[term]" value="1">Срок поставки в часах</label>';
         $html .= '</div></div>';
 
-        $html .= '<div class="form-group"><div class="checkbox"><label>';
-        $html .= '<input type="checkbox" checked name="template[status]" value="1">Статус</label>';
-        $html .= '</div></div>';
         return $html;
     }
 
@@ -194,10 +183,6 @@ class Csv{
 
         if(@$data['saleprice']){
             $this->CI->db->where('product_price.saleprice >',0);
-        }
-
-        if(@$data['status']){
-            $this->CI->db->where('product_price.status',true);
         }
 
         if(@$data['brand']){
