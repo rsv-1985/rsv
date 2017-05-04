@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input onchange="$('#filter').submit()" type="checkbox"
+                                                            <input id="<?php echo $q;?>" onchange="$('#filter').submit()" type="checkbox"
                                                                    name="<?php echo $attr['attribute_slug']; ?>"
                                                                    value="1" <?php echo set_checkbox($attr['attribute_slug'], 1, (bool)$this->input->get($attr['attribute_slug'])); ?>>
                                                             <?php echo $attr['attribute_value']; ?>
@@ -87,7 +87,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     </div>
                                                 </div>
                                             <?php } ?>
-
                                         </div>
                                     </div>
                                 </div>
@@ -157,3 +156,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("form#filter input:checked").each(function(index,item){
+            console.log(item);
+            $("#collapse"+$(item).attr("id")).addClass('in');
+        });
+    });
+</script>

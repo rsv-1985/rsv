@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
+                    <a href="/autoxadmin/report/search_history/delete" class="btn btn-danger pull-right">Очистить историю</a>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">

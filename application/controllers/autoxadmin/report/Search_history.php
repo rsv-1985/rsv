@@ -48,4 +48,10 @@ class Search_history extends Admin_controller
         $this->load->view('admin/report/search_history/search_history', $data);
         $this->load->view('admin/footer');
     }
+
+    public function delete(){
+        $this->db->truncate('search_history');
+        $this->session->set_flashdata('success', lang('text_success'));
+        redirect('autoxadmin/report/search_history');
+    }
 }

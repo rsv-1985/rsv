@@ -12,3 +12,4 @@ $lang['text_customer'] = 'Покупатель';
 $lang['text_search_history_sku'] = 'Поисковый запрос';
 $lang['text_search_history_brand'] = 'Бренд';
 $lang['text_search_history_created_at'] = 'Дата';
+$lang['text_success'] = 'Все прошло успешно';

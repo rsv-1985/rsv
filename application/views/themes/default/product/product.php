@@ -211,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                 <thead>
                                                                 <tr>
                                                                     <th>Производитель</th>
-                                                                    <th>Моель</th>
+                                                                    <th>Модель</th>
                                                                     <th>Описание</th>
                                                                 </tr>
                                                                 </thead>

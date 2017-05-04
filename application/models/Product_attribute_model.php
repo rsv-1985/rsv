@@ -19,6 +19,7 @@ class Product_attribute_model extends Default_model{
     public function delete_by_category($category_id){
         $this->db->where('category_id', (int)$category_id);
         $this->db->delete($this->table);
+        $this->db->query("DELETE FROM ax_product_attributes WHERE product_id NOT IN (SELECT id FROM ax_product)");
     }
 
     public function get_filter_products_id($filters){
