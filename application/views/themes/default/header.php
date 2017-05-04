@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </a>
 
                 </div>
-                <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal" rel="tooltip" data-placement="top">
+                <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
