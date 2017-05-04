@@ -131,7 +131,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         $key = $product['id'] . $product['supplier_id'] . $product['term']?>
                         <tr>
                             <td data-order="<?php echo $product['cross'];?>">
-                                <span class="badge pull-left"><?php echo $product['cross'] ? 'Аналог' : 'Точное';?></span>
+                                <?php if($product['cross']){?>
+                                    <label class="label label-success">
+                                        Точное
+                                    </label>
+                                <?php }else{?>
+                                    <label class="label label-warning">
+                                        Аналог
+                                    </label>
+                                <?php } ?>
                             </td>
                             <td><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['sku'];?></a></td>
                             <td><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'];?></a></td>
