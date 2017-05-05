@@ -95,7 +95,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php foreach ($attributes as $attribute){?>
                                 <tr id="attribute<?php echo $attribute_row;?>">
                                     <td>
+                                        <a href="#" onclick="delete_attribute('<?php echo $attribute['attribute_name'];?>');$('#attribute<?php echo $attribute_row;?>').remove(); return false;" class="btn btn-warning btn-xs" rel="tooltip" title="Удалить у всех товарах">x</a>
                                         <?php echo $attribute['attribute_name'];?>
+
                                         <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_name]" value="<?php echo $attribute['attribute_name'];?>">
                                     </td>
                                     <td>
@@ -354,5 +356,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             $("#new_attribute_value").val('');
             attribute_row++;
         }
+    }
+
+    function delete_attribute(attribute_name) {
+        $.ajax({
+            url: '/autoxadmin/product/delete_attribute',
+            data:{attribute_name:attribute_name},
+            method: 'post',
+            success: function(response){
+                alert(response);
+            }
+        });
     }
 </script>

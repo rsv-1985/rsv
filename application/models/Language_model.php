@@ -10,7 +10,9 @@ class Language_model extends Default_model{
     public $table = 'language';
 
     public function line($line){
-        $query = $this->db->query("SELECT * FROM `ax_language` WHERE `line` LIKE '".$line."' ORDER BY `line` ASC");
+        $this->db->where('line',$line);
+        $this->db->limit(1);
+        $query = $this->db->get('language');
         if($query->num_rows()){
             return $query->row_array()['text'];
         }

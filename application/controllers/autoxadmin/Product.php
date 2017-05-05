@@ -310,4 +310,11 @@ class Product extends Admin_controller
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/product/edit/'.$product_id);
     }
+
+    public function delete_attribute(){
+        $attribute_name = $this->input->post('attribute_name',true);
+        $this->product_attribute_model->delete_by_name($attribute_name);
+        $this->clear_cache();
+        exit('success');
+    }
 }

@@ -23,7 +23,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <?php echo $this->load->view('form/category', '', true); ?>
                 <?php if ($brands || $attributes) { ?>
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         <?php if ($brands) { ?>
@@ -96,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                     </div>
                 <?php } ?>
-
+                <?php echo $this->load->view('form/category', '', true); ?>
             </div>
             <div class="col-md-8">
                 <?php if ($products) { ?>
