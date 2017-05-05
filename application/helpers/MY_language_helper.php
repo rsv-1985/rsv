@@ -63,6 +63,7 @@ if ( ! function_exists('lang'))
      */
     function lang($key, $for = '', $attributes = array())
     {
+        $key = trim($key);
         $CI = get_instance();
         $CI->load->model('language_model');
 
@@ -76,7 +77,6 @@ if ( ! function_exists('lang'))
             if($CI->uri->segment(1) != 'autoxadmin'){
                 $CI->language_model->insert(['line' => $key, 'language' => $CI->config->item('language'), 'text' => $line]);
             }
-
         }
 
 
