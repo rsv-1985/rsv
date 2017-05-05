@@ -19,6 +19,7 @@ $lang['text_logout'] = 'Выход';
 //menu
 $lang['text_shop'] = 'Магазин';
 $lang['text_nav_order'] = 'Заказы';
+$lang['text_nav_language'] = 'Переводы';
 $lang['text_nav_vin'] = 'VIN запросы';
 $lang['text_nav_customer'] = 'Покупатели';
 $lang['text_nav_customergroup'] = 'Группы покупателей';

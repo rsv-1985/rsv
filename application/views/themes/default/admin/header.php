@@ -158,6 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/settings"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_settings');?></a></li>
+                        <li><a href="/autoxadmin/language"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_language');?></a></li>
                         <li><a href="/autoxadmin/currency"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_currency');?></a></li>
                         <li><a href="/autoxadmin/payment"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_payment');?></a></li>
                         <li><a href="/autoxadmin/delivery"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_delivery');?></a></li>
