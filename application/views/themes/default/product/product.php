@@ -89,8 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <td class="quan"><?php echo format_quantity($product['quantity']); ?></td>
                                         <td class="excerpt"><?php echo $product['excerpt']; ?></td>
                                         <td class="term">
-                                            <i class="fa fa-road"
-                                               title="Срок доставки"></i><?php echo format_term($product['term']); ?>
+                                            <?php echo format_term($product['term']); ?>
                                         </td>
                                         <td class="cart">
                                             <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
@@ -285,8 +284,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <td class="price"><?php echo format_currency($item['saleprice'] > 0 ? $item['saleprice'] : $item['price']); ?></td>
                                                             <td class="quan"><?php echo format_quantity($item['quantity']); ?></td>
                                                             <td class="excerpt"><?php echo $item['excerpt']; ?></td>
-                                                            <td class="term"><i class="fa fa-road"
-                                                                                title="<?php echo lang('text_search_term'); ?>"></i><?php echo format_term($item['term']); ?>
+                                                            <td class="term"><?php echo format_term($item['term']); ?>
                                                             </td>
                                                             <td class="cart">
                                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>

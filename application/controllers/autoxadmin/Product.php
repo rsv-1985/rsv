@@ -258,7 +258,7 @@ class Product extends Admin_controller
         $product['viewed'] = (int)$this->input->post('viewed');
         $product['bought'] = (int)$this->input->post('bought');
         $product['category_id'] = (int)$this->input->post('category_id');
-        $product['description'] = $this->input->post('description',true);
+        $product['description'] = $this->input->post('description');
         if($this->input->post('slug')){
             $product['slug'] = $this->input->post('slug', true);
         }else{
