@@ -54,7 +54,7 @@ class Category_model extends Default_model
 
     public function get_brends($id, $limit = false)
     {
-        $cache = $this->cache->file->get('category_brands_' . $id . '_limit_' . $limit);
+        $cache = $this->cache->file->get('category_brands' . $id);
         if (!$cache && !is_null($cache)) {
             $this->db->distinct();
             $this->db->select('brand');
@@ -73,10 +73,10 @@ class Category_model extends Default_model
                 foreach ($query->result_array() as $item){
                     $brands[url_title($item['brand'])] = $item['brand'];
                 }
-                $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, $brands, 604800);
+                $this->cache->file->save('category_brands' . $id, $brands, 604800);
                 return $brands;
             }
-            $this->cache->file->save('category_brands_' . $id . '_limit_' . $limit, null, 604800);
+            $this->cache->file->save('category_brands' . $id, null, 604800);
             return false;
         } else {
             return $cache;

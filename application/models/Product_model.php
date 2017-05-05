@@ -76,6 +76,7 @@ class Product_model extends Default_model
         }
 
         $query = $this->db->get();
+
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
 
         if ($query->num_rows() > 0) {

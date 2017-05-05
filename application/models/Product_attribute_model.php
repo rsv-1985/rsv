@@ -57,20 +57,33 @@ class Product_attribute_model extends Default_model{
     }
 
     public function get_attributes($category_id, $products_id = false){
-        $this->db->cache_on();
-        $this->db->select('*');
-        $this->db->where('category_id', (int)$category_id);
         if($products_id){
-            $this->db->where_in('product_id',$products_id);
+            $cache = false;
+        }else{
+            $cache = $this->cache->file->get('attributes'.$category_id);
         }
-        $this->db->order_by('attribute_name','ASC');
-        $this->db->order_by('attribute_value','ASC');
-        $this->db->group_by('attribute_slug');
-        $query = $this->db->get($this->table);
-        if($query->num_rows() > 0){
-            return $query->result_array();
+
+        if (!$cache && !is_null($cache)) {
+            $this->db->select('*');
+            $this->db->where('category_id', (int)$category_id);
+            if($products_id){
+                $this->db->where_in('product_id',$products_id);
+            }
+            $this->db->order_by('attribute_name','ASC');
+            $this->db->order_by('attribute_value','ASC');
+            $this->db->group_by('attribute_slug');
+            $query = $this->db->get($this->table);
+            if($query->num_rows() > 0){
+                $results = $query->result_array();
+                $this->cache->file->save('attributes'.$category_id, $results, 604800);
+                return $results;
+            }
+            $this->cache->file->save('attributes'.$category_id, null, 604800);
+            return false;
+        }else{
+            return $cache;
         }
-        return false;
+
     }
 
     public function get_product_attributes($product_id){
