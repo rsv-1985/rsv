@@ -338,6 +338,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="pull-right">
                 <button type="submit" class="btn btn-info"><?php echo lang('button_submit'); ?></button>
+                <a href="/autoxadmin/product/delete_product/<?php echo  $product['id'];?>" class="btn btn-danger"><?php echo lang('button_delete_product');?></a>
                 <a href="/autoxadmin/product" class="btn btn-default"><?php echo lang('button_close'); ?></a>
             </div>
         </div>

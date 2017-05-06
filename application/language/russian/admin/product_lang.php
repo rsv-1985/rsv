@@ -42,4 +42,5 @@ $lang['text_product_attribute'] = 'Характеристики';
 $lang['text_product_attribute_name'] = 'Название';
 $lang['text_product_attribute_value'] = 'Значение';
 $lang['button_empty_product'] = 'Удалить товары без цен';
+$lang['button_delete_product'] = 'Удалить карточку товара';
 $lang['error_tecdoc'] = 'не обнаружен в Tecdoc';

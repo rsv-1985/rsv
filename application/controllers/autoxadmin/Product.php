@@ -150,7 +150,16 @@ class Product extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function delete_product_cart(){
+    public function delete_product($id){
+        $this->db->where('id',(int)$id)->delete('product');
+        $this->db->where('product_id',(int)$id)->delete('product_price');
+        $this->db->where('product_id',(int)$id)->delete('product_attributes');
+        $this->session->set_flashdata('success', lang('text_success'));
+        $this->clear_cache();
+        redirect('autoxadmin/product');
+    }
+
+    public function delete_product_carts(){
         $this->db->query('DELETE FROM `ax_product_price` WHERE supplier_id = 0');
         $this->db->query('DELETE FROM ax_product WHERE id NOT IN (SELECT DISTINCT product_id FROM ax_product_price)');
         $this->db->query("DELETE FROM ax_product_attributes WHERE product_id NOT IN (SELECT id FROM ax_product)");
