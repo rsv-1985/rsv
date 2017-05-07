@@ -412,40 +412,6 @@ class Product_model extends Default_model
         return $product_prices;
     }
 
-    /*получаем цены по товару
-    public function get_product_price($id, $where = false, $order = false, $calculate_customer_price = false)
-    {
-        $this->db->from('product_price');
-        $this->db->join('product', 'product.id=product_price.product_id');
-        $this->db->where('product_id', (int)$id);
-        if ($where) {
-            foreach ($where as $field => $value) {
-                $this->db->where($field, $value);
-            }
-        }
-
-        if ($order) {
-            foreach ($order as $field => $value) {
-                $this->db->order_by($field, $value);
-            }
-        } else {
-            $this->db->order_by('price', 'ASC');
-        }
-
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            $products = $query->result_array();
-            if ($calculate_customer_price) {
-                foreach ($products as &$product) {
-                    $product['price'] = $this->calculate_customer_price($product);
-                }
-            }
-            return $products;
-        }
-        return false;
-    }
-    */
-
     //Получаем товары для категории
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {

@@ -184,6 +184,7 @@ class Product extends Admin_controller
 
     public function create(){
         if($this->input->post()){
+
             if(!$this->input->post('slug')){
                 $_POST['slug'] = $this->product_model->getSlug([
                     'name' => $this->input->post('name',true),
@@ -191,6 +192,7 @@ class Product extends Admin_controller
                     'brand' => $this->input->post('brand',true),
                 ]);
             }
+
             $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('brand', lang('text_brand'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('name', lang('text_name'), 'max_length[155]|trim');
@@ -219,6 +221,10 @@ class Product extends Admin_controller
 
 
             if ($this->form_validation->run() !== false){
+                if($check_product = $this->db->where('sku',$this->input->post('sku',true))->where('brand',$this->input->post('brand',true))->get('product')->row_array()){
+                    $this->session->set_flashdata('error', sprintf(lang('error_duplicate_sku'),$check_product['id']));
+                    redirect('autoxadmin/product/create');
+                }
                 $file_name = $this->input->post('image');
                 if(isset($_FILES['userfile']['name']) && !empty($_FILES['userfile']['name'])){
                     $config['upload_path']          = './uploads/product/';

@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><?php echo lang('text_sku'); ?></label>
-                            <input id="input-sku" onkeyup="search($(this).val())" type="text" name="sku" value="<?php echo set_value('sku'); ?>"
+                            <input autocomplete="off" id="input-sku" onkeyup="get_brands($(this).val())" type="text" name="sku" value="<?php echo set_value('sku'); ?>"
                                    class="form-control" required>
                             <div id="autocomplite" style="display: none;position: absolute;background: white;width: 100%;z-index: 9;">
                             </div>
@@ -165,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="box-header with-border">
                     <div class="form-group">
                         <label><?php echo lang('text_supplier_id');?></label>
-                        <select name="prices[0][supplier_id]" class="form-control" required onchange="getPricing($(this).val())">
+                        <select name="prices[0][supplier_id]" class="form-control" required">
                             <option></option>
                             <?php foreach ($supplier as $supplier){?>
                                 <option value="<?php echo $supplier['id'];?>"><?php echo $supplier['name'];?></option>
@@ -258,17 +258,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             attribute_row++;
         }
     }
-    function search(sku){
+    function get_brands(sku){
         if(sku.length >= 3){
             $.ajax({
-                url: '/ajax/pre_search',
+                url: '/ajax/get_brands',
                 method: 'POST',
                 data: {search:sku},
                 dataType: 'json',
                 success: function(json){
-                     if(json['brand'].length > 0){
+                    console.log(json);
+                     if(json['brands'].length > 0){
                          var html = '';
-                         $.each(json['brand'], function( index, brand ) {
+                         $.each(json['brands'], function( index, brand ) {
                             html += '<a href="#" onclick="writeInput(\''+brand['sku']+'\',\''+brand['brand']+'\',\''+brand['name']+'\', event)">'+brand['brand']+'<br><small>'+brand['name']+'</small></a><hr>';
                          });
                          $("#autocomplite").html(html).show();
@@ -284,17 +285,5 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $("#input-brand").val(brand);
         $("#input-name").val(name);
         $("#autocomplite").empty().hide();
-    }
-
-    var pricing;
-    function getPricing(supplier_id){
-        $.ajax({
-            url:'/autoxadmin/product/get_supplier_prices',
-            data:{supplier_id:supplier_id},
-            method: 'post',
-            success: function (json) {
-                pricing = json;
-            }
-        });
     }
 </script>
