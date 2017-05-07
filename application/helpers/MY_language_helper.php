@@ -61,25 +61,31 @@ if ( ! function_exists('lang'))
      * @param	array	$attributes	Any additional HTML attributes
      * @return	string
      */
-    function lang($key, $for = '', $attributes = array())
-    {
+    function lang($key, $for = '', $attributes = array()){
         $key = trim($key);
+
         $CI = get_instance();
-        $CI->load->model('language_model');
 
-        $line = $CI->language_model->line($key);
-
-        if(!$line){
+        if($CI->uri->segment(1) == 'autoxadmin'){
             $line = $CI->lang->line($key);
             if($line == ''){
                 $line = $key;
             }
-            if($CI->uri->segment(1) != 'autoxadmin'){
+        }else{
+            $CI->load->model('language_model');
+
+            $line = $CI->language_model->line($key);
+
+            if(!$line){
+                $line = $CI->lang->line($key);
+                if($line == ''){
+                    $line = $key;
+                }
+
                 $CI->language_model->insert(['line' => $key, 'language' => $CI->config->item('language'), 'text' => $line]);
             }
+
         }
-
-
 
         if ($for !== '')
         {

@@ -127,8 +127,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $subtotal = 0;
                 foreach ($products as $product) { ?>
                     <tr id="row<?php echo $row; ?>">
-                        <input type="hidden" name="products[<?php echo $row; ?>][slug]"
-                               value="<?php echo $product['slug']; ?>">
+                        <input type="hidden" name="products[<?php echo $row; ?>][slug]" value="<?php echo $product['slug']; ?>">
+                        <input type="hidden" name="products[<?php echo $row; ?>][product_id]" value="<?php echo $product['product_id']; ?>"/>
                         <td><a href="#" onclick="remove_item(<?php echo $row; ?>, event)"><i
                                     class="fa fa-fw fa-remove"></i></a></td>
                         <td>
@@ -355,54 +355,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     function add_product(product_id, supplier_id, term) {
         $.ajax({
             url: '/autoxadmin/order/add_product',
-            data: {product_id: product_id, supplier_id: supplier_id, term: term},
+            data: {product_id: product_id, supplier_id: supplier_id, term: term,order_id:'<?php echo $order['id'];?>'},
             method: 'POST',
-            success: function (product) {
-                html = '';
-                if (product) {
-                    html += '<tr id="row' + row + '">';
-                    html += '    <input type="hidden" name="products[' + row + '][slug]" value="' + product['slug'] + '">';
-                    html += '       <td><a href="#" onclick="remove_item(' + row + ', event)"><i class="fa fa-fw fa-remove"></i></a></td>';
-                    html += '        <td>';
-                    html += '            <a data-toggle="tooltip" data-placement="right" title="' + product['sup_description'] + '" target="_blank" href="/autoxadmin/supplier/edit/' + product['supplier_id'] + '">' + product['sup_name'] + '</td>';
-                    html += '    </a>';
-                    html += '    <input type="hidden" name="products[' + row + '][supplier_id]" value="' + product['supplier_id'] + '">';
-                    html += '        <td>';
-                    html += '            ' + product['name'] + '';
-                    html += '            <input type="hidden" name="products[' + row + '][name]" value="' + product['name'] + '">';
-                    html += '       </td>';
-                    html += '       <td>';
-                    html += '            ' + product['sku'] + '';
-                    html += '           <input type="hidden" name="products[' + row + '][sku]" value="' + product['sku'] + '">';
-                    html += '        </td>';
-                    html += '        <td>';
-                    html += '            ' + product['brand'] + '';
-                    html += '            <input type="hidden" name="products[' + row + '][brand]" value="' + product['brand'] + '">';
-                    html += '        </td>';
-                    html += '        <td>';
-                    html += '            ' + product['term'] + '';
-                    html += '            <input type="hidden" name="products[' + row + '][term]" value="' + product['term'] + '">';
-                    html += '        </td>';
-                    html += '        <td>';
-                    html += '            <input onkeyup="row_subtotal(' + row + ')" id="qty' + row + '" name="products[' + row + '][quantity]" type="text" value="1" class="form-control" style="width: 80px;">';
-                    html += '        </td>';
-                    html += '        <td>';
-                    html += '            <input onkeyup="row_subtotal(' + row + ')" id="price' + row + '" name="products[' + row + '][price]" type="text" value="' + product['price'] + '" class="form-control" style="width: 100px;">';
-                    html += '        </td>';
-                    html += '       <td><span id="row_subtotal' + row + '">' + product['price'] + '</span></td>';
-                    html += '<td>';
-                    html += '<select name="products[' + row + '][status_id]" class="form-control">';
-                    <?php foreach($status as $st){?>
-                    html += '<option value="<?php echo $st['id'];?>"><?php echo $st['name'];?></option>';
-                    <?php } ?>
-                    html += '</select>';
-                    html += '</td>';
-                    html += '</tr>';
-                }
-                $("#order-products").append(html);
-                $(".search-results").empty();
-                row++;
-                total();
+            success: function (response) {
+               if(response == 'success'){
+                   location.reload();
+               }else{
+                   alert(response);
+               }
             }
         });
     }

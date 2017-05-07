@@ -20,4 +20,9 @@ class Order_history_model extends Default_model{
         }
         return false;
     }
+
+    public function delete_by_order($id){
+        $this->db->where('order_id',(int)$id);
+        $this->db->delete($this->table);
+    }
 }

@@ -194,6 +194,7 @@ class Order extends Admin_controller
                         $products[] = [
                             'order_id' => $order_id,
                             'slug' => $item['slug'],
+                            'product_id' => $item['product_id'],
                             'quantity' => $item['quantity'],
                             'price' => $item['price'],
                             'name' => $item['name'],
@@ -281,6 +282,7 @@ class Order extends Admin_controller
     public function delete($id){
         $this->order_model->delete($id);
         $this->order_product_model->delete_by_order($id);
+        $this->order_history_model->delete_by_order($id);
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/order');
     }
@@ -334,21 +336,43 @@ class Order extends Admin_controller
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
-
+    //Добавление товара
     public function add_product(){
-        $this->load->model('product_model');
+
         $product_id = (int)$this->input->post('product_id');
         $supplier_id = (int)$this->input->post('supplier_id');
         $term = (int)$this->input->post('term');
-        $json = $this->product_model->get_product_for_cart($product_id, $supplier_id, $term);
-        $json['term'] = format_term($json['term']);
-        $json['sup_name'] = $this->supplier_model->suppliers[$json['supplier_id']]['name'];
+        $order_id = (int)$this->input->post('order_id');
+        $results = $this->product_model->get_product_for_cart($product_id, $supplier_id, $term);
 
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
+        if($results){
+            $product = [
+                'order_id' => $order_id,
+                'product_id' => $product_id,
+                'supplier_id' => $supplier_id,
+                'quantity' => 1,
+                'price' => $results ['price'],
+                'name' => $results['name'],
+                'sku' => $results['sku'],
+                'brand' => $results['brand'],
+                'status_id' => 0,
+                'term' => $results['term']
+            ];
+
+            $this->order_product_model->insert($product);
+
+            $sum = $this->db->query("SELECT SUM(price) as total FROM `ax_order_product` WHERE order_id = '".(int)$order_id."'")->row_array();
+            $this->order_model->insert(['total' => $sum['total']],$order_id);
+            exit('success');
+        }else{
+            exit('error');
+        }
     }
 
+    /**
+     * Метод получения товаровр при добавлениее в заказе
+     * @html
+     */
     public function search_products(){
         $search = $this->input->post('search', true);
         $products = $this->product_model->get_search_text($search);
@@ -356,7 +380,7 @@ class Order extends Admin_controller
         if($products){
             $html = '<ul class="list-group">';
             foreach ($products as $product){
-                $html .= '<li class="list-group-item">'.$this->supplier_model->suppliers[$product['supplier_id']]['name'].' '.$product['name'].' '.$product['sku'].' '.$product['brand'].' '.format_currency($product['price']).' '.format_term($product['term']).'<a href="#" onclick="add_product('.$product['id'].','.$product['supplier_id'].','.$product['term'].')"> Добавить</a> </li>';
+                $html .= '<li class="list-group-item">'.$this->supplier_model->suppliers[$product['supplier_id']]['name'].' '.$product['name'].' '.$product['sku'].' '.$product['brand'].' '.format_currency($product['price']).' '.format_term($product['term']).'<a href="#" onclick="add_product('.$product['id'].','.$product['supplier_id'].','.$product['term'].'); return false;"> Добавить</a> </li>';
             }
             $html .= '</ul>';
         }

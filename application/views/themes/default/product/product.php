@@ -211,7 +211,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                 <tr>
                                                                     <th><?php echo lang('text_manufacturer');?></th>
                                                                     <th><?php echo lang('text_model');?></th>
-                                                                    <th><?php echo lang('text_description');?></th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -226,7 +225,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                                             <?php echo $applicability->Name; ?> <?php echo $applicability->Fuel; ?>
                                                                             <br>
                                                                         </td>
-                                                                        <td><?php echo str_replace(';', '<br>', $applicability->Description); ?></td>
                                                                     </tr>
                                                                 <?php } ?>
                                                                 </tbody>

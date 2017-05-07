@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </form>
                         <?php if($orders){?>
                             <?php foreach($orders as $order){?>
-                                <tr style="border-left: 5px solid <?php echo $status[$order['status']]['color'];?>">
+                                <tr style="border-left: 5px solid <?php echo @$status[$order['status']]['color'];?>">
                                     <td>
                                         <b>#<?php echo $order['id'];?><br></b>
                                         <small><?php echo $order['created_at'];?></small>

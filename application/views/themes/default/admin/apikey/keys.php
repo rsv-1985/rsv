@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
+                    <p class="pull-right"><a target="_blank" href="https://docs.google.com/document/d/1MdS0qaX2VD8TsqzbBDNGqlh1ijIuwbsE28hp_9b0lk0/edit?usp=sharing">Инструкция по API</a></p>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
