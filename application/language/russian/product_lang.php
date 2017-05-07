@@ -25,3 +25,5 @@ $lang['text_not_available'] = 'В данный момент товара нет 
 $lang['text_this_products'] = 'Показать еще %s ';
 $lang['text_attributes'] = 'Характеристики';
 $lang['text_price'] = 'Цена';
+$lang['text_manufacturer'] = 'Производитель';
+$lang['text_model'] = 'Модель';

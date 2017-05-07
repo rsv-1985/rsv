@@ -209,9 +209,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <table class="table table-condensed">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>Производитель</th>
-                                                                    <th>Модель</th>
-                                                                    <th>Описание</th>
+                                                                    <th><?php echo lang('text_manufacturer');?></th>
+                                                                    <th><?php echo lang('text_model');?></th>
+                                                                    <th><?php echo lang('text_description');?></th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -244,9 +244,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <table class="table table-condensed">
                                             <thead>
                                             <tr>
-                                                <th>Brand</th>
-                                                <th>Article</th>
-                                                <th>Name</th>
+                                                <th><?php echo lang('text_brand');?></th>
+                                                <th><?php echo lang('text_sku');?></th>
+                                                <th><?php echo lang('text_name');?></th>
                                                 <th></th>
                                             </tr>
                                             </thead>
