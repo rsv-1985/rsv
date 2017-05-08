@@ -62,6 +62,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <a href="/customer/logout"><?php echo lang('text_logout');?></a>
                     <?php }else{?>
                         <a rel="nofollow" href="#" data-toggle="modal" data-target="#login"><?php echo lang('text_login_link');?></a>
+                        /
+                        <a rel="nofollow" href="/customer/registration"><?php echo lang('text_registration');?></a>
                     <?php } ?>
                 </div>
             </div>
