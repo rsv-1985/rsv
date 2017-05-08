@@ -618,6 +618,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label>Style</label>
+                                                    <textarea class="form-control"  name="settings[options][style]"><?php echo @$settings['options']['style'];?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Собственные стили
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" name="settings[options][order_only_registered]" value="1" <?php echo set_checkbox('settings[options][order_only_registered]',true,(bool)@$settings['options']['order_only_registered']);?>>
