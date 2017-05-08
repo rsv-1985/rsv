@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="box-body">
                     <div class="form-group">
                         <label><?php echo lang('text_name'); ?></label>
-                        <input required type="text" class="form-control" name="name" value="<?php echo set_value('name', $banner['name']); ?>" maxlength="255">
+                        <input type="text" class="form-control" name="name" value="<?php echo set_value('name', $banner['name']); ?>" maxlength="255">
                     </div><!-- /.form group -->
                     <div class="col-md-6">
                         <div class="form-group">

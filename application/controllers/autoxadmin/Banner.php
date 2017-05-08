@@ -37,7 +37,7 @@ class Banner extends Admin_controller
 
     public function create(){
         if($this->input->post()){
-            $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|trim');
+            $this->form_validation->set_rules('name', lang('text_name'), 'max_length[255]|trim');
             $this->form_validation->set_rules('description', lang('text_description'), 'max_length[255]|trim');
             $this->form_validation->set_rules('link', lang('text_link'), 'max_length[255]|trim');
             if ($this->form_validation->run() !== false){
@@ -78,7 +78,7 @@ class Banner extends Admin_controller
         }
 
         if($this->input->post()){
-            $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|trim');
+            $this->form_validation->set_rules('name', lang('text_name'), 'max_length[255]|trim');
             $this->form_validation->set_rules('description', lang('text_description'), 'max_length[255]|trim');
             $this->form_validation->set_rules('link', lang('text_link'), 'max_length[255]|trim');
 
