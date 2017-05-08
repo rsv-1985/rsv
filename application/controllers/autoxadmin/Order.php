@@ -361,8 +361,6 @@ class Order extends Admin_controller
 
             $this->order_product_model->insert($product);
 
-            $sum = $this->db->query("SELECT SUM(price) as total FROM `ax_order_product` WHERE order_id = '".(int)$order_id."'")->row_array();
-            $this->order_model->insert(['total' => $sum['total']],$order_id);
             exit('success');
         }else{
             exit('error');
