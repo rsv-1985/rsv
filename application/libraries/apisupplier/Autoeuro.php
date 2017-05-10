@@ -90,7 +90,6 @@ class Autoeuro{
                         'term' => $this->CI->db->escape($product['term']),
                         'created_at' => $this->CI->db->escape(date("Y-m-d H:i:s")),
                         'updated_at' => $this->CI->db->escape(date("Y-m-d H:i:s")),
-                        'status' => true,
                     ];
                 }
 
