@@ -5,6 +5,15 @@
  * Email: sergey.rasputniy@gmail.com
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php if($this->seo_text){?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo $this->seo_text;?>
+            </div>
+        </div>
+    </div>
+<?php } ?>
 <div class="footer-top-area" xmlns="http://www.w3.org/1999/xhtml">
     <div class="container">
         <div class="row">

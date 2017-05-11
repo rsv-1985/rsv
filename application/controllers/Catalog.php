@@ -25,11 +25,11 @@ class Catalog extends Front_controller
             }
         }
 
-        $this->title = @$seo['title'] ? $seo['title'] : lang('text_heading');
-        $this->description = @$seo['description'] ? $seo['description'] : lang('text_meta_description');
-        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
-
-        $data['h1'] = @$seo['h1'] ? $seo['h1'] : lang('text_h1');
+        $this->setTitle(@$seo['title'] ? $seo['title'] : lang('text_heading'));
+        $this->setDescription(@$seo['description'] ? $seo['description'] : lang('text_meta_description'));
+        $this->setKeywords(@$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords'));
+        $this->setH1(@$seo['h1'] ? $seo['h1'] : lang('text_h1'));
+        $data['h1'] = $this->h1;
         $data['text'] = @$seo['text'];
         if(!$this->config->item('catalog')){
             $manufacturers = $this->tecdoc->getManufacturer();
@@ -92,12 +92,13 @@ class Catalog extends Front_controller
             }
         }
 
-        $this->title = @$seo['title'] ? $seo['title'] : lang('text_heading');
-        $this->description = @$seo['description'] ? $seo['description'] : lang('text_meta_description');
-        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords');
+        $this->setTitle(@$seo['title'] ? $seo['title'] : lang('text_heading'));
+        $this->setDescription(@$seo['description'] ? $seo['description'] : lang('text_meta_description'));
+        $this->setKeywords(@$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords'));
+        $this->setH1( @$seo['h1'] ? $seo['h1'] : lang('text_h1'));
+        $this->setSeotext(@$seo['text']);
 
-        $data['h1'] = @$seo['h1'] ? $seo['h1'] : lang('text_h1');
-        $data['text'] = @$seo['text'];
+        $data['h1'] = $this->h1;
         $data['breadcrumb'][] = ['href' => $data['breadcrumb'][0]['href'].'/'.url_title($manufacturer_info[0]->Name).'_'.$ID_mfa, 'title' => $manufacturer_info[0]->Name];
     
         $data['models_type'] = [];
@@ -148,11 +149,14 @@ class Catalog extends Front_controller
         $models_type = $this->tecdoc->getModel($ID_mfa, $ID_mod);
 
 
-        $this->title = @$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$models_type[0]->Name;
-        $this->description = @$seo['description'] ? $seo['description'] : $this->title;
-        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
-        $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
-        $data['text'] = @$seo['text'];
+        $this->setTitle(@$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$models_type[0]->Name);
+        $this->setDescription(@$seo['description'] ? $seo['description'] : $this->title);
+        $this->setKeywords(@$seo['keywords'] ? $seo['keywords'] : '');
+        $this->setH1(@$seo['h1'] ? $seo['h1'] : $this->title);
+        $this->setSeotext(@$seo['text']);
+
+        $data['h1'] = $this->h1;
+
         $typs = $this->tecdoc->getType($ID_mod);
 
         foreach ($typs as $type) {
@@ -273,12 +277,12 @@ class Catalog extends Front_controller
             }
         }
 
-        $this->title = @$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name;
-        $this->description = @$seo['description'] ? $seo['description'] : $this->title;
-        $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
-        $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
-        $data['text'] = @$seo['text'];
-
+        $this->setTitle(@$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name);
+        $this->setDescription(@$seo['description'] ? $seo['description'] : $this->title);
+        $this->setKeywords(@$seo['keywords'] ? $seo['keywords'] : '');
+        $this->setH1( @$seo['h1'] ? $seo['h1'] : $this->title);
+        $this->setSeotext(@$seo['text']);
+        $data['h1'] = $this->h1;
 
         $data['breadcrumb'][] = ['href' => '/catalog', 'title' => lang('text_index')];
         $data['breadcrumb'][] = ['href' => base_url('catalog') . '/' . url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/', 'title' => $manufacturer_info[0]->Name];
@@ -334,12 +338,13 @@ class Catalog extends Front_controller
                 }
             }
 
-            $this->title = @$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name.' '.$tree_info[0]->Name;
-            $this->description = @$seo['description'] ? $seo['description'] : $this->title;
-            $this->keywords = @$seo['keywords'] ? $seo['keywords'] : '';
+            $this->setTitle(@$seo['title'] ? $seo['title'] : $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name.' '.$tree_info[0]->Name);
+            $this->setDescription(@$seo['description'] ? $seo['description'] : $this->title);
+            $this->setKeywords(@$seo['keywords'] ? $seo['keywords'] : '');
+            $this->setH1(@$seo['h1'] ? $seo['h1'] : $this->title);
+            $this->setSeotext(@$seo['text']);
+            $data['h1'] = $this->h1;
 
-            $data['h1'] = @$seo['h1'] ? $seo['h1'] : $this->title;
-            $data['text'] = @$seo['text'];
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
 
             if($data['parts']){

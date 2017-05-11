@@ -20,7 +20,7 @@ class Settings extends Admin_controller
         $data = [];
         $data['settings'] = $this->settings_model->get_by_group('company_settings');
         $data['tecdoc_manufacturer'] = $this->tecdoc->getManufacturer();
-        $data['robots'] = @file_get_contents('./robots.txt');
+
 
         if($this->input->post()){
             $this->form_validation->set_rules('settings[main_settings][name]', lang('text_settings_main_name'), 'required');
@@ -50,7 +50,7 @@ class Settings extends Admin_controller
             $save['value'] = serialize($value);
             $this->settings_model->add($save);
         }
-        @file_put_contents('./robots.txt',$this->input->post('robots', true));
+
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/settings');
     }

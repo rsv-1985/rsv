@@ -223,14 +223,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <hr/>
-            <?php echo $text; ?>
-        </div>
-    </div>
-</div>
 <script>
     $(document).ready(function () {
         $('.filters').click(function () {

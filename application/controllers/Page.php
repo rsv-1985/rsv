@@ -26,13 +26,18 @@ class Page extends Front_controller{
             return;
         }
 
-        $this->title = !empty($data['title']) ? $data['title'] : $data['name'];
-        $this->description = $data['meta_description'];
-        $this->keywords = $data['meta_keywords'];
+
+        $this->setTitle(!empty($data['title']) ? $data['title'] : $data['name']);
+        $this->setDescription($data['meta_description']);
+        $this->setKeywords($data['meta_keywords']);
+        $this->setH1($data['h1']);
+
 
         if(empty($data['h1'])){
-            $data['h1'] = $data['name'];
+            $this->setH1($data['name']);
         }
+
+        $data['h1'] = $this->h1;
 
         $data['parent'] = $this->page_model->get_parent($data['id']);
         $data['main'] = $this->page_model->get_main($data['parent_id']);

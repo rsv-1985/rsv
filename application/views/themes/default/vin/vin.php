@@ -23,10 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="container">
         <div class="row">
             <?php echo form_open('ajax/vin', ['class' => 'vin_request']);?>
-            <div class="col-md-5">
-                <?php echo $text;?>
-            </div>
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <div class="well">
 
                     <div class="alert alert-danger" role="alert" style="display: none;">

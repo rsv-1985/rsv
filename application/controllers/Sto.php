@@ -28,11 +28,12 @@ class Sto extends Front_controller
             }
         }
 
-        $this->title = $settings['title'];
-        $this->description = $settings['meta_description'];
-        $this->keywords = $settings['meta_keywords'];
+        $this->setTitle($settings['title']);
+        $this->setDescription($settings['meta_description']);
+        $this->setKeywords($settings['meta_keywords']);
+        $this->setH1($settings['h1']);
+        $data['h1'] = $this->h1;
 
-        $data['h1'] = $settings['h1'];
         $data['description'] = $settings['description'];
         $data['services'] = explode(PHP_EOL, $settings['services']);
         $data['time_morning'] = explode(PHP_EOL, $settings['time_morning']);

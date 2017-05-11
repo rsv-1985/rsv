@@ -68,8 +68,10 @@ class Admin_controller extends CI_Controller{
 class Front_controller extends CI_Controller{
 
     public $title;
+    public $h1;
     public $description;
     public $keywords;
+    public $seo_text;
     public $header_page;
     public $footer_page;
     public $is_login;
@@ -93,6 +95,14 @@ class Front_controller extends CI_Controller{
         $this->is_admin = $this->User_model->is_login();
         $this->garage = unserialize($this->input->cookie('garage'));
 
+        $seo_hook = $this->settings_model->get_by_key($_SERVER['REQUEST_URI']);
+        if($seo_hook){
+            $this->title = $seo_hook['title'];
+            $this->h1 = $seo_hook['h1'];
+            $this->keywords = $seo_hook['keywords'];
+            $this->description = $seo_hook['description'];
+            $this->seo_text = $seo_hook['text'];
+        }
         if($this->session->flashdata('error')){
             $this->error = $this->session->flashdata('error');
         }
@@ -103,5 +113,35 @@ class Front_controller extends CI_Controller{
         $this->category = $this->category_model->category_get_all();
         $this->contacts = $this->settings_model->get_by_key('contact_settings');
         $this->options = $this->settings_model->get_by_key('options');
+    }
+
+    public function setTitle($string = ''){
+       if(!$this->title){
+           $this->title = $string;
+       }
+    }
+
+    public function setDescription($string = ''){
+        if(!$this->description){
+            $this->description = $string;
+        }
+    }
+
+    public function setKeywords($string = ''){
+        if(!$this->keywords){
+            $this->keywords = $string;
+        }
+    }
+
+    public function setSeotext($string = ''){
+        if(!$this->seo_text){
+            $this->seo_text = $string;
+        }
+    }
+
+    public function setH1($string = ''){
+        if(!$this->h1){
+            $this->h1 = $string;
+        }
     }
 }

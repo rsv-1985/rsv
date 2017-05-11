@@ -23,10 +23,4 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <?php echo $catalog;?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <hr />
-            <?php echo $text;?>
-        </div>
-    </div>
 </div>

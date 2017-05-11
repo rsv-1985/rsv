@@ -21,11 +21,11 @@ class News extends Front_controller{
             show_404();
         }
         $data = [];
-        $this->title = !empty($news['title']) ? $news['title'] : $news['name'];
-        $this->description = $news['meta_description'];
-        $this->keywords = $news['meta_keywords'];
-
-        $data['h1'] = !empty($news['h1']) ? $news['h1'] : $news['name'];
+        $this->setTitle(!empty($news['title']) ? $news['title'] : $news['name']);
+        $this->setDescription($news['meta_description']);
+        $this->setKeywords($news['meta_keywords']);
+        $this->setH1(!empty($news['h1']) ? $news['h1'] : $news['name']);
+        $data['h1'] = $this->h1;
         $data['description'] = $news['description'];
 
         $this->load->view('header');

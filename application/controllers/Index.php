@@ -22,9 +22,9 @@ class Index extends Front_controller {
         $data = [];
         $settings = $this->settings_model->get_by_key('main_settings');
         if($settings){
-            $this->title = $settings['title'];
-            $this->description = $settings['meta_description'];
-            $this->keywords = $settings['meta_keywords'];
+            $this->setTitle($settings['title']);
+            $this->setDescription($settings['meta_description']);
+            $this->setKeywords($settings['meta_keywords']);
         }
         $data['name'] = $settings['name'];
         $data['description'] = $settings['description'];

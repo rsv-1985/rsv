@@ -68,38 +68,39 @@ class Product extends Front_controller
         $this->product_model->update_viewed($data['id']);
 
         if (mb_strlen($data['h1']) > 0) {
-            $data['h1'] = $data['h1'];
+            $this->setH1($data['h1']);
         } elseif (mb_strlen(@$seo['h1']) > 0) {
-            $data['h1'] = @$seo['h1'];
+            $this->setH1(@$seo['h1']);
         } else {
-            $data['h1'] = $data['name'];
+            $this->setH1($data['name']);
         }
+        $data['h1'] = $this->h1;
 
         $data['breadcrumbs'][] = ['href' => false, 'text' => $data['h1']];
 
 
         if (mb_strlen($data['title']) > 0) {
-            $this->title = $data['title'];
+            $this->setTitle($data['title']);
         } elseif (mb_strlen(@$seo['title']) > 0) {
-            $this->title = @$seo['title'];
+            $this->setTitle(@$seo['title']);
         } else {
-            $this->title = $data['h1'];
+            $this->setTitle($data['h1']);
         }
 
         if (mb_strlen($data['meta_description']) > 0) {
-            $this->description = $data['meta_description'];
+            $this->setDescription($data['meta_description']);
         } elseif (mb_strlen(@$seo['description']) > 0) {
-            $this->description = @$seo['description'];
+            $this->setDescription(@$seo['description']);
         } else {
-            $this->description = '';
+            $this->setDescription();
         }
 
         if (mb_strlen($data['meta_keywords']) > 0) {
-            $this->keywords = $data['meta_keywords'];
+            $this->setKeywords($data['meta_keywords']);
         } elseif (mb_strlen(@$seo['keywords']) > 0) {
-            $this->keywords = @$seo['keywords'];
+            $this->setKeywords(@$seo['keywords']);
         } else {
-            $this->keywords = str_replace(' ', ',', $this->title);
+            $this->setKeywords(str_replace(' ', ',', $this->title));
         }
 
 
