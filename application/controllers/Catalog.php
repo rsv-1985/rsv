@@ -347,6 +347,8 @@ class Catalog extends Front_controller
             $this->setH1(@$seo['h1'] ? $seo['h1'] : $this->title);
             $this->setSeotext(@$seo['text']);
 
+            $data['h1'] = $this->h1;
+
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
 
             if($data['parts']){
