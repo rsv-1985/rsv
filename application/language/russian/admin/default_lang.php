@@ -47,6 +47,7 @@ $lang['text_nav_cart'] = 'Корзина покупателей';
 $lang['text_nav_search_history'] = 'История поиска на сайте';
 $lang['text_nav_apikey'] = 'API Key';
 $lang['text_nav_sto'] = 'Журнал СТО';
+$lang['text_nav_seo_settings  '] = 'SEO нстройки';
 $lang['text_catalog'] = 'Каталог';
 $lang['text_nav_category'] = 'Категории';
 $lang['text_success_cache'] = 'Кэш очищен';
