@@ -73,6 +73,8 @@ class Seo_settings extends Admin_controller{
             $save['value'] = serialize($this->input->post('seo_tecdoc_manufacturer'));
             $this->settings_model->add($save);
 
+            $this->clear_cache();
+
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin');
         }
@@ -92,6 +94,8 @@ class Seo_settings extends Admin_controller{
             $save['key_settings'] = 'seo_tecdoc_model';
             $save['value'] = serialize($this->input->post('seo_tecdoc_model'));
             $this->settings_model->add($save);
+
+            $this->clear_cache();
 
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin');
@@ -113,6 +117,8 @@ class Seo_settings extends Admin_controller{
             $save['value'] = serialize($this->input->post('seo_tecdoc_type'));
             $this->settings_model->add($save);
 
+            $this->clear_cache();
+
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin');
         }
@@ -132,6 +138,8 @@ class Seo_settings extends Admin_controller{
             $save['key_settings'] = 'seo_tecdoc_tree';
             $save['value'] = serialize($this->input->post('seo_tecdoc_tree'));
             $this->settings_model->add($save);
+
+            $this->clear_cache();
 
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin');
