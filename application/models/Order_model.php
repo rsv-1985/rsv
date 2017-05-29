@@ -154,8 +154,8 @@ class Order_model extends Default_model{
     }
 
     //Обновление одной позиции в заказа
-    public function update_item($slug, $order_id, $data){
-        $this->db->where('slug', $slug);
+    public function update_item($product_id, $order_id, $data){
+        $this->db->where('product_id', (int)$product_id);
         $this->db->where('order_id', (int)$order_id);
         $this->db->update('order_product', $data);
     }

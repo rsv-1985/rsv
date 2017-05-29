@@ -32,14 +32,14 @@ class Order extends Admin_controller
 
         if($this->input->post()){
             $this->form_validation->set_rules('status_id', 'Статус', 'required|integer');
-            $this->form_validation->set_rules('slug', 'slug', 'required|trim');
+            $this->form_validation->set_rules('product_id', 'product_id', 'required|trim');
             $this->form_validation->set_rules('order_id', 'order_id', 'required|integer');
 
             if ($this->form_validation->run() !== false){
                 $save = [];
                 $save['status_id'] = (int)$this->input->post('status_id');
 
-                $this->order_model->update_item($this->input->post('slug', true), (int)$this->input->post('order_id'),$save);
+                $this->order_model->update_item((int)$this->input->post('product_id'), (int)$this->input->post('order_id'),$save);
                 $this->session->set_flashdata('success', lang('text_success'));
                 redirect('autoxadmin/order/products');
             }else{

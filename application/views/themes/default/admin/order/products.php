@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <?php if($products){?>
                                 <?php foreach($products as $product){?>
                                     <?php echo form_open();?>
-                                    <input type="hidden" name="slug" value="<?php echo $product['slug'];?>">
+                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id'];?>">
                                     <input type="hidden" name="order_id" value="<?php echo $product['order_id'];?>">
                                     <tr style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
                                         <td>
