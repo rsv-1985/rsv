@@ -23,9 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="container">
         <div class="row">
             <?php echo form_open('ajax/vin', ['class' => 'vin_request']);?>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="well">
-
                     <div class="alert alert-danger" role="alert" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
@@ -54,6 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <textarea class="form-control" name="parts" required></textarea>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="form-group">
                     <label><?php echo lang('text_vin_name');?></label>
                     <input type="text" name="name" class="form-control" required/>
@@ -66,9 +67,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <label><?php echo lang('text_vin_email');?></label>
                     <input type="email" name="email" class="form-control" required/>
                 </div>
-            </div>
-            <div class="form-group pull-right">
-                <button type="submit"><?php echo lang('button_send');?></button>
+                <div class="form-group pull-right">
+                    <button type="submit"><?php echo lang('button_send');?></button>
+                </div>
             </div>
             </form>
         </div>
