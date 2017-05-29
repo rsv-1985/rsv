@@ -103,11 +103,6 @@ class Product extends Front_controller
             $this->setKeywords(str_replace(' ', ',', $this->title));
         }
 
-
-
-        $data['image'] = mb_strlen($data['image']) > 0 ? '/uploads/product/' . $data['image'] : @$data['tecdoc_info']['article']['Image'];
-
-
         if (isset($data['tecdoc_info']['article']['Info']) && mb_strlen($data['tecdoc_info']['article']['Info']) > 0) {
             $data['description'] .= $data['tecdoc_info']['article']['Info'];
         }

@@ -6,6 +6,65 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<style>
+    #slider {
+        position: relative;
+        overflow: hidden;
+        margin: 20px auto 0 auto;
+        border-radius: 4px;
+    }
+
+    #slider ul {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        height: 200px;
+        list-style: none;
+    }
+
+    #slider ul li {
+        position: relative;
+        display: block;
+        float: left;
+        margin: 0;
+        padding: 0;
+        width: 350px;
+        height: 400px;
+        text-align: center;
+        line-height: 300px;
+    }
+
+    a.control_prev, a.control_next {
+        position: absolute;
+        top: 40%;
+        z-index: 999;
+        display: block;
+        padding: 4% 3%;
+        width: auto;
+        height: auto;
+        background: #2a2a2a;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 18px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    a.control_prev:hover, a.control_next:hover {
+        opacity: 1;
+        -webkit-transition: all 0.2s ease;
+    }
+
+    a.control_prev {
+        border-radius: 0 2px 2px 0;
+    }
+
+    a.control_next {
+        right: 0;
+        border-radius: 2px 0 0 2px;
+    }
+</style>
 <div itemscope itemtype="http://schema.org/Product">
     <div class="product-big-title-area">
         <div class="container">
@@ -25,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="col-md-12">
                     <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
                         <?php foreach ($breadcrumbs as $index => $breadcrumb) { ?>
-                            <?php if ($breadcrumb['href']) {?>
+                            <?php if ($breadcrumb['href']) { ?>
                                 <li itemprop="itemListElement" itemscope
                                     itemtype="http://schema.org/ListItem" class="breadcrumb-item">
                                     <a itemprop="item" href="<?php echo $breadcrumb['href']; ?>">
@@ -33,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </a>
                                     <meta itemprop="position" content="<?php echo $index; ?>"/>
                                 </li>
-                            <?php } else {?>
+                            <?php } else { ?>
                                 <li><?php echo $breadcrumb['text']; ?></li>
                             <?php } ?>
                         <?php } ?>
@@ -42,8 +101,33 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
-                    <img itemprop="image" onerror="imgError(this, 300);" src="/image?img=<?php echo $image; ?>"
-                         alt="<?php echo $h1; ?>" style="max-height: 340px;">
+                    <?php if ($image || $tecdoc_info['images']) { ?>
+                        <div id="slider">
+                            <a href="#" class="control_next">></a>
+                            <a href="#" class="control_prev"><</a>
+                            <ul>
+                                <?php if ($image) { ?>
+                                    <li>
+                                        <a href="<?php echo $image; ?>" target="_blank">
+                                            <img src="<?php echo $image; ?>">
+                                        </a>
+
+                                    </li>
+                                <?php } ?>
+                                <?php if ($tecdoc_info['images']) { ?>
+                                    <?php foreach ($tecdoc_info['images'] as $tc_image) { ?>
+                                        <li>
+                                            <a href="<?php echo $tc_image->Image; ?>" target="_blank">
+                                                <img src="<?php echo $tc_image->Image; ?>">
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                <?php } ?>
+
+                            </ul>
+                        </div>
+                    <?php } ?>
+
                     <?php if ($banner) { ?>
                         <div class="single-sidebar">
                             <?php foreach ($banner as $banner) { ?>
@@ -103,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                        value="<?php echo $product['term']; ?>">
                                                 <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit"><i
-                                                    class="fa fa-shopping-cart"></i></button>
+                                                        class="fa fa-shopping-cart"></i></button>
                                             </span>
                                             </div>
                                             </form>
@@ -209,8 +293,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <table class="table table-condensed">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th><?php echo lang('text_manufacturer');?></th>
-                                                                    <th><?php echo lang('text_model');?></th>
+                                                                    <th><?php echo lang('text_manufacturer'); ?></th>
+                                                                    <th><?php echo lang('text_model'); ?></th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -242,9 +326,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <table class="table table-condensed">
                                             <thead>
                                             <tr>
-                                                <th><?php echo lang('text_brand');?></th>
-                                                <th><?php echo lang('text_sku');?></th>
-                                                <th><?php echo lang('text_name');?></th>
+                                                <th><?php echo lang('text_brand'); ?></th>
+                                                <th><?php echo lang('text_sku'); ?></th>
+                                                <th><?php echo lang('text_name'); ?></th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -268,10 +352,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div role="tabpanel" class="tab-pane fade" id="cross">
                                         <table class="table">
                                             <?php foreach ($cross as $product) { ?>
-                                                <?php if($product['prices']){?>
-                                                    <?php foreach ($product['prices'] as $item){?>
+                                                <?php if ($product['prices']) { ?>
+                                                    <?php foreach ($product['prices'] as $item) { ?>
                                                         <?php $key = $item['product_id'] . $item['supplier_id'] . $item['term'];
-                                                        if(!$product['prices']) continue;?>
+                                                        if (!$product['prices']) continue; ?>
                                                         <tr>
                                                             <td class="name">
                                                                 <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
@@ -287,7 +371,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <td class="cart">
                                                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
                                                                 <div class="input-group">
-                                                                    <input type="number" name="quantity" class="form-control"
+                                                                    <input type="number" name="quantity"
+                                                                           class="form-control"
                                                                            value="1">
                                                                     <input type="hidden" name="product_id"
                                                                            value="<?php echo $item['product_id']; ?>">
@@ -332,3 +417,53 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+<script>
+    jQuery(document).ready(function ($) {
+
+        $('#checkbox').change(function () {
+            setInterval(function () {
+                moveRight();
+            }, 3000);
+        });
+
+        var slideCount = $('#slider ul li').length;
+        var slideWidth = $('#slider ul li').width();
+        var slideHeight = $('#slider ul li').height();
+        var sliderUlWidth = slideCount * slideWidth;
+
+        $('#slider').css({width: slideWidth, height: slideHeight});
+
+        $('#slider ul').css({width: sliderUlWidth, marginLeft: -slideWidth});
+
+        $('#slider ul li:last-child').prependTo('#slider ul');
+
+        function moveLeft() {
+            $('#slider ul').animate({
+                left: +slideWidth
+            }, 200, function () {
+                $('#slider ul li:last-child').prependTo('#slider ul');
+                $('#slider ul').css('left', '');
+            });
+        };
+
+        function moveRight() {
+            $('#slider ul').animate({
+                left: -slideWidth
+            }, 200, function () {
+                $('#slider ul li:first-child').appendTo('#slider ul');
+                $('#slider ul').css('left', '');
+            });
+        };
+
+        $('a.control_prev').click(function (event) {
+            event.preventDefault();
+            moveLeft();
+        });
+
+        $('a.control_next').click(function (event) {
+            event.preventDefault();
+            moveRight();
+        });
+
+    });
+</script>

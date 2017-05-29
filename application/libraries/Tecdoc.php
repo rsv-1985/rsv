@@ -207,6 +207,19 @@ class Tecdoc {
         return $this->res($query);
     }
 
+    public function getImages($ID_art){
+        $this->cache = false;
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getImages',
+            'params' => [
+                'ID_art' => $ID_art
+            ]
+        ];
+
+        return $this->res($query);
+    }
+
     public function res($query)
     {
         $jsonurl = $this->url . json_encode($query);

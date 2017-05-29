@@ -620,6 +620,7 @@ class Product_model extends Default_model
                 if ($full_info) {
                     $return['applicability'] = $this->tecdoc->getUses($ID_art);
                     $return['components'] = $this->tecdoc->getPackage($ID_art);
+                    $return['images'] = $this->tecdoc->getImages($ID_art);
                     $crosses = $this->get_crosses($ID_art, $sku, $brand);
                     if ($crosses) {
                         $return['cross'] = $this->get_search_crosses($crosses);

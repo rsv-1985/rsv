@@ -166,6 +166,7 @@ class Seo_settings extends Admin_controller{
             $save['group_settings'] = 'seo_hook';
             $save['key_settings'] = $this->input->post('url',true);
             $save['value'] = serialize($this->input->post('hook'));
+
             $this->settings_model->add($save);
 
             $this->clear_cache();
