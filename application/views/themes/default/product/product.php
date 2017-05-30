@@ -432,8 +432,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         var sliderUlWidth = slideCount * slideWidth;
 
         $('#slider').css({width: slideWidth, height: slideHeight});
-
-        $('#slider ul').css({width: sliderUlWidth, marginLeft: -slideWidth});
+        if(slideCount > 1){
+            $('#slider ul').css({width: sliderUlWidth, marginLeft: -slideWidth});
+        }
 
         $('#slider ul li:last-child').prependTo('#slider ul');
 
