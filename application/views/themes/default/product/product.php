@@ -101,11 +101,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
-                    <?php if ($image || $tecdoc_info['images']) { ?>
+
                         <div id="slider">
-                            <a href="#" class="control_next">></a>
-                            <a href="#" class="control_prev"><</a>
+                            <a href="#" class="control_next control" style="display: none">></a>
+                            <a href="#" class="control_prev control" style="display: none"><</a>
                             <ul>
+                                <?php if ($image || $tecdoc_info['images']) { ?>
                                 <?php if ($image) { ?>
                                     <li>
                                         <a href="<?php echo $image; ?>" target="_blank">
@@ -123,10 +124,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </li>
                                     <?php } ?>
                                 <?php } ?>
-
+                                <?php }else{?>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <img src="/image">
+                                        </a>
+                                    </li>
+                                <?php } ?>
                             </ul>
                         </div>
-                    <?php } ?>
+
 
                     <?php if ($banner) { ?>
                         <div class="single-sidebar">
@@ -434,6 +441,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $('#slider').css({width: slideWidth, height: slideHeight});
         if(slideCount > 1){
             $('#slider ul').css({width: sliderUlWidth, marginLeft: -slideWidth});
+            $(".control").show();
         }
 
         $('#slider ul li:last-child').prependTo('#slider ul');
