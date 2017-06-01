@@ -416,8 +416,9 @@ class Product_model extends Default_model
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
 
-        $this->db->select('SQL_CALC_FOUND_ROWS * FROM ax_product', false);
-
+        $this->db->select('SQL_CALC_FOUND_ROWS * FROM ax_product_price', false);
+        $this->db->join('product','product.id=product_price.product_id');
+        $this->db->group_by('product_id');
         if ($where) {
             foreach ($where as $field => $value) {
                 $this->db->where($field, $value);
