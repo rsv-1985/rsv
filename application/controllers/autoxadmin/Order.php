@@ -196,13 +196,14 @@ class Order extends Admin_controller
                             'slug' => $item['slug'],
                             'product_id' => $item['product_id'],
                             'quantity' => $item['quantity'],
-                            'price' => $item['price'],
+                            'delivery_price' => (float)$item['delivery_price'],
+                            'price' => (float)$item['price'],
                             'name' => $item['name'],
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
-                            'supplier_id' => $item['supplier_id'],
+                            'supplier_id' => (int)$item['supplier_id'],
                             'status_id' => $save['status'] != $data['order']['status'] ? $save['status'] : $item['status_id'],
-                            'term' => $item['term']
+                            'term' => (int)$item['term']
                         ];
                     }
 
@@ -292,10 +293,11 @@ class Order extends Admin_controller
         $delivery_price = 0;
         $commissionpay = 0;
         $total = 0;
-
+        $delivery_total = 0;
         if($this->input->post('products')){
             foreach($this->input->post('products') as $product){
                 $total += $product['quantity'] * $product['price'];
+                $delivery_total += $product['delivery_price'];
             }
         }
 
@@ -329,6 +331,7 @@ class Order extends Admin_controller
         $json['delivery_price'] = $delivery_price;
         $json['commission'] = $commissionpay;
         $json['subtotal'] = $total;
+        $json['delivery_total'] = $delivery_total;
         $json['total'] = $total + $delivery_price + $commissionpay;
 
 
@@ -349,6 +352,7 @@ class Order extends Admin_controller
             $product = [
                 'order_id' => $order_id,
                 'product_id' => $product_id,
+                'slug' => $results['slug'],
                 'supplier_id' => $supplier_id,
                 'quantity' => 1,
                 'price' => $results ['price'],

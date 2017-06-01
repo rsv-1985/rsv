@@ -117,6 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <th><?php echo lang('text_brand'); ?></th>
                     <th><?php echo lang('text_term'); ?></th>
                     <th><?php echo lang('text_qty'); ?></th>
+                    <th><?php echo lang('text_delivery_price'); ?></th>
                     <th><?php echo lang('text_price'); ?></th>
                     <th><?php echo lang('text_subtotal'); ?></th>
                     <th><?php echo lang('text_status'); ?></th>
@@ -164,6 +165,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                    name="products[<?php echo $row; ?>][quantity]" type="text"
                                    value="<?php echo $product['quantity']; ?>" class="form-control"
                                    style="width: 80px;">
+                        </td>
+                        <td>
+                            <input onkeyup="row_subtotal(<?php echo $row; ?>)" id="price<?php echo $row; ?>"
+                                   name="products[<?php echo $row; ?>][delivery_price]" type="text"
+                                   value="<?php echo $product['delivery_price']; ?>" class="form-control" style="width: 100px;">
                         </td>
                         <td>
                             <input onkeyup="row_subtotal(<?php echo $row; ?>)" id="price<?php echo $row; ?>"
@@ -285,6 +291,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <th><?php echo lang('text_revenue'); ?></th>
+                        <td>
+                            <div class="form-group" id="revenue"></div>
+                        </td>
+                    </tr>
                 </table>
                 <div class="pull-right">
                     <button class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit'); ?></button>
@@ -302,6 +314,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     var row = '<?php echo $row;?>';
 
     $(document).ready(function () {
+        total();
+
         $("input,select").change(function () {
             total();
         });
@@ -339,6 +353,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $("[name='delivery_price']").val(json['delivery_price']);
                 $("#commission").html(json['commission'].toFixed(2));
                 $("#total").html(json['total'].toFixed(2));
+                var revenue = json['total'] - json['delivery_total'];
+                $("#revenue").html(revenue.toFixed(2));
             }
         });
     }

@@ -86,13 +86,14 @@ class Cart extends Front_controller
                             'product_id' => $item['product_id'],
                             'slug' => $item['slug'],
                             'quantity' => $item['qty'],
+                            'delivery_price' => 0,
                             'price' => $item['price'],
                             'name' => $item['name'],
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
                             'supplier_id' => $item['supplier_id'],
                             'status_id' => $order_status['id'],
-                            'term' => (int)$item['term']
+                            'term' => (int)$item['term'],
                         ];
                         
                         $this->product_model->update_bought($item);
