@@ -112,11 +112,25 @@ class Cart extends Front_controller
                     }
                     $this->load->library('sender');
 
-                    $this->sender->email($message_template['subject'], $message_template['text'], explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
-
                     if(strlen($save['email']) > 0){
                         $this->sender->email($message_template['subject'],$message_template['text'], $save['email'],explode(';',$this->contacts['email']));
                     }
+
+                    //Для администратора
+                    //Получаем шаблон сообщения 1 - новый заказ
+                    $message_template = $this->message_template_model->get(1);
+                    foreach ($save as $field => $value){
+                        if(in_array($field,['total','commission','delivery_price'])) $value = format_currency($value);
+                        $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
+                        $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
+                        $message_template['text'] = str_replace('{payment_method}',$cart_data['paymentInfo']['name'], $message_template['text']);
+                        $message_template['text'] = str_replace('{delivery_method}',$cart_data['deliveryInfo']['name'], $message_template['text']);
+                        $message_template['text'] = str_replace('{products}',$this->load->view('email/order', ['products' => $products,'suppliers' => $this->supplier_model->suppliers], true), $message_template['text']);
+                        $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
+                    }
+                    $this->sender->email($message_template['subject'], $message_template['text'], explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
+
+
 
                     if(!empty($save['telephone'])){
                         $this->sender->sms($save['telephone'], $message_template['text_sms']);
