@@ -109,8 +109,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($image || $tecdoc_info['images']) { ?>
                                 <?php if ($image) { ?>
                                     <li>
-                                        <a href="<?php echo $image; ?>" target="_blank">
-                                            <img src="<?php echo $image; ?>">
+                                        <a href="/uploads/product/<?php echo $image; ?>" target="_blank">
+                                            <img src="/uploads/product/<?php echo $image; ?>">
                                         </a>
 
                                     </li>
