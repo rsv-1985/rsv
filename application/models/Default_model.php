@@ -59,7 +59,9 @@ class Default_model extends CI_Model{
         $this->db->from($this->table);
         if($where){
             foreach($where as $field => $value){
-                $this->db->where($field, $value);
+                if($value != ''){
+                    $this->db->where($field, $value);
+                }
             }
         }
         if($limit && $start){

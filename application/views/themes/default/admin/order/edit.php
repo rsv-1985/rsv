@@ -127,10 +127,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php $row = 0;
                 $subtotal = 0;
                 foreach ($products as $product) { ?>
-                    <tr id="row<?php echo $row; ?>">
-                        <input type="hidden" name="products[<?php echo $row; ?>][slug]" value="<?php echo $product['slug']; ?>">
-                        <input type="hidden" name="products[<?php echo $row; ?>][product_id]" value="<?php echo $product['product_id']; ?>"/>
-                        <td><a href="#" onclick="remove_item(<?php echo $row; ?>, event)"><i
+                    <tr id="row<?php echo $product['id']; ?>">
+                        <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]" value="<?php echo $product['slug']; ?>">
+                        <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]" value="<?php echo $product['product_id']; ?>"/>
+                        <td><a href="#" onclick="remove_item(<?php echo $product['id']; ?>, event)"><i
                                     class="fa fa-fw fa-remove"></i></a></td>
                         <td>
                             <a data-toggle="tooltip" data-placement="right"
@@ -138,49 +138,49 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id']; ?>">
                             <?php echo @$supplier[$product['supplier_id']]['name']; ?></td>
                         </a>
-                        <input type="hidden" name="products[<?php echo $row; ?>][supplier_id]"
+                        <input type="hidden" name="products[<?php echo $product['id']; ?>][supplier_id]"
                                value="<?php echo $product['supplier_id']; ?>">
                         <td>
                             <?php echo $product['name']; ?>
-                            <input type="hidden" name="products[<?php echo $row; ?>][name]"
+                            <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
                                    value="<?php echo $product['name']; ?>">
                         </td>
                         <td>
                             <?php echo $product['sku']; ?>
-                            <input type="hidden" name="products[<?php echo $row; ?>][sku]"
+                            <input type="hidden" name="products[<?php echo $product['id']; ?>][sku]"
                                    value="<?php echo $product['sku']; ?>">
                         </td>
                         <td>
                             <?php echo $product['brand']; ?>
-                            <input type="hidden" name="products[<?php echo $row; ?>][brand]"
+                            <input type="hidden" name="products[<?php echo $product['id']; ?>][brand]"
                                    value="<?php echo $product['brand']; ?>">
                         </td>
                         <td>
                             <?php echo @format_term($product['term']); ?>
-                            <input type="hidden" name="products[<?php echo $row; ?>][term]"
+                            <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
                                    value="<?php echo $product['term']; ?>">
                         </td>
                         <td>
-                            <input onkeyup="row_subtotal(<?php echo $row; ?>)" id="qty<?php echo $row; ?>"
-                                   name="products[<?php echo $row; ?>][quantity]" type="text"
+                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)" id="qty<?php echo $product['id']; ?>"
+                                   name="products[<?php echo $product['id']; ?>][quantity]" type="text"
                                    value="<?php echo $product['quantity']; ?>" class="form-control"
                                    style="width: 80px;">
                         </td>
                         <td>
-                            <input onkeyup="row_subtotal(<?php echo $row; ?>)" id="price<?php echo $row; ?>"
-                                   name="products[<?php echo $row; ?>][delivery_price]" type="text"
+                            <input
+                                   name="products[<?php echo $product['id']; ?>][delivery_price]" type="text"
                                    value="<?php echo $product['delivery_price']; ?>" class="form-control" style="width: 100px;">
                         </td>
                         <td>
-                            <input onkeyup="row_subtotal(<?php echo $row; ?>)" id="price<?php echo $row; ?>"
-                                   name="products[<?php echo $row; ?>][price]" type="text"
+                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)" id="price<?php echo $product['id']; ?>"
+                                   name="products[<?php echo $product['id']; ?>][price]" type="text"
                                    value="<?php echo $product['price']; ?>" class="form-control" style="width: 100px;">
                         </td>
                         <td><span
-                                id="row_subtotal<?php echo $row; ?>"><?php echo $product['quantity'] * $product['price'];
+                                id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
                                 $subtotal += $product['quantity'] * $product['price']; ?></span></td>
                         <td>
-                            <select name="products[<?php echo $row; ?>][status_id]" class="form-control">
+                            <select name="products[<?php echo $product['id']; ?>][status_id]" class="form-control">
                                 <?php foreach ($status as $st) { ?>
                                     <option
                                         value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
@@ -359,11 +359,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     }
 
-    function row_subtotal(row_id) {
-        var price = $("#price" + row_id).val();
-        var qty = $("#qty" + row_id).val();
+    function row_subtotal(product_id) {
+        var price = $("#price" + product_id).val();
+        var qty = $("#qty" + product_id).val();
         var sub_total = price * qty;
-        $("#row_subtotal" + row_id).html(sub_total.toFixed(2));
+        $("#row_subtotal" + product_id).html(sub_total.toFixed(2));
         total();
     }
 

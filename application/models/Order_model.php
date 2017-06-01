@@ -68,6 +68,9 @@ class Order_model extends Default_model{
             if($this->input->get('brand')){
                 $this->db->where('brand', $this->input->get('brand', true));
             }
+            if($this->input->get('quantity')){
+                $this->db->where('quantity', (int)$this->input->get('quantity'));
+            }
             if($this->input->get('supplier_id')){
                 $this->db->where('supplier_id', (int)$this->input->get('supplier_id'));
             }
@@ -151,12 +154,5 @@ class Order_model extends Default_model{
         }
         
         return false;
-    }
-
-    //Обновление одной позиции в заказа
-    public function update_item($product_id, $order_id, $data){
-        $this->db->where('product_id', (int)$product_id);
-        $this->db->where('order_id', (int)$order_id);
-        $this->db->update('order_product', $data);
     }
 }

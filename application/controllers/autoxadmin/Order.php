@@ -26,24 +26,24 @@ class Order extends Admin_controller
         $this->load->library('sender');
     }
 
-    public function products(){
+    public function products()
+    {
         $data = [];
         $this->load->library('pagination');
 
-        if($this->input->post()){
+        if ($this->input->post()) {
             $this->form_validation->set_rules('status_id', 'Статус', 'required|integer');
-            $this->form_validation->set_rules('product_id', 'product_id', 'required|trim');
-            $this->form_validation->set_rules('order_id', 'order_id', 'required|integer');
+            $this->form_validation->set_rules('id', 'id', 'required|trim');
 
-            if ($this->form_validation->run() !== false){
+            if ($this->form_validation->run() !== false) {
                 $save = [];
                 $save['status_id'] = (int)$this->input->post('status_id');
 
-                $this->order_model->update_item((int)$this->input->post('product_id'), (int)$this->input->post('order_id'),$save);
-                $this->session->set_flashdata('success', lang('text_success'));
-                redirect('autoxadmin/order/products');
-            }else{
-                $this->error = validation_errors();
+                $this->order_product_model->insert($save, (int)$this->input->post('id'));
+                exit(lang('text_success'));
+
+            } else {
+                exit(validation_errors());
             }
         }
 
@@ -64,7 +64,8 @@ class Order extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function index(){
+    public function index()
+    {
         $data = [];
         $this->load->library('pagination');
 
@@ -81,29 +82,31 @@ class Order extends Admin_controller
         $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
-        
+
         $this->load->view('admin/header');
         $this->load->view('admin/order/order', $data);
         $this->load->view('admin/footer');
     }
 
-    public function create(){
-        
+    public function create()
+    {
+
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $data = [];
         $data['order'] = $this->order_model->get($id);
-        if(!$data['order']){
+        if (!$data['order']) {
             show_404();
         }
 
         $settings_fraud = $this->settings_model->get_by_key('scamdb');
         $data['scamdb_info'] = false;
-        if(@$settings_fraud['access_token']){
+        if (@$settings_fraud['access_token']) {
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'https://scamdb.info/ru/v1/fraud/find?search='.$data['order']['telephone'].'&access-token='.$settings_fraud['access_token']);
+            curl_setopt($curl, CURLOPT_URL, 'https://scamdb.info/ru/v1/fraud/find?search=' . $data['order']['telephone'] . '&access-token=' . $settings_fraud['access_token']);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
             curl_setopt($curl, CURLOPT_TIMEOUT, 2);
@@ -111,8 +114,8 @@ class Order extends Admin_controller
             curl_close($curl);
             $result = json_decode($result);
 
-            if(is_array($result)){
-                $data['scamdb_info'] = '<a href="http://scamdb.info/ru/fraud/'.@$result[0]->id.'" target="_blank">Обнаружен в базе scamdb.info</a>';
+            if (is_array($result)) {
+                $data['scamdb_info'] = '<a href="http://scamdb.info/ru/fraud/' . @$result[0]->id . '" target="_blank">Обнаружен в базе scamdb.info</a>';
             }
         }
         $data['status'] = $this->orderstatus_model->status_get_all();
@@ -122,7 +125,7 @@ class Order extends Admin_controller
         $data['history'] = $this->order_history_model->history_get($id);
         $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']]);
 
-        if($this->input->post()){
+        if ($this->input->post()) {
             $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
             $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'required|max_length[250]');
@@ -138,8 +141,8 @@ class Order extends Admin_controller
                 $commissionpay = 0;
                 $total = 0;
 
-                if($this->input->post('products')){
-                    foreach($this->input->post('products') as $product){
+                if ($this->input->post('products')) {
+                    foreach ($this->input->post('products') as $product) {
                         $total += $product['quantity'] * $product['price'];
                     }
                 }
@@ -169,7 +172,7 @@ class Order extends Admin_controller
                 $save['telephone'] = $this->input->post('telephone', true);
                 $save['delivery_method_id'] = (int)$this->input->post('delivery_method');
                 $save['payment_method_id'] = (int)$this->input->post('payment_method');
-                $save['address'] = $this->input->post('address',true);
+                $save['address'] = $this->input->post('address', true);
                 $save['total'] = (float)$total;
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
@@ -179,11 +182,11 @@ class Order extends Admin_controller
                 $save['paid'] = (bool)$this->input->post('paid', true);
                 $order_id = $this->order_model->insert($save, $id);
                 //Возвращаем товары на склад если у поставщик отмечено "Наш склад"
-                if($data['products']){
-                    foreach ($data['products'] as $return_product){
+                if ($data['products']) {
+                    foreach ($data['products'] as $return_product) {
                         $supplier_info = $this->supplier_model->get($return_product['supplier_id']);
-                        if($supplier_info['stock']){
-                            $this->product_model->update_stock($return_product,'+');
+                        if ($supplier_info['stock']) {
+                            $this->product_model->update_stock($return_product, '+');
                         }
                     }
                 }
@@ -211,7 +214,7 @@ class Order extends Admin_controller
                     $this->session->set_flashdata('success', lang('text_success'));
 
                     //history
-                    if($this->input->post('history')){
+                    if ($this->input->post('history')) {
                         $history = [];
                         $history['order_id'] = $order_id;
                         $history['date'] = date("Y-m-d H:i:s");
@@ -220,18 +223,18 @@ class Order extends Admin_controller
                         $history['send_email'] = (bool)$this->input->post('send_email');
                         $history['user_id'] = $this->User_model->is_login();
                         $this->order_history_model->insert($history);
-                        
-                        if($history['send_email'] && mb_strlen($save['email']) > 0){
+
+                        if ($history['send_email'] && mb_strlen($save['email']) > 0) {
                             $contacts = $this->settings_model->get_by_key('contact_settings');
-                            $this->sender->email(sprintf(lang('text_email_subject'), $order_id),$history['text'], $save['email'],explode(';',$contacts['email']));
+                            $this->sender->email(sprintf(lang('text_email_subject'), $order_id), $history['text'], $save['email'], explode(';', $contacts['email']));
                         }
 
-                        if($history['send_sms'] && mb_strlen($save['telephone']) > 0){
-                            $this->sender->sms($save['telephone'],$history['text']);
+                        if ($history['send_sms'] && mb_strlen($save['telephone']) > 0) {
+                            $this->sender->sms($save['telephone'], $history['text']);
                         }
                     }
                     //order_status
-                    if($save['status'] != $data['order']['status']){
+                    if ($save['status'] != $data['order']['status']) {
                         $order_info = $save;
                         $order_info['order_id'] = $order_id;
                         $order_info['status'] = $data['status'][$save['status']]['name'];
@@ -239,25 +242,25 @@ class Order extends Admin_controller
                         $order_info['delivery_method'] = $data['delivery'][$save['delivery_method_id']]['name'];
                         //Получаем шаблон сообщения 2 - Смена статуса заказа
                         $message_template = $this->message_template_model->get(2);
-                        foreach ($order_info as $field => $value){
-                            if(in_array($field,['total','commission','delivery_price'])) $value = format_currency($value);
-                            $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
-                            $message_template['text'] = str_replace('{'.$field.'}',$value, $message_template['text']);
-                            $message_template['text'] = str_replace('{products}',$this->load->view('email/order', ['products' => $products], true), $message_template['text']);
-                            $message_template['text_sms'] = str_replace('{'.$field.'}',$value, $message_template['text_sms']);
+                        foreach ($order_info as $field => $value) {
+                            if (in_array($field, ['total', 'commission', 'delivery_price'])) $value = format_currency($value);
+                            $message_template['subject'] = str_replace('{' . $field . '}', $value, $message_template['subject']);
+                            $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
+                            $message_template['text'] = str_replace('{products}', $this->load->view('email/order', ['products' => $products], true), $message_template['text']);
+                            $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
                         }
 
                         //Добавляем историю смены статуса заказа
                         $history = [];
 
                         $contacts = $this->settings_model->get_by_key('contact_settings');
-                        if($save['email'] != ''){
+                        if ($save['email'] != '') {
                             $history['send_email'] = true;
-                            $this->sender->email($message_template['subject'],$message_template['text'], $save['email'],explode(';',$contacts['email']));
+                            $this->sender->email($message_template['subject'], $message_template['text'], $save['email'], explode(';', $contacts['email']));
                         }
-                        if($save['telephone'] != ''){
+                        if ($save['telephone'] != '') {
                             $history['send_sms'] = true;
-                            $this->sender->sms($save['telephone'],$message_template['text_sms']);
+                            $this->sender->sms($save['telephone'], $message_template['text_sms']);
                         }
 
 
@@ -268,9 +271,9 @@ class Order extends Admin_controller
                         $this->order_history_model->insert($history);
 
                     }
-                    redirect('autoxadmin/order/edit/'.$id);
+                    redirect('autoxadmin/order/edit/' . $id);
                 }
-            }else{
+            } else {
                 $this->error = validation_errors();
             }
         }
@@ -280,34 +283,37 @@ class Order extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $this->order_model->delete($id);
         $this->order_product_model->delete_by_order($id);
         $this->order_history_model->delete_by_order($id);
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/order');
     }
+
     //ajax сумма заказа при редактировании
-    public function get_total(){
+    public function get_total()
+    {
         $json = [];
         $delivery_price = 0;
         $commissionpay = 0;
         $total = 0;
         $delivery_total = 0;
-        if($this->input->post('products')){
-            foreach($this->input->post('products') as $product){
+        if ($this->input->post('products')) {
+            foreach ($this->input->post('products') as $product) {
                 $total += $product['quantity'] * $product['price'];
                 $delivery_total += $product['delivery_price'];
             }
         }
 
         $delivery_id = (int)$this->input->post('delivery_method', true);
-        if($delivery_id){
+        if ($delivery_id) {
 
             $deliveryInfo = $this->delivery_model->get($delivery_id);
-            if($this->input->post('delivery_price')){
+            if ($this->input->post('delivery_price')) {
                 $delivery_price = (float)$this->input->post('delivery_price');
-            }else{
+            } else {
                 $delivery_price = (float)$deliveryInfo['price'];
             }
 
@@ -316,13 +322,13 @@ class Order extends Admin_controller
 
 
         $payment_id = (int)$this->input->post('payment_method', true);
-        if($payment_id){
+        if ($payment_id) {
             $paymentInfo = $this->payment_model->get($payment_id);
-            if($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0){
-                if($paymentInfo['comission'] > 0){
+            if ($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0) {
+                if ($paymentInfo['comission'] > 0) {
                     $commissionpay = $paymentInfo['comission'] * ($total + $delivery_price) / 100;
                 }
-                if($paymentInfo['fix_cost'] > 0){
+                if ($paymentInfo['fix_cost'] > 0) {
                     $commissionpay = $commissionpay + $paymentInfo['fix_cost'];
                 }
             }
@@ -339,8 +345,10 @@ class Order extends Admin_controller
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
+
     //Добавление товара
-    public function add_product(){
+    public function add_product()
+    {
 
         $product_id = (int)$this->input->post('product_id');
         $supplier_id = (int)$this->input->post('supplier_id');
@@ -348,7 +356,7 @@ class Order extends Admin_controller
         $order_id = (int)$this->input->post('order_id');
         $results = $this->product_model->get_product_for_cart($product_id, $supplier_id, $term);
 
-        if($results){
+        if ($results) {
             $product = [
                 'order_id' => $order_id,
                 'product_id' => $product_id,
@@ -366,7 +374,7 @@ class Order extends Admin_controller
             $this->order_product_model->insert($product);
 
             exit('success');
-        }else{
+        } else {
             exit('error');
         }
     }
@@ -375,17 +383,77 @@ class Order extends Admin_controller
      * Метод получения товаровр при добавлениее в заказе
      * @html
      */
-    public function search_products(){
+    public function search_products()
+    {
         $search = $this->input->post('search', true);
         $products = $this->product_model->get_search_text($search);
         $html = 'Ничего не найдено';
-        if($products){
+        if ($products) {
             $html = '<ul class="list-group">';
-            foreach ($products as $product){
-                $html .= '<li class="list-group-item">'.$this->supplier_model->suppliers[$product['supplier_id']]['name'].' '.$product['name'].' '.$product['sku'].' '.$product['brand'].' '.format_currency($product['price']).' '.format_term($product['term']).'<a href="#" onclick="add_product('.$product['id'].','.$product['supplier_id'].','.$product['term'].'); return false;"> Добавить</a> </li>';
+            foreach ($products as $product) {
+                $html .= '<li class="list-group-item">' . $this->supplier_model->suppliers[$product['supplier_id']]['name'] . ' ' . $product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'] . ' ' . format_currency($product['price']) . ' ' . format_term($product['term']) . '<a href="#" onclick="add_product(' . $product['id'] . ',' . $product['supplier_id'] . ',' . $product['term'] . '); return false;"> Добавить</a> </li>';
             }
             $html .= '</ul>';
         }
         exit($html);
+    }
+
+    public function export_xls()
+    {
+        require_once './application/libraries/excel/PHPExcel.php';
+
+        $this->load->model('order_model');
+        $products = $this->order_product_model->get_all(false, false, $this->input->get());
+        if ($products) {
+            $columns = array_keys($products[0]);
+
+            $phpexcel = new PHPExcel();
+            $page = $phpexcel->setActiveSheetIndex(0);
+
+            $c = 0;
+            foreach ($columns as $column) {
+                $page->setCellValueByColumnAndRow($c, 1, $column);
+                $c++;
+            }
+
+
+            $row = 2;
+            foreach ($products as $product) {
+                $c = 0;
+                foreach ($product as $column => $value){
+                    switch ($column){
+                        case 'supplier_id':
+                            $value = @$this->supplier_model->suppliers[$value]['name'];
+                            break;
+                        case 'status_id':
+                            $statuses = $this->orderstatus_model->status_get_all();
+                            $value = @$statuses[$value]['name'];
+                            break;
+                    }
+                    $page->setCellValueByColumnAndRow($c, $row, $value);
+                    $c++;
+                }
+                $row++;
+            }
+
+
+            $sheet = $phpexcel->getActiveSheet();
+            $cellIterator = $sheet->getRowIterator()->current()->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(true);
+            /** @var PHPExcel_Cell $cell */
+            foreach ($cellIterator as $cell) {
+                $sheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
+            }
+
+            $page->setTitle("order_products");
+            $objWriter = PHPExcel_IOFactory::createWriter($phpexcel, 'Excel2007');
+            // We'll be outputting an excel file
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="order_products.xlsx"');
+            header('Cache-Control: max-age=0');
+            $objWriter->save('php://output');
+        }
+
+        exit();
     }
 }

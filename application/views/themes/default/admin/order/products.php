@@ -35,16 +35,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <a style="color: green" href="/autoxadmin/order/products">Товары в заказах</a>
                     <div class="table-responsive">
                         <table class="table table-condensed">
-                            <tbody><tr>
-                                <th>#</th>
-                                <th>Название</th>
-                                <th>Артикул</th>
-                                <th>Производитель</th>
-                                <th>Цена</th>
-                                <th>Количество</th>
-                                <th>Поставщик</th>
-                                <th>Статус</th>
-                                <th></th>
+                            <tbody>
+                            <tr>
+                                <th class="text-center">Заказ №</th>
+                                <th class="text-center">Название</th>
+                                <th class="text-center">Артикул</th>
+                                <th class="text-center">Производитель</th>
+                                <th class="text-center">Цена</th>
+                                <th class="text-center">Количество</th>
+                                <th class="text-center">Поставщик</th>
+                                <th class="text-center">Статус</th>
+                                <th class="text-center"> <button onclick="downloadXls()" class="btn btn-xs btn-success">Скачать XLS</button></th>
                             </tr>
                             <?php echo form_open('/autoxadmin/order/products',['method' => 'GET']);?>
                             <tr>
@@ -70,7 +71,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     </div>
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="width: 80px" type="text" name="quantity" class="form-control" value="<?php echo $this->input->get('quantity', true);?>">
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="form-group">
                                         <select name="supplier_id" class="form-control">
@@ -101,9 +106,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </form>
                             <?php if($products){?>
                                 <?php foreach($products as $product){?>
-                                    <?php echo form_open();?>
-                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id'];?>">
-                                    <input type="hidden" name="order_id" value="<?php echo $product['order_id'];?>">
+                                    <?php echo form_open(null,['class' => 'product-form']);?>
+                                    <input type="hidden" name="id" value="<?php echo $product['id'];?>">
                                     <tr style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
                                         <td>
                                             <a href="/autoxadmin/order/edit/<?php echo $product['order_id'];?>">
@@ -121,7 +125,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $product['quantity'];?></td>
                                         <td><?php echo @$suppliers[$product['supplier_id']]['name'];?></td>
                                         <td>
-
                                             <div class="form-group">
                                                 <select name="status_id" class="form-control">
                                                     <option></option>
@@ -139,13 +142,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php } ?>
                             <?php } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
+
+
                     <?php echo $this->pagination->create_links();?>
                 </div>
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div>
 </section><!-- /.content -->
+<script>
+    $(document).ready(function(){
+        $(".product-form").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                method: 'post',
+                success: function (response) {
+                    alert(response);
+                }
+            });
+        });
+    });
+    function downloadXls(){
+        var data = '<?php echo http_build_query($this->input->get());?>';
+        location.href='/autoxadmin/order/export_xls?<?php echo http_build_query($this->input->get());?>'
+    }
+</script>

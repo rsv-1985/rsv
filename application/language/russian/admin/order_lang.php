@@ -39,3 +39,4 @@ $lang['text_send_email'] = 'Отправить в email';
 $lang['text_term'] = 'Доставка';
 $lang['text_address'] = 'Адрес';
 $lang['text_revenue'] = 'Доход';
+$lang['text_success'] = 'Все прошло успешно';
