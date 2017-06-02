@@ -223,7 +223,7 @@ class Tecdoc {
     public function res($query)
     {
         $jsonurl = $this->url . json_encode($query);
-      
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $jsonurl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

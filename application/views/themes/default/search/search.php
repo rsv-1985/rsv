@@ -131,13 +131,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         $key = $product['id'] . $product['supplier_id'] . $product['term']?>
                         <tr>
                             <td data-order="<?php echo $product['cross'];?>">
-                                <?php if(!$product['cross']){?>
+                                <?php if($product['cross'] == 0){?>
                                     <label class="label label-success">
                                         Точное
                                     </label>
-                                <?php }else{?>
+                                <?php }elseif($product['cross'] == 1){?>
                                     <label class="label label-warning">
                                         Аналог
+                                    </label>
+                                <?php }else{?>
+                                    <label class="label label-default">
+                                        Не точное
                                     </label>
                                 <?php } ?>
                             </td>

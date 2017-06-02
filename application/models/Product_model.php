@@ -266,9 +266,9 @@ class Product_model extends Default_model
     }
 
     //Получаем бренды для уточнения поиска
-    public function get_brands($sku)
+    public function get_brands($query)
     {
-        $sku = $this->clear_sku($sku);
+        $sku = $this->clear_sku($query);
 
         $return = [];
 

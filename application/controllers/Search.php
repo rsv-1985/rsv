@@ -115,7 +115,7 @@ class Search extends Front_controller {
             if($products){
                 foreach ($products as &$product){
                     $filter_brands[] = $product['brand'];
-                    $product['cross'] = 3;
+                    $product['cross'] = 2;
                 }
                 $data['products'] = $products;
             }
