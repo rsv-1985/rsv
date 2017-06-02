@@ -247,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     function quan(key) {
         var quan = $("#quan" + key).val();
         $.ajax({
-            url: '/ajax/update_cart',
+            url: '/cart/update_cart',
             method: 'POST',
             dataType: 'json',
             data: {key: key, quan: quan},
