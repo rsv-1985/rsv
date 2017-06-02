@@ -90,10 +90,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <li id="<?php echo $tree->ID_tree; ?>">
                                     <?php if ($tree->Childs > 0) { ?>
                                         <i class="fa fa-plus-square-o"></i> <a href="#"
-                                                                               onclick="show_tree('<?php echo $tree->ID_tree; ?>', event)"><?php echo $tree->Name; ?></a>
+                                                                               onclick="show_tree('<?php echo $tree->ID_tree; ?>', event)"><?php echo ucfirst($tree->Name); ?></a>
                                     <?php } else { ?>
                                         <i class="fa fa-circle-o"></i> <a
-                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>"><?php echo $tree->Name; ?></a>
+                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>"><?php echo ucfirst($tree->Name); ?></a>
                                     <?php } ?>
                                 </li>
                             <?php } ?>
@@ -246,7 +246,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         var p = {
             'ID_tree': "<?php echo $tree->ID_tree;?>",
             'ID_parent': "<?php echo $tree->ID_parent;?>",
-            'Name': "<?php echo $tree->Name;?>",
+            'Name': "<?php echo ucfirst($tree->Name);?>",
             'Level': "<?php echo $tree->Level;?>",
             'Path': <?php echo $tree->Path;?>,
             'Childs': "<?php echo $tree->Childs;?>"

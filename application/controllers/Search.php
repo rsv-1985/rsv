@@ -20,7 +20,7 @@ class Search extends Front_controller {
 
         $ID_art = (int)$this->input->get('ID_art');
         $brand = $this->input->get('brand', true);
-        $search = $this->input->get('search', true);
+        $search = strip_tags($this->input->get('search', true));
 
         $data['brands'] = $this->product_model->get_brands($search);
         //Если есть бренды и пользователь не указал при первом поиске бренд, выбираем первы из списка.

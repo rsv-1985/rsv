@@ -23,7 +23,6 @@ class Sitemap extends Front_controller{
         foreach ($urls as $url){
             $xml .= '<url>';
             $xml .= '<loc>'.$url['url'].'</loc>';
-            $xml .= '<lastmod>'.date('Y-m-d',strtotime($url['updated_at'])).'</lastmod>';
             $xml .= '<priority>'.$priority.'</priority>';
             $xml .= '</url>';
         }
@@ -40,15 +39,21 @@ class Sitemap extends Front_controller{
 
         if (!$this->uri->segment(3)) {
             delete_files('./map/', true);
+            $url[]=[
+                'url' => site_url(),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->write_file($url, 'url_home', '1');
 
             $url_page = $this->page_model->get_sitemap();
             if($url_page){
-                $this->write_file($url_page, 'url_page','0.8');
+                $this->write_file($url_page, 'url_page','0.7');
             }
 
             $url_news = $this->news_model->get_sitemap();
             if($url_news){
-                $this->write_file($url_news, 'url_news','0.7');
+                $this->write_file($url_news, 'url_news','0.6');
             }
 
             $url_category = $this->category_model->get_sitemap();
@@ -65,7 +70,7 @@ class Sitemap extends Front_controller{
             $html = '<a id="next" href="/sitemap/index/'.$result['id'].'?file_number='.($file_number + 1).'">Загрузка</a>';
             $html .= '<script type="text/javascript">document.getElementById("next").click();</script>';
 
-            $this->write_file($result['urls'], 'product'.$file_number,'0.6');
+            $this->write_file($result['urls'], 'product'.$file_number,'0.8');
             echo $html;
             die();
         } else {
@@ -83,7 +88,7 @@ class Sitemap extends Front_controller{
                 $text .= '</sitemapindex>';
                 write_file('./map/sitemap.xml', $text);
                 $this->session->set_flashdata('success', 'Генерация <a target="_blank" href="'.base_url('map/sitemap.xml').'">карты сайта</a> закончена ');
-                redirect(base_url('autoxadmin/settings'));
+                redirect(base_url('/autoxadmin/seo_settings/sitemap'));
             }
         }
     }
