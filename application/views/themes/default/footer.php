@@ -191,7 +191,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
