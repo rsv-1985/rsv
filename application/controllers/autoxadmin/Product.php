@@ -51,10 +51,10 @@ class Product extends Admin_controller
                 $term = (int)$this->input->post('term');
                 $this->product_model->update_item($save, $product_id, $supplier_id, $term);
                 $this->session->set_flashdata('success', lang('text_success'));
-                redirect('autoxadmin/product');
             }else{
-                $this->error = validation_errors();
+                $this->session->set_flashdata('error', validation_errors());
             }
+            redirect($_SERVER['HTTP_REFERER']);
         }
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['currency'] = $this->currency_model->currency_get_all();

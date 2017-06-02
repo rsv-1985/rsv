@@ -71,22 +71,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="btn-social pull-left">
                     <?php if(isset($this->contacts['vk']) && $this->contacts['vk']){?>
                         <a href="<?php echo $this->contacts['vk'];?>" target="_blank" rel="nofollow">
-                            <img src="<?php echo theme_url();?>/img/vk_hover.svg"/>
+                            <img src="<?php echo theme_url();?>/img/vk_hover.svg" alt="vk"/>
                         </a>
                     <?php } ?>
                     <?php if(isset($this->contacts['google']) && $this->contacts['google']){?>
                         <a href="<?php echo $this->contacts['google'];?>" target="_blank" rel="nofollow">
-                            <img src="<?php echo theme_url();?>/img/google-plus_hover.svg"/>
+                            <img src="<?php echo theme_url();?>/img/google-plus_hover.svg" alt="google+"/>
                         </a>
                     <?php } ?>
                     <?php if(isset($this->contacts['instagram']) && $this->contacts['instagram']){?>
                         <a href="<?php echo $this->contacts['instagram'];?>" target="_blank" rel="nofollow">
-                            <img src="<?php echo theme_url();?>/img/insta_hover.svg"/>
+                            <img src="<?php echo theme_url();?>/img/insta_hover.svg" alt="instagram"/>
                         </a>
                     <?php } ?>
                     <?php if(isset($this->contacts['fb']) && $this->contacts['fb']){?>
                         <a href="<?php echo $this->contacts['fb'];?>" target="_blank" rel="nofollow">
-                            <img src="<?php echo theme_url();?>/img/fb_hover.svg"/>
+                            <img src="<?php echo theme_url();?>/img/fb_hover.svg" alt="facebook"/>
                         </a>
                     <?php } ?>
                 </div>
