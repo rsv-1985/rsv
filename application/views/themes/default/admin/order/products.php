@@ -142,18 +142,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php } ?>
                             <?php } ?>
                             </tbody>
-                            <tfoot>
+                            <tfoot class="well well-sm">
+                            <?php echo form_open('/autoxadmin/order/change_status_products?'.http_build_query($this->input->get()),['class' => 'change_status_products']);?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colspan="7" class="text-right">
+                                        <div class="form-group">
+                                            <?php if($this->input->get()){?>
+                                                <label>Применить к отфильтрованным:</label>
+                                            <?php }else{?>
+                                                <label>Применить ко всем:</label>
+                                            <?php } ?>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select name="status_id" class="form-control">
+                                                <option></option>
+                                                <?php foreach($status as $s){?>
+                                                    <option value="<?php echo $s['id'];?>" <?php echo set_select('status_id');?>><?php echo $s['name'];?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="submit" class="btn btn-link pull-right" value="<?php echo lang('button_submit');?>">
+                                    </td>
                                 </tr>
+                            </form>
                             </tfoot>
                         </table>
                     </div>
@@ -180,7 +196,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 }
             });
         });
+        $(".change_status_products").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                method: 'post',
+                success: function (response) {
+                    if(response == 'success'){
+                        location.reload();
+                    }
+                }
+            });
+        });
     });
+
+
     function downloadXls(){
         var data = '<?php echo http_build_query($this->input->get());?>';
         location.href='/autoxadmin/order/export_xls?<?php echo http_build_query($this->input->get());?>'

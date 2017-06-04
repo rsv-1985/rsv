@@ -398,6 +398,21 @@ class Order extends Admin_controller
         exit($html);
     }
 
+    //Массове редактирование статусов товаров в заказах
+    public function change_status_products(){
+        $this->db->set('status_id',(int)$this->input->post('status_id'));
+        if($this->input->get()){
+            foreach ($this->input->get() as $field =>$value){
+                if($value != ''){
+                    $this->db->where($field,$value);
+                }
+            }
+        }
+        $query = $this->db->update('order_product');
+        $this->session->set_flashdata('success', lang('text_success'));
+        exit('success');
+    }
+
     public function export_xls()
     {
         require_once './application/libraries/excel/PHPExcel.php';
