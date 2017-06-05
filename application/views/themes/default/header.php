@@ -18,9 +18,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <meta name="description" content="<?php echo str_replace('"','',$this->description);?>">
     <meta name="keywords" content="<?php echo str_replace('"','',$this->keywords);?>">
     <script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <?php if($this->rel_prev){?>
         <link rel="prev" href="<?php echo $this->rel_prev;?>">
     <?php } ?>

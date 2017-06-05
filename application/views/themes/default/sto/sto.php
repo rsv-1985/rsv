@@ -6,6 +6,8 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
+<link rel="stylesheet" href="<?php echo theme_url();?>css/jquery-ui.min.css">
+<script src="<?php echo theme_url();?>js/jquery-ui.min.js"></script>
 <style>
     #sto-order{
         border: 1px solid #f6f6f6;
