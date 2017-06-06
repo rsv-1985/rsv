@@ -141,9 +141,9 @@ class Order_model extends Default_model{
     public function order_get($id){
         $this->db->select('o.*,d.name as delivery_name, p.name as payment_name, s.name as status_name', true);
         $this->db->from('order o');
-        $this->db->join('delivery_method d', 'd.id = o.delivery_method_id');
-        $this->db->join('payment_method p', 'p.id = o.payment_method_id');
-        $this->db->join('order_status s', 's.id = o.status');
+        $this->db->join('delivery_method d', 'd.id = o.delivery_method_id','left');
+        $this->db->join('payment_method p', 'p.id = o.payment_method_id','left');
+        $this->db->join('order_status s', 's.id = o.status','left');
         $this->db->where('o.id',(int)$id);
         if(!$this->is_admin){
             $this->db->where('o.customer_id', $this->is_login);
