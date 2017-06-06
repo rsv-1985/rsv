@@ -108,6 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </a>
                         </li>
                         <li><a href="/autoxadmin/customergroup"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customergroup');?></a></li>
+                        <li><a href="/autoxadmin/customerbalance"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customerbalance');?></a></li>
                         <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_newsletter');?></a></li>
                     </ul>
                 </li>

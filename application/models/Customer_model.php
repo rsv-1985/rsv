@@ -154,4 +154,14 @@ class Customer_model extends Default_model{
         }
         return false;
     }
+
+    public function getBalance($customer_id){
+        $this->db->select('balance');
+        $this->db->where('id',(int)$customer_id);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array()['balance'];
+        }
+        return false;
+    }
 }

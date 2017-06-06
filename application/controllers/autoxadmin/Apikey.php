@@ -91,7 +91,7 @@ class Apikey extends Admin_controller {
     }
 
     private function save_data($id = false){
-        $customerInfo = $this->customer_model->getByLogin($this->input->post('login'));
+        $customerInfo = $this->customer_model->getByLogin($this->input->post('login', true));
         $save['user_id'] = (int)$customerInfo['id'];
         $save['key'] = $this->input->post('key',true);
         $save['level'] = (int)$this->input->post('level');

@@ -23,6 +23,7 @@ $lang['text_nav_language'] = 'Переводы';
 $lang['text_nav_vin'] = 'VIN запросы';
 $lang['text_nav_customer'] = 'Покупатели';
 $lang['text_nav_customergroup'] = 'Группы покупателей';
+$lang['text_nav_customerbalance'] = 'Баланс покупателей';
 $lang['text_nav_supplier'] = 'Поставщики';
 $lang['text_catalog'] = 'Каталог';
 $lang['text_nav_product'] = 'Товары';

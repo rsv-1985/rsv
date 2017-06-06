@@ -19,9 +19,46 @@ class Customer extends Front_controller
         $this->load->model('order_product_model');
         $this->load->library('pagination');
         $this->load->model('message_template_model');
+        $this->load->model('customerbalance_model');
         $this->load->library('sender');
     }
 
+    public function pay($order_id){
+        $orderInfo = $this->order_model->get($order_id);
+        if(!$orderInfo || $orderInfo['customer_id'] != $this->session->userdata('customer_id')){
+            $this->session->set_flashdata('error', 'Заказ не найтед');
+            redirect('/customer');
+        }
+
+        if($this->customer_balance < $orderInfo['total']){
+            $this->session->set_flashdata('error', 'Не достаточно средств для оплаты.');
+            redirect('/customer');
+        }
+
+        $save['customer_id'] = $this->session->userdata('customer_id');
+        $save['type'] = 2;
+        $save['value'] = (float)$orderInfo['total'];
+        $save['transaction_created_at'] = date("Y-m-d H:i:s");
+        $save['description'] = 'Оплата заказа №'.$orderInfo['id'];
+        $save['created_at'] = date("Y-m-d H:i:s");
+        $save['user_id'] = 0;
+        if($this->customerbalance_model->insert($save)){
+            //Обновляем баланс покупателя
+            if($save['type'] == 1){
+                $save2['balance'] = $this->customer_balance + $save['value'];
+            }else{
+                $save2['balance'] = $this->customer_balance - $save['value'];
+            }
+            $this->customer_model->insert($save2,$save['customer_id']);
+
+            //Ставим ОПЛАЧЕН заказу
+            $save3['paid'] = 1;
+            $this->order_model->insert($save3,$orderInfo['id']);
+        }
+        $this->session->set_flashdata('success', 'Заказ успешно оплачен');
+
+        redirect('/customer');
+    }
     public function index(){
         $this->customer_model->is_login('/customer/login');
         $data = [];

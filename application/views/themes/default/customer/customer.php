@@ -7,7 +7,6 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="single-product-area">
-    <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -26,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <th><?php echo lang('text_orders_id');?></th>
                                         <th><?php echo lang('text_orders_status');?></th>
                                         <th><?php echo lang('text_orders_total');?></th>
+                                        <th>Статус оплаты</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -34,6 +34,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><a target="_blank" href="/customer/orderinfo/<?php echo $order['id'];?>"><?php echo $order['id'];?></a></td>
                                         <td><b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b></td>
                                         <td><?php echo format_currency($order['total']);?></td>
+                                        <td>
+                                            <?php if(!$order['paid']){?>
+                                            <a href="/customer/pay/<?php echo $order['id'];?>">Оплатить с баланса</a>
+                                            <?php }else{?>
+                                                Оплачен
+                                            <?php } ?>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                                 </tbody>

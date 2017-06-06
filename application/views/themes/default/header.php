@@ -18,9 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <meta name="description" content="<?php echo str_replace('"','',$this->description);?>">
     <meta name="keywords" content="<?php echo str_replace('"','',$this->keywords);?>">
     <script src="<?php echo theme_url();?>js/jquery-1.12.3.min.js"></script>
-
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
-
     <?php if($this->rel_prev){?>
         <link rel="prev" href="<?php echo $this->rel_prev;?>">
     <?php } ?>
@@ -59,7 +57,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
                 <div class="pull-right">
                     <?php if($this->is_login){?>
-                        <a href="/customer"><?php echo lang('text_account');?></a>/
+                        <a href="/customer">
+                            <?php echo $this->session->userdata('customer_name');?>
+                            <?php if($this->customer_balance){?>
+                                <small>(<b><?php echo format_currency($this->customer_balance);?></b>)</small>
+                            <?php } ?>
+                        </a>/
                         <a href="/customer/logout"><?php echo lang('text_logout');?></a>
                     <?php }else{?>
                         <a rel="nofollow" href="#" data-toggle="modal" data-target="#login"><?php echo lang('text_login_link');?></a>
