@@ -16,7 +16,7 @@ if($output){
      data-ad-client="ca-pub-9020295635568297"
      data-ad-slot="6031374792"
      data-ad-format="auto"></ins>
-<script>
+<script onerror="alert(\'Отключите блокировщик рекламы и поддержите наши бесплатные обновления.Спасибо\')">
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>');
 }
