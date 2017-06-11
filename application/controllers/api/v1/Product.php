@@ -40,12 +40,10 @@ class Product extends REST_Controller
         $response = false;
 
         if ($sku && $brand) {
-
             $crosses_search = false;
             if ($with_cross) {
-                $crosses_search = $this->product_model->get_crosses($ID_art, $sku, $brand);
+                $crosses_search = $this->product_model->get_crosses($ID_art[0]->ID_art, $brand, $sku);
             }
-
 
             //Делаем поиск по апи поставщиков c возвратом крос номеров от поставщика
             $cross_suppliers = $this->product_model->api_supplier($sku, $brand, $crosses_search);
