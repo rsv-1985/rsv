@@ -233,7 +233,6 @@ class Product_model extends Default_model
     {
         //Получаем кросс номера
         $sku = $this->clear_sku($sku);
-
         $crosses = [];
         if ($ID_art) {
             $cross = $this->tecdoc->getCrosses($ID_art);
