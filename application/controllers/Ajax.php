@@ -16,6 +16,68 @@ class Ajax extends Front_controller
         }
     }
 
+    public function get_manufacturer_year(){
+        $html = '<option>---</option>';
+        $year = $this->input->post('year');
+        $manufacturers = $this->tecdoc->getManufacturerYear($year);
+        if($manufacturers){
+            foreach ($manufacturers as $manufacturer){
+                $html .= '<option value="'.$manufacturer->ID_mfa.'">'.$manufacturer->Name.'</option>';
+            }
+        }
+        exit($html);
+    }
+
+    public function get_model_year(){
+        $ID_mfa = (int)$this->input->post('ID_mfa');
+        $year = $this->input->post('year');
+        $models = $this->tecdoc->getModelYear($ID_mfa,$year);
+        $html = '<option>---</option>';
+        if($models){
+            foreach ($models as $model){
+                $html .= '<option value="'.$model->ID_mod.'">'.$model->Name.'</option>';
+            }
+        }
+        exit($html);
+    }
+
+    public function get_typ_year(){
+        $ID_mod = (int)$this->input->post('ID_mod');
+        $year = $this->input->post('year');
+        $types = $this->tecdoc->getTypeYear($ID_mod, $year);
+        $html = '<option>---</option>';
+        if($types){
+            foreach ($types as $typ){
+                $html .= '<option value="'.$typ->ID_typ.'">'.$typ->Name.'</option>';
+            }
+        }
+        exit($html);
+    }
+
+    public function get_tree(){
+        $ID_mfa = (int)$this->input->post('ID_mfa');
+        $ID_mod = (int)$this->input->post('ID_mod');
+        $ID_typ = (int)$this->input->post('ID_typ');
+
+        $slug = [];
+        $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
+        if($manufacturer_info){
+            $slug[] = url_title($manufacturer_info[0]->Name).'_'.$ID_mfa;
+        }
+
+        $model_info = $this->tecdoc->getModel($ID_mfa,$ID_mod);
+
+        if($model_info){
+            $slug[] = url_title($model_info[0]->Name).'_'.$ID_mod;
+        }
+
+        $type_info = $this->tecdoc->getType($ID_mod,$ID_typ);
+        if($type_info){
+            $slug[] = url_title($type_info[0]->Name).'_'.$ID_typ;
+        }
+        exit(base_url('catalog/'.implode('/',$slug)));
+    }
+
     public function get_model(){
         $ID_mfa = (int)$this->input->post('ID_mfa');
         $models = $this->tecdoc->getModel($ID_mfa);

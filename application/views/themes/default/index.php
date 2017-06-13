@@ -80,7 +80,92 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="catalog">
+                        <div role="tabpanel" class="tab-pane active" id="catalog" style="text-align: center">
+                        <div class="well">
+                        <b>Быстрый переход</b>
+                            <div class="form-inline">
+                                <select class="form-control" id="year" onchange="getManufacturerYear($(this).val())">
+                                    <option>Год выпуска</option>
+                                    <?php foreach ($this->tecdoc->getYears() as $year_group => $years){?>
+                                        <optgroup label="<?php echo $year_group;?>">
+                                            <?php foreach ($years as $year){?>
+                                                <option value="<?php echo $year;?>"><?php echo $year;?></option>
+                                            <?php } ?>
+                                        </optgroup>
+
+                                    <?php } ?>
+                                </select>
+
+                                <select class="form-control" id="manufacturer" onchange="getModelYear($(this).val())" disabled>
+                                    <option>Производитель</option>
+                                </select>
+
+                                <select class="form-control" id="model" onchange="getTypYear($(this).val())" disabled>
+                                    <option>Модель</option>
+                                </select>
+
+                                <select class="form-control" id="typ" onchange="getTree($(this).val())" disabled>
+                                    <option>Модификация</option>
+                                </select>
+                                <script>
+                                    function getManufacturerYear(year){
+                                        $.ajax({
+                                            url: '/ajax/get_manufacturer_year',
+                                            data: {year:year},
+                                            method: 'post',
+                                            success: function(html) {
+                                                if(html != ''){
+                                                    $("#manufacturer").html(html).removeAttr('disabled');
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    function getModelYear(ID_mfa) {
+                                      $.ajax({
+                                            url: '/ajax/get_model_year',
+                                            data: {ID_mfa:ID_mfa, year:$('#year option:selected').val()},
+                                            method: 'post',
+                                            success: function(html) {
+                                                if(html != ''){
+                                                    $("#model").html(html).removeAttr('disabled');
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    function getTypYear(ID_mod) {
+                                      $.ajax({
+                                            url: '/ajax/get_typ_year',
+                                            data: {ID_mod:ID_mod, year:$('#year option:selected').val()},
+                                            method: 'post',
+                                            success: function(html) {
+                                                if(html != ''){
+                                                    $("#typ").html(html).removeAttr('disabled');
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    function getTree(ID_typ){
+                                        var ID_mfa = $('#manufacturer option:selected').val();
+                                        var ID_mod = $('#model option:selected').val();
+
+                                        $.ajax({
+                                            url: '/ajax/get_tree',
+                                            data: {ID_mfa:ID_mfa,ID_mod:ID_mod,ID_typ:ID_typ},
+                                            method: 'post',
+                                            success: function(response) {
+                                                if(response != ''){
+                                                    location.href=response;
+                                                }
+                                            }
+                                        });
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                            <b>Полный каталог</b>
                             <?php echo $catalog;?>
                         </div>
                         <div role="tabpanel" class="tab-pane " id="garage">

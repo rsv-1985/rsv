@@ -19,6 +19,44 @@ class Tecdoc {
         $this->url = $this->CI->config->item('api_url');
     }
 
+    public function getManufacturerYear($year){
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getManufacturer',
+            'params' => ['year' => $year]
+        ];
+
+        return $this->res($query);
+    }
+
+    public function getModelYear($ID_mfa, $year){
+
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getModel',
+            'params' => [
+                'ID_mfa' => $ID_mfa,
+                'year' => $year
+            ]
+        ];
+
+        return $this->res($query);
+    }
+
+    public function getTypeYear($ID_mod, $year){
+
+            $query = [
+                'apikey' => $this->key,
+                'method' => 'getType',
+                'params' => [
+                    'ID_mod' => $ID_mod,
+                    'year' => $year
+                ]
+            ];
+
+        return $this->res($query);
+    }
+
 
     public function getManufacturer($ID_mfa = false){
         if($ID_mfa){
@@ -107,7 +145,6 @@ class Tecdoc {
     }
 
     public function getArticle($ID_art){
-        $this->cache = false;
         $query = [
             'apikey' => $this->key,
             'method' => 'getArticle',
@@ -132,7 +169,6 @@ class Tecdoc {
     }
 
     public function getSearch($query){
-        $this->cache = false;
         $query = [
             'apikey' => $this->key,
             'method' => 'getSearch',
@@ -181,7 +217,6 @@ class Tecdoc {
     }
 
     public function getPackage($ID_art){
-        $this->cache = false;
         $query = [
             'apikey' => $this->key,
             'method' => 'getPackage',
@@ -194,7 +229,6 @@ class Tecdoc {
     }
 
     public function getUses($ID_art){
-        $this->cache = false;
         $query = [
             'apikey' => $this->key,
             'method' => 'getUses',
@@ -207,13 +241,22 @@ class Tecdoc {
     }
 
     public function getImages($ID_art){
-        $this->cache = false;
         $query = [
             'apikey' => $this->key,
             'method' => 'getImages',
             'params' => [
                 'ID_art' => $ID_art
             ]
+        ];
+
+        return $this->res($query);
+    }
+
+    public function getYears(){
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getYears',
+            'params' => []
         ];
 
         return $this->res($query);
