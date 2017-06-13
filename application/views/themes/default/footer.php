@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="footer-menu">
                     <ul>
                         <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
-                            <li><i class="fa fa-phone-square"></i><a href="#"> <?php echo $phone;?></a></li>
+                            <li><i class="fa fa-phone-square"></i><?php echo $phone;?></li>
                         <?php } ?>
                         <?php foreach(explode(';',$this->contacts['email']) as $email){?>
                             <li><i class="fa fa-envelope"></i><a href="mailto:<?php echo $email;?>"> <?php echo $email;?></a></li>
