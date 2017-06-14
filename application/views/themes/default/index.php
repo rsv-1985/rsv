@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="catalog" style="text-align: center">
                         <div class="well">
-                        <b>Быстрый переход</b>
+                        <b><?php echo lang('text_fast_tecdoc');?></b>
                             <div class="form-inline">
                                 <select class="form-control" id="year" onchange="getManufacturerYear($(this).val())">
                                     <option>Год выпуска</option>
@@ -165,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </script>
                             </div>
                         </div>
-                            <b>Полный каталог</b>
+                            <b><?php echo lang('text_full_tecdoc');?></b>
                             <?php echo $catalog;?>
                         </div>
                         <div role="tabpanel" class="tab-pane " id="garage">

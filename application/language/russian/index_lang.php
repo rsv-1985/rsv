@@ -19,3 +19,5 @@ $lang['text_garage'] = 'Гараж';
 $lang['text_selected_topics'] = 'Избранные разделы';
 $lang['text_go_catalog'] = 'Перейти в каталог';
 $lang['text_add_auto'] = 'Добавить автомобиль';
+$lang['text_fast_tecdoc'] = 'Быстрый переход';
+$lang['text_full_tecdoc'] = 'Полный каталог';
