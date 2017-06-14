@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
-                    <h2><?php echo lang('text_heading'); ?></h2>
+                    <h2><?php echo $this->h1; ?></h2>
                 </div>
             </div>
         </div>

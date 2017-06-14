@@ -6,7 +6,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-$lang['text_heading'] = 'Корзина';
+$lang['text_cart_heading'] = 'Корзина';
 $lang['text_cart_total'] = 'Итого';
 $lang['text_product'] = 'Товар';
 $lang['text_price'] = 'Цена';

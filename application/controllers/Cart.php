@@ -29,7 +29,8 @@ class Cart extends Front_controller
             redirect('customer/registration');
         }
         $data = [];
-        $this->setTitle(lang('text_heading'));
+        $this->setTitle(lang('text_cart_heading'));
+        $this->setH1(lang('text_cart_heading'));
         $data['delivery'] = $this->delivery_model->get_all(false, false, false, ['sort' => 'ASC']);
         $data['payment'] = $this->payment_model->get_all(false, false, false, ['sort' => 'ASC']);
         $data['suppliers'] = $this->supplier_model->supplier_get_all();
