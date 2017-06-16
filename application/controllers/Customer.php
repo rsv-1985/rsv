@@ -125,7 +125,7 @@ class Customer extends Front_controller
             redirect('/customer');
         }
 
-        if($this->input->post() && $this->input->post('cmsautox') == 'true'){
+        if($this->input->post()){
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             $this->form_validation->set_rules('phone', lang('text_phone'), 'required|max_length[32]|trim');
 
@@ -133,6 +133,7 @@ class Customer extends Front_controller
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'trim|required');
             $this->form_validation->set_rules('patronymic', lang('patronymic'), 'trim|required');
             $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email');
+            $this->form_validation->set_rules('captcha','Проверочный код', 'trim|required|callback_validate_captcha');
 
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
@@ -150,7 +151,7 @@ class Customer extends Front_controller
 
                 $message_template['subject'] = str_replace('{customer_id}',$customer_id, $message_template['subject']);
                 $message_template['text'] = str_replace('{customer_id}',$customer_id, $message_template['text']);
-                $message_template['text_sms'] = str_replace('{customer_id}',customer_id, $message_template['text_sms']);
+                $message_template['text_sms'] = str_replace('{customer_id}',$customer_id, $message_template['text_sms']);
 
                 $this->sender->email($message_template['subject'], $message_template['text'], explode(';',$this->contacts['email']),explode(';',$this->contacts['email']));
 
@@ -173,9 +174,38 @@ class Customer extends Front_controller
                 $this->error = validation_errors();
             }
         }
+
+        $this->load->helper('captcha');
+        $vals = array(
+            'word' => rand(10000,99999),
+            'img_path'      => './captcha/',
+            'img_url' => base_url('captcha'),
+            'colors'        => array(
+                'background' => array(255, 255, 255),
+                'border' => array(255, 255, 255),
+                'text' => array(0, 0, 0),
+                'grid' => array(255, 255, 255)
+            )
+        );
+
+        $captcha = create_captcha($vals);
+        $this->session->set_userdata('captcha', $captcha);
+        $data['captcha_image'] = $captcha['image'];
+
         $this->load->view('header');
-        $this->load->view('customer/registration');
+        $this->load->view('customer/registration', $data);
         $this->load->view('footer');
+    }
+
+    public function validate_captcha(){
+        if($this->input->post('captcha') != $this->session->userdata['captcha']['word'])
+        {
+            $this->form_validation->set_message('validate_captcha', 'Wrong captcha code, hmm are you the Terminator?');
+            return false;
+        }else{
+            return true;
+        }
+
     }
 
     public function logout(){
@@ -250,6 +280,11 @@ class Customer extends Front_controller
         $save['phone'] = $this->input->post('phone', true);
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['status'] = $this->config->item('active_new_customer');
+
+        //Удаляем картинки каптчи
+        $this->load->helper('file');
+        delete_files('./captcha',true);
+
         return $this->customer_model->insert($save, $id);
     }
 }

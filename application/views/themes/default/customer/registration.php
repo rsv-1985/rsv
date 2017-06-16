@@ -77,11 +77,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <input type="password" name="confirm_password" value="<?php echo set_value('confirm_password');?>" class="form-control" required>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Проверочный код <?php echo $captcha_image;?></label>
+
+                        <input class="form-control" id="cmsautox" name="captcha" type="text" value="" />
+                    </div>
+                </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <a href="#" data-toggle="modal" data-target="#login"><?php echo lang('text_login_link');?></a>
-                        <input id="cmsautox" name="cmsautox" type="hidden" value="" />
-                        <input type="submit" onclick="document.getElementById('cmsautox').value = 'true';" value="<?php echo lang('button_register');?>" class="pull-right">
+                        <input type="submit" value="<?php echo lang('button_register');?>" class="pull-right">
                     </div>
                 </div>
                 </form>
