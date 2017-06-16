@@ -29,11 +29,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         overflow: auto;
     }
 </style>
-<div class="product-big-title-area">
+<div class="search-product-big-title-area">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="product-bit-title text-center">
+                <div class="search-product-bit-title text-center">
                     <h1><?php echo $h1; ?></h1>
                 </div>
             </div>
@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php foreach ($products as $product){
                         $key = $product['id'] . $product['supplier_id'] . $product['term']?>
                         <tr>
-                            <td data-order="<?php echo $product['cross'];?>">
+                            <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
                                 <?php if($product['cross'] == 0){?>
                                     <label class="label label-success">
                                         <?php echo lang('text_cross_type_0');?>
@@ -144,12 +144,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </label>
                                 <?php } ?>
                             </td>
-                            <td><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['sku'];?></a></td>
-                            <td><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'];?></a></td>
-                            <td>
+                            <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['sku'];?></a></td>
+                            <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'];?></a></td>
+                            <td class="search-product-name">
                                 <a href="/product/<?php echo $product['slug'];?>"><?php echo $product['name'];?></a>
                                 <?php if($product['excerpt']){?>
-                                    <br><small><?php echo $product['excerpt'];?></small>
+                                    <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
                                 <?php } ?>
                                 <?php if($this->is_admin){?>
                                     <hr/>
@@ -160,12 +160,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </div>
                                 <?php } ?>
                             </td>
-                            <td data-search="<?php echo $product['price'];?>" data-order="<?php echo $product['price'];?>">
+                            <td data-search="<?php echo $product['price'];?>" data-order="<?php echo $product['price'];?>" class="search-product-price">
                                 <b><?php echo format_currency($product['price']);?></b>
                             </td>
-                            <td data-search="<?php echo $product['quantity'];?>" data-order="<?php echo $product['quantity'];?>"><b><?php echo format_quantity($product['quantity']);?></b></td>
-                            <td data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>"><b><?php echo format_term($product['term']);?></b></td>
-                            <td>
+                            <td data-search="<?php echo $product['quantity'];?>" data-order="<?php echo $product['quantity'];?>" class="search-product-quan"><b><?php echo format_quantity($product['quantity']);?></b></td>
+                            <td data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>" class="search-product-term"><b><?php echo format_term($product['term']);?></b></td>
+                            <td class="search-product-cart">
                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
                                 <div class="input-group">
                                     <input style="width: 50px;" placeholder="кол." type="text" name="quantity"

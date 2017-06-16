@@ -253,7 +253,9 @@ class Product_model extends Default_model
         $this->db->select(['code2 as sku', 'brand2 as brand']);
         $this->db->from('cross');
         $this->db->where('code', $sku);
-        $this->db->where('brand', $brand);
+        if($brand){
+            $this->db->where('brand', $brand);
+        }
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $crosses = array_merge($crosses, $query->result_array());

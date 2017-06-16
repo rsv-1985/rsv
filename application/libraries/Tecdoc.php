@@ -39,7 +39,6 @@ class Tecdoc {
                 'year' => $year
             ]
         ];
-
         return $this->res($query);
     }
 
