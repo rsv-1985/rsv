@@ -22,14 +22,15 @@ class Search extends Front_controller
 
         $brand = $this->input->get('brand', true);
         $search = strip_tags($this->input->get('search', true));
+
         $ID_art = (int)$this->input->get('ID_art');
-        if (!$ID_art) {
+
+        if (!$ID_art && $brand && $search) {
             $tecdoc_id_art = $this->tecdoc->getIDart($this->product_model->clear_sku($search), $brand);
             if ($tecdoc_id_art) {
                 $ID_art = $tecdoc_id_art[0]->ID_art;
             }
         }
-        $ID_art = false;
 
         $data['brands'] = $this->product_model->get_brands($search);
 
@@ -47,10 +48,13 @@ class Search extends Front_controller
         }
 
         $crosses_search = array();
+
         $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
+
         if ($system_cross) {
             $crosses_search = $system_cross;
         }
+
         if (!$brand && $data['brands']) {
             foreach ($data['brands'] as $item) {
                 $crosses_brand = $this->product_model->get_crosses($item['ID_art'], $item['brand'], $item['sku']);
