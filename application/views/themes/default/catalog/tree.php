@@ -102,20 +102,53 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
             </div>
             <div class="col-md-8">
-                <?php if (@$parts) { ?>
-                    <table class="table table-responsive">
-                        <tr>
-                            <th><?php echo lang('text_column_image'); ?></th>
-                            <th><?php echo lang('text_column_sku'); ?></th>
-                            <th><?php echo lang('text_column_brand'); ?></th>
-                            <th><?php echo lang('text_column_name'); ?></th>
-                            <th><?php echo lang('text_column_ship'); ?></th>
-                            <th><?php echo lang('text_column_price'); ?></th>
-                            <th></th>
-                        </tr>
-                        <?php foreach ($parts as $part) { ?>
-                            <?php if ($part->product && $part->product['prices']) { ?>
-                                <?php foreach ($part->product['prices'] as $price){?>
+                <?php if ($this->input->get('id_tree')) { ?>
+                    <?php if(@$parts){?>
+                        <table class="table table-responsive">
+                            <tr>
+                                <th><?php echo lang('text_column_image'); ?></th>
+                                <th><?php echo lang('text_column_sku'); ?></th>
+                                <th><?php echo lang('text_column_brand'); ?></th>
+                                <th><?php echo lang('text_column_name'); ?></th>
+                                <th><?php echo lang('text_column_ship'); ?></th>
+                                <th><?php echo lang('text_column_price'); ?></th>
+                                <th></th>
+                            </tr>
+                            <?php foreach ($parts as $part) { ?>
+                                <?php if ($part->product && $part->product['prices']) { ?>
+                                    <?php foreach ($part->product['prices'] as $price){?>
+                                        <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
+                                            echo $filter_key . ' ';
+                                        } ?>" <?php } ?>>
+                                            <td>
+                                                <img onerror="this.src='/assets/themes/default/img/no_image.png'"
+                                                     src="<?php echo $part->Preview; ?>"
+                                                     alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                                     title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
+                                            </td>
+                                            <td>
+                                                <a target="_blank"
+                                                   href="/product/<?php echo $part->product['slug']; ?>"><?php echo $part->product['sku']; ?></a>
+                                            </td>
+                                            <td>
+                                                <?php echo $part->product['brand']; ?>
+                                            </td>
+                                            <td><?php echo $part->product['name']; ?></td>
+                                            <td>
+                                                <?php echo format_term($price['term']);?>
+                                            </td>
+                                            <td style="width: 150px;font-weight: bold">
+                                                <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'] ); ?>
+                                            </td>
+                                            <td>
+                                                <a href="/product/<?php echo $part->product['slug'];?>"><?php echo lang('text_go_product');?></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+                            <?php foreach ($parts as $part) { ?>
+                                <?php if (!$part->product && !$part->product['prices']) { ?>
                                     <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
                                         echo $filter_key . ' ';
                                     } ?>" <?php } ?>>
@@ -126,53 +159,25 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                  title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
                                         </td>
                                         <td>
-                                            <a target="_blank"
-                                               href="/product/<?php echo $part->product['slug']; ?>"><?php echo $part->product['sku']; ?></a>
+                                            <?php echo $part->Article; ?>
                                         </td>
                                         <td>
-                                            <?php echo $part->product['brand']; ?>
+                                            <?php echo $part->Brand; ?>
                                         </td>
-                                        <td><?php echo $part->product['name']; ?></td>
+                                        <td><?php echo $part->Name; ?></td>
+                                        <td></td>
+                                        <td></td>
                                         <td>
-                                            <?php echo format_term($price['term']);?>
-                                        </td>
-                                        <td style="width: 150px;font-weight: bold">
-                                            <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'] ); ?>
-                                        </td>
-                                        <td>
-                                            <a href="/product/<?php echo $part->product['slug'];?>"><?php echo lang('text_go_product');?></a>
+                                            <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
                                         </td>
                                     </tr>
                                 <?php } ?>
                             <?php } ?>
-                        <?php } ?>
-                        <?php foreach ($parts as $part) { ?>
-                            <?php if (!$part->product && !$part->product['prices']) { ?>
-                                <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
-                                    echo $filter_key . ' ';
-                                } ?>" <?php } ?>>
-                                    <td>
-                                        <img onerror="this.src='/assets/themes/default/img/no_image.png'"
-                                             src="<?php echo $part->Preview; ?>"
-                                             alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                             title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
-                                    </td>
-                                    <td>
-                                        <?php echo $part->Article; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $part->Brand; ?>
-                                    </td>
-                                    <td><?php echo $part->Name; ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        <?php } ?>
-                    </table>
+                        </table>
+                    <?php }else{?>
+                        В данной категории нет запчастей
+                    <?php } ?>
+
                 <?php } else { ?>
                     <div class="row">
                         <div class="col-md-12">
