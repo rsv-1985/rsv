@@ -159,6 +159,9 @@ class Seo_settings extends Admin_controller{
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('/autoxadmin/seo_settings/hook');
         }
+        if($this->input->get('edit')){
+            $data['hook'] = $this->settings_model->get_by_key($this->input->get('edit',true));
+        }
         if($this->input->post('hook')){
             $this->db->where('key_settings',$this->input->post('url',true));
             $this->db->delete('settings');
@@ -180,5 +183,13 @@ class Seo_settings extends Admin_controller{
         $this->load->view('admin/header');
         $this->load->view('admin/seo_settings/seo_hook', $data);
         $this->load->view('admin/footer');
+    }
+
+    public function get_hook(){
+        $url = $this->input->post('url',true);
+        $hook = $this->settings_model->get_by_key($url);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($hook));
     }
 }
