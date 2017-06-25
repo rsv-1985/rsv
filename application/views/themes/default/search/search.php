@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script src="<?php echo theme_url();?>js/jquery.dataTables.min.js"></script>
 <script src="<?php echo theme_url();?>js/dataTables.bootstrap.min.js"></script>
 <style>
-    td{
+    td.search-product-name {
         word-break: break-all;
     }
     .brands{
