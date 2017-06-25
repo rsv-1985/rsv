@@ -27,29 +27,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="box-body">
             <div class="form-group">
                 <label>Ссылка на страницу</label>
-                <input type="text" name="url" value="" placeholder="/page/klientam" class="form-control">
+                <input type="text" name="url" value="<?php echo $this->input->get('edit',true);?>" placeholder="/page/klientam" class="form-control">
                 <p class="help-block">Укажите ссылку на страницу для которой хотите добавить сео настройки</p>
             </div>
 
             <div class="form-group">
                 <label>SEO title</label>
-                <input type="text" name="hook[title]" value="" class="form-control">
+                <input id="hook-title" type="text" name="hook[title]" value="<?php echo @$hook['title'];?>" class="form-control">
             </div>
             <div class="form-group">
                 <label>SEO Description</label>
-                <input type="text" name="hook[description]" value="" class="form-control">
+                <input id="hook-description" type="text" name="hook[description]" value="<?php echo @$hook['description'];?>" class="form-control">
             </div>
             <div class="form-group">
                 <label>SEO keywords</label>
-                <input type="text" name="hook[keywords]" value="" class="form-control">
+                <input id="hook-keywords" type="text" name="hook[keywords]" value="<?php echo @$hook['keywords'];?>" class="form-control">
             </div>
             <div class="form-group">
                 <label>SEO h1</label>
-                <input type="text" name="hook[h1]" value="" class="form-control">
+                <input id="hook-h1" type="text" name="hook[h1]" value="<?php echo @$hook['h1'];?>" class="form-control">
             </div>
             <div class="form-group">
                 <label>SEO text</label>
-                <textarea class="textarea" name="hook[text]"></textarea>
+                <textarea id="hook-text" class="textarea" name="hook[text]"><?php echo @$hook['text'];?></textarea>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-info pull-right">Сохранить</button>
@@ -72,7 +72,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><a target="_blank" href="<?php echo $url;?>"><?php echo $url;?></a> </td>
                             <td><?php echo $hook['title'];?></td>
                             <td><?php echo $hook['h1'];?></td>
-                            <td><a href="/autoxadmin/seo_settings/hook?delete=<?php echo $url;?>" onclick="delete_hook('<?php echo $url;?>',event)">Удалить</a></td>
+                            <td>
+                                <a href="/autoxadmin/seo_settings/hook?delete=<?php echo $url;?>">Удалить</a> |
+                                <a href="/autoxadmin/seo_settings/hook?edit=<?php echo $url;?>">Изменить</a>
+                            </td>
                         </tr>
                     <?php } ?>
                 </table>
