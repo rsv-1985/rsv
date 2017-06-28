@@ -353,8 +353,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $("[name='delivery_price']").val(json['delivery_price']);
                 $("#commission").html(json['commission'].toFixed(2));
                 $("#total").html(json['total'].toFixed(2));
-                var revenue = json['total'] - json['delivery_total'];
-                $("#revenue").html(revenue.toFixed(2));
+                $("#revenue").html(json['revenue'].toFixed(2));
             }
         });
     }

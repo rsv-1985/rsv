@@ -87,7 +87,7 @@ class Cart extends Front_controller
                             'product_id' => $item['product_id'],
                             'slug' => $item['slug'],
                             'quantity' => $item['qty'],
-                            'delivery_price' => 0,
+                            'delivery_price' => $item['delivery_price'],
                             'price' => $item['price'],
                             'name' => $item['name'],
                             'sku' => $item['sku'],
@@ -298,11 +298,13 @@ class Cart extends Front_controller
         $this->load->model('product_model');
         $product = $this->product_model->get_product_for_cart($product_id,$supplier_id,$term);
         if ($product) {
+
            $cartId = $product_id.$supplier_id.$term;
             $data = [
                 'id' => $cartId,
                 'qty' => (int)$quantity,
                 'slug' => $product['slug'],
+                'delivery_price' => $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'],
                 'price' => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
                 'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
                 'sku' => $product['sku'],

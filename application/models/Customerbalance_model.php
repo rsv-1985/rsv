@@ -51,4 +51,8 @@ class Customerbalance_model extends Default_model
 
         return false;
     }
+
+    public function get_customer_balance($customer_id){
+
+    }
 }

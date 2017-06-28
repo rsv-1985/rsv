@@ -300,12 +300,16 @@ class Order extends Admin_controller
         $commissionpay = 0;
         $total = 0;
         $delivery_total = 0;
+        $revenue = 0;
+
         if ($this->input->post('products')) {
             foreach ($this->input->post('products') as $product) {
                 $total += $product['quantity'] * $product['price'];
                 $delivery_total += $product['delivery_price'];
             }
         }
+
+        $revenue = $total - $delivery_total;
 
         $delivery_id = (int)$this->input->post('delivery_method', true);
         if ($delivery_id) {
@@ -339,7 +343,7 @@ class Order extends Admin_controller
         $json['subtotal'] = $total;
         $json['delivery_total'] = $delivery_total;
         $json['total'] = $total + $delivery_price + $commissionpay;
-
+        $json['revenue'] = $revenue;
 
         $this->output
             ->set_content_type('application/json')
