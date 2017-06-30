@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="collapse" id="toggle<?php echo $category['id'];?>" style="height: 0px;">
                             <ul class="nav nav-list">
                                 <?php foreach ($category['children'] as $child){?>
-                                    <li><a href="/category/<?php echo $child['slug'];?>"> <?php echo $child['name'];?></a></li>
+                                    <li class="children"><a href="/category/<?php echo $child['slug'];?>"> <?php echo $child['name'];?></a></li>
                                 <?php } ?>
                             </ul>
                         </div>
