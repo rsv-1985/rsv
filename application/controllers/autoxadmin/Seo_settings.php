@@ -185,6 +185,24 @@ class Seo_settings extends Admin_controller{
         $this->load->view('admin/footer');
     }
 
+    public function brand(){
+        if($this->input->post()){
+            $this->db->where('group_settings','seo_brand');
+            $this->db->or_where('key_settings','seo_brand');
+            $this->db->delete('settings');
+
+            $save['group_settings'] = 'seo_brand';
+            $save['key_settings'] = 'seo_brand';
+            $save['value'] = serialize($this->input->post('seo_brand'));
+            $this->settings_model->add($save);
+        }
+        $data['seo_brand'] = $this->settings_model->get_by_key('seo_brand');
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/seo_settings/seo_brand', $data);
+        $this->load->view('admin/footer');
+    }
+
     public function get_hook(){
         $url = $this->input->post('url',true);
         $hook = $this->settings_model->get_by_key($url);

@@ -159,6 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/seo_settings/product"><i class="fa fa-circle-o"></i>Товара</a></li>
+                        <li><a href="/autoxadmin/seo_settings/brand"><i class="fa fa-circle-o"></i>Производитель</a></li>
                         <li><a href="/autoxadmin/seo_settings/robots"><i class="fa fa-circle-o"></i>Robots.txt</a></li>
                         <li><a href="/autoxadmin/seo_settings/sitemap"><i class="fa fa-circle-o"></i>Sitemap</a></li>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_manufacturer"><i class="fa fa-circle-o"></i>Tecdoc производители</a></li>
