@@ -112,7 +112,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             class="product-count"><?php echo $this->cart->total_items();?></span>
 
                     </a>
-
                 </div>
                 <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal">
                     <i class="fa fa-phone" aria-hidden="true"></i>

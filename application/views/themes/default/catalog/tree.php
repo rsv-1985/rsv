@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                 <?php } ?>
                 <?php if (isset($trees) && !empty($trees)) { ?>
-                    <h3>Каталог запчастей</h3>
+                    <h3><?php echo lang('text_catalog_tree');?></h3>
                     <ul class="list-unstyled trees">
                         <?php foreach ($trees as $tree) { ?>
                             <?php if ($tree->Level == 1) { ?>
