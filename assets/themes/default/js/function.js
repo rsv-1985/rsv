@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    $('.preload').remove();
     $('[rel="tooltip"]').tooltip();
 
     $("a[href='#top']").click(function(event) {

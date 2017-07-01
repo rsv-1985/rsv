@@ -28,6 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php if($this->canonical){?>
         <link rel="canonical" href="<?php echo $this->canonical;?>" />
     <?php } ?>
+    <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
+    <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
+    <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
 </head>
 <body>
 <?php if(@$this->options['google_tag_body']){
@@ -35,16 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 }?>
 
 <?php echo @$this->options['analytics'];?>
-<div class="preload" style="
-    background: url(/assets/themes/default/img/loading.gif);
-    position: fixed;
-    z-index: 999999;
-    background-color: white;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: center;"></div>
+
 <div class="header-area">
     <div class="container">
         <div class="row">

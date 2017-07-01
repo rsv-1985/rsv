@@ -56,17 +56,16 @@ class Category_model extends Default_model
     {
         $cache = $this->cache->file->get('category_brands' . $id);
         if (!$cache && !is_null($cache)) {
-            $this->db->distinct();
             $this->db->select('brand');
-            //$this->db->join('product', 'product.id=product_price.product_id');
+            $this->db->join('product', 'product.id=product_price.product_id');
             $this->db->where('category_id', (int)$id);
             $this->db->where('brand !=', '');
-            //$this->db->where('status', true);
             if ($limit) {
                 $this->db->limit((int)$limit);
             }
             $this->db->order_by('brand', 'ASC');
-            $query = $this->db->get('product');
+            $this->db->group_by('brand');
+            $query = $this->db->get('product_price');
 
             if ($query->num_rows() > 0) {
                 $brands = [];
