@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-sm-6">
                     <div class="search">
-                        <?php echo form_open('search', ['method' => 'get', 'class' => 'search_form']);?>
+                        <?php echo form_open('search', ['method' => 'get', 'class' => 'search_form', 'id' => 'search_form']);?>
                             <div class="wrapper_search">
 								<input autocomplete="off" onkeyup="getSearchBrand($(this).val())" required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>" value="<?php echo set_value('search',$this->input->get('search'));?>">
 								<ul id="search_brand">
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-sm-3 col-xs-12 cart_m">
                 <div class="shopping-item">
-                    <a rel="nofollow" href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
+                    <a id="button-cart" rel="nofollow" href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
                          <span
                         <?php if($this->cart->total_items() == 0){?>
                             style="display: none;"
@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                     </a>
                 </div>
-                <div class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal">
+                <div id="button-call-back" class="call-back" title="<?php echo lang('text_call_back');?>" data-toggle="modal" data-target="#call-back-modal">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
