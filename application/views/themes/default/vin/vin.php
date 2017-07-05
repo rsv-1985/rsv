@@ -34,41 +34,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
                     <div class="form-group">
                         <label><?php echo lang('text_vin_manufacturer');?></label>
-                        <input type="text" class="form-control" name="manufacturer" required>
+                        <input id="input_vin_manufacturer" type="text" class="form-control" name="manufacturer" required>
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_vin_model');?></label>
-                        <input type="text" class="form-control" name="model" required>
+                        <input id="input_vin_model" type="text" class="form-control" name="model" required>
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_vin_engine');?></label>
-                        <input type="text" class="form-control" name="engine" required>
+                        <input id="input_vin_engine" type="text" class="form-control" name="engine" required>
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_vin_vin');?></label>
-                        <input type="text" class="form-control" name="vin">
+                        <input id="input_vin_vin" type="text" class="form-control" name="vin">
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_vin_parts');?></label>
-                        <textarea class="form-control" name="parts" required></textarea>
+                        <textarea id="textarea_vin_parts" class="form-control" name="parts" required></textarea>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label><?php echo lang('text_vin_name');?></label>
-                    <input type="text" name="name" class="form-control" required/>
+                    <input id="input_vin_name" type="text" name="name" class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_vin_telephone');?></label>
-                    <input type="text" name="telephone" class="form-control" required/>
+                    <input id="input_vin_telephone" type="text" name="telephone" class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_vin_email');?></label>
-                    <input type="email" name="email" class="form-control" required/>
+                    <input id="input_vin_email" type="email" name="email" class="form-control" required/>
                 </div>
                 <div class="form-group pull-right">
-                    <button type="submit"><?php echo lang('button_send');?></button>
+                    <button id="button_vin_submit" type="submit"><?php echo lang('button_send');?></button>
                 </div>
             </div>
             </form>

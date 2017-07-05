@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 								</ul>
 							</div>
-                            <input type="submit" data-value="<?php echo lang('button_search');?>" value="<?php echo lang('button_search');?>" class="button alt">
+                            <input id="button_search" type="submit" data-value="<?php echo lang('button_search');?>" value="<?php echo lang('button_search');?>" class="button alt">
                         </form>
                     </div>
             </div>
