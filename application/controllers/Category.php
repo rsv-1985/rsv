@@ -74,39 +74,49 @@ class Category extends Front_controller{
             }
         }
 
-        if(mb_strlen($category['h1']) > 0){
-            $this->setH1($category['h1']);
-        }elseif (mb_strlen(@$seo['h1']) > 0){
+        if($brand){
             $this->setH1(@$seo['h1']);
-        }else{
-            $this->setH1($category['name']);
-        }
-
-        $data['h1'] = $this->h1;
-
-        if(mb_strlen($category['title']) > 0){
-            $this->setTitle($category['title']);
-        }elseif (mb_strlen(@$seo['title']) > 0){
+            $data['h1'] = $this->h1;
             $this->setTitle(@$seo['title']);
-        }else{
-            $this->setTitle($data['h1']);
-        }
-
-        if(mb_strlen($category['meta_description']) > 0){
-            $this->setDescription($category['meta_description']);
-        }elseif (mb_strlen(@$seo['description']) > 0){
             $this->setDescription(@$seo['description']);
-        }else{
-            $this->setDescription();
-        }
-
-        if(mb_strlen($category['meta_keywords']) > 0){
-            $this->setKeywords($category['meta_keywords']);
-        }elseif (mb_strlen(@$seo['keywords']) > 0){
             $this->setKeywords(@$seo['keywords']);
         }else{
-            $this->setKeywords(str_replace(' ',',',$this->title));
+            if(mb_strlen($category['h1']) > 0){
+                $this->setH1($category['h1']);
+            }elseif (mb_strlen(@$seo['h1']) > 0){
+                $this->setH1(@$seo['h1']);
+            }else{
+                $this->setH1($category['name']);
+            }
+
+            $data['h1'] = $this->h1;
+
+            if(mb_strlen($category['title']) > 0){
+                $this->setTitle($category['title']);
+            }elseif (mb_strlen(@$seo['title']) > 0){
+                $this->setTitle(@$seo['title']);
+            }else{
+                $this->setTitle($data['h1']);
+            }
+
+            if(mb_strlen($category['meta_description']) > 0){
+                $this->setDescription($category['meta_description']);
+            }elseif (mb_strlen(@$seo['description']) > 0){
+                $this->setDescription(@$seo['description']);
+            }else{
+                $this->setDescription();
+            }
+
+            if(mb_strlen($category['meta_keywords']) > 0){
+                $this->setKeywords($category['meta_keywords']);
+            }elseif (mb_strlen(@$seo['keywords']) > 0){
+                $this->setKeywords(@$seo['keywords']);
+            }else{
+                $this->setKeywords(str_replace(' ',',',$this->title));
+            }
         }
+
+
 
         $data['description'] = !$this->uri->segment(3) || !$this->uri->segment(5) ? $category['description'].@$seo['text'] : '';
         $data['slug'] = $category['slug'];
