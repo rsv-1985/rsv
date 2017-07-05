@@ -180,6 +180,7 @@ class Order extends Admin_controller
                 $save['commission'] = (float)$commissionpay;
                 $save['delivery_price'] = (float)$delivery_price;
                 $save['paid'] = (bool)$this->input->post('paid', true);
+                $save['prepayment'] = (float)$this->input->post('prepayment');
                 $order_id = $this->order_model->insert($save, $id);
                 //Возвращаем товары на склад если у поставщик отмечено "Наш склад"
                 if ($data['products']) {

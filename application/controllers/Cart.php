@@ -87,7 +87,7 @@ class Cart extends Front_controller
                             'product_id' => $item['product_id'],
                             'slug' => $item['slug'],
                             'quantity' => $item['qty'],
-                            'delivery_price' => $item['delivery_price'],
+                            'delivery_price' => $item['delivery_price'] * $item['qty'],
                             'price' => $item['price'],
                             'name' => $item['name'],
                             'sku' => $item['sku'],

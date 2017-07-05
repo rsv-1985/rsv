@@ -283,21 +283,31 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </td>
                     </tr>
                     <tr>
-                        <th><?php echo lang('text_paid'); ?></th>
-                        <td>
-                            <div class="form-group">
-                                <input type="checkbox"
-                                       name="paid" <?php echo set_checkbox('paid', true, (bool)$order['paid']); ?>/>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
                         <th><?php echo lang('text_revenue'); ?></th>
                         <td>
                             <div class="form-group" id="revenue"></div>
                         </td>
                     </tr>
+
                 </table>
+                <div class="well well-sm">
+                    <b>Данные по оплате</b>
+                    <table class="table">
+                        <tr>
+                            <td>Предоплата</td>
+                            <td><input type="text" name="prepayment" value="<?php echo set_value('prepayment', $order['prepayment']);?>" class="form-control" placeholder="предоплата"></td>
+                        </tr>
+                        <tr>
+                            <td>Статус оплаты</td>
+                            <td>
+                                <select class="form-control" name="paid">
+                                    <option <?php echo set_select('paid', 0, (bool)$order['paid']);?> value="0">Не оплачен</option>
+                                    <option <?php echo set_select('paid', 1, (bool)$order['paid']);?> value="1">Оплачен</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <div class="pull-right">
                     <button class="btn btn-info btn-flat" type="submit"><?php echo lang('button_submit'); ?></button>
                     <a target="_blank" class="btn btn-default btn-flat"
