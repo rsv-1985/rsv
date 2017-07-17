@@ -476,4 +476,101 @@ class Order extends Admin_controller
 
         exit();
     }
+
+    public function importstatus(){
+        $data['statuses'] = $this->orderstatus_model->status_get_all();
+
+        if(isset($_FILES['userfile'])){
+            $this->form_validation->set_rules('userfile', 'File', 'file');
+            if ($this->form_validation->run() !== false){
+                $status_id = (int)$this->input->post('status_id');
+                $new_status_id = (int)$this->input->post('new_status_id');
+                $supplier_id = (int)$this->input->post('supplier_id');
+                $data['products'] = [];
+                $data['similar_products'] = [];
+                $data['error_products'] = [];
+
+                //Подключаме бтблиотеку для работы с xls
+                error_reporting(E_ALL ^ E_NOTICE);
+                require_once APPPATH . 'libraries/excel_reader2.php';
+                $file_name = $_FILES['userfile']['tmp_name'];
+                $excel = new Spreadsheet_Excel_Reader($file_name, false);
+                if ($excel->sheets[0]['numRows'] > 0) {
+                    for ($i = 2; $i <= $excel->sheets[0]['numRows']; $i++) {
+                        $sku = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][1]);
+                        $quan = $this->product_model->clear_quan($excel->sheets[0]['cells'][$i][3]);
+                        $brand = $this->product_model->clear_brand($excel->sheets[0]['cells'][$i][2]);
+                        if($sku && $quan){
+                            //Ищем точное совпадение по заказу
+                            $result = $this->db->where('supplier_id',$supplier_id)
+                                ->where('sku',$sku)
+                                ->where('quantity',(int)$quan)
+                                ->where('brand',$brand)
+                                ->where('status_id',(int)$status_id)
+                                ->get('order_product')->row_array();
+                            if($result){
+                                $data['products'][] = [
+                                    'product_id' => $result['id'],
+                                    'order_id' => $result['order_id'],
+                                    'sku_order' => $result['sku'],
+                                    'brand_order' => $result['brand'],
+                                    'quan_order' => $result['quantity'],
+                                    'sku_file' => $sku,
+                                    'brand_file' => $brand,
+                                    'quan_file' =>  $quan,
+                                    'status_id' => $status_id,
+                                    'new_status_id' => $new_status_id
+                                ];
+                            }else{
+                                //Ищем похожее по заказу
+                                $results = $this->db->where('supplier_id',$supplier_id)
+                                    ->where('sku',$sku)
+                                    ->where('status_id',(int)$status_id)
+                                    ->where('supplier_id',(int)$supplier_id)
+                                    ->where('brand',$brand)
+                                    ->get('order_product')->result_array();
+                                if($results){
+                                    foreach ($results as $result){
+                                        $data['similar_products'][] = [
+                                            'product_id' => $result['id'],
+                                            'order_id' => $result['order_id'],
+                                            'sku_order' => $result['sku'],
+                                            'brand_order' => $result['brand'],
+                                            'quan_order' => $result['quantity'],
+                                            'sku_file' => $sku,
+                                            'brand_file' => $brand,
+                                            'quan_file' =>  $quan,
+                                            'status_id' => $status_id,
+                                            'new_status_id' => $new_status_id
+                                        ];
+                                    }
+                                }else{
+                                    //Пишем в масив ненайденных
+                                    $data['error_products'][] = [
+                                        'sku' => $sku,
+                                        'quan' => $quan
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    exit('В импортируемом файле 0 строк');
+                }
+            }else{
+                exit(validation_errors());
+            }
+            $this->load->view('admin/header');
+            $this->load->view('admin/order/importstatus', $data);
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function update_status(){
+        if($this->input->post('products')){
+            foreach ($this->input->post('products') as $product){
+                $this->db->where('id',$product['product_id'])->set('status_id',$product['status_id'])->update('order_product');
+            }
+        }
+    }
 }

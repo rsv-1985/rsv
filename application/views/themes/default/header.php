@@ -89,9 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php echo form_open('search', ['method' => 'get', 'class' => 'search_form', 'id' => 'search_form']);?>
                             <div class="wrapper_search">
 								<input autocomplete="off" onkeyup="getSearchBrand($(this).val())" required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>" value="<?php echo set_value('search',$this->input->get('search'));?>">
-								<ul id="search_brand">
-
-								</ul>
+								<ul id="search_brand"></ul>
 							</div>
                             <input id="button_search" type="submit" data-value="<?php echo lang('button_search');?>" value="<?php echo lang('button_search');?>" class="button alt">
                         </form>
@@ -113,7 +111,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
-
         </div>
     </div>
 </div> <!-- End site branding area -->

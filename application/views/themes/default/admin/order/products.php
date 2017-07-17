@@ -27,6 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     echo '<small style="color:'.$v['color'].'">'.$v['name'].':</small>'.$status_totals['sum_'.$stid].' ';
                                 }
                             }?>
+                            <button onclick="downloadXls()" class="btn btn-success">Скачать XLS</button>
+                            <a href="#"  data-toggle="modal" data-target="#import-status" class="btn btn-info">Импорт статусов</a>
                         </div>
                     <?php } ?>
                 </div><!-- /.box-header -->
@@ -45,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th class="text-center">Количество</th>
                                 <th class="text-center">Поставщик</th>
                                 <th class="text-center">Статус</th>
-                                <th class="text-center"> <button onclick="downloadXls()" class="btn btn-xs btn-success">Скачать XLS</button></th>
+                                <th class="text-center"></th>
                             </tr>
                             <?php echo form_open('/autoxadmin/order/products',['method' => 'GET']);?>
                             <tr>
@@ -183,6 +185,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         </div><!-- /.col -->
     </div>
 </section><!-- /.content -->
+<div class="modal" id="import-status">
+    <?php echo form_open_multipart('/autoxadmin/order/importstatus');?>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Импорт статусов</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="/uploads/example/status.xls" class="pull-right">Скачать пример файла</a>
+                        <div class="form-group">
+                            <label>Фийл</label>
+                            <input type="file" name="userfile" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Статус товара для сравнения</label>
+                            <select name="status_id" class="form-control">
+                                <?php foreach ($status as $st){?>
+                                    <option value="<?php echo $st['id'];?>"><?php echo $st['name'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Новый статус товара</label>
+                            <select name="new_status_id" class="form-control">
+                                <?php foreach ($status as $st){?>
+                                    <option value="<?php echo $st['id'];?>"><?php echo $st['name'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Поставщик</label>
+                            <select name="supplier_id" class="form-control">
+                                <?php foreach ($suppliers as $supplier){?>
+                                    <option value="<?php echo $supplier['id'];?>"><?php echo $supplier['name'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Закрыть</button>
+                <button type="submit" class="btn btn-primary">Загрузить</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </form>
+</div>
 <script>
     $(document).ready(function(){
         $(".product-form").submit(function(e){
