@@ -20,10 +20,20 @@ class Ajax extends Front_controller
         $html = '<option>---</option>';
         $year = $this->input->post('year');
         $manufacturers = $this->tecdoc->getManufacturerYear($year);
+        $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
         if($manufacturers){
-            foreach ($manufacturers as $manufacturer){
-                $html .= '<option value="'.$manufacturer->ID_mfa.'">'.$manufacturer->Name.'</option>';
+            if($settings_tecdoc_manufacturer){
+                foreach ($manufacturers as $manufacturer){
+                    if(isset($settings_tecdoc_manufacturer[$manufacturer->ID_mfa])){
+                        $html .= '<option value="'.$manufacturer->ID_mfa.'">'.$manufacturer->Name.'</option>';
+                    }
+                }
+            }else{
+                foreach ($manufacturers as $manufacturer){
+                    $html .= '<option value="'.$manufacturer->ID_mfa.'">'.$manufacturer->Name.'</option>';
+                }
             }
+
         }
         exit($html);
     }
