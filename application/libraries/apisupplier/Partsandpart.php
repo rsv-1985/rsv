@@ -47,7 +47,7 @@ class Partsandpart{
                     'quantity' => (int)$result['available'],
                     'supplier_id' => (int)$supplier_id,
                     'term' => $term * 24,
-                    'excerpt' => $result['weight'] / 1000
+                    'excerpt' => 'Вес:'.$result['weight'] / 1000
                 ];
 
                 if($product['sku'] != $sku || $product['brand'] != $brand){
