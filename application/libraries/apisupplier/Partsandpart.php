@@ -36,7 +36,7 @@ class Partsandpart{
         $results = $client->searchParts($session_key, $sku); // возвращает ассоциативные массивы
         if($results){
             foreach ($results as $result){
-                if($result['available'] <= 0 ){
+                if($result['available'] < 3 ){
                     continue;
                 }
                 $term = explode('-',$result['delivery']);
