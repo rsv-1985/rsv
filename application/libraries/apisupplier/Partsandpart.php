@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * $config['api_partsandparts_password']
  * $config['api_partsandparts_currency']-код валюты обязательно должен быть в системе
  * $config['api_partsandparts_day'] - + к сроку поставки
+ * $config['api_partsandparts_default_quan'] количество для всех по умолчанию
  */
 class Partsandpart{
     public $CI;
@@ -35,6 +36,9 @@ class Partsandpart{
         $results = $client->searchParts($session_key, $sku); // возвращает ассоциативные массивы
         if($results){
             foreach ($results as $result){
+                if($result['available'] <= 0 ){
+                    continue;
+                }
                 $term = explode('-',$result['delivery']);
                 $term = end($term);
                 $term = $term + $this->CI->config->item('api_partsandparts_day');
@@ -44,7 +48,7 @@ class Partsandpart{
                     'sku' => $this->CI->product_model->clear_sku($result['article']),
                     'brand' =>  $this->CI->product_model->clear_brand($result['manufacturer']),
                     'delivery_price' => (float)$result['price'],
-                    'quantity' => (int)$result['available'],
+                    'quantity' => $this->CI->config->item('api_partsandparts_default_quan') ? $this->CI->config->item('api_partsandparts_default_quan') : (int)$result['available'],
                     'supplier_id' => (int)$supplier_id,
                     'term' => $term * 24,
                     'excerpt' => 'Вес:'.$result['weight'] / 1000
