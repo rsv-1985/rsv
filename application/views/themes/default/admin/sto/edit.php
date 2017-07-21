@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label>Email</label>
-                        <input required type="email" class="form-control" name="email" value="<?php echo set_value('email', $record['email']); ?>" maxlength="32">
+                        <input type="email" class="form-control" name="email" value="<?php echo set_value('email', $record['email']); ?>" maxlength="32">
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label>Комментарий</label>
