@@ -37,6 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <ul>
                         <?php if($this->footer_page){?>
                             <?php foreach($this->footer_page as $fpage){?>
+                                <?php if(!$this->is_login && $fpage['show_for_user']){continue;}?>
                                 <li><a target="<?php echo $fpage['target'];?>" href="<?php echo $fpage['href'];?>"><?php echo $fpage['menu_title'];?></a></li>
                             <?php } ?>
                         <?php } ?>
