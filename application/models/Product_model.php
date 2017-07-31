@@ -194,8 +194,8 @@ class Product_model extends Default_model
         $this->db->set('brand', $brand2);
         $this->db->update($this->table);
 
-        $this->db->where('brand', $brand1);
-        $this->db->delete($this->table);
+        //$this->db->where('brand', $brand1);
+        //$this->db->delete($this->table);
     }
 
     //Очистка номера от лишних сиволов
