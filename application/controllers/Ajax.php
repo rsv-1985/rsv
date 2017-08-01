@@ -23,10 +23,9 @@ class Ajax extends Front_controller
         $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
         if($manufacturers){
             if($settings_tecdoc_manufacturer){
-                foreach ($manufacturers as $item){
-                    if(isset($settings_tecdoc_manufacturer[url_title($item->Name)]) && @$settings_tecdoc_manufacturer[url_title($item->Name)]['status']){
-                        $name = $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] : $item->Name;
-                        $html .= '<option value="'.$item->ID_mfa.'">'.$name.'</option>';
+                foreach ($manufacturers as $manufacturer){
+                    if(isset($settings_tecdoc_manufacturer[$manufacturer->ID_mfa])){
+                        $html .= '<option value="'.$manufacturer->ID_mfa.'">'.$manufacturer->Name.'</option>';
                     }
                 }
             }else{
@@ -53,14 +52,13 @@ class Ajax extends Front_controller
     }
 
     public function get_typ_year(){
-
         $ID_mod = (int)$this->input->post('ID_mod');
         $year = $this->input->post('year');
         $types = $this->tecdoc->getTypeYear($ID_mod, $year);
         $html = '<option>---</option>';
         if($types){
             foreach ($types as $typ){
-                $html .= '<option value="'.$typ->ID_typ.'">'.$typ->Name.'('.$typ->Engines.' '.$typ->Fuel.')</option>';
+                $html .= '<option value="'.$typ->ID_typ.'">'.$typ->Name.'</option>';
             }
         }
         exit($html);
