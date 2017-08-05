@@ -33,6 +33,12 @@ class Sender{
             $from = $from[0];
         }
         $this->CI->load->library('email');
+        if($smtp_config = $this->CI->config->item('smtp')){
+            foreach ($smtp_config as $key => $value){
+                $config[$key] = $value;
+            }
+            $this->CI->email->initialize($config);
+        }
         $this->CI->email->from($from, $this->CI->config->item('company_name'));
         $this->CI->email->to($to);
         $this->CI->email->mailtype = 'html';
