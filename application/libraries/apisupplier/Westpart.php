@@ -39,7 +39,7 @@ class Westpart{
         $results = json_decode($json,TRUE);
         if($results['Status']['count'] > 0){
             foreach ($results['Result']['Item'] as $result){
-                if($result['Price'] == 0 || $result['Quantity']){
+                if($result['Price'] == 0 || $result['Quantity'] == 0){
                     continue;
                 }
                 $product = [
