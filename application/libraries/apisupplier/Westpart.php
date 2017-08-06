@@ -23,10 +23,9 @@ class Westpart{
 
     public function get_search($supplier_id, $sku, $brand, $search_data){
         $cross_supplier = [];
-
         $url = 'https://westpart.com.ua/ws/?login='.$this->CI->config->item('api_westpart_login').
                 '&password='.$this->CI->config->item('api_westpart_password').
-                '&partnumber='.$sku;
+                '&partnumber='.$sku.'&analogs=True';
 
         $xml = simplexml_load_string(file_get_contents($url));
         $json = json_encode($xml);
