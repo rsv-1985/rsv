@@ -26,7 +26,7 @@ class Tecdoc {
             'params' => ['year' => $year]
         ];
 
-        return $this->res($query);
+        return $this->res($query,true);
     }
 
     public function getModelYear($ID_mfa, $year){
@@ -39,7 +39,7 @@ class Tecdoc {
                 'year' => $year
             ]
         ];
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getTypeYear($ID_mod, $year){
@@ -53,7 +53,7 @@ class Tecdoc {
                 ]
             ];
 
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
 
@@ -70,7 +70,7 @@ class Tecdoc {
                 'method' => 'getManufacturer'
             ];
         }
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getModel($ID_mfa, $ID_mod = false){
@@ -92,7 +92,7 @@ class Tecdoc {
                 ]
             ];
         }
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getType($ID_mod, $ID_typ = false){
@@ -114,7 +114,7 @@ class Tecdoc {
                 ]
             ];
         }
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getTree($ID_typ, $ID_tree = 10001){
@@ -127,7 +127,7 @@ class Tecdoc {
             ]
         ];
 
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getParts($ID_typ, $ID_tree){
@@ -140,7 +140,7 @@ class Tecdoc {
             ]
         ];
 
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getArticle($ID_art){
@@ -200,7 +200,7 @@ class Tecdoc {
             ]
         ];
 
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getTreeNode($ID_tree){
@@ -212,7 +212,7 @@ class Tecdoc {
             ]
         ];
 
-        return $this->res($query);
+        return $this->res($query, true);
     }
 
     public function getPackage($ID_art){
@@ -258,7 +258,7 @@ class Tecdoc {
             'params' => []
         ];
 
-        return $this->res($query);
+        return $this->res($query,true);
     }
 
     public function getTreeFull(){
@@ -268,11 +268,18 @@ class Tecdoc {
             'params' => []
         ];
 
-        return $this->res($query);
+        return $this->res($query,true);
     }
 
-    public function res($query)
+    public function res($query, $use_cache = false)
     {
+        if($use_cache){
+            $key = md5(json_encode($query));
+            $cache = $this->CI->cache->file->get($key);
+            if($cache){
+                return $cache;
+            }
+        }
         $jsonurl = $this->url . json_encode($query);
 
         $curl = curl_init();
@@ -285,6 +292,9 @@ class Tecdoc {
 
         $check = json_decode($res);
         if (isset($check->Data)) {
+            if($use_cache){
+                $this->CI->cache->file->save($key, $check->Data, 30000);
+            }
             return $check->Data;
         } else {
             return false;

@@ -314,33 +314,9 @@ class Catalog extends Front_controller
 
         $data['filters'] = false;
 
-
-
-        $model_info = $this->cache->file->get('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod);
-
-        if(!$model_info){
-            $model_info = $this->tecdoc->getModel($ID_mfa, $ID_mod);
-            if($model_info){
-                $this->cache->file->save('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod,$model_info,604800);
-            }
-        }
-
-        $manufacturer_info = $this->cache->file->get('manufacturer_info_id_mfa_'.$ID_mfa);
-
-        if(!$manufacturer_info){
-            $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
-            if($manufacturer_info){
-                $this->cache->file->save('manufacturer_info_id_mfa_'.$ID_mfa,$manufacturer_info,604800);
-            }
-        }
-
-        $typ_info = $this->cache->file->get('typ_info_id_mod_'.$ID_mod.'_id_typ_'.$ID_typ);
-        if(!$typ_info){
-            $typ_info = $this->tecdoc->getType($ID_mod, $ID_typ);
-            if($typ_info){
-                $this->cache->file->save('typ_info_id_mod_'.$ID_mod.'_id_typ_'.$ID_typ,$typ_info,604800);
-            }
-        }
+        $model_info = $this->tecdoc->getModel($ID_mfa, $ID_mod);
+        $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
+        $typ_info = $this->tecdoc->getType($ID_mod, $ID_typ);
 
         $settings = $this->settings_model->get_by_key('seo_tecdoc_type');
 
@@ -377,8 +353,7 @@ class Catalog extends Front_controller
         $data['name'] = $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name;
 
         if($ID_tree != 10001){
-            $tree_info = $this->cache->file->get('tree_info_id_tree_'.$ID_tree);
-
+            $tree_info = $this->tecdoc->getTreeNode($ID_tree);
             $tree_name = $tree_info[0]->Name;
 
             $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
@@ -386,12 +361,6 @@ class Catalog extends Front_controller
                 $tree_name = $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'];
             }
 
-            if(!$tree_info){
-                $tree_info = $this->tecdoc->getTreeNode($ID_tree);
-                if($tree_info){
-                    $this->cache->file->save('tree_info_id_tree_'.$ID_tree,$tree_info,604800);
-                }
-            }
 
             if($this->input->get('add_tree')){
                 $category = $this->garage[md5($data['name'])]['category'];
