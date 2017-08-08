@@ -261,6 +261,16 @@ class Tecdoc {
         return $this->res($query);
     }
 
+    public function getTreeFull(){
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getTreeFull',
+            'params' => []
+        ];
+
+        return $this->res($query);
+    }
+
     public function res($query)
     {
         $jsonurl = $this->url . json_encode($query);
@@ -269,7 +279,7 @@ class Tecdoc {
         curl_setopt($curl, CURLOPT_URL, $jsonurl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
-        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
         $res = curl_exec($curl);
         curl_close($curl);
 

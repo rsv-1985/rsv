@@ -63,6 +63,36 @@ class Seo_settings extends Admin_controller{
         $this->load->view('admin/footer');
     }
 
+    public function tecdoc(){
+        if($this->input->post()){
+            $this->db->where('key_settings','seo_tecdoc');
+            $this->db->delete('settings');
+
+            $save['group_settings'] = 'seo_tecdoc';
+            $save['key_settings'] = 'seo_tecdoc';
+            $save['value'] = serialize($this->input->post('seo_tecdoc'));
+            $this->settings_model->add($save);
+
+            $this->db->where('key_settings','seo_tecdoc_with_tree');
+            $this->db->delete('settings');
+
+            $save['group_settings'] = 'seo_tecdoc';
+            $save['key_settings'] = 'seo_tecdoc_with_tree';
+            $save['value'] = serialize($this->input->post('seo_tecdoc_with_tree'));
+            $this->settings_model->add($save);
+
+            $this->clear_cache();
+
+            $this->session->set_flashdata('success', lang('text_success'));
+            redirect('/autoxadmin/seo_settings/tecdoc');
+        }
+        $data['seo_tecdoc'] = $this->settings_model->get_by_key('seo_tecdoc');
+        $data['seo_tecdoc_with_tree'] = $this->settings_model->get_by_key('seo_tecdoc_with_tree');
+        $this->load->view('admin/header');
+        $this->load->view('admin/seo_settings/seo_tecdoc', $data);
+        $this->load->view('admin/footer');
+    }
+
     public function tecdoc_manufacturer(){
         if($this->input->post()){
             $this->db->where('key_settings','seo_tecdoc_manufacturer');
@@ -73,12 +103,21 @@ class Seo_settings extends Admin_controller{
             $save['value'] = serialize($this->input->post('seo_tecdoc_manufacturer'));
             $this->settings_model->add($save);
 
+            $this->db->where('key_settings','seo_tecdoc_manufacturer_with_tree');
+            $this->db->delete('settings');
+
+            $save['group_settings'] = 'seo_tecdoc';
+            $save['key_settings'] = 'seo_tecdoc_manufacturer_with_tree';
+            $save['value'] = serialize($this->input->post('seo_tecdoc_manufacturer_with_tree'));
+            $this->settings_model->add($save);
+
             $this->clear_cache();
 
             $this->session->set_flashdata('success', lang('text_success'));
-            redirect('autoxadmin');
+            redirect('/autoxadmin/seo_settings/tecdoc_manufacturer');
         }
         $data['seo_tecdoc_manufacturer'] = $this->settings_model->get_by_key('seo_tecdoc_manufacturer');
+        $data['seo_tecdoc_manufacturer_with_tree'] = $this->settings_model->get_by_key('seo_tecdoc_manufacturer_with_tree');
 
         $this->load->view('admin/header');
         $this->load->view('admin/seo_settings/seo_tecdoc_manufacturer', $data);
@@ -95,12 +134,22 @@ class Seo_settings extends Admin_controller{
             $save['value'] = serialize($this->input->post('seo_tecdoc_model'));
             $this->settings_model->add($save);
 
+            $this->db->where('key_settings','seo_tecdoc_model_with_tree');
+            $this->db->delete('settings');
+
+            $save['group_settings'] = 'seo_tecdoc';
+            $save['key_settings'] = 'seo_tecdoc_model_with_tree';
+            $save['value'] = serialize($this->input->post('seo_tecdoc_model_with_tree'));
+            $this->settings_model->add($save);
+
             $this->clear_cache();
 
             $this->session->set_flashdata('success', lang('text_success'));
-            redirect('autoxadmin');
+            redirect('/autoxadmin/seo_settings/tecdoc_model');
         }
+
         $data['seo_tecdoc_model'] = $this->settings_model->get_by_key('seo_tecdoc_model');
+        $data['seo_tecdoc_model_with_tree'] = $this->settings_model->get_by_key('seo_tecdoc_model_with_tree');
 
         $this->load->view('admin/header');
         $this->load->view('admin/seo_settings/seo_tecdoc_model', $data);

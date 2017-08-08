@@ -17,20 +17,43 @@ class Catalog extends Front_controller
 
     public function index()
     {
-        $settings = $this->settings_model->get_by_key('seo_tecdoc');
-        if($settings){
-            $seo = [];
-            foreach($settings as $field => $value){
-                $seo[$field] = strip_tags($value);
+        if($this->input->get('id_tree')){
+            $settings = $this->settings_model->get_by_key('seo_tecdoc_with_tree');
+            $tree_info = $this->tecdoc->getTreeNode($this->input->get('id_tree'));
+            $tree_name = $tree_info[0]->Name;
+
+            $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+            if(isset($settings_tecdoc_tree[$tree_info[0]->ID_tree]) && $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'] != ''){
+                $tree_name = $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'];
+            }
+
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{cat}',
+                    ],[
+                        $tree_name
+                    ], $value));
+                }
+            }
+        }else{
+            $settings = $this->settings_model->get_by_key('seo_tecdoc');
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags($value);
+                }
             }
         }
+
 
         $this->setTitle(@$seo['title'] ? $seo['title'] : lang('text_heading'));
         $this->setDescription(@$seo['description'] ? $seo['description'] : lang('text_meta_description'));
         $this->setKeywords(@$seo['keywords'] ? $seo['keywords'] : lang('text_meta_keywords'));
         $this->setH1(@$seo['h1'] ? $seo['h1'] : lang('text_h1'));
-        $data['h1'] = $this->h1;
-        $data['text'] = @$seo['text'];
+        $this->setSeotext(@$seo['text']);
+
         if(!$this->config->item('catalog')){
             $manufacturers = $this->tecdoc->getManufacturer();
             if($manufacturers){
@@ -38,12 +61,12 @@ class Catalog extends Front_controller
                 $array_manuf = [];
                 foreach($manufacturers as $item){
                     if($settings_tecdoc_manufacturer){
-                        if(isset($settings_tecdoc_manufacturer[$item->ID_mfa])){
+                        if(isset($settings_tecdoc_manufacturer[url_title($item->Name)]) && @$settings_tecdoc_manufacturer[url_title($item->Name)]['status']){
                             $array_manuf[] = [
                                 'slug' => url_title($item->Name).'_'.$item->ID_mfa,
                                 'ID_mfa' => $item->ID_mfa,
-                                'name' => $item->Name,
-                                'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
+                                'name' => $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] : $item->Name,
+                                'logo' => $settings_tecdoc_manufacturer[url_title($item->Name)]['logo'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['logo'] : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
                             ];
                         }
                     }else{
@@ -80,17 +103,42 @@ class Catalog extends Front_controller
         $models_type = $this->tecdoc->getModel($ID_mfa);
         $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
 
-        $settings = $this->settings_model->get_by_key('seo_tecdoc_manufacturer');
-        if($settings){
-            $seo = [];
-            foreach($settings as $field => $value){
-                $seo[$field] = strip_tags(str_replace([
-                    '{manuf}',
-                ],[
-                    $manufacturer_info[0]->Name
-                ], $value));
+        if($this->input->get('id_tree')){
+            $settings = $this->settings_model->get_by_key('seo_tecdoc_manufacturer_with_tree');
+            $tree_info = $this->tecdoc->getTreeNode($this->input->get('id_tree'));
+            $tree_name = $tree_info[0]->Name;
+
+            $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+            if(isset($settings_tecdoc_tree[$tree_info[0]->ID_tree]) && $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'] != ''){
+                $tree_name = $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'];
+            }
+
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{manuf}',
+                        '{cat}'
+                    ],[
+                        $manufacturer_info[0]->Name,
+                        $tree_name
+                    ], $value));
+                }
+            }
+        }else{
+            $settings = $this->settings_model->get_by_key('seo_tecdoc_manufacturer');
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{manuf}',
+                    ],[
+                        $manufacturer_info[0]->Name
+                    ], $value));
+                }
             }
         }
+
 
         $this->setTitle(@$seo['title'] ? $seo['title'] : lang('text_heading'));
         $this->setDescription(@$seo['description'] ? $seo['description'] : lang('text_meta_description'));
@@ -103,13 +151,12 @@ class Catalog extends Front_controller
     
         $data['models_type'] = [];
         foreach ($models_type as $model_type) {
-            $data['models_type'][] = ['name' => $model_type->Name, 'date_start' => $model_type->
-                DateStart, 'date_end' => $model_type->DateEnd, 'slug' => url_title($model_type->
-                Name). '_' . $model_type->ID_mod];
-        }
-        
-        if($data['models_type']){
-            $this->output->cache(131400);
+            $data['models_type'][] = [
+                'name' => $model_type->Name,
+                'date_start' => $model_type->DateStart,
+                'date_end' => $model_type->DateEnd,
+                'slug' => url_title($model_type->Name). '_' . $model_type->ID_mod . ($this->input->get('id_tree') ? '?id_tree='.$this->input->get('id_tree') : '')
+            ];
         }
         
         $this->load->view('header');
@@ -131,20 +178,49 @@ class Catalog extends Front_controller
             $data['breadcrumb'][] = ['href' => false, 'title' => $model_info[0]->Name];
         }
 
-        $settings = $this->settings_model->get_by_key('seo_tecdoc_model');
-        
-        if($settings){
-            $seo = [];
-            foreach($settings as $field => $value){
-                $seo[$field] = strip_tags(str_replace([
-                    '{manuf}',
-                    '{model}'
-                ],[
-                    $manufacturer_info[0]->Name,
-                    $model_info[0]->Name
-                ], $value));
+        if($this->input->get('id_tree')){
+            $settings = $this->settings_model->get_by_key('seo_tecdoc_model_with_tree');
+
+            $tree_info = $this->tecdoc->getTreeNode($this->input->get('id_tree'));
+            $tree_name = $tree_info[0]->Name;
+
+            $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+            if(isset($settings_tecdoc_tree[$tree_info[0]->ID_tree]) && $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'] != ''){
+                $tree_name = $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'];
+            }
+
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{manuf}',
+                        '{model}',
+                        '{cat}'
+                    ],[
+                        $manufacturer_info[0]->Name,
+                        $model_info[0]->Name,
+                        $tree_name
+                    ], $value));
+                }
+            }
+        }else{
+            $settings = $this->settings_model->get_by_key('seo_tecdoc_model');
+
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = strip_tags(str_replace([
+                        '{manuf}',
+                        '{model}'
+                    ],[
+                        $manufacturer_info[0]->Name,
+                        $model_info[0]->Name
+                    ], $value));
+                }
             }
         }
+
+
 
         $models_type = $this->tecdoc->getModel($ID_mfa, $ID_mod);
 
@@ -175,10 +251,8 @@ class Catalog extends Front_controller
             'DateStart' => $type->DateStart,
             'DateEnd' => $type->DateEnd, 
             'Description' => $type->Description, 
-            'slug' => url_title($type->Name). '_' . $type->ID_typ];
-        }
-        if($data['typs']){
-            $this->output->cache(131400);
+            'slug' => url_title($type->Name). '_' . $type->ID_typ . ($this->input->get('id_tree') ? '?id_tree='.$this->input->get('id_tree') : '')
+            ];
         }
 
         $this->load->view('header');
@@ -187,53 +261,59 @@ class Catalog extends Front_controller
     }
 
     public function tree($ID_mfa, $ID_mod, $ID_typ, $ID_tree = 10001){
+        $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+
         $this->load->model('product_model');
         $ID_mfa = $this->int($ID_mfa);
         $ID_mod = $this->int($ID_mod);
         $ID_typ = $this->int($ID_typ);
+
+        $data['popular_category'] = [];
+        $data['trees'] = [];
+        $tecdoc_trees = $this->tecdoc->getTreeAll($ID_typ);
+        if($tecdoc_trees){
+            if($settings_tecdoc_tree){
+                foreach ($tecdoc_trees as $item){
+                    //Скрываем скрытые категории
+                    if(isset($settings_tecdoc_tree[$item->ID_tree]) && !@$settings_tecdoc_tree[$item->ID_tree]['hide']){
+                        $data['trees'][] = [
+                            'ID_tree' => $item->ID_tree,
+                            'ID_parent' => $item->ID_parent,
+                            'Name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                            'Level' => $item->Level,
+                            'Path' => $item->Path,
+                            'Childs' => $item->Childs
+                        ];
+                    }
+                    //Отпбираем популярные
+                    if(isset($settings_tecdoc_tree[$item->ID_tree]) && @$settings_tecdoc_tree[$item->ID_tree]['express']){
+                        $data['popular_category'][] = [
+                            'ID_tree' => $item->ID_tree,
+                            'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                            'image' => $settings_tecdoc_tree[$item->ID_tree]['logo'] ?  $settings_tecdoc_tree[$item->ID_tree]['logo'] : '',
+                        ];
+                    }
+                }
+            }else{
+                foreach ($tecdoc_trees as $item){
+                    $data['trees'][] = [
+                        'ID_tree' => $item->ID_tree,
+                        'ID_parent' => $item->ID_parent,
+                        'Name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                        'Level' => $item->Level,
+                        'Path' => $item->Path,
+                        'Childs' => $item->Childs
+                    ];
+                }
+            }
+        }
+
         if($this->input->get('id_tree')){
             $ID_tree = $this->input->get('id_tree', true);
         }
 
-        $data = [];
         $data['filters'] = false;
-        //Популярные категории
-        $data['popular_category'] = [
-            10233 => ['name' => 'Стеклоочиститель', 'image' => '/uploads/category/ochestitel.png'],
-            10151 => ['name' => '', 'image' => '/uploads/category/kpmplekt-sc.png'],
-            //10447 => ['name' => '', 'image' => ''],
-            //10893 => ['name' => '', 'image' => ''],
-            10553 => ['name' => '', 'image' => '/uploads/category/komplekt-remney.png'],
-            10531 => ['name' => '', 'image' => '/uploads/category/rqmqn-grm.png'],
-            10835 => ['name' => '', 'image' => '/uploads/category/opora.png'],
-            10361 => ['name' => 'Топливный фильтр', 'image' => '/uploads/category/toplivnyy-filtr.png'],
-            10359 => ['name' => '', 'image' => ''],
-            10360 => ['name' => '', 'image' => ''],
-            10362 => ['name' => 'Гидравлический фильтр', 'image' => '/uploads/category/gidravlicheskiy-filtr.png'],
-            10363 => ['name' => '', 'image' => '/uploads/category/filtr-salona.png'],
-            10907 => ['name' => 'Тормозной суппорт', 'image' => '/uploads/category/support.png'],
-            10131 => ['name' => 'Тормозные колодки', 'image' => '/uploads/category/kolodki-barabannye.png'],
-            10735 => ['name' => '', 'image' => '/uploads/category/rychagi.png'],
-            10132 => ['name' => 'Тормозные диски', 'image' => '/uploads/category/tormoznye-diski.png'],
-            10130 => ['name' => 'Тормозные колодки дисковые', 'image' => '/uploads/category/tormoznye-kolodki.png'],
-            10195 => ['name' => 'Термостат', 'image' => '/uploads/category/termostat.png'],
-            10204 => ['name' => 'Радиатор печки', 'image' => '/uploads/category/radiator-pechki.png'],
-            10203 => ['name' => 'Радиатор', 'image' => '/uploads/category/radiator.png'],
-            10191 => ['name' => 'Водяной насос', 'image' => '/uploads/category/vodyanoy-nasos.png'],
-            10251 => ['name' => '', 'image' => '/uploads/category/svecha-zajiganiya.png'],
-            10250 => ['name' => '', 'image' => '/uploads/category/katushka.png'],
-            10253 => ['name' => 'Провода высоковольтные', 'image' => '/uploads/category/provoda.png'],
-            10459 => ['name' => '', 'image' => '/uploads/category/starter.png'],
-            10450 => ['name' => 'Генератор', 'image' => '/uploads/category/generator.png'],
-            10221 => ['name' => '', 'image' => '/uploads/category/amortizator.png'],
-            10213 => ['name' => '', 'image' => '/uploads/category/podveska.png'],
-            10298 => ['name' => 'Шаровая опора', 'image' => '/uploads/category/sharnir.png'],
-            10174 => ['name' => 'Пыльник', 'image' => '/uploads/category/pylnik.png'],
-            10171 => ['name' => 'Шарнирный комплект', 'image' => '/uploads/category/sharnirnyy-komplekt.png'],
-            10324 => ['name' => '', 'image' => '/uploads/category/komplekt-prokladok-dvigatelya.png'],
-            10360 => ['name' => '', 'image' => '/uploads/category/vozdushny-filtr.png'],
-            10359 => ['name' => 'Фильтр масла', 'image' => '/uploads/category/maslyannyy-filtr.png']
-        ];
+
 
 
         $model_info = $this->cache->file->get('model_info_id_mfa_'.$ID_mfa.'_id_mod_'.$ID_mod);
@@ -246,12 +326,14 @@ class Catalog extends Front_controller
         }
 
         $manufacturer_info = $this->cache->file->get('manufacturer_info_id_mfa_'.$ID_mfa);
+
         if(!$manufacturer_info){
             $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
             if($manufacturer_info){
                 $this->cache->file->save('manufacturer_info_id_mfa_'.$ID_mfa,$manufacturer_info,604800);
             }
         }
+
         $typ_info = $this->cache->file->get('typ_info_id_mod_'.$ID_mod.'_id_typ_'.$ID_typ);
         if(!$typ_info){
             $typ_info = $this->tecdoc->getType($ID_mod, $ID_typ);
@@ -296,6 +378,14 @@ class Catalog extends Front_controller
 
         if($ID_tree != 10001){
             $tree_info = $this->cache->file->get('tree_info_id_tree_'.$ID_tree);
+
+            $tree_name = $tree_info[0]->Name;
+
+            $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+            if(isset($settings_tecdoc_tree[$tree_info[0]->ID_tree]) && $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'] != ''){
+                $tree_name = $settings_tecdoc_tree[$tree_info[0]->ID_tree]['name'];
+            }
+
             if(!$tree_info){
                 $tree_info = $this->tecdoc->getTreeNode($ID_tree);
                 if($tree_info){
@@ -321,7 +411,7 @@ class Catalog extends Front_controller
                 redirect($this->uri->uri_string().'?id_tree='.$ID_tree);
             }
 
-            $data['breadcrumb'][] = ['href' => false, 'title' => $tree_info[0]->Name];
+            $data['breadcrumb'][] = ['href' => false, 'title' => $tree_name];
             $settings = $this->settings_model->get_by_key('seo_tecdoc_tree');
 
             if($settings){
@@ -336,7 +426,7 @@ class Catalog extends Front_controller
                         $manufacturer_info[0]->Name,
                         $model_info[0]->Name,
                         $typ_info[0]->Name,
-                        $tree_info[0]->Name
+                        $tree_name
                     ], $value));
                 }
             }
@@ -375,8 +465,6 @@ class Catalog extends Front_controller
                 }
             }
         }
-
-        $data['trees'] = $this->tecdoc->getTreeAll($ID_typ);
 
         $data['info'] = $typ_info[0];
 

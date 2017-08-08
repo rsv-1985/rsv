@@ -37,7 +37,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <ul>
                         <?php if($this->footer_page){?>
                             <?php foreach($this->footer_page as $fpage){?>
-                                <?php if(!$this->is_login && $fpage['show_for_user']){continue;}?>
                                 <li><a target="<?php echo $fpage['target'];?>" href="<?php echo $fpage['href'];?>"><?php echo $fpage['menu_title'];?></a></li>
                             <?php } ?>
                         <?php } ?>
@@ -49,10 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="footer-menu">
                     <ul>
                         <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
-                            <li><i class="fa fa-phone-square"></i><?php echo $phone;?></li>
+                            <li><i class="fa fa-phone-square"></i> <?php echo $phone;?></li>
                         <?php } ?>
                         <?php foreach(explode(';',$this->contacts['email']) as $email){?>
-                            <li><i class="fa fa-envelope"></i><a href="mailto:<?php echo $email;?>"> <?php echo $email;?></a></li>
+                            <li><i class="fa fa-envelope"></i> <a href="mailto:<?php echo $email;?>"> <?php echo $email;?></a></li>
                         <?php } ?>
                         <li><i class="fa fa-map-marker"></i> <?php echo $this->contacts['city'];?> <?php echo $this->contacts['address'];?></li>
                     </ul>      

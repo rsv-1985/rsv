@@ -57,12 +57,12 @@ class Index extends Front_controller {
                 $array_manuf = [];
                 foreach($manufacturers as $item){
                     if($settings_tecdoc_manufacturer){
-                        if(isset($settings_tecdoc_manufacturer[$item->ID_mfa])){
+                        if(isset($settings_tecdoc_manufacturer[url_title($item->Name)]) && @$settings_tecdoc_manufacturer[url_title($item->Name)]['status']){
                             $array_manuf[] = [
                                 'slug' => url_title($item->Name).'_'.$item->ID_mfa,
                                 'ID_mfa' => $item->ID_mfa,
-                                'name' => $item->Name,
-                                'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
+                                'name' => $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] : $item->Name,
+                                'logo' => $settings_tecdoc_manufacturer[url_title($item->Name)]['logo'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['logo'] : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
                             ];
                         }
                     }else{
@@ -85,6 +85,21 @@ class Index extends Front_controller {
             }
         }
 
+        //Категории текдока на главной
+        $data['trees'] = [];
+        $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+        if($settings_tecdoc_tree){
+            $tecdoc_tree_full = $this->tecdoc->getTreeFull();
+            foreach ($tecdoc_tree_full as $item){
+                if(isset($settings_tecdoc_tree[$item->ID_tree]) && @$settings_tecdoc_tree[$item->ID_tree]['home']){
+                    $data['trees'][] = [
+                        'ID_tree' => $item->ID_tree,
+                        'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                        'image' => $settings_tecdoc_tree[$item->ID_tree]['logo'] ?  $settings_tecdoc_tree[$item->ID_tree]['logo'] : '',
+                    ];
+                }
+            }
+        }
 
         $this->load->view('header');
         $this->load->view('index', $data);

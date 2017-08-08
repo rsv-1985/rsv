@@ -162,11 +162,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/seo_settings/brand"><i class="fa fa-circle-o"></i>Производитель</a></li>
                         <li><a href="/autoxadmin/seo_settings/robots"><i class="fa fa-circle-o"></i>Robots.txt</a></li>
                         <li><a href="/autoxadmin/seo_settings/sitemap"><i class="fa fa-circle-o"></i>Sitemap</a></li>
+                        <li><a href="/autoxadmin/seo_settings/tecdoc"><i class="fa fa-circle-o"></i>Каталог Tecdoc</a></li>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_manufacturer"><i class="fa fa-circle-o"></i>Tecdoc производители</a></li>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_model"><i class="fa fa-circle-o"></i>Tecdoc модели</a></li>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_type"><i class="fa fa-circle-o"></i>Tecdoc модификации</a></li>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_tree"><i class="fa fa-circle-o"></i>Tecdoc категории</a></li>
                         <li><a href="/autoxadmin/seo_settings/hook"><i class="fa fa-circle-o"></i>SEO hook</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i> <span>Tecdoc настройки</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/autoxadmin/tecdoc_settings/manufacturer"><i class="fa fa-circle-o"></i>Производители</a></li>
+                        <li><a href="/autoxadmin/tecdoc_settings/tree"><i class="fa fa-circle-o"></i>Категории</a></li>
                     </ul>
                 </li>
                 <li class="treeview">

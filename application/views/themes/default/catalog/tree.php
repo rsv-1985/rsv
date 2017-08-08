@@ -82,18 +82,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
                 <?php } ?>
-                <?php if (isset($trees) && !empty($trees)) { ?>
-                    <h3><?php echo lang('text_catalog_tree');?></h3>
+                <?php if ($trees) { ?>
+                    <h3><?php echo lang('text_catalog_tree'); ?></h3>
                     <ul class="list-unstyled trees">
                         <?php foreach ($trees as $tree) { ?>
-                            <?php if ($tree->Level == 1) { ?>
-                                <li id="<?php echo $tree->ID_tree; ?>">
-                                    <?php if ($tree->Childs > 0) { ?>
+                            <?php if ($tree['Level'] == 1) { ?>
+                                <li id="<?php echo $tree['ID_tree']; ?>">
+                                    <?php if ($tree['Childs'] > 0) { ?>
                                         <i class="fa fa-plus-square-o"></i> <a href="#"
-                                                                               onclick="show_tree('<?php echo $tree->ID_tree; ?>', event)"><?php echo ucfirst($tree->Name); ?></a>
+                                                                               onclick="show_tree('<?php echo $tree['ID_tree']; ?>', event)"><?php echo ucfirst($tree['Name']); ?></a>
                                     <?php } else { ?>
                                         <i class="fa fa-circle-o"></i> <a
-                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>"><?php echo ucfirst($tree->Name); ?></a>
+                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>"><?php echo ucfirst($tree['Name']); ?></a>
                                     <?php } ?>
                                 </li>
                             <?php } ?>
@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="col-md-8">
                 <?php if ($this->input->get('id_tree')) { ?>
-                    <?php if(@$parts){?>
+                    <?php if (@$parts) { ?>
                         <table class="table table-responsive">
                             <tr>
                                 <th><?php echo lang('text_column_image'); ?></th>
@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </tr>
                             <?php foreach ($parts as $part) { ?>
                                 <?php if ($part->product && $part->product['prices']) { ?>
-                                    <?php foreach ($part->product['prices'] as $price){?>
+                                    <?php foreach ($part->product['prices'] as $price) { ?>
                                         <tr class="filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
                                             echo $filter_key . ' ';
                                         } ?>" <?php } ?>>
@@ -135,13 +135,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </td>
                                             <td><?php echo $part->product['name']; ?></td>
                                             <td>
-                                                <?php echo format_term($price['term']);?>
+                                                <?php echo format_term($price['term']); ?>
                                             </td>
                                             <td style="width: 150px;font-weight: bold">
-                                                <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'] ); ?>
+                                                <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price']); ?>
                                             </td>
                                             <td>
-                                                <a href="/product/<?php echo $part->product['slug'];?>"><?php echo lang('text_go_product');?></a>
+                                                <a href="/product/<?php echo $part->product['slug']; ?>"><?php echo lang('text_go_product'); ?></a>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -174,10 +174,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                             <?php } ?>
                         </table>
-                    <?php }else{?>
+                    <?php } else { ?>
                         <h3>В данной категории нет запчастей</h3>
                         Оставьте свой запрос и мы обязательно найдем нужную Вам запчасть.
-                        <?php echo form_open('ajax/vin', ['class' => 'vin_request']);?>
+                        <?php echo form_open('ajax/vin', ['class' => 'vin_request']); ?>
 
                         <div class="well">
                             <div class="alert alert-danger" role="alert" style="display: none;">
@@ -188,41 +188,41 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
 
                             <div class="form-group">
-                                <label><?php echo lang('text_vin_manufacturer');?></label>
+                                <label><?php echo lang('text_vin_manufacturer'); ?></label>
                                 <input type="text" class="form-control" name="manufacturer" required>
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_vin_model');?></label>
+                                <label><?php echo lang('text_vin_model'); ?></label>
                                 <input type="text" class="form-control" name="model" required>
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_vin_engine');?></label>
+                                <label><?php echo lang('text_vin_engine'); ?></label>
                                 <input type="text" class="form-control" name="engine" required>
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_vin_vin');?></label>
+                                <label><?php echo lang('text_vin_vin'); ?></label>
                                 <input type="text" class="form-control" name="vin">
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_vin_parts');?></label>
+                                <label><?php echo lang('text_vin_parts'); ?></label>
                                 <textarea class="form-control" name="parts" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label><?php echo lang('text_vin_name');?></label>
+                            <label><?php echo lang('text_vin_name'); ?></label>
                             <input type="text" name="name" class="form-control" required/>
                         </div>
                         <div class="form-group">
-                            <label><?php echo lang('text_vin_telephone');?></label>
+                            <label><?php echo lang('text_vin_telephone'); ?></label>
                             <input type="text" name="telephone" class="form-control" required/>
                         </div>
                         <div class="form-group">
-                            <label><?php echo lang('text_vin_email');?></label>
+                            <label><?php echo lang('text_vin_email'); ?></label>
                             <input type="email" name="email" class="form-control" required/>
                         </div>
 
                         <div class="form-group pull-right">
-                            <button type="submit"><?php echo lang('button_send');?></button>
+                            <button type="submit"><?php echo lang('button_send'); ?></button>
                         </div>
                         </form>
                     <?php } ?>
@@ -232,23 +232,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="col-md-12">
                             <h3><?php echo lang('text_quick_navigation'); ?></h3>
                         </div>
-                        <?php foreach ($trees as $tree) { ?>
-                            <?php if (isset($popular_category[$tree->ID_tree])) { ?>
-                                <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree->ID_tree; ?>">
+                        <?php if ($popular_category) { ?>
+                            <?php foreach ($popular_category as $tree) { ?>
+                                <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>">
                                     <div class="col-sm-6 col-md-4">
                                         <div class="thumbnail category-item">
-                                            <img src="<?php echo $popular_category[$tree->ID_tree]['image']; ?>"
-                                                 alt="<?php echo $popular_category[$tree->ID_tree]['name']; ?>">
+                                            <img src="<?php echo $tree['image']; ?>"
+                                                 alt="<?php echo $tree['name']; ?>">
                                             <div class="caption">
-                                                <p><?php echo $popular_category[$tree->ID_tree]['name'] ? $popular_category[$tree->ID_tree]['name'] : $tree->Name; ?></p>
+                                                <p><?php echo $tree['name']; ?></p>
                                             </div>
                                         </div>
                                     </div>
                                 </a>
-
                             <?php } ?>
                         <?php } ?>
-
                     </div>
                     <div class="jumbotron">
                         <h3><?php echo $name; ?></h3>
@@ -293,17 +291,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             }
         });
     });
+
     function show_tree(ID_tree, event) {
         event.preventDefault();
         var trees = [];
         <?php foreach ($trees as $tree){?>
         var p = {
-            'ID_tree': "<?php echo $tree->ID_tree;?>",
-            'ID_parent': "<?php echo $tree->ID_parent;?>",
-            'Name': "<?php echo ucfirst($tree->Name);?>",
-            'Level': "<?php echo $tree->Level;?>",
-            'Path': <?php echo $tree->Path;?>,
-            'Childs': "<?php echo $tree->Childs;?>"
+            'ID_tree': "<?php echo $tree['ID_tree'];?>",
+            'ID_parent': "<?php echo $tree['ID_parent'];?>",
+            'Name': "<?php echo ucfirst($tree['Name']);?>",
+            'Level': "<?php echo $tree['Level'];?>",
+            'Path': <?php echo $tree['Path'];?>,
+            'Childs': "<?php echo $tree['Childs'];?>"
         };
         trees.push(p);
         <?php } ?>

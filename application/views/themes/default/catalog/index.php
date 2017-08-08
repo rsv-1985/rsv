@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
-                    <h1><?php echo $h1;?></h1>
+                    <h1><?php echo $this->h1;?></h1>
                 </div>
             </div>
         </div>

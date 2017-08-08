@@ -11,12 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <section class="content-header">
     <h1>
         SEO настройки
-        <small>tecdoc модели</small>
+        <small>Каталог tecdoc</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> Главная</a></li>
         <li><a href="/autoxadmin/seo_settings">SEO настройки</a></li>
-        <li class="active">tecdoc модели</li>
+        <li class="active">Каталог tecdoc</li>
     </ol>
 </section>
 <section class="content">
@@ -24,71 +24,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="col-md-6">
                 <div class="box-header with-border">
-                    <h3 class="box-title">SEO шаблон tecdoc модели</h3>
+                    <h3 class="box-title">SEO шаблон Каталог tecdoc</h3>
                 </div>
                 <div class="box-body">
 
                     <div class="form-group">
                         <label>SEO title</label>
-                        <input type="text" name="seo_tecdoc_model[title]" value="<?php echo $seo_tecdoc_model['title'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc[title]" value="<?php echo $seo_tecdoc['title'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO Description</label>
-                        <input type="text" name="seo_tecdoc_model[description]" value="<?php echo $seo_tecdoc_model['description'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc[description]" value="<?php echo $seo_tecdoc['description'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO keywords</label>
-                        <input type="text" name="seo_tecdoc_model[keywords]" value="<?php echo $seo_tecdoc_model['keywords'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc[keywords]" value="<?php echo $seo_tecdoc['keywords'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO h1</label>
-                        <input type="text" name="seo_tecdoc_model[h1]" value="<?php echo $seo_tecdoc_model['h1'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc[h1]" value="<?php echo $seo_tecdoc['h1'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO text</label>
-                        <textarea class="textarea" name="seo_tecdoc_model[text]"><?php echo set_value('text',@$seo_tecdoc_model['text']);?></textarea>
+                        <textarea class="textarea" name="seo_tecdoc[text]"><?php echo set_value('text',@$seo_tecdoc['text']);?></textarea>
                     </div>
-                    <p class="help-block">
-                        {manuf} - Название производителя<br>
-                        {model} - Название модели<br>
-                    </p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="box-header with-border">
-                    <h3 class="box-title">SEO шаблон tecdoc модели с выбранной категорией</h3>
+                    <h3 class="box-title">SEO шаблон Каталог tecdoc c выбранной категорией</h3>
                 </div>
                 <div class="box-body">
 
                     <div class="form-group">
                         <label>SEO title</label>
-                        <input type="text" name="seo_tecdoc_model_with_tree[title]" value="<?php echo $seo_tecdoc_model_with_tree['title'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc_with_tree[title]" value="<?php echo $seo_tecdoc_with_tree['title'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO Description</label>
-                        <input type="text" name="seo_tecdoc_model_with_tree[description]" value="<?php echo $seo_tecdoc_model_with_tree['description'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc_with_tree[description]" value="<?php echo $seo_tecdoc_with_tree['description'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO keywords</label>
-                        <input type="text" name="seo_tecdoc_model_with_tree[keywords]" value="<?php echo $seo_tecdoc_model_with_tree['keywords'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc_with_tree[keywords]" value="<?php echo $seo_tecdoc_with_tree['keywords'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO h1</label>
-                        <input type="text" name="seo_tecdoc_model_with_tree[h1]" value="<?php echo $seo_tecdoc_model_with_tree['h1'];?>" class="form-control">
+                        <input type="text" name="seo_tecdoc_with_tree[h1]" value="<?php echo $seo_tecdoc_with_tree['h1'];?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>SEO text</label>
-                        <textarea class="textarea" name="seo_tecdoc_model_with_tree[text]"><?php echo set_value('text',@$seo_tecdoc_model_with_tree['text']);?></textarea>
+                        <textarea class="textarea" name="seo_tecdoc_with_tree[text]"><?php echo set_value('text',@$seo_tecdoc_with_tree['text']);?></textarea>
                     </div>
                     <p class="help-block">
-                        {manuf} - Название производителя<br>
-                        {model} - Название модели<br>
-                        {cat} - Название категории
+                        {cat} - Название категории<br>
                     </p>
                 </div>
             </div>
         </div>
-
         <div class="box-footer">
             <button type="submit" class="btn btn-info pull-right">Сохранить</button>
         </div>

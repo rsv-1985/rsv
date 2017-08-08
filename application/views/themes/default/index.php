@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <b><?php echo lang('text_fast_tecdoc');?></b>
                             <div class="form-inline">
                                 <select class="form-control" id="year" onchange="getManufacturerYear($(this).val())">
-                                    <option>Год выпуска</option>
+                                    <option><?php echo lang('index_text_years');?></option>
                                     <?php foreach ($this->tecdoc->getYears() as $year_group => $years){?>
                                         <optgroup label="<?php echo $year_group;?>">
                                             <?php foreach ($years as $year){?>
@@ -97,15 +97,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </select>
 
                                 <select class="form-control" id="manufacturer" onchange="getModelYear($(this).val())" disabled>
-                                    <option>Производитель</option>
+                                    <option><?php echo lang('index_text_manufacturer');?></option>
                                 </select>
 
                                 <select class="form-control" id="model" onchange="getTypYear($(this).val())" disabled>
-                                    <option>Модель</option>
+                                    <option><?php echo lang('index_text_model');?></option>
                                 </select>
 
                                 <select class="form-control" id="typ" onchange="getTree($(this).val())" disabled>
-                                    <option>Модификация</option>
+                                    <option><?php echo lang('index_text_typ');?></option>
                                 </select>
                                 <script>
                                     function getManufacturerYear(year){
@@ -167,6 +167,27 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                             <b><?php echo lang('text_full_tecdoc');?></b>
                             <?php echo $catalog;?>
+                            <?php if($trees){?>
+                            <b><?php echo lang('index_text_tecdoc_trees');?></b>
+                            <div class="row">
+                              <?php foreach ($trees as $tree){?>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                <?php if($tree['image']){?>
+                                <img src="<?php echo $tree['image'];?>" alt="<?php echo $tree['name'];?>">
+                                <?php } ?>
+                                  <div class="caption">
+                                    <p><a href="/catalog/?id_tree=<?php echo $tree['ID_tree'];?>"><?php echo $tree['name'];?></a></p>
+                                  </div>
+                                </div>
+                              </div>
+                               <?php } ?>
+                            </div>
+
+
+
+                            <?php } ?>
+
                         </div>
                         <div role="tabpanel" class="tab-pane " id="garage">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
