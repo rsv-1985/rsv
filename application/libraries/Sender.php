@@ -24,7 +24,7 @@ class Sender{
     public function email($subject, $body, $to = false, $from = false){
 
         if(!$to || !$from){
-           return false;
+            return false;
         }
         if(is_array($to)){
             $to = implode(',',$to);
@@ -39,12 +39,15 @@ class Sender{
             }
             $this->CI->email->initialize($config);
         }
-        $this->CI->email->from($from, $this->CI->config->item('company_name'));
+        $this->CI->email->from($this->CI->contacts['email'], $this->CI->config->item('company_name'));
+        $this->CI->email->reply_to($from,'');
         $this->CI->email->to($to);
         $this->CI->email->mailtype = 'html';
         $this->CI->email->subject($subject);
         $this->CI->email->message($body);
-        return $this->CI->email->send();
+        if(!$this->CI->email->send()){
+            echo $this->CI->email->print_debugger();
+        }
     }
 
     function sms($phone,$text){
