@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $payment[$order['payment_method_id']]['name'];?></td>
                                         <td>
                                             <b><?php echo $order['total'];?></b><br />
-                                            <small><?php echo $order['login'];?></small>
+                                            <small><?php echo $order['login'];?> (<?php echo $order['balance'];?>)</small>
                                         </td>
                                         <td>
                                             <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></b>

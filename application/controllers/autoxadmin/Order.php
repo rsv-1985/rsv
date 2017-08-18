@@ -77,7 +77,6 @@ class Order extends Admin_controller
 
         $this->pagination->initialize($config);
 
-
         $data['status'] = $this->orderstatus_model->status_get_all();
         $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
         $data['payment'] = $this->payment_model->payment_get_all();

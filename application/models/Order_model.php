@@ -92,7 +92,7 @@ class Order_model extends Default_model{
     }
 
     public function order_get_all($limit = false, $start = false){
-        $this->db->select('SQL_CALC_FOUND_ROWS `ax_order`.*, ax_customer.login', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS `ax_order`.*, ax_customer.login, ax_customer.balance', false);
         $this->db->from($this->table);
         $this->db->join('customer', 'customer.id = order.customer_id', 'left');
         if($this->input->get()){

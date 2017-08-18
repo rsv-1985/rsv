@@ -22,22 +22,61 @@ class Category_model extends Default_model
         return false;
     }
 
-    public function category_get_all($parent_id = 0)
+    public function category_get_all()
     {
         $this->db->where('status', true);
-        $this->db->where('parent_id', (int)$parent_id);
         $this->db->order_by('sort', 'ASC');
         $query = $this->db->get($this->table);
         if ($query->num_rows() > 0) {
-            $category = [];
             foreach ($query->result_array() as $cat) {
-                $cat['children'] = $this->category_get_all($cat['id']);
-                $category[] = $cat;
+                $cats_ID[$cat['id']][] = $cat;
+                $cats[$cat['parent_id']][$cat['id']] = $cat;
             }
-
-            return $category;
+            return $this->build_tree($cats, 0);
         }
         return false;
+    }
+
+    public function build_tree($cats, $parent_id, $sub = false)
+    {
+        if($sub){
+            $tree = '<ul class="nav tree">';
+        }else{
+            $tree = '<ul class="nav">';
+        }
+
+
+        if(isset($cats[$parent_id])){
+            foreach ($cats[$parent_id] as $cat){
+                if(isset($cats[$cat['id']])){
+                    $tree .= '<li><a class="tree-toggle">' . $cat['name'].'<span class="caret pull-right"></a></b>';
+                    $tree .= $this->build_tree($cats,$cat['id'],true);
+                    $tree .= '</li>';
+                }else{
+                    $tree .= '<li><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a></li>';
+                }
+            }
+        }
+        $tree .= '</ul>';
+        /*
+        if (is_array($cats) and isset($cats[$parent_id])) {
+            $tree = '<ul>';
+            if ($only_parent == false) {
+                foreach ($cats[$parent_id] as $cat) {
+                    $tree .= '<li><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a>';
+                    $tree .= $this->build_tree($cats, $cat['id']);
+                    $tree .= '</li>';
+                }
+            } elseif (is_numeric($only_parent)) {
+                $cat = $cats[$parent_id][$only_parent];
+                $tree .= '<li>' . $cat['name'];
+                $tree .= $this->build_tree($cats, $cat['id']);
+                $tree .= '</li>';
+            }
+            $tree .= '</ul>';
+        } else return null;
+        */
+        return $tree;
     }
 
     public function get_by_slug($slug)
@@ -69,7 +108,7 @@ class Category_model extends Default_model
 
             if ($query->num_rows() > 0) {
                 $brands = [];
-                foreach ($query->result_array() as $item){
+                foreach ($query->result_array() as $item) {
                     $brands[url_title($item['brand'])] = $item['brand'];
                 }
                 $this->cache->file->save('category_brands' . $id, $brands, 604800);
@@ -86,7 +125,7 @@ class Category_model extends Default_model
     public function get_sitemap()
     {
         $return = false;
-        $this->db->select(['slug','updated_at']);
+        $this->db->select(['slug', 'updated_at']);
         $this->db->where('status', true);
         $this->db->from($this->table);
         $query = $this->db->get();
