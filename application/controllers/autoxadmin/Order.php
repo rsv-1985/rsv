@@ -223,15 +223,22 @@ class Order extends Admin_controller
                         $history['send_email'] = (bool)$this->input->post('send_email');
                         $history['user_id'] = $this->User_model->is_login();
                         $this->order_history_model->insert($history);
-
-                        if ($history['send_email'] && mb_strlen($save['email']) > 0) {
-                            $contacts = $this->settings_model->get_by_key('contact_settings');
-                            $this->sender->email(sprintf(lang('text_email_subject'), $order_id), $history['text'], $save['email'], explode(';', $contacts['email']));
-                        }
-
-                        if ($history['send_sms'] && mb_strlen($save['telephone']) > 0) {
-                            $this->sender->sms($save['telephone'], $history['text']);
-                        }
+                    }
+                    //Предоплата
+                    if($save['prepayment'] != $data['order']['prepayment']){
+                        $history['order_id'] = $order_id;
+                        $history['date'] = date("Y-m-d H:i:s");
+                        $history['text'] = 'Предоплата: '.$save['prepayment'];
+                        $history['user_id'] = $this->User_model->is_login();
+                        $this->order_history_model->insert($history);
+                    }
+                    //статус оплаты
+                    if($save['paid'] != $data['order']['paid']){
+                        $history['order_id'] = $order_id;
+                        $history['date'] = date("Y-m-d H:i:s");
+                        $history['text'] = $save['paid'] ? 'Оплачен' : 'Не оплачен';
+                        $history['user_id'] = $this->User_model->is_login();
+                        $this->order_history_model->insert($history);
                     }
                     //order_status
                     if ($save['status'] != $data['order']['status']) {

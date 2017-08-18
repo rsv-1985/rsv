@@ -59,3 +59,4 @@ $lang['error_by_phone'] = 'Пользователь с таким номером
 $lang['error_by_email'] = 'Пользователь не найден';
 $lang['text_forgot_success'] = 'Новый пароль отправлен Вам';
 $lang['text_customer_balance'] = 'Баланс';
+$lang['text_orders_date'] = 'Дата';

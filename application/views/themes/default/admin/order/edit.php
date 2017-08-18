@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <hr>
         <div class="col-lg-4 pull-right">
             <div class="input-group">
-                <input autocomplete="off" id="search_val" type="text" class="form-control" placeholder="add products">
+                <input autocomplete="off" id="search_val" type="text" class="form-control" placeholder="Добавить в заказ">
                 <span class="input-group-btn">
                             <button id="search" class="btn btn-default"
                                     type="button"><?php echo lang('button_search'); ?></button>
@@ -197,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     <div class="row">
         <!-- accepted payments column -->
-        <div class="col-xs-6">
+        <div class="col-xs-6 well">
             <?php if (trim($order['comments']) != '') { ?>
                 <b><?php echo lang('text_comments'); ?></b>
                 <textarea disabled rows="3" name="comments" class="form-control"
@@ -210,21 +210,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <input type="checkbox" value="1" name="send_email"><?php echo lang('text_send_email'); ?>
             <?php if ($history) { ?>
                 <hr>
-                <b>Order history</b>
-                <table class="table table-condensed">
+                <b>История по заказу</b>
+                <table class="table table-condensed table-striped" style="background: white">
                     <thead>
                     <tr>
-                        <th>date</th>
-                        <th>text</th>
-                        <th>sms</th>
-                        <th>email</th>
-                        <th>manager</th>
+                        <th>Дата добавления</th>
+                        <th>Комментарий</th>
+                        <th>Отправлено в SMS</th>
+                        <th>Отправлено в Email</th>
+                        <th>Менеджер</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($history as $history) { ?>
                         <tr>
-                            <td><?php echo $history['date']; ?></td>
+                            <td><small><?php echo $history['date']; ?></small></td>
                             <td><?php echo $history['text']; ?></td>
                             <td align="center">
                                 <?php if ($history['send_sms']) { ?>
@@ -306,6 +306,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </select>
                             </td>
                         </tr>
+                        <?php if(!$order['paid']){?>
+                            <tr>
+                                <td>Остаток оплаты</td>
+                                <td><?php echo round($order['total'] - $order['prepayment'],2);?></td>
+                            </tr>
+                        <?php } ?>
                     </table>
                 </div>
                 <div class="pull-right">

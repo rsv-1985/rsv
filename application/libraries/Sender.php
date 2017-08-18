@@ -39,7 +39,12 @@ class Sender{
             }
             $this->CI->email->initialize($config);
         }
-        $this->CI->email->from($this->CI->contacts['email'], $this->CI->config->item('company_name'));
+        if(isset($this->CI->contacts['email'])){
+            $this->CI->email->from($this->CI->contacts['email'],$this->CI->config->item('company_name'));
+        }else{
+            $this->CI->email->from($from);
+        }
+
         $this->CI->email->reply_to($from,'');
         $this->CI->email->to($to);
         $this->CI->email->mailtype = 'html';
