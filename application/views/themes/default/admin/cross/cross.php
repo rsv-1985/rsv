@@ -45,7 +45,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <a href="/autoxadmin/cross/delete/<?php echo $cross['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <a href="/autoxadmin/cross/edit/<?php echo $cross['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
                                         </div>
                                     </td>
                                 </tr>

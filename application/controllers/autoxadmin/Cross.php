@@ -69,6 +69,7 @@ class Cross extends Admin_controller
                         $excel = new Spreadsheet_Excel_Reader($file_name, false);
                         if ($excel->sheets[0]['numRows'] > 0) {
                             $save = [];
+                            $save2 = [];
                             $q = 0;
                             for ($i = 2; $i <= $excel->sheets[0]['numRows']; $i++) {
                                 $code = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][1]);
@@ -81,16 +82,31 @@ class Cross extends Admin_controller
                                     'code2' => $code2,
                                     'brand2' => $brand2,
                                 ];
+                                if($this->input->post('xcross')){
+                                    $save2[] = [
+                                        'code' => $code2,
+                                        'brand' => $brand2,
+                                        'code2' => $code,
+                                        'brand2' => $brand,
+                                    ];
+                                }
                                 $q++;
                                 if ($q > 2000) {
                                     $this->cross_model->insert_batch($save);
                                     $q = 0;
                                     $save = [];
+                                    if($this->input->post('xcross')){
+                                        $this->cross_model->insert_batch($save2);
+                                        $save2 = [];
+                                    }
                                 }
 
                             }
                             if (count($save)) {
                                 $this->cross_model->insert_batch($save);
+                            }
+                            if (count($save2)) {
+                                $this->cross_model->insert_batch($save2);
                             }
                             delete_files('./uploads/cross/');
                             $this->session->set_flashdata('success', lang('text_success'));

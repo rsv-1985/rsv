@@ -511,6 +511,7 @@ class Product_model extends Default_model
                             $price = $price - $price * $supplier_price['value'] / 100;
                             break;
                     }
+                    $price = $price + $supplier_price['fix_value'];
                     break;
                 }
             }

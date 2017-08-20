@@ -314,9 +314,23 @@ class Customer extends Front_controller
     }
 
     public function balance(){
+        $data['recharge'] = $this->settings_model->get_by_key('recharge');
+
+        if($this->input->post()){
+            $this->load->library('sender');
+            $this->load->model('customer_model');
+            $customer_info = $this->customer_model->get($this->is_login);
+            if($customer_info){
+                $subject = 'Сообщение об оплате';
+                $text = 'Логин:'.$customer_info['login'].'<br>Сумма:'.$this->input->post('sum',true).'<br>Комментарий:'.$this->input->post('comment',true);
+                $this->sender->email($subject,$text,$this->contacts['email'],$this->contacts['email']);
+                $this->session->set_flashdata('success', 'Сообщение отправлено');
+                redirect('customer/balance');
+            }
+        }
         $this->load->model('customerbalance_model');
         $this->customer_model->is_login('/customer/login');
-        $data = [];
+
         $config['base_url'] = base_url('customer/balance');
         $config['total_rows'] = $this->customerbalance_model->count_all(['customer_id' => $this->is_login]);
         $config['per_page'] = 50;
@@ -327,6 +341,27 @@ class Customer extends Front_controller
         $data['types'] = $this->customerbalance_model->types;
         $this->load->view('header');
         $this->load->view('customer/balance', $data);
+        $this->load->view('footer');
+    }
+
+    public function products(){
+        exit('Скоро будет');
+        $this->load->model('orderstatus_model');
+        $this->load->model('order_product_model');
+        $data = [];
+        $data['statuses'] = $this->orderstatus_model->status_get_all();
+
+        $config['base_url'] = base_url('customer/products');
+        $config['total_rows'] = $this->order_product_model->count_all(['customer_id' => $this->is_login]);
+        $config['per_page'] = 50;
+
+        $this->pagination->initialize($config);
+
+        $data['products'] = $this->order_product_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login]);
+        print_r($data);
+
+        $this->load->view('header');
+        $this->load->view('customer/products', $data);
         $this->load->view('footer');
     }
 }

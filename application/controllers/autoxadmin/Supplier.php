@@ -130,6 +130,7 @@ class supplier extends Admin_controller
                         $save['price_to'] = (float)$pricing['price_to'];
                         $save['method_price'] = (string)$pricing['method_price'];
                         $save['value'] = (int)$pricing['value'];
+                        $save['fix_value'] = (float)$pricing['fix_value'];
                         $this->pricing_model->insert($save);
                     }
                 }

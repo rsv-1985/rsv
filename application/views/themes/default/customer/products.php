@@ -11,33 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <div class="row">
             <div class="col-md-3">
                 <?php $this->load->view('customer/menu');?>
-                <?php if($recharge){?>
-                    <div class="well">
-                        <h4>Пополнить счет</h4>
-                        <?php echo $recharge;?>
-                    </div>
-                <?php } ?>
-                <?php echo form_open();?>
-                    <div class="well">
-                        <h4>Сообщить об оплате</h4>
-                        <div class="form-group">
-                            <label>Сумма</label>
-                            <input type="text" name="sum" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Комментарий</label>
-                            <textarea name="comment" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-xs pull-right">
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </form>
-
             </div>
             <div class="col-md-9">
-                <h2>История по балансу</h2>
+                <h2>Детали в работе</h2>
                 <?php if($balances){?>
                     <table class="table table-bordered">
                         <tbody><tr>

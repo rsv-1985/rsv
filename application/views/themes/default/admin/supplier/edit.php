@@ -75,6 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <th><?php echo lang('text_pricing_brand'); ?></th>
                             <th><?php echo lang('text_pricing_method'); ?></th>
                             <th><?php echo lang('text_pricing_value'); ?></th>
+                            <th><?php echo lang('text_pricing_fix_value'); ?></th>
                             <th></th>
                         </tr>
                         </thead>
@@ -101,6 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </td>
                                     <td><input type="text" name="pricing[<?php echo $q; ?>][value]"
                                                value="<?php echo $price['value']; ?>" class="form-control"></td>
+                                    <td><input type="text" name="pricing[<?php echo $q; ?>][fix_value]"
+                                               value="<?php echo $price['fix_value']; ?>" class="form-control"></td>
                                     <td>
                                         <a href="#" class="btn btn-danger"
                                            onclick="delete_row(<?php echo $q; ?>, event);"><?php echo lang('button_delete'); ?></a>
@@ -122,6 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </select>
                                 </td>
                                 <td><input type="text" name="pricing[0][value]" class="form-control"></td>
+                                <td><input type="text" name="pricing[0][fix_value]" class="form-control"></td>
                                 <td>
                                     <a href="#" class="btn btn-danger"
                                        onclick="delete_row(0, event);"><?php echo lang('button_delete'); ?></a>

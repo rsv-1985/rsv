@@ -57,6 +57,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input type="file" name="userfile">
                         <a download="download" href="/uploads/cross.xls"><?php echo lang('text_template');?></a>
                     </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="xcross" value="1">
+                                Создать обратный кросс
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
