@@ -14,42 +14,90 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </div>
             <div class="col-md-9">
                 <h2>Детали в работе</h2>
-                <?php if($balances){?>
-                    <table class="table table-bordered">
-                        <tbody><tr>
-                            <th style="width: 10px">#</th>
-                            <th>Тип</th>
-                            <th>Сумма</th>
-                            <th>Описание</th>
-                            <th>Дата транзакции</th>
-                            <th>Дата добавления</th>
-                        </tr>
-                        <?php if($balances){?>
-                            <?php foreach ($balances as $balance){?>
-                                <tr style="border-left: 2px solid <?php if($balance['type'] == 1){?>green<?php }else{?>red<?php } ?>">
-                                    <td><?php echo $balance['id'];?></td>
-                                    <td><?php echo $types[$balance['type']];?></td>
-                                    <td>
-                                        <?php if($balance['type'] == 1){?>
-                                            <span class="label label-success"><?php echo $balance['value'];?></span>
-                                        <?php }else{?>
-                                            <span class="label label-danger">-<?php echo $balance['value'];?></span>
+
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <?php echo form_open('',['method' => 'get']);?>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" name="order_id" class="form-control" value="<?php echo $this->input->get('order_id');?>" style="width: 60px">
+                                </div>
+                            </td>
+                            <td></td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get('name');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" name="sku" class="form-control" value="<?php echo $this->input->get('sku');?>">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" name="brand" class="form-control" value="<?php echo $this->input->get('brand');?>">
+                                </div>
+                            </td>
+                            <td></td>
+                            <td>
+                                <div class="form-group">
+                                    <input style="width: 80px" type="text" name="quantity" class="form-control" value="">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <select name="status_id" class="form-control">
+                                        <option></option>
+                                        <?php foreach ($statuses as $status){?>
+                                            <option <?php echo set_select('status_id',$status['id'],$this->input->get('status_id') == $status['id']);?> value="<?php echo $status['id'];?>"><?php echo $status['name'];?></option>
                                         <?php } ?>
-                                    </td>
-                                    <td><small><?php echo $balance['description'];?></small></td>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <a href="/customer/products" type="button" class="btn btn-link">Сброс</a>
+                                    <button type="submit" class="btn btn-xs pull-right">Поиск</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </form>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th style="width: 10px">Заказ</th>
+                            <th>Дата</th>
+                            <th>Наименование</th>
+                            <th>Артикул</th>
+                            <th>Производитель</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Статус</th>
+                        </tr>
+                        <?php if($products){?>
+                            <?php foreach ($products as $products){?>
+                                <tr>
                                     <td>
-                                        <?php echo $balance['transaction_created_at'];?><br/>
+                                        <a target="_blank" href="/customer/orderinfo/<?php echo $products['order_id'];?>">
+                                            <b><?php echo $products['order_id'];?></b>
+                                        </a>
                                     </td>
-                                    <td>
-                                        <?php echo $balance['created_at'];?><br/>
-                                    </td>
+                                    <td><small><?php echo $products['created_at'];?></small></td>
+                                    <td><?php echo $products['name'];?></td>
+                                    <td><?php echo $products['sku'];?></td>
+                                    <td><?php echo $products['brand'];?></td>
+                                    <td><?php echo format_currency($products['price']);?></td>
+                                    <td><?php echo $products['quantity'];?></td>
+                                    <td><b style="color: <?php echo $statuses[$products['status_id']]['color'];?>"><?php echo $statuses[$products['status_id']]['name'];?></b></td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>
                         </tbody>
                     </table>
                     <?php echo $this->pagination->create_links();?>
-                <?php } ?>
+
             </div>
         </div>
     </div>

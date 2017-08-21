@@ -345,20 +345,20 @@ class Customer extends Front_controller
     }
 
     public function products(){
-        exit('Скоро будет');
         $this->load->model('orderstatus_model');
         $this->load->model('order_product_model');
         $data = [];
         $data['statuses'] = $this->orderstatus_model->status_get_all();
 
         $config['base_url'] = base_url('customer/products');
-        $config['total_rows'] = $this->order_product_model->count_all(['customer_id' => $this->is_login]);
         $config['per_page'] = 50;
+        $data['products'] = $this->order_product_model->get_products_by_customer($this->is_login,$config['per_page'], $this->uri->segment(3));
+        $config['total_rows'] = $this->order_product_model->total_rows;
+        $config['reuse_query_string'] = true;
+
 
         $this->pagination->initialize($config);
 
-        $data['products'] = $this->order_product_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login]);
-        print_r($data);
 
         $this->load->view('header');
         $this->load->view('customer/products', $data);
