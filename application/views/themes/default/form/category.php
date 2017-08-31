@@ -9,7 +9,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <style>
     .tree{
         display: none;
-        margin-left: 2%;
+        margin-left:10%;
+    }
+    .nav>li>a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        cursor: pointer;
     }
 </style>
 
@@ -17,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function(){
         $('.tree-toggle').click(function () {
+            $(this).css('background-color','#eee');
             $(this).parent().children('ul.tree').toggle(200);
         });
     })
