@@ -213,15 +213,28 @@ class Order extends Admin_controller
                     $this->order_product_model->insert_batch($products);
                     $this->session->set_flashdata('success', lang('text_success'));
 
-                    //history
+                    $contacts = $this->settings_model->get_by_key('contact_settings');
+
+                    //История по заказу
                     if ($this->input->post('history')) {
                         $history = [];
                         $history['order_id'] = $order_id;
                         $history['date'] = date("Y-m-d H:i:s");
                         $history['text'] = $this->input->post('history', true);
-                        $history['send_sms'] = (bool)$this->input->post('send_sms');
-                        $history['send_email'] = (bool)$this->input->post('send_email');
+                        $history['send_sms'] = false;
+                        $history['send_email'] = false;
                         $history['user_id'] = $this->User_model->is_login();
+
+
+                        if ($save['email'] != '' && (bool)$this->input->post('send_email')) {
+                            $history['send_email'] = true;
+                            $this->sender->email('Комментарий к заказу '.$order_id, $history['text'], $save['email'], explode(';', $contacts['email']));
+                        }
+                        if ($save['telephone'] != '' && (bool)$this->input->post('send_sms')) {
+                            $history['send_sms'] = true;
+                            $this->sender->sms($save['telephone'], $history['text']);
+                        }
+
                         $this->order_history_model->insert($history);
                     }
                     //Предоплата
@@ -260,7 +273,6 @@ class Order extends Admin_controller
                         //Добавляем историю смены статуса заказа
                         $history = [];
 
-                        $contacts = $this->settings_model->get_by_key('contact_settings');
                         if ($save['email'] != '') {
                             $history['send_email'] = true;
                             $this->sender->email($message_template['subject'], $message_template['text'], $save['email'], explode(';', $contacts['email']));
