@@ -57,6 +57,7 @@ class Category extends Front_controller{
 
         $filters = false;
         if($this->input->get()){
+            print_r($this->input->get());
             foreach ($this->input->get() as $filter => $value){
                 $filters[] = $filter;
             }

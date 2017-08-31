@@ -167,27 +167,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                             <b><?php echo lang('text_full_tecdoc');?></b>
                             <?php echo $catalog;?>
-                            <?php if($trees){?>
-                            <b><?php echo lang('index_text_tecdoc_trees');?></b>
-                            <div class="row">
-                              <?php foreach ($trees as $tree){?>
-                              <div class="col-sm-6 col-md-4">
-                                <div class="thumbnail">
-                                <?php if($tree['image']){?>
-                                <img src="<?php echo $tree['image'];?>" alt="<?php echo $tree['name'];?>">
-                                <?php } ?>
-                                  <div class="caption">
-                                    <p><a href="/catalog/?id_tree=<?php echo $tree['ID_tree'];?>"><?php echo $tree['name'];?></a></p>
-                                  </div>
-                                </div>
-                              </div>
-                               <?php } ?>
-                            </div>
-
-
-
-                            <?php } ?>
-
                         </div>
                         <div role="tabpanel" class="tab-pane " id="garage">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

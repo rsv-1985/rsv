@@ -85,22 +85,6 @@ class Index extends Front_controller {
             }
         }
 
-        //Категории текдока на главной
-        $data['trees'] = [];
-        $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
-        if($settings_tecdoc_tree){
-            $tecdoc_tree_full = $this->tecdoc->getTreeFull();
-            foreach ($tecdoc_tree_full as $item){
-                if(isset($settings_tecdoc_tree[$item->ID_tree]) && @$settings_tecdoc_tree[$item->ID_tree]['home']){
-                    $data['trees'][] = [
-                        'ID_tree' => $item->ID_tree,
-                        'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
-                        'image' => $settings_tecdoc_tree[$item->ID_tree]['logo'] ?  $settings_tecdoc_tree[$item->ID_tree]['logo'] : '',
-                    ];
-                }
-            }
-        }
-
         $this->load->view('header');
         $this->load->view('index', $data);
         $this->load->view('footer');
