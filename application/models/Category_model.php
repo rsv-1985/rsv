@@ -24,6 +24,41 @@ class Category_model extends Default_model
 
     public function category_get_all()
     {
+        $cats = [];
+
+        $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+        if($settings_tecdoc_tree){
+            $tecdoc_tree = [];
+
+            $tecdoc_tree_full = $this->tecdoc->getTreeFull();
+            foreach ($tecdoc_tree_full as $item){
+                if(isset($settings_tecdoc_tree[$item->ID_tree]) && @$settings_tecdoc_tree[$item->ID_tree]['home']){
+                    $tecdoc_tree[] = [
+                        'id' => $item->ID_tree,
+                        'parent_id' => 0,
+                        'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                        'slug' => $item->ID_tree,
+                        'tecdoc' => true
+                    ];
+                }
+                if($item->ID_tree != '10001'){
+                    $tecdoc_tree[] = [
+                        'id' => $item->ID_tree,
+                        'parent_id' => $item->ID_parent,
+                        'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                        'slug' => $item->ID_tree,
+                        'tecdoc' => true
+                    ];
+                }
+
+            }
+            if($tecdoc_tree){
+                foreach ($tecdoc_tree as $cat) {
+                    $cats_ID[$cat['id']][] = $cat;
+                    $cats[$cat['parent_id']][$cat['id']] = $cat;
+                }
+            }
+        }
         $this->db->where('status', true);
         $this->db->order_by('sort', 'ASC');
         $query = $this->db->get($this->table);
@@ -32,9 +67,11 @@ class Category_model extends Default_model
                 $cats_ID[$cat['id']][] = $cat;
                 $cats[$cat['parent_id']][$cat['id']] = $cat;
             }
+        }
+
+        if(count($cats)){
             return $this->build_tree($cats, 0);
         }
-        return false;
     }
 
     public function build_tree($cats, $parent_id, $sub = false)
@@ -53,29 +90,16 @@ class Category_model extends Default_model
                     $tree .= $this->build_tree($cats,$cat['id'],true);
                     $tree .= '</li>';
                 }else{
-                    $tree .= '<li><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a></li>';
+                    if(@$cat['tecdoc']){
+                        $tree .= '<li><a href="/catalog/?id_tree='.$cat['slug'].'">' . $cat['name'].'</a></li>';
+                    }else{
+                        $tree .= '<li><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a></li>';
+                    }
+
                 }
             }
         }
         $tree .= '</ul>';
-        /*
-        if (is_array($cats) and isset($cats[$parent_id])) {
-            $tree = '<ul>';
-            if ($only_parent == false) {
-                foreach ($cats[$parent_id] as $cat) {
-                    $tree .= '<li><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a>';
-                    $tree .= $this->build_tree($cats, $cat['id']);
-                    $tree .= '</li>';
-                }
-            } elseif (is_numeric($only_parent)) {
-                $cat = $cats[$parent_id][$only_parent];
-                $tree .= '<li>' . $cat['name'];
-                $tree .= $this->build_tree($cats, $cat['id']);
-                $tree .= '</li>';
-            }
-            $tree .= '</ul>';
-        } else return null;
-        */
         return $tree;
     }
 
