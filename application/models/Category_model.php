@@ -86,7 +86,7 @@ class Category_model extends Default_model
         if(isset($cats[$parent_id])){
             foreach ($cats[$parent_id] as $cat){
                 if(isset($cats[$cat['id']])){
-                    $tree .= '<li><a class="tree-toggle">' . $cat['name'].'<span class="caret pull-right"></a></b>';
+                    $tree .= '<li><a class="tree-toggle">' . $cat['name'].'<i class="caret pull-right"></i></a>';
                     $tree .= $this->build_tree($cats,$cat['id'],true);
                     $tree .= '</li>';
                 }else{
