@@ -23,6 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function(){
         $('.tree-toggle').click(function () {
+            $(".nav a").each(function(index, item){
+                $(item).css('background-color','#fff');
+            });
             $(this).css('background-color','#eee');
             $(this).parent().children('ul.tree').toggle(200);
         });
