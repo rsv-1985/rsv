@@ -17,6 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         padding: 10px 15px;
         cursor: pointer;
     }
+    a.tree-toggle.active {
+        background: #f5f5f5;
+    }
 </style>
 
 <?php echo $this->category;?>
