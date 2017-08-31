@@ -79,10 +79,14 @@ class Product_attribute_model extends Default_model{
             $query = $this->db->get($this->table);
             if($query->num_rows() > 0){
                 $results = $query->result_array();
-                $this->cache->file->save('attributes'.$category_id, $results, 604800);
+                if(!$products_id){
+                    $this->cache->file->save('attributes'.$category_id, $results, 604800);
+                }
                 return $results;
             }
-            $this->cache->file->save('attributes'.$category_id, null, 604800);
+            if(!$products_id){
+                $this->cache->file->save('attributes'.$category_id, null, 604800);
+            }
             return false;
         }else{
             return $cache;
