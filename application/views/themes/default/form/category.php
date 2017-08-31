@@ -24,9 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $(document).ready(function(){
         $('.tree-toggle').click(function () {
             $(".nav a").each(function(index, item){
-                $(item).css('background-color','#fff');
+                $(item).removeClass('active');
             });
-            $(this).css('background-color','#eee');
+            $(this).addClass('active');
             $(this).parent().children('ul.tree').toggle(200);
         });
     })
