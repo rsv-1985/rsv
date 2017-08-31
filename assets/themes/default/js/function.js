@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    $("#button_search,#search_brand").click(function(e){
+       if($("#search_input").val().length){
+           $("body").css('opacity','0.5').append('<img id="loading" src="/assets/themes/default/img/loading.gif"/>');
+       }
+    });
     $('[rel="tooltip"]').tooltip();
 
     $("a[href='#top']").click(function(event) {
