@@ -41,7 +41,7 @@ class Category_model extends Default_model
                         'tecdoc' => true
                     ];
                 }
-                if($item->ID_tree != '10001'){
+                if($item->ID_tree != '10001' && isset($settings_tecdoc_tree[$item->ID_tree]) && !@$settings_tecdoc_tree[$item->ID_tree]['hide']){
                     $tecdoc_tree[] = [
                         'id' => $item->ID_tree,
                         'parent_id' => $item->ID_parent,
