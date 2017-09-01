@@ -691,6 +691,7 @@ class Product_model extends Default_model
         return false;
     }
 
+    //API поставщиков
     public function api_supplier($sku, $brand, $crosses_search)
     {
         $cross_suppliers = [];

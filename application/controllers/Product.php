@@ -33,8 +33,6 @@ class Product extends Front_controller
             return;
         }
 
-        $data['prices'] = $this->product_model->get_product_price($data);
-
         $this->canonical = base_url('product/' . $slug);
 
         $data['breadcrumbs'][] = ['href' => base_url(), 'text' => lang('text_home')];
@@ -45,7 +43,31 @@ class Product extends Front_controller
             $data['breadcrumbs'][] = ['href' => base_url('category/' . $category_info['slug']), 'text' => $category_info['name']];
         }
 
+        $data['prices'] = $this->product_model->get_product_price($data);
 
+        $data['banner'] = $this->banner_model->get_product();
+
+        $data['attributes'] = $this->product_attribute_model->get_product_attributes($data['id']);
+
+
+
+        $data['applicability'] = false;
+        if (isset($data['tecdoc_info']['applicability']) && !empty($data['tecdoc_info']['applicability'])) {
+            $applicability = $data['tecdoc_info']['applicability'];
+            foreach ($applicability as $ap) {
+                $data['applicability'][$ap->Brand][] = $ap;
+            }
+        }
+
+        $data['components'] = false;
+        if (isset($data['tecdoc_info']['components']) && !empty($data['tecdoc_info']['components'])) {
+            $data['components'] = $data['tecdoc_info']['components'];
+        }
+
+        $data['cross'] = false;
+        if (isset($data['tecdoc_info']['cross'])) {
+            $data['cross'] = $data['tecdoc_info']['cross'];
+        }
 
         $settings = $this->settings_model->get_by_key('seo_product');
         if ($settings) {
@@ -56,14 +78,18 @@ class Product extends Front_controller
                     '{brand}',
                     '{sku}',
                     '{description}',
+                    '{applicability}'
                 ], [
                     $data['name'],
                     $data['brand'],
                     $data['sku'],
                     $data['description'],
+                    @implode(', ',array_keys($data['applicability'])),
                 ], $value));
             }
         }
+
+        $data['description'] .= '<br/>' . @$seo['text'];
 
         $this->product_model->update_viewed($data['id']);
 
@@ -107,29 +133,7 @@ class Product extends Front_controller
             $data['description'] .= $data['tecdoc_info']['article']['Info'];
         }
 
-        $data['description'] .= '<br/>' . @$seo['text'];
 
-        $data['applicability'] = false;
-        if (isset($data['tecdoc_info']['applicability']) && !empty($data['tecdoc_info']['applicability'])) {
-            $applicability = $data['tecdoc_info']['applicability'];
-            foreach ($applicability as $ap) {
-                $data['applicability'][$ap->Brand][] = $ap;
-            }
-        }
-
-        $data['components'] = false;
-        if (isset($data['tecdoc_info']['components']) && !empty($data['tecdoc_info']['components'])) {
-            $data['components'] = $data['tecdoc_info']['components'];
-        }
-
-        $data['cross'] = false;
-        if (isset($data['tecdoc_info']['cross'])) {
-            $data['cross'] = $data['tecdoc_info']['cross'];
-        }
-
-        $data['banner'] = $this->banner_model->get_product();
-
-        $data['attributes'] = $this->product_attribute_model->get_product_attributes($data['id']);
 
         $this->load->view('header');
         $this->load->view('product/product', $data);

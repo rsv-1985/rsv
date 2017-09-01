@@ -68,7 +68,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {name} - название<br>
                     {brand} - производитель<br>
                     {sku} - артикул<br>
-                    {description} - описание
+                    {description} - описание<br>
+                    {applicability} - применяемость
                 </p>
 
             </div>
