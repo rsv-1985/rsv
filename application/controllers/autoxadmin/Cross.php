@@ -138,12 +138,18 @@ class Cross extends Admin_controller
         $save['brand'] = $this->product_model->clear_brand($this->input->post('brand', true));
         $save['code2'] = $this->product_model->clear_sku($this->input->post('code2', true));
         $save['brand2'] = $this->product_model->clear_brand($this->input->post('brand2', true));
-
-        $id = $this->cross_model->insert($save, $id);
-        if($id){
-            $this->session->set_flashdata('success', lang('text_success'));
-            redirect('autoxadmin/cross');
+        $this->cross_model->insert($save, $id);
+        if($this->input->post('xcross')){
+            $save = [];
+            $save['code'] = $this->product_model->clear_sku($this->input->post('code2', true));
+            $save['brand'] = $this->product_model->clear_brand($this->input->post('brand2', true));
+            $save['code2'] = $this->product_model->clear_sku($this->input->post('code', true));
+            $save['brand2'] = $this->product_model->clear_brand($this->input->post('brand', true));
+            $this->cross_model->insert($save, $id);
         }
+
+        $this->session->set_flashdata('success', lang('text_success'));
+        redirect('autoxadmin/cross');
     }
 
     public function delete($id){
