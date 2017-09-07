@@ -60,7 +60,7 @@ class Import extends Admin_controller
 
                 //Загружаем прайс
                 $config['upload_path']          = './uploads/import/';
-                $config['allowed_types']        = 'xls|csv';
+                $config['allowed_types']        = '*';
                 $config['file_ext_tolower']     = true;
                 $config['encrypt_name']         = true;
 
