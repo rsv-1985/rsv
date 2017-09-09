@@ -409,7 +409,6 @@ class Catalog extends Front_controller
             $data['h1'] = $this->h1;
 
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
-
             if($data['parts']){
                 foreach($data['parts'] as &$tecdoc_part){
                     $key = md5($tecdoc_part->Brand);
@@ -419,7 +418,7 @@ class Catalog extends Front_controller
                     $tecdoc_part->product = $this->product_model->get_search_products($tecdoc_part->Search, $tecdoc_part->Brand);
 
                     if($tecdoc_part->Info){
-                        $info = explode("</br>",$tecdoc_part->Info);
+                        $info = explode("<br>",$tecdoc_part->Info);
                         if($info){
                             foreach ($info as $inf){
                                 $inf = explode(':',$inf);
