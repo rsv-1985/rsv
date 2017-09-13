@@ -208,7 +208,7 @@ class Csv{
 
         $this->CI->db->order_by('product.id','ASC');
 
-        $this->CI->db->limit(10000);
+        $this->CI->db->limit(2000);
 
         $query = $this->CI->db->get();
 
@@ -251,6 +251,7 @@ class Csv{
                 }
 
                 if($data['id'] == 0){
+                    @unlink('./uploads/price/csv/price.csv');
                     $data['id'] = $product['id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'w');
                     $product = array_intersect_key($product,$data['template']);
