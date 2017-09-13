@@ -279,7 +279,7 @@ class Csv{
                     </html>');
             die();
         }else{
-            echo 'Link to price: <a href="'.base_url().'uploads/price/csv/price.csv">'.base_url().'uploads/price/csv/price.csv</a>';
+            echo 'Link to price: <a download href="'.base_url().'uploads/price/csv/price.csv">'.base_url().'uploads/price/csv/price.csv</a>';
             exit();
         }
     }
