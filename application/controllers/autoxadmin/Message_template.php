@@ -71,7 +71,7 @@ class Message_template extends Admin_controller
     private function save_data($id = false){
         $save = [];
         $save['subject'] = $this->input->post('subject', true);
-        $save['text'] = $this->input->post('text', true);
+        $save['text'] = $this->input->post('text');
         $save['text_sms'] = $this->input->post('text_sms', true);
 
         $id = $this->message_template_model->insert($save, $id);
