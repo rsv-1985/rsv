@@ -330,7 +330,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     var row = '<?php echo $row;?>';
 
     $(document).ready(function () {
-        total();
 
         $("input,select").change(function () {
             total();
