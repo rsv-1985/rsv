@@ -40,7 +40,6 @@ class Payment extends Admin_controller
         if($this->input->post()){
             $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[250]');
             $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]');
-            $this->form_validation->set_rules('comission', lang('text_comission'), 'integer');
             $this->form_validation->set_rules('api', lang('text_api'), 'max_length[32]');
             $this->form_validation->set_rules('sort', lang('text_sort'), 'integer');
             $this->form_validation->set_rules('fix_cost', lang('text_fix_cost'), 'numeric');
@@ -67,7 +66,6 @@ class Payment extends Admin_controller
         if($this->input->post()){
             $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[250]');
             $this->form_validation->set_rules('description', lang('text_description'), 'max_length[3000]');
-            $this->form_validation->set_rules('comission', lang('text_comission'), 'integer');
             $this->form_validation->set_rules('api', lang('text_api'), 'max_length[32]');
             $this->form_validation->set_rules('sort', lang('text_sort'), 'integer');
             $this->form_validation->set_rules('fix_cost', lang('text_fix_cost'), 'numeric');
@@ -93,7 +91,7 @@ class Payment extends Admin_controller
         $save = [];
         $save['name'] = (string)$this->input->post('name', true);
         $save['description'] = $this->input->post('description', true);
-        $save['comission'] = (int)$this->input->post('comission', true);
+        $save['comission'] = (float)$this->input->post('comission');
         $save['api'] = (string)$this->input->post('api', true);
         $save['sort'] = (int)$this->input->post('sort', true);
         $save['fix_cost'] = (float)$this->input->post('fix_cost', true);
