@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><input type="text" class="form-control"  name="tecdoc_tree[<?php echo $item->ID_tree;?>][logo]" value="<?php echo @$settings_tecdoc_tree[$item->ID_tree]['logo'];?>"></td>
                                 <td><input type="checkbox" name="tecdoc_tree[<?php echo $item->ID_tree;?>][express]" value="1" <?php echo (@$settings_tecdoc_tree[$item->ID_tree]['express'] ? 'checked' :'');?>></td>
                                 <td><input type="checkbox" name="tecdoc_tree[<?php echo $item->ID_tree;?>][home]" value="1" <?php echo (@$settings_tecdoc_tree[$item->ID_tree]['home'] ? 'checked' :'');?>></td>
-                                <td><input type="checkbox" name="tecdoc_tree[<?php echo $item->ID_tree;?>][hide]" value="1" <?php echo (@$settings_tecdoc_tree[$item->ID_tree]['status'] ? 'checked' :'');?>></td>
+                                <td><input type="checkbox" name="tecdoc_tree[<?php echo $item->ID_tree;?>][hide]" value="1" <?php echo (@$settings_tecdoc_tree[$item->ID_tree]['hide'] ? 'checked' :'');?>></td>
                             </tr>
                             <?php } ?>
                         <?php } ?>
