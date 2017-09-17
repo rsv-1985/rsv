@@ -208,7 +208,6 @@ class Cart extends Front_controller
         $json['subtotal'] = format_currency($this->cart->total());
         $json['total'] = format_currency($total + $delivery_price + $commissionpay);
         $json['total_items'] = $this->cart->total_items();
-
         if($this->input->is_ajax_request()) {
             $this->output
                 ->set_content_type('application/json')
