@@ -37,4 +37,5 @@ $lang['text_extended_supplier_id'] = 'Поставщик';
 $lang['text_extended_cart'] = 'Дополнительный товар';
 $lang['text_clear_cart'] = 'Очистить корзину';
 $lang['text_address'] = 'Адрес';
+$lang['cart_text_payment_customer_balance'] = 'Списание с личного баланса';
 $lang['error_order_only_registered'] = 'Вы не вошли на сайт. Для оформления заказа пройдите простую регистрацию и войдите на сайт';

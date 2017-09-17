@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <label><?php echo lang('text_payment_method'); ?></label>
                                         <select disabled id="payment" class="form-control" name="payment_method" onchange="get_payment();"
                                                 required>
-                                            <option></option>
+                                            <option id="payment-0" value="0" <?php if($this->customer_balance < $this->cart->total()){?>disabled<?php } ?>><?php echo lang('cart_text_payment_customer_balance');?></option>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
                                                     id="payment-<?php echo $payment['id'];?>"
@@ -265,6 +265,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             dataType: 'json',
             data: $("#cart").serialize(),
             success: function (json) {
+                console.log(json);
                 $(".total").html(json['total']);
                 $(".cart-amunt").html(json['total']);
                 $("#subtotal").html(json['subtotal']);
@@ -280,7 +281,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         }
                     });
                 }
-
+                var total = parseFloat(json['total']);
+                var customer_balance = parseFloat(<?php echo $this->customer_balance;?>);
+                if( total < customer_balance){
+                    $("#payment-0").removeAttr('disabled');
+                }
                 $("#payment").removeAttr('disabled');
             }
         });
