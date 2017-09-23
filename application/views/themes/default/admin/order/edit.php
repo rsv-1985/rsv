@@ -47,7 +47,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="form-group">
                 <label><?php echo lang('text_patronymic'); ?></label>
-                <input type="text" name="patronymic" value="<?php echo set_value('patronymic', $order['patronymic']); ?>"
+                <input type="text" name="patronymic"
+                       value="<?php echo set_value('patronymic', $order['patronymic']); ?>"
                        class="form-control">
             </div>
         </div><!-- /.col -->
@@ -77,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <select name="delivery_method" class="form-control">
                     <?php foreach ($delivery as $delivery) { ?>
                         <option
-                            value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method_id', $delivery['id'], $delivery['id'] == $order['delivery_method_id']); ?>><?php echo $delivery['name']; ?></option>
+                                value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method_id', $delivery['id'], $delivery['id'] == $order['delivery_method_id']); ?>><?php echo $delivery['name']; ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -86,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <select name="payment_method" class="form-control">
                     <?php foreach ($payment as $payment) { ?>
                         <option
-                            value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method_id', $payment['id'], $payment['id'] == $order['payment_method_id']); ?>><?php echo $payment['name']; ?></option>
+                                value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method_id', $payment['id'], $payment['id'] == $order['payment_method_id']); ?>><?php echo $payment['name']; ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -98,7 +99,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <hr>
         <div class="col-lg-4 pull-right">
             <div class="input-group">
-                <input autocomplete="off" id="search_val" type="text" class="form-control" placeholder="Добавить в заказ">
+                <input autocomplete="off" id="search_val" type="text" class="form-control"
+                       placeholder="Добавить в заказ">
                 <span class="input-group-btn">
                             <button id="search" class="btn btn-default"
                                     type="button"><?php echo lang('button_search'); ?></button>
@@ -107,10 +109,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="search-results"></div>
         </div><!-- /.col-lg-6 -->
         <div class="col-xs-12 table-responsive">
-            <table class="table">
+            <table class="table table-condensed">
                 <thead>
                 <tr>
-                    <th></th>
                     <th><?php echo lang('text_supplier'); ?></th>
                     <th><?php echo lang('text_product'); ?></th>
                     <th><?php echo lang('text_sku'); ?></th>
@@ -121,6 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <th><?php echo lang('text_price'); ?></th>
                     <th><?php echo lang('text_subtotal'); ?></th>
                     <th><?php echo lang('text_status'); ?></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody id="order-products">
@@ -128,11 +130,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $subtotal = 0;
                 foreach ($products as $product) { ?>
                     <tr id="row<?php echo $product['id']; ?>">
-                        <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]" value="<?php echo $product['slug']; ?>">
-                        <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]" value="<?php echo $product['product_id']; ?>"/>
-                        <td><a href="#" onclick="remove_item(<?php echo $product['id']; ?>, event)"><i
-                                    class="fa fa-fw fa-remove"></i></a></td>
-                        <td>
+                        <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
+                               value="<?php echo $product['slug']; ?>">
+                        <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
+                               value="<?php echo $product['product_id']; ?>"/>
+                        <td style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
                             <a data-toggle="tooltip" data-placement="right"
                                title="<?php echo @$supplier[$product['supplier_id']]['description']; ?>" target="_blank"
                                href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id']; ?>">
@@ -161,31 +163,39 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                    value="<?php echo $product['term']; ?>">
                         </td>
                         <td>
-                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)" id="qty<?php echo $product['id']; ?>"
+                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                   id="qty<?php echo $product['id']; ?>"
                                    name="products[<?php echo $product['id']; ?>][quantity]" type="text"
                                    value="<?php echo $product['quantity']; ?>" class="form-control"
                                    style="width: 80px;">
                         </td>
                         <td>
                             <input
-                                   name="products[<?php echo $product['id']; ?>][delivery_price]" type="text"
-                                   value="<?php echo $product['delivery_price']; ?>" class="form-control" style="width: 100px;">
+                                    name="products[<?php echo $product['id']; ?>][delivery_price]" type="text"
+                                    value="<?php echo $product['delivery_price']; ?>" class="form-control"
+                                    style="width: 100px;">
                         </td>
                         <td>
-                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)" id="price<?php echo $product['id']; ?>"
+                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                   id="price<?php echo $product['id']; ?>"
                                    name="products[<?php echo $product['id']; ?>][price]" type="text"
                                    value="<?php echo $product['price']; ?>" class="form-control" style="width: 100px;">
                         </td>
                         <td><span
-                                id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
+                                    id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
                                 $subtotal += $product['quantity'] * $product['price']; ?></span></td>
                         <td>
                             <select name="products[<?php echo $product['id']; ?>][status_id]" class="form-control">
                                 <?php foreach ($status as $st) { ?>
                                     <option
-                                        value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
+                                            value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
                                 <?php } ?>
                             </select>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-danger" href="#" onclick="remove_item(<?php echo $product['id']; ?>, event)">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
                         </td>
                     </tr>
                     <?php $row++;
@@ -224,7 +234,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <tbody>
                     <?php foreach ($history as $history) { ?>
                         <tr>
-                            <td><small><?php echo $history['date']; ?></small></td>
+                            <td>
+                                <small><?php echo $history['date']; ?></small>
+                            </td>
                             <td><?php echo $history['text']; ?></td>
                             <td align="center">
                                 <?php if ($history['send_sms']) { ?>
@@ -276,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <select class="form-control" name="status">
                                     <?php foreach ($status as $st) { ?>
                                         <option
-                                            value="<?php echo $st['id']; ?>" <?php echo set_select('status', $st['id'], $st['id'] == $order['status']); ?>><?php echo $st['name']; ?></option>
+                                                value="<?php echo $st['id']; ?>" <?php echo set_select('status', $st['id'], $st['id'] == $order['status']); ?>><?php echo $st['name']; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -295,21 +307,27 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <table class="table">
                         <tr>
                             <td>Предоплата</td>
-                            <td><input type="text" name="prepayment" value="<?php echo set_value('prepayment', $order['prepayment']);?>" class="form-control" placeholder="предоплата"></td>
+                            <td><input type="text" name="prepayment"
+                                       value="<?php echo set_value('prepayment', $order['prepayment']); ?>"
+                                       class="form-control" placeholder="предоплата"></td>
                         </tr>
                         <tr>
                             <td>Статус оплаты</td>
                             <td>
                                 <select class="form-control" name="paid">
-                                    <option <?php echo set_select('paid', 0, (bool)$order['paid']);?> value="0">Не оплачен</option>
-                                    <option <?php echo set_select('paid', 1, (bool)$order['paid']);?> value="1">Оплачен</option>
+                                    <option <?php echo set_select('paid', 0, (bool)$order['paid']); ?> value="0">Не
+                                        оплачен
+                                    </option>
+                                    <option <?php echo set_select('paid', 1, (bool)$order['paid']); ?> value="1">
+                                        Оплачен
+                                    </option>
                                 </select>
                             </td>
                         </tr>
-                        <?php if(!$order['paid']){?>
+                        <?php if (!$order['paid']) { ?>
                             <tr>
                                 <td>Остаток оплаты</td>
-                                <td><?php echo round($order['total'] - $order['prepayment'],2);?></td>
+                                <td><?php echo round($order['total'] - $order['prepayment'], 2); ?></td>
                             </tr>
                         <?php } ?>
                     </table>
@@ -352,6 +370,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             });
         });
     });
+
     function remove_item(row, event) {
         event.preventDefault();
         $("#row" + row).remove();
@@ -385,14 +404,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     function add_product(product_id, supplier_id, term) {
         $.ajax({
             url: '/autoxadmin/order/add_product',
-            data: {product_id: product_id, supplier_id: supplier_id, term: term,order_id:'<?php echo $order['id'];?>'},
+            data: {
+                product_id: product_id,
+                supplier_id: supplier_id,
+                term: term,
+                order_id: '<?php echo $order['id'];?>'
+            },
             method: 'POST',
             success: function (response) {
-               if(response == 'success'){
-                   location.reload();
-               }else{
-                   alert(response);
-               }
+                if (response == 'success') {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
             }
         });
     }

@@ -6,6 +6,11 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
+<style>
+    td.email{
+        word-break: break-all;
+    }
+</style>
 <section class="content-header">
     <h3></h3>
     <ol class="breadcrumb">
@@ -46,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_payment_method');?></th>
                                 <th><?php echo lang('text_total');?>/<?php echo lang('text_login');?></th>
                                 <th><?php echo lang('text_status');?>/<?php echo lang('text_paid');?></th>
+                                <th><?php echo lang('text_product_status');?></th>
                                 <th><a style="display: none;" href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
                             <?php echo form_open('/autoxadmin/order/index',['method' => 'GET']);?>
@@ -98,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" name="login" class="form-control" value="<?php echo $this->input->get('login', true);?>" style="width: 60px">
+                                        <input type="text" name="login" class="form-control" value="<?php echo $this->input->get('login', true);?>" style="width: 86px">
                                     </div>
                                 </td>
                                 <td>
@@ -111,10 +117,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </select>
                                     </div>
                                 </td>
+                                <td></td>
                                 <td>
-                                    <div class="btn-group pull-right">
-                                        <a href="/autoxadmin/order" type="button" class="btn btn-link"><?php echo lang('button_reset');?></a>
-                                        <button type="submit" class="btn btn-link pull-right"><?php echo lang('button_search');?></button>
+                                    <div class="btn-group">
+                                        <a href="/autoxadmin/order" type="button" class="btn btn-link" title="<?php echo lang('button_reset');?>"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        <button type="submit" class="btn btn-link pull-right" title="<?php echo lang('button_search');?>"><i class="fa fa-search" aria-hidden="true"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -128,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td><?php echo $order['first_name'];?></td>
                                         <td><?php echo $order['last_name'];?></td>
-                                        <td><?php echo $order['email'];?></td>
+                                        <td class="email"><?php echo $order['email'];?></td>
                                         <td>
                                             <?php echo $order['telephone'];?><br/>
                                         </td>
@@ -145,9 +152,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <div class="btn-group pull-right">
-                                                <a href="/autoxadmin/order/delete/<?php echo $order['id'];?>" class="confirm"><?php echo lang('button_delete');?></a>
-                                                <a href="/autoxadmin/order/edit/<?php echo $order['id'];?>"><?php echo lang('button_view');?></a>
+                                            <?php if($order['products_status']){?>
+                                                <small>
+                                                    <?php foreach ($order['products_status'] as $product_status){?>
+                                                        <b style="color: <?php echo $product_status['color'];?>"><?php echo $product_status['name'];?></b><br/>
+                                                    <?php } ?>
+                                                </small>
+                                            <?php } ?>
+
+                                        </td>
+                                        <td style="width: 92px;">
+                                            <div class="btn-group">
+                                                <a href="/autoxadmin/order/delete/<?php echo $order['id'];?>" class="confirm btn btn-danger" title="<?php echo lang('button_delete');?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                <a href="/autoxadmin/order/edit/<?php echo $order['id'];?>" class="btn btn-info" title="<?php echo lang('button_view');?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                             </div>
                                         </td>
                                     </tr>

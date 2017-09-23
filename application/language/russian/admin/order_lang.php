@@ -40,3 +40,4 @@ $lang['text_term'] = 'Доставка';
 $lang['text_address'] = 'Адрес';
 $lang['text_revenue'] = 'Доход';
 $lang['text_success'] = 'Все прошло успешно';
+$lang['text_product_status'] = 'Статусы товаров';

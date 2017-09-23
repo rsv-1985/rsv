@@ -71,12 +71,19 @@ class Order extends Admin_controller
 
         $config['base_url'] = base_url('autoxadmin/order/index');
         $config['per_page'] = 30;
-        $data['orders'] = $this->order_model->order_get_all($config['per_page'], $this->uri->segment(4));
+        $orders = $this->order_model->order_get_all($config['per_page'], $this->uri->segment(4));
         $config['total_rows'] = $this->order_model->total_rows;
         $config['reuse_query_string'] = true;
 
         $this->pagination->initialize($config);
 
+        if($orders){
+            foreach ($orders as &$order){
+                $order['products_status'] = $this->order_model->get_products_status($order['id']);
+            }
+        }
+
+        $data['orders'] = $orders;
         $data['status'] = $this->orderstatus_model->status_get_all();
         $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
         $data['payment'] = $this->payment_model->payment_get_all();

@@ -155,4 +155,18 @@ class Order_model extends Default_model{
         
         return false;
     }
+
+    public function get_products_status($order_id){
+        $this->db->where('order_id',(int)$order_id);
+        $this->db->select('os.name,os.color');
+        $this->db->from('order_product op');
+        $this->db->join('order_status os','os.id=op.status_id');
+        $this->db->where('op.order_id',(int)$order_id);
+        $this->db->group_by('op.status_id');
+        $query = $this->db->get();
+        if($query->num_rows() > 0){
+            return $query->result_array();
+        }
+        return false;
+    }
 }
