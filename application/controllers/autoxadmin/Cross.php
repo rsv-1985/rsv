@@ -54,7 +54,7 @@ class Cross extends Admin_controller
                 if(!empty($_FILES['userfile']['name'])){
 
                     $config['upload_path']          = './uploads/cross/';
-                    $config['allowed_types']        = 'xls';
+                    $config['allowed_types']        = '*';
                     $config['file_ext_tolower']     = true;
                     $config['encrypt_name']         = true;
                     $this->load->library('upload', $config);
@@ -62,60 +62,20 @@ class Cross extends Admin_controller
                     if ($this->upload->do_upload('userfile')){
                         $upload_data = $this->upload->data();
                         $file_name = './uploads/cross/' . $upload_data['file_name'];
-                        //Подключаме бтблиотеку для работы с xls
-                        error_reporting(E_ALL ^ E_NOTICE);
-                        require_once APPPATH . 'libraries/excel_reader2.php';
 
-                        $excel = new Spreadsheet_Excel_Reader($file_name, false);
-                        if ($excel->sheets[0]['numRows'] > 0) {
-                            $save = [];
-                            $save2 = [];
-                            $q = 0;
-                            for ($i = 2; $i <= $excel->sheets[0]['numRows']; $i++) {
-                                $code = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][1]);
-                                $brand = $this->product_model->clear_brand($excel->sheets[0]['cells'][$i][2]);
-                                $code2 = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][3]);
-                                $brand2 =$this->product_model->clear_brand($excel->sheets[0]['cells'][$i][4]);
-                                $save[]= [
-                                    'code' => $code,
-                                    'brand' => $brand,
-                                    'code2' => $code2,
-                                    'brand2' => $brand2,
-                                ];
-                                if($this->input->post('xcross')){
-                                    $save2[] = [
-                                        'code' => $code2,
-                                        'brand' => $brand2,
-                                        'code2' => $code,
-                                        'brand2' => $brand,
-                                    ];
-                                }
-                                $q++;
-                                if ($q > 2000) {
-                                    $this->cross_model->insert_batch($save);
-                                    $q = 0;
-                                    $save = [];
-                                    if($this->input->post('xcross')){
-                                        $this->cross_model->insert_batch($save2);
-                                        $save2 = [];
-                                    }
-                                }
-
-                            }
-                            if (count($save)) {
-                                $this->cross_model->insert_batch($save);
-                            }
-                            if (count($save2)) {
-                                $this->cross_model->insert_batch($save2);
-                            }
-                            delete_files('./uploads/cross/');
-                            $this->session->set_flashdata('success', lang('text_success'));
-                            redirect('autoxadmin/cross');
-
-                        } else {
-                            $this->session->set_flashdata('error', 'Error read file');
-                            redirect('autoxadmin/cross');
+                        //В зависимсти от типа файла запускаем его обработку
+                        switch($upload_data['file_ext']){
+                            case '.xls':
+                                $this->xls_read($file_name, $this->input->post('xcross'));
+                                break;
+                            case '.csv':
+                                $this->csv_read($file_name, $this->input->post('xcross'));
+                                break;
+                            default:
+                                $this->error = 'Error file type';
+                                break;
                         }
+
                     }else{
                         $this->error = $this->upload->display_errors();
                     }
@@ -162,5 +122,147 @@ class Cross extends Admin_controller
         $this->cross_model->truncate();
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/cross');
+    }
+
+    public function csv_read($file_name = false,$xcross = false){
+
+        if($this->input->get('file_name')){
+            $file_name = $this->input->get('file_name', true);
+        }
+
+        if($this->input->get('xcross')){
+            $xcross = $this->input->get('xcross');
+        }
+
+        if (($handle_f = fopen($file_name, "r")) !== false) {
+            if (isset($_GET['ftell'])) {
+                fseek($handle_f, $_GET['ftell']);
+            }
+            $i = 0;
+            if (isset($_GET['x'])) {
+                $x = $_GET['x'];
+            } else {
+                $x = 0;
+            }
+            $save = [];
+            $save2 = [];
+            // построчное считывание и анализ строк из файла
+            while (($data_f = fgetcsv($handle_f, 1000, ';')) !== false) {
+
+                $code = $this->product_model->clear_sku($data_f[0]);
+                $brand = $this->product_model->clear_brand($data_f[1]);
+                $code2 = $this->product_model->clear_sku($data_f[2]);
+                $brand2 =$this->product_model->clear_brand($data_f[3]);
+
+                $save[]= [
+                    'code' => $code,
+                    'brand' => $brand,
+                    'code2' => $code2,
+                    'brand2' => $brand2,
+                ];
+                if($xcross){
+                    $save2[] = [
+                        'code' => $code2,
+                        'brand' => $brand2,
+                        'code2' => $code,
+                        'brand2' => $brand,
+                    ];
+                }
+
+
+                if ($i == 2000) {
+                    $this->cross_model->insert_batch($save);
+                    $q = 0;
+                    $save = [];
+                    if($xcross){
+                        $this->cross_model->insert_batch($save2);
+                        $save2 = [];
+                    }
+                    $url = base_url('autoxadmin/cross/csv_read') . '?file_name='.$file_name.'&xcross='.$xcross;
+                    echo('<html>
+                    <head>
+                    <title>Загрузка</title>
+                    </head>
+                    <body>
+                    Идет загрузка.<br /><a id="go" href=\''.$url.
+                        '&x=' . $x . '&ftell=' . ftell($handle_f) .'\'>.</a>
+                    <script type="text/javascript">document.getElementById(\'go\').click();</script>
+                    </body>
+                    </html>');
+                    die();
+                }
+                $x++;
+                $i++;
+            }
+            if (count($save)) {
+                $this->cross_model->insert_batch($save);
+            }
+            if (count($save2)) {
+                $this->cross_model->insert_batch($save2);
+            }
+            delete_files('./uploads/cross/');
+            $this->session->set_flashdata('success', lang('text_success'));
+            redirect('autoxadmin/cross');
+            fclose($handle_f);
+        }
+
+
+    }
+
+    public function xls_read($file_name,$xcross){
+        //Подключаме бтблиотеку для работы с xls
+        error_reporting(E_ALL ^ E_NOTICE);
+        require_once APPPATH . 'libraries/excel_reader2.php';
+
+        $excel = new Spreadsheet_Excel_Reader($file_name, false);
+        if ($excel->sheets[0]['numRows'] > 0) {
+            $save = [];
+            $save2 = [];
+            $q = 0;
+            for ($i = 2; $i <= $excel->sheets[0]['numRows']; $i++) {
+                $code = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][1]);
+                $brand = $this->product_model->clear_brand($excel->sheets[0]['cells'][$i][2]);
+                $code2 = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][3]);
+                $brand2 =$this->product_model->clear_brand($excel->sheets[0]['cells'][$i][4]);
+                $save[]= [
+                    'code' => $code,
+                    'brand' => $brand,
+                    'code2' => $code2,
+                    'brand2' => $brand2,
+                ];
+                if($xcross){
+                    $save2[] = [
+                        'code' => $code2,
+                        'brand' => $brand2,
+                        'code2' => $code,
+                        'brand2' => $brand,
+                    ];
+                }
+                $q++;
+                if ($q > 2000) {
+                    $this->cross_model->insert_batch($save);
+                    $q = 0;
+                    $save = [];
+                    if($xcross){
+                        $this->cross_model->insert_batch($save2);
+                        $save2 = [];
+                    }
+                }
+
+            }
+            if (count($save)) {
+                $this->cross_model->insert_batch($save);
+            }
+            if (count($save2)) {
+                $this->cross_model->insert_batch($save2);
+            }
+            delete_files('./uploads/cross/');
+            $this->session->set_flashdata('success', lang('text_success'));
+            redirect('autoxadmin/cross');
+
+        } else {
+            $this->session->set_flashdata('error', 'Error read file');
+            redirect('autoxadmin/cross');
+        }
     }
 }
