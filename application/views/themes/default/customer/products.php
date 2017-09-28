@@ -75,22 +75,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>Цена</th>
                             <th>Количество</th>
                             <th>Статус</th>
+                            <th>ТТН</th>
                         </tr>
                         <?php if($products){?>
-                            <?php foreach ($products as $products){?>
+                            <?php foreach ($products as $product){?>
                                 <tr>
                                     <td>
-                                        <a target="_blank" href="/customer/orderinfo/<?php echo $products['order_id'];?>">
-                                            <b><?php echo $products['order_id'];?></b>
+                                        <a target="_blank" href="/customer/orderinfo/<?php echo $product['order_id'];?>">
+                                            <b><?php echo $product['order_id'];?></b>
                                         </a>
                                     </td>
-                                    <td><small><?php echo $products['created_at'];?></small></td>
-                                    <td><?php echo $products['name'];?></td>
-                                    <td><?php echo $products['sku'];?></td>
-                                    <td><?php echo $products['brand'];?></td>
-                                    <td><?php echo format_currency($products['price']);?></td>
-                                    <td><?php echo $products['quantity'];?></td>
-                                    <td><b style="color: <?php echo $statuses[$products['status_id']]['color'];?>"><?php echo $statuses[$products['status_id']]['name'];?></b></td>
+                                    <td><small><?php echo $product['created_at'];?></small></td>
+                                    <td><?php echo $product['name'];?></td>
+                                    <td><?php echo $product['sku'];?></td>
+                                    <td><?php echo $product['brand'];?></td>
+                                    <td><?php echo format_currency($product['price']);?></td>
+                                    <td><?php echo $product['quantity'];?></td>
+                                    <td>
+                                        <b style="color: <?php echo $statuses[$product['status_id']]['color'];?>">
+                                            <?php echo $statuses[$product['status_id']]['name'];?>
+                                        </b>
+                                    </td>
+                                    <td>
+                                        <small><?php echo $product['ttn'];?></small>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>

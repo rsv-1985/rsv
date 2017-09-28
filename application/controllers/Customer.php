@@ -356,7 +356,6 @@ class Customer extends Front_controller
         $config['total_rows'] = $this->order_product_model->total_rows;
         $config['reuse_query_string'] = true;
 
-
         $this->pagination->initialize($config);
 
 

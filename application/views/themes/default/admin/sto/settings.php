@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <section class="content-header">
     <h3></h3>
     <ol class="breadcrumb">
-        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
         <li><a href="/autoxadmin/sto/settings"><?php echo lang('text_heading'); ?></a></li>
         <li><a href="#"><?php echo lang('text_settings_heading'); ?></a></li>
     </ol>

@@ -16,8 +16,12 @@ $lang['button_reset'] = 'Сброс';
 $lang['button_view'] = 'Просмотр';
 $lang['button_close'] = 'Закрыть';
 $lang['text_logout'] = 'Выход';
-//menu
 $lang['text_shop'] = 'Магазин';
+$lang['text_store'] = 'Склад';
+$lang['text_home'] = 'Главная';
+//menu
+
+$lang['text_nav_waybill'] = 'Путевой лист';
 $lang['text_nav_order'] = 'Заказы';
 $lang['text_nav_language'] = 'Переводы';
 $lang['text_nav_vin'] = 'VIN запросы';

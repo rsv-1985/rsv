@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <?php echo lang('text_tmptable');?>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
         <li><a href="/autoxadmin/import"><?php echo lang('text_heading');?></a></li>
         <li class="active"><?php echo lang('text_tmptable');?></li>
     </ol>

@@ -27,9 +27,11 @@ class Order_product_model extends Default_model{
     }
 
     public function get_products_by_customer($customer_id,$limit,$start){
-        $this->db->select('SQL_CALC_FOUND_ROWS op.*,o.created_at', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS op.*,o.created_at,wp.ttn', false);
         $this->db->from('order_product op');
         $this->db->join('order o', 'o.id=op.order_id');
+        $this->db->join('waybill_product wp2','op.id=wp2.order_product_id','left');
+        $this->db->join('waybill_parcel wp','wp.id=wp2.waybill_parcel_id','left');
         if($this->input->get()){
             if($this->input->get('order_id')){
                 $this->db->where('op.order_id', (int)$this->input->get('order_id'));
@@ -51,11 +53,11 @@ class Order_product_model extends Default_model{
                 $this->db->where('op.status_id', (int)$this->input->get('status_id'));
             }
         }
-        $this->db->where('customer_id',(int)$customer_id);
+        $this->db->where('o.customer_id',(int)$customer_id);
 
         $this->db->limit((int)$limit, (int)$start);
 
-        $this->db->order_by('order_id', 'DESC');
+        $this->db->order_by('op.order_id', 'DESC');
 
         $query = $this->db->get();
 

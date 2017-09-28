@@ -24,27 +24,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tbody><tr>
-                            <th>sku 1</th>
-                            <th>brand 1</th>
-                            <th>sku 2</th>
-                            <th>brand 2</th>
-                            <th>
-                                <div class="btn-group pull-right">
-                                    <a href="/autoxadmin/cross/delete_all" class="btn btn-danger"><?php echo lang('button_delete_all');?></a>
-                                    <a href="/autoxadmin/cross/create" class="btn btn-info"><?php echo lang('button_add');?></a>
-                                </div>
-                            </th>
+                            <th style="width: 10px">#</th>
+                            <th><?php echo lang('text_created_at');?></th>
+                            <th><?php echo lang('text_updated_at');?></th>
+                            <th><?php echo lang('text_status');?></th>
+                            <th><a href="/autoxadmin/waybill/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
-                        <?php if($crosses){?>
-                            <?php foreach($crosses as $cross){?>
+                        <?php if($waybills){?>
+                            <?php foreach($waybills as $waybill){?>
                                 <tr>
-                                    <td><?php echo $cross['code'];?></td>
-                                    <td><?php echo$cross['brand'];?></td>
-                                    <td><?php echo $cross['code2'];?></td>
-                                    <td><?php echo$cross['brand2'];?></td>
+                                    <td><?php echo $waybill['id'];?></td>
+                                    <td><?php echo $waybill['created_at'];?></td>
+                                    <td><?php echo $waybill['updated_at'];?></td>
+                                    <td><?php echo $this->waybill_model->statuses[$waybill['status_id']];?></td>
                                     <td>
                                         <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/cross/delete/<?php echo $cross['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
+                                            <a href="/autoxadmin/waybill/delete/<?php echo $waybill['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
+                                            <a href="/autoxadmin/waybill/edit/<?php echo $waybill['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
                                         </div>
                                     </td>
                                 </tr>

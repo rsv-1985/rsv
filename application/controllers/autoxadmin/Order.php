@@ -197,11 +197,10 @@ class Order extends Admin_controller
                         }
                     }
                 }
-                $this->order_product_model->delete_by_order($id);
+
                 if ($order_id) {
-                    $products = [];
-                    foreach ($this->input->post('products') as $item) {
-                        $products[] = [
+                    foreach ($this->input->post('products') as $product_id => $item) {
+                        $product = [
                             'order_id' => $order_id,
                             'slug' => $item['slug'],
                             'product_id' => $item['product_id'],
@@ -212,12 +211,14 @@ class Order extends Admin_controller
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
                             'supplier_id' => (int)$item['supplier_id'],
-                            'status_id' => $save['status'] != $data['order']['status'] ? $save['status'] : $item['status_id'],
+                            'status_id' => $item['status_id'],
                             'term' => (int)$item['term']
                         ];
+
+                        $this->order_product_model->insert($product,$product_id);
                     }
 
-                    $this->order_product_model->insert_batch($products);
+
                     $this->session->set_flashdata('success', lang('text_success'));
 
                     $contacts = $this->settings_model->get_by_key('contact_settings');
@@ -273,7 +274,7 @@ class Order extends Admin_controller
                             if (in_array($field, ['total', 'commission', 'delivery_price'])) $value = format_currency($value);
                             $message_template['subject'] = str_replace('{' . $field . '}', $value, $message_template['subject']);
                             $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
-                            $message_template['text'] = str_replace('{products}', $this->load->view('email/order', ['products' => $products], true), $message_template['text']);
+                            $message_template['text'] = str_replace('{products}', $this->load->view('email/order', ['products' => $data['products']], true), $message_template['text']);
                             $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
                         }
 
@@ -376,6 +377,44 @@ class Order extends Admin_controller
             ->set_output(json_encode($json));
     }
 
+    //Обновление суммы заказа после удаления или добавления позиции
+    private function _get_total($order_id){
+        $delivery_price = 0;
+        $commissionpay = 0;
+        $total = 0;
+
+        $order_info = $this->order_model->get($order_id);
+
+        $products = $this->order_product_model->get_all(false, false, ['order_id' => (int)$order_id]);
+        if ($products) {
+            foreach ($products as $product) {
+                $total += $product['quantity'] * $product['price'];
+            }
+        }
+
+        $delivery_price = $order_info['delivery_price'];
+
+
+        $payment_id = $order_info['payment_method_id'];
+        if ($payment_id) {
+            $paymentInfo = $this->payment_model->get($payment_id);
+            if ($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0) {
+                if ($paymentInfo['comission'] > 0) {
+                    $commissionpay = $paymentInfo['comission'] * ($total + $delivery_price) / 100;
+                }
+                if ($paymentInfo['fix_cost'] > 0) {
+                    $commissionpay = $commissionpay + $paymentInfo['fix_cost'];
+                }
+            }
+        }
+
+        $save['commission'] = $commissionpay;
+        $save['delivery_price'] = $delivery_price;
+        $save['total'] = $total + $delivery_price + $commissionpay;
+
+        $this->order_model->insert($save,$order_id);
+    }
+
     //Добавление товара
     public function add_product()
     {
@@ -402,10 +441,20 @@ class Order extends Admin_controller
             ];
 
             $this->order_product_model->insert($product);
-
+            $this->_get_total($order_id);
             exit('success');
         } else {
             exit('error');
+        }
+    }
+
+    //Удаление товара с заказа
+    public function delete_product(){
+        $product_id = (int)$this->input->post('product_id');
+        $order_id = (int)$this->input->post('order_id');
+        if($product_id && $order_id){
+            $this->order_product_model->delete($product_id);
+            $this->_get_total($order_id);
         }
     }
 

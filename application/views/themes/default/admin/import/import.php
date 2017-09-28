@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <small>xls / csv</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
         <li class="active"><?php echo lang('text_heading');?></li>
     </ol>
 </section>

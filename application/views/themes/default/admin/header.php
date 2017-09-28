@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <ul class="sidebar-menu">
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-institution"></i> <span><?php echo lang('text_shop');?></span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-shopping-cart"></i> <span><?php echo lang('text_shop');?></span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/order"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_order');?>
@@ -112,7 +112,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_newsletter');?></a></li>
                     </ul>
                 </li>
-
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-building" aria-hidden="true"></i> <span><?php echo lang('text_store');?></span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/autoxadmin/waybill"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_waybill');?></a></li>
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-wrench"></i> <span><?php echo lang('text_nav_sto');?>

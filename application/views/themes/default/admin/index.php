@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <small>Version 2.0</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
                 <li class="active">Dashboard</li>
             </ol>
         </section>

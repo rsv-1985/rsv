@@ -371,10 +371,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     });
 
-    function remove_item(row, event) {
+    function remove_item(product_id, event) {
         event.preventDefault();
-        $("#row" + row).remove();
-        total();
+        $.ajax({
+            url: '/autoxadmin/order/delete_product',
+            data: {product_id:product_id,order_id:<?php echo $order['id'];?>},
+            method: 'post',
+            success: function(){
+                location.reload();
+            }
+        })
     }
 
     function total() {
