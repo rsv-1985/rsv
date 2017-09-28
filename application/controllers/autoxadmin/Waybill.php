@@ -123,15 +123,16 @@ class Waybill extends Admin_controller
                         'last_name' => $order_info['last_name'],
                         'patronymic' => $order_info['patronymic'],
                         'delivery_method_id' => $order_info['delivery_method_id'],
-                        'delivery_method' => $this->delivery_model->get($order_info['delivery_method_id'])['name'],
+                        'delivery_method' => (string)$this->delivery_model->get($order_info['delivery_method_id'])['name'],
                         'payment_method_id' => $order_info['payment_method_id'],
-                        'payment_method' => $this->payment_model->get($order_info['payment_method_id'])['name'],
+                        'payment_method' => (string)$this->payment_model->get($order_info['payment_method_id'])['name'],
                         'telephone' => $order_info['telephone'],
                         'email' => $order_info['email'],
                         'address' => $order_info['address'],
                         'total' => $order_info['total'],
                         'paid' => $order_info['paid']
                     ];
+
                     //Проверяем нет ли получателя в путевом листе
                     $parcel_id = $this->waybill_model->get_parcel_by_customer($parcel_data);
                     $json['success'] = 'Товары добавлены в существующую поссылку №'.$parcel_id;
