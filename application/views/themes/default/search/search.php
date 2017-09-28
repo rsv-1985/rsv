@@ -243,7 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                         <div class="form-group">
                             <label><?php echo lang('text_vin_email'); ?></label>
-                            <input type="email" name="emil" class="form-control" required/>
+                            <input type="email" name="email" class="form-control" required/>
                         </div>
                     </div>
                     <div class="form-group pull-right">
