@@ -178,4 +178,9 @@ class Waybill extends Admin_controller
         $this->waybill_model->delete_waybill_parcel($waybill_parcel_id);
         $this->session->set_flashdata('success', 'Посылка и товары в ней удалены');
     }
+
+    public function print($id){
+        $data['parcels'] = $this->waybill_model->get_parcels($id);
+        $this->load->view('admin/waybill/print',$data);
+    }
 }
