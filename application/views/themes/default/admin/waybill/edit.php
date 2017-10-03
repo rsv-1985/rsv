@@ -177,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                             <div class="form-group">
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default">Печать</a>
+                                    <a href="/autoxadmin/waybill/print/<?php echo $waybill_id;?>" target="_blank" class="btn btn-default">Печать</a>
                                     <button class="btn btn-info" type="submit">Сохранить</button>
                                 </div>
 
