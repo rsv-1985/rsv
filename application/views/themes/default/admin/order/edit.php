@@ -135,13 +135,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
                                value="<?php echo $product['product_id']; ?>"/>
                         <td style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
-                            <a data-toggle="tooltip" data-placement="right"
-                               title="<?php echo @$supplier[$product['supplier_id']]['description']; ?>" target="_blank"
-                               href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id']; ?>">
-                            <?php echo @$supplier[$product['supplier_id']]['name']; ?></td>
-                        </a>
-                        <input type="hidden" name="products[<?php echo $product['id']; ?>][supplier_id]"
-                               value="<?php echo $product['supplier_id']; ?>">
+                            <select name="products[<?php echo $product['id']; ?>][supplier_id]" class="form-control">
+                                <?php foreach ($supplier as $sp){?>
+                                    <option value="<?php echo $sp['id'];?>" <?php if($product['supplier_id'] == $sp['id']){?>selected<?php } ?>><?php echo $sp['name'];?></option>
+                                <?php } ?>
+                            </select>
                         <td>
                             <?php echo $product['name']; ?>
                             <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
