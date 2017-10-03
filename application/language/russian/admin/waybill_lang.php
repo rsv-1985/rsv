@@ -16,4 +16,5 @@ $lang['text_status_1'] = 'Закрыт';
 $lang['text_modal_title'] = 'Фильтр товаров для путевого листа';
 $lang['text_delivery_method'] = 'Способ доставки';
 $lang['text_product_status'] = 'Статус товара';
+$lang['text_notes'] = 'Заметки';
 

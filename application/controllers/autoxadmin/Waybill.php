@@ -69,6 +69,7 @@ class Waybill extends Admin_controller
 
             $save['status_id'] = (int)$this->input->post('status_id');
             $save['updated_at'] = date("Y-m-d H:i:s");
+            $save['notes'] = $this->input->post('notes',true);
             $this->waybill_model->insert($save,$id);
 
             //Прописываем ТТН

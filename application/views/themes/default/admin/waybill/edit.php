@@ -156,7 +156,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </table>
                     <?php } ?>
                     <div class="row">
-                        <div class="col-md-8"></div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Заметки</label>
+                                <textarea rows="5" name="notes" class="form-control"><?php echo $waybill['notes'];?></textarea>
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Статус путевого листа</label>

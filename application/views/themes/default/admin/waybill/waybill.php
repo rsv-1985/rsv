@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_created_at');?></th>
                             <th><?php echo lang('text_updated_at');?></th>
                             <th><?php echo lang('text_status');?></th>
+                            <th><?php echo lang('text_notes');?></th>
                             <th><a href="/autoxadmin/waybill/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php if($waybills){?>
@@ -37,6 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $waybill['created_at'];?></td>
                                     <td><?php echo $waybill['updated_at'];?></td>
                                     <td><?php echo $this->waybill_model->statuses[$waybill['status_id']];?></td>
+                                    <td><?php echo $waybill['notes'];?></td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <a href="/autoxadmin/waybill/delete/<?php echo $waybill['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
