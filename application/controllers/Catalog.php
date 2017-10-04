@@ -414,8 +414,7 @@ class Catalog extends Front_controller
                     $key = md5($tecdoc_part->Brand);
                     $data['filters']['Производитель'][$key] = $tecdoc_part->Brand;
                     $tecdoc_part->filter_key[] = $key;
-
-                    $tecdoc_part->product = $this->product_model->get_search_products($tecdoc_part->Search, $tecdoc_part->Brand);
+                    $tecdoc_part->product = $this->product_model->get_search_products($tecdoc_part->Search, $this->product_model->clear_brand($tecdoc_part->Brand));
 
                     if($tecdoc_part->Info){
                         $info = explode("<br>",$tecdoc_part->Info);
