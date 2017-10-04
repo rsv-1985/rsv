@@ -281,7 +281,7 @@ class Product_model extends Default_model
             $return = [];
             $tecdoc_brand = [];
             foreach ($tecdoc as $item) {
-                $tecdoc_brand[] = $item->Brand;
+                $tecdoc_brand[] = $this->clear_brand($item->Brand);
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
