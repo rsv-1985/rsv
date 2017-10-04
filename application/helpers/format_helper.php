@@ -5,13 +5,18 @@
  * Email: sergey.rasputniy@gmail.com
  */
 
-function format_currency($value){
+function format_currency($value, $return_text = true){
     $CI = &get_instance();
     $formated = number_format(round($value,$CI->currency_model->default_currency['decimal_place'],PHP_ROUND_HALF_UP), $CI->currency_model->default_currency['decimal_place'], '.','');
-    return
-        $CI->currency_model->default_currency['symbol_left']
-        .$formated
-        .$CI->currency_model->default_currency['symbol_right'];
+    if($return_text){
+        return
+            $CI->currency_model->default_currency['symbol_left']
+            .$formated
+            .$CI->currency_model->default_currency['symbol_right'];
+    }else{
+        return $formated;
+    }
+
 }
 
 function format_quantity($value){
