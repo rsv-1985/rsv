@@ -71,7 +71,7 @@ class Cart extends Front_controller
                 $save['payment_method_id'] = (int)$this->input->post('payment_method');
                 $save['address'] = $this->input->post('address', true);
                 $save['comments'] = $this->input->post('comment', true)."\n".$additional_comment;
-                $save['total'] = (float)$cart_data['total'];
+                $save['total'] = (float)format_currency($cart_data['total'],false);
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
                 $save['status'] = $order_status['id'];
@@ -88,7 +88,7 @@ class Cart extends Front_controller
                             'slug' => $item['slug'],
                             'quantity' => $item['qty'],
                             'delivery_price' => $item['delivery_price'] * $item['qty'],
-                            'price' => $item['price'],
+                            'price' => format_currency($item['price'],false),
                             'name' => $item['name'],
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
