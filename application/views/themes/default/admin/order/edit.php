@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php $row = 0;
                 $subtotal = 0;
                 foreach ($products as $product) { ?>
-                    <tr id="row<?php echo $product['id']; ?>">
+                    <tr id="row<?php echo $product['id']; ?>" style="color: <?php echo @$status[$product['status_id']]['color'];?>;">
                         <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
                                value="<?php echo $product['slug']; ?>">
                         <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
