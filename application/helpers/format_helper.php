@@ -7,7 +7,7 @@
 
 function format_currency($value){
     $CI = &get_instance();
-    $formated = number_format($value, $CI->currency_model->default_currency['decimal_place'], '.','');
+    $formated = number_format(round($value,$CI->currency_model->default_currency['decimal_place'],PHP_ROUND_HALF_UP), $CI->currency_model->default_currency['decimal_place'], '.','');
     return
         $CI->currency_model->default_currency['symbol_left']
         .$formated
