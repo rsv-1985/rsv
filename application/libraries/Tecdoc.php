@@ -6,7 +6,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Tecdoc {
+class Tecdoc
+{
 
     private $key;
     private $url = 'http://www.autoxcatalog.com/api?query=';
@@ -19,17 +20,19 @@ class Tecdoc {
         $this->url = $this->CI->config->item('api_url');
     }
 
-    public function getManufacturerYear($year){
+    public function getManufacturerYear($year)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getManufacturer',
             'params' => ['year' => $year]
         ];
 
-        return $this->res($query,true);
+        return $this->res($query, true);
     }
 
-    public function getModelYear($ID_mfa, $year){
+    public function getModelYear($ID_mfa, $year)
+    {
 
         $query = [
             'apikey' => $this->key,
@@ -42,23 +45,25 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getTypeYear($ID_mod, $year){
+    public function getTypeYear($ID_mod, $year)
+    {
 
-            $query = [
-                'apikey' => $this->key,
-                'method' => 'getType',
-                'params' => [
-                    'ID_mod' => $ID_mod,
-                    'year' => $year
-                ]
-            ];
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getType',
+            'params' => [
+                'ID_mod' => $ID_mod,
+                'year' => $year
+            ]
+        ];
 
         return $this->res($query, true);
     }
 
 
-    public function getManufacturer($ID_mfa = false){
-        if($ID_mfa){
+    public function getManufacturer($ID_mfa = false)
+    {
+        if ($ID_mfa) {
             $query = [
                 'apikey' => $this->key,
                 'method' => 'getManufacturer',
@@ -73,8 +78,9 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getModel($ID_mfa, $ID_mod = false){
-        if($ID_mod){
+    public function getModel($ID_mfa, $ID_mod = false)
+    {
+        if ($ID_mod) {
             $query = [
                 'apikey' => $this->key,
                 'method' => 'getModel',
@@ -95,8 +101,9 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getType($ID_mod, $ID_typ = false){
-        if($ID_typ){
+    public function getType($ID_mod, $ID_typ = false)
+    {
+        if ($ID_typ) {
             $query = [
                 'apikey' => $this->key,
                 'method' => 'getType',
@@ -117,7 +124,8 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getTree($ID_typ, $ID_tree = 10001){
+    public function getTree($ID_typ, $ID_tree = 10001)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getTree',
@@ -130,7 +138,8 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getParts($ID_typ, $ID_tree){
+    public function getParts($ID_typ, $ID_tree)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getParts',
@@ -143,7 +152,8 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getArticle($ID_art){
+    public function getArticle($ID_art)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getArticle',
@@ -155,7 +165,8 @@ class Tecdoc {
         return $this->res($query);
     }
 
-    public function getCrosses($ID_art){
+    public function getCrosses($ID_art)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getCrosses',
@@ -167,7 +178,8 @@ class Tecdoc {
         return $this->res($query);
     }
 
-    public function getSearch($query){
+    public function getSearch($query)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getSearch',
@@ -179,19 +191,33 @@ class Tecdoc {
         return $this->res($query);
     }
 
-    public function getIDart($article,$brand){
-            $query = [
+    public function getIDart($article, $brand)
+    {
+        $brand = str_replace('Ö', 'O', preg_replace("/[^a-zA-ZА-Яа-я0-9]/", '', mb_strtoupper(trim($brand), 'UTF-8')));
+        $query = [
             'apikey' => $this->key,
             'method' => 'getSearch',
             'params' => [
                 'article' => $article,
-                'brand' => str_replace('Ö','O',preg_replace("/[^a-zA-ZА-Яа-я0-9]/",'',mb_strtoupper(trim($brand),'UTF-8')))
+                'brand' => $brand
             ]
         ];
         return $this->res($query);
     }
 
-    public function getTreeAll($ID_typ){
+    public function checkProducts($products)
+    {
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getSearch',
+            'params' => $products
+        ];
+
+        return $this->res($query);
+    }
+
+    public function getTreeAll($ID_typ)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getTreeAll',
@@ -203,7 +229,8 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getTreeNode($ID_tree){
+    public function getTreeNode($ID_tree)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getTreeNode',
@@ -215,7 +242,8 @@ class Tecdoc {
         return $this->res($query, true);
     }
 
-    public function getPackage($ID_art){
+    public function getPackage($ID_art)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getPackage',
@@ -227,7 +255,8 @@ class Tecdoc {
         return $this->res($query);
     }
 
-    public function getUses($ID_art){
+    public function getUses($ID_art)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getUses',
@@ -239,7 +268,8 @@ class Tecdoc {
         return $this->res($query);
     }
 
-    public function getImages($ID_art){
+    public function getImages($ID_art)
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getImages',
@@ -251,32 +281,34 @@ class Tecdoc {
         return $this->res($query);
     }
 
-    public function getYears(){
+    public function getYears()
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getYears',
             'params' => []
         ];
 
-        return $this->res($query,true);
+        return $this->res($query, true);
     }
 
-    public function getTreeFull(){
+    public function getTreeFull()
+    {
         $query = [
             'apikey' => $this->key,
             'method' => 'getTreeFull',
             'params' => []
         ];
 
-        return $this->res($query,true);
+        return $this->res($query, true);
     }
 
     public function res($query, $use_cache = false)
     {
-        if($use_cache){
+        if ($use_cache) {
             $key = md5(json_encode($query));
             $cache = $this->CI->cache->file->get($key);
-            if($cache){
+            if ($cache) {
                 return $cache;
             }
         }
@@ -285,8 +317,8 @@ class Tecdoc {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $jsonurl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
-        curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,1);
+        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
         curl_setopt($curl, CURLOPT_TIMEOUT, 5);
 
         $res = curl_exec($curl);
@@ -294,7 +326,7 @@ class Tecdoc {
 
         $check = json_decode($res);
         if (isset($check->Data)) {
-            if($use_cache){
+            if ($use_cache) {
                 $this->CI->cache->file->save($key, $check->Data, 30000);
             }
             return $check->Data;
