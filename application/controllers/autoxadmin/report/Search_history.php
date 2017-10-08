@@ -22,27 +22,12 @@ class Search_history extends Admin_controller
         $this->load->library('pagination');
 
         $config['base_url'] = base_url('autoxadmin/report/search_history/index');
-        $config['total_rows'] = $this->search_history_model->count_all();
-        $config['per_page'] = 10;
+        $config['per_page'] = 30;
+        $data['search_history'] = $this->search_history_model->search_history_get_all($config['per_page'], $this->uri->segment(5));
+        $config['total_rows'] = $this->search_history_model->total_rows;
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
-
-        $data['search_history'] = [];
-
-        $search_history = $this->search_history_model->get_all($config['per_page'], $this->uri->segment(5),false,['id' => 'DESC']);
-        if($search_history){
-            foreach ($search_history as $sh){
-
-                $customer_info = $this->customer_model->get($sh['customer_id']);
-
-                $data['search_history'][] = [
-                    'customer' => $customer_info ? '<a target="_blank" href="/autoxadmin/customer/edit/'.$customer_info['id'].'">'.$customer_info['first_name'].' '.$customer_info['second_name'].'</a>' : '---',
-                    'sku' => $sh['sku'],
-                    'brand' => $sh['brand'],
-                    'created_at' => $sh['created_at']
-                ];
-            }
-        }
 
         $this->load->view('admin/header');
         $this->load->view('admin/report/search_history/search_history', $data);
