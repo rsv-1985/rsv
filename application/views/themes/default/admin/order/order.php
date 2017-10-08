@@ -148,7 +148,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td>
                                             <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></b>
                                             <?php if($order['paid']){?>
-                                                <small style="color: green;"><?php echo lang('text_paid');?></small>
+                                                <br><small style="color: green;"><?php echo lang('text_paid');?></small>
+                                            <?php } ?>
+                                            <?php if($order['prepayment'] > 0){?>
+                                                <br><small style="color: grey;">Предоплата:<?php echo $order['prepayment'];?></small>
                                             <?php } ?>
                                         </td>
                                         <td>
