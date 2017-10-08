@@ -30,10 +30,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_search_history_brand');?></th>
                             <th><?php echo lang('text_search_history_created_at');?></th>
                         </tr>
+                        <?php echo form_open('/autoxadmin/report/search_history',['method' => 'get']);?>
+                        <tr>
+                            <td>
+                                <input type="text" name="name" class="form-control" value="<?php echo $this->input->get('name',true);?>">
+                            </td>
+                            <td>
+                                <input type="text" name="sku" class="form-control" value="<?php echo $this->input->get('sku',true);?>">
+                            </td>
+                            <td>
+                                <input type="text" name="brand" class="form-control" value="<?php echo $this->input->get('brand',true);?>">
+                            </td>
+                            <td>
+                                <a href="/autoxadmin/report/search_history" class="btn btn-danger">Сборс</a>
+                                <button type="submit" class="btn btn-info">Фильтр</button>
+                            </td>
+                        </tr>
+                        </form>
                         <?php if($search_history){?>
                             <?php foreach($search_history as $sh){?>
                                 <tr>
-                                    <td><?php echo $sh['customer'];?></td>
+                                    <td><?php if($sh['login']){?>
+                                            <a href="/autoxadmin/customer/edit/<?php echo $sh['cid'];?>"><?php echo $sh['login'];?></a>
+                                        <?php }else{?>
+                                            Незарегистрированный
+                                        <?php } ;?>
+                                    </td>
                                     <td><?php echo $sh['sku'];?></td>
                                     <td><?php echo $sh['brand'];?></td>
                                     <td><?php echo $sh['created_at'];?></td>
