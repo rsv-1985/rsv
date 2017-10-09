@@ -289,6 +289,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 value="<?php echo $st['id']; ?>" <?php echo set_select('status', $st['id'], $st['id'] == $order['status']); ?>><?php echo $st['name']; ?></option>
                                     <?php } ?>
                                 </select>
+                                <input type="checkbox" name="set_products_status" value="1"> Применить к товарам
                             </div>
                         </td>
                     </tr>
