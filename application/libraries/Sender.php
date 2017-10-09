@@ -70,29 +70,37 @@ class Sender{
         if($login && $password && $sender){
             switch ($method_send){
                 case 'smsc':
-                    $client = new SoapClient('http://smsc.ua/sys/soap.php?wsdl');
-                    $res = $client->send_sms(array(
-                            'login'=>$login,
-                            'psw'=>$password,
-                            'phones'=>preg_replace("/[^0-9]/", '', $phone),
-                            'mes'=>strip_tags($text),
-                            'id'=>'',
-                            'sender'=>$sender,
-                            'time'=>0)
-                    );
+                    try {
+                        $client = new SoapClient('http://smsc.ua/sys/soap.php?wsdl');
+                        $res = $client->send_sms(array(
+                                'login'=>$login,
+                                'psw'=>$password,
+                                'phones'=>preg_replace("/[^0-9]/", '', $phone),
+                                'mes'=>strip_tags($text),
+                                'id'=>'',
+                                'sender'=>$sender,
+                                'time'=>0)
+                        );
+                    } catch (Exception $e) {
+
+                    }
                     break;
                 case 'turbosms':
-                    $client = new SoapClient('http://turbosms.in.ua/api/wsdl.html');
+                    try {
+                        $client = new SoapClient('http://turbosms.in.ua/api/wsdl.html');
 
-                    $auth = array('login' => $login, 'password' => $password);
-                    $result = $client->Auth($auth);
+                        $auth = array('login' => $login, 'password' => $password);
+                        $result = $client->Auth($auth);
 
-                    $sms = array(
-                        'sender' => $sender,
-                        'destination' => '+' . preg_replace("/[^0-9]/", '', $phone),
-                        'text' => $text);
+                        $sms = array(
+                            'sender' => $sender,
+                            'destination' => '+' . preg_replace("/[^0-9]/", '', $phone),
+                            'text' => $text);
 
-                    $client->SendSMS($sms);
+                        $client->SendSMS($sms);
+                    } catch (Exception $e) {
+
+                    }
                     break;
             }
 
