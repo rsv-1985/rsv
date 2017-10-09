@@ -211,7 +211,7 @@ class Order extends Admin_controller
                             'sku' => $item['sku'],
                             'brand' => $item['brand'],
                             'supplier_id' => (int)$item['supplier_id'],
-                            'status_id' => $item['status_id'],
+                            'status_id' => $this->input->post('set_products_status') ? $save['status'] : $item['status_id'],
                             'term' => (int)$item['term']
                         ];
 
