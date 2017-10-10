@@ -268,10 +268,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
                 <?php } ?>
-
-                <?php if( @$this->options['top_sellers'] && @$this->options['novelty']){?>
+                <?php if($top_sellers && $novelty){?>
                 <div class="col-md-4">
-                <?php }else if(@$this->options['top_sellers'] || @$this->options['novelty']){?>
+                <?php }else if($novelty || $novelty){?>
                 <div class="col-md-8">
                 <?php }else{?>
                 <div class="col-md-12">
