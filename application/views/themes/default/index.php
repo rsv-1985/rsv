@@ -270,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
                 <?php if($top_sellers && $novelty){?>
                 <div class="col-md-4">
-                <?php }else if($novelty || $novelty){?>
+                <?php }else if($novelty || $top_sellers){?>
                 <div class="col-md-8">
                 <?php }else{?>
                 <div class="col-md-12">
