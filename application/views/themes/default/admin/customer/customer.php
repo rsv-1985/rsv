@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <thead><tr>
+                            <th>ID</th>
                             <th><?php echo lang('text_login');?></th>
                             <th><?php echo lang('text_customer_group_id');?></th>
                             <th><?php echo lang('text_first_name');?></th>
@@ -38,6 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <tbody>
                         <?php echo form_open('/autoxadmin/customer',['method' => 'get']);?>
                         <tr>
+                            <td></td>
                             <td>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="login" value="<?php echo $this->input->get('login');?>">
@@ -92,6 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <?php if($customeres){?>
                             <?php foreach($customeres as $customer){?>
                                 <tr>
+                                    <td><?php echo $customer['id'];?></td>
                                     <td>
                                         <?php echo $customer['login'];?>
                                     </td>
