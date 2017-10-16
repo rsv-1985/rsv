@@ -410,6 +410,10 @@ class Product_model extends Default_model
             }
         }
 
+        usort($product_prices,function($a,$b){
+           return $a['price'] - $b['price'];
+        });
+
         return $product_prices;
     }
 
