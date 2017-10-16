@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <tbody>
                         <?php echo form_open('/autoxadmin/customer',['method' => 'get']);?>
                         <tr>
-                            <td></td>
+                            <td><input type="text" class="form-control" name="id" value="<?php echo $this->input->get('id');?>"></td>
                             <td>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="login" value="<?php echo $this->input->get('login');?>">
