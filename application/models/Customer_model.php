@@ -53,6 +53,9 @@ class Customer_model extends Default_model{
 
     public function customer_count_all(){
         if($this->input->get()){
+            if($this->input->get('id')){
+                $this->db->where('id', (int)$this->input->get('id'));
+            }
             if($this->input->get('login')){
                 $this->db->like('login', $this->input->get('login', true));
             }
@@ -90,6 +93,9 @@ class Customer_model extends Default_model{
         }
        $this->db->from($this->table);
         if($this->input->get()){
+            if($this->input->get('id')){
+                $this->db->where('id', (int)$this->input->get('id'));
+            }
             if($this->input->get('login')){
                 $this->db->like('login', $this->input->get('login', true));
             }
