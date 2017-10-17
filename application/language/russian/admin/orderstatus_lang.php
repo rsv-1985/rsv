@@ -13,3 +13,4 @@ $lang['text_color'] = 'Цвет статуса';
 $lang['text_is_new'] = 'Статус нового заказа';
 $lang['text_is_complete'] = 'Статус завершенного заказа';
 $lang['text_success'] = 'Все прошло успешно';
+$lang['text_is_return'] = 'Статус отмены/возврата';

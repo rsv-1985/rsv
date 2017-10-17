@@ -25,6 +25,10 @@ class Payment_model extends Default_model{
         foreach($results as $result){
             $return[$result['id']] = $result;
         }
+        $return[0] = [
+            'id' => 0,
+            'name' => 'С баланса'
+        ];
         return $return;
     }
 }

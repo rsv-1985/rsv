@@ -78,8 +78,12 @@ class Cart extends Front_controller
                 $save['commission'] = (float)$cart_data['commissionpay'];
                 $save['delivery_price'] = (float)$cart_data['delivery_price'];
                 $order_id = $this->order_model->insert($save);
-                $save['order_id'] = (int)$order_id;
                 if($order_id){
+                    if($this->is_login && $this->customer_balance >= $save['total'] && $save['payment_method_id'] == 0){
+                        $this->customerbalance_model->add_transaction($this->is_login, $save['total'], 'Оплата заказа №'.$order_id.' c баланса. Сумма '.$save['total']);
+                        $save['paid'] = 1;
+                        $this->order_model->insert($save,$order_id);
+                     }
                     $products = [];
                     foreach($this->cart->contents() as $item){
                         $products[] = [
@@ -147,7 +151,13 @@ class Cart extends Front_controller
                     }
                     
                     $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));
-                    redirect('/');
+
+                    if($this->is_login){
+                        redirect('/customer');
+                    }else{
+                        redirect('/');
+                    }
+
                 }
             }else{
                 $this->error = validation_errors();
@@ -166,6 +176,7 @@ class Cart extends Front_controller
 
         $json['delivery_description'] = '';
         $delivery_id = (int)$this->input->post('delivery_method', true);
+        $deliveryInfo = false;
         if($delivery_id){
             $this->load->model('delivery_model');
             $deliveryInfo = $this->delivery_model->delivery_get($delivery_id);
@@ -189,6 +200,7 @@ class Cart extends Front_controller
 
         $json['payment_description'] = '';
         $payment_id = (int)$this->input->post('payment_method', true);
+        $paymentInfo = false;
         if($payment_id){
             $this->load->model('payment_model');
             $paymentInfo = $this->payment_model->get($payment_id);
@@ -203,10 +215,13 @@ class Cart extends Front_controller
             $json['payment_description'] = $paymentInfo['description'];
         }
 
+
+
         $json['delivery_price'] = format_currency($delivery_price);
         $json['commissionpay'] = format_currency($commissionpay);
         $json['subtotal'] = format_currency($this->cart->total());
-        $json['total'] = format_currency($total + $delivery_price + $commissionpay);
+        $json['total_val'] = format_currency($total + $delivery_price + $commissionpay, false);
+        $json['total'] = format_currency($json['total_val']);
         $json['total_items'] = $this->cart->total_items();
         if($this->input->is_ajax_request()) {
             $this->output

@@ -191,7 +191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </select>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" href="#" onclick="remove_item(<?php echo $product['id']; ?>, event)">
+                            <a class="btn btn-xs btn-danger" href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id'];?>">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </td>
@@ -369,18 +369,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             });
         });
     });
-
-    function remove_item(product_id, event) {
-        event.preventDefault();
-        $.ajax({
-            url: '/autoxadmin/order/delete_product',
-            data: {product_id:product_id,order_id:<?php echo $order['id'];?>},
-            method: 'post',
-            success: function(){
-                location.reload();
-            }
-        })
-    }
 
     function total() {
         $.ajax({

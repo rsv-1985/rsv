@@ -131,6 +131,7 @@ $autoload['model'] = array(
     'User_model',
     'customer_model',
     'customergroup_model',
+    'customerbalance_model',
     'settings_model',
     'page_model',
     'currency_model',

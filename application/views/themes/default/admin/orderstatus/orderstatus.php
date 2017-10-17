@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_name');?></th>
                             <th><?php echo lang('text_is_new');?></th>
                             <th><?php echo lang('text_is_complete');?></th>
+                            <th><?php echo lang('text_is_return');?></th>
                             <th><a href="/autoxadmin/orderstatus/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php if($orderstatuses){?>
@@ -42,6 +43,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     </td>
                                     <td>
                                         <?php if ($orderstatus['is_complete']){?>
+                                            <i class="fa fa-check-circle-o"></i>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($orderstatus['is_return']){?>
                                             <i class="fa fa-check-circle-o"></i>
                                         <?php } ?>
                                     </td>

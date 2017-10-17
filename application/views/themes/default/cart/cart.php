@@ -101,6 +101,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <select disabled id="payment" class="form-control" name="payment_method" onchange="get_payment();"
                                                 required>
                                             <option></option>
+                                            <?php if($this->is_login){?>
+                                                <option value="0" id="payment-0">С личного баланса</option>
+                                            <?php } ?>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
                                                     id="payment-<?php echo $payment['id'];?>"
@@ -281,6 +284,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     });
                 }
 
+                if(<?php echo (int)$this->customer_balance;?> >=  json['total_val']){
+                    $("#payment-0").removeAttr('disabled');
+                }else{
+                    $("#payment-0").attr('disabled', 'disabled');
+                    if($("#payment-0").is(':selected')){
+                        $('#payment').prop('selectedIndex',0);
+                    }
+                }
+
                 $("#payment").removeAttr('disabled');
             }
         });
@@ -302,6 +314,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     }
 
+
     function total() {
         $.ajax({
             url: '/cart/total_cart',
@@ -312,6 +325,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 if (json['total_items'] == 0) {
                     location.reload();
                 }
+
+                if(<?php echo (int)$this->customer_balance;?> >=  json['total_val']){
+                    $("#payment-0").removeAttr('disabled');
+                }else{
+                    $("#payment-0").attr('disabled', 'disabled');
+                    if($("#payment-0").is(':selected')){
+                        $('#payment').prop('selectedIndex',0);
+                    }
+                }
+
                 $(".total").html(json['total']);
                 $(".cart-amunt").html(json['total']);
                 $("#subtotal").html(json['subtotal']);

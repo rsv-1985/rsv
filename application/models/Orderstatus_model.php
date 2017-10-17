@@ -21,6 +21,15 @@ class Orderstatus_model extends Default_model{
         return false;
     }
 
+    public function get_return(){
+        $this->db->where('is_return', true);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            return $query->row_array();
+        }
+        return false;
+    }
+
     public function status_get_all(){
         $statuses = $this->db->get($this->table)->result_array();
         $return = [];

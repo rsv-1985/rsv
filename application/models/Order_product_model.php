@@ -17,7 +17,7 @@ class Order_product_model extends Default_model{
     public function product_get($id){
         $this->db->select('p.*, s.name as status_name');
         $this->db->from('order_product p');
-        $this->db->join('order_status s', 's.id = p.status_id');
+        $this->db->join('order_status s', 's.id = p.status_id','left');
         $this->db->where('order_id',(int)$id);
         $query = $this->db->get();
         if($query->num_rows() > 0){

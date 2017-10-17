@@ -46,11 +46,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php echo lang('text_is_new'); ?>
                             </label>
                         </div>
-
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="is_complete" value="1" <?php echo set_checkbox('is_complete', 1, (bool)$orderstatus['is_complete']); ?>>
                                 <?php echo lang('text_is_complete'); ?>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="is_return" value="1" <?php echo set_checkbox('is_return', 1, (bool)$orderstatus['is_return']); ?>>
+                                <?php echo lang('text_is_return'); ?>
                             </label>
                         </div>
                     </div>

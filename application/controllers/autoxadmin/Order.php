@@ -146,10 +146,18 @@ class Order extends Admin_controller
                 $delivery_price = (float)$this->input->post('delivery_price');
                 $commissionpay = 0;
                 $total = 0;
+                $return_order_status_id = $this->orderstatus_model->get_return()['id'];
 
+                if($this->input->post('set_products_status')){
+                    $order_status_id = (int)$this->input->post('status', true);
+                }else{
+                    $order_status_id = '---';
+                }
                 if ($this->input->post('products')) {
                     foreach ($this->input->post('products') as $product) {
-                        $total += $product['quantity'] * $product['price'];
+                        if($return_order_status_id != $product['status_id'] && $return_order_status_id != $order_status_id){
+                            $total += $product['quantity'] * $product['price'];
+                        }
                     }
                 }
 
@@ -188,6 +196,18 @@ class Order extends Admin_controller
                 $save['paid'] = (bool)$this->input->post('paid', true);
                 $save['prepayment'] = (float)$this->input->post('prepayment');
                 $order_id = $this->order_model->insert($save, $id);
+
+                //Возвращием или списываем деньги с баланса клиента если это
+                if($save['customer_id'] != 0 && $save['payment_method_id'] == 0 && $data['order']['paid']){
+                    $value = $data['order']['total'] - $save['total'];
+                    if($value > 0){
+                        $description = 'Сумма заказ №'.$order_id.' изменилась с '.$data['order']['total'].' на '.$save['total'];
+                        $this->customerbalance_model->add_transaction($save['customer_id'],$value, $description, 1, '', $this->session->userdata('user_id'));
+                    }else if($value < 0){
+                        $description = 'Сумма заказ №'.$order_id.' изменилась с '.$data['order']['total'].' на '.$save['total'];
+                        $this->customerbalance_model->add_transaction($save['customer_id'],-$value, $description, 2, '', $this->session->userdata('user_id'));
+                    }
+                }
                 //Возвращаем товары на склад если у поставщик отмечено "Наш склад"
                 if ($data['products']) {
                     foreach ($data['products'] as $return_product) {
@@ -328,11 +348,13 @@ class Order extends Admin_controller
         $total = 0;
         $delivery_total = 0;
         $revenue = 0;
-
+        $return_order_status_id = $this->orderstatus_model->get_return()['id'];
         if ($this->input->post('products')) {
             foreach ($this->input->post('products') as $product) {
-                $total += $product['quantity'] * $product['price'];
-                $delivery_total += $product['delivery_price'];
+                if($product['status_id'] != $return_order_status_id){
+                    $total += $product['quantity'] * $product['price'];
+                    $delivery_total += $product['delivery_price'];
+                }
             }
         }
 
@@ -384,11 +406,13 @@ class Order extends Admin_controller
         $total = 0;
 
         $order_info = $this->order_model->get($order_id);
-
+        $return_order_status_id = $this->orderstatus_model->get_return()['id'];
         $products = $this->order_product_model->get_all(false, false, ['order_id' => (int)$order_id]);
         if ($products) {
             foreach ($products as $product) {
-                $total += $product['quantity'] * $product['price'];
+                if($product['status_id'] != $return_order_status_id){
+                    $total += $product['quantity'] * $product['price'];
+                }
             }
         }
 
@@ -412,6 +436,18 @@ class Order extends Admin_controller
         $save['delivery_price'] = $delivery_price;
         $save['total'] = $total + $delivery_price + $commissionpay;
 
+        //Возвращием или списываем деньги с баланса клиента если это
+        if($order_info && $order_info['customer_id'] != 0 && $order_info['payment_method_id'] == 0 && $order_info['paid']){
+            $value = $order_info['total'] - $save['total'];
+            if($value > 0){
+                $description = 'Сумма заказ №'.$order_id.' изменилась с '.$order_info['total'].' на '.$save['total'];
+                $this->customerbalance_model->add_transaction($order_info['customer_id'],$value, $description, 1, '', $this->session->userdata('user_id'));
+            }else if($value < 0){
+                $description = 'Сумма заказ №'.$order_id.' изменилась с '.$order_info['total'].' на '.$save['total'];
+                $this->customerbalance_model->add_transaction($order_info['customer_id'],-$value, $description, 2, '', $this->session->userdata('user_id'));
+            }
+        }
+
         $this->order_model->insert($save,$order_id);
     }
 
@@ -424,7 +460,7 @@ class Order extends Admin_controller
         $term = (int)$this->input->post('term');
         $order_id = (int)$this->input->post('order_id');
         $results = $this->product_model->get_product_for_cart($product_id, $supplier_id, $term);
-
+        $order_info = $this->order_model->get($order_id);
         if ($results) {
             $product = [
                 'order_id' => $order_id,
@@ -450,12 +486,13 @@ class Order extends Admin_controller
 
     //Удаление товара с заказа
     public function delete_product(){
-        $product_id = (int)$this->input->post('product_id');
-        $order_id = (int)$this->input->post('order_id');
+        $product_id = (int)$this->input->get('product_id');
+        $order_id = (int)$this->input->get('order_id');
         if($product_id && $order_id){
             $this->order_product_model->delete($product_id);
             $this->_get_total($order_id);
         }
+        redirect('/autoxadmin/order/edit/'.$order_id);
     }
 
     /**

@@ -52,6 +52,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php echo lang('text_is_complete'); ?>
                             </label>
                         </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="is_return" value="<?php echo set_value('is_return', true); ?>">
+                                <?php echo lang('text_is_return'); ?>
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_submit');?></button>

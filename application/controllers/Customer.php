@@ -36,24 +36,11 @@ class Customer extends Front_controller
             redirect('/customer');
         }
 
-        $save['customer_id'] = $this->session->userdata('customer_id');
-        $save['type'] = 2;
-        $save['value'] = (float)$orderInfo['total'];
-        $save['transaction_created_at'] = date("Y-m-d H:i:s");
-        $save['description'] = 'Оплата заказа №' . $orderInfo['id'];
-        $save['created_at'] = date("Y-m-d H:i:s");
-        $save['user_id'] = 0;
-        if ($this->customerbalance_model->insert($save)) {
-            //Обновляем баланс покупателя
-            if ($save['type'] == 1) {
-                $save2['balance'] = $this->customer_balance + $save['value'];
-            } else {
-                $save2['balance'] = $this->customer_balance - $save['value'];
-            }
-            $this->customer_model->insert($save2, $save['customer_id']);
-
-            //Ставим ОПЛАЧЕН заказу
+        if ($this->customerbalance_model->add_transaction($this->session->userdata('customer_id'),$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
+            //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
             $save3['paid'] = 1;
+            $save3['payment_method_id'] = 0;
+
             $this->order_model->insert($save3, $orderInfo['id']);
 
             //Комментарий к заказу
@@ -80,7 +67,7 @@ class Customer extends Front_controller
 
         $this->pagination->initialize($config);
 
-        $data['orders'] = $this->order_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login]);
+        $data['orders'] = $this->order_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login],['id' => 'DESC']);
         $data['status'] = $this->orderstatus_model->status_get_all();
 
 
