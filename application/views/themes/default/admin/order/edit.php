@@ -326,7 +326,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php if (!$order['paid']) { ?>
                             <tr>
                                 <td>Остаток оплаты</td>
-                                <td><?php echo round($order['total'] - $order['prepayment'], 2); ?></td>
+                                <td>
+                                    <?php echo round($order['total'] - $order['prepayment'], 2); ?>
+                                    <?php if($order['customer_id']){?>
+                                         <a href="/autoxadmin/order/pay/<?php echo $order['id'];?>" class="pull-right">Оплатить с баланса покупателя (<?php echo $customer_info['balance'];?>)</a>
+                                    <?php } ?>
+                                </td>
                             </tr>
                         <?php } ?>
                     </table>

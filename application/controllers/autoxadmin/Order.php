@@ -107,6 +107,7 @@ class Order extends Admin_controller
         if (!$data['order']) {
             show_404();
         }
+        $data['customer_info'] = $this->customer_model->get($data['order']['customer_id']);
 
         $settings_fraud = $this->settings_model->get_by_key('scamdb');
         $data['scamdb_info'] = false;
@@ -197,10 +198,17 @@ class Order extends Admin_controller
                 $save['prepayment'] = (float)$this->input->post('prepayment');
                 $order_id = $this->order_model->insert($save, $id);
 
+                //Если была предоплата
+                if($save['prepayment'] && $save['customer_id'] != 0 && $data['order']['prepayment'] != $save['prepayment'] && $data['order']['payment_method_id'] = 0 || $save['payment_method_id'] == 0){
+                    $description = 'Предоплата по заказу №'.$order_id;
+                    $this->customerbalance_model->add_transaction($save['customer_id'],$save['prepayment'], $description, 1, '', $this->session->userdata('user_id'));
+                }
+
                 //Возвращием или списываем деньги с баланса клиента если это
-                if($save['customer_id'] != 0 && $save['payment_method_id'] == 0 && $data['order']['paid']){
+                if($save['customer_id'] != 0 && $data['order']['paid']){
                     $value = $data['order']['total'] - $save['total'];
                     if($value > 0){
+                        //Возвращаем деньги
                         $description = 'Сумма заказ №'.$order_id.' изменилась с '.$data['order']['total'].' на '.$save['total'];
                         $this->customerbalance_model->add_transaction($save['customer_id'],$value, $description, 1, '', $this->session->userdata('user_id'));
                     }else if($value < 0){
@@ -683,5 +691,30 @@ class Order extends Admin_controller
                 $this->db->where('id',$product['product_id'])->set('status_id',$product['status_id'])->update('order_product');
             }
         }
+    }
+
+    public function pay($order_id)
+    {
+        $orderInfo = $this->order_model->get($order_id);
+
+        if ($this->customerbalance_model->add_transaction($orderInfo['customer_id'],$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
+            //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
+            $save3['paid'] = 1;
+            $save3['payment_method_id'] = 0;
+
+            $this->order_model->insert($save3, $orderInfo['id']);
+
+            //Комментарий к заказу
+            $this->load->model('order_history_model');
+            $history['order_id'] = $order_id;
+            $history['date'] = date("Y-m-d H:i:s");
+            $history['text'] = 'Оплата заказа c баланса. Сумма '.$orderInfo['total'];
+            $history['user_id'] = 0;
+            $this->order_history_model->insert($history);
+
+        }
+        $this->session->set_flashdata('success', 'Заказ успешно оплачен');
+
+        redirect('/autoxadmin/order/edit/'.$order_id);
     }
 }
