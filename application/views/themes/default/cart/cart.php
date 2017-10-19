@@ -284,7 +284,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     });
                 }
 
-                if(<?php echo (int)$this->customer_balance;?> >=  json['total_val']){
+                if(<?php echo (int)$this->customer_model->negative_balance;?> || <?php echo (int)$this->customer_model->balance;?> >=  json['total_val']){
                     $("#payment-0").removeAttr('disabled');
                 }else{
                     $("#payment-0").attr('disabled', 'disabled');
@@ -326,7 +326,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     location.reload();
                 }
 
-                if(<?php echo (int)$this->customer_balance;?> >=  json['total_val']){
+                if(<?php echo (int)$this->customer_model->negative_balance;?> || <?php echo (int)$this->customer_model->balance;?> >=  json['total_val']){
                     $("#payment-0").removeAttr('disabled');
                 }else{
                     $("#payment-0").attr('disabled', 'disabled');

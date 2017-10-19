@@ -18,7 +18,7 @@ class Customergroup_model extends Default_model{
 
     public function get_customer_group(){
         if ($this->session->customer_id) {
-            return $this->get($this->session->customer_group_id);
+            return $this->get($this->customer_model->customer_group_id);
         } else {
             return $this->get_unregistered();
         }

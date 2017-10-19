@@ -54,10 +54,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="pull-right">
                     <?php if($this->is_login){?>
                         <a href="/customer">
-                            <?php echo $this->session->userdata('customer_name');?>
-                            <?php if($this->customer_balance){?>
-                                <small>(<b><?php echo format_currency($this->customer_balance);?></b>)</small>
-                            <?php } ?>
+                            <?php echo $this->customer_model->first_name .' '.$this->customer_model->second_name;?>
+                            <small>(<b><?php echo format_currency($this->customer_model->balance);?></b>)</small>
                         </a>/
                         <a href="/customer/logout"><?php echo lang('text_logout');?></a>
                     <?php }else{?>

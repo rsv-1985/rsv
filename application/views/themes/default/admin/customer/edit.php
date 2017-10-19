@@ -73,6 +73,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="negative_balance" value="1" <?php echo set_checkbox('negative_balance', 1, (bool)$customer['negative_balance']);?>>
+                            <?php echo lang('text_negative_balance'); ?>
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">

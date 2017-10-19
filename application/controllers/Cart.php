@@ -79,7 +79,7 @@ class Cart extends Front_controller
                 $save['delivery_price'] = (float)$cart_data['delivery_price'];
                 $order_id = $this->order_model->insert($save);
                 if($order_id){
-                    if($this->is_login && $this->customer_balance >= $save['total'] && $save['payment_method_id'] == 0){
+                    if($this->is_login && $save['payment_method_id'] == 0){
                         $this->customerbalance_model->add_transaction($this->is_login, $save['total'], 'Оплата заказа №'.$order_id.' c баланса. Сумма '.$save['total']);
                         $save['paid'] = 1;
                         $this->order_model->insert($save,$order_id);

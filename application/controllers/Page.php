@@ -16,9 +16,8 @@ class Page extends Front_controller{
 
     public function index($slug){
         $slug = $this->security->xss_clean($slug);
-        $data = [];
         $data = $this->page_model->get_by_slug($slug);
-        if(!$data){
+        if(!$data || $data['show_for_user'] && !$this->is_login){
             $this->output->set_status_header(404, lang('text_page_404'));
             $this->load->view('header');
             $this->load->view('page_404');

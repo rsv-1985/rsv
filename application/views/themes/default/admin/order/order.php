@@ -50,7 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_delivery_method');?></th>
                                 <th><?php echo lang('text_payment_method');?></th>
                                 <th><?php echo lang('text_total');?>/<?php echo lang('text_login');?></th>
-                                <th><?php echo lang('text_status');?>/<?php echo lang('text_paid');?></th>
+                                <th><?php echo lang('text_status');?></th>
+                                <th><?php echo lang('text_paid');?></th>
                                 <th><?php echo lang('text_product_status');?></th>
                                 <th><a style="display: none;" href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
@@ -117,6 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </select>
                                     </div>
                                 </td>
+                                <td>1</td>
                                 <td></td>
                                 <td>
                                     <div class="btn-group">
@@ -147,8 +149,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></b>
+                                        </td>
+                                        <td>
                                             <?php if($order['paid']){?>
-                                                <br><small style="color: green;"><?php echo lang('text_paid');?></small>
+                                                <small style="color: green;"><?php echo lang('text_paid');?></small>
                                             <?php } ?>
                                             <?php if($order['prepayment'] > 0){?>
                                                 <br><small style="color: grey;">Предоплата:<?php echo $order['prepayment'];?></small>

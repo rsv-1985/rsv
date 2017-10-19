@@ -18,7 +18,8 @@ class Customer extends Admin_controller
         $this->load->model('orderstatus_model');
     }
 
-    public function index(){
+    public function index()
+    {
         $data = [];
         $this->load->library('pagination');
 
@@ -29,16 +30,17 @@ class Customer extends Admin_controller
 
         $this->pagination->initialize($config);
         $data['orderstatus'] = $this->orderstatus_model->status_get_all();
-        $data['customeres'] = $this->customer_model->customer_get_all($config['per_page'], $this->uri->segment(4),$data['orderstatus']);
+        $data['customeres'] = $this->customer_model->customer_get_all($config['per_page'], $this->uri->segment(4), $data['orderstatus']);
         $data['customergroup'] = $this->customergroup_model->get_group();
-        
+
         $this->load->view('admin/header');
         $this->load->view('admin/customer/customer', $data);
         $this->load->view('admin/footer');
     }
 
-    public function create(){
-        if($this->input->post()){
+    public function create()
+    {
+        if ($this->input->post()) {
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             $this->form_validation->set_rules('customer_group_id', lang('text_customer_group_id'), 'required|integer|trim');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[250]|trim');
@@ -50,9 +52,9 @@ class Customer extends Admin_controller
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
 
-            if ($this->form_validation->run() !== false){
+            if ($this->form_validation->run() !== false) {
                 $this->save_data();
-            }else{
+            } else {
                 $this->error = validation_errors();
             }
         }
@@ -64,15 +66,16 @@ class Customer extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $data = [];
         $data['customer'] = $this->customer_model->get($id);
-        if(!$data['customer']){
+        if (!$data['customer']) {
             show_404();
         }
 
-        if($this->input->post()){
+        if ($this->input->post()) {
             $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('customer_group_id', lang('text_customer_group_id'), 'required|integer|trim');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[32]|trim');
@@ -80,13 +83,13 @@ class Customer extends Admin_controller
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
             $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
             $this->form_validation->set_rules('phone', lang('text_phone'), 'trim');
-            if($this->input->post('password')){
+            if ($this->input->post('password')) {
                 $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
                 $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
             }
-            if ($this->form_validation->run() !== false){
+            if ($this->form_validation->run() !== false) {
                 $this->save_data($id);
-            }else{
+            } else {
                 $this->error = validation_errors();
             }
         }
@@ -96,13 +99,15 @@ class Customer extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $this->customer_model->delete($id);
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/customer');
     }
 
-    private function save_data($id = false){
+    private function save_data($id = false)
+    {
         $save = [];
         $save['login'] = $this->input->post('login', true);
         $save['customer_group_id'] = (int)$this->input->post('customer_group_id', true);
@@ -112,18 +117,19 @@ class Customer extends Admin_controller
         $save['address'] = $this->input->post('address', true);
         $save['email'] = $this->input->post('email', true);
         $save['phone'] = $this->input->post('phone', true);
-        if($this->input->post('password')){
+        if ($this->input->post('password')) {
             $save['password'] = password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
         }
-        if($id){
+        if ($id) {
             $save['updated_at'] = date("Y-m-d H:i:s");
-        }else{
+        } else {
             $save['created_at'] = date("Y-m-d H:i:s");
             $save['updated_at'] = date("Y-m-d H:i:s");
         }
-       $save['status'] = (bool)$this->input->post('status', true);
+        $save['status'] = (bool)$this->input->post('status');
+        $save['negative_balance'] = (bool)$this->input->post('negative_balance');
         $id = $this->customer_model->insert($save, $id);
-        if($id){
+        if ($id) {
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin/customer');
         }
