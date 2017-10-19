@@ -31,7 +31,7 @@ class Customer extends Front_controller
             redirect('/customer');
         }
 
-        if ($this->customer_model->balance < $orderInfo['total']) {
+        if (!$this->customer_model->negative_balance && $this->customer_model->balance < $orderInfo['total']) {
             $this->session->set_flashdata('error', 'Не достаточно средств для оплаты.');
             redirect('/customer');
         }
