@@ -329,7 +329,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <td>
                                     <?php echo round($order['total'] - $order['prepayment'], 2); ?>
                                     <?php if($order['customer_id']){?>
-                                         <a href="/autoxadmin/order/pay/<?php echo $order['id'];?>" class="pull-right">Оплатить с баланса покупателя (<?php echo $customer_info['balance'];?>)</a>
+                                         <a id="pay" href="/autoxadmin/order/pay/<?php echo $order['id'];?>" class="pull-right">Оплатить с баланса покупателя (<?php echo $customer_info['balance'];?>)</a>
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -376,6 +376,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     });
 
     function total() {
+        $("#pay").fadeOut();
         $.ajax({
             url: '/autoxadmin/order/get_total',
             data: $("#order_form").serialize(),
