@@ -36,6 +36,11 @@ class Customer extends Front_controller
             redirect('/customer');
         }
 
+        if($orderInfo['paid']){
+            $this->session->set_flashdata('success', 'Заказ оплачен');
+            redirect('/customer');
+        }
+
         if ($this->customerbalance_model->add_transaction($this->session->userdata('customer_id'),$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
             //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
             $save3['paid'] = 1;

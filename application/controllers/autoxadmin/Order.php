@@ -156,6 +156,9 @@ class Order extends Admin_controller
                 }
                 if ($this->input->post('products')) {
                     foreach ($this->input->post('products') as $product) {
+                        if((bool)$this->input->post('set_products_status')){
+                            $product['status_id'] = (int)$this->input->post('status');
+                        }
                         if($return_order_status_id != $product['status_id'] && $return_order_status_id != $order_status_id){
                             $total += $product['quantity'] * $product['price'];
                         }
@@ -356,9 +359,14 @@ class Order extends Admin_controller
         $total = 0;
         $delivery_total = 0;
         $revenue = 0;
+
         $return_order_status_id = $this->orderstatus_model->get_return()['id'];
+
         if ($this->input->post('products')) {
             foreach ($this->input->post('products') as $product) {
+                if((bool)$this->input->post('set_products_status')){
+                    $product['status_id'] = (int)$this->input->post('status');
+                }
                 if($product['status_id'] != $return_order_status_id){
                     $total += $product['quantity'] * $product['price'];
                     $delivery_total += $product['delivery_price'];
@@ -418,6 +426,9 @@ class Order extends Admin_controller
         $products = $this->order_product_model->get_all(false, false, ['order_id' => (int)$order_id]);
         if ($products) {
             foreach ($products as $product) {
+                if((bool)$this->input->post('set_products_status')){
+                    $product['status_id'] = (int)$this->input->post('status');
+                }
                 if($product['status_id'] != $return_order_status_id){
                     $total += $product['quantity'] * $product['price'];
                 }
@@ -697,23 +708,25 @@ class Order extends Admin_controller
     {
         $orderInfo = $this->order_model->get($order_id);
 
-        if ($this->customerbalance_model->add_transaction($orderInfo['customer_id'],$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
-            //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
-            $save3['paid'] = 1;
-            $save3['payment_method_id'] = 0;
+        if(!$orderInfo['paid']){
+            if ($this->customerbalance_model->add_transaction($orderInfo['customer_id'],$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
+                //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
+                $save3['paid'] = 1;
+                $save3['payment_method_id'] = 0;
 
-            $this->order_model->insert($save3, $orderInfo['id']);
+                $this->order_model->insert($save3, $orderInfo['id']);
 
-            //Комментарий к заказу
-            $this->load->model('order_history_model');
-            $history['order_id'] = $order_id;
-            $history['date'] = date("Y-m-d H:i:s");
-            $history['text'] = 'Оплата заказа c баланса. Сумма '.$orderInfo['total'];
-            $history['user_id'] = 0;
-            $this->order_history_model->insert($history);
+                //Комментарий к заказу
+                $this->load->model('order_history_model');
+                $history['order_id'] = $order_id;
+                $history['date'] = date("Y-m-d H:i:s");
+                $history['text'] = 'Оплата заказа c баланса. Сумма '.$orderInfo['total'];
+                $history['user_id'] = 0;
+                $this->order_history_model->insert($history);
 
+            }
         }
-        $this->session->set_flashdata('success', 'Заказ успешно оплачен');
+        $this->session->set_flashdata('success', 'Заказ оплачен');
 
         redirect('/autoxadmin/order/edit/'.$order_id);
     }

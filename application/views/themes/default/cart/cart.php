@@ -100,7 +100,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <label><?php echo lang('text_payment_method'); ?></label>
                                         <select disabled id="payment" class="form-control" name="payment_method" onchange="get_payment();"
                                                 required>
-                                            <option></option>
                                             <?php if($this->is_login){?>
                                                 <option value="0" id="payment-0">С личного баланса</option>
                                             <?php } ?>
