@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <html>
 <body onload="print()">
 <div>
-    <?php if($parcel){ $products_total = 0;?>
+    <?php if($parcel){?>
             <table>
                 <thead>
                 <tr>
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td><?php echo $parcel['address'];?></td>
                     <td><?php echo $parcel['ttn'];?></td>
                 </tr>
-                <?php if($products){?>
+                <?php if($products){ $t = 0;?>
                     <tr>
                         <td colspan="6">
                             <table style="width: 100%; border: 1px solid black;">
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $product['brand'];?></td>
                                         <td><?php echo $product['quantity'];?>шт</td>
                                         <td><?php echo $product['sname'];?></td>
-                                        <td><?php echo $products_total += $product['quantity'] * $product['price'];?></td>
+                                        <td><?php $t += $product['quantity'] * $product['price'];  echo $product['quantity'] * $product['price'];?></td>
                                     </tr>
                                 <?php } ?>
                             </table>
@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </tr>
                 <?php }?>
                 <tr>
-                    <td colspan="6" style="border: 1px solid; text-align: right;"><b>Итого: </b><?php echo $products_total;?></td>
+                    <td colspan="6" style="border: 1px solid; text-align: right;"><b>Итого: </b><?php echo $t;?></td>
                 </tr>
             </table>
             <br>

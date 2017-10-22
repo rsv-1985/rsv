@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $product['brand'];?></td>
                                         <td><?php echo $product['quantity'];?>шт</td>
                                         <td><?php echo $product['sname'];?></td>
-                                        <td><?php echo $products_total += $product['quantity'] * $product['price'];?></td>
+                                        <td><?php $products_total += $product['quantity'] * $product['price']; echo $product['quantity'] * $product['price']; ?></td>
                                     </tr>
                                 <?php } ?>
                             </table>
