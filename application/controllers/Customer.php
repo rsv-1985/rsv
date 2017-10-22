@@ -246,6 +246,7 @@ class Customer extends Front_controller
         $save['phone'] = $this->input->post('phone', true);
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['status'] = $this->config->item('active_new_customer');
+        $save['negative_balance'] = $this->config->item('negative_balance');
 
         //Удаляем картинки каптчи
         $this->load->helper('file');
