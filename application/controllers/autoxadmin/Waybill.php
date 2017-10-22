@@ -50,13 +50,14 @@ class Waybill extends Admin_controller
         $data['waybill'] = $this->waybill_model->get($id);
         $data['waybill_id'] = (int)$id;
         $data['delivery_methods'] = $this->delivery_model->delivery_get_all();
+        $data['payment_methods'] = $this->payment_model->payment_get_all();
         $data['order_statuses'] = $this->orderstatus_model->status_get_all();
         $data['parcels'] = $this->waybill_model->get_parcels($data['waybill_id']);
-
         if($this->input->get()){
             $orders = $this->waybill_model->get_orders();
             if($orders){
                 foreach ($orders as &$order){
+                    $order['customer_info'] = $this->customer_model->get($order['customer_id']);
                     $order['products'] = $this->waybill_model->get_products($order['id'],$this->input->get('status_id'));
                 }
                 $data['orders'] = $orders;
@@ -126,7 +127,7 @@ class Waybill extends Admin_controller
                         'delivery_method_id' => $order_info['delivery_method_id'],
                         'delivery_method' => (string)$this->delivery_model->get($order_info['delivery_method_id'])['name'],
                         'payment_method_id' => $order_info['payment_method_id'],
-                        'payment_method' => (string)$this->payment_model->get($order_info['payment_method_id'])['name'],
+                        'payment_method' => $order_info['payment_method_id'] == 0 ? 'С баланса' : (string)$this->payment_model->get($order_info['payment_method_id'])['name'],
                         'telephone' => $order_info['telephone'],
                         'email' => $order_info['email'],
                         'address' => $order_info['address'],

@@ -27,7 +27,7 @@ class Order_product_model extends Default_model{
     }
 
     public function get_products_by_customer($customer_id,$limit,$start){
-        $this->db->select('SQL_CALC_FOUND_ROWS op.*,o.created_at,wp.ttn', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS op.*,o.created_at,wp.ttn,wp.id as parcel_id', false);
         $this->db->from('order_product op');
         $this->db->join('order o', 'o.id=op.order_id');
         $this->db->join('waybill_product wp2','op.id=wp2.order_product_id','left');

@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>Цена</th>
                             <th>Количество</th>
                             <th>Статус</th>
-                            <th>ТТН</th>
+                            <th></th>
                         </tr>
                         <?php if($products){?>
                             <?php foreach ($products as $product){?>
@@ -92,12 +92,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo format_currency($product['price']);?></td>
                                     <td><?php echo $product['quantity'];?></td>
                                     <td>
-                                        <b style="color: <?php echo $statuses[$product['status_id']]['color'];?>">
-                                            <?php echo $statuses[$product['status_id']]['name'];?>
+                                        <b style="color: <?php echo @$statuses[$product['status_id']]['color'];?>">
+                                            <?php echo @$statuses[$product['status_id']]['name'];?>
                                         </b>
                                     </td>
                                     <td>
-                                        <small><?php echo $product['ttn'];?></small>
+                                        <?php if($product['parcel_id']){?>
+                                            <a href="/customer/print_parcel/<?php echo $product['parcel_id'];?>" target="_blank">
+                                                <?php if($product['ttn']){?>
+                                                    <small>ТТН:<?php echo $product['ttn'];?></small>
+                                                <?php } ?>
+                                                <?php if($product['parcel_id']){?>
+                                                    <small>Посылка:<?php echo $product['parcel_id'];?></small>
+                                                <?php } ?>
+                                            </a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                             <?php } ?>

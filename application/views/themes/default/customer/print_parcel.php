@@ -9,8 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <html>
 <body onload="print()">
 <div>
-    <?php if($parcels){?>
-            <?php foreach ($parcels as $parcel){ $products_total = 0;?>
+    <?php if($parcel){ $products_total = 0;?>
             <table>
                 <thead>
                 <tr>
@@ -32,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <td><?php echo $parcel['address'];?></td>
                     <td><?php echo $parcel['ttn'];?></td>
                 </tr>
-                <?php if($parcel['products']){?>
+                <?php if($products){?>
                     <tr>
                         <td colspan="6">
                             <table style="width: 100%; border: 1px solid black;">
@@ -44,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td>Поставщик</td>
                                     <td>Итого</td>
                                 </tr>
-                                <?php foreach ($parcel['products'] as $product){?>
+                                <?php foreach ($products as $product){?>
                                     <tr>
                                         <td><?php echo $product['name'];?></td>
                                         <td><?php  echo $product['sku'];?></td>
@@ -63,7 +62,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </tr>
             </table>
             <br>
-            <?php } ?>
     <?php } ?>
 </div>
 </body>

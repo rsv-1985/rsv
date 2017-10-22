@@ -355,4 +355,14 @@ class Customer extends Front_controller
         $this->load->view('customer/products', $data);
         $this->load->view('footer');
     }
+
+    public function print_parcel($parcel_id){
+        $this->load->model('waybill_model');
+        $data['parcel'] = $this->waybill_model->get_parcel($parcel_id);
+        if(!$data['parcel'] || $this->is_login != $data['parcel']['customer_id']){
+            show_404();
+        }
+        $data['products'] = $this->waybill_model->get_parcel_products($parcel_id);
+        $this->load->view('customer/print_parcel',$data);
+    }
 }

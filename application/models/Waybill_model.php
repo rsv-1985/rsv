@@ -64,6 +64,7 @@ class Waybill_model extends Default_model{
         $this->db->where('last_name',$data['last_name']);
         $this->db->where('patronymic',$data['patronymic']);
         $this->db->where('delivery_method_id', $data['delivery_method_id']);
+        $this->db->where('payment_method_id', $data['payment_method_id']);
         $this->db->where('address',$data['address']);
         $this->db->where('waybill_id',(int)$data['waybill_id']);
         $query = $this->db->get('waybill_parcel');
@@ -97,15 +98,25 @@ class Waybill_model extends Default_model{
             $results = $query->result_array();
             foreach ($results as $item){
                 $parcels[$item['id']] = $item;
-                $parcels[$item['id']]['products'] =  $this->get_parcel_products($item['id']);;
+                $parcels[$item['id']]['products'] =  $this->get_parcel_products($item['id']);
+                $parcels[$item['id']]['customer_info'] = $this->customer_model->get($item['customer_id']);
             }
         }
         return $parcels;
     }
 
+    public function get_parcel($parcel_id){
+        $this->db->where('id',(int)$parcel_id);
+        $query = $this->db->get('waybill_parcel');
+        if($query->num_rows()){
+            return $query->row_array();
+        }
+        return false;
+    }
+
     public function get_parcel_products($waybill_parcel_id)
     {
-        $sql = "SELECT wp.id, wp.order_product_id, op.sku, op.brand, op.name,op.quantity,s.name as sname FROM ax_waybill_product wp
+        $sql = "SELECT wp.id, wp.order_product_id, op.sku, op.brand, op.name,op.quantity, op.price, s.name as sname FROM ax_waybill_product wp
         LEFT JOIN ax_order_product op ON op.id = wp.order_product_id
         LEFT JOIN ax_supplier s ON s.id = op.supplier_id
         WHERE wp.waybill_parcel_id = '".(int)$waybill_parcel_id."'";
