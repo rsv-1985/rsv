@@ -123,7 +123,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/"><?php echo lang('text_home');?></a></li>
                     <?php if($this->header_page){?>
                         <?php foreach($this->header_page as $hpage){?>
                             <?php if(!$this->is_login && $hpage['show_for_user']){continue;}?>
