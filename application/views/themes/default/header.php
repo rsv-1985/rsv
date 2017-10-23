@@ -48,6 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
                     <i class="fa fa-phone-square"></i> <?php echo $phone;?>&nbsp;
                 <?php } ?>
+                <a href="#" data-toggle="modal" data-target="#call-back-modal"><?php echo lang('text_call_back');?></a>
                 <div class="pull-right">
                     <?php if($this->is_login){?>
                         <a href="/customer">
