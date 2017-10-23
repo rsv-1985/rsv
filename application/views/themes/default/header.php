@@ -48,9 +48,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
                     <i class="fa fa-phone-square"></i> <?php echo $phone;?>&nbsp;
                 <?php } ?>
-                <?php foreach(explode(';',$this->contacts['email']) as $email){?>&nbsp;
-                    <i class="fa fa-envelope"></i> <?php echo $email;?>
-                <?php } ?>
                 <div class="pull-right">
                     <?php if($this->is_login){?>
                         <a href="/customer">
