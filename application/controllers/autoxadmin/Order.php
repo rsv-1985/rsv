@@ -487,7 +487,7 @@ class Order extends Admin_controller
                 'slug' => $results['slug'],
                 'supplier_id' => $supplier_id,
                 'quantity' => 1,
-                'price' => $results ['price'],
+                'price' => format_currency($results ['price'],false),
                 'name' => $results['name'],
                 'sku' => $results['sku'],
                 'brand' => $results['brand'],

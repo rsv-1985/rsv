@@ -50,9 +50,14 @@ class Sender{
         $this->CI->email->mailtype = 'html';
         $this->CI->email->subject($subject);
         $this->CI->email->message($body);
-        if(!$this->CI->email->send()){
-            echo $this->CI->email->print_debugger();
+        try {
+            if(!$this->CI->email->send()){
+                echo $this->CI->email->print_debugger();
+            }
+        } catch (Exception $e) {
+            //echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
         }
+
     }
 
     function sms($phone,$text){

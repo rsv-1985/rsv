@@ -71,7 +71,7 @@ class Cart extends Front_controller
                 $save['payment_method_id'] = (int)$this->input->post('payment_method');
                 $save['address'] = $this->input->post('address', true);
                 $save['comments'] = $this->input->post('comment', true)."\n".$additional_comment;
-                $save['total'] = (float)format_currency($cart_data['total'],false);
+                $save['total'] = (float)$cart_data['total'];
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
                 $save['status'] = $order_status['id'];
@@ -315,12 +315,13 @@ class Cart extends Front_controller
         if ($product) {
 
            $cartId = $product_id.$supplier_id.$term;
+           $price = (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
             $data = [
                 'id' => $cartId,
                 'qty' => (int)$quantity,
                 'slug' => $product['slug'],
                 'delivery_price' => $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'],
-                'price' => (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
+                'price' => format_currency($price,false),
                 'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
                 'sku' => $product['sku'],
                 'brand' => $product['brand'],
