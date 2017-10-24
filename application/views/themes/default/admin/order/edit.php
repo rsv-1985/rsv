@@ -191,7 +191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </select>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id'];?>">
+                            <a class="btn btn-xs btn-danger confirm" href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id'];?>">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </td>
