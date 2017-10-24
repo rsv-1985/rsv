@@ -7,7 +7,7 @@
 
 function format_currency($value, $return_text = true){
     $CI = &get_instance();
-    $formated = number_format(round($value,$CI->currency_model->default_currency['decimal_place'],PHP_ROUND_HALF_UP), $CI->currency_model->default_currency['decimal_place'], '.','');
+    $formated =  round_out($value.$CI->currency_model->default_currency['decimal_place']);
     if($return_text){
         return
             $CI->currency_model->default_currency['symbol_left']
@@ -17,6 +17,12 @@ function format_currency($value, $return_text = true){
         return $formated;
     }
 
+}
+
+function round_out ($value, $places=0) {
+    if ($places < 0) { $places = 0; }
+    $mult = pow(10, $places);
+    return ($value >= 0 ? ceil($value * $mult):floor($value * $mult)) / $mult;
 }
 
 function format_quantity($value){
