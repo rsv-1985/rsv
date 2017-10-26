@@ -89,6 +89,8 @@ class Front_controller extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('cart');
+
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();
         $this->is_login = $this->customer_model->is_login();

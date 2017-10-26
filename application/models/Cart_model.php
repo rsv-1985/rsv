@@ -9,12 +9,15 @@ class Cart_model extends CI_Model{
     public $table = 'cart';
 
     public function cart_insert($cart_data, $customer_id){
-        $this->db->where('customer_id',(int)$customer_id);
-        $this->db->delete($this->table);
-
         $this->db->set('customer_id',(int)$customer_id);
         $this->db->set('cart_data',$cart_data);
-        $this->db->insert($this->table);
+        if($this->cart_get($customer_id)){
+            $this->db->where('customer_id',(int)$customer_id);
+            $this->db->update($this->table);
+        }else{
+            $this->db->insert($this->table);
+        }
+
     }
 
     public function cart_clear($customer_id){
@@ -68,5 +71,16 @@ class Cart_model extends CI_Model{
         }else{
             return $this->db->count_all($this->table);
         }
+    }
+
+    public function delete($customer_id){
+        $this->db->where('customer_id',(int)$customer_id);
+        $this->db->delete('cart');
+    }
+
+    public function addComment($comment, $customer_id){
+        $this->db->set('comment',$comment);
+        $this->db->where('customer_id',(int)$customer_id);
+        $this->db->update($this->table);
     }
 }

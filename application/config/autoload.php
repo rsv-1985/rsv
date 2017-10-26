@@ -62,7 +62,6 @@ $autoload['libraries'] = array(
     'database',
     'email',
     'session',
-    'cart',
     'Tecdoc',
     'form_validation',
     'migration'

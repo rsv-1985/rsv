@@ -7,6 +7,12 @@ class MY_Cart extends CI_Cart {
         parent::__construct();
         $this->CI = &get_instance();
         $this->CI->load->model('cart_model');
+        if($this->CI->session->customer_id){
+            $cart_data = $this->CI->cart_model->cart_get($this->CI->session->customer_id);
+            if(!$cart_data){
+                $this->destroy();
+            }
+        }
     }
 
     public function destroy()

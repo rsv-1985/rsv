@@ -41,9 +41,11 @@ class Cart extends Admin_controller
                 unset($cart_contents['total_items']);
 
                 $data['carts'][] = [
+                    'customer_id' => $cart['customer_id'],
                     'customer' => $customer_info ? '<a target="_blank" href="/autoxadmin/customer/edit/'.$customer_info['id'].'">'.$customer_info['first_name'].' '.$customer_info['second_name'].'</a>' : '---',
                     'cart_total' => $cart_total,
-                    'products' => $cart_contents
+                    'products' => $cart_contents,
+                    'comment' => $cart['comment']
                 ];
             }
         }
@@ -51,5 +53,18 @@ class Cart extends Admin_controller
         $this->load->view('admin/header');
         $this->load->view('admin/report/cart/cart', $data);
         $this->load->view('admin/footer');
+    }
+
+    public function delete($customer_id){
+        $this->cart_model->delete($customer_id);
+        redirect('/autoxadmin/report/cart');
+    }
+
+    public function addcomment(){
+        $customer_id = $this->input->post('customer_id');
+        $comment = $this->input->post('comment');
+        if($customer_id && $comment){
+            $this->cart_model->addComment($comment,$customer_id);
+        }
     }
 }

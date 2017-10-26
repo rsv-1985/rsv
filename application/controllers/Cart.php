@@ -328,7 +328,8 @@ class Cart extends Front_controller
                 'product_id' => (int)$product['id'],
                 'supplier_id' => (int)$product['supplier_id'],
                 'term' => (int)$product['term'],
-                'is_stock' => (bool)$this->supplier_model->suppliers[$supplier_id]['stock']
+                'is_stock' => (bool)$this->supplier_model->suppliers[$supplier_id]['stock'],
+                'created_at' => date('Y-m-d H:i:s')
             ];
 
             if ($this->supplier_model->suppliers[$supplier_id]['stock']){
