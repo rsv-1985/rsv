@@ -232,9 +232,9 @@ class Cart extends Front_controller
             return [
                 'delivery_price' => $delivery_price,
                 'deliveryInfo' => $deliveryInfo,
-                'commissionpay' => $commissionpay,
+                'commissionpay' => format_currency($commissionpay,false),
                 'paymentInfo' => $paymentInfo,
-                'total' => $total + $delivery_price + $commissionpay
+                'total' => format_currency($total + $delivery_price + $commissionpay,false)
             ];
         }
     }
