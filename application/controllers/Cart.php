@@ -78,7 +78,6 @@ class Cart extends Front_controller
                 $save['commission'] = (float)$cart_data['commissionpay'];
                 $save['delivery_price'] = (float)$cart_data['delivery_price'];
                 $order_id = $this->order_model->insert($save);
-                $save['order_id'] = $order_id;
                 if($order_id){
                     if($this->is_login && $save['payment_method_id'] == 0){
                         $this->customerbalance_model->add_transaction($this->is_login, $save['total'], 'Оплата заказа №'.$order_id.' c баланса. Сумма '.$save['total']);
@@ -108,6 +107,7 @@ class Cart extends Front_controller
 
                     //Получаем шаблон сообщения 1 - новый заказ
                     $message_template = $this->message_template_model->get(1);
+                    $save['order_id'] = $order_id;
                     foreach ($save as $field => $value){
                         if(in_array($field,['total','commission','delivery_price'])) $value = format_currency($value);
                         $message_template['subject'] = str_replace('{'.$field.'}',$value, $message_template['subject']);
