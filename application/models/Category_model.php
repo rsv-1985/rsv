@@ -31,27 +31,30 @@ class Category_model extends Default_model
             $tecdoc_tree = [];
 
             $tecdoc_tree_full = $this->tecdoc->getTreeFull();
-            foreach ($tecdoc_tree_full as $item){
-                if(isset($settings_tecdoc_tree[$item->ID_tree]) && @$settings_tecdoc_tree[$item->ID_tree]['home']){
-                    $tecdoc_tree[] = [
-                        'id' => $item->ID_tree,
-                        'parent_id' => 0,
-                        'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
-                        'slug' => $item->ID_tree,
-                        'tecdoc' => true
-                    ];
-                }
-                if($item->ID_tree != '10001' && isset($settings_tecdoc_tree[$item->ID_tree]) && !@$settings_tecdoc_tree[$item->ID_tree]['hide']){
-                    $tecdoc_tree[] = [
-                        'id' => $item->ID_tree,
-                        'parent_id' => $item->ID_parent,
-                        'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
-                        'slug' => $item->ID_tree,
-                        'tecdoc' => true
-                    ];
-                }
+            if($tecdoc_tree_full){
+                foreach ($tecdoc_tree_full as $item){
+                    if(isset($settings_tecdoc_tree[$item->ID_tree]) && @$settings_tecdoc_tree[$item->ID_tree]['home']){
+                        $tecdoc_tree[] = [
+                            'id' => $item->ID_tree,
+                            'parent_id' => 0,
+                            'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                            'slug' => $item->ID_tree,
+                            'tecdoc' => true
+                        ];
+                    }
+                    if($item->ID_tree != '10001' && isset($settings_tecdoc_tree[$item->ID_tree]) && !@$settings_tecdoc_tree[$item->ID_tree]['hide']){
+                        $tecdoc_tree[] = [
+                            'id' => $item->ID_tree,
+                            'parent_id' => $item->ID_parent,
+                            'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
+                            'slug' => $item->ID_tree,
+                            'tecdoc' => true
+                        ];
+                    }
 
+                }
             }
+
             if($tecdoc_tree){
                 foreach ($tecdoc_tree as $cat) {
                     $cats_ID[$cat['id']][] = $cat;
