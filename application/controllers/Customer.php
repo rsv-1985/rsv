@@ -366,4 +366,20 @@ class Customer extends Front_controller
         $data['products'] = $this->waybill_model->get_parcel_products($parcel_id);
         $this->load->view('customer/print_parcel',$data);
     }
+
+    public function parcels(){
+        $this->customer_model->is_login('/customer/login');
+        $this->load->model('waybill_model');
+        $data = [];
+        $config['base_url'] = base_url('customer/parcel');
+        $config['per_page'] = 20;
+        $data['parcels'] = $this->waybill_model->get_parcels_by_customer($this->is_login,$config['per_page'], $this->uri->segment(2));
+        $config['total_rows'] = $this->waybill_model->total_parcels;
+
+        $this->pagination->initialize($config);
+
+        $this->load->view('header');
+        $this->load->view('customer/parcels', $data);
+        $this->load->view('footer');
+    }
 }

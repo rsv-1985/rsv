@@ -10,6 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Waybill_model extends Default_model{
     public $table = 'waybill';
 
+    public $total_parcels = 0;
+
     public $statuses;
 
     public function __construct()
@@ -88,6 +90,22 @@ class Waybill_model extends Default_model{
 
     public function insert_product_batch($data){
         $this->db->insert_batch('waybill_product', $data);
+    }
+
+    public function get_parcels_by_customer($customer_id,$limit,$start){
+        $this->db->select("SQL_CALC_FOUND_ROWS *",false);
+        $this->db->where('customer_id',(int)$customer_id);
+        $this->db->limit((int)$limit, (int)$start);
+        $this->db->order_by('id','DESC');
+        $query = $this->db->get('waybill_parcel');
+
+        $this->total_parcels = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+
+        if($query->num_rows()){
+            return $query->result_array();
+        }
+
+        return false;
     }
 
     public function get_parcels($waybill_id){
