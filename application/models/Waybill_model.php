@@ -93,11 +93,13 @@ class Waybill_model extends Default_model{
     }
 
     public function get_parcels_by_customer($customer_id,$limit,$start){
-        $this->db->select("SQL_CALC_FOUND_ROWS *",false);
-        $this->db->where('customer_id',(int)$customer_id);
+        $this->db->select("SQL_CALC_FOUND_ROWS ax_waybill_parcel.*,ax_waybill.updated_at",false);
+        $this->db->join('waybill','waybill.id=waybill_parcel.waybill_id', 'left');
+        $this->db->where('waybill_parcel.customer_id',(int)$customer_id);
         $this->db->limit((int)$limit, (int)$start);
-        $this->db->order_by('id','DESC');
-        $query = $this->db->get('waybill_parcel');
+        $this->db->order_by('waybill_parcel.id','DESC');
+        $this->db->from('waybill_parcel');
+        $query = $this->db->get();
 
         $this->total_parcels = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
 
