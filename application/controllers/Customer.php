@@ -371,9 +371,9 @@ class Customer extends Front_controller
         $this->customer_model->is_login('/customer/login');
         $this->load->model('waybill_model');
         $data = [];
-        $config['base_url'] = base_url('customer/parcel');
+        $config['base_url'] = base_url('customer/parcels');
         $config['per_page'] = 20;
-        $data['parcels'] = $this->waybill_model->get_parcels_by_customer($this->is_login,$config['per_page'], $this->uri->segment(2));
+        $data['parcels'] = $this->waybill_model->get_parcels_by_customer($this->is_login,$config['per_page'], $this->uri->segment(3));
         $config['total_rows'] = $this->waybill_model->total_parcels;
 
         $this->pagination->initialize($config);
