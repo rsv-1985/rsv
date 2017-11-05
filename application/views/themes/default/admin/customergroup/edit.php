@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </section><!-- /.content -->
 </form>
 <script>
-    var row = 1;
+    var row = <?php echo $q;?>
 
     function add_row(event){
         event.preventDefault();
