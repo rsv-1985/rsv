@@ -65,4 +65,11 @@ class Customergroup_model extends Default_model{
         }
         return false;
     }
+
+    public function delete($id){
+        $this->db->where('id',(int)$id);
+        $this->db->delete($this->table);
+        //Удалялем ценообразование.
+        $this->db->where('customer_group_id',(int)$id)->delete('customer_group_pricing');
+    }
 }

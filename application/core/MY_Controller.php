@@ -90,6 +90,9 @@ class Front_controller extends CI_Controller{
     {
         parent::__construct();
         $this->load->library('cart');
+        $this->load->model(
+            ['customer_group_pricing_model']
+        );
 
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();

@@ -35,6 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css">
 </head>
 <body>
+
 <?php if(@$this->options['google_tag_body']){
     echo $this->options['google_tag_body'];
 }?>

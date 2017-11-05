@@ -483,7 +483,7 @@ class Product_model extends Default_model
         if ($product['price'] > 0) {
             return $product['price'];
         }
-
+        //Расчет по курсу
         $price = $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
 
         //Ценообразование по поставщику
@@ -504,6 +504,7 @@ class Product_model extends Default_model
                                 $price = $price - $price * $supplier_price['value'] / 100;
                                 break;
                         }
+                        $price = $price + $supplier_price['fix_value'];
                         break;
                     }
 
@@ -521,9 +522,44 @@ class Product_model extends Default_model
             }
         }
 
+
+        //Ценообразование по группе покупателей
         $customer_price = 0;
 
-        if ($this->customergroup_model->customer_group) {
+        if($this->customer_group_pricing_model->pricing){
+            foreach ($this->customer_group_pricing_model->pricing as $customer_group_price) {
+                if ($customer_group_price['price_from'] <= $price && $customer_group_price['price_to'] >= $price) {
+
+                    if ($customer_group_price['brand'] && $product['brand'] != $customer_group_price['brand']) {
+                        continue;
+                    }
+
+                    if ($customer_group_price['brand'] && $product['brand'] == $customer_group_price['brand']) {
+                        switch ($customer_group_price['method_price']) {
+                            case '+':
+                                $price = $price + $price * $customer_group_price['value'] / 100;
+                                break;
+                            case '-':
+                                $price = $price - $price * $customer_group_price['value'] / 100;
+                                break;
+                        }
+                        $price = $price + $customer_group_price['fix_value'];
+                        break;
+                    }
+
+                    switch ($customer_group_price['method_price']) {
+                        case '+':
+                            $price = $price + $price * $customer_group_price['value'] / 100;
+                            break;
+                        case '-':
+                            $price = $price - $price * $customer_group_price['value'] / 100;
+                            break;
+                    }
+                    $price = $price + $customer_group_price['fix_value'];
+                    break;
+                }
+            }
+        } else if ($this->customergroup_model->customer_group) {
             switch ($this->customergroup_model->customer_group['type']) {
                 case '+':
                     $customer_price = $price + ($price * $this->customergroup_model->customer_group['value'] / 100) + $this->customergroup_model->customer_group['fix_value'];

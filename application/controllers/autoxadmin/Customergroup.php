@@ -15,7 +15,7 @@ class Customergroup extends Admin_controller
         $this->load->language('admin/customergroup');
         $this->load->model('customergroup_model');
         $this->load->model('customer_model');
-
+        $this->load->model('customer_group_pricing_model');
     }
 
     public function index(){
@@ -73,6 +73,9 @@ class Customergroup extends Admin_controller
                 $this->error = validation_errors();
             }
         }
+        //Ценообразование по группе покупателя
+        $data['pricing'] = $this->customer_group_pricing_model->get_customer_group_pricing($id);
+
         $data['types'] = $this->customergroup_model->get_types();
         $this->load->view('admin/header');
         $this->load->view('admin/customergroup/edit', $data);
@@ -85,6 +88,7 @@ class Customergroup extends Admin_controller
             $this->session->set_flashdata('error', lang('text_error_delete'));
         }else{
             $this->customergroup_model->delete($id);
+            $this->customer_group_pricing->delete($id);
             $this->session->set_flashdata('success', lang('text_success'));
         }
         redirect('autoxadmin/customergroup');
@@ -103,6 +107,23 @@ class Customergroup extends Admin_controller
         }
         $id = $this->customergroup_model->insert($save, $id);
         if($id){
+            //Удаляем ценобразование
+            $this->db->where('customer_group_id', (int)$id)->delete('customer_group_pricing');
+            if (!empty($this->input->post('pricing'))) {
+                foreach ($this->input->post('pricing', true) as $pricing) {
+                    if ($pricing['price_from'] >= 0 && $pricing['price_to'] > 0 && $pricing['value'] > 0) {
+                        $save = [];
+                        $save['customer_group_id'] = $id;
+                        $save['brand'] = $pricing['brand'];
+                        $save['price_from'] = (float)$pricing['price_from'];
+                        $save['price_to'] = (float)$pricing['price_to'];
+                        $save['method_price'] = (string)$pricing['method_price'];
+                        $save['value'] = (int)$pricing['value'];
+                        $save['fix_value'] = (float)$pricing['fix_value'];
+                        $this->customer_group_pricing_model->insert($save);
+                    }
+                }
+            }
             $this->session->set_flashdata('success', lang('text_success'));
             redirect('autoxadmin/customergroup');
         }
