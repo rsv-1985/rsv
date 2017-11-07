@@ -202,7 +202,7 @@ class Order extends Admin_controller
                 $order_id = $this->order_model->insert($save, $id);
 
                 //Если была предоплата
-                if($save['prepayment'] && $save['customer_id'] != 0 && $data['order']['prepayment'] != $save['prepayment'] && $data['order']['payment_method_id'] = 0 || $save['payment_method_id'] == 0){
+                if($save['prepayment'] && $save['customer_id'] != 0 && $data['order']['prepayment'] != $save['prepayment']){
                     $description = 'Предоплата по заказу №'.$order_id;
                     $this->customerbalance_model->add_transaction($save['customer_id'],$save['prepayment'], $description, 1, '', $this->session->userdata('user_id'));
                 }
