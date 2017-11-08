@@ -33,6 +33,17 @@ function format_quantity($value){
     }
 }
 
+function format_term_class($term){
+    if($term == 0){
+        $class = 'in_stock';
+    }else if($term <= 24){
+        $class = 'one_day';
+    }else{
+        $class = '';
+    }
+    return $class;
+}
+
 function format_term($term){
     $CI = &get_instance();
     if(@$CI->options['check_day_off']){
