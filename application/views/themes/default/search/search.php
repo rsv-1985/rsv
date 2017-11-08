@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <tbody>
                     <?php foreach ($products as $product){
                         $key = $product['id'] . $product['supplier_id'] . $product['term']?>
-                        <tr>
+                        <tr class="<?php echo format_term_class($product['term']);?>">
                             <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
                                 <?php if($product['cross'] == 0){?>
                                     <label class="label label-success">
@@ -164,7 +164,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <b><?php echo format_currency($product['price']);?></b>
                             </td>
                             <td data-search="<?php echo $product['quantity'];?>" data-order="<?php echo $product['quantity'];?>" class="search-product-quan"><b><?php echo format_quantity($product['quantity']);?></b></td>
-                            <td data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>" class="search-product-term"><b class="<?php echo format_term_class($product['term']);?>"><?php echo format_term($product['term']);?></b></td>
+                            <td  data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>" class="search-product-term"><b class="<?php echo format_term_class($product['term']);?>"><?php echo format_term($product['term']);?></b></td>
                             <td class="search-product-cart">
                                 <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
                                 <div class="input-group">
