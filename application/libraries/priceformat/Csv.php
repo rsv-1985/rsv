@@ -46,6 +46,19 @@ class Csv{
             $html .= '</div>';
         }
 
+        $this->CI->load->model('customergroup_model');
+        $groups = $this->CI->customergroup_model->get_group();
+
+        if($suppliers){
+            $html .= '<div class="form-group"><label>Группа покупателей</label>';
+            $html .= '<select name="customer_group_id" class="form-control">';
+            foreach ($groups as $group){
+                $html .= '<option value="'.$group['id'].'">'.$group['name'].'</option>';
+            }
+            $html .= '</select>';
+            $html .= '</div>';
+        }
+
         $html .= '<div class="form-group"><label>Акционный</label>';
         $html .= '<select name="saleprice" class="form-control">';
         $html .= '<option></option>';
@@ -152,7 +165,12 @@ class Csv{
     public function get_data($data){
 
         $this->CI->load->model('product_model');
-        $this->CI->load->model('product_model');
+        $this->CI->load->model('customergroup_model');
+        $this->CI->load->model('customer_group_pricing_model');
+
+        $this->CI->customergroup_model->customer_group = $this->CI->customergroup_model->get($data['customer_group_id']);
+        $this->CI->customer_group_pricing_model->pricing = $this->CI->customer_group_pricing_model->get_customer_group_pricing($data['customer_group_id']);
+
         if(!@$data['id']){
             $data['id'] = 0;
         }
@@ -161,6 +179,7 @@ class Csv{
          p.brand,
          p.name,
          p.slug,
+         pp.product_id,
          pp.excerpt,
          pp.delivery_price,
          pp.saleprice,
@@ -257,12 +276,12 @@ class Csv{
 
                 if($data['id'] == 0){
                     @unlink('./uploads/price/csv/price.csv');
-                    $data['id'] = $product['id'];
+                    $data['id'] = $product['product_id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'w');
                     $product = array_intersect_key($product,$data['template']);
                     fputcsv($fp, array_keys($product));
                 }else{
-                    $data['id'] = $product['id'];
+                    $data['id'] = $product['product_id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'a');
                 }
 
