@@ -151,66 +151,71 @@ class Csv{
 
     public function get_data($data){
 
+        $this->CI->load->model('product_model');
+        $this->CI->load->model('product_model');
         if(!@$data['id']){
             $data['id'] = 0;
         }
 
-        $this->CI->load->model('product_model');
-
-        $this->CI->db->select('
-        product.*, 
-        product_price.*,
-       (SELECT name FROM ax_category WHERE ax_category.id= ax_product.category_id) as category_name,
-       (SELECT name FROM ax_supplier WHERE ax_supplier.id= ax_product_price.supplier_id) as supplier_name,
-       (SELECT name FROM ax_currency WHERE ax_currency.id= ax_product_price.currency_id) as currency_name,
-       (SELECT value FROM ax_currency WHERE ax_currency.id= ax_product_price.currency_id) as currency_value', false);
-
-
-        $this->CI->db->from('product');
-        $this->CI->db->join('product_price','product_price.product_id=product.id','left');
-
-
-        $this->CI->db->where('product.id >',(int)@$data['id']);
-        $this->CI->db->where('product_price.delivery_price != ', null);
-
-        if(@$data['category_id']){
-            $this->CI->db->where('category.id',(int)$data['category_id']);
+        $sql = "SELECT p.sku,
+         p.brand,
+         p.name,
+         p.slug,
+         pp.excerpt,
+         pp.delivery_price,
+         pp.saleprice,
+         pp.price,
+         pp.quantity,
+         pp.currency_id,
+         pp.supplier_id,
+         pp.term 
+          ";
+        if(isset($data['template']['category_name'])){
+            $sql .= " ,(SELECT name FROM ax_category c WHERE c.id = p.category_id ) as category_name";
+        }
+        if(isset($data['template']['currency_name'])){
+            $sql .= " ,(SELECT name FROM ax_currency cur WHERE cur.id = pp.currency_id ) as currency_name";
+        }
+        if(isset($data['template']['currency_value'])){
+            $sql .= " ,(SELECT value FROM ax_currency cur WHERE cur.id = pp.currency_id ) as currency_value";
+        }
+        if(isset($data['template']['supplier_name'])){
+            $sql .= " ,(SELECT name FROM ax_supplier s WHERE s.id = pp.supplier_id ) as supplier_name";
         }
 
-        if(@$data['supplier_id']){
-            $this->CI->db->where('product_price.supplier_id',(int)$data['supplier_id']);
+        $sql .= " FROM ax_product_price pp";
+        $sql .= " LEFT JOIN ax_product p ON p.id = pp.product_id";
+        $sql .= " WHERE 1";
+
+        if($data['category_id']){
+           $sql .= " AND p.category_id = '".(int)$data['category_id']."'";
+        }
+        if($data['supplier_id']){
+            $sql .= " AND pp.supplier_id = '".(int)$data['supplier_id']."'";
+        }
+        if($data['saleprice']){
+            $sql .= " AND pp.saleprice > 0";
+        }
+        if($data['brand']){
+            $sql .= " AND p.brand = ".$this->CI->db->escape($data['brand']);
+        }
+        if($data['exclude_brand']){
+            $sql .= " AND p.brand NOT IN ('".implode('\',\'',explode(',',$data['exclude_brand']))."')";
+        }
+        if($data['term_from']){
+            $sql .= " AND pp.term >= '".(int)$data['term_from']."'";
+        }
+        if($data['term_to']){
+            $sql .= " AND pp.term <= '".(int)$data['term_to']."'";
         }
 
-        if(@$data['saleprice']){
-            $this->CI->db->where('product_price.saleprice >',0);
-        }
+        $sql .= " AND pp.product_id > ".$data['id'];
 
-        if(@$data['brand']){
-            $this->CI->db->where_in('product.brand',explode(',',$data['brand']));
-        }
+        $sql .= " ORDER BY pp.product_id ASC";
 
-        if(@$data['exclude_brand']){
-            $this->CI->db->where_not_in('product.brand',explode(',',$data['exclude_brand']));
-        }
+        $sql .= " LIMIT 500";
 
-        if(@$data['term_from']){
-            $this->CI->db->where('product_price.term >=',(float)$data['term_from']);
-        }
-
-        if(@$data['term_to']){
-            $this->CI->db->where('product_price.term <=',(float)$data['term_to']);
-        }
-
-        if(@$data['unique']){
-            $this->CI->db->group_by('id');
-        }
-
-
-        $this->CI->db->order_by('product.id','ASC');
-
-        $this->CI->db->limit(2000);
-
-        $query = $this->CI->db->get();
+        $query = $this->CI->db->query($sql);
 
         if($query->num_rows() == 0 && $data['id'] == 0){
             exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Товары по фильтру не найдены');
