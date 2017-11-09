@@ -15,6 +15,7 @@ class Product extends REST_Controller
         $this->load->model('product_model');
         $this->load->model('synonym_model');
         $this->load->model('customergroup_model');
+        $this->load->model('customer_group_pricing_model');
         $this->load->model('customer_model');
     }
 
@@ -33,6 +34,8 @@ class Product extends REST_Controller
         $customer_info = $this->customer_model->get($this->rest->user_id);
 
         $this->customergroup_model->customer_group = $this->customergroup_model->get($customer_info['customer_group_id']);
+        $this->customer_group_pricing_model->pricing = $this->customer_group_pricing_model->get_customer_group_pricing($customer_info['customer_group_id']);
+
 
         $results['products'] = false;
         $results['cross'] = false;

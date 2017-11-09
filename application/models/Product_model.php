@@ -525,7 +525,6 @@ class Product_model extends Default_model
 
         //Ценообразование по группе покупателей
         $customer_price = 0;
-
         if($this->customer_group_pricing_model->pricing){
             foreach ($this->customer_group_pricing_model->pricing as $customer_group_price) {
                 if ($customer_group_price['price_from'] <= $price && $customer_group_price['price_to'] >= $price) {
