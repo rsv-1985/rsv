@@ -26,6 +26,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title"><?php echo lang('text_tmp_total').':'.$total;?></h3>
+            <div class="button-check-tecdoc pull-right">
+                <button class="btn btn-info pull-right" onclick="check_tecdoc(event)">Сверить с TECDOC</button>
+                <a href="/autoxadmin/import/cancel" class="btn btn-danger"><?php echo lang('button_delete');?></a>
+                <br>
+                <?php echo $file;?>
+            </div>
         </div>
         <div class="box-body">
             <table class="table">
@@ -67,8 +73,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </tbody>
             </table>
         </div><!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <?php echo $this->pagination->create_links();?>
+        </div>
         <div class="box-footer">
-            <a href="/autoxadmin/import/cancel" class="btn btn-danger"><?php echo lang('button_delete');?></a>
             <div class="pull-right">
                 <?php echo form_open('/autoxadmin/import/add', ['method' => 'get', 'id' => 'import-form', 'onsubmit' => 'add(event)']);?>
                 <div class="form-group">
@@ -133,9 +141,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+    <div class="modal modal-danger" id="tecdoc-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Проверка работает</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Обработано строк: <b id="tecdoc-rows">0</b> </p>
+                    <div class="progress tecdoc">
+                        <div id="progress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="location.reload()">Отмена</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 </section><!-- /.content -->
 <script>
+
     var totalRows = '<?php echo $total;?>';
+    var tecdoc_row = 0;
+    function check_tecdoc(){
+        event.preventDefault();
+        $("#tecdoc-modal").modal({backdrop: 'static', keyboard: false});
+        $.ajax({
+            url: '/autoxadmin/import/checktecdoc/0',
+            method: 'get',
+            success: function(json){
+                if(json['continue']){
+                    doCheck(json['continue']);
+                }else{
+                    location.reload();
+                }
+            }
+        });
+    }
+
+    function doCheck(href){
+        $.ajax({
+            url: href,
+            method: 'get',
+            success: function(json){
+                if(json['continue']){
+                    tecdoc_row += 10;
+                    var procent = tecdoc_row * 100 / totalRows;
+                    $(".tecdoc .sr-only").text(procent);
+                    $(".tecdoc #progress").css('width',procent+'%');
+                    $("#tecdoc-rows").text(tecdoc_row);
+                    doCheck(json['continue']);
+                }else{
+                    location.reload();
+                }
+            }
+        });
+    }
+
+
+
     var row = 0;
     function add(event){
         event.preventDefault();

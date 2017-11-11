@@ -32,6 +32,7 @@ class Import extends Admin_controller
             redirect('autoxadmin/import/tmptable');
         }
         if($this->input->post()){
+            @unlink('./uploads/check_tecdoc.csv');
             $this->form_validation->set_rules('supplier_id', lang('text_supplier'), 'integer|required');
             if($this->input->post('sample_id')){
                 $this->form_validation->set_rules('sample_id', lang('text_sample'), 'integer|required');
@@ -97,14 +98,28 @@ class Import extends Admin_controller
     }
 
     public function tmptable(){
-        $data = [];
-        $data['total'] = $this->import_model->count_all();
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('autoxadmin/import/tmptable');
+
+        $config['per_page'] = 50;
+        $data['importtmp'] = $this->import_model->get_importtmp($config['per_page'], $this->uri->segment(4));
+
+        $data['total'] = $config['total_rows'] = $this->import_model->total_rows;
+        $config['reuse_query_string'] = TRUE;
+
+        $this->pagination->initialize($config);
+
 
         if($data['total'] == 0){
             redirect('autoxadmin/import');
         }
-
-        $data['importtmp'] = $this->import_model->get_all(25);
+        $data['file'] = '';
+        if(file_exists('./uploads/check_tecdoc.csv')){
+           $data['file'] = '<a href="'.base_url('/uploads/check_tecdoc.csv').'">Скачать файл с ошибками</a>';
+        }
+        $data['total_tecdoc'] = $this->db->where('id_art !=',0)->count_all_results('importtmp');
+        $data['total_no_tecdoc'] = $this->db->where('id_art =',0)->count_all_results('importtmp');
         $data['supplier'] = $this->supplier_model->get_all();
 
         $this->load->view('admin/header');
@@ -214,6 +229,58 @@ class Import extends Admin_controller
                 ->set_content_type('application/json')
                 ->set_output(json_encode($json));
         }
+    }
+
+    public function checktecdoc($id = 0){
+        if($id == 0){
+            @unlink('./uploads/check_tecdoc.csv');
+        }
+        $json = [];
+
+        $products = $this->import_model->check_get_all($id);
+
+        if($products){
+            foreach ($products as $product){
+                $save = [];
+                $save['id_art'] = 0;
+                $ID_art = $this->tecdoc->getIDart($product['sku'],$product['brand']);
+                if($ID_art){
+                    $save['id_art'] = (int)$ID_art[0]->ID_art;
+                    if(!$product['name']){
+                        $article = $this->tecdoc->getArticle($save['id_art']);
+                        if($article){
+                            $save['name'] = trim($article[0]->Name);
+                        }
+                    }
+                    $this->import_model->insert($save,$product['id']);
+                }else{
+                    if($id == 0){
+                        $fp = fopen('./uploads/check_tecdoc.csv', 'w');
+                        fputcsv($fp, array_keys($product));
+                    }else{
+                        $fp = fopen('./uploads/check_tecdoc.csv', 'a');
+                    }
+                    fputcsv($fp, $product);
+                    $this->import_model->delete($product['id']);
+                }
+
+            }
+            $json = [
+                'continue' => base_url('/autoxadmin/import/checktecdoc').'/'.$product['id'],
+                'row' => $id
+            ];
+        }else{
+            if(file_exists('./uploads/check_tecdoc.csv')){
+                $this->session->set_flashdata('error', '<a href="'.base_url('/uploads/check_tecdoc.csv').'">Скачать файл с ошибками</a>');
+            }else{
+                $this->session->set_flashdata('success', 'Проверка прошла успешно. Ошибок не обнаружено');
+            }
+
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
     }
 
     public function csv_read($file_name = false, $sample = false, $supplier_id = false){
