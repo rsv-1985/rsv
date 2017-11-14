@@ -168,6 +168,39 @@ class Product extends Admin_controller
         redirect('autoxadmin/product');
     }
 
+    public function delete_by_filter(){
+        $delete_product_card = (int)$this->input->get('delete_product_card');
+        $where = '';
+        if($this->input->post('sku')){
+            $where .= " AND p.sku = ".$this->db->escape($this->input->post('sku', true));
+        }
+
+        if($this->input->post('brand')){
+            $where .= " AND p.brand = ".$this->db->escape($this->input->post('brand', true));
+        }
+
+        if($this->input->post('name')){
+            $where .= " AND p.name LIKE '%".$this->db->escape_like_str($this->input->post('brand', true))."%'";
+        }
+
+        if($this->input->post('supplier_id')){
+            $where .= " AND pp.supplier_id = ".$this->db->escape($this->input->post('supplier_id', true));
+        }
+
+        if($delete_product_card == 1){
+            $this->db->query("DELETE p FROM ax_product p LEFT JOIN ax_product_price pp ON pp.product_id = p.id WHERE 1 ".$where);
+
+            $this->db->query("DELETE FROM ax_product_price WHERE product_id NOT IN (SELECT id FROM ax_product)");
+
+            $this->db->query("DELETE FROM ax_product_attributes WHERE product_id NOT IN (SELECT id FROM ax_product)");
+
+        }else{
+            $this->db->query("DELETE pp FROM ax_product_price pp LEFT JOIN ax_product p ON p.id = pp.product_id WHERE 1 ".$where);
+        }
+
+
+    }
+
     public function delete(){
         $product_id = (int)$this->input->get('product_id');
         $supplier_id = (int)$this->input->get('supplier_id');
