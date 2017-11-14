@@ -15,12 +15,10 @@ class Product_model extends Default_model
     public function getSlug($product)
     {
         $slug = url_title($product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'], 'dash', true);
-        $seo_url_template = $this->settings_model->get_by_key('seo_url_template');
-        if ($seo_url_template) {
-            $replace = array_map(function ($str) {
-                return '{' . $str . '}';
-            }, array_keys($product));
-            $slug = url_title(str_replace($replace, array_values($product), $seo_url_template));
+        $seo_url_template= $this->settings_model->get_by_key('seo_url_template');
+        if($seo_url_template){
+            $replace = array_map(function($str){return '{'.$str.'}';},array_keys($product));
+            $slug = url_title(str_replace($replace, array_values($product),$seo_url_template));
         }
         return $slug;
     }
@@ -47,22 +45,29 @@ class Product_model extends Default_model
 
     public function admin_product_get_all($limit = false, $start = false)
     {
-        $this->db->from('product');
-        $this->db->select('*');
-        $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
-        if ($this->input->get('sku')) {
-            $this->db->where('sku', $this->input->get('sku', true));
-        }
-        if ($this->input->get('brand')) {
-            $this->db->where('brand', $this->input->get('brand', true));
-        }
-        if ($this->input->get('name')) {
-            $this->db->like('name', $this->input->get('name', true));
-        }
-        if ($this->input->get('supplier_id')) {
-            $this->db->where('supplier_id', $this->input->get('supplier_id', true));
-        }
 
+        if (!$this->input->get()) {
+            $this->db->from('product_price');
+            $this->db->select('SQL_CALC_FOUND_ROWS *, (SELECT id FROM ax_product WHERE id = product_id) as id,(SELECT name FROM ax_product WHERE id = product_id) as name,
+            (SELECT sku FROM ax_product WHERE id = product_id) as sku,
+            (SELECT brand FROM ax_product WHERE id = product_id) as brand', false);
+        } else {
+            $this->db->from('product');
+            $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+            $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
+            if ($this->input->get('sku')) {
+                $this->db->where('sku', $this->input->get('sku', true));
+            }
+            if ($this->input->get('brand')) {
+                $this->db->where('brand', $this->input->get('brand', true));
+            }
+            if ($this->input->get('name')) {
+                $this->db->like('name', $this->input->get('name', true));
+            }
+            if ($this->input->get('supplier_id')) {
+                $this->db->where('supplier_id', $this->input->get('supplier_id', true));
+            }
+        }
 
         if ($limit && $start) {
             $this->db->limit((int)$limit, (int)$start);
@@ -72,23 +77,7 @@ class Product_model extends Default_model
 
         $query = $this->db->get();
 
-        $this->db->from('product');
-        $this->db->select('*');
-        $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
-        if ($this->input->get('sku')) {
-            $this->db->where('sku', $this->input->get('sku', true));
-        }
-        if ($this->input->get('brand')) {
-            $this->db->where('brand', $this->input->get('brand', true));
-        }
-        if ($this->input->get('name')) {
-            $this->db->like('name', $this->input->get('name', true));
-        }
-        if ($this->input->get('supplier_id')) {
-            $this->db->where('supplier_id', $this->input->get('supplier_id', true));
-        }
-
-        $this->total_rows = $this->db->count_all_results();
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
@@ -264,7 +253,7 @@ class Product_model extends Default_model
         $this->db->select(['code2 as sku', 'brand2 as brand']);
         $this->db->from('cross');
         $this->db->where('code', $sku);
-        if ($brand) {
+        if($brand){
             $this->db->where('brand', $brand);
         }
         $query = $this->db->get();
@@ -319,7 +308,7 @@ class Product_model extends Default_model
         }
 
         if ($local_brand) {
-            $return = array_merge($local_brand, $return);
+            $return = array_merge($local_brand,$return);
         }
         return $return;
 
@@ -406,15 +395,14 @@ class Product_model extends Default_model
         return $products;
     }
 
-    public function get_product_price($product, $calculate = true)
-    {
+    public function get_product_price($product, $calculate = true){
         $product_prices = [];
         $this->db->where('product_id', (int)$product['id']);
         $query = $this->db->get('product_price');
-        if ($query->num_rows() > 0) {
+        if($query->num_rows() > 0){
             $product_prices = $query->result_array();
-            if ($calculate) {
-                foreach ($product_prices as &$product_price) {
+            if($calculate){
+                foreach ($product_prices as &$product_price){
                     $product_price['brand'] = $product['brand'];
                     $product_price['price'] = $this->calculate_customer_price($product_price);
                     unset($product_price['brand']);
@@ -422,8 +410,8 @@ class Product_model extends Default_model
             }
         }
 
-        usort($product_prices, function ($a, $b) {
-            return $a['price'] - $b['price'];
+        usort($product_prices,function($a,$b){
+           return $a['price'] - $b['price'];
         });
 
         return $product_prices;
@@ -434,7 +422,7 @@ class Product_model extends Default_model
     {
 
         $this->db->select('SQL_CALC_FOUND_ROWS * FROM ax_product_price', false);
-        $this->db->join('product', 'product.id=product_price.product_id');
+        $this->db->join('product','product.id=product_price.product_id');
         $this->db->group_by('product_id');
         if ($where) {
             foreach ($where as $field => $value) {
@@ -537,7 +525,7 @@ class Product_model extends Default_model
 
         //Ценообразование по группе покупателей
         $customer_price = 0;
-        if ($this->customer_group_pricing_model->pricing) {
+        if($this->customer_group_pricing_model->pricing){
             foreach ($this->customer_group_pricing_model->pricing as $customer_group_price) {
                 if ($customer_group_price['price_from'] <= $price && $customer_group_price['price_to'] >= $price) {
 
