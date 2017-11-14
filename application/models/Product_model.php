@@ -47,9 +47,8 @@ class Product_model extends Default_model
 
     public function admin_product_get_all($limit = false, $start = false)
     {
-
         $this->db->from('product');
-        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->select('*');
         $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
         if ($this->input->get('sku')) {
             $this->db->where('sku', $this->input->get('sku', true));
@@ -73,7 +72,23 @@ class Product_model extends Default_model
 
         $query = $this->db->get();
 
-        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+        $this->db->from('product');
+        $this->db->select('*');
+        $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
+        if ($this->input->get('sku')) {
+            $this->db->where('sku', $this->input->get('sku', true));
+        }
+        if ($this->input->get('brand')) {
+            $this->db->where('brand', $this->input->get('brand', true));
+        }
+        if ($this->input->get('name')) {
+            $this->db->like('name', $this->input->get('name', true));
+        }
+        if ($this->input->get('supplier_id')) {
+            $this->db->where('supplier_id', $this->input->get('supplier_id', true));
+        }
+
+        $this->total_rows = $this->db->count_all_results();
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
