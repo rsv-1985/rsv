@@ -37,7 +37,7 @@ class Waybill_model extends Default_model{
         if(isset($_GET['paid']) && $_GET['paid'] != ''){
             $sql .= " AND o.paid = '".(int)$this->input->get('paid')."'";
         }
-        $sql .= " AND (SELECT count(product_id) FROM ax_order_product op WHERE op.order_id=o.id AND op.status_id = '".(int)$this->input->get('status_id')."') > 0 ORDER BY o.customer_id DESC, o.delivery_method_id ASC";
+        $sql .= " AND (SELECT count(product_id) FROM ax_order_product op WHERE op.order_id=o.id AND op.status_id = '".(int)$this->input->get('status_id')."') > 0 ORDER BY o.id DESC, o.customer_id DESC, o.delivery_method_id ASC";
         $query = $this->db->query($sql);
         if($query->num_rows() > 0){
             return $query->result_array();
