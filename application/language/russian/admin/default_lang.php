@@ -43,6 +43,7 @@ $lang['text_nav_price'] = 'Экспорт прайс листов';
 $lang['text_settings'] = 'Настройки';
 $lang['text_nav_settings'] = 'Настройки магазина';
 $lang['text_nav_currency'] = 'Валюта';
+$lang['text_nav_sending'] = 'Рассылка';
 $lang['text_nav_payment'] = 'Способы оплаты';
 $lang['text_nav_delivery'] = 'Способы доставки';
 $lang['text_nav_orderstatus'] = 'Статусы заказов';
