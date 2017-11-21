@@ -9,7 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <html>
 <body onload="print()">
 <div>
-    <?php if($parcels){?>
+    <?php if($parcels){ ?>
+
             <?php foreach ($parcels as $parcel){ $products_total = 0;?>
             <table>
                 <thead>
@@ -25,7 +26,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </thead>
                 <tr>
                     <td><?php echo $parcel['id'];?></td>
-                    <td><?php echo $parcel['first_name'].' '.$parcel['last_name'].' '.$parcel['patronymic'];?><br></td>
+                    <td>
+                        <?php echo $parcel['first_name'].' '.$parcel['last_name'].' '.$parcel['patronymic'];?><br>
+                        <?php if($parcel['customer_id']){?>
+                            (<?php echo $parcel['customer_info']['balance'];?>)
+                        <?php } ?>
+                    </td>
                     <td><?php echo $parcel['telephone'];?><br></td>
                     <td><?php echo $parcel['delivery_method'];?></td>
                     <td><?php echo $parcel['payment_method'];?></td>
