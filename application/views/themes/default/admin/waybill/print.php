@@ -37,18 +37,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <td colspan="6">
                             <table style="width: 100%; border: 1px solid black;">
                                 <tr>
-                                    <td>Название запчасти</td>
                                     <td>Артикул</td>
                                     <td>Бренд</td>
+                                    <td>Название запчасти</td>
                                     <td>Количество</td>
                                     <td>Поставщик</td>
                                     <td>Итого</td>
                                 </tr>
                                 <?php foreach ($parcel['products'] as $product){?>
                                     <tr>
-                                        <td><?php echo $product['name'];?></td>
                                         <td><?php  echo $product['sku'];?></td>
                                         <td><?php echo $product['brand'];?></td>
+                                        <td><?php echo substr($product['name'],0,20);?></td>
                                         <td><?php echo $product['quantity'];?>шт</td>
                                         <td><?php echo $product['sname'];?></td>
                                         <td><?php $products_total += $product['quantity'] * $product['price']; echo $product['quantity'] * $product['price']; ?></td>
