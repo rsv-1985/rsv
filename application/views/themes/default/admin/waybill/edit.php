@@ -76,7 +76,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <th>Способ оплаты</th>
                                 <th>Товары</th>
                                 <th>Статус оплаты</th>
-                                <th></th>
+                                <th>
+                                    <button onclick="addAllOrder(event);location.reload();" class="btn btn-default pull-right">Добавить все</button>
+                                </th>
                             </tr>
                             <?php foreach ($orders as $order) { ?>
                                 <tr id="row<?php echo $order['id']; ?>">
@@ -124,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <small>Остаток:<?php echo $order['total'] - $order['prepayment']; ?></small>
                                     </td>
                                     <td>
-                                        <button class="btn btn-default pull-right"
+                                        <button class="btn btn-default pull-right add-order"
                                                 onclick="addOrder(<?php echo $order['id']; ?>,<?php echo $waybill_id; ?>, <?php echo $this->input->get('status_id'); ?>, event)">
                                             Добавить в путевой
                                         </button>
@@ -220,6 +222,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <option value="<?php echo $os['id']; ?>"><?php echo $os['name']; ?></option>
                                     <?php } ?>
                                 </select>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="set_order_status" value="1">Применить к заказам
+                                    </label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="pull-right">
@@ -263,6 +270,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             }
         });
     }
+    var reload = true;
+
+    function addAllOrder(e) {
+        reload = false;
+        e.preventDefault();
+        $(".add-order").each(function (index,item) {
+            $(item).click();
+        });
+    }
 
     function addOrder(order_id, waybill_id, status_id, event) {
         event.preventDefault();
@@ -276,8 +292,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             },
             success: function (json) {
                 if (json['success']) {
-                    alert(json['success']);
-                    location.reload();
+                    if(reload){
+                        alert(json['success']);
+                        location.reload();
+                    }
                 } else {
                     alert(json['error']);
                 }

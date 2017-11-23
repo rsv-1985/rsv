@@ -162,11 +162,20 @@ class Waybill_model extends Default_model{
         $this->db->delete('waybill_product');
     }
 
-    public function set_status_order_product($waybill_id,$status_id){
+    public function set_status_order_product($waybill_id,$status_id,$set_order_status){
         $sql = "UPDATE ax_order_product SET status_id = '".(int)$status_id."' WHERE id IN (SELECT wp.order_product_id FROM ax_waybill_product wp
         LEFT JOIN ax_waybill_parcel wp2 ON wp2.id = wp.waybill_parcel_id
         LEFT JOIN ax_waybill w ON w.id = wp2.waybill_id
         WHERE w.id = '".(int)$waybill_id."')";
         $this->db->query($sql);
+
+        if($set_order_status){
+            $sql = "UPDATE ax_order SET status = '".(int)$status_id."' WHERE id IN (SELECT DISTINCT wp.order_id FROM ax_waybill_product wp
+        LEFT JOIN ax_waybill_parcel wp2 ON wp2.id = wp.waybill_parcel_id
+        LEFT JOIN ax_waybill w ON w.id = wp2.waybill_id
+        WHERE w.id = '".(int)$waybill_id."')";
+            $this->db->query($sql);
+        }
+
     }
 }

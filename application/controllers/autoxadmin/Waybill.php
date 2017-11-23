@@ -86,7 +86,7 @@ class Waybill extends Admin_controller
 
             //Обновлесм статусы товаров
             if($this->input->post('order_product_status_id')){
-                $this->waybill_model->set_status_order_product($id,$this->input->post('order_product_status_id'));
+                $this->waybill_model->set_status_order_product($id,$this->input->post('order_product_status_id'),$this->input->post('set_order_status'));
             }
             $this->session->set_flashdata('success', 'OK');
             redirect('/autoxadmin/waybill');
