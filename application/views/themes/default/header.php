@@ -41,7 +41,39 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 }?>
 
 <?php echo @$this->options['analytics'];?>
+<?php if($this->show_modal && $this->important_news['status']){?>
+    <div class="modal fade" id="important_news" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-modal-show" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <?php echo $this->important_news['description'];?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger cookie-modal-show" data-dismiss="modal">Больше не показывать</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+        $(document).ready(function(){
+            $("#important_news").modal('show');
 
+            $(".cookie-modal-show").click(function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '/ajax/cookie_modal',
+                    method: 'get',
+                    success: function(){
+                        $(".close-modal-show").click();
+                    }
+                });
+            });
+        });
+    </script>
+<?php } ?>
 <div class="header-area">
     <div class="container">
         <div class="row">

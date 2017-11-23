@@ -85,6 +85,8 @@ class Front_controller extends CI_Controller{
     public $rel_next;
     public $rel_prev;
     public $canonical;
+    public $important_news;
+    public $show_modal = false;
 
     public function __construct()
     {
@@ -99,6 +101,13 @@ class Front_controller extends CI_Controller{
         $this->is_login = $this->customer_model->is_login();
         $this->is_admin = $this->User_model->is_login();
         $this->garage = unserialize($this->input->cookie('garage'));
+
+        $this->important_news = $this->settings_model->get_by_key('important_news');
+
+        $this->load->helper('cookie');
+        if (!get_cookie($this->important_news['modalmessage_cookie_name'])) {
+            $this->show_modal = true;
+        }
 
         $seo_hook = $this->settings_model->get_by_key($_SERVER['REQUEST_URI']);
         if($seo_hook){

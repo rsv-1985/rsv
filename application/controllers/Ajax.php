@@ -16,6 +16,17 @@ class Ajax extends Front_controller
         }
     }
 
+    public function cookie_modal(){
+        $this->load->helper('cookie');
+        $cookie = array(
+            'name'   => $this->important_news['modalmessage_cookie_name'],
+            'value'  => true,
+            'expire' => time() + 60 * 60 * 24 * 30 * 12,
+        );
+
+        set_cookie($cookie);
+    }
+
     public function get_manufacturer_year(){
         $html = '<option>---</option>';
         $year = $this->input->post('year');

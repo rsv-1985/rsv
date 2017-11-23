@@ -137,6 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/page"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_page');?></a></li>
                         <li><a href="/autoxadmin/news"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_news');?></a></li>
+                        <li><a href="/autoxadmin/important_news"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_important_news');?></a></li>
                         <li><a href="/autoxadmin/banner"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_banner');?></a></li>
                     </ul>
                 </li>
