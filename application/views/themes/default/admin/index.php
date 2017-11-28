@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <!-- Main content -->
         <section class="content">
             <div class="pull-right">
-                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcmsautox%2F&tabs=timeline&width=440&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="440" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcmsautox&tabs=timeline%2C%20messages%2C%20events&width=400&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" width="400" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
             </div>
         </section><!-- /.content -->
 
