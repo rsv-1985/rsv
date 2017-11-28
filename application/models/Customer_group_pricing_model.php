@@ -21,4 +21,8 @@ class Customer_group_pricing_model extends Default_model{
     public function get_customer_group_pricing($customer_group_id){
         return $this->db->where('customer_group_id',(int)$customer_group_id)->order_by('brand','DESC')->get($this->table)->result_array();
     }
+
+    public function delete_by_customer_group($customer_group_id){
+        $this->db->where('customer_group_id',(int)$customer_group_id)->delete($this->table);
+    }
 }

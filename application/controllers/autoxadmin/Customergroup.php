@@ -88,7 +88,7 @@ class Customergroup extends Admin_controller
             $this->session->set_flashdata('error', lang('text_error_delete'));
         }else{
             $this->customergroup_model->delete($id);
-            $this->customer_group_pricing->delete($id);
+            $this->customer_group_pricing_model->delete_by_customer_group($id);
             $this->session->set_flashdata('success', lang('text_success'));
         }
         redirect('autoxadmin/customergroup');
