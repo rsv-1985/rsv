@@ -273,15 +273,14 @@ class Product_model extends Default_model
 
         $return = [];
 
-        $tecdoc_brand = false;
+        $check_brand = [];
 
         //Получает бренды текдок
         $tecdoc = $this->tecdoc->getSearch($sku);
         if ($tecdoc) {
             $return = [];
-            $tecdoc_brand = [];
             foreach ($tecdoc as $item) {
-                $tecdoc_brand[] = $this->clear_brand($item->Brand);
+                $check_brand[] = $this->clear_brand($item->Brand);
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
@@ -293,23 +292,48 @@ class Product_model extends Default_model
 
         //Получаем список брендов в локальной базе, которых нет в базе текдок
         $this->db->from($this->table);
-        $this->db->select(['0 as ID_art', 'name', 'brand', 'sku']);
+        $this->db->select(['name', 'brand', 'sku']);
         $this->db->where('sku', $sku);
-        if ($tecdoc_brand) {
-            $this->db->where_not_in('brand', $tecdoc_brand);
+        if ($check_brand) {
+            $this->db->where_not_in('brand', $check_brand);
         }
         $this->db->group_by('brand');
         $query = $this->db->get();
 
-        $local_brand = false;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $item){
+                $check_brand[] = $item['brand'];
+                $return[] = [
+                    'ID_art' => 0,
+                    'name' => $item['name'],
+                    'brand' => $item['brand'],
+                    'sku' => $item['sku'],
+                ];
+            }
+        }
+
+
+        //Получаем бренды с таблицы кросов
+        $this->db->distinct();
+        $this->db->from('cross');
+        $this->db->select(['brand','code']);
+        $this->db->where('code', $sku);
+        if ($check_brand) {
+            $this->db->where_not_in('brand', $check_brand);
+        }
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $local_brand = $query->result_array();
+            foreach ($query->result_array() as $item){
+                $return[] = [
+                    'ID_art' => 0,
+                    'name' => '',
+                    'brand' => $item['brand'],
+                    'sku' => $item['code'],
+                ];
+            }
         }
-
-        if ($local_brand) {
-            $return = array_merge($local_brand,$return);
-        }
+        unset($check_brand);
         return $return;
 
     }
