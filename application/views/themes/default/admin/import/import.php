@@ -6,7 +6,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
-
+<script lang="javascript" src="./application/libraries/jsxls/xlsx.core.min.js"></script>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>

@@ -8,7 +8,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $lang['text_heading'] = 'Импорт';
 $lang['text_price'] = 'Прайс';
-$lang['text_price_info'] = 'Форматы: <br><b>XLS</b> до 65000 строк<br> <b>CSV</b> в кодировке "UTF-8" разделитель ";"';
+$lang['text_price_info'] = 'Форматы: <br><b>XLS</b> до 65000 строк<br> <b>CSV/TXT</b> без ограничений<br><b>XLSX</b> переводите в csv';
 $lang['text_supplier'] = 'Поставщик';
 $lang['text_sample'] = 'Шаблон импорта';
 $lang['text_sample_info'] = 'Укажите номера колонок в соответствие колонок в Вашем прайсе';

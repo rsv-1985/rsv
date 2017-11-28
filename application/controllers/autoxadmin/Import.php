@@ -26,6 +26,49 @@ class Import extends Admin_controller
         $this->load->model('category_model');
     }
 
+    private function detect_delimeter($file){
+        // use php's built in file parser class for validating the csv or txt file
+        $file = new SplFileObject($file);
+
+        // array of predefined delimiters. Add any more delimiters if you wish
+        $delimiters = array(',', '\t', ';', '|', ':', ' ', '#');
+
+        // store all the occurences of each delimiter in an associative array
+        $number_of_delimiter_occurences = array();
+
+        $results = array();
+
+        $i = 0; // using 'i' for counting the number of actual row parsed
+        while ($file->valid() && $i <= 2) {
+
+            $line = $file->fgets();
+
+            foreach ($delimiters as $idx => $delimiter){
+
+                $regExp = '/['.$delimiter.']/';
+                $fields = preg_split($regExp, $line);
+
+                // construct the array with all the keys as the delimiters
+                // and the values as the number of delimiter occurences
+                $number_of_delimiter_occurences[$delimiter] = count($fields);
+
+            }
+
+            $i++;
+        }
+
+        // get key of the largest value from the array (comapring only the array values)
+        // in our case, the array keys are the delimiters
+        $results = array_keys($number_of_delimiter_occurences, max($number_of_delimiter_occurences));
+
+
+        // in case the delimiter happens to be a 'tab' character ('\t'), return it in double quotes
+        // otherwise when using as delimiter it will give an error,
+        // because it is not recognised as a special character for 'tab' key,
+        // it shows up like a simple string composed of '\' and 't' characters, which is not accepted when parsing csv files
+        return $results[0] == '\t' ? "\t" : $results[0];
+    }
+
     public function index(){
         $data = [];
         if($this->import_model->count_all() > 0){
@@ -76,7 +119,17 @@ class Import extends Admin_controller
                             $this->xls_read($file_name, $sample, (int)$this->input->post('supplier_id', true));
                             break;
                         case '.csv':
-                            $this->csv_read($file_name, $sample, (int)$this->input->post('supplier_id', true));
+                        case '.txt':
+                            $params = array(
+                                'file_name' => $file_name,
+                                'sample' => $sample,
+                                'supplier_id' => (int)$this->input->post('supplier_id', true),
+                                'delimiter' => $this->detect_delimeter($file_name)
+                            );
+
+                            $_SESSION['params'] = serialize($params);
+
+                            $this->csv_read();
                             break;
                         default:
                             $this->error = 'Error file type';
@@ -116,7 +169,7 @@ class Import extends Admin_controller
         }
         $data['file'] = '';
         if(file_exists('./uploads/check_tecdoc.csv')){
-           $data['file'] = '<a href="'.base_url('/uploads/check_tecdoc.csv').'">Скачать файл с ошибками</a>';
+            $data['file'] = '<a href="'.base_url('/uploads/check_tecdoc.csv').'">Скачать файл с ошибками</a>';
         }
         $data['total_tecdoc'] = $this->db->where('id_art !=',0)->count_all_results('importtmp');
         $data['total_no_tecdoc'] = $this->db->where('id_art =',0)->count_all_results('importtmp');
@@ -283,18 +336,10 @@ class Import extends Admin_controller
             ->set_output(json_encode($json));
     }
 
-    public function csv_read($file_name = false, $sample = false, $supplier_id = false){
-        $synonyms = $this->synonym_model->get_synonyms();
+    public function csv_read(){
+        $params = unserialize($_SESSION['params']);
 
-        if($this->input->get('params')){
-            $params = unserialize(rawurldecode($this->input->get('params')));
-        }else{
-            $params = array(
-                'file_name' => $file_name,
-                'sample' => $sample,
-                'supplier_id' => $supplier_id,
-            );
-        }
+        $synonyms = $this->synonym_model->get_synonyms();
 
         if (($handle_f = fopen($params['file_name'], "r")) !== false) {
             if (isset($_GET['ftell'])) {
@@ -308,7 +353,14 @@ class Import extends Admin_controller
             }
             $save = [];
             // построчное считывание и анализ строк из файла
-            while (($data_f = fgetcsv($handle_f, 1000, ';')) !== false) {
+            while (($data_f = fgetcsv($handle_f, 1000, $params['delimiter'])) !== false) {
+                $encoding = mb_detect_encoding($data_f[$params['sample']['name'] - 1],mb_detect_order(),true);
+                if($encoding != 'UTF-8'){
+                    $data_f = array_map(function($text){
+                        return iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
+                    },$data_f);
+                }
+
                 if(isset($data_f[$params['sample']['sku'] - 1])){
                     $sku = $data_f[$params['sample']['sku'] - 1];
                     if($params['sample']['default_regular'] != ''){
@@ -342,26 +394,26 @@ class Import extends Admin_controller
                     $delivery_price = 0;
                 }
 
-                if(isset($data_f[$params['sample']['saleprice'] - 1])){
+                if(isset($data_f[(int)$params['sample']['saleprice'] - 1])){
                     $saleprice = $this->product_model->clear_price($data_f[$params['sample']['saleprice'] - 1]);
                 } else {
                     $saleprice = 0;
                 }
 
 
-                if(isset($data_f[$params['sample']['description'] - 1])){
+                if(isset($data_f[(int)$params['sample']['description'] - 1])){
                     $description = trim($data_f[$params['sample']['description'] - 1]);
                 } else {
                     $description = '';
                 }
 
-                if(isset($data_f[$params['sample']['excerpt'] - 1])){
+                if(isset($data_f[(int)$params['sample']['excerpt'] - 1])){
                     $excerpt = trim($data_f[$params['sample']['excerpt'] - 1]);
                 } else {
                     $excerpt = @$params['sample']['default_excerpt'];
                 }
 
-                if(isset($data_f[$params['sample']['term'] - 1])){
+                if(isset($data_f[(int)$params['sample']['term'] - 1])){
                     $term = (int)$data_f[$params['sample']['term'] - 1];
                     if(substr($params['sample']['default_term'],0,1) == '+'){
                         $term += substr($params['sample']['default_term'],1);
@@ -379,19 +431,19 @@ class Import extends Admin_controller
                     }
                 }
 
-                if(isset($data_f[$params['sample']['category'] - 1]) && (int)$data_f[$params['sample']['category'] - 1] > 0){
+                if(isset($data_f[(int)$params['sample']['category'] - 1]) && (int)$data_f[$params['sample']['category'] - 1] > 0){
                     $category_id = (int)$data_f[$params['sample']['category'] - 1];
                 } else {
                     $category_id = $params['sample']['default_category_id'];
                 }
 
-                if(isset($data_f[$params['sample']['image'] - 1])){
+                if(isset($data_f[(int)$params['sample']['image'] - 1])){
                     $image = $data_f[$params['sample']['image'] - 1];
                 } else {
                     $image = '';
                 }
 
-                if(isset($data_f[$params['sample']['attributes'] - 1])){
+                if(isset($data_f[(int)$params['sample']['attributes'] - 1])){
                     $attributes = $data_f[$params['sample']['attributes'] - 1];
                 } else {
                     $attributes = '';
@@ -418,14 +470,13 @@ class Import extends Admin_controller
 
                 if ($i == 2000) {
                     $this->import_model->insert_batch($save);
-                    $url = base_url('autoxadmin/import/csv_read') . '?params=' .rawurlencode(serialize($params));
+                    $url = base_url('autoxadmin/import/csv_read');
                     echo('<html>
                     <head>
                     <title>Загрузка</title>
                     </head>
                     <body>
-                    Идет загрузка.<br /><a id="go" href=\''.$url.
-                        '&x=' . $x . '&ftell=' . ftell($handle_f) .'\'>.</a>
+                    Идет загрузка.<br /><a id="go" href=\''.$url.'?x=' . $x . '&ftell=' . ftell($handle_f) .'\'>.</a>
                     <script type="text/javascript">document.getElementById(\'go\').click();</script>
                     </body>
                     </html>');
@@ -443,6 +494,11 @@ class Import extends Admin_controller
     }
 
     private function finish($supplier_id){
+        //Очищаем сессию params
+        if(isset($_SESSION['params'])){
+            unset($_SESSION['params']);
+        }
+
         //Удаляем позиции в которых цена 0 или наличие 0
         $this->import_model->clear_importtmp();
         //Обновляем дату последнего обновления у поставщика
