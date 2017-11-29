@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="panel-body">
                         <?php foreach ($brands as $brand) { ?>
                             <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
-                               class="btn btn-link <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php } else { ?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
+                               class="<?php if ($this->input->get('brand') == $brand['brand']) { ?>active<?php } ?>"><?php echo $brand['brand']; ?>
                                 <small><?php echo $brand['name']; ?></small><br>
                             </a>
                             <br>
