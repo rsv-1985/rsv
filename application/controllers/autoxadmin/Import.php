@@ -19,6 +19,7 @@ class Import extends Admin_controller
         $this->load->model('product_attribute_model');
         $this->load->model('import_model');
         $this->load->model('synonym_model');
+        $this->load->model('synonym_name_model');
         $this->load->model('supplier_model');
         $this->load->model('pricing_model');
         $this->load->model('sample_model');
@@ -291,6 +292,7 @@ class Import extends Admin_controller
         $json = [];
 
         $products = $this->import_model->check_get_all($id);
+        $synonym_names = $this->synonym_name_model->get_synonym_names();
 
         if($products){
             foreach ($products as $product){
@@ -303,6 +305,9 @@ class Import extends Admin_controller
                         $article = $this->tecdoc->getArticle($save['id_art']);
                         if($article){
                             $save['name'] = trim($article[0]->Name);
+                            if($synonym_names && isset($synonym_names[$save['name']])){
+                                $save['name'] = $synonym_names[$save['name']];
+                            }
                         }
                     }
                     $this->import_model->insert($save,$product['id']);
@@ -340,6 +345,7 @@ class Import extends Admin_controller
         $params = unserialize($_SESSION['params']);
 
         $synonyms = $this->synonym_model->get_synonyms();
+        $synonym_names = $this->synonym_name_model->get_synonym_names();
 
         if (($handle_f = fopen($params['file_name'], "r")) !== false) {
             if (isset($_GET['ftell'])) {
@@ -380,6 +386,10 @@ class Import extends Admin_controller
                     $name = trim($data_f[$params['sample']['name'] - 1]);
                 } else {
                     $name = '';
+                }
+
+                if($synonym_names && isset($synonym_names[$name])){
+                    $name = $synonym_names[$name];
                 }
 
                 if(isset($data_f[$params['sample']['quantity'] - 1])){
@@ -518,6 +528,7 @@ class Import extends Admin_controller
         error_reporting(E_ALL ^ E_NOTICE);
         require_once APPPATH . 'libraries/excel_reader2.php';
         $synonyms = $this->synonym_model->get_synonyms();
+        $synonym_names = $this->synonym_name_model->get_synonym_names();
 
         $excel = new Spreadsheet_Excel_Reader($file_name, false);
         if ($excel->sheets[0]['numRows'] > 0) {
@@ -531,6 +542,9 @@ class Import extends Admin_controller
                 $sku = $this->product_model->clear_sku($sku);
                 $brand = $this->product_model->clear_brand($excel->sheets[0]['cells'][$i][$sample['brand']], $synonyms);
                 $name = trim($excel->sheets[0]['cells'][$i][$sample['name']]);
+                if($synonym_names && isset($synonym_names[$name])){
+                    $name = $synonym_names[$name];
+                }
                 $quantity = $this->product_model->clear_quan($excel->sheets[0]['cells'][$i][$sample['quantity']]);
                 $delivery_price = $this->product_model->clear_price($excel->sheets[0]['cells'][$i][$sample['delivery_price']]);
                 $saleprice = $this->product_model->clear_price($excel->sheets[0]['cells'][$i][$sample['saleprice']]);
