@@ -12,6 +12,7 @@ class News extends Front_controller{
         parent::__construct();
         $this->load->model('news_model');
         $this->load->helper('security');
+        $this->load->helper('typography');
     }
 
     public function index($slug){
@@ -26,7 +27,7 @@ class News extends Front_controller{
         $this->setKeywords($news['meta_keywords']);
         $this->setH1(!empty($news['h1']) ? $news['h1'] : $news['name']);
         $data['h1'] = $this->h1;
-        $data['description'] = $news['description'];
+        $data['description'] = auto_typography($news['description']);
 
         $this->load->view('header');
         $this->load->view('news/news', $data);
