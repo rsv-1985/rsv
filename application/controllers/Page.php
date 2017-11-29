@@ -12,6 +12,7 @@ class Page extends Front_controller{
         parent::__construct();
         $this->load->model('page_model');
         $this->load->language('page');
+        $this->load->helper('typography');
     }
 
     public function index($slug){
@@ -24,6 +25,8 @@ class Page extends Front_controller{
             $this->load->view('footer');
             return;
         }
+
+        $data['description'] = auto_typography($data['description']);
 
 
         $this->setTitle(!empty($data['title']) ? $data['title'] : $data['name']);
