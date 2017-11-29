@@ -50,13 +50,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="panel-heading">
                         <?php echo lang('text_select_manufacturer'); ?>
                     </div>
-                    <?php foreach ($brands as $brand) { ?>
-                        <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
-                           class="btn btn-link <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php } else { ?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
-                            <small><?php echo $brand['name']; ?></small><br>
-                        </a>
-                        <br>
-                    <?php } ?>
+                    <div class="panel-body">
+                        <?php foreach ($brands as $brand) { ?>
+                            <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
+                               class="btn btn-link <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php } else { ?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
+                                <small><?php echo $brand['name']; ?></small><br>
+                            </a>
+                            <br>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <?php } ?>
