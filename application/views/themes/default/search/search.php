@@ -43,25 +43,28 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="single-product-area">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-3">
-                <?php if ($brands) { ?>
-                <div class="panel panel-default filter">
-                    <div class="panel-heading">
-                        <?php echo lang('text_select_manufacturer'); ?>
-                    </div>
-                    <div class="panel-body">
-                        <?php foreach ($brands as $brand) { ?>
-                            <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
-                               class="<?php if ($this->input->get('brand') == $brand['brand']) { ?>active<?php } ?>"><?php echo $brand['brand']; ?>
-                                <small><?php echo $brand['name']; ?></small><br>
-                            </a>
+            <?php if ($brands) { ?>
+                <div class="col-md-12 brands">
+                    <h3><?php echo lang('text_select_manufacturer'); ?></h3>
+                    <?php foreach ($brands as $brand) { ?>
+                        <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
+                           class="btn <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php } else { ?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
                             <br>
-                        <?php } ?>
-                    </div>
+                            <small><?php echo $brand['name']; ?></small><br>
+                            <?php if ($this->input->get('brand') != $brand['brand']) { ?>
+                            <b>Поиск</b>
+                            <?php }else{?>
+                                <b class="active">Найдено (<?php echo count($products);?>)</b>
+                            <?php } ?>
+                        </a>
+                    <?php } ?>
+                    <hr>
                 </div>
-
-                <?php } ?>
+            <?php } ?>
+        </div>
+        <div class="row">
+            <?php if($products){?>
+            <div class="col-md-2">
                 <div class="panel panel-default filter">
                     <div class="panel-heading">
                         Фильтр
@@ -92,8 +95,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
                 </div>
             </div>
-            <div class="col-md-9">
-
+            <div class="col-md-10">
+                <?php }else{?>
+                <div class="col-md-12">
+                <?php } ?>
                 <?php if($products){?>
                 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
