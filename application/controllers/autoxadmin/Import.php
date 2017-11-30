@@ -199,7 +199,7 @@ class Import extends Admin_controller
             }
         }
 
-        $products = $this->import_model->import_get_all($id,1000);
+        $products = $this->import_model->import_get_all();
 
         if($products){
 
