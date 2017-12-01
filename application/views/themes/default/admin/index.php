@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <!-- Main content -->
         <section class="content">
             <div class="pull-right">
-                <iframe style="width: 400px; height: 500px; border: 0px;" src="https://cms-autox.blogspot.com/"></iframe>
+                <iframe style="width: 500px; height: 500px; border: 0px;" src="https://cms-autox.blogspot.com/"></iframe>
             </div>
         </section><!-- /.content -->
 
