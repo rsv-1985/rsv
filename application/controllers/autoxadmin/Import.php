@@ -40,7 +40,7 @@ class Import extends Admin_controller
         $results = array();
 
         $i = 0; // using 'i' for counting the number of actual row parsed
-        while ($file->valid() && $i <= 2) {
+        while ($file->valid() && $i <= 1000) {
 
             $line = $file->fgets();
 
