@@ -218,11 +218,11 @@ class Cart extends Front_controller
 
 
 
-        $json['delivery_price'] = format_currency($delivery_price);
-        $json['commissionpay'] = format_currency($commissionpay);
-        $json['subtotal'] = format_currency($this->cart->total());
-        $json['total_val'] = format_currency($total + $delivery_price + $commissionpay, false);
-        $json['total'] = format_currency($json['total_val']);
+        $json['delivery_price'] = $delivery_price;
+        $json['commissionpay'] = $commissionpay;
+        $json['subtotal'] = $this->cart->total();
+        $json['total_val'] = $total + $delivery_price + $commissionpay;
+        $json['total'] = $json['total_val'];
         $json['total_items'] = $this->cart->total_items();
         if($this->input->is_ajax_request()) {
             $this->output
@@ -232,9 +232,9 @@ class Cart extends Front_controller
             return [
                 'delivery_price' => $delivery_price,
                 'deliveryInfo' => $deliveryInfo,
-                'commissionpay' => format_currency($commissionpay,false),
+                'commissionpay' => $commissionpay,
                 'paymentInfo' => $paymentInfo,
-                'total' => format_currency($total + $delivery_price + $commissionpay,false)
+                'total' => $total + $delivery_price + $commissionpay
             ];
         }
     }
