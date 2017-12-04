@@ -126,78 +126,80 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </tr>
                 </thead>
                 <tbody id="order-products">
-                <?php $row = 0;
-                $subtotal = 0;
-                foreach ($products as $product) { ?>
-                    <tr id="row<?php echo $product['id']; ?>" style="color: <?php echo @$status[$product['status_id']]['color'];?>;">
-                        <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
-                               value="<?php echo $product['slug']; ?>">
-                        <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
-                               value="<?php echo $product['product_id']; ?>"/>
-                        <td style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
-                            <select name="products[<?php echo $product['id']; ?>][supplier_id]" class="form-control">
-                                <?php foreach ($supplier as $sp){?>
-                                    <option value="<?php echo $sp['id'];?>" <?php if($product['supplier_id'] == $sp['id']){?>selected<?php } ?>><?php echo $sp['name'];?></option>
-                                <?php } ?>
-                            </select>
-                        <td>
-                            <?php echo $product['name']; ?>
-                            <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
-                                   value="<?php echo $product['name']; ?>">
-                        </td>
-                        <td>
-                            <?php echo $product['sku']; ?>
-                            <input type="hidden" name="products[<?php echo $product['id']; ?>][sku]"
-                                   value="<?php echo $product['sku']; ?>">
-                        </td>
-                        <td>
-                            <?php echo $product['brand']; ?>
-                            <input type="hidden" name="products[<?php echo $product['id']; ?>][brand]"
-                                   value="<?php echo $product['brand']; ?>">
-                        </td>
-                        <td>
-                            <?php echo @format_term($product['term']); ?>
-                            <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
-                                   value="<?php echo $product['term']; ?>">
-                        </td>
-                        <td>
-                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
-                                   id="qty<?php echo $product['id']; ?>"
-                                   name="products[<?php echo $product['id']; ?>][quantity]" type="text"
-                                   value="<?php echo $product['quantity']; ?>" class="form-control"
-                                   style="width: 80px;">
-                        </td>
-                        <td>
-                            <input
-                                    name="products[<?php echo $product['id']; ?>][delivery_price]" type="text"
-                                    value="<?php echo $product['delivery_price']; ?>" class="form-control"
-                                    style="width: 100px;">
-                        </td>
-                        <td>
-                            <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
-                                   id="price<?php echo $product['id']; ?>"
-                                   name="products[<?php echo $product['id']; ?>][price]" type="text"
-                                   value="<?php echo $product['price']; ?>" class="form-control" style="width: 100px;">
-                        </td>
-                        <td><span
-                                    id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
-                                $subtotal += $product['quantity'] * $product['price']; ?></span></td>
-                        <td>
-                            <select name="products[<?php echo $product['id']; ?>][status_id]" class="form-control">
-                                <?php foreach ($status as $st) { ?>
-                                    <option
-                                            value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </td>
-                        <td>
-                            <a class="btn btn-xs btn-danger confirm" href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id'];?>">
-                                <i class="fa fa-trash-o"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php $row++;
-                } ?>
+                <?php $row = 0; $subtotal = 0;?>
+                <?php if($products){?>
+                    <?php foreach ($products as $product) { ?>
+                        <tr id="row<?php echo $product['id']; ?>" style="color: <?php echo @$status[$product['status_id']]['color'];?>;">
+                            <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
+                                   value="<?php echo $product['slug']; ?>">
+                            <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
+                                   value="<?php echo $product['product_id']; ?>"/>
+                            <td style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color'];?>">
+                                <select name="products[<?php echo $product['id']; ?>][supplier_id]" class="form-control">
+                                    <?php foreach ($supplier as $sp){?>
+                                        <option value="<?php echo $sp['id'];?>" <?php if($product['supplier_id'] == $sp['id']){?>selected<?php } ?>><?php echo $sp['name'];?></option>
+                                    <?php } ?>
+                                </select>
+                            <td>
+                                <?php echo $product['name']; ?>
+                                <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
+                                       value="<?php echo $product['name']; ?>">
+                            </td>
+                            <td>
+                                <?php echo $product['sku']; ?>
+                                <input type="hidden" name="products[<?php echo $product['id']; ?>][sku]"
+                                       value="<?php echo $product['sku']; ?>">
+                            </td>
+                            <td>
+                                <?php echo $product['brand']; ?>
+                                <input type="hidden" name="products[<?php echo $product['id']; ?>][brand]"
+                                       value="<?php echo $product['brand']; ?>">
+                            </td>
+                            <td>
+                                <?php echo @format_term($product['term']); ?>
+                                <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
+                                       value="<?php echo $product['term']; ?>">
+                            </td>
+                            <td>
+                                <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                       id="qty<?php echo $product['id']; ?>"
+                                       name="products[<?php echo $product['id']; ?>][quantity]" type="text"
+                                       value="<?php echo $product['quantity']; ?>" class="form-control"
+                                       style="width: 80px;">
+                            </td>
+                            <td>
+                                <input
+                                        name="products[<?php echo $product['id']; ?>][delivery_price]" type="text"
+                                        value="<?php echo $product['delivery_price']; ?>" class="form-control"
+                                        style="width: 100px;">
+                            </td>
+                            <td>
+                                <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                       id="price<?php echo $product['id']; ?>"
+                                       name="products[<?php echo $product['id']; ?>][price]" type="text"
+                                       value="<?php echo $product['price']; ?>" class="form-control" style="width: 100px;">
+                            </td>
+                            <td><span
+                                        id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
+                                    $subtotal += $product['quantity'] * $product['price']; ?></span></td>
+                            <td>
+                                <select name="products[<?php echo $product['id']; ?>][status_id]" class="form-control">
+                                    <?php foreach ($status as $st) { ?>
+                                        <option
+                                                value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                            <td>
+                                <a class="btn btn-xs btn-danger confirm" href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id'];?>">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php $row++;
+                    } ?>
+                <?php } ?>
+
                 </tbody>
             </table>
         </div><!-- /.col -->
