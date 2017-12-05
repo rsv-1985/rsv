@@ -363,7 +363,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </table>
                                     <?php } ?>
                                     <?php if ($cross) { ?>
-                                <h3><?php echo lang('text_cross');?></h3>
+                                <h3><?php echo lang('text_product_cross');?></h3>
                                 <table class="table table-hover table-bordered table-condensed table-responsive">
                                 <thead>
                                 <tr>
