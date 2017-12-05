@@ -27,3 +27,5 @@ $lang['text_attributes'] = 'Характеристики';
 $lang['text_price'] = 'Цена';
 $lang['text_manufacturer'] = 'Производитель';
 $lang['text_model'] = 'Модель';
+$lang['text_product_delivery_label'] = 'Доставка';
+$lang['text_product_payment_label'] = 'Оплата';
