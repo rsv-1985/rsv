@@ -72,9 +72,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                         <div class="product-images">
                             <?php if ($image || $tecdoc_info['images']) { ?>
-                                <a href="/image" data-fancybox="quick-view-1" data-type="image">
-                                    <img src="/image"/>
-                                </a>
                                 <?php if ($image) { ?>
                                     <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
                                        data-type="image">
@@ -166,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </ul>
                         <?php } ?>
                         <?php if ($delivery_methods) { ?>
-                            <b>Доставка</b>
+                            <b><?php echo lang('text_product_delivery_label');?></b>
                             <ul>
                                 <?php foreach ($delivery_methods as $delivery_method) { ?>
                                     <li><?php echo $delivery_method['name']; ?>
@@ -185,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </ul>
                         <?php } ?>
                         <?php if ($payment_methods) { ?>
-                            <b>Оплата</b>
+                            <b><?php echo lang('text_product_payment_label');?></b>
                             <ul>
                                 <?php foreach ($payment_methods as $payment_method) { ?>
                                     <li>
@@ -208,7 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
-                        <h3>Характеристики</h3>
+                        <h3><?php echo lang('text_attributes');?></h3>
                         <table class="table table-striped">
                             <tr>
                                 <td><?php echo lang('text_sku'); ?></td>
@@ -238,7 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         </table>
                         <?php if ($applicability) { ?>
-                            <h3>Применяемость</h3>
+                            <h3><?php echo lang('text_applicability');?></h3>
                             <?php $q = 0;
                             foreach ($applicability as $brand_name => $ap) { ?>
                                 <div class="panel panel-default">
@@ -366,7 +363,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </table>
                                     <?php } ?>
                                     <?php if ($cross) { ?>
-                                <h3>Аналоги</h3>
+                                <h3><?php echo lang('text_cross');?></h3>
                                 <table class="table table-hover table-bordered table-condensed table-responsive">
                                 <thead>
                                 <tr>
@@ -440,6 +437,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <?php if ($components) { ?>
                         <div class="col-md-8 col-sm-12">
+                            <h3><?php echo lang('text_components');?></h3>
                             <table class="table table-condensed">
                                 <thead>
                                 <tr>
