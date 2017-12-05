@@ -17,6 +17,8 @@ class Product extends Front_controller
         $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('banner_model');
+        $this->load->model('delivery_model');
+        $this->load->model('payment_model');
     }
 
     public function index($slug)
@@ -33,6 +35,9 @@ class Product extends Front_controller
             return;
         }
 
+        $data['delivery_methods'] = $this->delivery_model->get_all();
+        $data['payment_methods'] = $this->payment_model->get_all();
+
         $this->canonical = base_url('product/' . $slug);
 
         $data['breadcrumbs'][] = ['href' => base_url(), 'text' => lang('text_home')];
@@ -45,11 +50,24 @@ class Product extends Front_controller
 
         $data['prices'] = $this->product_model->get_product_price($data);
 
+        if($data['prices']){
+            if(isset($_GET['supplier_id']) && isset($_GET['term'])){
+                foreach ($data['prices'] as $index => $price){
+                    if($price['supplier_id'] == $_GET['supplier_id'] && $price['term'] == $_GET['term']){
+                        $data['one_price'] = $price;
+                        break;
+                    }
+                }
+            }else{
+                $data['one_price'] = $data['prices'][0];
+            }
+        }
+
+
+
         $data['banner'] = $this->banner_model->get_product();
 
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($data['id']);
-
-
 
         $data['applicability'] = false;
         if (isset($data['tecdoc_info']['applicability']) && !empty($data['tecdoc_info']['applicability'])) {
@@ -128,9 +146,17 @@ class Product extends Front_controller
         } else {
             $this->setKeywords(str_replace(' ', ',', $this->title));
         }
-
+        $data['tecdoc_attributes'] = false;
         if (isset($data['tecdoc_info']['article']['Info']) && mb_strlen($data['tecdoc_info']['article']['Info']) > 0) {
-            $data['description'] .= $data['tecdoc_info']['article']['Info'];
+            $info = explode("<br>",$data['tecdoc_info']['article']['Info']);
+            if($info){
+                foreach ($info as $inf){
+                    $inf = explode(':',$inf);
+                    if(@$inf[0] && @$inf[1]){
+                        $data['tecdoc_attributes'][] = ['attribute_name' => $inf[0], 'attribute_value' => @$inf[1]];
+                    }
+                }
+            }
         }
 
 

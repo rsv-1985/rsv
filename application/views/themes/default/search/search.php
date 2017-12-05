@@ -144,10 +144,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </label>
                                 <?php } ?>
                             </td>
-                            <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['sku'];?></a></td>
-                            <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['brand'];?></a></td>
+                            <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
+                            <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
                             <td class="search-product-name">
-                                <a href="/product/<?php echo $product['slug'];?>"><?php echo $product['name'];?></a>
+                                <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
                                 <?php if($product['excerpt']){?>
                                     <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
                                 <?php } ?>

@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_status');?></th>
                                 <th><?php echo lang('text_paid');?></th>
                                 <th><?php echo lang('text_product_status');?></th>
-                                <th><a style="display: none;" href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
+                                <th><a href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
                             <?php echo form_open('/autoxadmin/order/index',['method' => 'GET']);?>
                             <tr>
