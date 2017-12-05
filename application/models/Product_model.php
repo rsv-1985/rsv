@@ -286,13 +286,14 @@ class Product_model extends Default_model
                     'name' => $item->Name,
                     'brand' => $this->clear_brand($item->Brand),
                     'sku' => $this->clear_sku($item->Article),
+                    'image' => '/image?img='.$item->Preview.'&width=50'
                 ];
             }
         }
 
         //Получаем список брендов в локальной базе, которых нет в базе текдок
         $this->db->from($this->table);
-        $this->db->select(['name', 'brand', 'sku']);
+        $this->db->select(['name', 'brand', 'sku', 'image']);
         $this->db->where('sku', $sku);
         if ($check_brand) {
             $this->db->where_not_in('brand', $check_brand);
@@ -308,6 +309,7 @@ class Product_model extends Default_model
                     'name' => $item['name'],
                     'brand' => $item['brand'],
                     'sku' => $item['sku'],
+                    'image' => '/image?img=/uploads/product/'.$item['image'].'&width=50'
                 ];
             }
         }
@@ -330,6 +332,7 @@ class Product_model extends Default_model
                     'name' => '',
                     'brand' => $item['brand'],
                     'sku' => $item['code'],
+                    'image' => '/image?width=50'
                 ];
             }
         }
