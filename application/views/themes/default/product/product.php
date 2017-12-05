@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-8 col-sm-12" id="prices">
                         <?php if ($prices || $cross) { ?>
                             <h3>
-                                Всего <?php echo plural_form(count($prices), ['предложение', 'предложений', 'предложений']); ?></h3>
+                                Всего <?php echo plural_form(count($prices), [lang('text_offer_1'), lang('text_offer_2'), lang('text_offer_5')]); ?></h3>
 
                             <?php if ($prices) { ?>
                                     <table class="table table-hover table-bordered table-condensed table-responsive">
