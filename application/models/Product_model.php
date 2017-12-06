@@ -684,6 +684,9 @@ class Product_model extends Default_model
         if ($sku && $brand) {
             $ID_art = $this->tecdoc->getIDart($sku, $brand);
             $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
+            if($crosses && $full_info){
+                $return['cross'] = $this->get_search_crosses($crosses);
+            }
             if (isset($ID_art[0]->ID_art)) {
                 $return = [];
                 $ID_art = $ID_art[0]->ID_art;
@@ -692,10 +695,6 @@ class Product_model extends Default_model
                     $return['applicability'] = $this->tecdoc->getUses($ID_art);
                     $return['components'] = $this->tecdoc->getPackage($ID_art);
                     $return['images'] = $this->tecdoc->getImages($ID_art);
-
-                    if ($crosses) {
-                        $return['cross'] = $this->get_search_crosses($crosses);
-                    }
                 }
             }
         }
