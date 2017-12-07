@@ -193,7 +193,7 @@ class Tecdoc
 
     public function getIDart($article, $brand)
     {
-        $brand = str_replace(['Ö','-'], ['O',''], preg_replace("/[^a-zA-ZА-Яа-я0-9]/", '', mb_strtoupper(trim($brand), 'UTF-8')));
+        $brand = str_replace(['-'], [''], preg_replace("/[^a-zA-ZА-Яа-я0-9]/", '', mb_strtoupper(trim($brand), 'UTF-8')));
         $query = [
             'apikey' => $this->key,
             'method' => 'getSearch',
