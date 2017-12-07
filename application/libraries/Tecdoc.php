@@ -195,11 +195,11 @@ class Tecdoc
     {
         $search = [
             'LEMFORDER',
-            '-',
+            //'-',
         ];
         $replace = [
             'LEMFÖRDER',
-            ''
+            //''
         ];
         $brand = str_replace($search, $replace, preg_replace("/[^a-zA-ZА-Яа-я0-9]/", '', mb_strtoupper(trim($brand), 'UTF-8')));
         $query = [
