@@ -55,9 +55,13 @@ class synonym_name extends Admin_controller
         if(!$data['synonym_name']){
             show_404();
         }
-
         if($this->input->post()){
-            $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|is_unique[synonym_name.name]|trim');
+            if($this->input->post('name') != trim($data['synonym_name']['name'])){
+                $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|is_unique[synonym_name.name]|trim');
+            }else{
+                $this->form_validation->set_rules('name', lang('text_name'), 'required|max_length[255]|trim');
+            }
+
             $this->form_validation->set_rules('name2', lang('text_name2'), 'required|max_length[255]|trim');
             if ($this->form_validation->run() !== false){
                 $this->save_data($id);
