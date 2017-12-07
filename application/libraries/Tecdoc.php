@@ -201,7 +201,7 @@ class Tecdoc
             'LEMFÖRDER',
             //''
         ];
-        $brand = str_replace($search, $replace, preg_replace("/[^a-zA-ZА-Яа-я0-9]/", '', mb_strtoupper(trim($brand), 'UTF-8')));
+        $brand = str_replace($search, $replace, mb_ereg_replace("/[^a-zA-ZА-Яа-я0-9]/", '', mb_strtoupper(trim($brand), 'UTF-8')));
         $query = [
             'apikey' => $this->key,
             'method' => 'getSearch',
