@@ -219,7 +219,7 @@ class Product_model extends Default_model
                 $brand = $synonym[$brand];
             }
         }
-        return str_replace('-', ' ', $brand);
+        return $brand;
     }
 
     //Чистка количества
