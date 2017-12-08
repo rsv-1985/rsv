@@ -688,7 +688,6 @@ class Product_model extends Default_model
                 $return['cross'] = $this->get_search_crosses($crosses);
             }
             if (isset($ID_art[0]->ID_art)) {
-                $return = [];
                 $ID_art = $ID_art[0]->ID_art;
                 $return['article'] = (array)$this->tecdoc->getArticle($ID_art)[0];
                 if ($full_info) {
