@@ -38,6 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <div class="form-group">
                                 <label>Сортировать по</label>
                                 <select name="filter_group" id="input-group" class="form-control">
+                                    <option></option>
                                     <option value="year" <?php echo set_select('filter_group','year','year' == $this->input->get('filter_group'));?>>Год</option>
                                     <option value="month" <?php echo set_select('filter_group','month','month' == $this->input->get('filter_group'));?>>Месяц</option>
                                     <option value="week" <?php echo set_select('filter_group','week','week' == $this->input->get('filter_group'));?>>Неделя</option>
