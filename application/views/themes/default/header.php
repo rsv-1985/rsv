@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 }?>
 
 <?php echo @$this->options['analytics'];?>
-<?php if($this->show_modal && $this->important_news['status']){?>
+<?php if($this->show_modal && @$this->important_news['status']){?>
     <div class="modal fade" id="important_news" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

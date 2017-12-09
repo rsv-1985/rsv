@@ -161,6 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/report/cart"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_cart');?></a></li>
                         <li><a href="/autoxadmin/report/search_history"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_search_history');?></a></li>
+                        <li><a href="/autoxadmin/report/sale_order"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_report_sale_order');?></a></li>
                     </ul>
                 </li>
                 <li class="treeview">

@@ -64,3 +64,4 @@ $lang['text_nav_newsletter'] = 'Подписчики';
 $lang['button_delete_all'] = 'Удалить все';
 $lang['text_nav_message_template'] = 'Шаблоны сообщений';
 $lang['text_access_denied'] = 'Вашей группе пользователей запрещен доступ в данный раздел';
+$lang['text_nav_report_sale_order'] = 'По продажам';
