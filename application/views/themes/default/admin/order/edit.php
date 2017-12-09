@@ -55,8 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="col-sm-4 invoice-col">
             <div class="form-group">
                 <label><?php echo lang('text_address'); ?></label>
-                <input type="text" name="address" value="<?php echo set_value('address', $order['address']); ?>"
-                       class="form-control">
+                <textarea rows="1" class="form-control" name="address"><?php echo set_value('address', $order['address']); ?></textarea>
             </div>
             <div class="form-group">
                 <label><?php echo lang('text_telephone'); ?></label>
