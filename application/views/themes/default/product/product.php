@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php if ($delivery_method['description']) { ?>
                                         <a data-trigger="hover" data-container="body" data-html="true"
                                            data-toggle="popover" data-placement="right"
-                                           data-content="<?php echo $delivery_method['description']; ?>"
+                                           data-content="<?php echo htmlspecialchars($delivery_method['description']); ?>"
                                            title="<?php echo $delivery_method['name']; ?>">
                                             <small>
                                                 <i class="glyphicon glyphicon-info-sign"></i>
@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php if ($payment_method['description']) { ?>
                                         <a data-trigger="hover" data-container="body" data-html="true"
                                            data-toggle="popover" data-placement="right"
-                                           data-content="<?php echo $payment_method['description']; ?>"
+                                           data-content="<?php echo htmlspecialchars($payment_method['description']); ?>"
                                            title="<?php echo $payment_method['name']; ?>">
                                             <small>
                                                 <i class="glyphicon glyphicon-info-sign"></i>
