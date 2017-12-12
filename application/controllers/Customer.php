@@ -382,4 +382,23 @@ class Customer extends Front_controller
         $this->load->view('customer/parcels', $data);
         $this->load->view('footer');
     }
+
+    public function search_history(){
+        $this->load->model('search_history_model');
+
+        $data = [];
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('/customer/search_history');
+        $config['per_page'] = 30;
+        $data['search_history'] = $this->search_history_model->search_history_customer($config['per_page'], $this->uri->segment(3),$this->is_login);
+        $config['total_rows'] = $this->search_history_model->total_rows;
+        $config['reuse_query_string'] = TRUE;
+
+        $this->pagination->initialize($config);
+
+        $this->load->view('header');
+        $this->load->view('customer/search_history', $data);
+        $this->load->view('footer');
+    }
 }

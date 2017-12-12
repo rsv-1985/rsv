@@ -41,4 +41,23 @@ class Search_history_model extends Default_model{
         }
         return false;
     }
+
+    public function search_history_customer($limit, $start, $customer_id){
+        $this->db->from('search_history sh');
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->where('customer_id',(int)$customer_id);
+
+        $this->db->order_by('sh.id','DESC');
+
+        $this->db->limit((int)$limit, (int)$start);
+
+        $query = $this->db->get();
+
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+        return false;
+    }
 }
