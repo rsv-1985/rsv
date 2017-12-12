@@ -90,19 +90,15 @@ class Sending extends Admin_controller
 
                 unset($unique_emails[0]);
                 if(count($unique_emails)){
+                    $this->email->bcc_batch_mode = true;
+                    $this->email->bcc_batch_size = 100;
                     $this->email->bcc($unique_emails);
                 }
 
                 $this->email->mailtype = 'html';
                 $this->email->subject($this->input->post('subject',true));
                 $this->email->message($this->input->post('text',true));
-                try {
-                    if(!$this->email->send()){
-                        echo $this->email->print_debugger();
-                    }
-                } catch (Exception $e) {
-                    //echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
-                }
+                @$this->email->send();
             }
 
             if($this->input->post('send_sms') && $phones){
