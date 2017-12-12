@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 required>
                                             <option></option>
                                             <?php if($this->is_login){?>
-                                                <option value="0" id="payment-0">С личного баланса</option>
+                                                <option selected value="0" id="payment-0">С личного баланса</option>
                                             <?php } ?>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
