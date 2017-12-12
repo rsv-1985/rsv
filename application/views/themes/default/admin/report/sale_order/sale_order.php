@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $sale_order['orders'];?></td>
                                     <td><?php echo $sale_order['total_delivery'];?></td>
                                     <td><?php echo $sale_order['total'];?></td>
-                                    <td><?php echo $sale_order['profit'];?></td>
+                                    <td><?php echo $sale_order['total'] - $sale_order['total_delivery'];?></td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>

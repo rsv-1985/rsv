@@ -17,8 +17,7 @@ MIN(o.created_at) AS date_start,
 MAX(o.created_at) AS date_end, 
 COUNT(*) AS `orders`, 
 SUM(o.total) AS `total`, 
-(SELECT SUM(op.delivery_price) FROM `ax_order_product` op WHERE op.order_id = o.id) AS `total_delivery`,
-(SELECT total - total_delivery) AS profit
+(SELECT SUM(op.delivery_price) FROM `ax_order_product` op WHERE op.order_id = o.id) AS `total_delivery`
 FROM `ax_order` o";
 
        if ($this->input->get('status_id')) {
