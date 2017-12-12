@@ -38,7 +38,7 @@ FROM `ax_order` o";
        if ($this->input->get('filter_group')) {
            $group = $this->input->get('filter_group');
        } else {
-           $group = 'week';
+           $group = 'day';
        }
 
        switch($group) {
