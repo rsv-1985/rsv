@@ -228,26 +228,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
 
                 <?php } else { ?>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3><?php echo lang('text_quick_navigation'); ?></h3>
-                        </div>
-                        <?php if ($popular_category) { ?>
-                            <?php foreach ($popular_category as $tree) { ?>
-                                <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>">
-                                    <div class="col-sm-6 col-md-4">
-                                        <div class="thumbnail category-item">
-                                            <img src="<?php echo $tree['image']; ?>"
-                                                 alt="<?php echo $tree['name']; ?>">
-                                            <div class="caption">
-                                                <p><?php echo $tree['name']; ?></p>
+                    <?php if ($popular_category) { ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3><?php echo lang('text_quick_navigation'); ?></h3>
+                            </div>
+                                <?php foreach ($popular_category as $tree) { ?>
+                                    <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>">
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="thumbnail category-item">
+                                                <img src="<?php echo $tree['image']; ?>"
+                                                     alt="<?php echo $tree['name']; ?>">
+                                                <div class="caption">
+                                                    <p><?php echo $tree['name']; ?></p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            <?php } ?>
-                        <?php } ?>
-                    </div>
+                                    </a>
+                                <?php } ?>
+                        </div>
+                    <?php } ?>
                     <div class="jumbotron">
                         <h3><?php echo $name; ?></h3>
                         <table class="table">
