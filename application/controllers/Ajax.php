@@ -202,7 +202,20 @@ class Ajax extends Front_controller
             }
 
             $this->sender->email($subject, $html, explode(';', $this->contacts['email']),$this->input->post('email',true));
-
+            $this->load->model('vinrequest_model');
+            $save = [];
+            $save['customer_id'] = $this->is_login;
+            $save['manufacturer'] = $this->input->post('manufacturer', true);
+            $save['model'] = $this->input->post('model', true);
+            $save['engine'] = $this->input->post('engine', true);
+            $save['vin'] = $this->input->post('vin', true);
+            $save['name'] = $this->input->post('name', true);
+            $save['telephone'] = $this->input->post('telephone', true);
+            $save['email'] = $this->input->post('email', true);
+            $save['parts'] = $this->input->post('parts', true);
+            $save['status'] = 0;
+            $save['created_at'] = date("Y-m-d H:i:s");
+            $this->vinrequest_model->insert($save);
             $json['success'] = lang('text_vin_success');
         } else {
             $json['error'] = validation_errors();

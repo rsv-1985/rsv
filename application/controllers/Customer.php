@@ -401,4 +401,41 @@ class Customer extends Front_controller
         $this->load->view('customer/search_history', $data);
         $this->load->view('footer');
     }
+
+    public function vin(){
+        $this->load->model('vinrequest_model');
+
+        $data = [];
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('/customer/vin');
+        $config['per_page'] = 30;
+        $data['vins'] = $this->vinrequest_model->get_all($config['per_page'], $this->uri->segment(3),['customer_id' => $this->is_login],['id' => 'DESC']);
+        $config['total_rows'] = $this->vinrequest_model->count_all(['customer_id' => $this->is_login]);
+        $config['reuse_query_string'] = TRUE;
+
+        $this->pagination->initialize($config);
+
+        $this->load->view('header');
+        $this->load->view('customer/vin', $data);
+        $this->load->view('footer');
+    }
+
+    public function vin_info($id = false){
+        $this->load->model('vinrequest_model');
+        $vin_info = $this->vinrequest_model->get($id);
+        if(!$id || !$vin_info || $vin_info['customer_id'] != $this->is_login){
+            $this->output->set_status_header(410, lang('text_page_404'));
+            $this->load->view('header');
+            $this->load->view('page_404');
+            $this->load->view('footer');
+            return;
+        }
+
+        $data['vin_info'] = $vin_info;
+
+        $this->load->view('header');
+        $this->load->view('customer/vin_info', $data);
+        $this->load->view('footer');
+    }
 }

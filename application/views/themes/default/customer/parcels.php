@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>Способ оплаты</th>
                             <th>ТТН</th>
                             <th>Дата</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,6 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <td><?php echo $parcel['payment_method'];?></td>
                                 <td><?php echo $parcel['ttn'];?></td>
                                 <td><?php echo $parcel['updated_at'];?></td>
+                                <td><a target="_blank" href="/customer/print_parcel/<?php echo $parcel['id'];?>">Подробнее</a></td>
                             </tr>
                         <?php } ?>
                         </tbody>

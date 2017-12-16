@@ -57,15 +57,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="col-md-6">
                 <div class="form-group">
                     <label><?php echo lang('text_vin_name');?></label>
-                    <input id="input_vin_name" type="text" name="name" class="form-control" required/>
+                    <input id="input_vin_name" type="text" name="name" value="<?php echo @$this->customer_model->first_name;?>" class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_vin_telephone');?></label>
-                    <input id="input_vin_telephone" type="text" name="telephone" class="form-control" required/>
+                    <input id="input_vin_telephone" type="text" name="telephone" value="<?php echo @$this->customer_model->phone;?>"  class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_vin_email');?></label>
-                    <input id="input_vin_email" type="email" name="email" class="form-control" required/>
+                    <input id="input_vin_email" type="email" name="email" value="<?php echo @$this->customer_model->email;?>" class="form-control" required/>
                 </div>
                 <div class="form-group pull-right">
                     <button id="button_vin_submit" type="submit"><?php echo lang('button_send');?></button>

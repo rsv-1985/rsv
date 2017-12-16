@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_orders_status');?></th>
                             <th><?php echo lang('text_orders_total');?></th>
                             <th>Статус оплаты</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,6 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         Оплачен
                                     <?php } ?>
                                 </td>
+                                <td><a target="_blank" href="/customer/orderinfo/<?php echo $order['id'];?>">Подробнее</a></td>
                             </tr>
                         <?php } ?>
                         </tbody>

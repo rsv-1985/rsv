@@ -9,8 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Admin_controller extends CI_Controller{
     public $error = false;
     public $success = false;
-    public $new_customer = false;
-    public $new_order = false;
     public $default_currency;
     public $user_access;
     public function __construct()
@@ -26,10 +24,7 @@ class Admin_controller extends CI_Controller{
             $this->success = $this->session->flashdata('success');
         }
         $this->default_currency = $this->currency_model->get_default();
-        $this->new_customer = $this->db->where(['status' => false])->count_all_results('customer');
-
         $this->load->model('orderstatus_model');
-        $this->new_order = $this->db->where(['status' => $this->orderstatus_model->get_default()['id']])->count_all_results('order');
 
         $this->load->model('usergroup_model');
         $this->user_access = $this->usergroup_model->get_access($this->session->user_group_id);
