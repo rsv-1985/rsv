@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </a>
                     <?php } else { ?>
                         <a href="/image" data-fancybox="quick-view-1" data-type="image">
-                            <img src="image"/>
+                            <img src="/image"/>
                         </a>
                     <?php } ?>
                     <div class="product-images">
@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         <?php } else { ?>
                             <a href="/image" data-fancybox="quick-view-1" data-type="image">
-                                <img src="image"/>
+                                <img src="/image"/>
                             </a>
                         <?php } ?>
                     </div>
