@@ -260,9 +260,7 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $crosses = array_merge($crosses, $query->result_array());
         }
-        if ($crosses) {
-            $crosses = array_unique($crosses, SORT_REGULAR);
-        }
+
         return $crosses;
     }
 
