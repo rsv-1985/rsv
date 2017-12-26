@@ -37,7 +37,7 @@ class Search extends Front_controller
 
         $this->load->library('user_agent');
         //Если это не робот и не админ, пишем историю поиска в базу данных
-        if (!$this->agent->is_robot() && $this->is_admin) {
+        if (!$this->agent->is_robot() && !$this->is_admin) {
             $this->load->model('search_history_model');
             $search_history = [
                 'customer_id' => (int)$this->is_login,
