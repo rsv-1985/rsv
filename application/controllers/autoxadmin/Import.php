@@ -32,7 +32,7 @@ class Import extends Admin_controller
         $file = new SplFileObject($file);
 
         // array of predefined delimiters. Add any more delimiters if you wish
-        $delimiters = array(',', '\t', ';', '|', ':', '#');
+        $delimiters = array(';', ',', '\t', '|', ':', '#');
 
         // store all the occurences of each delimiter in an associative array
         $number_of_delimiter_occurences = array();
@@ -68,7 +68,7 @@ class Import extends Admin_controller
         // because it is not recognised as a special character for 'tab' key,
         // it shows up like a simple string composed of '\' and 't' characters, which is not accepted when parsing csv files
 
-        return $results[0] == '\t' ? "\t" : $results[0];
+        return $delimiter = $results[0] == '\t' ? "\t" : $results[0];
     }
 
     public function index(){
