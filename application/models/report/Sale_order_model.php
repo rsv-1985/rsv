@@ -31,6 +31,31 @@ class Sale_order_model extends CI_model
            $sql .= " AND DATE(o.created_at) <= " . $this->db->escape($this->input->get('date_end')) . "";
        }
 
+       if ($this->input->get('filter_group')) {
+           $group = $this->input->get('filter_group');
+       } else {
+           $group = 'day';
+       }
+
+       switch($group) {
+           case 'day';
+               $sql .= " GROUP BY YEAR(o.created_at), MONTH(o.created_at), DAY(o.created_at)";
+               break;
+           default:
+           case 'week':
+               $sql .= " GROUP BY YEAR(o.created_at), WEEK(o.created_at)";
+               break;
+           case 'month':
+               $sql .= " GROUP BY YEAR(o.created_at), MONTH(o.created_at)";
+               break;
+           case 'year':
+               $sql .= " GROUP BY YEAR(o.created_at)";
+               break;
+       }
+
+       $sql .= " ORDER BY o.created_at DESC";
+       $sql .= " LIMIT " . $start . "," . $limit;
+
        $query = $this->db->query($sql)->row_array();
 
        $delivery_total = $query['delivery_total'];
