@@ -12,12 +12,37 @@ class Sale_order_model extends CI_model
    public $total_rows = 0;
 
    public function sale_order_get_all($limit, $start){
+       //Получаем сумму расходов по заказам
+       $sql = "SELECT SUM(op.delivery_price) as delivery_total FROM `ax_order_product` op 
+       LEFT JOIN `ax_order` o ON o.id = op.order_id 
+       WHERE 1";
+
+       if ($this->input->get('status_id')) {
+           $sql .= " AND o.status = '" . (int)$this->input->get('status_id') . "'";
+       } else {
+           $sql .= " AND o.status > '0'";
+       }
+
+       if ($this->input->get('date_start')) {
+           $sql .= " AND DATE(o.created_at) >= " . $this->db->escape($this->input->get('date_start')) . "";
+       }
+
+       if ($this->input->get('date_end')) {
+           $sql .= " AND DATE(o.created_at) <= " . $this->db->escape($this->input->get('date_end')) . "";
+       }
+
+       $query = $this->db->query($sql)->row_array();
+
+       $delivery_total = $query['delivery_total'];
+
+
        $sql = "SELECT SQL_CALC_FOUND_ROWS 
 MIN(o.created_at) AS date_start, 
 MAX(o.created_at) AS date_end, 
 COUNT(*) AS `orders`, 
 SUM(o.total) AS `total`, 
-(SELECT SUM(op.delivery_price) FROM `ax_order_product` op WHERE op.order_id = o.id) AS `total_delivery`
+SUM(o.commission) as `total_commission`,
+$delivery_total AS `total_delivery`
 FROM `ax_order` o";
 
        if ($this->input->get('status_id')) {
