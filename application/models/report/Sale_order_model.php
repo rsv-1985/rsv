@@ -24,7 +24,7 @@ SUM(o.total) AS `total`,
 SUM(o.commission) as `total_commission`,
 SUM(op.delivery_price) as `total_delivery`
 FROM `ax_order` o 
-RIGHT JOIN `ax_order_product` op ON op.order_id = o.id";
+LEFT JOIN `ax_order_product` op ON op.order_id = o.id";
 
        if ($this->input->get('status_id')) {
            $sql .= " WHERE o.status = '" . (int)$this->input->get('status_id') . "'";
