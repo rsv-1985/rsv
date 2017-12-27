@@ -69,6 +69,13 @@ FROM `ax_order` o";
        $results = $query->result_array();
        foreach ($results as &$result){
            $sql = "SELECT SUM(op.delivery_price) AS total_delivery FROM `ax_order_product` op LEFT JOIN `ax_order` o ON o.id = op.order_id WHERE o.created_at BETWEEN '".$result['date_start']."' AND '".$result['date_end']."'";
+
+           if ($this->input->get('status_id')) {
+               $sql .= " AND o.status = '" . (int)$this->input->get('status_id') . "'";
+           } else {
+               $sql .= " AND o.status > '0'";
+           }
+
            $result['total_delivery'] = $this->db->query($sql)->row_array()['total_delivery'];
        }
 
