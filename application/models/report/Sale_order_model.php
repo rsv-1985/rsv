@@ -13,7 +13,8 @@ class Sale_order_model extends CI_model
 
    public function sale_order_get_all($limit, $start){
 
-       $delivery_total = 0;
+
+
 
 
        $sql = "SELECT SQL_CALC_FOUND_ROWS 
@@ -21,10 +22,8 @@ MIN(o.created_at) AS date_start,
 MAX(o.created_at) AS date_end, 
 COUNT(*) AS `orders`, 
 SUM(o.total) AS `total`, 
-SUM(o.commission) as `total_commission`,
-SUM(op.delivery_price) as `total_delivery`
-FROM `ax_order` o 
-LEFT JOIN `ax_order_product` op ON op.order_id = o.id";
+SUM(o.commission) as `total_commission`
+FROM `ax_order` o";
 
        if ($this->input->get('status_id')) {
            $sql .= " WHERE o.status = '" . (int)$this->input->get('status_id') . "'";
@@ -67,6 +66,12 @@ LEFT JOIN `ax_order_product` op ON op.order_id = o.id";
 
        $query = $this->db->query($sql);
        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
-       return $query->result_array();;
+       $results = $query->result_array();
+       foreach ($results as &$result){
+           $sql = "SELECT SUM(op.delivery_price) AS total_delivery FROM `ax_order_product` op LEFT JOIN `ax_order` o ON o.id = op.order_id WHERE o.created_at BETWEEN '".$result['date_start']."' AND '".$result['date_end']."'";
+           $result['total_delivery'] = $this->db->query($sql)->row_array()['total_delivery'];
+       }
+
+       return $results;
    }
 }
