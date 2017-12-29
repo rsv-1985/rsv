@@ -180,7 +180,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <label><?php echo lang('text_comment'); ?></label>
                                         <textarea name="comment" style="height: 342px;" class="form-control"><?php echo set_value('comment');?></textarea>
                                     </div>
-
+                                    <?php if($terms_of_use){?>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="terms_of_use" value="1" required> <a data-toggle="modal" data-target="#myModal">Пользовоательское соглашение</a>
+                                            </label>
+                                        </div>
+                                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Пользовоательское соглашение</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <?php echo $terms_of_use;?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                     <button class="btn pull-right"
                                             type="submit"><?php echo lang('button_order'); ?></button>
                                 </div>

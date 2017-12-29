@@ -235,6 +235,29 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </div>
                             </div>
                             <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading2">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapse5" aria-expanded="true" aria-controls="collapseOne">
+                                            Пользовательское соглашение
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse5" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="heading2">
+                                    <div class="panel-body">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <textarea class="textarea" name="settings[terms_of_use]"><?php echo set_value('settings[terms_of_use]', @$settings['terms_of_use']); ?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            Если данное поле не пустое, клиент не сможет оформить заказ , пока не согласится с ним.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading4">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion"
