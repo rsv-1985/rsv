@@ -35,7 +35,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <img width="100" class="media-object" src="/image" alt="<?php echo $new['name'];?>">
                                 </a>
                             <?php } ?>
-
                         </div>
                         <div class="media-body">
                             <a href="/news/<?php echo $new['slug'];?>">
@@ -43,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </a>
                             <small><?php echo word_limiter(strip_tags($new['description']),20);?></small>
                             <br>
-                            <a href="/news/<?php echo $new['slug'];?>" style="bottom: 0; position: absolute;">
+                            <a href="/news/<?php echo $new['slug'];?>">
                                 <?php echo lang('text_news_href');?>
                             </a>
                         </div>
