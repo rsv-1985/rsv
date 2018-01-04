@@ -64,3 +64,4 @@ $route['category/(:any)/brand/(:any)'] = 'category/index/$1/$2';
 $route['category/(:any)/brand/(:any)/:num'] = 'category/index/$1/$2/$3';
 $route['category/(:any)/:num'] = 'category/index/$1/$2';
 $route['category/(:any)'] = 'category/index/$1';
+$route['news/(:any)'] = 'news/view/$1';

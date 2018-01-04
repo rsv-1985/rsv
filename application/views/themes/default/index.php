@@ -60,7 +60,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php echo $this->load->view('form/category', '', true); ?>
                 <?php if ($news) { ?>
                     <div class="panel">
-                        <div class="panel-heading"><?php echo lang('text_news'); ?></div>
+                        <div class="panel-heading">
+                        <a href="/news">
+                            <?php echo lang('text_news'); ?>
+                        </a>
+
+                        </div>
                         <div class="panel-body" id="news-list">
                             <?php foreach ($news as $news) { ?>
                                 <a href="/news/<?php echo $news['slug']; ?>"><?php echo $news['name']; ?></a>

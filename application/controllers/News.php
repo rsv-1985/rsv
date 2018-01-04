@@ -13,9 +13,28 @@ class News extends Front_controller{
         $this->load->model('news_model');
         $this->load->helper('security');
         $this->load->helper('typography');
+        $this->load->helper('text');
+        $this->load->language('news');
     }
 
-    public function index($slug){
+    public function index(){
+        $data = [];
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('/news/index');
+        $config['total_rows'] = $this->news_model->count_all(['status' => true]);
+        $config['per_page'] = 10;
+
+        $this->pagination->initialize($config);
+
+        $data['news'] = $this->news_model->get_all($config['per_page'], $this->uri->segment(4));
+
+        $this->load->view('header');
+        $this->load->view('news/news', $data);
+        $this->load->view('footer');
+    }
+
+    public function view($slug){
         $slug = xss_clean($slug);
         $news = $this->news_model->get_by_slug($slug);
         if(!$news){
@@ -30,7 +49,7 @@ class News extends Front_controller{
         $data['description'] = auto_typography($news['description']);
 
         $this->load->view('header');
-        $this->load->view('news/news', $data);
+        $this->load->view('news/view', $data);
         $this->load->view('footer');
     }
 

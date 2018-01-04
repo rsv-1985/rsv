@@ -195,5 +195,7 @@ function getSearchBrand(search){
                 }
             }
         });
+    }else{
+        $("#search_brand").hide();
     }
 }
