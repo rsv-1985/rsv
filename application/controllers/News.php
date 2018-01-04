@@ -21,13 +21,14 @@ class News extends Front_controller{
         $data = [];
         $this->load->library('pagination');
 
-        $config['base_url'] = base_url('/news/index');
+        $config['base_url'] = base_url('news');
         $config['total_rows'] = $this->news_model->count_all(['status' => true]);
         $config['per_page'] = 10;
+        $config['page_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
 
-        $data['news'] = $this->news_model->get_all($config['per_page'], $this->uri->segment(4));
+        $data['news'] = $this->news_model->get_all($config['per_page'], $this->uri->segment(2));
 
         $this->load->view('header');
         $this->load->view('news/news', $data);
