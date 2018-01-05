@@ -43,7 +43,7 @@ body {
     font-size: 16px;
     font-weight: 400
 }
-.logo img{
+.logo,td img{
     width: 100%;
 }
 .breadcrumb {
