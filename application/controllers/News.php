@@ -28,7 +28,7 @@ class News extends Front_controller{
 
         $this->pagination->initialize($config);
 
-        $data['news'] = $this->news_model->get_all($config['per_page'], $this->uri->segment(2), ['status' => true], ['id' => 'DESC']);
+        $data['news'] = $this->news_model->get_all($config['per_page'], $this->input->get('per_page'), ['status' => true], ['id' => 'DESC']);
 
         $this->load->view('header');
         $this->load->view('news/news', $data);
