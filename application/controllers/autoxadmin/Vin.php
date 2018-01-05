@@ -46,7 +46,9 @@ class Vin extends Admin_controller
             $this->form_validation->set_rules('telephone', lang('text_vin_telephone'), 'required');
             $this->form_validation->set_rules('email', lang('text_vin_email'), 'required|valid_email');
             if ($this->form_validation->run() == true) {
+
                 $this->load->library('sender');
+
                 if ($this->input->post('send_sms')) {
                     unset($_POST['send_sms']);
                     $this->sender->sms($this->input->post('telephone', true), $this->input->post('comment', true));
@@ -55,7 +57,7 @@ class Vin extends Admin_controller
                 if ($this->input->post('send_email')) {
                     unset($_POST['send_email']);
                     $contacts = $this->settings_model->get_by_key('contact_settings');
-                    $this->sender->email('Ответ на VIN запрос ', $this->input->post('email', true), explode(';', $contacts['email']));
+                    $this->sender->email('Ответ на VIN запрос ', $this->input->post('comment'), $this->input->post('email', true), explode(';', $contacts['email']));
                 }
                 $_POST['updated_at'] = date("Y-m-d H:i:s");
                 $this->vinrequest_model->insert($this->input->post(),$id);
