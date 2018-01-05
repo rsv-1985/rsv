@@ -183,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php if($terms_of_use){?>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="terms_of_use" value="1" required> <a data-toggle="modal" data-target="#myModal">Пользовоательское соглашение</a>
+                                                <input type="checkbox" name="terms_of_use" value="1" required> <a data-toggle="modal" data-target="#myModal">Пользовательское соглашение</a>
                                             </label>
                                         </div>
                                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -191,7 +191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel">Пользовоательское соглашение</h4>
+                                                        <h4 class="modal-title" id="myModalLabel">Пользовательское соглашение</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <?php echo $terms_of_use;?>
