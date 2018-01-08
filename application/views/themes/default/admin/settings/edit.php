@@ -188,33 +188,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="panel-heading" role="tab" id="heading2">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                           href="#collapse2" aria-expanded="true" aria-controls="collapseOne">
-                                            <?php echo lang('text_scamdb_heading'); ?>
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse2" class="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="heading2">
-                                    <div class="panel-body">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>access-token</label>
-                                                <input class="form-control" type="text"
-                                                       name="settings[scamdb][access_token]"
-                                                       value="<?php echo set_value('settings[sms][login]', @$settings['scamdb']['access_token']); ?>"
-                                                       placeholder="access-token">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <?php echo lang('text_scamdb_description'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="heading2">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
                                            href="#collapse3" aria-expanded="true" aria-controls="collapseOne">
                                             Форма пополнения баланса
                                         </a>
