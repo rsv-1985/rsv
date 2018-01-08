@@ -110,22 +110,6 @@ class Order extends Admin_controller
         }
         $data['customer_info'] = $this->customer_model->get($data['order']['customer_id']);
 
-        $settings_fraud = $this->settings_model->get_by_key('scamdb');
-        $data['scamdb_info'] = false;
-        if (@$settings_fraud['access_token']) {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'https://scamdb.info/ru/v1/fraud/find?search=' . $data['order']['telephone'] . '&access-token=' . $settings_fraud['access_token']);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-            curl_setopt($curl, CURLOPT_TIMEOUT, 2);
-            $result = curl_exec($curl);
-            curl_close($curl);
-            $result = json_decode($result);
-
-            if (is_array($result)) {
-                $data['scamdb_info'] = '<a href="http://scamdb.info/ru/fraud/' . @$result[0]->id . '" target="_blank">Обнаружен в базе scamdb.info</a>';
-            }
-        }
         $data['status'] = $this->orderstatus_model->status_get_all();
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
