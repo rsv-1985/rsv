@@ -193,7 +193,6 @@ class Order extends Admin_controller
                 $save['payment_method_id'] = (int)$this->input->post('payment_method');
                 $save['address'] = $this->input->post('address', true);
                 $save['total'] = (float)$total;
-                $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
                 $save['status'] = (int)$this->input->post('status', true);
                 $save['commission'] = (float)$commissionpay;
