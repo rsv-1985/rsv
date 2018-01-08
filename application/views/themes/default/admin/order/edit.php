@@ -61,9 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <label><?php echo lang('text_telephone'); ?></label>
                 <input type="text" name="telephone" value="<?php echo set_value('telephone', $order['telephone']); ?>"
                        class="form-control">
-                <?php if ($scamdb_info) {
-                    echo $scamdb_info;
-                } ?>
             </div>
             <div class="form-group">
                 <label><?php echo lang('text_email'); ?></label>
