@@ -106,6 +106,14 @@ class Customer extends Admin_controller
         redirect('autoxadmin/customer');
     }
 
+    public function login($id){
+        $customer_info = $this->customer_model->get($id);
+        if($id){
+            $this->customer_model->login($customer_info['login'],'',true);
+            redirect('/');
+        }
+    }
+
     private function save_data($id = false)
     {
         $save = [];

@@ -38,14 +38,14 @@ class Customer_model extends Default_model{
         }
     }
 
-    public function login($login, $password){
+    public function login($login, $password, $admin_login = false){
         $this->db->where('login',$login);
         $this->db->where('status', true);
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
             $existingHashFromDb = $query->row_array()['password'];
             $isPasswordCorrect = password_verify($password, $existingHashFromDb);
-            if($isPasswordCorrect){
+            if($isPasswordCorrect || $admin_login){
                 $newdata = array(
                     'customer_id'  => $query->row_array()['id'],
                     'customer_group_id'     => $query->row_array()['customer_group_id'],
