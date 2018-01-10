@@ -45,6 +45,7 @@ body {
 }
 img{
     width: 100%;
+    height: auto;
 }
 .breadcrumb {
     background-color: #fff
