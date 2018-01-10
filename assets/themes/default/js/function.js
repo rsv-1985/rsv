@@ -189,7 +189,7 @@ function getSearchBrand(search){
                     console.log(json['brands']);
                     var html = '';
                     $(json['brands']).each(function(index, brand){
-                        html += '<li onclick="location.href=\'/search?search='+brand['sku']+'&ID_art='+brand['ID_art']+'&brand='+brand['brand']+'\'"><img src="'+brand['image']+'" width="50"/> '+brand['brand']+' <small>'+brand['name']+'</small></li>';
+                        html += '<li onclick="location.href=\'/search?search='+brand['sku']+'&ID_art='+brand['ID_art']+'&brand='+brand['brand']+'\'"><img src="'+brand['image']+'" style="width:50px"/> '+brand['brand']+' <small>'+brand['name']+'</small></li>';
                     })
                     $("#search_brand").html(html).show();
                 }
