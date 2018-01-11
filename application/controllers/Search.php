@@ -91,7 +91,9 @@ class Search extends Front_controller
                 $ch = curl_init($url);
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $autox_array);
+                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
                 $response = curl_exec($ch);
                 curl_close($ch);
             }
