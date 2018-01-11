@@ -78,7 +78,7 @@ class Search extends Front_controller
             $autox_array = [];
 
             foreach ($crosses_search as $cs){
-                $autox_array = [
+                $autox_array[] = [
                     'code' => $this->product_model->clear_sku($search),
                     'brand' => $this->product_model->clear_brand($brand),
                     'code2' => $cs['sku'],
@@ -86,17 +86,18 @@ class Search extends Front_controller
                     'name' => '',
                     'source' => base_url()
                 ];
-
-                $url = 'https://autox.pro/cross';
-                $ch = curl_init($url);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $autox_array);
-                curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                $response = curl_exec($ch);
-                curl_close($ch);
             }
+
+            $url = 'https://autox.pro/cross/add';
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($autox_array));
+            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            print_r($response);
+            curl_close($ch);
         }
         $data['products'] = [];
         $data['filter_brands'] = [];
