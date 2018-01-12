@@ -74,32 +74,6 @@ class Search extends Front_controller
 
         $crosses_search = array_unique($crosses_search, SORT_REGULAR);
 
-        if($brand && $search && $crosses_search){
-            $autox_array = [];
-
-            foreach ($crosses_search as $cs){
-                $autox_array[] = [
-                    'code' => $this->product_model->clear_sku($search),
-                    'brand' => $this->product_model->clear_brand($brand),
-                    'code2' => $cs['sku'],
-                    'brand2' => $cs['brand'],
-                    'name' => '',
-                    'source' => base_url()
-                ];
-            }
-
-            $url = 'https://autox.pro/cross/add';
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($autox_array));
-            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch,CURLOPT_TIMEOUT,1);
-            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,1);
-
-            $response = curl_exec($ch);
-            curl_close($ch);
-        }
         $data['products'] = [];
         $data['filter_brands'] = [];
 
