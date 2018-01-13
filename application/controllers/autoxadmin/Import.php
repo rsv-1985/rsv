@@ -289,6 +289,9 @@ class Import extends Admin_controller
     public function checktecdoc($id = 0){
         if($id == 0){
             @unlink('./uploads/check_tecdoc.csv');
+            if(isset($_SESSION['continue_product_id'])){
+                $id = $_SESSION['continue_product_id'];
+            }
         }
         $json = [];
 
@@ -324,11 +327,16 @@ class Import extends Admin_controller
                 }
 
             }
+            $_SESSION['continue_product_id'] = $product['id'];
             $json = [
                 'continue' => base_url('/autoxadmin/import/checktecdoc').'/'.$product['id'],
                 'row' => $id
             ];
         }else{
+            if(isset($_SESSION['continue_product_id'])){
+                unlink($_SESSION['continue_product_id']);
+            }
+            unset($_SESSION['continue_product_id']);
             if(file_exists('./uploads/check_tecdoc.csv')){
                 $this->session->set_flashdata('error', '<a href="'.base_url('/uploads/check_tecdoc.csv').'">Скачать файл с ошибками</a>');
             }else{
@@ -445,7 +453,7 @@ class Import extends Admin_controller
                 if(isset($data_f[(int)$params['sample']['category'] - 1]) && (int)$data_f[$params['sample']['category'] - 1] > 0){
                     $category_id = (int)$data_f[$params['sample']['category'] - 1];
                 } else {
-                    $category_id = $params['sample']['default_category_id'];
+                    $category_id = (int)@$params['sample']['default_category_id'];
                 }
 
                 if(isset($data_f[(int)$params['sample']['image'] - 1])){
@@ -508,6 +516,11 @@ class Import extends Admin_controller
         //Очищаем сессию params
         if(isset($_SESSION['params'])){
             unset($_SESSION['params']);
+        }
+
+        //Очищаем сессию проверку текдок
+        if(isset($_SESSION['continue_product_id'])){
+            unlink($_SESSION['continue_product_id']);
         }
 
         //Удаляем позиции в которых цена 0 или наличие 0
