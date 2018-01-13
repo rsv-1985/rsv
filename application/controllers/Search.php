@@ -34,6 +34,21 @@ class Search extends Front_controller
 
         $data['brands'] = $this->product_model->get_brands($search);
 
+        if (!$brand && $data['brands']) {
+            $redirect = false;
+            foreach ($data['brands'] as $item) {
+                if(!$item['ID_art']){
+                    $redirect = '/search?search='.$search.'&brand='.$item['brand'];
+                    break;
+                }
+            }
+
+            if(!$redirect){
+                $redirect = '/search?search='.$search.'&ID_art='.$data['brands'][0]['ID_art'].'&brand='.$data['brands'][0]['brand'];
+            }
+
+            redirect($redirect);
+        }
 
         $this->load->library('user_agent');
         //Если это не робот и не админ, пишем историю поиска в базу данных
@@ -55,14 +70,7 @@ class Search extends Front_controller
             $crosses_search = $system_cross;
         }
 
-        if (!$brand && $data['brands']) {
-            foreach ($data['brands'] as $item) {
-                $crosses_brand = $this->product_model->get_crosses($item['ID_art'], $item['brand'], $item['sku']);
-                if ($crosses_brand) {
-                    $crosses_search = array_merge($crosses_search, $crosses_brand);
-                }
-            }
-        }
+
 
         $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $crosses_search);
 
