@@ -130,7 +130,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <img onerror="this.src='/assets/themes/default/img/no_image.png'"
                                                      src="<?php echo $part->Image; ?>"
                                                      alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                                     title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
+                                                     title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                                style="max-height: 150px;">
                                             </a>
                                         </div>
                                         <small><?php echo $part->Brand.' '.$part->Search;?></small>
@@ -169,7 +170,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <img onerror="this.src='/assets/themes/default/img/no_image.png'"
                                                      src="<?php echo $part->Image; ?>"
                                                      alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                                     title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>">
+                                                     title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                                style="max-height: 150px;">
                                             </a>
                                         </div>
                                         <small><?php echo $part->Brand.' '.$part->Search;?></small>
