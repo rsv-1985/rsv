@@ -409,6 +409,7 @@ class Catalog extends Front_controller
             $data['h1'] = $this->h1;
 
             $data['parts'] = $this->tecdoc->getParts($ID_typ, $ID_tree);
+
             if($data['parts']){
                 foreach($data['parts'] as &$tecdoc_part){
                     $key = md5($tecdoc_part->Brand);

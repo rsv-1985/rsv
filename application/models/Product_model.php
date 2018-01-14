@@ -436,9 +436,11 @@ class Product_model extends Default_model
         }
 
         usort($product_prices,function($a,$b){
-            return $a['price'] - $b['price'];
+            if ($a['price'] == $b['price']) {
+                return 0;
+            }
+            return ($a['price'] < $b['price']) ? -1 : 1;
         });
-
         return $product_prices;
     }
 
