@@ -60,62 +60,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     ?>
                 <?php } ?>
             </ol>
-            <div class="col-md-4">
-                <?php if ($filters) { ?>
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                       aria-expanded="true" aria-controls="collapseOne">
-                                        <?php echo lang('text_filter'); ?> <i
-                                                class="glyphicon glyphicon-list pull-right"></i>
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                                 aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <?php foreach ($filters as $filter_name => $filter) { ?>
-                                        <b><?php echo $filter_name; ?></b>
-                                        <div class="ft">
-                                            <ul>
-                                                <?php foreach ($filter as $key => $value) { ?>
-                                                    <li><input class="filters" type="checkbox"
-                                                               value="<?php echo $key; ?>"><?php echo $value; ?>
-                                                    </li>
-                                                <?php } ?>
-
-                                            </ul>
-                                        </div>
-                                    <?php } ?>
-                                    <a href="#" rel="nofollow" onclick="location.reload()"
-                                       class="btn btn-info pull-right"><?php echo lang('text_resset_filter'); ?></a>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
-                <?php if ($trees) { ?>
-                    <h3><?php echo lang('text_catalog_tree'); ?></h3>
-                    <ul class="list-unstyled trees">
-                        <?php foreach ($trees as $tree) { ?>
-                            <?php if ($tree['Level'] == 1) { ?>
-                                <li id="<?php echo $tree['ID_tree']; ?>">
-                                    <?php if ($tree['Childs'] > 0) { ?>
-                                        <i class="fa fa-plus-square-o"></i> <a href="#"
-                                                                               onclick="show_tree('<?php echo $tree['ID_tree']; ?>', event)"><?php echo ucfirst($tree['Name']); ?></a>
-                                    <?php } else { ?>
-                                        <i class="fa fa-circle-o"></i> <a
-                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>"><?php echo ucfirst($tree['Name']); ?></a>
-                                    <?php } ?>
-                                </li>
-                            <?php } ?>
-                        <?php } ?>
-                    </ul>
-                <?php } ?>
-            </div>
             <div class="col-md-8">
                 <?php if ($this->input->get('id_tree')) { ?>
                     <?php if (@$parts) { ?>
@@ -131,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                      src="<?php echo $part->Image; ?>"
                                                      alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
                                                      title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                                style="max-height: 150px;">
+                                                     style="max-height: 150px;">
                                             </a>
                                         </div>
                                         <small><?php echo $part->Brand.' '.$part->Search;?></small>
@@ -173,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                      src="<?php echo $part->Image; ?>"
                                                      alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
                                                      title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                                style="max-height: 150px;">
+                                                     style="max-height: 150px;">
                                             </a>
                                         </div>
                                         <small><?php echo $part->Brand.' '.$part->Search;?></small>
@@ -256,19 +200,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="col-md-12">
                                 <h3><?php echo lang('text_quick_navigation'); ?></h3>
                             </div>
-                                <?php foreach ($popular_category as $tree) { ?>
-                                    <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>">
-                                        <div class="col-sm-6 col-md-4">
-                                            <div class="thumbnail category-item">
-                                                <img src="/image?img=<?php echo $tree['image']; ?>"
-                                                     alt="<?php echo $tree['name']; ?>">
-                                                <div class="caption">
-                                                    <p><?php echo $tree['name']; ?></p>
-                                                </div>
+                            <?php foreach ($popular_category as $tree) { ?>
+                                <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>">
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="thumbnail category-item">
+                                            <img src="/image?img=<?php echo $tree['image']; ?>"
+                                                 alt="<?php echo $tree['name']; ?>">
+                                            <div class="caption">
+                                                <p><?php echo $tree['name']; ?></p>
                                             </div>
                                         </div>
-                                    </a>
-                                <?php } ?>
+                                    </div>
+                                </a>
+                            <?php } ?>
                         </div>
                     <?php } ?>
                     <div class="jumbotron">
@@ -295,6 +239,63 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                 <?php } ?>
             </div>
+            <div class="col-md-4">
+                <?php if ($filters) { ?>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                       aria-expanded="true" aria-controls="collapseOne">
+                                        <?php echo lang('text_filter'); ?> <i
+                                                class="glyphicon glyphicon-list pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                 aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <?php foreach ($filters as $filter_name => $filter) { ?>
+                                        <b><?php echo $filter_name; ?></b>
+                                        <div class="ft">
+                                            <ul>
+                                                <?php foreach ($filter as $key => $value) { ?>
+                                                    <li><input class="filters" type="checkbox"
+                                                               value="<?php echo $key; ?>"><?php echo $value; ?>
+                                                    </li>
+                                                <?php } ?>
+
+                                            </ul>
+                                        </div>
+                                    <?php } ?>
+                                    <a href="#" rel="nofollow" onclick="location.reload()"
+                                       class="btn btn-info pull-right"><?php echo lang('text_resset_filter'); ?></a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php if ($trees) { ?>
+                    <h3><?php echo lang('text_catalog_tree'); ?></h3>
+                    <ul class="list-unstyled trees">
+                        <?php foreach ($trees as $tree) { ?>
+                            <?php if ($tree['Level'] == 1) { ?>
+                                <li id="<?php echo $tree['ID_tree']; ?>">
+                                    <?php if ($tree['Childs'] > 0) { ?>
+                                        <i class="fa fa-plus-square-o"></i> <a href="#"
+                                                                               onclick="show_tree('<?php echo $tree['ID_tree']; ?>', event)"><?php echo ucfirst($tree['Name']); ?></a>
+                                    <?php } else { ?>
+                                        <i class="fa fa-circle-o"></i> <a
+                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>"><?php echo ucfirst($tree['Name']); ?></a>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
+                        <?php } ?>
+                    </ul>
+                <?php } ?>
+            </div>
+
         </div>
     </div>
 </div>
