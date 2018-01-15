@@ -79,10 +79,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-12">
                 <?php if($this->options['show_currency_rate']){?>
-                    <div class="pull-left" id="currency_rate">
+                    <div class="pull-left currency_rate">
                         <?php foreach ($this->currency_model->currencies as $cur){?>
                             <?php if($cur['value'] != 1){?>
-                                <?php echo $cur['name'].': '.round($cur['value'],2);?>
+                                <?php echo $cur['name'];?> : <span><?php echo round($cur['value'],2);?></span>
                             <?php } ?>
                         <?php } ?>
                     </div>
