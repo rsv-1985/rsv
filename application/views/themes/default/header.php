@@ -78,6 +78,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <?php if($this->options['show_currency_rate']){?>
+                    <div class="pull-left">
+                        <?php foreach ($this->currency_model->currencies as $cur){?>
+                            <?php if($cur['value'] != 1){?>
+                                <?php echo $cur['name'].': '.round($cur['value'],2);?>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
                 <?php foreach(explode(';',$this->contacts['phone']) as $phone){?>
                     <i class="fa fa-phone-square"></i> <?php echo $phone;?>&nbsp;
                 <?php } ?>
