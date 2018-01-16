@@ -26,6 +26,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <input required type="text" class="form-control" name="name" value="<?php echo set_value('name', $customergroup['name']); ?>" maxlength="32">
                     </div><!-- /.form group -->
                     <div class="form-group">
+                        <label><?php echo lang('text_download_folder'); ?></label>
+                        <input required placeholder="/uploads/" type="text" class="form-control" name="download_folder" value="<?php echo set_value('download_folder', $customergroup['download_folder']); ?>" maxlength="255">
+                    </div><!-- /.form group -->
+                    <div class="form-group">
                         <label><?php echo lang('text_type'); ?></label>
                         <select name="type" class="form-control">
                             <?php foreach($types as $key => $value){?>

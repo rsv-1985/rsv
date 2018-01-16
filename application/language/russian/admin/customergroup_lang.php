@@ -17,3 +17,4 @@ $lang['text_discount'] = 'Скидка';
 $lang['text_error_delete'] = 'Нельзя удалить. Эта группа покупателей используется.';
 $lang['text_use_default'] = 'Для новых клиентов';
 $lang['text_use_all'] = 'Для незарегистрированных';
+$lang['text_download_folder'] = 'Файлы для скачивания';

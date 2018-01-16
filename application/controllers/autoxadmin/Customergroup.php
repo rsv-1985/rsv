@@ -97,6 +97,7 @@ class Customergroup extends Admin_controller
     private function save_data($id = false){
         $save = [];
         $save['name'] = $this->input->post('name', true);
+        $save['download_folder'] = $this->input->post('download_folder', true);
         $save['type'] = $this->input->post('type', true);
         $save['value'] = $this->input->post('value', true);
         $save['fix_value'] = $this->input->post('fix_value', true);
