@@ -37,7 +37,7 @@ class Csv{
 
         if($suppliers){
             $html .= '<div class="form-group"><label>Поставщик</label>';
-            $html .= '<select name="supplier_id" class="form-control">';
+            $html .= '<select name="supplier_id[]" class="form-control" multiple>';
             $html .= '<option></option>';
             foreach ($suppliers as $supplier){
                 $html .= '<option value="'.$supplier['id'].'">'.$supplier['name'].'</option>';
@@ -210,7 +210,7 @@ class Csv{
            $sql .= " AND p.category_id = '".(int)$data['category_id']."'";
         }
         if($data['supplier_id']){
-            $sql .= " AND pp.supplier_id = '".(int)$data['supplier_id']."'";
+            $sql .= " AND pp.supplier_id IN ('".implode('\',\'',$data['supplier_id'])."')";
         }
         if($data['saleprice']){
             $sql .= " AND pp.saleprice > 0";
