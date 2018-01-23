@@ -32,6 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><?php echo lang('text_email');?></th>
                             <th><?php echo lang('text_phone');?></th>
                             <th><?php echo lang('text_sum');?></th>
+                            <th><?php echo lang('text_balance');?></th>
                             <th><?php echo lang('text_status');?></th>
                             <th><a href="/autoxadmin/customer/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
@@ -78,6 +79,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <td><div class="form-group">
                                     <input type="text" class="form-control" disabled>
                                 </div></td>
+                            <td><div class="form-group">
+                                    <label>
+                                        <input type="checkbox" value="1" name="balance" <?php echo set_checkbox('balance',1, (bool)$this->input->get('balance'));?>>
+                                        Должники
+                                    </label>
+
+                                </div></td>
                             <td>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="status" value="<?php echo $this->input->get('status');?>">
@@ -109,6 +117,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                                 echo '<small style="color:'.$value['color'].'">'.$value['name'].'</small>:'.$customer['sum_'.$order_id].'<br/>';
                                             }
                                         }?>
+                                    </td>
+                                    <td>
+                                        <?php echo $customer['balance'];?>
                                     </td>
                                     <td>
                                         <?php if($customer['status']){?>

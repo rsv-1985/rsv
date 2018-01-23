@@ -24,3 +24,4 @@ $lang['text_status'] = 'Активен';
 $lang['text_success'] = 'Все прошло успешно';
 $lang['text_sum'] = 'Сумма заказов';
 $lang['text_negative_balance'] = 'Разрешить отрицательный баланс';
+$lang['text_balance'] = 'Баланс';

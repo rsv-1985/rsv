@@ -94,6 +94,9 @@ class Customer_model extends Default_model{
             if($this->input->get('status')){
                 $this->db->where('status', $this->input->get('status', true));
             }
+            if($this->input->get('balance')){
+                $this->db->where('balance <',0);
+            }
             return $this->db->count_all_results($this->table);
         }else{
             return $this->db->count_all($this->table);
@@ -134,6 +137,9 @@ class Customer_model extends Default_model{
             if($this->input->get('status')){
                 $this->db->where('status', $this->input->get('status', true));
             }
+            if($this->input->get('balance')){
+                $this->db->where('balance <',0);
+            }
         }
 
         if($limit && $start){
@@ -141,7 +147,12 @@ class Customer_model extends Default_model{
         }elseif($limit){
             $this->db->limit((int)$limit);
         }
-        $this->db->order_by('customer.id', 'DESC');
+        if($this->input->get('balance')){
+            $this->db->order_by('customer.balance', 'ASC');
+        }else{
+            $this->db->order_by('customer.id', 'DESC');
+        }
+
 
         $query = $this->db->get();
 
