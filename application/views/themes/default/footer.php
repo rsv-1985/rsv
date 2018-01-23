@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php }else{ ?>
                             <div>
                     <?php }?>
-                    Powered by <a href="http://cms.autoxcatalog.com/" title="Создание интернет-магазина автозапчастей">Autox</a>
+                    Powered by <a href="http://autox.pro" title="Создание интернет-магазина автозапчастей">Autox</a>
                         </div>
                 </div>
             </div>
