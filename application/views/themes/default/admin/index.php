@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </div>
                 </div>
                 <div class="col-lg-6 col-xs-6">
-                    <iframe style="width: 100%; height: 500px; border: 0px;" src="https://cms-autox.blogspot.com/"></iframe>
+                    <iframe style="width: 100%; height: -webkit-fill-available; border: 0px;" src="https://cms-autox.blogspot.com/"></iframe>
                 </div>
             </div>
             <div class="clearfix"></div>
