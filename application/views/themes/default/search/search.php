@@ -79,100 +79,103 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="col-md-12">
                 <?php } ?>
                 <?php if($products){?>
-                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Тип</th>
-                        <th>Код</th>
-                        <th>Бренд</th>
-                        <th>Название</th>
-                        <th>Цена</th>
-                        <th>Кол.</th>
-                        <th>Срок</th>
-                        <th>Купить</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Тип</th>
-                        <th>Код</th>
-                        <th>Бренд</th>
-                        <th>Название</th>
-                        <th>Цена</th>
-                        <th>Кол.</th>
-                        <th>Срок</th>
-                        <th>Купить</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <?php foreach ($products as $product){
-                        $key = $product['id'] . $product['supplier_id'] . $product['term']?>
-                        <tr class="<?php echo format_term_class($product['term']);?>">
-                            <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
-                                <?php if($product['cross'] == 0){?>
-                                    <label class="label label-success">
-                                        <?php echo lang('text_cross_type_0');?>
-                                    </label>
-                                <?php }elseif($product['cross'] == 1){?>
-                                    <label class="label label-warning">
-                                        <?php echo lang('text_cross_type_1');?>
-                                    </label>
-                                <?php }else{?>
-                                    <label class="label label-default">
-                                        <?php echo lang('text_cross_type_2');?>
-                                    </label>
-                                <?php } ?>
-                            </td>
-                            <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
-                            <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
-                            <td class="search-product-name">
-                                <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
-                                <?php if($product['excerpt']){?>
-                                    <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
-                                <?php } ?>
-                                <?php if($this->is_admin){?>
-                                    <hr/>
-                                    <div style="font-size: 11px">
-                                            Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
-                                            Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
-                                            Дата обновления: <b><?php echo $product['updated_at'];?></b>
-                                    </div>
-                                <?php } ?>
-                            </td>
-                            <td data-search="<?php echo $product['price'];?>" data-order="<?php echo $product['price'];?>" class="search-product-price">
-                                <b><?php echo format_currency($product['price']);?></b>
-                            </td>
-                            <td data-search="<?php echo $product['quantity'];?>" data-order="<?php echo $product['quantity'];?>" class="search-product-quan"><b><?php echo format_quantity($product['quantity']);?></b></td>
-                            <td  data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>" class="search-product-term"><b class="<?php echo format_term_class($product['term']);?>"><?php echo format_term($product['term']);?></b></td>
-                            <td class="search-product-cart">
-                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
-                                <div class="input-group">
-                                    <input style="width: 50px;" placeholder="кол." type="text" name="quantity"
-                                           class="form-control">
-                                    <input type="hidden" name="product_id"
-                                           value="<?php echo $product['id']; ?>">
-                                    <input type="hidden" name="supplier_id"
-                                           value="<?php echo $product['supplier_id']; ?>">
-                                    <input type="hidden" name="term"
-                                           value="<?php echo $product['term']; ?>">
-                                    <span class="input-group-btn">
+                    <div class="table-responsive">
+                        <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Тип</th>
+                                <th>Код</th>
+                                <th>Бренд</th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th>Кол.</th>
+                                <th>Срок</th>
+                                <th>Купить</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Тип</th>
+                                <th>Код</th>
+                                <th>Бренд</th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th>Кол.</th>
+                                <th>Срок</th>
+                                <th>Купить</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <?php foreach ($products as $product){
+                                $key = $product['id'] . $product['supplier_id'] . $product['term']?>
+                                <tr class="<?php echo format_term_class($product['term']);?>">
+                                    <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
+                                        <?php if($product['cross'] == 0){?>
+                                            <label class="label label-success">
+                                                <?php echo lang('text_cross_type_0');?>
+                                            </label>
+                                        <?php }elseif($product['cross'] == 1){?>
+                                            <label class="label label-warning">
+                                                <?php echo lang('text_cross_type_1');?>
+                                            </label>
+                                        <?php }else{?>
+                                            <label class="label label-default">
+                                                <?php echo lang('text_cross_type_2');?>
+                                            </label>
+                                        <?php } ?>
+                                    </td>
+                                    <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
+                                    <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
+                                    <td class="search-product-name">
+                                        <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
+                                        <?php if($product['excerpt']){?>
+                                            <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
+                                        <?php } ?>
+                                        <?php if($this->is_admin){?>
+                                            <hr/>
+                                            <div style="font-size: 11px">
+                                                Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
+                                                Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
+                                                Дата обновления: <b><?php echo $product['updated_at'];?></b>
+                                            </div>
+                                        <?php } ?>
+                                    </td>
+                                    <td data-search="<?php echo $product['price'];?>" data-order="<?php echo $product['price'];?>" class="search-product-price">
+                                        <b><?php echo format_currency($product['price']);?></b>
+                                    </td>
+                                    <td data-search="<?php echo $product['quantity'];?>" data-order="<?php echo $product['quantity'];?>" class="search-product-quan"><b><?php echo format_quantity($product['quantity']);?></b></td>
+                                    <td  data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>" class="search-product-term"><b class="<?php echo format_term_class($product['term']);?>"><?php echo format_term($product['term']);?></b></td>
+                                    <td class="search-product-cart">
+                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
+                                        <div class="input-group">
+                                            <input style="width: 50px;" placeholder="кол." type="text" name="quantity"
+                                                   class="form-control">
+                                            <input type="hidden" name="product_id"
+                                                   value="<?php echo $product['id']; ?>">
+                                            <input type="hidden" name="supplier_id"
+                                                   value="<?php echo $product['supplier_id']; ?>">
+                                            <input type="hidden" name="term"
+                                                   value="<?php echo $product['term']; ?>">
+                                            <span class="input-group-btn">
                                                                     <button class="btn btn-default" type="submit"><i
                                                                                 class="fa fa-shopping-cart"></i></button>
                                                                     </span>
-                                </div>
-                                </form>
-                                <small>
-                                    <a href="/cart" class="<?php echo $key; ?>"
-                                        <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                            style="display: none;"
-                                        <?php } ?>
-                                    ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
-                                </small>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
+                                        </div>
+                                        </form>
+                                        <small>
+                                            <a href="/cart" class="<?php echo $key; ?>"
+                                                <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                    style="display: none;"
+                                                <?php } ?>
+                                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
+                                        </small>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
                 <?php }else{?>
                     <div style="text-align: center;font-size: 24px;margin: 0 0 15px;"><?php echo lang('text_no_results'); ?></div>
                     <p class="alert-warning"><?php echo lang('text_no_results_description'); ?></p>
