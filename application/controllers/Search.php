@@ -16,12 +16,33 @@ class Search extends Front_controller
         $this->load->language('search');
     }
 
+    public function pre_search(){
+        $search = strip_tags($this->input->get('search', true));
+        $data['brands'] = $this->product_model->get_brands($search);
+
+        $this->setH1(sprintf(lang('text_search_pre_search_h1'),$search));
+        $this->setTitle(sprintf(lang('text_search_pre_search_title'),$search));
+        $this->setDescription(sprintf(lang('text_search_pre_search_description'),$search));
+        $this->setKeywords(sprintf(lang('text_search_pre_search_keywords'),$search));
+
+        $this->load->view('header');
+        $this->load->view('search/pre_search', $data);
+        $this->load->view('footer');
+    }
+
 
     public function index()
     {
+        $search = strip_tags($this->input->get('search', true));
 
         $brand = $this->input->get('brand', true);
-        $search = strip_tags($this->input->get('search', true));
+
+        $brands = $this->product_model->get_brands($search);
+
+        if(!$brand && $brands){
+            redirect('search/pre_search?search='.$search);
+        }
+
 
         $ID_art = (int)$this->input->get('ID_art');
 
@@ -30,24 +51,6 @@ class Search extends Front_controller
             if ($tecdoc_id_art) {
                 $ID_art = $tecdoc_id_art[0]->ID_art;
             }
-        }
-
-        $data['brands'] = $this->product_model->get_brands($search);
-
-        if (!$brand && $data['brands']) {
-            $redirect = false;
-            foreach ($data['brands'] as $item) {
-                if(!$item['ID_art']){
-                    $redirect = '/search?search='.$search.'&brand='.$item['brand'];
-                    break;
-                }
-            }
-
-            if(!$redirect){
-                $redirect = '/search?search='.$search.'&ID_art='.$data['brands'][0]['ID_art'].'&brand='.$data['brands'][0]['brand'];
-            }
-
-            redirect($redirect);
         }
 
         $this->load->library('user_agent');
@@ -161,8 +164,10 @@ class Search extends Front_controller
                 }
             }
         }
-
-        $data['h1'] = $search . ' ' . $brand;
+        $this->setH1(sprintf(lang('text_search_search_h1'),$search));
+        $this->setTitle(sprintf(lang('text_search_search_title'),$search));
+        $this->setDescription(sprintf(lang('text_search_search_description'),$search));
+        $this->setKeywords(sprintf(lang('text_search_search_keywords'),$search));
 
         if (isset($filter_brands)) {
             $data['filter_brands'] = array_unique($filter_brands);

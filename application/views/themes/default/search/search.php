@@ -34,34 +34,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="search-product-bit-title text-center">
-                    <h1><?php echo $h1; ?></h1>
+                    <h1><?php echo $this->h1; ?></h1>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="single-product-area">
-    <div class="container">
-        <div class="row">
-            <?php if ($brands) { ?>
-                <div class="col-md-12 brands">
-                    <h3><?php echo lang('text_select_manufacturer'); ?></h3>
-                    <?php foreach ($brands as $brand) { ?>
-                        <a href="/search?search=<?php echo $brand['sku']; ?>&ID_art=<?php echo $brand['ID_art']; ?>&brand=<?php echo $brand['brand']; ?>"
-                           class="btn <?php if ($this->input->get('brand') == $brand['brand']) { ?> btn-info<?php } else { ?> btn-default<?php } ?>"><?php echo $brand['brand']; ?>
-                            <br>
-                            <small><?php echo $brand['name']; ?></small><br>
-                            <?php if ($this->input->get('brand') != $brand['brand']) { ?>
-                            <b>Поиск</b>
-                            <?php }else{?>
-                                <b class="active">Найдено (<?php echo count($products);?>)</b>
-                            <?php } ?>
-                        </a>
-                    <?php } ?>
-                    <hr>
-                </div>
-            <?php } ?>
-        </div>
+<div class="container">
         <div class="row">
             <?php if($products){?>
             <div class="col-md-2">
