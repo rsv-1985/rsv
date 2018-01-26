@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label><?php echo lang('text_download_folder'); ?></label>
-                        <input required placeholder="/uploads/" type="text" class="form-control" name="download_folder" value="<?php echo set_value('download_folder', $customergroup['download_folder']); ?>" maxlength="255">
+                        <input placeholder="/uploads/" type="text" class="form-control" name="download_folder" value="<?php echo set_value('download_folder', $customergroup['download_folder']); ?>" maxlength="255">
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label><?php echo lang('text_type'); ?></label>
