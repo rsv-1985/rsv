@@ -168,10 +168,10 @@ class Search extends Front_controller
                 }
             }
         }
-        $this->setH1(sprintf(lang('text_search_search_h1'),$search));
-        $this->setTitle(sprintf(lang('text_search_search_title'),$search));
-        $this->setDescription(sprintf(lang('text_search_search_description'),$search));
-        $this->setKeywords(sprintf(lang('text_search_search_keywords'),$search));
+        $this->setH1(sprintf(lang('text_search_search_h1'),$search, $brand));
+        $this->setTitle(sprintf(lang('text_search_search_title'),$search, $brand));
+        $this->setDescription(sprintf(lang('text_search_search_description'),$search, $brand));
+        $this->setKeywords(sprintf(lang('text_search_search_keywords'),$search, $brand));
 
         if (isset($filter_brands)) {
             $data['filter_brands'] = array_unique($filter_brands);
