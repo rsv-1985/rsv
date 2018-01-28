@@ -63,6 +63,23 @@ $(document).ready(function(){
         });
     });
 
+    $("#fast_order_form").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(json){
+                if(json['success']){
+                    location.reload();
+                } else {
+                    $(".alert-danger").html(json['error']).fadeIn();
+                }
+            }
+        });
+    });
+
     $("#login_form").submit(function(event){
         event.preventDefault();
         $.ajax({
@@ -198,4 +215,14 @@ function getSearchBrand(search){
     }else{
         $("#search_brand").hide();
     }
+}
+
+function fastOrder(href,e){
+    e.preventDefault();
+    if(href){
+        $("#fast-order-product").val(href);
+        $("#fast-order-modal").modal('show');
+    }
+
+
 }

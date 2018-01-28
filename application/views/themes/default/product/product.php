@@ -115,6 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php if ($one_price) { ?>
                             <?php echo lang('text_term'); ?>
                             <small title="<?php echo lang('text_term'); ?>"><?php echo format_term($one_price['term']); ?></small>
+                            <br>
                             <?php echo lang('text_quantity'); ?>
                             <small title="<?php echo lang('text_quantity'); ?>"><?php echo format_quantity($one_price['quantity']); ?></small>
                             <hr>
@@ -144,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                        value="<?php echo $one_price['term']; ?>">
                                 <span class="input-group-btn">
                                             <button class="btn btn-штащ" type="submit"><i
-                                                        class="fa fa-shopping-cart"></i>Купить</button>
+                                                        class="fa fa-shopping-cart"></i> Купить</button>
                                             </span>
                             </div>
                             </form>
@@ -154,6 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>>
                                 <i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
                             </a>
+                            <br><a href="#" onclick="fastOrder('<?php echo $_SERVER['REQUEST_URI'];?>',event);"><?php echo lang('text_fast_order_link');?></a>
                         <?php } else { ?>
                             <p><?php echo lang('text_not_available'); ?></p>
                         <?php } ?>

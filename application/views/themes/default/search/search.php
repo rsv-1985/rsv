@@ -190,9 +190,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <input type="hidden" name="term"
                                                    value="<?php echo $product['term']; ?>">
                                             <span class="input-group-btn">
-                                                                    <button class="btn btn-default" type="submit"><i
-                                                                                class="fa fa-shopping-cart"></i></button>
-                                                                    </span>
+                                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                            </span>
                                         </div>
                                         </form>
                                         <small>
@@ -201,6 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     style="display: none;"
                                                 <?php } ?>
                                             ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
+                                            <a href="#" onclick="fastOrder('/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>',event);"><?php echo lang('text_fast_order_link');?></a>
                                         </small>
                                     </td>
                                 </tr>
@@ -315,8 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 
             var brand = data[2]  || 0; // use data for the price column
-            console.log(search_brand.indexOf(brand));
-            console.log(brand);
+
             if (search_brand.indexOf(brand) != '-1' || !search_brand.length)
             {
                 return true;

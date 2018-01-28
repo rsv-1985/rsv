@@ -190,6 +190,35 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+    <!-- Modal fast order-->
+    <div class="modal fade" id="fast-order-modal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="product-big-title-area">
+                    <div class="product-bit-title text-center">
+                        Быстрый заказ
+                    </div>
+                </div>
+                <div class="modal-body" id="fast-order-body">
+                    <?php echo form_open('/ajax/fastorder',['id' => 'fast_order_form']);?>
+                    <input type="hidden" name="href" id="fast-order-product" value="" required>
+                    <div class="form-group">
+                        <label>Имя</label>
+                        <input type="text" class="form-control" name="name" minlength="3">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="text" class="form-control" name="telephone" minlength="3" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="pull-right"><?php echo lang('button_send');?></button>
+                    </div>
+                    <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
     <?php if($this->config->item('my_style')){?>

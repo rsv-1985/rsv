@@ -281,4 +281,30 @@ class Ajax extends Front_controller
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
+
+    public function fastorder(){
+        $json = [];
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('name', 'Имя', 'trim');
+        $this->form_validation->set_rules('telephone', 'Телефон', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $name = $this->input->post('name', true);
+            $telephone = $this->input->post('telephone', true);
+            $href = base_url($this->input->post('href'));
+            $subject = 'Быстраый заказ';
+            $html = 'Имя:' . $name . '<br>';
+            $html .= 'Телефон:' . $telephone . '<br>';
+            $html .= 'Товар:' . $href . '<br>';
+            $this->load->library('sender');
+            $this->sender->email($subject, $html, explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
+            $this->session->set_flashdata('success', 'Заказ отправлен!');
+
+            $json['success'] = true;
+        } else {
+            $json['error'] = validation_errors();
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
 }
