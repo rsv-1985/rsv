@@ -111,7 +111,8 @@ class Search extends Front_controller
                         'cross' => 0,
                         'excerpt' => $price['excerpt'],
                         'updated_at' => $price['updated_at'],
-                        'slug' => $product['slug']
+                        'slug' => $product['slug'],
+                        'key' => $product['id'].$price['supplier_id'].$price['term']
                     ];
                 }
             }
@@ -134,7 +135,8 @@ class Search extends Front_controller
                         'cross' => 2,
                         'excerpt' => $product['excerpt'],
                         'updated_at' => $product['updated_at'],
-                        'slug' => $product['slug']
+                        'slug' => $product['slug'],
+                        'key' => $product['id'].$product['supplier_id'].$product['term']
                     ];
                 }
             }
@@ -161,7 +163,8 @@ class Search extends Front_controller
                                 'cross' => 1,
                                 'excerpt' => $price['excerpt'],
                                 'updated_at' => $price['updated_at'],
-                                'slug' => $product['slug']
+                                'slug' => $product['slug'],
+                                'key' => $product['id'].$price['supplier_id'].$price['term']
                             ];
                         }
                     }
