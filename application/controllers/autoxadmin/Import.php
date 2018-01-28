@@ -40,7 +40,7 @@ class Import extends Admin_controller
         $results = array();
 
         $i = 0; // using 'i' for counting the number of actual row parsed
-        while ($file->valid() && $i <= 1000) {
+        while ($file->valid() && $i <= 2000) {
 
             $line = $file->fgets();
 
@@ -113,6 +113,8 @@ class Import extends Admin_controller
                 $this->load->library('upload', $config);
 
                 if ($this->upload->do_upload('filename')){
+
+
                     $upload_data = $this->upload->data();
                     $file_name = './uploads/import/' . $upload_data['file_name'];
                     //В зависимсти от типа файла запускаем его обработку
