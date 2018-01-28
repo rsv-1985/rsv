@@ -41,46 +41,46 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <div class="container">
-        <div class="row">
-            <?php if($products){?>
-            <div class="col-md-2">
-                <div class="panel panel-default filter">
-                    <div class="panel-heading">
-                        Фильтр
-                    </div>
-                    <div class="form-group">
-                        <label>Цена</label><br/>
-                        <input id="price-min" type="number" placeholder="от">-
-                        <input id="price-max" type="number" placeholder="до">
-                    </div>
+    <div class="row">
+        <?php if($products){?>
+        <div class="col-md-2">
+            <div class="panel panel-default filter">
+                <div class="panel-heading">
+                    Фильтр
+                </div>
+                <div class="form-group">
+                    <label>Цена</label><br/>
+                    <input id="price-min" type="number" placeholder="от">-
+                    <input id="price-max" type="number" placeholder="до">
+                </div>
 
-                    <div class="form-group">
-                        <label>Срок поставки (час.)</label><br/>
-                        <input id="term-min" type="number" placeholder="от">-
-                        <input id="term-max" type="number" placeholder="до">
-                    </div>
-                    <?php if($filter_brands){?>
-                        <div class="form-group filter-brand">
-                            <label>Производитель</label>
-                            <?php foreach ($filter_brands as $fb){?>
+                <div class="form-group">
+                    <label>Срок поставки (час.)</label><br/>
+                    <input id="term-min" type="number" placeholder="от">-
+                    <input id="term-max" type="number" placeholder="до">
+                </div>
+                <?php if($filter_brands){?>
+                    <div class="form-group filter-brand">
+                        <label>Производитель</label>
+                        <?php foreach ($filter_brands as $fb){?>
                             <div class="checkbox">
                                 <label>
                                     <input class="filter-brand" type="checkbox" value="<?php echo $fb;?>">
                                     <?php echo $fb;?>
                                 </label>
                             </div>
-                            <?php } ?>
-                        </div>
-                    <?php } ?>
-                </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
             </div>
-            <div class="col-md-10">
-                <?php }else{?>
-                <div class="col-md-12">
+        </div>
+        <div class="col-md-10">
+            <?php }else{?>
+            <div class="col-md-12">
                 <?php } ?>
                 <?php if($products){?>
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <table id="example" class="table" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Тип</th>
@@ -106,40 +106,74 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <?php foreach ($products as $product){
-                                $key = $product['id'] . $product['supplier_id'] . $product['term']?>
+                            <?php $items = []; foreach ($products as $product){ ?>
+
                                 <tr class="<?php echo format_term_class($product['term']);?>">
-                                    <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
-                                        <?php if($product['cross'] == 0){?>
-                                            <label class="label label-success">
-                                                <?php echo lang('text_cross_type_0');?>
-                                            </label>
-                                        <?php }elseif($product['cross'] == 1){?>
-                                            <label class="label label-warning">
-                                                <?php echo lang('text_cross_type_1');?>
-                                            </label>
-                                        <?php }else{?>
-                                            <label class="label label-default">
-                                                <?php echo lang('text_cross_type_2');?>
-                                            </label>
-                                        <?php } ?>
-                                    </td>
-                                    <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
-                                    <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
-                                    <td class="search-product-name">
-                                        <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
-                                        <?php if($product['excerpt']){?>
-                                            <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
-                                        <?php } ?>
-                                        <?php if($this->is_admin){?>
-                                            <hr/>
-                                            <div style="font-size: 11px">
-                                                Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
-                                                Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
-                                                Дата обновления: <b><?php echo $product['updated_at'];?></b>
-                                            </div>
-                                        <?php } ?>
-                                    </td>
+                                    <?php if(!in_array($product['id'],$items)){ $items[]=$product['id']; ?>
+                                        <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
+                                            <?php if($product['cross'] == 0){?>
+                                                <label class="label label-success">
+                                                    <?php echo lang('text_cross_type_0');?>
+                                                </label>
+                                            <?php }elseif($product['cross'] == 1){?>
+                                                <label class="label label-warning">
+                                                    <?php echo lang('text_cross_type_1');?>
+                                                </label>
+                                            <?php }else{?>
+                                                <label class="label label-default">
+                                                    <?php echo lang('text_cross_type_2');?>
+                                                </label>
+                                            <?php } ?>
+                                        </td>
+                                        <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
+                                        <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
+                                        <td class="search-product-name">
+                                            <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
+                                            <?php if($product['excerpt']){?>
+                                                <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
+                                            <?php } ?>
+                                            <?php if($this->is_admin){?>
+                                                <hr/>
+                                                <div style="font-size: 11px">
+                                                    Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
+                                                    Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
+                                                    Дата обновления: <b><?php echo $product['updated_at'];?></b>
+                                                </div>
+                                            <?php } ?>
+                                        </td>
+                                    <?php }else{?>
+                                        <td style="visibility: hidden;" data-order="<?php echo $product['cross'];?>" class="search-product-type">
+                                            <?php if($product['cross'] == 0){?>
+                                                <label class="label label-success">
+                                                    <?php echo lang('text_cross_type_0');?>
+                                                </label>
+                                            <?php }elseif($product['cross'] == 1){?>
+                                                <label class="label label-warning">
+                                                    <?php echo lang('text_cross_type_1');?>
+                                                </label>
+                                            <?php }else{?>
+                                                <label class="label label-default">
+                                                    <?php echo lang('text_cross_type_2');?>
+                                                </label>
+                                            <?php } ?>
+                                        </td>
+                                        <td style="visibility: hidden;" class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
+                                        <td style="visibility: hidden;" class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
+                                        <td style="visibility: hidden;" class="search-product-name">
+                                            <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
+                                            <?php if($product['excerpt']){?>
+                                                <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
+                                            <?php } ?>
+                                            <?php if($this->is_admin){?>
+                                                <hr/>
+                                                <div style="font-size: 11px">
+                                                    Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
+                                                    Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
+                                                    Дата обновления: <b><?php echo $product['updated_at'];?></b>
+                                                </div>
+                                            <?php } ?>
+                                        </td>
+                                    <?php } ?>
                                     <td data-search="<?php echo $product['price'];?>" data-order="<?php echo $product['price'];?>" class="search-product-price">
                                         <b><?php echo format_currency($product['price']);?></b>
                                     </td>
@@ -163,8 +197,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </div>
                                         </form>
                                         <small>
-                                            <a href="/cart" class="<?php echo $key; ?>"
-                                                <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                            <a href="/cart" class="<?php echo $product['key']; ?>"
+                                                <?php if (!key_exists(md5($product['key']), $this->cart->contents())) { ?>
                                                     style="display: none;"
                                                 <?php } ?>
                                             ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
