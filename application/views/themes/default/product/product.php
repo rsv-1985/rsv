@@ -15,6 +15,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         display: none;
     }
 
+    img{
+        max-height: 280px;
+    }
+
     .product p.price {
         font-size: 38px;
         font-weight: bold;
@@ -54,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-4 col-sm-12" style="text-align: center;">
                     <?php if ($image) { ?>
                         <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
                            data-type="image">
