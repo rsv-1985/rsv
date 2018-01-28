@@ -291,7 +291,7 @@ class Ajax extends Front_controller
             $name = $this->input->post('name', true);
             $telephone = $this->input->post('telephone', true);
             $href = base_url($this->input->post('href'));
-            $subject = 'Быстраый заказ';
+            $subject = 'Быстрый заказ';
             $html = 'Имя:' . $name . '<br>';
             $html .= 'Телефон:' . $telephone . '<br>';
             $html .= 'Товар:' . $href . '<br>';
