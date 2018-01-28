@@ -159,8 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </td>
                                         <td style="visibility: hidden;" class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
                                         <td style="visibility: hidden;" class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
-                                        <td style="visibility: hidden;" class="search-product-name">
-                                            <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
+                                        <td class="search-product-name">
                                             <?php if($product['excerpt']){?>
                                                 <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
                                             <?php } ?>
