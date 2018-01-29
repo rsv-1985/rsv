@@ -56,26 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php } ?>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <?php echo $this->load->view('form/category', '', true); ?>
-                <?php if ($news) { ?>
-                    <div class="panel">
-                        <div class="panel-heading">
-                        <a href="/news">
-                            <?php echo lang('text_news'); ?>
-                        </a>
-
-                        </div>
-                        <div class="panel-body" id="news-list">
-                            <?php foreach ($news as $news) { ?>
-                                <a href="/news/<?php echo $news['slug']; ?>"><?php echo $news['name']; ?></a>
-                                <br /><small><?php echo $news['created_at'];?></small><br />
-                            <?php } ?>
-                        </div>
-                    </div>
-                <?php } ?>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
@@ -272,6 +253,24 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         </div>
                     </div>
+                <?php } ?>
+                <?php if ($news) { ?>
+                 <div class="col-md-4">
+                    <div class="panel">
+                        <div class="panel-heading">
+                        <a href="/news">
+                            <?php echo lang('text_news'); ?>
+                        </a>
+
+                        </div>
+                        <div class="panel-body" id="news-list">
+                            <?php foreach ($news as $news) { ?>
+                                <a href="/news/<?php echo $news['slug']; ?>"><?php echo $news['name']; ?></a>
+                                <br /><small><?php echo $news['created_at'];?></small><br />
+                            <?php } ?>
+                        </div>
+                    </div>
+                   </div>
                 <?php } ?>
                 <?php if($top_sellers && $novelty){?>
                 <div class="col-md-4">

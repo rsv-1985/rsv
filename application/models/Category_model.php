@@ -80,18 +80,18 @@ class Category_model extends Default_model
     public function build_tree($cats, $parent_id, $sub = false)
     {
         if($sub){
-            $tree = '<ul class="nav tree">';
+            $tree = '<li class="nav_catalog_has_dd">';
         }else{
-            $tree = '<ul class="nav">';
+            $tree = '<li>';
         }
 
 
         if(isset($cats[$parent_id])){
             foreach ($cats[$parent_id] as $cat){
                 if(isset($cats[$cat['id']])){
-                    $tree .= '<li><a class="tree-toggle">' . $cat['name'].'<i class="caret pull-right"></i></a>';
+                    $tree .= '<li class="nav_catalog_has_dd"><a href="#">' . $cat['name'].'</a><ul>';
                     $tree .= $this->build_tree($cats,$cat['id'],true);
-                    $tree .= '</li>';
+                    $tree .= '</ul></li>';
                 }else{
                     if(@$cat['tecdoc']){
                         $tree .= '<li><a href="/catalog/?id_tree='.$cat['slug'].'">' . $cat['name'].'</a></li>';
@@ -102,7 +102,9 @@ class Category_model extends Default_model
                 }
             }
         }
-        $tree .= '</ul>';
+
+        $tree .= '</li>';
+
         return $tree;
     }
 
