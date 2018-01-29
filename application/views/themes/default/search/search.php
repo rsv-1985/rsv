@@ -5,26 +5,31 @@
  * Email: sergey.rasputniy@gmail.com
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<link rel="stylesheet" href="<?php echo theme_url();?>css/dataTables.bootstrap.min.css">
-<script src="<?php echo theme_url();?>js/jquery.dataTables.min.js"></script>
-<script src="<?php echo theme_url();?>js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="<?php echo theme_url(); ?>css/dataTables.bootstrap.min.css">
+<script src="<?php echo theme_url(); ?>js/jquery.dataTables.min.js"></script>
+<script src="<?php echo theme_url(); ?>js/dataTables.bootstrap.min.js"></script>
 <style>
     td.search-product-name {
         word-break: break-all;
     }
-    .brands{
+
+    .brands {
         text-align: center;
     }
-    .brands b{
+
+    .brands b {
         color: #31708f
     }
-    .brands b.active{
+
+    .brands b.active {
         color: white;
     }
-    .filter input[type='number']{
+
+    .filter input[type='number'] {
         width: 45%;
     }
-    .filter-brand{
+
+    .filter-brand {
         max-height: 400px;
         overflow: auto;
     }
@@ -42,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </div>
 <div class="container">
     <div class="row">
-        <?php if($products){?>
+        <?php if ($products){ ?>
         <div class="col-md-2">
             <div class="panel panel-default filter">
                 <div class="panel-heading">
@@ -59,14 +64,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <input id="term-min" type="number" placeholder="от">-
                     <input id="term-max" type="number" placeholder="до">
                 </div>
-                <?php if($filter_brands){?>
+                <?php if ($filter_brands) { ?>
                     <div class="form-group filter-brand">
                         <label>Производитель</label>
-                        <?php foreach ($filter_brands as $fb){?>
+                        <?php foreach ($filter_brands as $fb) { ?>
                             <div class="checkbox">
                                 <label>
-                                    <input class="filter-brand" type="checkbox" value="<?php echo $fb;?>">
-                                    <?php echo $fb;?>
+                                    <input class="filter-brand" type="checkbox" value="<?php echo $fb; ?>">
+                                    <?php echo $fb; ?>
                                 </label>
                             </div>
                         <?php } ?>
@@ -75,12 +80,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
         </div>
         <div class="col-md-10">
-            <?php }else{?>
+            <?php }else{ ?>
             <div class="col-md-12">
                 <?php } ?>
-                <?php if($products){?>
+                <?php if ($products) { ?>
                     <div class="table-responsive">
-                        <table id="example" class="table" cellspacing="0" width="100%">
+                        <table id="example" class="table" cellspacing="0" width="100%" style="display: none">
                             <thead>
                             <tr>
                                 <th>Тип</th>
@@ -106,78 +111,58 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <?php $items = []; foreach ($products as $product){ ?>
-
-                                <tr class="<?php echo format_term_class($product['term']);?>">
-                                    <?php if(!in_array($product['id'],$items)){ $items[]=$product['id']; ?>
-                                        <td data-order="<?php echo $product['cross'];?>" class="search-product-type">
-                                            <?php if($product['cross'] == 0){?>
-                                                <label class="label label-success">
-                                                    <?php echo lang('text_cross_type_0');?>
-                                                </label>
-                                            <?php }elseif($product['cross'] == 1){?>
-                                                <label class="label label-warning">
-                                                    <?php echo lang('text_cross_type_1');?>
-                                                </label>
-                                            <?php }else{?>
-                                                <label class="label label-default">
-                                                    <?php echo lang('text_cross_type_2');?>
-                                                </label>
-                                            <?php } ?>
-                                        </td>
-                                        <td class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
-                                        <td class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
-                                        <td class="search-product-name">
-                                            <a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['name'];?></a>
-                                            <?php if($product['excerpt']){?>
-                                                <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
-                                            <?php } ?>
-                                            <?php if($this->is_admin){?>
-                                                <hr/>
-                                                <div style="font-size: 11px">
-                                                    Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
-                                                    Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
-                                                    Дата обновления: <b><?php echo $product['updated_at'];?></b>
-                                                </div>
-                                            <?php } ?>
-                                        </td>
-                                    <?php }else{?>
-                                        <td style="visibility: hidden;" data-order="<?php echo $product['cross'];?>" class="search-product-type">
-                                            <?php if($product['cross'] == 0){?>
-                                                <label class="label label-success">
-                                                    <?php echo lang('text_cross_type_0');?>
-                                                </label>
-                                            <?php }elseif($product['cross'] == 1){?>
-                                                <label class="label label-warning">
-                                                    <?php echo lang('text_cross_type_1');?>
-                                                </label>
-                                            <?php }else{?>
-                                                <label class="label label-default">
-                                                    <?php echo lang('text_cross_type_2');?>
-                                                </label>
-                                            <?php } ?>
-                                        </td>
-                                        <td style="visibility: hidden;" class="search-product-sku"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['sku'];?></a></td>
-                                        <td style="visibility: hidden;" class="search-product-brand"><a href="/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>"><?php echo $product['brand'];?></a></td>
-                                        <td class="search-product-name">
-                                            <?php if($product['excerpt']){?>
-                                                <br><small class="search-product-excerpt"><?php echo $product['excerpt'];?></small>
-                                            <?php } ?>
-                                            <?php if($this->is_admin){?>
-                                                <hr/>
-                                                <div style="font-size: 11px">
-                                                    Поставщик: <a target="_blank" href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id'];?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name'];?></a><br/>
-                                                    Закупочная: <b><?php echo $product['delivery_price'].' '.$this->currency_model->currencies[$product['currency_id']]['name'];?></b><br/>
-                                                    Дата обновления: <b><?php echo $product['updated_at'];?></b>
-                                                </div>
-                                            <?php } ?>
-                                        </td>
-                                    <?php } ?>
-                                    <td data-search="<?php echo $product['price'];?>" data-order="<?php echo $product['price'];?>" class="search-product-price">
-                                        <b><?php echo format_currency($product['price']);?></b>
+                            <?php foreach ($products as $product) { ?>
+                                <tr data-tr="<?php echo $product['id'];?>" class="<?php echo format_term_class($product['term']); ?> tr-<?php echo $product['id'];?>">
+                                    <td data-order="<?php echo $product['cross']; ?>" class="search-product-type">
+                                        <?php if ($product['cross'] == 0) { ?>
+                                            <label class="label label-success">
+                                                <?php echo lang('text_cross_type_0'); ?>
+                                            </label>
+                                        <?php } elseif ($product['cross'] == 1) { ?>
+                                            <label class="label label-warning">
+                                                <?php echo lang('text_cross_type_1'); ?>
+                                            </label>
+                                        <?php } else { ?>
+                                            <label class="label label-default">
+                                                <?php echo lang('text_cross_type_2'); ?>
+                                            </label>
+                                        <?php } ?>
                                     </td>
-                                    <td data-search="<?php echo $product['quantity'];?>" data-order="<?php echo $product['quantity'];?>" class="search-product-quan"><b><?php echo format_quantity($product['quantity']);?></b></td>
-                                    <td  data-search="<?php echo $product['term'];?>" data-order="<?php echo $product['term'];?>" class="search-product-term"><b class="<?php echo format_term_class($product['term']);?>"><?php echo format_term($product['term']);?></b></td>
+                                    <td class="search-product-sku"><a
+                                                href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['sku']; ?></a>
+                                    </td>
+                                    <td class="search-product-brand"><a
+                                                href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['brand']; ?></a>
+                                    </td>
+                                    <td class="search-product-name">
+                                        <a href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['name']; ?></a>
+                                        <?php if ($product['excerpt']) { ?>
+                                            <br>
+                                            <small class="search-product-excerpt"><?php echo $product['excerpt']; ?></small>
+                                        <?php } ?>
+                                        <?php if ($this->is_admin) { ?>
+                                            <hr/>
+                                            <div style="font-size: 11px">
+                                                Поставщик: <a target="_blank"
+                                                              href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id']; ?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name']; ?></a><br/>
+                                                Закупочная:
+                                                <b><?php echo $product['delivery_price'] . ' ' . $this->currency_model->currencies[$product['currency_id']]['name']; ?></b><br/>
+                                                Дата обновления: <b><?php echo $product['updated_at']; ?></b>
+                                            </div>
+                                        <?php } ?>
+                                    </td>
+
+                                    <td data-search="<?php echo $product['price']; ?>"
+                                        data-order="<?php echo $product['price']; ?>" class="search-product-price">
+                                        <b><?php echo format_currency($product['price']); ?></b>
+                                    </td>
+                                    <td data-search="<?php echo $product['quantity']; ?>"
+                                        data-order="<?php echo $product['quantity']; ?>" class="search-product-quan">
+                                        <b><?php echo format_quantity($product['quantity']); ?></b></td>
+                                    <td data-search="<?php echo $product['term']; ?>"
+                                        data-order="<?php echo $product['term']; ?>" class="search-product-term"><b
+                                                class="<?php echo format_term_class($product['term']); ?>"><?php echo format_term($product['term']); ?></b>
+                                    </td>
                                     <td class="search-product-cart">
                                         <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
                                         <div class="input-group">
@@ -190,7 +175,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <input type="hidden" name="term"
                                                    value="<?php echo $product['term']; ?>">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                                <button class="btn btn-default" type="submit"><i
+                                                            class="fa fa-shopping-cart"></i></button>
                                             </span>
                                         </div>
                                         </form>
@@ -200,7 +186,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     style="display: none;"
                                                 <?php } ?>
                                             ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
-                                            <a href="#" onclick="fastOrder('/product/<?php echo $product['slug'];?>?supplier_id=<?php echo $product['supplier_id'];?>&term=<?php echo $product['term'];?>',event);"><?php echo lang('text_fast_order_link');?></a>
+                                            <a href="#"
+                                               onclick="fastOrder('/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>',event);"><?php echo lang('text_fast_order_link'); ?></a>
                                         </small>
                                     </td>
                                 </tr>
@@ -209,7 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </table>
                     </div>
 
-                <?php }else{?>
+                <?php } else { ?>
                     <div style="text-align: center;font-size: 24px;margin: 0 0 15px;"><?php echo lang('text_no_results'); ?></div>
                     <p class="alert-warning"><?php echo lang('text_no_results_description'); ?></p>
                     <?php echo form_open('ajax/vin', ['class' => 'vin_request', 'onsubmit' => 'send_request(event)']); ?>
@@ -273,16 +260,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </div>
 <script>
     $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var min = parseInt( $('#price-min').val(), 10 );
-            var max = parseInt( $('#price-max').val(), 10 );
-            var price = parseFloat( data[4] ) || 0; // use data for the price column
+        function (settings, data, dataIndex) {
+            var min = parseInt($('#price-min').val(), 10);
+            var max = parseInt($('#price-max').val(), 10);
+            var price = parseFloat(data[4]) || 0; // use data for the price column
 
-            if ( ( isNaN( min ) && isNaN( max ) ) ||
-                ( isNaN( min ) && price <= max ) ||
-                ( min <= price   && isNaN( max ) ) ||
-                ( min <= price   && price <= max ) )
-            {
+            if ((isNaN(min) && isNaN(max)) ||
+                (isNaN(min) && price <= max) ||
+                (min <= price && isNaN(max)) ||
+                (min <= price && price <= max)) {
                 return true;
             }
             return false;
@@ -290,16 +276,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     );
 
     $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var min = parseInt( $('#term-min').val(), 10 );
-            var max = parseInt( $('#term-max').val(), 10 );
-            var term = parseFloat( data[6] ) || 0; // use data for the price column
+        function (settings, data, dataIndex) {
+            var min = parseInt($('#term-min').val(), 10);
+            var max = parseInt($('#term-max').val(), 10);
+            var term = parseFloat(data[6]) || 0; // use data for the price column
 
-            if ( ( isNaN( min ) && isNaN( max ) ) ||
-                ( isNaN( min ) && term <= max ) ||
-                ( min <= term   && isNaN( max ) ) ||
-                ( min <= term   && term <= max ) )
-            {
+            if ((isNaN(min) && isNaN(max)) ||
+                (isNaN(min) && term <= max) ||
+                (min <= term && isNaN(max)) ||
+                (min <= term && term <= max)) {
                 return true;
             }
             return false;
@@ -307,41 +292,64 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     );
 
     $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
+        function (settings, data, dataIndex) {
             var search_brand = [];
-            $( ".filter-brand:checked" ).each(function( index ) {
-                search_brand[index]= $( this ).val();
+            $(".filter-brand:checked").each(function (index) {
+                search_brand[index] = $(this).val();
             });
 
 
-            var brand = data[2]  || 0; // use data for the price column
+            var brand = data[2] || 0; // use data for the price column
 
-            if (search_brand.indexOf(brand) != '-1' || !search_brand.length)
-            {
+            if (search_brand.indexOf(brand) != '-1' || !search_brand.length) {
                 return true;
             }
             return false;
         }
     );
 
+    $(document).click(function(){
+        hideTd();
+    });
 
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         var table = $('#example').DataTable({
-            paging:   false,
+            paging: false,
             ordering: true,
-            info:     false,
+            info: false,
             searching: true,
-            order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
+            //order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
         });
 
         // Event listener to the two range filtering inputs to redraw on input
-        $('#price-min, #price-max, #term-min, #term-max').keyup( function() {
+        $('#price-min, #price-max, #term-min, #term-max').keyup(function () {
             table.draw();
-        } );
+        });
 
-        $('input[type="checkbox"]').change(function(){
+        $('input[type="checkbox"]').change(function () {
             table.draw();
-        })
+        });
 
-    } );
+        hideTd();
+
+        $("#example").fadeIn('slow');
+
+    });
+
+
+
+    function hideTd() {
+        var tr_product = [];
+
+        $("[class^=tr-]").each(function(index, item){
+            var product_id = $(item).attr('data-tr');
+            if(jQuery.inArray(product_id, tr_product) == -1){
+                tr_product.push(product_id);
+                $(item).children('td').slice(0,3).css('visibility','');
+            }else{
+                $(item).children('td').slice(0,3).css('visibility','hidden');
+            }
+        });
+    }
 </script>
