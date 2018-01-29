@@ -95,7 +95,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                     </div>
                 <?php } ?>
-                <?php echo $this->load->view('form/category', '', true); ?>
             </div>
             <div class="col-md-8">
                 <?php if ($products) { ?>
