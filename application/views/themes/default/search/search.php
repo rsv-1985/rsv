@@ -342,7 +342,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     function hideTd() {
         var tr_product = [];
 
-        $("[class^=tr-]").each(function(index, item){
+        $("[data-tr]").each(function(index, item){
             var product_id = $(item).attr('data-tr');
             if(jQuery.inArray(product_id, tr_product) == -1){
                 tr_product.push(product_id);
