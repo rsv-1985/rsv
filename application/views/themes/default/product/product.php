@@ -212,34 +212,37 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <h3><?php echo lang('text_attributes'); ?></h3>
-                    <table class="table table-striped">
-                        <tr>
-                            <td><?php echo lang('text_sku'); ?></td>
-                            <td><?php echo $sku; ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo lang('text_brand'); ?></td>
-                            <td><?php echo $brand; ?></td>
-                        </tr>
-                        <?php if ($attributes) { ?>
-                            <?php foreach ($attributes as $attribute) {
-                                ; ?>
-                                <tr>
-                                    <td><?php echo $attribute['attribute_name']; ?></td>
-                                    <td><?php echo $attribute['attribute_value']; ?></td>
-                                </tr>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tr>
+                                <td><?php echo lang('text_sku'); ?></td>
+                                <td><?php echo $sku; ?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo lang('text_brand'); ?></td>
+                                <td><?php echo $brand; ?></td>
+                            </tr>
+                            <?php if ($attributes) { ?>
+                                <?php foreach ($attributes as $attribute) {
+                                    ; ?>
+                                    <tr>
+                                        <td><?php echo $attribute['attribute_name']; ?></td>
+                                        <td><?php echo $attribute['attribute_value']; ?></td>
+                                    </tr>
+                                <?php } ?>
                             <?php } ?>
-                        <?php } ?>
-                        <?php if ($tecdoc_attributes) { ?>
-                            <?php foreach ($tecdoc_attributes as $attribute) {
-                                ; ?>
-                                <tr>
-                                    <td><?php echo $attribute['attribute_name']; ?></td>
-                                    <td><?php echo $attribute['attribute_value']; ?></td>
-                                </tr>
+                            <?php if ($tecdoc_attributes) { ?>
+                                <?php foreach ($tecdoc_attributes as $attribute) {
+                                    ; ?>
+                                    <tr>
+                                        <td><?php echo $attribute['attribute_name']; ?></td>
+                                        <td><?php echo $attribute['attribute_value']; ?></td>
+                                    </tr>
+                                <?php } ?>
                             <?php } ?>
-                        <?php } ?>
-                    </table>
+                        </table>
+                    </div>
+
                     <?php if ($applicability) { ?>
                         <h3><?php echo lang('text_applicability'); ?></h3>
                         <?php $q = 0;
@@ -258,28 +261,31 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div id="collapse<?php echo $q; ?>" class="panel-collapse collapse"
                                      role="tabpanel" aria-labelledby="heading<?php echo $q; ?>">
                                     <div class="panel-body">
-                                        <table class="table table-condensed">
-                                            <thead>
-                                            <tr>
-                                                <th><?php echo lang('text_manufacturer'); ?></th>
-                                                <th><?php echo lang('text_model'); ?></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php foreach ($ap as $applicability) { ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-condensed">
+                                                <thead>
                                                 <tr>
-                                                    <td>
-                                                        <?php echo $applicability->Brand; ?><br/>
-                                                        <small><?php echo $applicability->DateMake; ?></small>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $applicability->Model; ?><br>
-                                                        <small><?php echo $applicability->Name; ?><?php echo $applicability->Fuel; ?></small>
-                                                    </td>
+                                                    <th><?php echo lang('text_manufacturer'); ?></th>
+                                                    <th><?php echo lang('text_model'); ?></th>
                                                 </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                <?php foreach ($ap as $applicability) { ?>
+                                                    <tr>
+                                                        <td>
+                                                            <?php echo $applicability->Brand; ?><br/>
+                                                            <small><?php echo $applicability->DateMake; ?></small>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $applicability->Model; ?><br>
+                                                            <small><?php echo $applicability->Name; ?><?php echo $applicability->Fuel; ?></small>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -294,145 +300,149 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             Всего <?php echo plural_form(count($prices), [lang('text_offer_1'), lang('text_offer_2'), lang('text_offer_5')]); ?></h3>
 
                         <?php if ($prices) { ?>
-                            <table class="table table-hover table-bordered table-condensed table-responsive">
-                                <thead>
-                                <tr>
-                                    <th><?php echo lang('text_brand'); ?>
-                                        / <?php echo lang('text_sku'); ?></th>
-                                    <th><?php echo lang('text_price'); ?></th>
-                                    <th><?php echo lang('text_qty'); ?></th>
-                                    <th><?php echo lang('text_excerpt'); ?></th>
-                                    <th colspan="2"><?php echo lang('text_term'); ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($prices as $product) {
-                                    $key = $product['product_id'] . $product['supplier_id'] . $product['term']; ?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered table-condensed table-responsive">
+                                    <thead>
                                     <tr>
-                                        <td class="name">
-                                            <?php echo $brand . ' ' . $sku; ?></a>
-                                            <br>
-                                            <small><?php echo $name; ?></small>
-                                        </td>
-                                        <td class="price">
-                                            <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
-                                            <?php if ($product['saleprice'] > 0) { ?>
-                                                <del><?php echo format_currency($product['price']); ?></del>
-                                            <?php } ?>
-                                        </td>
-                                        <td class="quan"><?php echo format_quantity($product['quantity']); ?></td>
-                                        <td class="excerpt"><?php echo $product['excerpt']; ?></td>
-                                        <td class="term">
-                                            <?php echo format_term($product['term']); ?>
-                                        </td>
-                                        <td class="cart">
-                                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                            <div class="input-group">
-                                                <input type="number" name="quantity"
-                                                       class="form-control" value="1">
-                                                <input type="hidden" name="product_id"
-                                                       value="<?php echo $product['product_id']; ?>">
-                                                <input type="hidden" name="supplier_id"
-                                                       value="<?php echo $product['supplier_id']; ?>">
-                                                <input type="hidden" name="term"
-                                                       value="<?php echo $product['term']; ?>">
-                                                <span class="input-group-btn">
+                                        <th><?php echo lang('text_brand'); ?>
+                                            / <?php echo lang('text_sku'); ?></th>
+                                        <th><?php echo lang('text_price'); ?></th>
+                                        <th><?php echo lang('text_qty'); ?></th>
+                                        <th><?php echo lang('text_excerpt'); ?></th>
+                                        <th colspan="2"><?php echo lang('text_term'); ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($prices as $product) {
+                                        $key = $product['product_id'] . $product['supplier_id'] . $product['term']; ?>
+                                        <tr>
+                                            <td class="name">
+                                                <?php echo $brand . ' ' . $sku; ?></a>
+                                                <br>
+                                                <small><?php echo $name; ?></small>
+                                            </td>
+                                            <td class="price">
+                                                <?php echo format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price']); ?>
+                                                <?php if ($product['saleprice'] > 0) { ?>
+                                                    <del><?php echo format_currency($product['price']); ?></del>
+                                                <?php } ?>
+                                            </td>
+                                            <td class="quan"><?php echo format_quantity($product['quantity']); ?></td>
+                                            <td class="excerpt"><?php echo $product['excerpt']; ?></td>
+                                            <td class="term">
+                                                <?php echo format_term($product['term']); ?>
+                                            </td>
+                                            <td class="cart">
+                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
+                                                <div class="input-group">
+                                                    <input type="number" name="quantity"
+                                                           class="form-control" value="1">
+                                                    <input type="hidden" name="product_id"
+                                                           value="<?php echo $product['product_id']; ?>">
+                                                    <input type="hidden" name="supplier_id"
+                                                           value="<?php echo $product['supplier_id']; ?>">
+                                                    <input type="hidden" name="term"
+                                                           value="<?php echo $product['term']; ?>">
+                                                    <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit"><i
                                                         class="fa fa-shopping-cart"></i></button>
                                             </span>
-                                            </div>
-                                            </form>
-                                            <a href="/cart" class="<?php echo $key; ?>"
-                                                <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                    style="display: none;"
-                                                <?php } ?>>
-                                                <i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
-                                            </a>
+                                                </div>
+                                                </form>
+                                                <a href="/cart" class="<?php echo $key; ?>"
+                                                    <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                        style="display: none;"
+                                                    <?php } ?>>
+                                                    <i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                </a>
 
-                                        </td>
-                                    </tr>
-                                    <?php if ($this->is_admin) { ?>
-                                        <tr>
-                                            <td class="name"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name']; ?></td>
-                                            <td class="price">
-                                                <?php echo $product['delivery_price']; ?>
-                                                <?php echo $this->currency_model->currencies[$product['currency_id']]['name']; ?>
                                             </td>
-                                            <td class="quan"><?php echo $product['quantity']; ?></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
-                                    <?php } ?>
-                                <?php } ?>
-                                </tbody>
-                            </table>
-                        <?php } ?>
-                        <?php if ($cross) { ?>
-                            <h3><?php echo lang('text_product_cross'); ?></h3>
-                            <table class="table table-hover table-bordered table-condensed table-responsive">
-                                <thead>
-                                <tr>
-                                    <th><?php echo lang('text_brand'); ?>
-                                        / <?php echo lang('text_sku'); ?></th>
-                                    <th><?php echo lang('text_price'); ?></th>
-                                    <th><?php echo lang('text_qty'); ?></th>
-                                    <th><?php echo lang('text_excerpt'); ?></th>
-                                    <th colspan="2"><?php echo lang('text_term'); ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($cross as $product) { ?>
-                                    <?php if ($product['prices']) { ?>
-                                        <?php foreach ($product['prices'] as $item) { ?>
-                                            <?php $key = $item['product_id'] . $item['supplier_id'] . $item['term'];
-                                            if (!$product['prices']) continue; ?>
+                                        <?php if ($this->is_admin) { ?>
                                             <tr>
-                                                <td class="name">
-                                                    <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
-                                                    <br>
-                                                    <small><?php echo $product['name']; ?></small>
-                                                    <br>
-                                                    <label class="label label-warning">
-                                                        <?php echo lang('text_cross_type_1'); ?>
-                                                    </label>
+                                                <td class="name"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name']; ?></td>
+                                                <td class="price">
+                                                    <?php echo $product['delivery_price']; ?>
+                                                    <?php echo $this->currency_model->currencies[$product['currency_id']]['name']; ?>
                                                 </td>
-                                                <td class="price"><?php echo format_currency($item['saleprice'] > 0 ? $item['saleprice'] : $item['price']); ?></td>
-                                                <td class="quan"><?php echo format_quantity($item['quantity']); ?></td>
-                                                <td class="excerpt"><?php echo $item['excerpt']; ?></td>
-                                                <td class="term"><?php echo format_term($item['term']); ?>
-                                                </td>
-                                                <td class="cart">
-                                                    <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                                    <div class="input-group">
-                                                        <input type="number" name="quantity"
-                                                               class="form-control"
-                                                               value="1">
-                                                        <input type="hidden" name="product_id"
-                                                               value="<?php echo $item['product_id']; ?>">
-                                                        <input type="hidden" name="supplier_id"
-                                                               value="<?php echo $item['supplier_id']; ?>">
-                                                        <input type="hidden" name="term"
-                                                               value="<?php echo $item['term']; ?>">
-                                                        <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i
-                                                    class="fa fa-shopping-cart"></i></button>
-                                        </span>
-                                                    </div>
-                                                    </form>
-                                                    <a href="/cart" class="<?php echo $key; ?>"
-                                                        <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                            style="display: none;"
-                                                        <?php } ?>
-                                                    ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
-                                                    </a>
-                                                </td>
+                                                <td class="quan"><?php echo $product['quantity']; ?></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         <?php } ?>
                                     <?php } ?>
-                                <?php } ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } ?>
+                        <?php if ($cross) { ?>
+                            <h3><?php echo lang('text_product_cross'); ?></h3>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered table-condensed table-responsive">
+                                    <thead>
+                                    <tr>
+                                        <th><?php echo lang('text_brand'); ?>
+                                            / <?php echo lang('text_sku'); ?></th>
+                                        <th><?php echo lang('text_price'); ?></th>
+                                        <th><?php echo lang('text_qty'); ?></th>
+                                        <th><?php echo lang('text_excerpt'); ?></th>
+                                        <th colspan="2"><?php echo lang('text_term'); ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($cross as $product) { ?>
+                                        <?php if ($product['prices']) { ?>
+                                            <?php foreach ($product['prices'] as $item) { ?>
+                                                <?php $key = $item['product_id'] . $item['supplier_id'] . $item['term'];
+                                                if (!$product['prices']) continue; ?>
+                                                <tr>
+                                                    <td class="name">
+                                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
+                                                        <br>
+                                                        <small><?php echo $product['name']; ?></small>
+                                                        <br>
+                                                        <label class="label label-warning">
+                                                            <?php echo lang('text_cross_type_1'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="price"><?php echo format_currency($item['saleprice'] > 0 ? $item['saleprice'] : $item['price']); ?></td>
+                                                    <td class="quan"><?php echo format_quantity($item['quantity']); ?></td>
+                                                    <td class="excerpt"><?php echo $item['excerpt']; ?></td>
+                                                    <td class="term"><?php echo format_term($item['term']); ?>
+                                                    </td>
+                                                    <td class="cart">
+                                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
+                                                        <div class="input-group">
+                                                            <input type="number" name="quantity"
+                                                                   class="form-control"
+                                                                   value="1">
+                                                            <input type="hidden" name="product_id"
+                                                                   value="<?php echo $item['product_id']; ?>">
+                                                            <input type="hidden" name="supplier_id"
+                                                                   value="<?php echo $item['supplier_id']; ?>">
+                                                            <input type="hidden" name="term"
+                                                                   value="<?php echo $item['term']; ?>">
+                                                            <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i
+                                                    class="fa fa-shopping-cart"></i></button>
+                                        </span>
+                                                        </div>
+                                                        </form>
+                                                        <a href="/cart" class="<?php echo $key; ?>"
+                                                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                                style="display: none;"
+                                                            <?php } ?>
+                                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         <?php } ?>
                     <?php } else { ?>
                         <?php echo lang('text_not_available'); ?>
@@ -441,29 +451,30 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-12">
                         <?php if ($components) { ?>
                             <h3><?php echo lang('text_components'); ?></h3>
-                            <table class="table table-condensed">
-                                <thead>
-                                <tr>
-                                    <th><?php echo lang('text_brand'); ?></th>
-                                    <th><?php echo lang('text_sku'); ?></th>
-                                    <th><?php echo lang('text_name'); ?></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($components as $components) { ?>
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
                                     <tr>
-                                        <td><?php echo $components->Brand; ?></td>
-                                        <td><?php echo $components->Display; ?></td>
-                                        <td><?php echo $components->Name; ?></td>
-                                        <td>
-                                            <a href="/search?search=<?php echo $components->Display; ?>&ID_art=<?php echo $components->ID_art; ?>&brand=<?php echo $components->Brand; ?>"><?php echo lang('button_search'); ?></a>
-                                        </td>
+                                        <th><?php echo lang('text_brand'); ?></th>
+                                        <th><?php echo lang('text_sku'); ?></th>
+                                        <th><?php echo lang('text_name'); ?></th>
+                                        <th></th>
                                     </tr>
-                                <?php } ?>
-                                </tbody>
-                            </table>
-
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($components as $components) { ?>
+                                        <tr>
+                                            <td><?php echo $components->Brand; ?></td>
+                                            <td><?php echo $components->Display; ?></td>
+                                            <td><?php echo $components->Name; ?></td>
+                                            <td>
+                                                <a href="/search?search=<?php echo $components->Display; ?>&ID_art=<?php echo $components->ID_art; ?>&brand=<?php echo $components->Brand; ?>"><?php echo lang('button_search'); ?></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         <?php } ?>
                     </div>
                     <div class="col-md-12">
