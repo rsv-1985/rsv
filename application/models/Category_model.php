@@ -39,7 +39,8 @@ class Category_model extends Default_model
                             'parent_id' => 0,
                             'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
                             'slug' => $item->ID_tree,
-                            'tecdoc' => true
+                            'tecdoc' => true,
+                            'image' => $settings_tecdoc_tree[$item->ID_tree]['logo']
                         ];
                     }
                     if($item->ID_tree != '10001' && isset($settings_tecdoc_tree[$item->ID_tree]) && !@$settings_tecdoc_tree[$item->ID_tree]['hide']){
@@ -48,7 +49,8 @@ class Category_model extends Default_model
                             'parent_id' => $item->ID_parent,
                             'name' => $settings_tecdoc_tree[$item->ID_tree]['name'] ?  $settings_tecdoc_tree[$item->ID_tree]['name'] : $item->Name,
                             'slug' => $item->ID_tree,
-                            'tecdoc' => true
+                            'tecdoc' => true,
+                            'image' => $settings_tecdoc_tree[$item->ID_tree]['logo']
                         ];
                     }
 
@@ -85,12 +87,14 @@ class Category_model extends Default_model
             $tree = '<li>';
         }
 
-
         if(isset($cats[$parent_id])){
             foreach ($cats[$parent_id] as $cat){
                 if(isset($cats[$cat['id']])){
                     $tree .= '<li class="nav_catalog_has_dd"><a href="#">' . $cat['name'].'</a><ul>';
                     $tree .= $this->build_tree($cats,$cat['id'],true);
+                    if(@$cat['image']){
+                        $tree .= '<img class="catalog_nav_img " src="'.$cat['image'].'">';
+                    }
                     $tree .= '</ul></li>';
                 }else{
                     if(@$cat['tecdoc']){
