@@ -13,10 +13,6 @@ class Sale_order_model extends CI_model
 
    public function sale_order_get_all($limit, $start){
 
-
-
-
-
        $sql = "SELECT SQL_CALC_FOUND_ROWS 
 MIN(o.created_at) AS date_start, 
 MAX(o.created_at) AS date_end, 
@@ -73,7 +69,13 @@ FROM `ax_order` o";
            if ($this->input->get('status_id')) {
                $sql .= " AND o.status = '" . (int)$this->input->get('status_id') . "'";
            } else {
-               $sql .= " AND o.status > '0'";
+               $this->load->model('orderstatus_model');
+               $return_status = $this->orderstatus_model->get_return();
+               if($return_status){
+                   $sql .= " AND o.status > '0' AND o.status != '".(int)$return_status['id']."'";
+               }else{
+                   $sql .= " AND o.status > '0'";
+               }
            }
 
            $result['total_delivery'] = $this->db->query($sql)->row_array()['total_delivery'];
