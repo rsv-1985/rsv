@@ -182,8 +182,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php $q = false;
                     } ?>
                 <?php } else { ?>
-                    <b><?php echo lang('text_garage'); ?></b>
-                    <a href="/catalog" class="btn btn-info"><?php echo lang('text_add_auto'); ?></a>
+                   <div class="center">
+                        <a href="/catalog" class="btn btn-info"><?php echo lang('text_add_auto'); ?></a>
+                   </div>
                 <?php } ?>
             </div>
         </div>
