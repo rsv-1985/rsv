@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php if (!key_exists(md5($product['key']), $this->cart->contents())) { ?>
                                                     style="display: none;"
                                                 <?php } ?>
-                                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
+                                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?><br></a>
                                             <a href="#"
                                                onclick="fastOrder('/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>',event);"><?php echo lang('text_fast_order_link'); ?></a>
                                         </small>
