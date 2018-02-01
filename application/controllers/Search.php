@@ -14,6 +14,7 @@ class Search extends Front_controller
         parent::__construct();
         $this->load->model('product_model');
         $this->load->language('search');
+        $this->load->helper('text');
     }
 
     public function pre_search(){
@@ -100,7 +101,7 @@ class Search extends Front_controller
                     $data['products'][] = [
                         'id' => $product['id'],
                         'sku' => $product['sku'],
-                        'name' => $product['name'],
+                        'name' => character_limiter($product['name'],20),
                         'brand' => $product['brand'],
                         'price' => $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],
                         'delivery_price' => $price['delivery_price'],
@@ -124,7 +125,7 @@ class Search extends Front_controller
                     $data['products'][] = [
                         'id' => $product['product_id'],
                         'sku' => $product['sku'],
-                        'name' => $product['name'],
+                        'name' => character_limiter($product['name'],20),
                         'brand' => $product['brand'],
                         'price' => $product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],
                         'delivery_price' => $product['delivery_price'],
@@ -152,7 +153,7 @@ class Search extends Front_controller
                             $data['products'][] = [
                                 'id' => $product['id'],
                                 'sku' => $product['sku'],
-                                'name' => $product['name'],
+                                'name' => character_limiter($product['name'],20),
                                 'brand' => $product['brand'],
                                 'price' => $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],
                                 'delivery_price' => $price['delivery_price'],
