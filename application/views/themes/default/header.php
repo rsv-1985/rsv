@@ -163,13 +163,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </button>
             </div>
             <div class="navbar-collapse collapse">
+                <?php if($this->category){?>
                 <div class="nav_catalog">
                     <span class="nav_catalog_title">Каталог</span>
-
                     <ul class="nav_catalog_dropdown">
                         <?php echo $this->category;?>
                     </ul>
                 </div>
+                <?php } ?>
                 <ul class="nav navbar-nav">
                     <li><a href="/"><?php echo lang('text_home');?></a></li>
                     <?php if($this->header_page){?>
