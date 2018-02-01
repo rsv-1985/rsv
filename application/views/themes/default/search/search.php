@@ -9,6 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script src="<?php echo theme_url(); ?>js/jquery.dataTables.min.js"></script>
 <script src="<?php echo theme_url(); ?>js/dataTables.bootstrap.min.js"></script>
 <style>
+    button.btn.btn-default {
+        padding: 7px 11px;
+        background: #e5e5e5;
+        color: #000;
+    }
     td.search-product-name {
         word-break: break-all;
     }
@@ -85,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
                 <?php if ($products) { ?>
                     <div class="table-responsive">
-                        <table id="example" class="table" cellspacing="0" width="100%" style="display: none">
+                        <table id="example" class="table table-condensed" cellspacing="0" width="100%" style="display: none">
                             <thead>
                             <tr>
                                 <th>Тип</th>
@@ -174,10 +179,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                    value="<?php echo $product['supplier_id']; ?>">
                                             <input type="hidden" name="term"
                                                    value="<?php echo $product['term']; ?>">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"><i
-                                                            class="fa fa-shopping-cart"></i></button>
-                                            </span>
+                                        </div>
+                                        <div class="btn-group" role="group" aria-label="...">
+                                            <button class="btn btn-default" type="submit"><i
+                                                        class="fa fa-shopping-cart"></i></button>
+                                            <a title="<?php echo strip_tags(lang('text_fast_order_link'));?>" class="btn btn-info" href="#"
+                                               onclick="fastOrder('/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>',event);"><i class="glyphicon glyphicon-send"></i></a>
+
                                         </div>
                                         </form>
                                         <small>
@@ -185,9 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php if (!key_exists(md5($product['key']), $this->cart->contents())) { ?>
                                                     style="display: none;"
                                                 <?php } ?>
-                                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?><br></a>
-                                            <a href="#"
-                                               onclick="fastOrder('/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>',event);"><?php echo lang('text_fast_order_link'); ?></a>
+                                            ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                                         </small>
                                     </td>
                                 </tr>
@@ -314,6 +320,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 
     $(document).ready(function () {
+        $("tr").mouseover(function(){
+           $(this).find("td").css('visibility','');
+           //$(this).
+        });
+
+        $("tr").mouseout(function(){
+            hideTd();
+        });
         var table = $('#example').DataTable({
             paging: false,
             ordering: true,
@@ -346,9 +360,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             var product_id = $(item).attr('data-tr');
             if(jQuery.inArray(product_id, tr_product) == -1){
                 tr_product.push(product_id);
-                $(item).children('td').slice(0,3).css('visibility','');
+                $(item).children('td').slice(0,4).css('visibility','');
             }else{
-                $(item).children('td').slice(0,3).css('visibility','hidden');
+                $(item).children('td').slice(0,4).css('visibility','hidden');
             }
         });
     }
