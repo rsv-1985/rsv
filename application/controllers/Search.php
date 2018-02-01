@@ -110,7 +110,7 @@ class Search extends Front_controller
                         'quantity' => $price['quantity'],
                         'supplier_id' => $price['supplier_id'],
                         'cross' => 0,
-                        'excerpt' => $price['excerpt'],
+                        'excerpt' => character_limiter($price['excerpt'],20),
                         'updated_at' => $price['updated_at'],
                         'slug' => $product['slug'],
                         'key' => $product['id'].$price['supplier_id'].$price['term']
@@ -134,7 +134,7 @@ class Search extends Front_controller
                         'quantity' => $product['quantity'],
                         'supplier_id' => $product['supplier_id'],
                         'cross' => 2,
-                        'excerpt' => $product['excerpt'],
+                        'excerpt' => character_limiter($product['excerpt'],20),
                         'updated_at' => $product['updated_at'],
                         'slug' => $product['slug'],
                         'key' => $product['id'].$product['supplier_id'].$product['term']
@@ -162,7 +162,7 @@ class Search extends Front_controller
                                 'quantity' => $price['quantity'],
                                 'supplier_id' => $price['supplier_id'],
                                 'cross' => 1,
-                                'excerpt' => $price['excerpt'],
+                                'excerpt' => character_limiter($price['excerpt'],20),
                                 'updated_at' => $price['updated_at'],
                                 'slug' => $product['slug'],
                                 'key' => $product['id'].$price['supplier_id'].$price['term']
