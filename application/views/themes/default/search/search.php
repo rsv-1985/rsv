@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['brand']; ?></a>
                                     </td>
                                     <td class="search-product-name">
-                                        <a href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['name']; ?></a>
+                                        <a class="name" href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['name']; ?></a>
                                         <?php if ($product['excerpt']) { ?>
                                             <br>
                                             <small class="search-product-excerpt"><?php echo $product['excerpt']; ?></small>
@@ -335,7 +335,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             ordering: true,
             info: false,
             searching: true,
-            //order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
+            order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
         });
 
         // Event listener to the two range filtering inputs to redraw on input
@@ -362,9 +362,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             var product_id = $(item).attr('data-tr');
             if(jQuery.inArray(product_id, tr_product) == -1){
                 tr_product.push(product_id);
-                $(item).children('td').slice(0,4).css('visibility','');
+                $(item).children('td').slice(0,3).css('visibility','');
             }else{
-                $(item).children('td').slice(0,4).css('visibility','hidden');
+                $(item).children('td').slice(0,3).css('visibility','hidden');
             }
         });
     }
