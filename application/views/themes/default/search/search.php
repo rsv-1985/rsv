@@ -335,7 +335,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             ordering: true,
             info: false,
             searching: true,
-            order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
+            //order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
         });
 
         // Event listener to the two range filtering inputs to redraw on input
