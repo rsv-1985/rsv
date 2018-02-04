@@ -22,46 +22,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <table class="table table-bordered">
-                        <tbody><tr>
-                            <th style="width: 10px">#</th>
-                            <th><?php echo lang('text_name');?></th>
-                            <th><?php echo lang('text_type');?></th>
-                            <th><?php echo lang('text_value');?></th>
-                            <th><?php echo lang('text_fix_value');?></th>
-                            <th><?php echo lang('text_use_default');?></th>
-                            <th><?php echo lang('text_use_all');?></th>
-                            <th><a href="/autoxadmin/customergroup/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
-                        </tr>
-                        <?php if($customergroupes){?>
-                            <?php foreach($customergroupes as $customergroup){?>
-                                <tr>
-                                    <td><?php echo $customergroup['id'];?></td>
-                                    <td><?php echo $customergroup['name'];?></td>
-                                    <td><?php echo $types[$customergroup['type']];?></td>
-                                    <td><?php echo $customergroup['value'];?></td>
-                                    <td><?php echo $customergroup['fix_value'];?></td>
-                                    <td>
-                                        <?php if ($customergroup['is_default']){?>
-                                            <i class="fa fa-check-circle-o"></i>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <?php if ($customergroup['is_unregistered']){?>
-                                            <i class="fa fa-check-circle-o"></i>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/customergroup/delete/<?php echo $customergroup['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <a href="/autoxadmin/customergroup/edit/<?php echo $customergroup['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
-                                        </div>
-                                    </td>
-                                </tr>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody><tr>
+                                <th style="width: 10px">#</th>
+                                <th><?php echo lang('text_name');?></th>
+                                <th><?php echo lang('text_type');?></th>
+                                <th><?php echo lang('text_value');?></th>
+                                <th><?php echo lang('text_fix_value');?></th>
+                                <th><?php echo lang('text_use_default');?></th>
+                                <th><?php echo lang('text_use_all');?></th>
+                                <th><a href="/autoxadmin/customergroup/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
+                            </tr>
+                            <?php if($customergroupes){?>
+                                <?php foreach($customergroupes as $customergroup){?>
+                                    <tr>
+                                        <td><?php echo $customergroup['id'];?></td>
+                                        <td><?php echo $customergroup['name'];?></td>
+                                        <td><?php echo $types[$customergroup['type']];?></td>
+                                        <td><?php echo $customergroup['value'];?></td>
+                                        <td><?php echo $customergroup['fix_value'];?></td>
+                                        <td>
+                                            <?php if ($customergroup['is_default']){?>
+                                                <i class="fa fa-check-circle-o"></i>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($customergroup['is_unregistered']){?>
+                                                <i class="fa fa-check-circle-o"></i>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <a href="/autoxadmin/customergroup/delete/<?php echo $customergroup['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
+                                                <a href="/autoxadmin/customergroup/edit/<?php echo $customergroup['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             <?php } ?>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
                     <?php echo $this->pagination->create_links();?>
