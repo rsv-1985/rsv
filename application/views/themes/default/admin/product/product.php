@@ -26,58 +26,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <table class="table table-bordered">
-                        <tbody><tr>
-                            <th><?php echo lang('text_sku');?></th>
-                            <th><?php echo lang('text_brand');?></th>
-                            <th><?php echo lang('text_name');?></th>
-                            <th><?php echo lang('text_supplier_id');?></th>
-                            <th><?php echo lang('text_delivery_price');?></th>
-                            <th><?php echo lang('text_price');?></th>
-                            <th><?php echo lang('text_saleprice');?></th>
-                            <th><a style="display: none;" href="/autoxadmin/product/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
-                        </tr>
-                        <?php echo form_open('', ['method' => 'GET', 'id' => 'filter-form']);?>
-                        <tr>
-                            <td>
-                                <input type="text" name="sku" class="form-control" value="<?php echo $this->input->get('sku');?>">
-                            </td>
-                            <td>
-                                <input type="text" name="brand" class="form-control" value="<?php echo $this->input->get('brand');?>">
-                            </td>
-                            <td>
-                                <input type="text" name="name" class="form-control" value="<?php echo $this->input->get('name');?>">
-                            </td>
-                            <td>
-                                <select name="supplier_id" class="form-control">
-                                    <option></option>
-                                    <?php foreach ($supplier as $sup){?>
-                                        <option value="<?php echo $sup['id'];?>" <?php echo set_select('supplier_id',$sup['id'],$sup['id'] == (int)$this->input->get('supplier_id'));?>><?php echo $sup['name'];?></option>
-                                    <?php } ?>
-                                </select>
-                            </td>
-                            <td><input type="text" class="form-control" disabled></td>
-                            <td><input type="text" class="form-control" disabled></td>
-                            <td><input type="text" class="form-control" disabled></td>
-                            <td>
-                                <div class="btn-group">
-                                    <?php if($this->input->get()){?>
-                                        <a href="#" onclick="delete_filter(event)" class="btn btn-danger" title="Удалить по фильтру"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                        <a href="/autoxadmin/product" class="btn btn-default" title="<?php echo lang('button_reset');?>"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                    <?php } ?>
-                                    <button type="submit" class="btn btn btn-info" title="<?php echo lang('button_search');?>"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody><tr>
+                                <th><?php echo lang('text_sku');?></th>
+                                <th><?php echo lang('text_brand');?></th>
+                                <th><?php echo lang('text_name');?></th>
+                                <th><?php echo lang('text_supplier_id');?></th>
+                                <th><?php echo lang('text_delivery_price');?></th>
+                                <th><?php echo lang('text_price');?></th>
+                                <th><?php echo lang('text_saleprice');?></th>
+                                <th><a style="display: none;" href="/autoxadmin/product/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
+                            </tr>
+                            <?php echo form_open('', ['method' => 'GET', 'id' => 'filter-form']);?>
+                            <tr>
+                                <td>
+                                    <input type="text" name="sku" class="form-control" value="<?php echo $this->input->get('sku');?>">
+                                </td>
+                                <td>
+                                    <input type="text" name="brand" class="form-control" value="<?php echo $this->input->get('brand');?>">
+                                </td>
+                                <td>
+                                    <input type="text" name="name" class="form-control" value="<?php echo $this->input->get('name');?>">
+                                </td>
+                                <td>
+                                    <select name="supplier_id" class="form-control">
+                                        <option></option>
+                                        <?php foreach ($supplier as $sup){?>
+                                            <option value="<?php echo $sup['id'];?>" <?php echo set_select('supplier_id',$sup['id'],$sup['id'] == (int)$this->input->get('supplier_id'));?>><?php echo $sup['name'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" disabled></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <?php if($this->input->get()){?>
+                                            <a href="#" onclick="delete_filter(event)" class="btn btn-danger" title="Удалить по фильтру"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            <a href="/autoxadmin/product" class="btn btn-default" title="<?php echo lang('button_reset');?>"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                        <?php } ?>
+                                        <button type="submit" class="btn btn btn-info" title="<?php echo lang('button_search');?>"><i class="fa fa-search" aria-hidden="true"></i></button>
 
-                                </div>
-                            </td>
-                        </tr>
-                        </form>
-                        <?php if($products){?>
+                                    </div>
+                                </td>
+                            </tr>
+                            </form>
+                            <?php if($products){?>
 
-                            <?php foreach($products as $product){?>
-                                <?php echo form_open();?>
-                                <input type="hidden" name="product_id" value="<?php echo $product['id'];?>">
-                                <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
-                                <input type="hidden" name="term" value="<?php echo $product['term'];?>">
+                                <?php foreach($products as $product){?>
+                                    <?php echo form_open();?>
+                                    <input type="hidden" name="product_id" value="<?php echo $product['id'];?>">
+                                    <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
+                                    <input type="hidden" name="term" value="<?php echo $product['term'];?>">
                                     <tr>
                                         <td>
                                             <?php echo $product['sku'];?>
@@ -110,11 +111,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             </div>
                                         </td>
                                     </tr>
-                                </form>
+                                    </form>
+                                <?php } ?>
                             <?php } ?>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix">
                     <?php echo $this->pagination->create_links();?>
