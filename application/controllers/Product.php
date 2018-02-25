@@ -51,13 +51,15 @@ class Product extends Front_controller
         $data['prices'] = $this->product_model->get_product_price($data);
 
         if($data['prices']){
-            if(isset($_GET['supplier_id']) && isset($_GET['term'])){
+            if(isset($_SESSION['supplier_id']) && isset($_SESSION['term'])){
                 foreach ($data['prices'] as $index => $price){
-                    if($price['supplier_id'] == $_GET['supplier_id'] && $price['term'] == $_GET['term']){
+                    if($price['supplier_id'] == $_SESSION['supplier_id'] && $price['term'] == $_SESSION['term']){
                         $data['one_price'] = $price;
                         break;
                     }
                 }
+                unset($_SESSION['supplier_id']);
+                unset($_SESSION['term']);
             }else{
                 $data['one_price'] = $data['prices'][0];
             }
