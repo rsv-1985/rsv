@@ -103,6 +103,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <th>Кол.</th>
                                 <th>Срок</th>
                                 <th>Купить</th>
+                                <?php if ($this->is_admin) { ?>
+                                    <th>Поставщик</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                             <tfoot>
@@ -115,6 +118,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <th>Кол.</th>
                                 <th>Срок</th>
                                 <th>Купить</th>
+                                <?php if ($this->is_admin) { ?>
+                                    <th>Поставщик</th>
+                                <?php } ?>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -136,26 +142,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php } ?>
                                     </td>
                                     <td class="search-product-sku"><a
-                                                href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['sku']; ?></a>
+                                                href="/product/<?php echo $product['slug']; ?>" onclick="goTo(<?php echo $product['supplier_id'];?>,<?php echo $product['term'];?>)"><?php echo $product['sku']; ?></a>
                                     </td>
                                     <td class="search-product-brand"><a
-                                                href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['brand']; ?></a>
+                                                href="/product/<?php echo $product['slug']; ?>" onclick="goTo(<?php echo $product['supplier_id'];?>,<?php echo $product['term'];?>)"><?php echo $product['brand']; ?></a>
                                     </td>
                                     <td class="search-product-name">
-                                        <a class="name" href="/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>"><?php echo $product['name']; ?></a>
+                                        <a class="name" href="/product/<?php echo $product['slug']; ?>" onclick="goTo(<?php echo $product['supplier_id'];?>,<?php echo $product['term'];?>)"><?php echo $product['name']; ?></a>
                                         <?php if ($product['excerpt']) { ?>
                                             <br>
                                             <small class="search-product-excerpt"><?php echo $product['excerpt']; ?></small>
-                                        <?php } ?>
-                                        <?php if ($this->is_admin) { ?>
-                                            <hr/>
-                                            <div style="font-size: 11px">
-                                                Поставщик: <a target="_blank"
-                                                              href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id']; ?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name']; ?></a><br/>
-                                                Закупочная:
-                                                <b><?php echo $product['delivery_price'] . ' ' . $this->currency_model->currencies[$product['currency_id']]['name']; ?></b><br/>
-                                                Дата обновления: <b><?php echo $product['updated_at']; ?></b>
-                                            </div>
                                         <?php } ?>
                                     </td>
 
@@ -186,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <button class="btn btn-default" type="submit"><i
                                                         class="fa fa-shopping-cart"></i></button>
                                             <a title="<?php echo strip_tags(lang('text_fast_order_link'));?>" class="btn btn-info" href="#"
-                                               onclick="fastOrder('/product/<?php echo $product['slug']; ?>?supplier_id=<?php echo $product['supplier_id']; ?>&term=<?php echo $product['term']; ?>',event);"><i class="glyphicon glyphicon-send"></i></a>
+                                               onclick="fastOrder('/product/<?php echo $product['slug']; ?>',event);"><i class="glyphicon glyphicon-send"></i></a>
 
                                         </div>
                                         </form>
@@ -198,6 +194,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?></a>
                                         </small>
                                     </td>
+                                    <?php if ($this->is_admin) { ?>
+                                        <td>
+                                            <small>
+                                                <a target="_blank"
+                                                   href="/autoxadmin/supplier/edit/<?php echo $product['supplier_id']; ?>"><?php echo $this->supplier_model->suppliers[$product['supplier_id']]['name']; ?></a>
+                                                <b><?php echo $product['delivery_price'] . ' ' . $this->currency_model->currencies[$product['currency_id']]['name']; ?></b>
+                                            </small>
+                                        </td>
+                                    <?php } ?>
                                 </tr>
                             <?php } ?>
                             </tbody>
@@ -316,26 +321,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         }
     );
 
-    $(document).click(function(){
-        hideTd();
-    });
-
-
     $(document).ready(function () {
-        $("tr").mouseover(function(){
-           $(this).find("td").css('visibility','');
-           //$(this).
-        });
-
-        $("tr").mouseout(function(){
-            hideTd();
-        });
         var table = $('#example').DataTable({
             paging: false,
             ordering: true,
             info: false,
             searching: true,
-            //order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
+            order: [[ 0, "asc" ],[4,'asc'],[6, 'asc']]
         });
 
         // Event listener to the two range filtering inputs to redraw on input
@@ -347,25 +339,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             table.draw();
         });
 
-        hideTd();
-
         $("#example").fadeIn('slow');
 
     });
 
 
-
-    function hideTd() {
-        var tr_product = [];
-
-        $("[data-tr]").each(function(index, item){
-            var product_id = $(item).attr('data-tr');
-            if(jQuery.inArray(product_id, tr_product) == -1){
-                tr_product.push(product_id);
-                $(item).children('td').slice(0,3).css('visibility','');
-            }else{
-                $(item).children('td').slice(0,3).css('visibility','hidden');
-            }
-        });
+    function goTo(supplier_id,term){
+        $.post('/ajax/gotoproduct',{supplier_id:supplier_id,term:term});
+        return true;
     }
 </script>
