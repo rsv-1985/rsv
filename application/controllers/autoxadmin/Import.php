@@ -67,8 +67,10 @@ class Import extends Admin_controller
         // otherwise when using as delimiter it will give an error,
         // because it is not recognised as a special character for 'tab' key,
         // it shows up like a simple string composed of '\' and 't' characters, which is not accepted when parsing csv files
-
-        return $delimiter = $results[0] == '\t' ? "\t" : $results[0];
+        $delimiter = $results[0] == '\t' ? "\t" : $results[0];
+        unset($results);
+        unset($number_of_delimiter_occurences);
+        return $delimiter;
     }
 
     public function index(){
