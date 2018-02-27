@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <?php } ?>
             </ol>
 			<div class="table-responsive">
-            <table class="table table-bordered table-striped ">
+            <table class="table table-bordered table-hover">
                 <tr>
                     <th><?php echo lang('text_column_engine');?></th>
                     <th><?php echo lang('text_column_engine_code');?></th>
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <th><?php echo lang('text_column_Body');?></th>
                 </tr>
                 <?php foreach($typs as $typ){?>
-                    <tr>
+                    <tr style="cursor: pointer;" onclick="location.href='<?php echo current_url();?>/<?php echo $typ['slug'];?>'">
                         <td><a href="<?php echo current_url();?>/<?php echo $typ['slug'];?>"><?php echo $typ['Name'];?></a> </td>
                         <td><?php echo $typ['Engines'];?></td>
                         <td><?php echo $typ['CCM'];?></td>
