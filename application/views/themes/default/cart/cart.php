@@ -76,8 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                                 </tbody>
                             </table>
-                            <a href="/cart/clear_cart"
-                               class="btn btn-danger pull-right"><?php echo lang('text_clear_cart'); ?></a>
+
                             <div class="clearfix"></div>
                             <?php echo form_open('', ['id' => 'cart']); ?>
                             <div class="cart-collaterals">
@@ -200,6 +199,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </div>
                                         </div>
                                     <?php } ?>
+                                    <a href="/cart/clear_cart"
+                                       class="btn btn-danger pull-left"><?php echo lang('text_clear_cart'); ?></a>
                                     <button class="btn pull-right"
                                             type="submit"><?php echo lang('button_order'); ?></button>
                                 </div>
