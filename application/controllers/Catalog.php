@@ -30,11 +30,11 @@ class Catalog extends Front_controller
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = str_replace([
                         '{cat}',
                     ],[
                         $tree_name
-                    ], $value));
+                    ], $value);
                 }
             }
         }else{
@@ -116,13 +116,13 @@ class Catalog extends Front_controller
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = str_replace([
                         '{manuf}',
                         '{cat}'
                     ],[
                         $manufacturer_info[0]->Name,
                         $tree_name
-                    ], $value));
+                    ], $value);
                 }
             }
         }else{
@@ -130,11 +130,11 @@ class Catalog extends Front_controller
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = str_replace([
                         '{manuf}',
                     ],[
                         $manufacturer_info[0]->Name
-                    ], $value));
+                    ], $value);
                 }
             }
         }
@@ -192,7 +192,7 @@ class Catalog extends Front_controller
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = str_replace([
                         '{manuf}',
                         '{model}',
                         '{cat}'
@@ -200,7 +200,7 @@ class Catalog extends Front_controller
                         $manufacturer_info[0]->Name,
                         $model_info[0]->Name,
                         $tree_name
-                    ], $value));
+                    ], $value);
                 }
             }
         }else{
@@ -209,13 +209,13 @@ class Catalog extends Front_controller
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = str_replace([
                         '{manuf}',
                         '{model}'
                     ],[
                         $manufacturer_info[0]->Name,
                         $model_info[0]->Name
-                    ], $value));
+                    ], $value);
                 }
             }
         }
@@ -323,7 +323,7 @@ class Catalog extends Front_controller
         if($settings){
             $seo = [];
             foreach($settings as $field => $value){
-                $seo[$field] = strip_tags(str_replace([
+                $seo[$field] = str_replace([
                     '{manuf}',
                     '{model}',
                     '{type}'
@@ -331,7 +331,7 @@ class Catalog extends Front_controller
                     $manufacturer_info[0]->Name,
                     $model_info[0]->Name,
                     $typ_info[0]->Name
-                ], $value));
+                ], $value);
             }
         }
 
@@ -386,7 +386,7 @@ class Catalog extends Front_controller
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = str_replace([
                         '{manuf}',
                         '{model}',
                         '{type}',
@@ -396,7 +396,7 @@ class Catalog extends Front_controller
                         $model_info[0]->Name,
                         $typ_info[0]->Name,
                         $tree_name
-                    ], $value));
+                    ], $value);
                 }
             }
 
