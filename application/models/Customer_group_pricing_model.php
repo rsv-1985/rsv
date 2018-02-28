@@ -13,8 +13,8 @@ class Customer_group_pricing_model extends Default_model{
     public function __construct()
     {
         //Если покупатель залогинен, получаем ценообразование по группу покупателя
-        if($this->session->customer_id){
-            $this->pricing = $this->get_customer_group_pricing($this->customer_model->customer_group_id);
+        if($this->customergroup_model->customer_group){
+            $this->pricing = $this->get_customer_group_pricing($this->customergroup_model->customer_group['id']);
         }
     }
 
