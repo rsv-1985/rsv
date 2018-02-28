@@ -58,6 +58,9 @@ class Customer_model extends Default_model{
 
                 if($cart_data){
                     $cart_contents = unserialize($cart_data['cart_data']);
+                    if($admin_login){
+                        $this->load->library('cart');
+                    }
                     $this->cart->set_cart_contents($cart_contents);
                 }
                 return true;
