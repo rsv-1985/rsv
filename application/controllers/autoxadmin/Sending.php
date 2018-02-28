@@ -90,9 +90,7 @@ class Sending extends Admin_controller
 
                 unset($unique_emails[0]);
                 if(count($unique_emails)){
-                    $this->email->bcc_batch_mode = true;
-                    $this->email->bcc_batch_size = 10;
-                    $this->email->bcc($unique_emails);
+                    $this->email->bcc($unique_emails,10);
                 }
 
                 $this->email->mailtype = 'html';
