@@ -72,13 +72,9 @@ class Sending extends Admin_controller
             $phones = array_diff($phones,['']);
 
             if($this->input->post('send_email') && $emails){
-
                 $contacts = $this->settings_model->get_by_key('contact_settings');
-
                 $unique_emails = array_unique($emails);
-
                 $this->load->library('email');
-
                 if($smtp_config = $this->config->item('smtp')){
                     foreach ($smtp_config as $key => $value){
                         $config[$key] = $value;
@@ -87,15 +83,20 @@ class Sending extends Admin_controller
                 }
 
                 $this->email->from($contacts['email'],$this->config->item('company_name'));
+
+
                 $this->email->reply_to($contacts['email'],$this->config->item('company_name'));
+                $this->email->to($unique_emails[0]);
+
+                unset($unique_emails[0]);
+                if(count($unique_emails)){
+                    $this->email->bcc($unique_emails,5);
+                }
+
                 $this->email->mailtype = 'html';
                 $this->email->subject($this->input->post('subject',true));
                 $this->email->message($this->input->post('text',true));
-
-                foreach ($unique_emails as $e){
-                    $this->email->to($e);
-                    $this->email->send();
-                }
+                @$this->email->send();
             }
 
             if($this->input->post('send_sms') && $phones){
