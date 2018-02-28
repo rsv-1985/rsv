@@ -93,7 +93,7 @@ class Sending extends Admin_controller
                     $this->email->bcc($unique_emails,5);
                 }
 
-                $this->email->mailtype = 'html';
+                //$this->email->mailtype = 'html';
                 $this->email->subject($this->input->post('subject',true));
                 $this->email->message($this->input->post('text',true));
                 @$this->email->send();
