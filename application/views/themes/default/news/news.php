@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="col-md-12">
                 <?php foreach ($news as $new){?>
                     <div class="media">
-                        <div class="media-left">
+                        <div class="media-left" style="width: 10%">
                             <?php if(preg_match('/src="([^"]*)"/', $new['description'], $matches)){?>
                                 <a href="/news/<?php echo $new['slug'];?>">
                                     <img width="100" class="media-object" src="<?php echo $matches[1];?>" alt="<?php echo $new['name'];?>">
