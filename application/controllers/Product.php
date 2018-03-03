@@ -38,8 +38,6 @@ class Product extends Front_controller
         $data['delivery_methods'] = $this->delivery_model->get_all();
         $data['payment_methods'] = $this->payment_model->get_all();
 
-        $this->canonical = base_url('product/' . $slug);
-
         $data['breadcrumbs'][] = ['href' => base_url(), 'text' => lang('text_home')];
 
 
@@ -48,6 +46,7 @@ class Product extends Front_controller
             $data['breadcrumbs'][] = ['href' => base_url('category/' . $category_info['slug']), 'text' => $category_info['name']];
         }
 
+        //Получаем ценовые предложения
         $data['prices'] = $this->product_model->get_product_price($data);
 
         if($data['prices']){
@@ -88,6 +87,10 @@ class Product extends Front_controller
         if (isset($data['tecdoc_info']['cross'])) {
             $data['cross'] = $data['tecdoc_info']['cross'];
         }
+        //Если активна опция использовать наименования с текдок
+        if($this->options['use_tecdoc_name'] && @$data['tecdoc_info']['article']['Name']){
+            $data['name'] = @$data['tecdoc_info']['article']['Name'];
+        }
 
         $settings = $this->settings_model->get_by_key('seo_product');
         if ($settings) {
@@ -113,7 +116,9 @@ class Product extends Front_controller
 
         $this->product_model->update_viewed($data['id']);
 
-        if (mb_strlen($data['h1']) > 0) {
+        $this->canonical = base_url('product/' . $slug);
+
+        if(mb_strlen($data['h1']) > 0) {
             $this->setH1($data['h1']);
         } elseif (mb_strlen(@$seo['h1']) > 0) {
             $this->setH1(@$seo['h1']);
