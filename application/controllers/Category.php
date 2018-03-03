@@ -129,10 +129,21 @@ class Category extends Front_controller{
         }
 
         if($brand){
-            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(5), ['product.category_id' => $category['id'], 'brand' => $data['brands'][$brand]], false, $filter_products_id);
+            $products = $this->product_model->product_get_all(12, $this->uri->segment(5), ['product.category_id' => $category['id'], 'brand' => $data['brands'][$brand]], false, $filter_products_id);
         }else{
-            $data['products'] = $this->product_model->product_get_all(12, $this->uri->segment(3), ['product.category_id' => $category['id']], false, $filter_products_id);
+            $products = $this->product_model->product_get_all(12, $this->uri->segment(3), ['product.category_id' => $category['id']], false, $filter_products_id);
         }
+
+        //Если активна опция использовать наименования с текдок
+        if($this->options['use_tecdoc_name'] && $products){
+            foreach ($products as &$product){
+                if(@$product['tecdoc_info']['article']['Name']){
+                    $product['name'] = $product['tecdoc_info']['article']['Name'];
+                }
+            }
+        }
+
+        $data['products'] = $products;
 
         $config['total_rows'] = $this->product_model->total_rows;
 
