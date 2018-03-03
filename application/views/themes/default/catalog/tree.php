@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </b>
                                         </div>
                                         <div class="product-option-shop">
-                                            <a href="/product/<?php echo $part->product['slug'];?>"><?php echo plural_form(count($part->product['prices']),[lang('text_offer_1'),lang('text_offer_2'),lang('text_offer_5')]);?></a>
+                                            <a class="btn btn-default" href="/product/<?php echo $part->product['slug'];?>"><?php echo plural_form(count($part->product['prices']),[lang('text_offer_1'),lang('text_offer_2'),lang('text_offer_5')]);?></a>
                                         </div>
                                         <?php if($part->Info){?>
                                             <div class="info">
@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </b>
                                         </div>
                                         <div class="product-option-shop">
-                                            <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
+                                            <a class="btn btn-default" href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
                                         </div>
                                         <?php if($part->Info){?>
                                             <div class="info">
