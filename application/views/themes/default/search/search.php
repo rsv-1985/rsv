@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <?php if ($products) { ?>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="panel panel-default filter">
                         <div class="panel-heading">
                             Фильтр
@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <?php if ($min_price || $min_cross_price || $min_term) { ?>
                         <div class="row">
                             <?php if ($min_price) { ?>
