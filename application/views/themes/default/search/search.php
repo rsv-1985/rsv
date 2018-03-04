@@ -6,6 +6,10 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <style>
+        .table{
+            table-layout: fixed;
+            font-size: 14px;
+        }
         td.search-product-cart {
             width: 105px;
         }
@@ -203,8 +207,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php } ?>
                                                 <?php echo $price['excerpt'];?>
                                             </td>
-                                            <td><?php echo format_term($price['term']);?></td>
-                                            <td><?php echo format_quantity($price['quantity']);?></td>
+                                            <td class="search-product-term">На складе</td>
+                                            <td class="search-product-quantity"><?php echo format_quantity($price['quantity']);?></td>
                                             <td class="search-product-price"><?php echo format_currency($price['price']);?></td>
                                             <td class="search-product-fast">
                                                 <small>
