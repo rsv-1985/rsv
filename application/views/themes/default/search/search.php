@@ -38,6 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         }
         td.search-product-excerpt {
             font-size: 12px;
+            text-align: left;
         }
         td.search-product-fast {
             width: 81px;
@@ -173,7 +174,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                             <div class="col-md-3 col-sm-6 col-xs-6">
                                 <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
-                                <br><a href="/product/<?php echo $product['slug'];?>"><?php echo $product['name'];?></a>
+                                <br>
+                                <small>
+                                    <a href="/product/<?php echo $product['slug'];?>"><?php echo $product['name'];?></a>
+                                </small>
+
                             </div>
                             <div class="col-md-7 table-responsive" style="text-align: center;">
                                 <table class="table table-hover table-condensed">
