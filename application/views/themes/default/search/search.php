@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                             <div class="col-md-7 table-responsive" style="text-align: center;">
                                 <table class="table table-hover table-condensed">
-                                    <?php $q =0; foreach ($product['prices'] as $price){ ?>
+                                    <?php $q = 1; foreach ($product['prices'] as $price){ ?>
                                         <tr id="<?php echo $price['key'];?>" class="product-<?php echo $product['id'];?>" <?php if($q > 5){?>style="display: none" <?php } ?>>
                                             <td class="search-product-excerpt">
                                                 <?php if ($this->is_admin) { ?>
