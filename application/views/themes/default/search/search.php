@@ -43,6 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         td.search-product-excerpt {
             font-size: 12px;
             text-align: left;
+            width: auto;
         }
         td.search-product-fast {
             width: 81px;
@@ -92,7 +93,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="col-md-4">
                                     <div class="panel panel-info widget">
                                         <div class="panel-heading" style="cursor: pointer;" onclick="go('<?php echo $min_price['key'];?>');">
-                                            <i class="glyphicon glyphicon-euro"></i> Минимальная цена<br>
+                                            <i class="glyphicon glyphicon-stats"></i> Минимальная цена<br>
+                                            <?php echo $min_price['brand'];?><br/>
                                             <b><?php echo format_currency($min_price['price']); ?></b>
                                             <small class="term"><?php echo lang('text_term'); ?>
                                                 :<?php echo format_term($min_price['term']); ?></small>
@@ -105,7 +107,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="col-md-4">
                                     <div class="panel panel-warning widget">
                                         <div class="panel-heading" style="cursor: pointer;" onclick="go('<?php echo $min_price_cross['key'];?>');">
-                                            <i class="glyphicon glyphicon-euro"></i> Минимальная цена аналог<br>
+                                            <i class="glyphicon glyphicon-stats"></i> Минимальная цена аналог<br>
+                                            <?php echo $min_price_cross['brand'];?><br/>
                                             <b><?php echo format_currency($min_price_cross['price']); ?></b>
                                             <small class="term"><?php echo lang('text_term'); ?>
                                                 :<?php echo format_term($min_price_cross['term']); ?></small>
@@ -118,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div class="panel panel-info widget">
                                         <div class="panel-heading" style="cursor: pointer;" onclick="go('<?php echo $min_term['key'];?>');">
                                             <i class="glyphicon glyphicon-time"></i> Минимальный срок<br>
+                                            <?php echo $min_term['brand'];?><br/>
                                             <b><?php echo format_term($min_term['term']); ?></b>
                                             <small class="term"><?php echo lang('text_price'); ?>
                                                 :<?php echo format_currency($min_term['price']); ?></small>
