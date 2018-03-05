@@ -207,7 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php } ?>
                                                 <?php echo $price['excerpt'];?>
                                             </td>
-                                            <td class="search-product-term">На складе</td>
+                                            <td class="search-product-term"><?php echo format_term($price['term']);?></td>
                                             <td class="search-product-quantity"><?php echo format_quantity($price['quantity']);?></td>
                                             <td class="search-product-price"><?php echo format_currency($price['price']);?></td>
                                             <td class="search-product-fast">
