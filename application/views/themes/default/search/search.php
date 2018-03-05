@@ -192,15 +192,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <table class="table table-hover table-condensed">
                                         <?php $q = 1; foreach ($product['prices'] as $price){ ?>
                                             <tr id="<?php echo $price['key'];?>" class="product-<?php echo $product['id'];?>" <?php if($q > 5){?>style="display: none" <?php } ?>>
+                                                <?php if ($this->is_admin) { ?>
+                                                    <td>
+                                                        <?php echo $this->supplier_model->suppliers[$price['supplier_id']]['name'].'<br>'.$price['delivery_price'].' '.$this->currency_model->currencies[$price['currency_id']]['name'].' '.$price['quantity'].'шт.'; ?>"
+                                                    </td>
+                                                <?php } ?>
                                                 <td class="search-product-excerpt">
-                                                    <?php if ($this->is_admin) { ?>
-                                                        <a style="color: red;" data-trigger="hover" data-container="body" data-html="true"
-                                                           data-toggle="popover" data-placement="left"
-                                                           data-content="<?php echo htmlspecialchars('Это видит только админ.<br/>'.$this->supplier_model->suppliers[$price['supplier_id']]['name'].' '.$price['delivery_price'].' '.$this->currency_model->currencies[$price['currency_id']]['name'].' '.$price['quantity'].'шт.'); ?>"
-                                                        >
-                                                            <i class="glyphicon glyphicon-road"></i>
-                                                        </a>
-                                                    <?php } ?>
+
                                                     <?php if($price['term'] < 24){?>
                                                         <a style="color: green;" data-trigger="hover" data-container="body" data-html="true"
                                                            data-toggle="popover" data-placement="left"
