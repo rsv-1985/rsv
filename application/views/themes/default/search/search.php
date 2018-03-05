@@ -381,7 +381,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
     function hide(product_id) {
         $(".product-"+product_id).each(function(index,item){
-            if(index > 5){
+            if(index >= 5){
                 $(item).hide();
             }
         });
