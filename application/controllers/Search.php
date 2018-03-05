@@ -114,37 +114,11 @@ class Search extends Front_controller
 
                 $product['info'] = @$tecdoc_info['article']['Info'];
 
-                $data['min_price'] = [
-                    'id' => $product['id'],
-                    'supplier_id' => $product['prices'][0]['supplier_id'],
-                    'slug' => $product['slug'],
-                    'sku' => $product['sku'],
-                    'brand' => $product['brand'],
-                    'name' => $product['name'],
-                    'image' => $product['image'],
-                    'price' => $product['prices'][0]['saleprice'] > 0 ? $product['prices'][0]['saleprice'] : $product['prices'][0]['price'],
-                    'term' => $product['prices'][0]['term'],
-                    'key' => $product['id'] . $product['prices'][0]['supplier_id'] . $product['prices'][0]['term']
-                ];
-
-                $data['min_term'] = [
-                    'id' => $product['id'],
-                    'supplier_id' => $product['prices'][0]['supplier_id'],
-                    'slug' => $product['slug'],
-                    'sku' => $product['sku'],
-                    'brand' => $product['brand'],
-                    'name' => $product['name'],
-                    'image' => $product['image'],
-                    'price' => $product['prices'][0]['saleprice'] > 0 ? $product['prices'][0]['saleprice'] : $product['prices'][0]['price'],
-                    'term' => $product['prices'][0]['term'],
-                    'key' => $product['id'] . $product['prices'][0]['supplier_id'] . $product['prices'][0]['term']
-                ];
-
                 $filter_brands[] = $product['brand'];
                 foreach ($product['prices'] as &$price) {
                     $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
 
-                    if($p < $data['min_price']['price']){
+                    if(!$data['min_price'] || $p < $data['min_price']['price']){
                         $data['min_price'] = [
                             'id' => $product['id'],
                             'supplier_id' => $price['supplier_id'],
@@ -159,7 +133,7 @@ class Search extends Front_controller
                         ];
                     }
 
-                    if($price['term'] < $data['min_term']['term']){
+                    if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
                         $data['min_term'] = [
                             'id' => $product['id'],
                             'supplier_id' => $price['supplier_id'],
@@ -199,37 +173,11 @@ class Search extends Front_controller
 
                         $product['info'] = @$tecdoc_info['article']['Info'];
 
-                        $data['min_price'] = [
-                            'id' => $product['id'],
-                            'supplier_id' => $product['prices'][0]['supplier_id'],
-                            'slug' => $product['slug'],
-                            'sku' => $product['sku'],
-                            'brand' => $product['brand'],
-                            'name' => $product['name'],
-                            'image' => $product['image'],
-                            'price' => $product['prices'][0]['saleprice'] > 0 ? $product['prices'][0]['saleprice'] : $product['prices'][0]['price'],
-                            'term' => $product['prices'][0]['term'],
-                            'key' => $product['id'] . $product['prices'][0]['supplier_id'] . $product['prices'][0]['term']
-                        ];
-
-                        $data['min_term'] = [
-                            'id' => $product['id'],
-                            'supplier_id' => $product['prices'][0]['supplier_id'],
-                            'slug' => $product['slug'],
-                            'sku' => $product['sku'],
-                            'brand' => $product['brand'],
-                            'name' => $product['name'],
-                            'image' => $product['image'],
-                            'price' => $product['prices'][0]['saleprice'] > 0 ? $product['prices'][0]['saleprice'] : $product['prices'][0]['price'],
-                            'term' => $product['prices'][0]['term'],
-                            'key' => $product['id'] . $product['prices'][0]['supplier_id'] . $product['prices'][0]['term']
-                        ];
-
                         $filter_brands[] = $product['brand'];
                         foreach ($product['prices'] as &$price) {
                             $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
 
-                            if($p < $data['min_price_cross']['price']){
+                            if(!$data['min_price_cross'] || $p < $data['min_price_cross']['price']){
                                 $data['min_price'] = [
                                     'id' => $product['id'],
                                     'supplier_id' => $price['supplier_id'],
@@ -244,7 +192,7 @@ class Search extends Front_controller
                                 ];
                             }
 
-                            if($price['term'] < $data['min_term']['term']){
+                            if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
                                 $data['min_term'] = [
                                     'id' => $product['id'],
                                     'supplier_id' => $price['supplier_id'],
@@ -288,37 +236,11 @@ class Search extends Front_controller
 
                         $product['info'] = @$tecdoc_info['article']['Info'];
 
-                        $data['min_price_cross'] = [
-                            'id' => $product['id'],
-                            'supplier_id' => $product['prices'][0]['supplier_id'],
-                            'slug' => $product['slug'],
-                            'sku' => $product['sku'],
-                            'brand' => $product['brand'],
-                            'name' => $product['name'],
-                            'image' => $product['image'],
-                            'price' => $product['prices'][0]['saleprice'] > 0 ? $product['prices'][0]['saleprice'] : $product['prices'][0]['price'],
-                            'term' => $product['prices'][0]['term'],
-                            'key' => $product['id'] . $product['prices'][0]['supplier_id'] . $product['prices'][0]['term']
-                        ];
-
-                        $data['min_term'] = [
-                            'id' => $product['id'],
-                            'supplier_id' => $product['prices'][0]['supplier_id'],
-                            'slug' => $product['slug'],
-                            'sku' => $product['sku'],
-                            'brand' => $product['brand'],
-                            'name' => $product['name'],
-                            'image' => $product['image'],
-                            'price' => $product['prices'][0]['saleprice'] > 0 ? $product['prices'][0]['saleprice'] : $product['prices'][0]['price'],
-                            'term' => $product['prices'][0]['term'],
-                            'key' => $product['id'] . $product['prices'][0]['supplier_id'] . $product['prices'][0]['term']
-                        ];
-
                         $filter_brands[] = $product['brand'];
                         foreach ($product['prices'] as &$price) {
                             $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
 
-                            if($p < $data['min_price_cross']['price']){
+                            if(!$data['min_price_cross'] || $p < $data['min_price_cross']['price']){
                                 $data['min_price_cross'] = [
                                     'id' => $product['id'],
                                     'supplier_id' => $price['supplier_id'],
@@ -333,7 +255,7 @@ class Search extends Front_controller
                                 ];
                             }
 
-                            if($price['term'] < $data['min_term']['term']){
+                            if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
                                 $data['min_term'] = [
                                     'id' => $product['id'],
                                     'supplier_id' => $price['supplier_id'],
