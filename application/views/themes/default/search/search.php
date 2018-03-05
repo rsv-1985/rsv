@@ -366,7 +366,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
      }
 
     function go(price_key) {
-        $("#"+price_key).css('background-color','#f443360a');
+        $("#"+price_key).show().css('background-color','#f443360a');
         $('html, body').animate({
             scrollTop: parseInt($("#"+price_key).offset().top)-200
         }, 500);
