@@ -146,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <?php foreach ($products as $product){?>
                         <div class="row item brand <?php echo md5($product['brand']);?>">
-                            <div class="col-md-2 col-sm-12 col-xs-12" style="text-align: center">
+                            <div class="col-md-2 col-sm-12 col-xs-12">
                                 <?php if ($product['is_cross'] == 0) { ?>
                                     <label class="label label-success">
                                         <?php echo lang('text_cross_type_0'); ?>
