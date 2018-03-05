@@ -110,6 +110,8 @@ class Search extends Front_controller
 
                 if(!$product['image']){
                     $product['image'] =  @$tecdoc_info['article']['Image'];
+                }else{
+                    $product['image'] = '/uploads/product/'.$product['image'];
                 }
 
                 $product['info'] = @$tecdoc_info['article']['Info'];
@@ -169,6 +171,8 @@ class Search extends Front_controller
 
                         if(!$product['image']){
                             $product['image'] =  @$tecdoc_info['article']['Image'];
+                        }else{
+                            $product['image'] = '/uploads/product/'.$product['image'];
                         }
 
                         $product['info'] = @$tecdoc_info['article']['Info'];
@@ -232,6 +236,8 @@ class Search extends Front_controller
 
                         if(!$product['image']){
                             $product['image'] =  @$tecdoc_info['article']['Image'];
+                        }else{
+                            $product['image'] = '/uploads/product/'.$product['image'];
                         }
 
                         $product['info'] = @$tecdoc_info['article']['Info'];
