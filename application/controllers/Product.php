@@ -96,7 +96,7 @@ class Product extends Front_controller
         if ($settings) {
             $seo = [];
             foreach ($settings as $field => $value) {
-                $seo[$field] = strip_tags(str_replace([
+                $seo[$field] = str_replace([
                     '{name}',
                     '{brand}',
                     '{sku}',
@@ -108,7 +108,7 @@ class Product extends Front_controller
                     $data['sku'],
                     $data['description'],
                     @implode(', ',array_keys($data['applicability'])),
-                ], $value));
+                ], $value);
             }
         }
 
