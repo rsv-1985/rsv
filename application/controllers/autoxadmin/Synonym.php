@@ -37,8 +37,8 @@ class Synonym extends Admin_controller
 
     public function create(){
         if($this->input->post()){
-            $this->form_validation->set_rules('brand1', lang('text_brand1'), 'required|max_length[32]|is_unique[synonym.brand1]');
-            $this->form_validation->set_rules('brand2', lang('text_brand2'), 'required|max_length[32]');
+            $this->form_validation->set_rules('brand1', lang('text_brand1'), 'required|max_length[60]|is_unique[synonym.brand1]');
+            $this->form_validation->set_rules('brand2', lang('text_brand2'), 'required|max_length[60]');
            if ($this->form_validation->run() !== false){
                 $this->save_data();
             }else{
@@ -60,11 +60,11 @@ class Synonym extends Admin_controller
 
         if($this->input->post()){
             if($this->input->post('brand1') != $data['synonym']['brand1']){
-                $this->form_validation->set_rules('brand1', lang('text_brand1'), 'required|max_length[32]|is_unique[synonym.brand1]|trim');
+                $this->form_validation->set_rules('brand1', lang('text_brand1'), 'required|max_length[60]|is_unique[synonym.brand1]|trim');
             }else{
-                $this->form_validation->set_rules('brand1', lang('text_brand1'), 'required|max_length[32]|trim');
+                $this->form_validation->set_rules('brand1', lang('text_brand1'), 'required|max_length[60]|trim');
             }
-            $this->form_validation->set_rules('brand2', lang('text_brand2'), 'required|max_length[32]|trim');
+            $this->form_validation->set_rules('brand2', lang('text_brand2'), 'required|max_length[60]|trim');
             if ($this->form_validation->run() !== false){
                 $this->save_data($id);
             }else{
