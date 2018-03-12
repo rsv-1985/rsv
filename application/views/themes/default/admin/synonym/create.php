@@ -23,11 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="box-body">
                     <div class="form-group">
                         <label><?php echo lang('text_brand1'); ?></label>
-                        <input required type="text" class="form-control" name="brand1" value="<?php echo set_value('name'); ?>" maxlength="32">
+                        <input required type="text" class="form-control" name="brand1" value="<?php echo set_value('name'); ?>" maxlength="60">
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label><?php echo lang('text_brand2'); ?></label>
-                        <input required type="text" class="form-control" name="brand2" value="<?php echo set_value('code'); ?>" maxlength="32">
+                        <input required type="text" class="form-control" name="brand2" value="<?php echo set_value('code'); ?>" maxlength="60">
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_submit');?></button>
