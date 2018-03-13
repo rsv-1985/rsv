@@ -39,7 +39,7 @@ class Category extends Front_controller{
             if($settings){
                 $seo = [];
                 foreach($settings as $field => $value){
-                    $seo[$field] = strip_tags(str_replace([
+                    $seo[$field] = trim(str_replace([
                         '{category}',
                         '{brand}'
                     ],[
