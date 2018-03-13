@@ -51,8 +51,6 @@ class Category extends Front_controller{
             }
         }
 
-
-
         $filter_products_id = false;
 
         $filters = false;
