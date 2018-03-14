@@ -271,7 +271,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </tr>
                                             <?php $q++; } ?>
                                     </table>
-                                    <?php if($q > 5){ ?>
+                                    <?php if($q >= 5){ ?>
                                         <button id="show-buttom-<?php echo $product['id'];?>" class="btn btn-link" onclick="show(<?php echo $product['id'];?>)">Показать еще (<?php echo $q - 6;?>)</button>
                                         <button style="display: none;" id="hide-buttom-<?php echo $product['id'];?>" class="btn btn-link" onclick="hide(<?php echo $product['id'];?>)">Скрыть</button>
                                     <?php } ?>
