@@ -216,7 +216,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="col-md-7 col-xs-12 table_info_item" style="text-align: center;">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-condensed">
-                                        <?php $q = 0; foreach ($product['prices'] as $price){ ?>
+                                        <?php $q = 1; foreach ($product['prices'] as $price){ ?>
                                             <tr id="<?php echo $price['key'];?>" class="product-<?php echo $product['id'];?>" <?php if($q > 5){?>style="display: none" <?php } ?>>
                                                 <?php if ($this->is_admin) { ?>
                                                     <td>
