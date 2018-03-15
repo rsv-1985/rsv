@@ -47,9 +47,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         td.search-product-fast {
             width: 81px;
         }
+        @media (min-width:500px){
+            .table_info_item .search-product-excerpt {
+                width: 115px;
+                line-height: 15px;
+            }
+            .table_info_item .search-product-term {
+                padding: 2px 10px;
+                width: 86px;
+                line-height: 14px;
+            }
+        }
         @media (max-width: 991px){
             .row.item{
-                margin: 0 0 10px;
+                margin: 0 0 15px;
+                border: 1px solid #acaaaa;
             }
             .table_info_item .table-responsive {
                 border: none;
@@ -59,8 +71,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 margin-top: 13px;
                 border-top: 1px solid #efefef;
             }
+            .table_info_item td.search-product-term {
+                width: 60px;
+                white-space: normal !important;
+                line-height: 13px;
+                padding-right: 11px !important;
+            }
+            .label_info_detail {
+                padding-left: 3px;
+            }
         }
-        @media (max-width: 767px){
+        @media (max-width: 500px){
             .table_info_item table, .table_info_item tr, .table_info_item tr > td:nth-child(1){
                 display: block;
             }
@@ -71,6 +92,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             }
             .table-hover>tbody>tr:hover {
                 background-color: #ffffff;
+            }
+            .table_info_item td:not(.search-product-excerpt) {
+                font-size: 14px !important;
+                letter-spacing: -1.1px;
+            }
+            .label_info_detail .label {
+                margin-bottom: 6px;
+                display: inline-block;
+            }
+            .label_info_detail .glyphicon {
+                font-size: 20px;
+                margin-right: 9px;
+            }
+            .table_info_item .search-product-cart input {
+                width: 12px;
+                min-width: 39px;
+                padding: 6px;
+            }
+            .table_info_item .search-product-cart {
+                width: 76px;
             }
         }
     </style>
@@ -172,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <?php foreach ($products as $product){?>
                         <div class="row item brand <?php echo md5($product['brand']);?>">
-                            <div class="col-md-2 col-sm-12 col-xs-5">
+                            <div class="col-md-2 col-sm-12 col-xs-5 label_info_detail">
                                 <?php if ($product['is_cross'] == 0) { ?>
                                     <label class="label label-success">
                                         <?php echo lang('text_cross_type_0'); ?>
@@ -190,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                                 <?php if($product['image']){?>
                                     <a data-trigger="hover" data-container="body" data-html="true"
-                                       data-toggle="popover" data-placement="left"
+                                       data-toggle="popover" data-placement="right"
                                        data-content="<?php echo htmlspecialchars('<img src="'.$product['image'].'"/>'); ?>"
                                     >
                                         <i class="glyphicon glyphicon-picture"></i>
@@ -198,7 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                                 <?php if($product['info']){?>
                                     <a data-trigger="hover" data-container="body" data-html="true"
-                                       data-toggle="popover" data-placement="left"
+                                       data-toggle="popover" data-placement="right"
                                        data-content="<?php echo htmlspecialchars($product['info']); ?>"
                                     >
                                         <i class="glyphicon glyphicon-info-sign"></i>
@@ -227,7 +268,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                                                     <?php if($price['term'] < 24){?>
                                                         <a style="color: green;" data-trigger="hover" data-container="body" data-html="true"
-                                                           data-toggle="popover" data-placement="left"
+                                                           data-toggle="popover" data-placement="right"
                                                            data-content="<?php echo htmlspecialchars(lang('text_term').' '.format_term($price['term'])); ?>"
                                                         >
                                                             <i class="glyphicon glyphicon-unchecked"></i>
