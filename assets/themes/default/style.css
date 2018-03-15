@@ -40,3 +40,104 @@
     }
 
 }
+
+/*BTN phone*/
+.dws {
+    position: fixed;
+    right: 27px;
+    bottom: 78px;
+    z-index: 99999999;
+}
+.pulse, .bloc, .phone {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+}
+.bloc {
+    cursor: pointer;
+    z-index: 1;
+    overflow: hidden;
+}
+.pulse {
+    background: #5CC2E2;
+    position: relative;
+    transition: .5s;
+}
+.phone {
+    font-size: 34px;
+    line-height: 62px;
+    animation: phone .9s ease-in-out infinite;
+}
+.text {
+    position: absolute;
+    opacity: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    top: 17px;
+    font-size: 11px;
+    transform: scaleX(-1);
+    transition: .5s ease-in-out;
+}
+.phone i {
+    transition: .5s ease-in-out;
+}
+.pulse:hover {
+    background: #29AEE3;
+}
+.pulse:hover i {
+    transition: .5s ease-in-out;
+    transform: scale(0);
+}
+.pulse:hover .text {
+    transform: scaleX(1);
+    transition: .5s ease-in-out;
+    opacity: 1;
+}
+.pulse:hover::before,
+.pulse:hover::after {
+    content: '';
+    position: absolute;
+    border: 1px solid #29AEE3;
+    left: -20px;
+    right: -20px;
+    top: -20px;
+    bottom: -20px;
+    border-radius: 50%;
+    animation: pulse 1.8s linear infinite;
+    opacity: 0;
+}
+.pulse:hover::after {
+    animation-delay: .5s;
+}
+
+@keyframes phone {
+    0%, 100% {
+        transform: rotate(-20deg);
+    }
+    50% {
+        transform: rotate(21deg);
+    }
+}
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 767px){
+    .dws {
+        left: 13px;
+        bottom: 9px;
+    }
+}
