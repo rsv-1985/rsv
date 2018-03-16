@@ -254,7 +254,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </small>
 
                             </div>
-                            <div class="col-md-7 col-xs-12 table_info_item" style="text-align: center;">
+                            <div class="col-md-8 col-xs-12 table_info_item" style="text-align: center;">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-condensed">
                                         <?php $q = 1; foreach ($product['prices'] as $price){ ?>
