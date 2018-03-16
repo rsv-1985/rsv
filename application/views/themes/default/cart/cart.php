@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                        onclick="minus('<?php echo $key; ?>')">
                                                 <input type="text" id="quan<?php echo $key; ?>"
                                                        onchange="quan('<?php echo $key; ?>')" size="4"
-                                                       class="input-text qty text" value="<?php echo $item['qty']; ?>"
+                                                       class="input-text qty" value="<?php echo $item['qty']; ?>"
                                                        min="0" step="1">
                                                 <input type="button" class="plus" value="+"
                                                        onclick="plus('<?php echo $key; ?>')">
