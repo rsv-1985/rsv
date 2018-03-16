@@ -395,6 +395,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][show_fast_order_search]" value="1" <?php echo set_checkbox('settings[options][show_fast_order_search]',true,(bool)@$settings['options']['show_fast_order_search']);?>>
+                                                            Кнопка быстрого заказа при поиске
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Отображать кнопку быстрога заказа на странице поиска
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label>
                                                         <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
                                                     </label>
