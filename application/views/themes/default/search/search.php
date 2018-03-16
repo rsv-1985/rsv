@@ -213,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <?php foreach ($products as $product){?>
                         <div class="row item brand <?php echo md5($product['brand']);?>">
-                            <div class="col-md-2 col-sm-12 col-xs-5 label_info_detail">
+                            <div class="col-md-1 col-sm-12 col-xs-5 label_info_detail">
                                 <?php if ($product['is_cross'] == 0) { ?>
                                     <label class="label label-success">
                                         <?php echo lang('text_cross_type_0'); ?>
@@ -246,7 +246,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </a>
                                 <?php } ?>
                             </div>
-                            <div class="col-md-3 col-sm-12 col-xs-7" style="text-align: center">
+                            <div class="col-md-3 col-sm-12 col-xs-7">
                                 <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
                                 <br>
                                 <small>
@@ -279,17 +279,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <td class="search-product-term"><?php echo format_term($price['term']);?></td>
                                                 <td class="search-product-quantity"><?php echo format_quantity($price['quantity']);?></td>
                                                 <td class="search-product-price"><?php echo format_currency($price['price']);?></td>
-                                                <td class="search-product-fast">
-                                                    <small>
-                                                        <a href="/cart" class="<?php echo $price['key']; ?>"
-                                                            <?php if (!key_exists(md5($price['key']), $this->cart->contents())) { ?>
-                                                                style="display: none;"
-                                                            <?php } ?>
-                                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
-                                                        </a>
-                                                    </small>
-                                                    <a href="#" onclick="fastOrder('/product/<?php echo $product['slug']; ?>',event);"><?php echo strip_tags(lang('text_fast_order_link')); ?></a>
-                                                </td>
+                                                <?php if(@$this->options['show_fast_order_search']){?>
+                                                    <td class="search-product-fast">
+                                                        <a href="#" onclick="fastOrder('/product/<?php echo $product['slug']; ?>',event);"><?php echo strip_tags(lang('text_fast_order_link')); ?></a>
+                                                    </td>
+                                                <?php } ?>
                                                 <td class="search-product-cart">
                                                     <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
                                                     <div class="input-group">
@@ -308,6 +302,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     </span>
                                                     </div>
                                                     </form>
+                                                    <small>
+                                                        <a href="/cart" class="<?php echo $price['key']; ?>"
+                                                            <?php if (!key_exists(md5($price['key']), $this->cart->contents())) { ?>
+                                                                style="display: none;"
+                                                            <?php } ?>
+                                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                        </a>
+                                                    </small>
                                                 </td>
                                             </tr>
                                             <?php $q++; } ?>
