@@ -36,7 +36,7 @@ function format_quantity($value){
 function format_term_class($term){
     if($term == 0){
         $class = 'in_stock';
-    }else if($term <= 24){
+    }else if($term < 24){
         $class = 'one_day';
     }else{
         $class = '';
