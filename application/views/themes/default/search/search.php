@@ -265,15 +265,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     </td>
                                                 <?php } ?>
                                                 <td class="search-product-excerpt">
-
-                                                    <?php if($price['term'] < 24){?>
-                                                        <a style="color: green;" data-trigger="hover" data-container="body" data-html="true"
-                                                           data-toggle="popover" data-placement="right"
-                                                           data-content="<?php echo htmlspecialchars(lang('text_term').' '.format_term($price['term'])); ?>"
-                                                        >
-                                                            <i class="glyphicon glyphicon-unchecked"></i>
-                                                        </a>
-                                                    <?php } ?>
                                                     <?php echo $price['excerpt'];?>
                                                 </td>
                                                 <td class="search-product-term"><?php echo format_term($price['term']);?></td>
