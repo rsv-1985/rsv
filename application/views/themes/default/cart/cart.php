@@ -33,6 +33,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <thead>
                                 <tr>
                                     <th class="product-remove">&nbsp;</th>
+                                    <th><?php echo lang('text_sku');?></th>
+                                    <th><?php echo lang('text_brand');?></th>
                                     <th class="product-name"><?php echo lang('text_product'); ?></th>
                                     <th class="product-price"><?php echo lang('text_price'); ?></th>
                                     <th class="product-quantity"><?php echo lang('text_quantity'); ?></th>
@@ -40,15 +42,23 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($this->cart->contents() as $key => $item) { ?>
+                                <?php foreach ($this->cart->contents() as $key => $item) {?>
                                     <tr class="cart_item" id="<?php echo $key; ?>">
                                         <td class="product-remove">
                                             <a class="remove" href="#"
                                                onclick="remove_cart('<?php echo $key; ?>', event)">×</a>
                                         </td>
-
+                                        <td>
+                                            <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['sku']; ?></a>
+                                        </td>
+                                        <td>
+                                            <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['brand']; ?></a>
+                                        </td>
                                         <td class="product-name">
-                                            <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['sku'] . ' ' . $item['brand'] . ' ' . $item['name']; ?></a>
+                                            <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['name']; ?></a>
+                                            <?php if($item['excerpt']){?>
+                                                <br/><?php echo $item['excerpt'];?>
+                                            <?php } ?>
                                         </td>
 
                                         <td class="product-price">
@@ -59,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <div class="quantity buttons_added">
                                                 <input type="button" class="minus" value="-"
                                                        onclick="minus('<?php echo $key; ?>')">
-                                                <input type="text" id="quan<?php echo $key; ?>"
+                                                <input style="width: 51px" type="text" id="quan<?php echo $key; ?>"
                                                        onchange="quan('<?php echo $key; ?>')" size="4"
                                                        class="input-text qty" value="<?php echo $item['qty']; ?>"
                                                        min="0" step="1">
