@@ -7,6 +7,12 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <style>
+    .row.item {
+        border: 1px solid #e5e5e5;
+        margin: 5px;
+        padding: 5px;
+    }
+
     .single-shop-product > .info{
         background: #4cbbb9;
         color: black;
@@ -65,9 +71,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php if (@$parts) { ?>
                         <?php foreach ($parts as $part){?>
                             <?php if ($part->product && $part->product['prices']) {?>
-                                <div class="col-md-4 col-sm-6 filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
-                                    echo $filter_key . ' ';
-                                } ?>" <?php } ?>>
+                                <div class="col-md-4 col-sm-6 filters-item">
+                                    <div class="filters-key" style="display: none">
+                                        <?php if (isset($part->filter_key)){ ?>
+                                            <?php foreach ($part->filter_key as $filter_key) {echo $filter_key . ' ';} ?>
+                                        <?php } ?>
+                                    </div>
                                     <div class="single-shop-product">
                                         <div class="product-upper">
                                             <a href="/product/<?php echo $part->product['slug'];?>">
@@ -84,17 +93,65 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </h2>
                                         <div class="product-carousel-price">
                                             <b>
-                                                <?php if (count($part->product['prices']) == 1) { ?>
-                                                    <?php echo format_currency($part->product['prices'][0]['price']); ?>
-                                                <?php } else { ?>
-                                                    <?php echo format_currency($part->product['prices'][0]['price']); ?>
-                                                    <small> -</small>
-                                                    <?php echo format_currency(end($part->product['prices'])['price']); ?>
-                                                <?php } ?>
+                                                <?php echo format_currency($part->product['prices'][0]['price']); ?>
                                             </b>
                                         </div>
                                         <div class="product-option-shop">
-                                            <a class="btn btn-default" href="/product/<?php echo $part->product['slug'];?>"><?php echo plural_form(count($part->product['prices']),[lang('text_offer_1'),lang('text_offer_2'),lang('text_offer_5')]);?></a>
+                                            <a class="btn btn-default" data-toggle="modal" data-target="#modal-price-<?php echo $part->product['id'];?>" href="#"><?php echo lang('button_cart');?></a>
+                                        </div>
+                                        <div class="modal fade" id="modal-price-<?php echo $part->product['id'];?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel"><?php echo plural_form(count($part->product['prices']),[lang('text_offer_1'),lang('text_offer_2'),lang('text_offer_5')]);?></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <?php foreach ($part->product['prices'] as $price){ $key = $part->product['id'] . $price['supplier_id'] . $price['term'] ?>
+                                                            <div class="row item">
+                                                            <div class="col-md-3">
+                                                                <small>
+                                                                    <?php echo $price['excerpt'];?>
+                                                                </small>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php echo format_term($price['term']);?>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php echo format_quantity($price['quantity']);?>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
+                                                                <div class="input-group">
+                                                                    <input placeholder="кол." type="number"
+                                                                           name="quantity"
+                                                                           class="form-control">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="<?php echo $part->product['id']; ?>">
+                                                                    <input type="hidden" name="supplier_id"
+                                                                           value="<?php echo $price['supplier_id']; ?>">
+                                                                    <input type="hidden" name="term"
+                                                                           value="<?php echo $price['term']; ?>">
+                                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="submit"><i
+                                                                    class="fa fa-shopping-cart"></i></button>
+                                                    </span>
+                                                                </div>
+                                                                </form>
+                                                                <small>
+                                                                    <a href="/cart" class="<?php echo $key; ?>"
+                                                                        <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                                            style="display: none;"
+                                                                        <?php } ?>
+                                                                    ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                                    </a>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <?php if($part->Info){?>
                                             <div class="info">
@@ -105,40 +162,45 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </div>
                             <?php } ?>
                         <?php } ?>
-                        <?php foreach ($parts as $part){?>
-                            <?php if (!$part->product) { ?>
-                                <div class="col-md-4 col-sm-6 filters-item <?php if (isset($part->filter_key)){ ?><?php foreach ($part->filter_key as $filter_key) {
-                                    echo $filter_key . ' ';
-                                } ?>" <?php } ?>>
-                                    <div class="single-shop-product">
-                                        <div class="product-upper">
-                                            <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>">
-                                                <img onerror="this.src='/assets/themes/default/img/no_image.png'"
-                                                     src="<?php echo $part->Image; ?>"
-                                                     alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                                     title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
-                                                     style="max-height: 150px;">
-                                            </a>
+                        <?php if(@$this->options['show_tecdoc_product_without_price']){?>
+                            <?php foreach ($parts as $part){?>
+                                <?php if (!$part->product) { ?>
+                                    <div class="col-md-4 col-sm-6 filters-item">
+                                        <div class="filters-key" style="display: none">
+                                            <?php if (isset($part->filter_key)){ ?>
+                                                <?php foreach ($part->filter_key as $filter_key) {echo $filter_key . ' ';} ?>
+                                            <?php } ?>
                                         </div>
-                                        <small><?php echo $part->Brand.' '.$part->Search;?></small>
-                                        <h2>
-                                            <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo $part->Name;?></a>
-                                        </h2>
-                                        <div class="product-carousel-price">
-                                            <b>
-                                                Нет предложений
-                                            </b>
-                                        </div>
-                                        <div class="product-option-shop">
-                                            <a class="btn btn-default" href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
-                                        </div>
-                                        <?php if($part->Info){?>
-                                            <div class="info">
-                                                <?php echo $part->Info;?>
+                                        <div class="single-shop-product">
+                                            <div class="product-upper">
+                                                <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>">
+                                                    <img onerror="this.src='/assets/themes/default/img/no_image.png'"
+                                                         src="<?php echo $part->Image; ?>"
+                                                         alt="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                                         title="<?php echo $part->Name . ' ' . $part->Brand . ' купить'; ?>"
+                                                         style="max-height: 150px;">
+                                                </a>
                                             </div>
-                                        <?php } ?>
+                                            <small><?php echo $part->Brand.' '.$part->Search;?></small>
+                                            <h2>
+                                                <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo $part->Name;?></a>
+                                            </h2>
+                                            <div class="product-carousel-price">
+                                                <b>
+                                                    Нет предложений
+                                                </b>
+                                            </div>
+                                            <div class="product-option-shop">
+                                                <a class="btn btn-default" href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
+                                            </div>
+                                            <?php if($part->Info){?>
+                                                <div class="info">
+                                                    <?php echo $part->Info;?>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php } ?>
                             <?php } ?>
                         <?php } ?>
                     <?php } else { ?>
@@ -307,7 +369,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             $(".filters").each(function () {
                 if ($(this).prop('checked')) {
                     countChecked++;
-                    $("." + $(this).val()).show();
+                    $(".filters-key:contains('"+$(this).val()+"')").parent('.filters-item').show();
                 }
             });
             if (countChecked == 0) {
