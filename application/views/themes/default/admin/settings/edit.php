@@ -410,6 +410,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][show_tecdoc_product_without_price]" value="1" <?php echo set_checkbox('settings[options][show_tecdoc_product_without_price]',true,(bool)@$settings['options']['show_tecdoc_product_without_price']);?>>
+                                                            Отображать товары tecdoc без цены
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Отображать товары tecdoc без цены в каталоге
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label>
                                                         <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
                                                     </label>
