@@ -100,6 +100,7 @@ class Cart extends Front_controller
                             'supplier_id' => $item['supplier_id'],
                             'status_id' => $order_status['id'],
                             'term' => (int)$item['term'],
+                            'excerpt' => $item['excerpt']
                         ];
                         
                         $this->product_model->update_bought($item);
@@ -159,7 +160,6 @@ class Cart extends Front_controller
                     }else{
                         redirect('/');
                     }
-
                 }
             }else{
                 $this->error = validation_errors();
@@ -325,6 +325,7 @@ class Cart extends Front_controller
                 'delivery_price' => $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'],
                 'price' => format_currency($price,false),
                 'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
+                'excerpt' => $product['excerpt'],
                 'sku' => $product['sku'],
                 'brand' => $product['brand'],
                 'product_id' => (int)$product['id'],
