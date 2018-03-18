@@ -110,9 +110,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         <?php foreach ($part->product['prices'] as $price){ $key = $part->product['id'] . $price['supplier_id'] . $price['term'] ?>
                                                             <div class="row item">
                                                             <div class="col-md-3">
-                                                                <small>
-                                                                    <?php echo $price['excerpt'];?>
-                                                                </small>
+                                                                <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price']);?>
+                                                                <?php if($price['excerpt']){?>
+                                                                    <br/>
+                                                                    <small>
+                                                                        <?php echo $price['excerpt'];?>
+                                                                    </small>
+                                                                <?php } ?>
+
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <?php echo format_term($price['term']);?>
