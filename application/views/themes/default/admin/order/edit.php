@@ -113,6 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <th><?php echo lang('text_sku'); ?></th>
                     <th><?php echo lang('text_brand'); ?></th>
                     <th><?php echo lang('text_term'); ?></th>
+                    <th>Доп. инф.</th>
                     <th><?php echo lang('text_qty'); ?></th>
                     <th><?php echo lang('text_delivery_price'); ?></th>
                     <th><?php echo lang('text_price'); ?></th>
@@ -155,6 +156,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php echo @format_term($product['term']); ?>
                                 <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
                                        value="<?php echo $product['term']; ?>">
+                            </td>
+                            <td>
+                                <?php echo $product['excerpt'];?>
                             </td>
                             <td>
                                 <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
