@@ -194,29 +194,6 @@ function remove_garage(key,event) {
     });
 }
 
-function getSearchBrand(search){
-    if(search.length >=3){
-        $.ajax({
-            url:'/ajax/get_brands',
-            data:{search:search},
-            method:'post',
-            dataType: "json",
-            success: function(json){
-                if(json['brands']){
-                    console.log(json['brands']);
-                    var html = '';
-                    $(json['brands']).each(function(index, brand){
-                        html += '<li onclick="location.href=\'/search?search='+brand['sku']+'&ID_art='+brand['ID_art']+'&brand='+brand['brand']+'\'"><img src="'+brand['image']+'" style="width:50px"/> '+brand['brand']+' <small>'+brand['name']+'</small></li>';
-                    })
-                    $("#search_brand").html(html).show();
-                }
-            }
-        });
-    }else{
-        $("#search_brand").hide();
-    }
-}
-
 function fastOrder(href,e){
     e.preventDefault();
     if(href){

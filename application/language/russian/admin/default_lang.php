@@ -37,6 +37,7 @@ $lang['text_nav_news'] = 'Новости';
 $lang['text_nav_banner'] = 'Баннеры';
 $lang['text_instruments'] = 'Инструменты';
 $lang['text_nav_synonym'] = 'Синонимы брендов';
+$lang['text_nav_brand_group'] = 'Группы брендов';
 $lang['text_nav_synonym_name'] = 'Синонимы наименований';
 $lang['text_nav_import'] = 'Импорт прайс листов';
 $lang['text_nav_cross'] = 'Кросс номера';

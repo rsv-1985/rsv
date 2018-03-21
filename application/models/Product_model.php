@@ -270,16 +270,15 @@ class Product_model extends Default_model
     public function get_brands($query)
     {
         $sku = $this->clear_sku($query);
-
         $return = [];
-
         $check_brand = [];
-
         //Получает бренды текдок
         $tecdoc = $this->tecdoc->getSearch($sku);
         if ($tecdoc) {
             $return = [];
             foreach ($tecdoc as $item) {
+                //Проверяем есть бренд в группах брендов
+
                 $check_brand[] = $this->clear_brand($item->Brand);
                 $return[] = [
                     'ID_art' => $item->ID_art,
