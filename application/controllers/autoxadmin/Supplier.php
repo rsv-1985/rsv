@@ -143,30 +143,36 @@ class supplier extends Admin_controller
 
     public function get_sample()
     {
-        $json = [];
+        $html = '';
         if ($this->input->is_ajax_request()) {
             $this->load->model('sample_model');
             $supplier_id = (int)$this->input->post('supplier_id', true);
             $results = $this->sample_model->get_all(false, false, array('supplier_id' => $supplier_id));
             if ($results) {
-                foreach($results as $result){
-                    $json['samples'][] = [
-                        'id' => $result['id'],
-                        'supplier_id' => $result['supplier_id'],
-                        'name' => $result['name'],
-                        'value' => unserialize($result['value'])
-                    ];
+                foreach($results as $item){
+
+                    $html .= '<div class="radio" id="sample_'.$item['id'].'">';
+                    $html .= '    <i class="fa fa-remove pull-right" onclick="delete_sample('.$item['id'].')"></i>';
+                    $html .= '    <label>';
+                    $html .= '        <input type="radio" name="sample_id" value="'.$item['id'].'">';
+                    $html .= '            <b>'.$item['name'].'</b>';
+                    $html .= '            <p class="help-block">';
+                    foreach(unserialize($item['value']) as  $index => $value ) {
+                        $html .= $index.':'.$value.'<br>';
+                    }
+                    $html .= '</p>';
+                    $html .= '    </label>';
+                    $html .= '</div>';
                 }
 
             } else {
-                $json['error'] = 'No sample';
+                $html = 'No sample';
             }
         } else {
-            $json['error'] = 'no_ajax';
+            exit('error');
         }
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
+
+        exit($html);
 
     }
 
