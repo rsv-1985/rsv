@@ -103,7 +103,9 @@ class Search extends Front_controller
         $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
 
         if ($system_cross) {
-            $crosses_search = $system_cross;
+            foreach ($system_cross as $st){
+                $crosses_search[] = $st;
+            }
         }
 
         //Если указано id_group группа брендов
@@ -117,7 +119,9 @@ class Search extends Front_controller
                     }
                     $system_cross = $this->product_model->get_crosses($ID_art, $group_brand['brand'], $search);
                     if ($system_cross) {
-                        $crosses_search =  array_merge($crosses_search, $system_cross);
+                        foreach ($system_cross as $st){
+                            $crosses_search[] = $st;
+                        }
                     }
 
                     //Ищем товары по точному совпадению
@@ -396,5 +400,17 @@ class Search extends Front_controller
         $this->load->view('header');
         $this->load->view('search/search', $data);
         $this->load->view('footer');
+    }
+
+    private function getProduct(){
+
+    }
+
+    private function getCross(){
+
+    }
+
+    private function getText(){
+
     }
 }
