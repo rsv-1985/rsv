@@ -41,10 +41,6 @@ class Search extends Front_controller
             }
         }
 
-        if (count($data['brands']) == 1) {
-            redirect('/search?search=' . $data['brands'][0]['sku'] . '&ID_art=' . $data['brands'][0]['ID_art'] . '&brand=' . $data['brands'][0]['brand']);
-        }
-
         $this->setH1(sprintf(lang('text_search_pre_search_h1'), $search));
         $this->setTitle(sprintf(lang('text_search_pre_search_title'), $search));
         $this->setDescription(sprintf(lang('text_search_pre_search_description'), $search));
