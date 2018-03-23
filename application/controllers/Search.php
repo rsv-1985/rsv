@@ -21,6 +21,7 @@ class Search extends Front_controller
     public function pre_search()
     {
         $search = strip_tags($this->input->get('search', true));
+
         $data['brands'] = $this->product_model->get_brands($search);
 
         //Проверяем есть ли бренды в группе брендов
@@ -39,14 +40,6 @@ class Search extends Front_controller
                     ];
                 }
             }
-        }
-
-        if(count($data['brands']) == 1 && !$data['group_brands']){
-            redirect('/search?search='.$data['brands'][0]['sku'].'&ID_art='.$data['brands'][0]['ID_art'].'&brand='.$data['brands'][0]['brand']);
-        }
-
-        if(count($data['group_brands']) == 1 && !$data['brands']){
-            redirect('/search?search='.$data['group_brands'][0]['sku'].'&id_group='.$data['group_brands'][0]['id_group'].'&brand='.$data['group_brands'][0]['brand']);
         }
 
         $this->setH1(sprintf(lang('text_search_pre_search_h1'), $search));
@@ -69,7 +62,8 @@ class Search extends Front_controller
         $brands = $this->product_model->get_brands($search);
 
         if (!$brand && $brands) {
-            redirect('search/pre_search?search=' . $search);
+            redirect('/search/pre_search?search=' . $search);
+            exit('da');
         }
 
         $data['products'] = [];
