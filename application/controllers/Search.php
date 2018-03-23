@@ -96,15 +96,9 @@ class Search extends Front_controller
 
         $crosses_search = array();
 
-        $product_search[] = ['sku' => $search, 'brand' => $brand];
+        $sku = $this->product_model->clear_sku($search);
 
-        $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
-
-        if ($system_cross) {
-            foreach ($system_cross as $st){
-                $crosses_search[] = $st;
-            }
-        }
+        $product_search[md5($sku.$brand)] = ['sku' => $sku, 'brand' => $brand];
 
         //Если указано id_group группа брендов
         if($group_brand_id = $this->input->get('id_group',true)){
@@ -118,29 +112,34 @@ class Search extends Front_controller
                     $system_cross = $this->product_model->get_crosses($ID_art, $group_brand['brand'], $search);
                     if ($system_cross) {
                         foreach ($system_cross as $st){
-                            $crosses_search[] = $st;
+                            $crosses_search[md5($st['sku'].$st['brand'])] = $st;
                         }
                     }
 
-                    $product_search[] = ['sku' => $search, 'brand' =>  $group_brand['brand']];
+                    $product_search[md5($sku.$group_brand['brand'])] = ['sku' => $sku, 'brand' =>  $group_brand['brand']];
                 }
             }
         }
 
-        $product_search = array_unique($product_search, SORT_REGULAR);
+        $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
+
+        if ($system_cross) {
+            foreach ($system_cross as $st){
+                $crosses_search[md5($st['sku'].$st['brand'])] = $st;
+            }
+        }
 
         foreach ($product_search as $ps){
             $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($ps['sku']), $ps['brand'], $crosses_search);
 
             if ($cross_suppliers) {
                 foreach ($cross_suppliers as $cross_supplier) {
-                    $crosses_search = array_merge($crosses_search, $cross_supplier);
+                    foreach ($cross_supplier as $cs){
+                        $crosses_search[md5($cs['sku'].$cs['brand'])] = $cs;
+                    }
                 }
             }
         }
-
-        $crosses_search = array_unique($crosses_search, SORT_REGULAR);
-
 
         if ($brand && $search) {
             foreach ($product_search as $ps){
@@ -269,6 +268,7 @@ class Search extends Front_controller
         }
 
         if ($crosses_search) {
+            $crosses_search = array_diff_key($crosses_search,$product_search);
             $crosses = $this->product_model->get_search_crosses($crosses_search);
             if ($crosses) {
                 foreach ($crosses as $product) {
