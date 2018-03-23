@@ -240,25 +240,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 url: '/autoxadmin/supplier/get_sample',
                 method: 'POST',
                 data: {supplier_id:$(this).val()},
-                dateType: 'json',
-                success: function(json){
-                    if(json['samples']){
-                        var html = '';
-                        $.each(json['samples'], function( index, item ) {
-                            html += '<div class="radio" id="sample_'+item['id']+'">';
-                            html += '    <i class="fa fa-remove pull-right" onclick="delete_sample('+item['id']+')"></i>';
-                            html += '    <label>';
-                            html += '        <input type="radio" name="sample_id" value="'+item['id']+'">';
-                            html += '            <b>'+item['name']+'</b>';
-                            html += '            <p class="help-block">';
-                            $.each(item['value'], function( index, value ) {
-                                html += index+':'+value+'<br>';
-                            });
-                            html += '</p>';
-                            html += '    </label>';
-                            html += '</div>';
-                        });
-                        $("#sample").html(html).removeAttr('disabled');
+                success: function(response){
+                    if(response.length){
+                        $("#sample").html(response).removeAttr('disabled');
                         $("#sample_form").hide();
                     }else{
                         $("#sample").empty().attr('disabled', true);
