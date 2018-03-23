@@ -41,6 +41,14 @@ class Search extends Front_controller
             }
         }
 
+        if(count($data['brands']) == 1 && !$data['group_brands']){
+            redirect('/search?search='.$data['brands'][0]['sku'].'&ID_art='.$data['brands'][0]['ID_art'].'&brand='.$data['brands'][0]['brand']);
+        }
+
+        if(count($data['group_brands']) == 1 && !$data['brands']){
+            redirect('/search?search='.$data['group_brands'][0]['sku'].'&id_group='.$data['group_brands'][0]['id_group'].'&brand='.$data['group_brands'][0]['brand']);
+        }
+
         $this->setH1(sprintf(lang('text_search_pre_search_h1'), $search));
         $this->setTitle(sprintf(lang('text_search_pre_search_title'), $search));
         $this->setDescription(sprintf(lang('text_search_pre_search_description'), $search));
