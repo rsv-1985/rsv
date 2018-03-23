@@ -127,11 +127,15 @@ class Search extends Front_controller
             }
         }
 
-        $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $crosses_search);
+        $product_search = array_unique($product_search, SORT_REGULAR);
 
-        if ($cross_suppliers) {
-            foreach ($cross_suppliers as $cross_supplier) {
-                $crosses_search = array_merge($crosses_search, $cross_supplier);
+        foreach ($product_search as $ps){
+            $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($ps['sku']), $ps['brand'], $crosses_search);
+
+            if ($cross_suppliers) {
+                foreach ($cross_suppliers as $cross_supplier) {
+                    $crosses_search = array_merge($crosses_search, $cross_supplier);
+                }
             }
         }
 
@@ -139,7 +143,6 @@ class Search extends Front_controller
 
 
         if ($brand && $search) {
-            $product_search = array_unique($product_search, SORT_REGULAR);
             foreach ($product_search as $ps){
                 $product = $this->product_model->get_search_products($ps['sku'], $ps['brand']);
                 if ($product && $product['prices']) {
