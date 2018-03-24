@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-12 brands" style="min-height: 800px">
+        <div class="col-md-12 brands" style="min-height: 500px">
             <ul class="list-group">
                 <?php if($group_brands){?>
                     <?php foreach ($group_brands as $brand){?>
