@@ -1777,14 +1777,18 @@ img#loading {
     .nav_catalog_title{width:100%;background:#31708f;color:#fff;text-align:left;padding:14px}
 
 
-    .nav_catalog_dropdown li.nav_catalog_has_dd>a:after, .nav_catalog_has_dd  ul{
-        display: none !important;
+    .nav_catalog_has_dd  ul{
+        display: none;
     }
+	.nav_catalog_has_dd > a{
+		pointer-events: none;
+	}
 }
 .dws {
     position: fixed;
     right: 27px;
     bottom: 78px;
+	width: 60px;
     z-index: 99999999;
 }
 .pulse {
