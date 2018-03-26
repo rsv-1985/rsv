@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v=1">
+    <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v=2">
 </head>
 <body>
 
