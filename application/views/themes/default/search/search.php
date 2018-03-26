@@ -80,6 +80,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             .label_info_detail {
                 padding-left: 3px;
             }
+			.table_info_item td:not(:first-child) {
+				display: block;
+				float: left;
+				width: 24%;
+				line-height: 20px;
+			}
+			.table_info_item tbody {
+				width: 100%;
+				display: block;
+			}
+			.table_info_item .search-product-term,
+			.table_info_item .search-product-quantity,
+			.table_info_item .search-product-price{
+				padding-top: 5px;
+			}
+			.table_info_item .search-product-cart input {
+				width: 56px;
+				min-width: 56px;
+				padding: 6px;
+			}
         }
         @media (max-width: 500px){
             .table_info_item table, .table_info_item tr, .table_info_item tr > td:nth-child(1){
@@ -105,15 +125,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 font-size: 20px;
                 margin-right: 9px;
             }
+            .table_info_item .search-product-cart {
+                width: 76px;
+            }
+            .table_info_item .search-product-cart input {
+                width: 53px;
+                min-width: 53px;
+                padding: 6px;
+            }
+        }
+		@media (max-width: 365px){
             .table_info_item .search-product-cart input {
                 width: 12px;
                 min-width: 39px;
                 padding: 6px;
             }
-            .table_info_item .search-product-cart {
-                width: 76px;
-            }
-        }
+		}
     </style>
 
     <div class="search-product-big-title-area">
