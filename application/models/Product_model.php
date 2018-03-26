@@ -281,12 +281,25 @@ class Product_model extends Default_model
         $sku = $this->clear_sku($query);
         $return = [];
         $check_brand = [];
+        //Получает бренды текдок
+        $tecdoc = $this->tecdoc->getSearch($sku);
+        if ($tecdoc) {
+            foreach ($tecdoc as $item) {
+                //Проверяем есть бренд в группах брендов
+                $check_brand[] = $this->clear_brand($item->Brand);
+                $return[] = [
+                    'ID_art' => $item->ID_art,
+                    'name' => $item->Name,
+                    'brand' => $this->clear_brand($item->Brand),
+                    'sku' => $this->clear_sku($item->Article),
+                    'image' => '/image?img=' . $item->Image . '&width=50&height=50',
+                ];
+            }
+        }
 
         //Получаем список брендов в локальной базе, которых нет в базе текдок
         $this->db->from('product p');
-        $this->db->select("p.name, p.brand, p.sku, p.image, gb.group_name, gb.id as id_group", FALSE);
-        $this->db->join("group_brand_item gbi","gbi.brand=p.brand",'left');
-        $this->db->join("group_brand gb","gb.id=gbi.group_brand_id",'left');
+        $this->db->select("p.name, p.brand, p.sku, p.image", FALSE);
         $this->db->where('p.sku', $sku);
         if ($check_brand) {
             $this->db->where_not_in('p.brand', $check_brand);
@@ -303,17 +316,14 @@ class Product_model extends Default_model
                     'brand' => $item['brand'],
                     'sku' => $item['sku'],
                     'image' => '/image?img=/uploads/product/' . $item['image'] . '&width=50&height=50',
-                    'id_group' => $item['id_group'],
-                    'group_name' => $item['group_name']
                 ];
             }
         }
 
+
         //Получаем бренды с таблицы кросов
         $this->db->from('cross c');
-        $this->db->select("c.brand, c.code, gb.group_name, gb.id as id_group", FALSE);
-        $this->db->join("group_brand_item gbi","gbi.brand=c.brand",'left');
-        $this->db->join("group_brand gb","gb.id=gbi.group_brand_id",'left');
+        $this->db->select("c.brand, c.code", FALSE);
         $this->db->where('c.code', $sku);
         if ($check_brand) {
             $this->db->where_not_in('c.brand', $check_brand);
@@ -330,28 +340,7 @@ class Product_model extends Default_model
                     'brand' => $item['brand'],
                     'sku' => $item['code'],
                     'image' => '/image?width=50',
-                    'id_group' => $item['id_group'],
-                    'group_name' => $item['group_name']
                 ];
-            }
-        }
-
-        //Получает бренды текдок
-        $tecdoc = $this->tecdoc->getSearch($sku);
-        if ($tecdoc) {
-            $return = [];
-            foreach ($tecdoc as $item) {
-                if(!in_array($this->clear_brand($item->Brand,$check_brand))){
-                    //Проверяем есть бренд в группах брендов
-                    $return[] = [
-                        'ID_art' => $item->ID_art,
-                        'name' => $item->Name,
-                        'brand' => $this->clear_brand($item->Brand),
-                        'sku' => $this->clear_sku($item->Article),
-                        'image' => '/image?img=' . $item->Image . '&width=50&height=50',
-                        'id_group' => false
-                    ];
-                }
             }
         }
 

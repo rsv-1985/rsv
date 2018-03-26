@@ -22,7 +22,31 @@ class Search extends Front_controller
     {
         $search = strip_tags($this->input->get('search', true));
 
-        $data['brands'] = $this->product_model->get_brands($search);
+        $brands = $this->product_model->get_brands($search);
+        if($brands){
+            $data['group_brands'] = [];
+            $data['brands'] = [];
+            //Проверяем есть ли бренды в группе брендов
+
+                foreach ($brands as $i => $brand){
+                    $brand_group = $this->brand_group_model->getBrandGroupByBrand($brand['brand']);
+                    if($brand_group){
+                        unset($brands[$i]);
+                        $data['group_brands'][$brand_group['id']] = [
+                            'id_group' => $brand_group['id'],
+                            'name' => $brand['name'],
+                            'brand' => $brand_group['group_name'],
+                            'sku' => $brand['sku'],
+                            'image' => $brand['image']
+                        ];
+                    }
+                }
+            $data['brands'] = $brands;
+
+        }else{
+            redirect('/search?search='.$search);
+        }
+
 
         $this->setH1(sprintf(lang('text_search_pre_search_h1'), $search));
         $this->setTitle(sprintf(lang('text_search_pre_search_title'), $search));
