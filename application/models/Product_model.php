@@ -11,11 +11,18 @@ class Product_model extends Default_model
 {
     public $table = 'product';
     public $total_rows = 0;
+    public $seo_url_template;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->seo_url_template = $this->settings_model->get_by_key('seo_url_template');
+    }
 
     public function getSlug($product)
     {
         $slug = url_title($product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'], 'dash', true);
-        $seo_url_template = $this->settings_model->get_by_key('seo_url_template');
+        $seo_url_template = $this->seo_url_template;
         if ($seo_url_template) {
             $replace = array_map(function ($str) {
                 return '{' . $str . '}';
@@ -235,6 +242,8 @@ class Product_model extends Default_model
     {
         //Получаем кросс номера
         $sku = $this->clear_sku($sku);
+        $brand = $this->clear_brand($brand);
+
         $crosses = [];
         if ($ID_art) {
             $cross = $this->tecdoc->getCrosses($ID_art);
@@ -278,26 +287,28 @@ class Product_model extends Default_model
             $return = [];
             foreach ($tecdoc as $item) {
                 //Проверяем есть бренд в группах брендов
-
                 $check_brand[] = $this->clear_brand($item->Brand);
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
                     'brand' => $this->clear_brand($item->Brand),
                     'sku' => $this->clear_sku($item->Article),
-                    'image' => '/image?img=' . $item->Image . '&width=50&height=50'
+                    'image' => '/image?img=' . $item->Image . '&width=50&height=50',
+                    'id_group' => false
                 ];
             }
         }
 
         //Получаем список брендов в локальной базе, которых нет в базе текдок
-        $this->db->from($this->table);
-        $this->db->select(['name', 'brand', 'sku', 'image']);
-        $this->db->where('sku', $sku);
+        $this->db->from('product p');
+        $this->db->select("p.name, p.brand, p.sku, p.image, gb.group_name, gb.id as id_group", FALSE);
+        $this->db->join("group_brand_item gbi","gbi.brand=p.brand",'left');
+        $this->db->join("group_brand gb","gb.id=gbi.group_brand_id",'left');
+        $this->db->where('p.sku', $sku);
         if ($check_brand) {
-            $this->db->where_not_in('brand', $check_brand);
+            $this->db->where_not_in('p.brand', $check_brand);
         }
-        $this->db->group_by('brand');
+        $this->db->group_by('p.brand');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -308,20 +319,24 @@ class Product_model extends Default_model
                     'name' => $item['name'],
                     'brand' => $item['brand'],
                     'sku' => $item['sku'],
-                    'image' => '/image?img=/uploads/product/' . $item['image'] . '&width=50&height=50'
+                    'image' => '/image?img=/uploads/product/' . $item['image'] . '&width=50&height=50',
+                    'id_group' => $item['id_group'],
+                    'group_name' => $item['group_name']
                 ];
             }
         }
 
 
         //Получаем бренды с таблицы кросов
-        $this->db->distinct();
-        $this->db->from('cross');
-        $this->db->select(['brand', 'code']);
-        $this->db->where('code', $sku);
+        $this->db->from('cross c');
+        $this->db->select("c.brand, c.code, gb.group_name, gb.id as id_group", FALSE);
+        $this->db->join("group_brand_item gbi","gbi.brand=c.brand",'left');
+        $this->db->join("group_brand gb","gb.id=gbi.group_brand_id",'left');
+        $this->db->where('c.code', $sku);
         if ($check_brand) {
-            $this->db->where_not_in('brand', $check_brand);
+            $this->db->where_not_in('c.brand', $check_brand);
         }
+        $this->db->group_by('c.brand');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -331,10 +346,13 @@ class Product_model extends Default_model
                     'name' => '',
                     'brand' => $item['brand'],
                     'sku' => $item['code'],
-                    'image' => '/image?width=50'
+                    'image' => '/image?width=50',
+                    'id_group' => $item['id_group'],
+                    'group_name' => $item['group_name']
                 ];
             }
         }
+
         unset($check_brand);
         return $return;
 
@@ -358,6 +376,29 @@ class Product_model extends Default_model
 
         }
         return $product;
+    }
+
+    //Поиск запчастей
+    public function get_search($search)
+    {
+        $this->db->from('product');
+        foreach ($search as $item) {
+            $this->db->or_group_start();
+            $this->db->where('sku', $this->clear_sku($item['sku']));
+            $this->db->where('brand', $this->clear_brand($item['brand']));
+            $this->db->group_end();
+        }
+       $this->db->where("(SELECT count(*) FROM ax_product_price WHERE product_id = id) > 0");
+        $query = $this->db->get();
+
+        $products = false;
+        if ($query->num_rows() > 0) {
+            $products = $query->result_array();
+            foreach ($products as &$product) {
+                $product['prices'] = $this->get_product_price($product);
+            }
+        }
+        return $products;
     }
 
     //Поиск запчастей по кросс номерам
@@ -724,9 +765,11 @@ class Product_model extends Default_model
         $return = false;
         if ($sku && $brand) {
             $ID_art = $this->tecdoc->getIDart($sku, $brand);
-            $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
-            if ($crosses && $full_info) {
-                $return['cross'] = $this->get_search_crosses($crosses);
+            if ($full_info) {
+                $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
+                if($crosses){
+                    $return['cross'] = $this->get_search_crosses($crosses);
+                }
             }
             if (isset($ID_art[0]->ID_art)) {
                 $ID_art = $ID_art[0]->ID_art;

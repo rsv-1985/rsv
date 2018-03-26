@@ -24,24 +24,6 @@ class Search extends Front_controller
 
         $data['brands'] = $this->product_model->get_brands($search);
 
-        //Проверяем есть ли бренды в группе брендов
-        $data['group_brands'] = [];
-        if($data['brands']){
-            foreach ($data['brands'] as $i => $brand){
-                $brand_group = $this->brand_group_model->getBrandGroupByBrand($brand['brand']);
-                if($brand_group){
-                    unset($data['brands'][$i]);
-                    $data['group_brands'][$brand_group['id']] = [
-                        'id_group' => $brand_group['id'],
-                        'name' => $brand['name'],
-                        'brand' => $brand_group['group_name'],
-                        'sku' => $brand['sku'],
-                        'image' => $brand['image']
-                    ];
-                }
-            }
-        }
-
         $this->setH1(sprintf(lang('text_search_pre_search_h1'), $search));
         $this->setTitle(sprintf(lang('text_search_pre_search_title'), $search));
         $this->setDescription(sprintf(lang('text_search_pre_search_description'), $search));
@@ -59,30 +41,7 @@ class Search extends Front_controller
 
         $brand = $this->input->get('brand', true);
 
-        $brands = $this->product_model->get_brands($search);
-
-        if (!$brand && $brands) {
-            redirect('/search/pre_search?search=' . $search);
-            exit('da');
-        }
-
-        $data['products'] = [];
-        $data['filter_brands'] = [];
-
-        $data['min_price'] = false;
-        $data['min_price_cross'] = false;
-        $data['min_term'] = false;
-
-
-
         $ID_art = (int)$this->input->get('ID_art');
-
-        if (!$ID_art && $brand && $search) {
-            $tecdoc_id_art = $this->tecdoc->getIDart($this->product_model->clear_sku($search), $brand);
-            if ($tecdoc_id_art) {
-                $ID_art = $tecdoc_id_art[0]->ID_art;
-            }
-        }
 
         $this->load->library('user_agent');
         //Если это не робот и не админ, пишем историю поиска в базу данных
@@ -96,14 +55,40 @@ class Search extends Front_controller
             $this->search_history_model->insert($search_history);
         }
 
-        $crosses_search = array();
+        //Если не указан ID_art но указан код и бренд получаем id_art с текдока.
+        if (!$ID_art && $brand && $search) {
+            $tecdoc_id_art = $this->tecdoc->getIDart($this->product_model->clear_sku($search), $brand);
+            if ($tecdoc_id_art) {
+                $ID_art = $tecdoc_id_art[0]->ID_art;
+            }
+        }
 
-        $sku = $this->product_model->clear_sku($search);
 
-        $product_search[md5($sku.$brand)] = ['sku' => $sku, 'brand' => $brand];
+
+        $data['products'] = [];
+        $data['filter_brands'] = [];
+
+        $data['min_price'] = false;
+        $data['min_price_cross'] = false;
+        $data['min_term'] = false;
+
+        //Массив для поиска
+        $product_search = [];
+
+        if($brand){
+            $product_search[] = ['sku' => $search, 'brand' =>  $brand];
+        }
+
+        $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
+
+        if ($system_cross) {
+            foreach ($system_cross as $st){
+                $product_search[] = $st;
+            }
+        }
 
         //Если указано id_group группа брендов
-        if($group_brand_id = $this->input->get('id_group',true)){
+        if($group_brand_id = (int)$this->input->get('id_group')){
             $group_brands = $this->brand_group_model->getBrands($group_brand_id);
             if($group_brands){
                 foreach ($group_brands as $group_brand){
@@ -111,100 +96,120 @@ class Search extends Front_controller
                     if ($tecdoc_id_art) {
                         $ID_art = $tecdoc_id_art[0]->ID_art;
                     }
+
                     $system_cross = $this->product_model->get_crosses($ID_art, $group_brand['brand'], $search);
+
                     if ($system_cross) {
                         foreach ($system_cross as $st){
-                            $crosses_search[md5($st['sku'].$st['brand'])] = $st;
+                            $crosses_search[] = $st;
                         }
                     }
 
-                    $product_search[md5($sku.$group_brand['brand'])] = ['sku' => $sku, 'brand' =>  $group_brand['brand']];
+                    $product_search[] = ['sku' => $search, 'brand' =>  $group_brand['brand']];
                 }
             }
         }
 
-        $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
+        $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $product_search);
 
-        if ($system_cross) {
-            foreach ($system_cross as $st){
-                $crosses_search[md5($st['sku'].$st['brand'])] = $st;
-            }
-        }
-
-        foreach ($product_search as $ps){
-            $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($ps['sku']), $ps['brand'], $crosses_search);
-
-            if ($cross_suppliers) {
-                foreach ($cross_suppliers as $cross_supplier) {
-                    foreach ($cross_supplier as $cs){
-                        $crosses_search[md5($cs['sku'].$cs['brand'])] = $cs;
-                    }
+        if ($cross_suppliers) {
+            foreach ($cross_suppliers as $cross_supplier) {
+                foreach ($cross_supplier as $cs){
+                    $product_search[] = $cs;
                 }
             }
         }
 
-        if ($brand && $search) {
-            foreach ($product_search as $ps){
-                $product = $this->product_model->get_search_products($ps['sku'], $ps['brand']);
-                if ($product && $product['prices']) {
-                    $product['is_cross'] = false;
-                    $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
 
-                    //Если активна опция использовать наименования с текдок
-                    if ($this->options['use_tecdoc_name'] && @$tecdoc_info['article']['Name']) {
-                        $product['name'] = @$tecdoc_info['article']['Name'];
-                    }
+        $product_search = array_unique($product_search,SORT_REGULAR);
 
+        if ($product_search) {
+            $products = $this->product_model->get_search($product_search);
 
-                    if(!$product['image']){
-                        $product['image'] =  @$tecdoc_info['article']['Image'];
-                    }else{
-                        $product['image'] = '/uploads/product/'.$product['image'];
-                    }
+            if ($products) {
+                foreach ($products as $product) {
+                    if ($product['prices']) {
+                        $product['is_cross'] = $product['sku'] != $this->product_model->clear_sku($search) || $product['brand'] != $brand ? 1 : 0;
+                        $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
 
-                    $product['info'] = @$tecdoc_info['article']['Info'];
-
-                    $filter_brands[] = $product['brand'];
-                    foreach ($product['prices'] as &$price) {
-                        $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
-
-                        if(!$data['min_price'] || $p < $data['min_price']['price']){
-                            $data['min_price'] = [
-                                'id' => $product['id'],
-                                'supplier_id' => $price['supplier_id'],
-                                'slug' => $product['slug'],
-                                'sku' => $product['sku'],
-                                'brand' => $product['brand'],
-                                'name' => $product['name'],
-                                'image' => $product['image'],
-                                'price' => $p,
-                                'term' => $price['term'],
-                                'key' => $product['id'] . $price['supplier_id'] . $price['term']
-                            ];
+                        //Если активна опция использовать наименования с текдок
+                        if (@$this->options['use_tecdoc_name'] && @$tecdoc_info['article']['Name']) {
+                            $product['name'] = @$tecdoc_info['article']['Name'];
                         }
 
-                        if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
-                            $data['min_term'] = [
-                                'id' => $product['id'],
-                                'supplier_id' => $price['supplier_id'],
-                                'slug' => $product['slug'],
-                                'sku' => $product['sku'],
-                                'brand' => $product['brand'],
-                                'name' => $product['name'],
-                                'image' => $product['image'],
-                                'price' => $p,
-                                'term' => $price['term'],
-                                'key' => $product['id'] . $price['supplier_id'] . $price['term']
-                            ];
+
+                        if(!$product['image']){
+                            $product['image'] =  @$tecdoc_info['article']['Image'];
+                        }else{
+                            $product['image'] = '/uploads/product/'.$product['image'];
                         }
 
-                        $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];
-                    }
+                        $product['info'] = @$tecdoc_info['article']['Info'];
 
-                    $data['products'][] = $product;
+                        $filter_brands[] = $product['brand'];
+                        foreach ($product['prices'] as &$price) {
+                            $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
+
+                            if($product['is_cross'] == 1){
+                                if(!$data['min_price_cross'] || $p < $data['min_price_cross']['price']){
+                                    $data['min_price_cross'] = [
+                                        'id' => $product['id'],
+                                        'supplier_id' => $price['supplier_id'],
+                                        'slug' => $product['slug'],
+                                        'sku' => $product['sku'],
+                                        'brand' => $product['brand'],
+                                        'name' => $product['name'],
+                                        'image' => $product['image'],
+                                        'price' => $p,
+                                        'term' => $price['term'],
+                                        'key' => $product['id'] . $price['supplier_id'] . $price['term']
+                                    ];
+                                }
+                            }
+
+                            if($product['is_cross'] == 0){
+                                if(!$data['min_price'] || $p < $data['min_price']['price']){
+                                    $data['min_price'] = [
+                                        'id' => $product['id'],
+                                        'supplier_id' => $price['supplier_id'],
+                                        'slug' => $product['slug'],
+                                        'sku' => $product['sku'],
+                                        'brand' => $product['brand'],
+                                        'name' => $product['name'],
+                                        'image' => $product['image'],
+                                        'price' => $p,
+                                        'term' => $price['term'],
+                                        'key' => $product['id'] . $price['supplier_id'] . $price['term']
+                                    ];
+                                }
+                            }
+
+
+                            if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
+                                $data['min_term'] = [
+                                    'id' => $product['id'],
+                                    'supplier_id' => $price['supplier_id'],
+                                    'slug' => $product['slug'],
+                                    'sku' => $product['sku'],
+                                    'brand' => $product['brand'],
+                                    'name' => $product['name'],
+                                    'image' => $product['image'],
+                                    'price' => $p,
+                                    'term' => $price['term'],
+                                    'key' => $product['id'] . $price['supplier_id'] . $price['term']
+                                ];
+                            }
+
+                            $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];
+                        }
+
+                        $data['products'][] = $product;
+                    }
                 }
             }
+
         } else {
+
             $products = $this->product_model->get_search_text($search);
             if ($products) {
                 foreach ($products as $product) {
@@ -228,104 +233,6 @@ class Search extends Front_controller
 
                         $filter_brands[] = $product['brand'];
                         foreach ($product['prices'] as &$price) {
-                            $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
-
-                            if(!$data['min_price_cross'] || $p < $data['min_price_cross']['price']){
-                                $data['min_price'] = [
-                                    'id' => $product['id'],
-                                    'supplier_id' => $price['supplier_id'],
-                                    'slug' => $product['slug'],
-                                    'sku' => $product['sku'],
-                                    'brand' => $product['brand'],
-                                    'name' => $product['name'],
-                                    'image' => $product['image'],
-                                    'price' => $p,
-                                    'term' => $price['term'],
-                                    'key' => $product['id'] . $price['supplier_id'] . $price['term']
-                                ];
-                            }
-
-                            if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
-                                $data['min_term'] = [
-                                    'id' => $product['id'],
-                                    'supplier_id' => $price['supplier_id'],
-                                    'slug' => $product['slug'],
-                                    'sku' => $product['sku'],
-                                    'brand' => $product['brand'],
-                                    'name' => $product['name'],
-                                    'image' => $product['image'],
-                                    'price' => $p,
-                                    'term' => $price['term'],
-                                    'key' => $product['id'] . $price['supplier_id'] . $price['term']
-                                ];
-                            }
-
-                            $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];
-                        }
-
-                        $data['products'][] = $product;
-                    }
-                }
-            }
-        }
-
-        if ($crosses_search) {
-            $crosses_search = array_diff_key($crosses_search,$product_search);
-            $crosses = $this->product_model->get_search_crosses($crosses_search);
-            if ($crosses) {
-                foreach ($crosses as $product) {
-                    if ($product['prices']) {
-                        $product['is_cross'] = true;
-                        $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
-
-                        //Если активна опция использовать наименования с текдок
-                        if ($this->options['use_tecdoc_name'] && @$tecdoc_info['article']['Name']) {
-                            $product['name'] = @$tecdoc_info['article']['Name'];
-                        }
-
-
-                        if(!$product['image']){
-                            $product['image'] =  @$tecdoc_info['article']['Image'];
-                        }else{
-                            $product['image'] = '/uploads/product/'.$product['image'];
-                        }
-
-                        $product['info'] = @$tecdoc_info['article']['Info'];
-
-                        $filter_brands[] = $product['brand'];
-                        foreach ($product['prices'] as &$price) {
-                            $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
-
-                            if(!$data['min_price_cross'] || $p < $data['min_price_cross']['price']){
-                                $data['min_price_cross'] = [
-                                    'id' => $product['id'],
-                                    'supplier_id' => $price['supplier_id'],
-                                    'slug' => $product['slug'],
-                                    'sku' => $product['sku'],
-                                    'brand' => $product['brand'],
-                                    'name' => $product['name'],
-                                    'image' => $product['image'],
-                                    'price' => $p,
-                                    'term' => $price['term'],
-                                    'key' => $product['id'] . $price['supplier_id'] . $price['term']
-                                ];
-                            }
-
-                            if(!$data['min_term'] || $price['term'] < $data['min_term']['term']){
-                                $data['min_term'] = [
-                                    'id' => $product['id'],
-                                    'supplier_id' => $price['supplier_id'],
-                                    'slug' => $product['slug'],
-                                    'sku' => $product['sku'],
-                                    'brand' => $product['brand'],
-                                    'name' => $product['name'],
-                                    'image' => $product['image'],
-                                    'price' => $p,
-                                    'term' => $price['term'],
-                                    'key' => $product['id'] . $price['supplier_id'] . $price['term']
-                                ];
-                            }
-
                             $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];
                         }
 
@@ -345,20 +252,15 @@ class Search extends Front_controller
             sort($data['filter_brands'], SORT_STRING);
         }
 
+        usort($data['products'], function ($a, $b) {
+            if ($a['is_cross'] == $b['is_cross']) {
+                return 0;
+            }
+            return ($a['is_cross'] < $b['is_cross']) ? -1 : 1;
+        });
+
         $this->load->view('header');
         $this->load->view('search/search', $data);
         $this->load->view('footer');
-    }
-
-    private function getProduct(){
-
-    }
-
-    private function getCross(){
-
-    }
-
-    private function getText(){
-
     }
 }

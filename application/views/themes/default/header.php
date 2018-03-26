@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-sm-6">
                     <div class="search">
-                        <?php echo form_open('search', ['method' => 'get', 'class' => 'search_form', 'id' => 'search_form']);?>
+                        <?php echo form_open('search/pre_search', ['method' => 'get', 'class' => 'search_form', 'id' => 'search_form']);?>
                             <div class="wrapper_search">
 								<input required type="text" id="search_input" name="search" class="input-text" placeholder="<?php echo lang('text_placeholder_search');?>" value="<?php echo set_value('search',$this->input->get('search'));?>">
 							</div>

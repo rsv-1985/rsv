@@ -153,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                 </div>
                 <div class="col-md-10">
-                    <?php if ($min_price || $min_cross_price || $min_term) { ?>
+                    <?php if ($min_price || $min_price_cross || $min_term) { ?>
                         <div class="row">
                             <?php if ($min_price) { ?>
                                 <div class="col-md-4">

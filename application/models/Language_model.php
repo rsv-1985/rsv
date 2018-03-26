@@ -9,13 +9,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Language_model extends Default_model{
     public $table = 'language';
 
+    public $translate;
+
     public function line($line){
-        $this->db->where('line',$line);
-        $this->db->limit(1);
-        $query = $this->db->get('language');
-        if($query->num_rows()){
-            return $query->row_array()['text'];
+        if(isset($this->translate[$line])){
+            return $this->translate[$line];
+        }else{
+            $this->db->where('line',$line);
+            $this->db->limit(1);
+            $query = $this->db->get('language');
+            if($query->num_rows()){
+                $this->translate[$line] = $query->row_array()['text'];
+                return $this->translate[$line];
+            }
         }
+
         return false;
     }
 
