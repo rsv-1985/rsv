@@ -99,7 +99,10 @@ class Search extends Front_controller
         //Массив для поиска
         $product_search = [];
 
+        //Массив брендов для сверки аналог это или точное совпадение
+        $check_brands = [];
         if($brand){
+            $check_brands[] = $brand;
             $product_search[] = ['sku' => $search, 'brand' =>  $brand];
         }
 
@@ -128,7 +131,7 @@ class Search extends Front_controller
                             $crosses_search[] = $st;
                         }
                     }
-
+                    $check_brands[] = $group_brand['brand'];
                     $product_search[] = ['sku' => $search, 'brand' =>  $group_brand['brand']];
                 }
             }
@@ -153,7 +156,12 @@ class Search extends Front_controller
             if ($products) {
                 foreach ($products as $product) {
                     if ($product['prices']) {
-                        $product['is_cross'] = $product['sku'] != $this->product_model->clear_sku($search) || $product['brand'] != $brand ? 1 : 0;
+                        if($product['sku'] != $this->product_model->clear_sku($search) || !in_array($product['brand'],$check_brands)){
+                            $is_cross = 1;
+                        }else{
+                            $is_cross = 0;
+                        }
+                        $product['is_cross'] =  $is_cross;
                         $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
 
                         //Если активна опция использовать наименования с текдок
