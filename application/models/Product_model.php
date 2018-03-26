@@ -281,23 +281,6 @@ class Product_model extends Default_model
         $sku = $this->clear_sku($query);
         $return = [];
         $check_brand = [];
-        //Получает бренды текдок
-        $tecdoc = $this->tecdoc->getSearch($sku);
-        if ($tecdoc) {
-            $return = [];
-            foreach ($tecdoc as $item) {
-                //Проверяем есть бренд в группах брендов
-                $check_brand[] = $this->clear_brand($item->Brand);
-                $return[] = [
-                    'ID_art' => $item->ID_art,
-                    'name' => $item->Name,
-                    'brand' => $this->clear_brand($item->Brand),
-                    'sku' => $this->clear_sku($item->Article),
-                    'image' => '/image?img=' . $item->Image . '&width=50&height=50',
-                    'id_group' => false
-                ];
-            }
-        }
 
         //Получаем список брендов в локальной базе, которых нет в базе текдок
         $this->db->from('product p');
@@ -326,7 +309,6 @@ class Product_model extends Default_model
             }
         }
 
-
         //Получаем бренды с таблицы кросов
         $this->db->from('cross c');
         $this->db->select("c.brand, c.code, gb.group_name, gb.id as id_group", FALSE);
@@ -341,6 +323,7 @@ class Product_model extends Default_model
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $item) {
+                $check_brand[] = $item['brand'];
                 $return[] = [
                     'ID_art' => 0,
                     'name' => '',
@@ -350,6 +333,25 @@ class Product_model extends Default_model
                     'id_group' => $item['id_group'],
                     'group_name' => $item['group_name']
                 ];
+            }
+        }
+
+        //Получает бренды текдок
+        $tecdoc = $this->tecdoc->getSearch($sku);
+        if ($tecdoc) {
+            $return = [];
+            foreach ($tecdoc as $item) {
+                if(!in_array($this->clear_brand($item->Brand,$check_brand))){
+                    //Проверяем есть бренд в группах брендов
+                    $return[] = [
+                        'ID_art' => $item->ID_art,
+                        'name' => $item->Name,
+                        'brand' => $this->clear_brand($item->Brand),
+                        'sku' => $this->clear_sku($item->Article),
+                        'image' => '/image?img=' . $item->Image . '&width=50&height=50',
+                        'id_group' => false
+                    ];
+                }
             }
         }
 
