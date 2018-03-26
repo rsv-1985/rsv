@@ -1925,4 +1925,151 @@ img#loading {
         bottom: 9px;
     }
 }
+.cssload-container *, .cssload-container *:before, .cssload-container *:after{
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.cssload-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 999;
+    background: #0202026e;
+    padding-top: 18%;
+    padding-left: 41%;
+}
+.cssload-container > div {
+    float: left;
+    background: rgba(0,13,250,0.39);
+    height: 100%;
+    width: 21px;
+    margin-right: 4px;
+    display: inline-block;
+}
+
+.cssload-container .cssload-shaft1 {
+    animation-delay: 0.07s;
+    -o-animation-delay: 0.07s;
+    -ms-animation-delay: 0.07s;
+    -webkit-animation-delay: 0.07s;
+    -moz-animation-delay: 0.07s;
+}
+.cssload-container .cssload-shaft2 {
+    animation-delay: 0.15s;
+    -o-animation-delay: 0.15s;
+    -ms-animation-delay: 0.15s;
+    -webkit-animation-delay: 0.15s;
+    -moz-animation-delay: 0.15s;
+}
+.cssload-container .cssload-shaft3 {
+    animation-delay: 0.22s;
+    -o-animation-delay: 0.22s;
+    -ms-animation-delay: 0.22s;
+    -webkit-animation-delay: 0.22s;
+    -moz-animation-delay: 0.22s;
+}
+.cssload-container .cssload-shaft4 {
+    animation-delay: 0.29s;
+    -o-animation-delay: 0.29s;
+    -ms-animation-delay: 0.29s;
+    -webkit-animation-delay: 0.29s;
+    -moz-animation-delay: 0.29s;
+}
+.cssload-container .cssload-shaft5 {
+    animation-delay: 0.36s;
+    -o-animation-delay: 0.36s;
+    -ms-animation-delay: 0.36s;
+    -webkit-animation-delay: 0.36s;
+    -moz-animation-delay: 0.36s;
+}
+.cssload-container .cssload-shaft6 {
+    animation-delay: 0.44s;
+    -o-animation-delay: 0.44s;
+    -ms-animation-delay: 0.44s;
+    -webkit-animation-delay: 0.44s;
+    -moz-animation-delay: 0.44s;
+}
+.cssload-container .cssload-shaft7 {
+    animation-delay: 0.51s;
+    -o-animation-delay: 0.51s;
+    -ms-animation-delay: 0.51s;
+    -webkit-animation-delay: 0.51s;
+    -moz-animation-delay: 0.51s;
+}
+.cssload-container .cssload-shaft8 {
+    animation-delay: 0.58s;
+    -o-animation-delay: 0.58s;
+    -ms-animation-delay: 0.58s;
+    -webkit-animation-delay: 0.58s;
+    -moz-animation-delay: 0.58s;
+}
+.cssload-container .cssload-shaft9 {
+    animation-delay: 0.65s;
+    -o-animation-delay: 0.65s;
+    -ms-animation-delay: 0.65s;
+    -webkit-animation-delay: 0.65s;
+    -moz-animation-delay: 0.65s;
+}
+.cssload-container .cssload-shaft10 {
+    animation-delay: 0.73s;
+    -o-animation-delay: 0.73s;
+    -ms-animation-delay: 0.73s;
+    -webkit-animation-delay: 0.73s;
+    -moz-animation-delay: 0.73s;
+}
+
+.cssload-container > div {
+    height: 9px;
+    animation: cssload-wave 1.45s infinite ease-in-out;
+    -o-animation: cssload-wave 1.45s infinite ease-in-out;
+    -ms-animation: cssload-wave 1.45s infinite ease-in-out;
+    -webkit-animation: cssload-wave 1.45s infinite ease-in-out;
+    -moz-animation: cssload-wave 1.45s infinite ease-in-out;
+    transform: translateY"("-43px")";
+    -o-transform: translateY"("-43px")";
+    -ms-transform: translateY"("-43px")";
+    -webkit-transform: translateY"("-43px")";
+    -moz-transform: translateY"("-43px")";
+}
+
+
+
+@keyframes cssload-wave {
+    50% {
+        background: rgba(232,42,67,0.19);
+        transform: translateY"("43px")";
+    }
+}
+
+@-o-keyframes cssload-wave {
+    50% {
+        background: rgba(232,42,67,0.19);
+        -o-transform: translateY"("43px")";
+    }
+}
+
+@-ms-keyframes cssload-wave {
+    50% {
+        background: rgba(232,42,67,0.19);
+        -ms-transform: translateY"("43px")";
+    }
+}
+
+@-webkit-keyframes cssload-wave {
+    50% {
+        background: rgba(232,42,67,0.19);
+        -webkit-transform: translateY"("43px")";
+    }
+}
+
+@-moz-keyframes cssload-wave {
+    50% {
+        background: rgba(232,42,67,0.19);
+        -moz-transform: translateY"("43px")";
+    }
+}
 

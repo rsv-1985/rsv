@@ -1,8 +1,6 @@
 $(document).ready(function(){
-    $("#button_search,#search_brand").click(function(e){
-       if($("#search_input").val().length){
-           $("body").css('opacity','0.5').append('<img id="loading" src="/assets/themes/default/img/loading.gif"/>');
-       }
+    $("#button_search,.list-group-item>a").click(function(e){
+        $("body").prepend('<div class="cssload-container"><div class="cssload-shaft1"></div><div class="cssload-shaft2"></div><div class="cssload-shaft3"></div><div class="cssload-shaft4"></div><div class="cssload-shaft5"></div><div class="cssload-shaft6"></div><div class="cssload-shaft7"></div><div class="cssload-shaft8"></div><div class="cssload-shaft9"></div><div class="cssload-shaft10"></div></div>');
     });
     $('[rel="tooltip"]').tooltip();
 
@@ -200,6 +198,4 @@ function fastOrder(href,e){
         $("#fast-order-product").val(href);
         $("#fast-order-modal").modal('show');
     }
-
-
 }
