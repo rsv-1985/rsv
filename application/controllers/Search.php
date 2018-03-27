@@ -128,7 +128,7 @@ class Search extends Front_controller
 
                     if ($system_cross) {
                         foreach ($system_cross as $st){
-                            $crosses_search[] = $st;
+                            $product_search[] = $st;
                         }
                     }
                     $check_brands[] = $group_brand['brand'];
