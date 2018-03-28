@@ -594,8 +594,20 @@ class Product_model extends Default_model
                     if ($supplier_price['brand'] && $product['brand'] != $supplier_price['brand']) {
                         continue;
                     }
+                    if($supplier_price['value'] > 0){
+                        if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
+                            switch ($supplier_price['method_price']) {
+                                case '+':
+                                    $price = $price + $price * $supplier_price['value'] / 100;
+                                    break;
+                                case '-':
+                                    $price = $price - $price * $supplier_price['value'] / 100;
+                                    break;
+                            }
+                            $price = $price + $supplier_price['fix_value'];
+                            break;
+                        }
 
-                    if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
                         switch ($supplier_price['method_price']) {
                             case '+':
                                 $price = $price + $price * $supplier_price['value'] / 100;
@@ -604,18 +616,8 @@ class Product_model extends Default_model
                                 $price = $price - $price * $supplier_price['value'] / 100;
                                 break;
                         }
-                        $price = $price + $supplier_price['fix_value'];
-                        break;
                     }
 
-                    switch ($supplier_price['method_price']) {
-                        case '+':
-                            $price = $price + $price * $supplier_price['value'] / 100;
-                            break;
-                        case '-':
-                            $price = $price - $price * $supplier_price['value'] / 100;
-                            break;
-                    }
                     $price = $price + $supplier_price['fix_value'];
                     break;
                 }

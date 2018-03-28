@@ -122,7 +122,7 @@ class supplier extends Admin_controller
             $this->db->where('supplier_id', (int)$supplier_id)->delete('pricing');
             if (!empty($pricing)) {
                 foreach ($this->input->post('pricing', true) as $pricing) {
-                    if ($pricing['price_from'] >= 0 && $pricing['price_to'] > 0 && $pricing['value'] > 0) {
+                    if (($pricing['value'] > 0 || $pricing['fix_value'] > 0) && $pricing['price_from'] >= 0 && $pricing['price_to'] > 0 ) {
                         $save = [];
                         $save['supplier_id'] = $supplier_id;
                         $save['brand'] = $pricing['brand'];

@@ -169,6 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         html += '</select>';
         html += '</td>';
         html += '<td><input type="text" name="pricing[' + row + '][value]" class="form-control"></td>';
+        html += '<td><input type="text" name="pricing[' + row + '][fix_value]" class="form-control"></td>';
         html += '<td>';
         html += '<a href="#" class="btn btn-danger" onclick="delete_row(' + row + ', event);"><?php echo lang('button_delete');?></a>';
         html += '</td>';
