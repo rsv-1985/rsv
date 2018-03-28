@@ -23,6 +23,142 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         font-size: 38px;
         font-weight: bold;
     }
+
+    .table{
+        font-size: 14px;
+    }
+    td.search-product-cart {
+        width: 105px;
+    }
+
+    .widget > .panel-body {
+        height: 125px;
+        overflow: hidden;
+    }
+
+    .widget span.brand {
+        font-weight: bold;
+    }
+
+    .row.item {
+        border: 1px solid #e5e5e5;
+        margin: 5px;
+        padding: 5px;
+    }
+    .table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
+        padding: 1px;
+    }
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        padding: 1px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 0px;
+    }
+    td.search-product-price {
+        width: 100px;
+    }
+    td.search-product-excerpt {
+        font-size: 12px;
+        text-align: left;
+        width: auto;
+    }
+    td.search-product-fast {
+        width: 81px;
+    }
+    @media (min-width:500px){
+        .table_info_item .search-product-excerpt {
+            width: 115px;
+            line-height: 15px;
+        }
+        .table_info_item .search-product-term {
+            padding: 2px 10px;
+            width: 86px;
+            line-height: 14px;
+        }
+    }
+    @media (max-width: 991px){
+        .row.item{
+            margin: 0 0 15px;
+            border: 1px solid #acaaaa;
+        }
+        .table_info_item .table-responsive {
+            border: none;
+        }
+        .table_info_item{
+            padding: 12px 0 0;
+            margin-top: 13px;
+            border-top: 1px solid #efefef;
+        }
+        .table_info_item td.search-product-term {
+            width: 60px;
+            white-space: normal !important;
+            line-height: 13px;
+            padding-right: 11px !important;
+        }
+        .label_info_detail {
+            padding-left: 3px;
+        }
+        .table_info_item td:not(:first-child) {
+            display: block;
+            float: left;
+            width: 24%;
+            line-height: 20px;
+        }
+        .table_info_item tbody {
+            width: 100%;
+            display: block;
+        }
+        .table_info_item .search-product-term,
+        .table_info_item .search-product-quantity,
+        .table_info_item .search-product-price{
+            padding-top: 5px;
+        }
+        .table_info_item .search-product-cart input {
+            width: 56px;
+            min-width: 56px;
+            padding: 6px;
+        }
+    }
+    @media (max-width: 500px){
+        .table_info_item table, .table_info_item tr, .table_info_item tr > td:nth-child(1){
+            display: block;
+        }
+        .table_info_item tr:not(:first-child) > td:nth-child(1) {
+            margin-top: 15px;
+            padding-top: 5px;
+            border-top: 1px solid #efefef;
+        }
+        .table-hover>tbody>tr:hover {
+            background-color: #ffffff;
+        }
+        .table_info_item td:not(.search-product-excerpt) {
+            font-size: 14px !important;
+            letter-spacing: -1.1px;
+        }
+        .label_info_detail .label {
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+        .label_info_detail .glyphicon {
+            font-size: 20px;
+            margin-right: 9px;
+        }
+        .table_info_item .search-product-cart {
+            width: 76px;
+        }
+        .table_info_item .search-product-cart input {
+            width: 53px;
+            min-width: 53px;
+            padding: 6px;
+        }
+    }
+    @media (max-width: 365px){
+        .table_info_item .search-product-cart input {
+            width: 12px;
+            min-width: 39px;
+            padding: 6px;
+        }
+    }
 </style>
 <div itemscope itemtype="http://schema.org/Product">
     <div class="product-big-title-area">
@@ -378,71 +514,80 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                         <?php if ($cross) { ?>
                             <h3><?php echo lang('text_product_cross'); ?></h3>
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered table-condensed table-responsive">
-                                    <thead>
-                                    <tr>
-                                        <th><?php echo lang('text_brand'); ?>
-                                            / <?php echo lang('text_sku'); ?></th>
-                                        <th><?php echo lang('text_price'); ?></th>
-                                        <th><?php echo lang('text_qty'); ?></th>
-                                        <th><?php echo lang('text_excerpt'); ?></th>
-                                        <th colspan="2"><?php echo lang('text_term'); ?></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php foreach ($cross as $product) { ?>
-                                        <?php if ($product['prices']) { ?>
-                                            <?php foreach ($product['prices'] as $item) { ?>
-                                                <?php $key = $item['product_id'] . $item['supplier_id'] . $item['term'];
-                                                if (!$product['prices']) continue; ?>
-                                                <tr>
-                                                    <td class="name">
-                                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo $product['brand'] . ' ' . $product['sku']; ?></a>
-                                                        <br>
-                                                        <small><?php echo $product['name']; ?></small>
-                                                        <br>
-                                                        <label class="label label-warning">
-                                                            <?php echo lang('text_cross_type_1'); ?>
-                                                        </label>
-                                                    </td>
-                                                    <td class="price"><?php echo format_currency($item['saleprice'] > 0 ? $item['saleprice'] : $item['price']); ?></td>
-                                                    <td class="quan"><?php echo format_quantity($item['quantity']); ?></td>
-                                                    <td class="excerpt"><?php echo $item['excerpt']; ?></td>
-                                                    <td class="term"><?php echo format_term($item['term']); ?>
-                                                    </td>
-                                                    <td class="cart">
-                                                        <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)']); ?>
-                                                        <div class="input-group">
-                                                            <input type="number" name="quantity"
-                                                                   class="form-control"
-                                                                   value="1">
-                                                            <input type="hidden" name="product_id"
-                                                                   value="<?php echo $item['product_id']; ?>">
-                                                            <input type="hidden" name="supplier_id"
-                                                                   value="<?php echo $item['supplier_id']; ?>">
-                                                            <input type="hidden" name="term"
-                                                                   value="<?php echo $item['term']; ?>">
-                                                            <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i
-                                                    class="fa fa-shopping-cart"></i></button>
-                                        </span>
-                                                        </div>
-                                                        </form>
-                                                        <a href="/cart" class="<?php echo $key; ?>"
-                                                            <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
-                                                                style="display: none;"
-                                                            <?php } ?>
-                                                        ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                            <?php foreach ($cross as $product){?>
+                                <div class="row item brand <?php echo md5($product['brand']);?>">
+                                    <div class="col-md-1 col-sm-12 col-xs-5 label_info_detail">
+                                        <label class="label label-warning">
+                                            <?php echo lang('text_cross_type_1'); ?>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12 col-xs-7">
+                                        <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
+                                        <br>
+                                        <small>
+                                            <a href="/product/<?php echo $product['slug'];?>"><?php echo $product['name'];?></a>
+                                        </small>
+
+                                    </div>
+                                    <div class="col-md-8 col-xs-12 table_info_item" style="text-align: center;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-condensed">
+                                                <?php $q = 1; foreach ($product['prices'] as $price){ $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];?>
+                                                    <tr id="<?php echo $price['key'];?>" class="<?php echo format_term_class($price['term']);?> product-<?php echo $product['id'];?>" <?php if($q > 1){?>style="display: none" <?php } ?>>
+                                                        <?php if ($this->is_admin) { ?>
+                                                            <td>
+                                                                <?php echo $this->supplier_model->suppliers[$price['supplier_id']]['name'].'<br>'.$price['delivery_price'].' '.$this->currency_model->currencies[$price['currency_id']]['name'].' '.$price['quantity'].'шт.'; ?>"
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td class="search-product-excerpt">
+                                                            <?php echo $price['excerpt'];?>
+                                                        </td>
+                                                        <td class="search-product-term"><?php echo format_term($price['term']);?></td>
+                                                        <td class="search-product-quantity"><?php echo format_quantity($price['quantity']);?></td>
+                                                        <td class="search-product-price"><?php echo format_currency($price['price']);?></td>
+                                                        <?php if(@$this->options['show_fast_order_search']){?>
+                                                            <td class="search-product-fast">
+                                                                <a href="#" onclick="fastOrder('/product/<?php echo $product['slug']; ?>',event);"><?php echo strip_tags(lang('text_fast_order_link')); ?></a>
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td class="search-product-cart">
+                                                            <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
+                                                            <div class="input-group">
+                                                                <input placeholder="кол." type="number"
+                                                                       name="quantity"
+                                                                       class="form-control">
+                                                                <input type="hidden" name="product_id"
+                                                                       value="<?php echo $product['id']; ?>">
+                                                                <input type="hidden" name="supplier_id"
+                                                                       value="<?php echo $price['supplier_id']; ?>">
+                                                                <input type="hidden" name="term"
+                                                                       value="<?php echo $price['term']; ?>">
+                                                                <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="submit"><i
+                                                                    class="fa fa-shopping-cart"></i></button>
+                                                    </span>
+                                                            </div>
+                                                            </form>
+                                                            <small>
+                                                                <a href="/cart" class="<?php echo $price['key']; ?>"
+                                                                    <?php if (!key_exists(md5($price['key']), $this->cart->contents())) { ?>
+                                                                        style="display: none;"
+                                                                    <?php } ?>
+                                                                ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                                </a>
+                                                            </small>
+                                                        </td>
+                                                    </tr>
+                                                    <?php $q++; } ?>
+                                            </table>
+                                            <?php if($q > 2){ ?>
+                                                <button id="show-buttom-<?php echo $product['id'];?>" class="btn btn-link" onclick="show(<?php echo $product['id'];?>)">Показать еще (<?php echo $q - 2;?>)</button>
+                                                <button style="display: none;" id="hide-buttom-<?php echo $product['id'];?>" class="btn btn-link" onclick="hide(<?php echo $product['id'];?>)">Скрыть</button>
                                             <?php } ?>
-                                        <?php } ?>
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         <?php } ?>
                     <?php } else { ?>
                         <?php echo lang('text_not_available'); ?>
@@ -498,4 +643,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             vertical: false
         },
     });
+    function show(product_id) {
+        $(".product-"+product_id).fadeIn();
+        $("#hide-buttom-"+product_id).show();
+        $("#show-buttom-"+product_id).hide();
+    }
+
+    function hide(product_id) {
+        $(".product-"+product_id).each(function(index,item){
+            if(index >= 1){
+                $(item).hide();
+            }
+        });
+        $("#hide-buttom-"+product_id).hide();
+        $("#show-buttom-"+product_id).show();
+    }
 </script>

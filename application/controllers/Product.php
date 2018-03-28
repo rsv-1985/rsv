@@ -87,6 +87,7 @@ class Product extends Front_controller
         if (isset($data['tecdoc_info']['cross'])) {
             $data['cross'] = $data['tecdoc_info']['cross'];
         }
+
         //Если активна опция использовать наименования с текдок
         if($this->options['use_tecdoc_name'] && @$data['tecdoc_info']['article']['Name']){
             $data['name'] = @$data['tecdoc_info']['article']['Name'];
