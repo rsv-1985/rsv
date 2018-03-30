@@ -373,6 +373,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php if ($cross) { ?>
                                     <h3><?php echo lang('text_product_cross'); ?></h3>
                                     <?php foreach ($cross as $product){?>
+                                        <?php if(!$product['prices']){continue;}?>
                                         <div class="row item brand <?php echo md5($product['brand']);?>">
                                             <div class="col-md-4 col-sm-12 col-xs-7">
                                                 <a href="/product/<?php echo $product['slug'];?>"><b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?></a>
