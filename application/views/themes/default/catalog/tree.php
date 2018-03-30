@@ -159,6 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </div>
                                         </div>
                                         <?php if($part->Info){?>
+                                            <i class="glyphicon glyphicon-info-sign hidden-lg hidden-md" ></i>
                                             <div class="info">
                                                 <?php echo $part->Info;?>
                                             </div>
