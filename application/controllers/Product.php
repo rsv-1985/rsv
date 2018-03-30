@@ -150,34 +150,38 @@ class Product extends Front_controller
             }
         }
 
+        if($data['prices']){
+            //Готовим струтурированные данные
+            foreach ($data['prices'] as $price){
+                $offers[] = [
+                    "@type" => "Offer",
+                    "url" => "product/".$data['slug'],
+                    "availability" => format_term($price['term']),
+                    "price" => $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],
+                    "url" => base_url('product/'.$data['slug']),
+                    "priceCurrency" => $this->currency_model->default_currency['code']
+                ];
+            }
+            $structure = [
+                "@context" => "http://schema.org/",
+                "@type" => "Product",
+                "name" => $this->h1,
+                "brand" => $data['brand'],
+                "sku" => $data['sku'],
 
-        //Готовим струтурированные данные
-        foreach ($data['prices'] as $price){
-            $offers[] = [
-                "@type" => "Offer",
-                "url" => "product/".$data['slug'],
-                "availability" => format_term($price['term']),
-                "price" => $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],
-                "url" => base_url('product/'.$data['slug'])
+                "offers" => [
+                    "@type" => "AggregateOffer",
+                    "highPrice" => end($data['prices'])['price'],
+                    "lowPrice" => $data['prices'][0]['price'],
+                    "offerCount" => count($data['prices']),
+                    "offers" => $offers
+                ]
             ];
+
+            $this->structure = json_encode($structure);
         }
-        $structure = [
-            "@context" => "http://schema.org/",
-            "@type" => "Product",
-            "name" => $this->h1,
-            "brand" => $data['brand'],
-            "sku" => $data['sku'],
 
-            "offers" => [
-                "@type" => "AggregateOffer",
-                "highPrice" => end($data['prices'])['price'],
-                "lowPrice" => $data['prices'][0]['price'],
-                "offerCount" => count($data['prices']),
-                "offers" => $offers
-            ]
-        ];
 
-        $this->structure = json_encode($structure);
 
         $this->load->view('header');
         $this->load->view('product/product', $data);
