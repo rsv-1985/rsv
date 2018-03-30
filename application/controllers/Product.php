@@ -179,10 +179,8 @@ class Product extends Front_controller
                 ]
             ];
 
-            $this->structure = json_encode($structure);
+           $this->structure = json_encode($structure);
         }
-
-
 
         $this->load->view('header');
         $this->load->view('product/product', $data);
