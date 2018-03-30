@@ -6,6 +6,8 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+$lang['text_term'] = 'Срок доставки';
+$lang['text_price'] = 'Цена';
 $lang['text_about'] = 'Результат поиска по названию';
 $lang['text_exact'] = 'Точное совпадение';
 $lang['text_cross'] = 'Аналоги';
