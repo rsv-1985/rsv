@@ -49,6 +49,11 @@ class Product extends Front_controller
         //Получаем ценовые предложения
         $data['prices'] = $this->product_model->get_product_price($data);
 
+        $data['one_price'] = false;
+        if($data['prices']){
+            $data['one_price'] = $data['prices'][0];
+        }
+
         $data['banner'] = $this->banner_model->get_product();
 
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($data['id']);
