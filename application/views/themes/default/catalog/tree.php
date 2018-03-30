@@ -200,6 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <a class="btn btn-default" href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
                                             </div>
                                             <?php if($part->Info){?>
+                                                <i class="glyphicon glyphicon-info-sign hidden-lg hidden-md" ></i>
                                                 <div class="info">
                                                     <?php echo $part->Info;?>
                                                 </div>
