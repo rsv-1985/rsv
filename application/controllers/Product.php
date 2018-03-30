@@ -174,6 +174,7 @@ class Product extends Front_controller
                     "highPrice" => end($data['prices'])['price'],
                     "lowPrice" => $data['prices'][0]['price'],
                     "offerCount" => count($data['prices']),
+                    "priceCurrency" => $this->currency_model->default_currency['code'],
                     "offers" => $offers
                 ]
             ];
