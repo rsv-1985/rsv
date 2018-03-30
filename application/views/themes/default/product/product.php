@@ -426,7 +426,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                  role="tabpanel" aria-labelledby="heading<?php echo $q; ?>">
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-condensed">
+                                        <table class="table table-condensed table-striped">
                                             <thead>
                                             <tr>
                                                 <th><?php echo lang('text_model'); ?></th>
