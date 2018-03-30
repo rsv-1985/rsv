@@ -194,57 +194,60 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12" style="text-align: center;">
-                    <?php if ($image) { ?>
-                        <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
-                           data-type="image">
-                            <img src="/uploads/product/<?php echo $image; ?>"/>
-                        </a>
-                    <?php } else if ($tecdoc_info['images']) { ?>
-                        <a href="<?php echo $tecdoc_info['images'][0]->Image; ?>" data-fancybox="quick-view-1"
-                           data-type="image">
-                            <img src="<?php echo $tecdoc_info['images'][0]->Image; ?>"/>
-                        </a>
-                    <?php } else { ?>
-                        <a href="/image" data-fancybox="quick-view-1" data-type="image">
-                            <img src="/image"/>
-                        </a>
-                    <?php } ?>
-                    <div class="product-images">
-                        <?php if ($image || $tecdoc_info['images']) { ?>
-                            <?php if ($image) { ?>
-                                <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
-                                   data-type="image">
-                                    <img src="/uploads/product/<?php echo $image; ?>"/>
-                                </a>
-                            <?php } ?>
-                            <?php if ($tecdoc_info['images']) { ?>
-                                <?php foreach ($tecdoc_info['images'] as $tc_image) { ?>
-                                    <a href="<?php echo $tc_image->Image; ?>" data-fancybox="quick-view-1"
-                                       data-type="image">
-                                        <img src="<?php echo $tc_image->Image; ?>"/>
-                                    </a>
-                                <?php } ?>
-                            <?php } ?>
+                <div class="col-md-4 col-sm-12">
+                    <div style="text-align: center;">
+                        <?php if ($image) { ?>
+                            <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
+                               data-type="image">
+                                <img src="/uploads/product/<?php echo $image; ?>"/>
+                            </a>
+                        <?php } else if ($tecdoc_info['images']) { ?>
+                            <a href="<?php echo $tecdoc_info['images'][0]->Image; ?>" data-fancybox="quick-view-1"
+                               data-type="image">
+                                <img src="<?php echo $tecdoc_info['images'][0]->Image; ?>"/>
+                            </a>
                         <?php } else { ?>
                             <a href="/image" data-fancybox="quick-view-1" data-type="image">
                                 <img src="/image"/>
                             </a>
                         <?php } ?>
-                    </div>
-                    <?php if ($banner) { ?>
-                        <div class="single-sidebar">
-                            <?php foreach ($banner as $banner) { ?>
-                                <div class="thubmnail-recent">
-                                    <a href="<?php echo $banner['link']; ?>"
-                                       <?php if ($banner['new_window']){ ?>target="_blank" <?php } ?>>
-                                        <img onerror="imgError(this);"
-                                             src="/uploads/banner/<?php echo $banner['image']; ?>">
+                        <div class="product-images">
+                            <?php if ($image || $tecdoc_info['images']) { ?>
+                                <?php if ($image) { ?>
+                                    <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
+                                       data-type="image">
+                                        <img src="/uploads/product/<?php echo $image; ?>"/>
                                     </a>
-                                </div>
+                                <?php } ?>
+                                <?php if ($tecdoc_info['images']) { ?>
+                                    <?php foreach ($tecdoc_info['images'] as $tc_image) { ?>
+                                        <a href="<?php echo $tc_image->Image; ?>" data-fancybox="quick-view-1"
+                                           data-type="image">
+                                            <img src="<?php echo $tc_image->Image; ?>"/>
+                                        </a>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <a href="/image" data-fancybox="quick-view-1" data-type="image">
+                                    <img src="/image"/>
+                                </a>
                             <?php } ?>
                         </div>
-                    <?php } ?>
+                        <?php if ($banner) { ?>
+                            <div class="single-sidebar">
+                                <?php foreach ($banner as $banner) { ?>
+                                    <div class="thubmnail-recent">
+                                        <a href="<?php echo $banner['link']; ?>"
+                                           <?php if ($banner['new_window']){ ?>target="_blank" <?php } ?>>
+                                            <img onerror="imgError(this);"
+                                                 src="/uploads/banner/<?php echo $banner['image']; ?>">
+                                        </a>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+
                     <h3><?php echo lang('text_attributes'); ?></h3>
                     <div class="table-responsive">
                         <table class="table table-striped">
