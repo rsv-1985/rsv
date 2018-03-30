@@ -49,23 +49,6 @@ class Product extends Front_controller
         //Получаем ценовые предложения
         $data['prices'] = $this->product_model->get_product_price($data);
 
-        if($data['prices']){
-            if(isset($_SESSION['supplier_id']) && isset($_SESSION['term'])){
-                foreach ($data['prices'] as $index => $price){
-                    if($price['supplier_id'] == $_SESSION['supplier_id'] && $price['term'] == $_SESSION['term']){
-                        $data['one_price'] = $price;
-                        break;
-                    }
-                }
-                unset($_SESSION['supplier_id']);
-                unset($_SESSION['term']);
-            }else{
-                $data['one_price'] = $data['prices'][0];
-            }
-        }
-
-
-
         $data['banner'] = $this->banner_model->get_product();
 
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($data['id']);
@@ -89,7 +72,7 @@ class Product extends Front_controller
         }
 
         //Если активна опция использовать наименования с текдок
-        if($this->options['use_tecdoc_name'] && @$data['tecdoc_info']['article']['Name']){
+        if (@$this->options['use_tecdoc_name'] && @$data['tecdoc_info']['article']['Name']) {
             $data['name'] = @$data['tecdoc_info']['article']['Name'];
         }
 
@@ -108,7 +91,7 @@ class Product extends Front_controller
                     $data['brand'],
                     $data['sku'],
                     $data['description'],
-                    @implode(', ',array_keys($data['applicability'])),
+                    @implode(', ', array_keys($data['applicability'])),
                 ], $value);
             }
         }
@@ -119,7 +102,7 @@ class Product extends Front_controller
 
         $this->canonical = base_url('product/' . $slug);
 
-        if(mb_strlen($data['h1']) > 0) {
+        if (mb_strlen($data['h1']) > 0) {
             $this->setH1($data['h1']);
         } elseif (mb_strlen(@$seo['h1']) > 0) {
             $this->setH1(@$seo['h1']);
@@ -156,11 +139,11 @@ class Product extends Front_controller
         }
         $data['tecdoc_attributes'] = false;
         if (isset($data['tecdoc_info']['article']['Info']) && mb_strlen($data['tecdoc_info']['article']['Info']) > 0) {
-            $info = explode("<br>",$data['tecdoc_info']['article']['Info']);
-            if($info){
-                foreach ($info as $inf){
-                    $inf = explode(':',$inf);
-                    if(@$inf[0] && @$inf[1]){
+            $info = explode("<br>", $data['tecdoc_info']['article']['Info']);
+            if ($info) {
+                foreach ($info as $inf) {
+                    $inf = explode(':', $inf);
+                    if (@$inf[0] && @$inf[1]) {
                         $data['tecdoc_attributes'][] = ['attribute_name' => $inf[0], 'attribute_value' => @$inf[1]];
                     }
                 }
@@ -168,6 +151,33 @@ class Product extends Front_controller
         }
 
 
+        //Готовим струтурированные данные
+        foreach ($data['prices'] as $price){
+            $offers[] = [
+                "@type" => "Offer",
+                "url" => "product/".$data['slug'],
+                "availability" => format_term($price['term']),
+                "price" => $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],
+                "url" => base_url('product/'.$data['slug'])
+            ];
+        }
+        $structure = [
+            "@context" => "http://schema.org/",
+            "@type" => "Product",
+            "name" => $this->h1,
+            "brand" => $data['brand'],
+            "sku" => $data['sku'],
+
+            "offers" => [
+                "@type" => "AggregateOffer",
+                "highPrice" => end($data['prices'])['price'],
+                "lowPrice" => $data['prices'][0]['price'],
+                "offerCount" => count($data['prices']),
+                "offers" => $offers
+            ]
+        ];
+
+        $this->structure = json_encode($structure);
 
         $this->load->view('header');
         $this->load->view('product/product', $data);

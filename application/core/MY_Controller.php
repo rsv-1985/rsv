@@ -82,6 +82,8 @@ class Front_controller extends CI_Controller{
     public $canonical;
     public $important_news;
     public $show_modal = false;
+    //Структурированные данные
+    public $structure;
 
     public function __construct()
     {

@@ -28,6 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php if($this->canonical){?>
         <link rel="canonical" href="<?php echo $this->canonical;?>" />
     <?php } ?>
+    <?php if($this->structure){ ?>
+        <script type="application/ld+json">
+            <?php echo $this->structure;?>
+        </script>
+    <?php } ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
