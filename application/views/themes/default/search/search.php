@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
     <div class="container">
         <?php if ($products) { ?>
-            <div class="row">
+            <div class="row ">
                 <div class="col-md-2">
                     <div class="panel panel-default filter">
                         <div class="panel-heading">
@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="table-responsive">
                                     <table class="table table-hover table-condensed">
                                         <?php $q = 1; foreach ($product['prices'] as $price){ ?>
-                                            <tr id="<?php echo $price['key'];?>" class="<?php echo format_term_class($price['term']);?> product-<?php echo $product['id'];?>" <?php if($q > 5){?>style="display: none" <?php } ?>>
+                                            <tr id="<?php echo $price['key'];?>" class="clearfix <?php echo format_term_class($price['term']);?> product-<?php echo $product['id'];?>" <?php if($q > 5){?>style="display: none" <?php } ?>>
                                                 <?php if ($this->is_admin) { ?>
                                                     <td>
                                                         <?php echo $this->supplier_model->suppliers[$price['supplier_id']]['name'].'<br>'.$price['delivery_price'].' '.$this->currency_model->currencies[$price['currency_id']]['name'].' '.$price['quantity'].'шт.'; ?>"
