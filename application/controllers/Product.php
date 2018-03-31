@@ -162,7 +162,7 @@ class Product extends Front_controller
                     "@type" => "Offer",
                     "url" => "product/".$data['slug'],
                     "availability" => format_term($price['term']),
-                    "price" => $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],
+                    "price" => format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],false),
                     "url" => base_url('product/'.$data['slug']),
                     "priceCurrency" => $this->currency_model->default_currency['code']
                 ];
@@ -176,8 +176,8 @@ class Product extends Front_controller
 
                 "offers" => [
                     "@type" => "AggregateOffer",
-                    "highPrice" => end($data['prices'])['price'],
-                    "lowPrice" => $data['prices'][0]['price'],
+                    "highPrice" => format_currency(end($data['prices'])['price'],false),
+                    "lowPrice" => format_currency($data['prices'][0]['price'],false),
                     "offerCount" => count($data['prices']),
                     "priceCurrency" => $this->currency_model->default_currency['code'],
                     "offers" => $offers
