@@ -191,11 +191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <h2>
                                                 <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo $part->Name;?></a>
                                             </h2>
-                                            <div class="product-carousel-price">
-                                                <b>
-                                                    Нет предложений
-                                                </b>
-                                            </div>
+                                            <div class="product-carousel-price"></div>
                                             <div class="product-option-shop">
                                                 <a class="btn btn-default" href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
                                             </div>
