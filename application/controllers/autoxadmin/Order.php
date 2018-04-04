@@ -512,7 +512,7 @@ class Order extends Admin_controller
             $html = '<ul class="list-group">';
             foreach ($products as $product) {
                 foreach ($product['prices'] as $price){
-                    $html .= '<li class="list-group-item">' . $this->supplier_model->suppliers[$price['supplier_id']]['name'] . ' ' . $product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'] . ' ' . format_currency($price['price']) . ' ' . format_term($price['term']) . '<a href="#" onclick="add_product(' . $product['id'] . ',' . $price['supplier_id'] . ',' . $price['term'] . '); return false;"> Добавить</a> </li>';
+                    $html .= '<li class="list-group-item">' . $this->supplier_model->suppliers[$price['supplier_id']]['name'] . ' ' . $product['name'] . ' ' . $product['sku'] . ' ' . $product['brand'] . ' ' . format_currency($price['price']) . ' ' . format_term($price['term']) . '<a href="#" onclick="add_product(' . $price['product_id'] . ',' . $price['supplier_id'] . ',' . $price['term'] . '); return false;"> Добавить</a> </li>';
                 }
             }
             $html .= '</ul>';
