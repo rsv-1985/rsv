@@ -191,17 +191,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="product-bit-title text-center">
-                    <h1><?php echo $h1; ?></h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="product">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
                 <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
                     <?php foreach ($breadcrumbs as $index => $breadcrumb) { ?>
                         <?php if ($breadcrumb['href']) { ?>
@@ -219,6 +208,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </ol>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h1><?php echo $h1; ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product">
+    <div class="container">
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div style="text-align: center;">
