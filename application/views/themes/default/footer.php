@@ -230,16 +230,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
-    <?php if($this->config->item('my_style')){?>
-        <?php foreach ($this->config->item('my_style') as $style){?>
-            <link rel="stylesheet" href="<?php echo $style;?>">
-        <?php } ?>
-    <?php } ?>
-    <?php if(@$this->options['style']){?>
-        <style>
-            <?php echo $this->options['style'];?>
-        </style>
-    <?php } ?>
     <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
     <script src="<?php echo theme_url();?>js/jquery.maskedinput.min.js"></script>
     <script src="<?php echo theme_url();?>js/function.js?v8"></script>
