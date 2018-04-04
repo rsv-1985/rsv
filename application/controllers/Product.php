@@ -157,7 +157,7 @@ class Product extends Front_controller
 
         if ($data['prices']) {
             if ($data['image']) {
-                $image = "/uploads/product/" . $data['image'];
+                $image = base_url()."/uploads/product/" . $data['image'];
             } else if ($data['tecdoc_info']['images']) {
                 $image = $data['tecdoc_info']['images'][0]->Image;
             } else {
