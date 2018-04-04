@@ -425,6 +425,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="settings[options][show_callback]" value="1" <?php echo set_checkbox('settings[options][show_callback]',true,(bool)@$settings['options']['show_callback']);?>>
+                                                            Отображать кнопку обратной связи
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Отображать кнопку обратной связи
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label>
                                                         <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
                                                     </label>
