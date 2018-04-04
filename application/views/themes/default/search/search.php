@@ -288,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <tr id="<?php echo $price['key'];?>" class="clearfix <?php echo format_term_class($price['term']);?> product-<?php echo $product['id'];?>" <?php if($q > 5){?>style="display: none" <?php } ?>>
                                                 <?php if ($this->is_admin) { ?>
                                                     <td>
-                                                        <?php echo $this->supplier_model->suppliers[$price['supplier_id']]['name'].'<br>'.$price['delivery_price'].' '.$this->currency_model->currencies[$price['currency_id']]['name'].' '.$price['quantity'].'шт.'; ?>"
+                                                        <?php echo $this->supplier_model->suppliers[$price['supplier_id']]['name'].'<br>'.$price['delivery_price'].' '.$this->currency_model->currencies[$price['currency_id']]['name'].' '.$price['quantity'].'шт.'; ?>
                                                     </td>
                                                 <?php } ?>
                                                 <td class="search-product-excerpt">
