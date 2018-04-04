@@ -50,7 +50,7 @@ class Product extends Front_controller
         $data['prices'] = $this->product_model->get_product_price($data);
 
         $data['one_price'] = false;
-        if($data['prices']){
+        if ($data['prices']) {
             $data['one_price'] = $data['prices'][0];
         }
 
@@ -155,15 +155,22 @@ class Product extends Front_controller
             }
         }
 
-        if($data['prices']){
+        if ($data['prices']) {
+            if ($data['image']) {
+                $image = "/uploads/product/" . $data['image'];
+            } else if ($data['tecdoc_info']['images']) {
+                $image = $data['tecdoc_info']['images'][0]->Image;
+            } else {
+                $image = '';
+            }
             //Готовим струтурированные данные
-            foreach ($data['prices'] as $price){
+            foreach ($data['prices'] as $price) {
                 $offers[] = [
                     "@type" => "Offer",
-                    "url" => "product/".$data['slug'],
+                    "url" => "product/" . $data['slug'],
                     "availability" => format_term($price['term']),
-                    "price" => format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'],false),
-                    "url" => base_url('product/'.$data['slug']),
+                    "price" => format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'], false),
+                    "url" => base_url('product/' . $data['slug']),
                     "priceCurrency" => $this->currency_model->default_currency['code']
                 ];
             }
@@ -173,18 +180,18 @@ class Product extends Front_controller
                 "name" => $this->h1,
                 "brand" => $data['brand'],
                 "sku" => $data['sku'],
-
+                "image" => $image,
                 "offers" => [
                     "@type" => "AggregateOffer",
-                    "highPrice" => format_currency(end($data['prices'])['price'],false),
-                    "lowPrice" => format_currency($data['prices'][0]['price'],false),
+                    "highPrice" => format_currency(end($data['prices'])['price'], false),
+                    "lowPrice" => format_currency($data['prices'][0]['price'], false),
                     "offerCount" => count($data['prices']),
                     "priceCurrency" => $this->currency_model->default_currency['code'],
                     "offers" => $offers
                 ]
             ];
 
-           $this->structure = json_encode($structure);
+            $this->structure = json_encode($structure);
         }
 
         $this->load->view('header');
