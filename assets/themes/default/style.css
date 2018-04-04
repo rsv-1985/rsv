@@ -37,7 +37,7 @@ body {
     font-weight: 400;
 }
 .breadcrumb {
-    background-color: #fff;
+    background-color: transparent;
 }
 td {
     vertical-align: inherit!important;
@@ -53,7 +53,7 @@ img {
     display: none;
 }
 .product-bit-title h1 {
-    color: #fff;
+    color: black;
     padding: 10px;
 }
 .form-control {
@@ -938,9 +938,7 @@ ol.slide-indicators li.active {
 .copyright>p {
     margin: 10px 0 0;
 }
-.product-big-title-area {
-    background: url(img/crossword.png) repeat scroll 0 0 #333;
-}
+
 .product-bit-title h2 {
     font-family: 'Play',sans-serif;
     font-size: 50px;
