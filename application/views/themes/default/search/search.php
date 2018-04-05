@@ -299,7 +299,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <td class="search-product-price">
                                                     <?php if($price['saleprice'] > 0){?>
                                                         <?php echo format_currency($price['saleprice']);?><br>
-                                                        <strike><?php echo $price['price'];?></strike>
+                                                        <strike><?php echo format_currency($price['price']);?></strike>
                                                     <?php }else{?>
                                                         <small><?php echo format_currency($price['price']);?></small>
                                                     <?php } ?>
