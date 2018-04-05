@@ -296,7 +296,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 </td>
                                                 <td class="search-product-term"><?php echo format_term($price['term']);?></td>
                                                 <td class="search-product-quantity"><?php echo format_quantity($price['quantity']);?></td>
-                                                <td class="search-product-price"><?php echo format_currency($price['price']);?></td>
+                                                <td class="search-product-price">
+                                                    <?php if($price['saleprice'] > 0){?>
+                                                        <?php echo format_currency($price['saleprice']);?><br>
+                                                        <strike><?php echo $price['price'];?></strike>
+                                                    <?php }else{?>
+                                                        <small><?php echo format_currency($price['price']);?></small>
+                                                    <?php } ?>
+                                                </td>
                                                 <?php if(@$this->options['show_fast_order_search']){?>
                                                     <td class="search-product-fast">
                                                         <a href="#" onclick="fastOrder('/product/<?php echo $product['slug']; ?>',event);"><?php echo strip_tags(lang('text_fast_order_link')); ?></a>
