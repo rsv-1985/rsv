@@ -299,9 +299,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <td class="search-product-price">
                                                     <?php if($price['saleprice'] > 0){?>
                                                         <?php echo format_currency($price['saleprice']);?><br>
-                                                        <strike><?php echo format_currency($price['price']);?></strike>
+                                                        <small><strike><?php echo format_currency($price['price']);?></strike></small>
                                                     <?php }else{?>
-                                                        <small><?php echo format_currency($price['price']);?></small>
+                                                        <?php echo format_currency($price['price']);?>
                                                     <?php } ?>
                                                 </td>
                                                 <?php if(@$this->options['show_fast_order_search']){?>
