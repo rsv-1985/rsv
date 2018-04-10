@@ -372,9 +372,10 @@ class Import extends Admin_controller
             // построчное считывание и анализ строк из файла
             while (($data_f = fgetcsv($handle_f, 1000, $params['delimiter'])) !== false) {
                 $encoding = mb_detect_encoding($data_f[$params['sample']['name'] - 1],mb_detect_order(),true);
+
                 if($encoding != 'UTF-8'){
                     $data_f = array_map(function($text){
-                        return iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
+                        return iconv('WINDOWS-1251', "UTF-8", $text);
                     },$data_f);
                 }
 
