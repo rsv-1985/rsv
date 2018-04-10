@@ -141,8 +141,10 @@ class Search extends Front_controller
 
         if ($cross_suppliers) {
             foreach ($cross_suppliers as $cross_supplier) {
-                foreach ($cross_supplier as $cs){
-                    $product_search[] = $cs;
+                if($cross_supplier){
+                    foreach ($cross_supplier as $cs){
+                        $product_search[] = $cs;
+                    }
                 }
             }
         }
@@ -274,10 +276,10 @@ class Search extends Front_controller
             }
         }
 
-        $this->setH1(sprintf(lang('text_search_search_h1'), $search, $brand));
-        $this->setTitle(sprintf(lang('text_search_search_title'), $search, $brand));
-        $this->setDescription(sprintf(lang('text_search_search_description'), $search, $brand));
-        $this->setKeywords(sprintf(lang('text_search_search_keywords'), $search, $brand));
+        $this->setH1(@sprintf(lang('text_search_search_h1'), $search, $brand));
+        $this->setTitle(@sprintf(lang('text_search_search_title'), $search, $brand));
+        $this->setDescription(@sprintf(lang('text_search_search_description'), $search, $brand));
+        $this->setKeywords(@sprintf(lang('text_search_search_keywords'), $search, $brand));
 
         if (isset($filter_brands)) {
             $data['filter_brands'] = array_unique($filter_brands);
