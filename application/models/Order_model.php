@@ -100,28 +100,28 @@ class Order_model extends Default_model{
                 $this->db->where('login', $this->input->get('login', true));
             }
             if($this->input->get('id')){
-                $this->db->where('order.id', (int)$this->input->get('id', true));
+                $this->db->where('ax_order.id', (int)$this->input->get('id', true));
             }
             if($this->input->get('first_name')){
-                $this->db->like('order.first_name', $this->input->get('first_name', true));
+                $this->db->like('ax_order.first_name', $this->input->get('first_name', true));
             }
             if($this->input->get('last_name')){
-                $this->db->like('order.last_name', $this->input->get('last_name', true));
+                $this->db->like('ax_order.last_name', $this->input->get('last_name', true));
             }
             if($this->input->get('email')){
-                $this->db->like('order.email', $this->input->get('email', true));
+                $this->db->like('ax_order.email', $this->input->get('email', true));
             }
             if($this->input->get('telephone')){
-                $this->db->like('order.telephone', $this->input->get('telephone', true));
+                $this->db->like('ax_order.telephone', $this->input->get('telephone', true));
             }
             if($this->input->get('delivery_method_id')){
-                $this->db->where('order.delivery_method_id', (int)$this->input->get('delivery_method_id', true));
+                $this->db->where('ax_order.delivery_method_id', (int)$this->input->get('delivery_method_id', true));
             }
             if($this->input->get('payment_method_id')){
-                $this->db->where('order.payment_method_id', (int)$this->input->get('payment_method_id', true));
+                $this->db->where('ax_order.payment_method_id', (int)$this->input->get('payment_method_id', true));
             }
             if($this->input->get('status')){
-                $this->db->where('order.status', (int)$this->input->get('status', true));
+                $this->db->where('ax_order.status', (int)$this->input->get('status', true));
             }
         }
         if($limit && $start){
@@ -129,7 +129,7 @@ class Order_model extends Default_model{
         }elseif($limit){
             $this->db->limit((int)$limit);
         }
-        $this->db->order_by('order.id', 'DESC');
+        $this->db->order_by('ax_order.id', 'DESC');
         $query = $this->db->get();
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
         if ($query->num_rows() > 0) {
