@@ -218,38 +218,40 @@ class Import extends Admin_controller
                 ];
 
                 $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'), $this->input->get('update_seo_url'));
+                if($product_id){
+                    $price_data[] = [
+                        'product_id' => $this->db->escape($product_id),
+                        'excerpt' => $this->db->escape($product['excerpt']),
+                        'currency_id' => $this->db->escape($product['currency_id']),
+                        'delivery_price' => $this->db->escape($product['delivery_price']),
+                        'saleprice' => $this->db->escape($product['saleprice']),
+                        'quantity' => $this->db->escape($product['quantity']),
+                        'supplier_id' => $this->db->escape($product['supplier_id']),
+                        'term' => $this->db->escape($product['term']),
+                        'created_at' => $this->db->escape(date("Y-m-d H:i:s")),
+                        'updated_at' => $this->db->escape(date("Y-m-d H:i:s")),
+                    ];
 
-                $price_data[] = [
-                    'product_id' => $this->db->escape($product_id),
-                    'excerpt' => $this->db->escape($product['excerpt']),
-                    'currency_id' => $this->db->escape($product['currency_id']),
-                    'delivery_price' => $this->db->escape($product['delivery_price']),
-                    'saleprice' => $this->db->escape($product['saleprice']),
-                    'quantity' => $this->db->escape($product['quantity']),
-                    'supplier_id' => $this->db->escape($product['supplier_id']),
-                    'term' => $this->db->escape($product['term']),
-                    'created_at' => $this->db->escape(date("Y-m-d H:i:s")),
-                    'updated_at' => $this->db->escape(date("Y-m-d H:i:s")),
-                ];
-
-                if($product['attributes']  && $product['category_id']){
-                    $this->product_attribute_model->delete($product_id);
-                    $attribute_group = explode('|',$product['attributes']);
-                    if($attribute_group){
-                        foreach ($attribute_group as $ag){
-                            $attribute_values = explode(':',$ag);
-                            if(isset($attribute_values[0]) && isset($attribute_values[1])){
-                                $attributes_data[] = [
-                                    'product_id' => $product_id,
-                                    'attribute_name' =>trim($attribute_values[0]),
-                                    'attribute_value' =>trim($attribute_values[1]),
-                                    'category_id' => trim($product['category_id']),
-                                    'attribute_slug' => url_title($attribute_values[0].' '.$attribute_values[1])
-                                ];
+                    if($product['attributes']  && $product['category_id']){
+                        $this->product_attribute_model->delete($product_id);
+                        $attribute_group = explode('|',$product['attributes']);
+                        if($attribute_group){
+                            foreach ($attribute_group as $ag){
+                                $attribute_values = explode(':',$ag);
+                                if(isset($attribute_values[0]) && isset($attribute_values[1])){
+                                    $attributes_data[] = [
+                                        'product_id' => $product_id,
+                                        'attribute_name' =>trim($attribute_values[0]),
+                                        'attribute_value' =>trim($attribute_values[1]),
+                                        'category_id' => trim($product['category_id']),
+                                        'attribute_slug' => url_title($attribute_values[0].' '.$attribute_values[1])
+                                    ];
+                                }
                             }
                         }
                     }
                 }
+
             }
 
             if(@$price_data){
