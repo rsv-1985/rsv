@@ -25,6 +25,7 @@ class Customer extends Front_controller
 
     public function pay($order_id)
     {
+        $this->customer_model->is_login('/customer/login');
         $orderInfo = $this->order_model->get($order_id);
         if (!$orderInfo || $orderInfo['customer_id'] != $this->session->userdata('customer_id')) {
             $this->session->set_flashdata('error', 'Заказ не найтед');
@@ -178,7 +179,7 @@ class Customer extends Front_controller
 
     public function orderinfo($id = false)
     {
-
+        $this->customer_model->is_login('/customer/login');
         $data['order_info'] = $this->order_model->order_get($id);
         if (!$data['order_info']) {
             show_404();
@@ -256,6 +257,7 @@ class Customer extends Front_controller
     }
 
     public function profile(){
+        $this->customer_model->is_login('/customer/login');
         $data['customer'] = $this->customer_model->get($this->is_login);
         $data['customer_group'] = $this->customergroup_model->get($data['customer']['customer_group_id']);
 
@@ -307,6 +309,7 @@ class Customer extends Front_controller
     }
 
     public function balance(){
+        $this->customer_model->is_login('/customer/login');
         $data['recharge'] = $this->settings_model->get_by_key('recharge');
 
         if($this->input->post()){
@@ -359,6 +362,7 @@ class Customer extends Front_controller
     }
 
     public function print_parcel($parcel_id){
+        $this->customer_model->is_login('/customer/login');
         $this->load->model('waybill_model');
         $data['parcel'] = $this->waybill_model->get_parcel($parcel_id);
         if(!$data['parcel'] || $this->is_login != $data['parcel']['customer_id']){
@@ -385,6 +389,7 @@ class Customer extends Front_controller
     }
 
     public function search_history(){
+        $this->customer_model->is_login('/customer/login');
         $this->load->model('search_history_model');
 
         $data = [];
@@ -404,6 +409,7 @@ class Customer extends Front_controller
     }
 
     public function vin(){
+        $this->customer_model->is_login('/customer/login');
         $this->load->model('vinrequest_model');
 
         $data = [];
@@ -423,6 +429,7 @@ class Customer extends Front_controller
     }
 
     public function vin_info($id = false){
+        $this->customer_model->is_login('/customer/login');
         $this->load->model('vinrequest_model');
         $vin_info = $this->vinrequest_model->get($id);
         if(!$id || !$vin_info || $vin_info['customer_id'] != $this->is_login){
