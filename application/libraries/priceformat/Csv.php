@@ -279,7 +279,7 @@ class Csv{
                     $data['id'] = $product['product_id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'w');
                     $product = array_intersect_key($product,$data['template']);
-                    fputcsv($fp, array_keys($product));
+                    fputcsv($fp, array_keys($product),';');
                 }else{
                     $data['id'] = $product['product_id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'a');
