@@ -287,7 +287,7 @@ class Csv{
 
                 $product = array_intersect_key($product,$data['template']);
 
-                fputcsv($fp, $product);
+                fputcsv($fp, $product,';');
 
 
             }
