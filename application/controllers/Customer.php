@@ -338,6 +338,7 @@ class Customer extends Front_controller
     }
 
     public function products(){
+        $this->customer_model->is_login('/customer/login');
         $this->load->model('orderstatus_model');
         $this->load->model('order_product_model');
         $data = [];
