@@ -269,7 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <a href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>">
                                     <div class="col-sm-6 col-md-4">
                                         <div class="thumbnail category-item">
-                                            <img src="/image?img=<?php echo $tree['image']; ?>&height=100"
+                                            <img style="height: 100px" src="<?php echo $tree['image']; ?>"
                                                  alt="<?php echo $tree['name']; ?>">
                                             <div class="caption">
                                                 <p><?php echo $tree['name']; ?></p>
