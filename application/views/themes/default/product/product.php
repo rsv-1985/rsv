@@ -559,7 +559,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             } ?>
                             <div class="row item brand <?php echo md5($product['brand']); ?>">
                                 <div class="col-md-4 col-sm-12 col-xs-7">
-                                    <a href="/product/<?php echo $product['slug']; ?>"><b><?php echo $product['brand']; ?></b> <?php echo $product['sku']; ?>
+                                    <a href="/product/<?php echo $product['slug']; ?>">
+                                        <b><?php echo $product['brand']; ?></b>
+                                        <?php echo $product['sku']; ?>
+                                        <br><?php echo $product['name'];?>
                                     </a>
                                 </div>
                                 <div class="col-md-8 col-xs-12 table_info_item" style="text-align: center;">
