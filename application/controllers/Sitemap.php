@@ -80,10 +80,13 @@ class Sitemap extends Front_controller{
                 $text = '<?xml version="1.0" encoding="UTF-8"?>';
                 $text .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
                 foreach ($files as $file) {
-                    $text .= '<sitemap>';
-                    $text .= '<loc>' . base_url('map') . '/' . $file . '</loc>';
-                    $text .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
-                    $text .= '</sitemap>';
+                    $info = pathinfo($file);
+                    if($info['extension'] == 'xml' && $info['basename'] != 'sitemap.xml'){
+                        $text .= '<sitemap>';
+                        $text .= '<loc>' . base_url('map') . '/' . $file . '</loc>';
+                        $text .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
+                        $text .= '</sitemap>';
+                    }
                 }
                 $text .= '</sitemapindex>';
                 write_file('./map/sitemap.xml', $text);
