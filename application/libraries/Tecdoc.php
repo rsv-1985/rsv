@@ -193,7 +193,7 @@ class Tecdoc
 
     public function getIDart($article, $brand)
     {
-        $brand = mb_strtoupper(str_replace(['+',' ','-'],['','',''],$brand), 'UTF-8');
+        $brand = urlencode(mb_strtoupper(str_replace(['+',' ','-'],['','',''],$brand), 'UTF-8'));
         $query = [
             'apikey' => $this->key,
             'method' => 'getSearch',
