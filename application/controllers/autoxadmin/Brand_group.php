@@ -103,16 +103,18 @@ class Brand_group extends Admin_controller
             $brands = explode(';',$this->input->post('brands',true));
             foreach (array_unique($brands) as $brand){
                 $brand = $this->product_model->clear_brand($brand);
-                //Проверяем не используетсяли бренд в других группах
-                $check = $this->brand_group_model->getBrandGroupByBrand($brand);
-                if($check && $check['id'] != $id){
-                    $error[] = $brand.' используется в группе '.$check['group_name'].' система его пропустила.';
-                    continue;
+                if($brand){
+                    //Проверяем не используетсяли бренд в других группах
+                    $check = $this->brand_group_model->getBrandGroupByBrand($brand);
+                    if($check && $check['id'] != $id){
+                        $error[] = $brand.' используется в группе '.$check['group_name'].' система его пропустила.';
+                        continue;
+                    }
+                    $save = [];
+                    $save['group_brand_id'] = $id;
+                    $save['brand'] = $brand;
+                    $this->brand_group_model->addBrand($save);
                 }
-                $save = [];
-                $save['group_brand_id'] = $id;
-                $save['brand'] = $brand;
-                $this->brand_group_model->addBrand($save);
             }
 
             if($error){
