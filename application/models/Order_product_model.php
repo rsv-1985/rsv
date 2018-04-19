@@ -27,39 +27,39 @@ class Order_product_model extends Default_model{
     }
 
     public function get_products_by_customer($customer_id,$limit,$start){
-        $this->db->select('SQL_CALC_FOUND_ROWS op.*,o.created_at,wp.ttn,wp.id as parcel_id', false);
-        $this->db->from('order_product op');
-        $this->db->join('order o', 'o.id=op.order_id');
-        $this->db->join('waybill_product wp2','op.id=wp2.order_product_id','left');
-        $this->db->join('waybill_parcel wp','wp.id=wp2.waybill_parcel_id','left');
+        $sql = "SELECT SQL_CALC_FOUND_ROWS op.*,o.created_at,wp.ttn,wp.id as parcel_id FROM ax_order_product op
+         LEFT JOIN ax_order o ON o.id=op.order_id LEFT JOIN ax_waybill_product wp2 ON op.id=wp2.order_product_id LEFT JOIN ax_waybill_parcel wp ON wp.id=wp2.waybill_parcel_id
+         WHERE o.customer_id = '".$customer_id."'";
+
         if($this->input->get()){
             if($this->input->get('order_id')){
-                $this->db->where('op.order_id', (int)$this->input->get('order_id'));
+                $sql .= " AND op.order_id='".(int)$this->input->get('order_id')."'";
             }
             if($this->input->get('name')){
-                $this->db->like('op.name', $this->input->get('name', true));
+                $sql .= " AND op.name=".$this->db->escape($this->input->get('name', true))."";
             }
             if($this->input->get('sku')){
                 $this->load->model('product_model');
-                $this->db->where('op.sku', $this->product_model->clear_sku($this->input->get('sku', true)));
+                $sql .= " AND op.sku=".$this->db->escape($this->product_model->clear_sku($this->input->get('sku', true)))."";
             }
             if($this->input->get('brand')){
-                $this->db->where('op.brand', $this->input->get('brand', true));
+                $this->load->model('product_model');
+                $sql .= " AND op.brand=".$this->db->escape($this->product_model->clear_brand($this->input->get('brand', true)))."";
             }
             if($this->input->get('quantity')){
-                $this->db->where('op.quantity', (int)$this->input->get('quantity'));
+                $sql .= " AND op.quantity='".(int)$this->input->get('quantity')."'";
             }
             if($this->input->get('status_id')){
-                $this->db->where('op.status_id', (int)$this->input->get('status_id'));
+                $sql .= " AND op.status_id='".(int)$this->input->get('status_id')."'";
             }
         }
-        $this->db->where('o.customer_id',(int)$customer_id);
+        $sql .= " ORDER BY op.order_id DESC";
+        $sql .= " LIMIT ".(int)$start.", ".(int)$limit;
 
-        $this->db->limit((int)$limit, (int)$start);
 
-        $this->db->order_by('op.order_id', 'DESC');
 
-        $query = $this->db->get();
+
+        $query = $this->db->query($sql);
 
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
         if ($query->num_rows() > 0) {
