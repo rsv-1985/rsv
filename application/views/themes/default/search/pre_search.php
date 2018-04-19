@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
                 <?php foreach ($brands as $brand){?>
                     <li class="list-group-item" onclick="location.href='/search?search=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo $brand['brand'];?>'" style="cursor: pointer">
-                        <a href="/search?search=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo $brand['brand'];?>">
+                        <a href="/search?search=<?php echo $brand['sku'];?>&ID_art=<?php echo $brand['ID_art'];?>&brand=<?php echo urlencode($brand['brand']);?>">
                             <img src="<?php echo $brand['image'];?>">
                             <b><?php echo $brand['brand'];?></b> <?php echo $brand['name'];?>
                         </a>
