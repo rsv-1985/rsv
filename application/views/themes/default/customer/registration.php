@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_email');?></label>
-                        <input id="input_registration_email" type="email" name="email" class="form-control" value="<?php echo set_value('email');?>" required maxlength="32">
+                        <input id="input_registration_email" type="email" name="email" class="form-control" value="<?php echo set_value('email');?>" required maxlength="96">
                     </div>
                 </div>
 
