@@ -179,7 +179,6 @@ class Customer extends Front_controller
 
     public function orderinfo($id = false)
     {
-        $this->customer_model->is_login('/customer/login');
         $data['order_info'] = $this->order_model->order_get($id);
         if (!$data['order_info']) {
             show_404();
