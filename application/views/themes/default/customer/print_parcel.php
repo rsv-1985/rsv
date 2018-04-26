@@ -40,6 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td>Артикул</td>
                                     <td>Бренд</td>
                                     <td>Количество</td>
+                                    <td>Цена</td>
                                     <td>Итого</td>
                                 </tr>
                                 <?php foreach ($products as $product){?>
@@ -48,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php  echo $product['sku'];?></td>
                                         <td><?php echo $product['brand'];?></td>
                                         <td><?php echo $product['quantity'];?>шт</td>
+                                        <td><?php echo $product['price'];?></td>
                                         <td><?php $t += $product['quantity'] * $product['price'];  echo $product['quantity'] * $product['price'];?></td>
                                     </tr>
                                 <?php } ?>
