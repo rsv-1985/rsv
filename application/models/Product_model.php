@@ -379,7 +379,7 @@ class Product_model extends Default_model
             $this->db->where('brand', $this->clear_brand($item['brand']));
             $this->db->group_end();
         }
-       $this->db->where("(SELECT count(*) FROM ax_product_price WHERE product_id = id) > 0");
+        $this->db->where("(SELECT count(*) FROM ax_product_price WHERE product_id = id) > 0");
         $query = $this->db->get();
 
         $products = false;
@@ -435,9 +435,9 @@ class Product_model extends Default_model
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
 
-            foreach ($query->result_array()as &$item) {
+            foreach ($query->result_array() as &$item) {
                 $prices = $this->get_product_price($item);
-                if($prices){
+                if ($prices) {
                     $item['prices'] = $prices;
                     $products[] = $item;
                 }
@@ -501,7 +501,7 @@ class Product_model extends Default_model
                     });
                     break;
             }
-        }else{
+        } else {
             usort($product_prices, function ($a, $b) {
                 if ($a['price'] == $b['price']) {
                     return 0;
@@ -509,9 +509,6 @@ class Product_model extends Default_model
                 return ($a['price'] < $b['price']) ? -1 : 1;
             });
         }
-
-
-
 
 
         return $product_prices;
@@ -590,35 +587,74 @@ class Product_model extends Default_model
         if ($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])) {
             foreach ($this->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
                 if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
-
-                    if ($supplier_price['brand'] && $product['brand'] != $supplier_price['brand']) {
-                        continue;
-                    }
-                    if($supplier_price['value'] > 0){
-                        if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
-                            switch ($supplier_price['method_price']) {
-                                case '+':
+                    if ($supplier_price['brand'] && $supplier_price['customer_group_id'] && $product['brand'] == $supplier_price['brand'] && $this->customergroup_model->customer_group == $supplier_price['customer_group_id']) {
+                        switch ($supplier_price['method_price']) {
+                            case '+':
+                                if ($supplier_price['value'] > 0) {
                                     $price = $price + $price * $supplier_price['value'] / 100;
-                                    break;
-                                case '-':
+                                }
+                                $price = $price + $supplier_price['fix_value'];
+                                break;
+                            case '-':
+                                if ($supplier_price['value'] > 0) {
                                     $price = $price - $price * $supplier_price['value'] / 100;
-                                    break;
+                                }
+                                $price = $price - $supplier_price['fix_value'];
+                                break;
+                        }
+                        break;
+                    }
+
+                    if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
+                        switch ($supplier_price['method_price']) {
+                            case '+':
+                                if ($supplier_price['value'] > 0) {
+                                    $price = $price + $price * $supplier_price['value'] / 100;
+                                }
+                                $price = $price + $supplier_price['fix_value'];
+                                break;
+                            case '-':
+                                if ($supplier_price['value'] > 0) {
+                                    $price = $price - $price * $supplier_price['value'] / 100;
+                                }
+                                $price = $price - $supplier_price['fix_value'];
+                                break;
+                        }
+                        break;
+                    }
+
+                    if ($supplier_price['customer_group_id'] && $this->customergroup_model->customer_group['id'] == $supplier_price['customer_group_id']) {
+                        switch ($supplier_price['method_price']) {
+                            case '+':
+                                if ($supplier_price['value'] > 0) {
+                                    $price = $price + $price * $supplier_price['value'] / 100;
+                                }
+                                $price = $price + $supplier_price['fix_value'];
+                                break;
+                            case '-':
+                                if ($supplier_price['value'] > 0) {
+                                    $price = $price - $price * $supplier_price['value'] / 100;
+                                }
+                                $price = $price - $supplier_price['fix_value'];
+                                break;
+                        }
+                        break;
+                    }
+
+                    switch ($supplier_price['method_price']) {
+                        case '+':
+                            if ($supplier_price['value'] > 0) {
+                                $price = $price + $price * $supplier_price['value'] / 100;
                             }
                             $price = $price + $supplier_price['fix_value'];
                             break;
-                        }
-
-                        switch ($supplier_price['method_price']) {
-                            case '+':
-                                $price = $price + $price * $supplier_price['value'] / 100;
-                                break;
-                            case '-':
+                        case '-':
+                            if ($supplier_price['value'] > 0) {
                                 $price = $price - $price * $supplier_price['value'] / 100;
-                                break;
-                        }
+                            }
+                            $price = $price - $supplier_price['fix_value'];
+                            break;
                     }
-
-                    $price = $price + $supplier_price['fix_value'];
                     break;
                 }
             }
@@ -660,22 +696,24 @@ class Product_model extends Default_model
                     break;
                 }
             }
-        } else if ($this->customergroup_model->customer_group) {
-            switch ($this->customergroup_model->customer_group['type']) {
-                case '+':
-                    $customer_price = $price + ($price * $this->customergroup_model->customer_group['value'] / 100) + $this->customergroup_model->customer_group['fix_value'];
-                    break;
-                case '-':
-                    $customer_price = $price - ($price * $this->customergroup_model->customer_group['value'] / 100) - $this->customergroup_model->customer_group['fix_value'];
-                    break;
+        } else
+            if ($this->customergroup_model->customer_group) {
+                switch ($this->customergroup_model->customer_group['type']) {
+                    case '+':
+                        $customer_price = $price + ($price * $this->customergroup_model->customer_group['value'] / 100) + $this->customergroup_model->customer_group['fix_value'];
+                        break;
+                    case '-':
+                        $customer_price = $price - ($price * $this->customergroup_model->customer_group['value'] / 100) - $this->customergroup_model->customer_group['fix_value'];
+                        break;
+                }
             }
-        }
 
         return $customer_price <= 0 ? $price : $customer_price;
     }
 
-    //Новинки
-    public function get_novelty()
+//Новинки
+    public
+    function get_novelty()
     {
         $cache = $this->cache->file->get('novelty');
         if (!$cache && !is_null($cache)) {
@@ -713,8 +751,9 @@ class Product_model extends Default_model
 
     }
 
-    //Топ
-    public function top_sellers()
+//Топ
+    public
+    function top_sellers()
     {
         $cache = $this->cache->file->get('top_sellers');
         if (!$cache && !is_null($cache)) {
@@ -752,7 +791,7 @@ class Product_model extends Default_model
 
     }
 
-    //Информация по запчасти с текдока
+//Информация по запчасти с текдока
     function tecdoc_info($sku, $brand, $full_info = false)
     {
         $return = false;
@@ -760,7 +799,7 @@ class Product_model extends Default_model
             $ID_art = $this->tecdoc->getIDart($sku, $brand);
             if ($full_info) {
                 $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
-                if($crosses){
+                if ($crosses) {
                     $return['cross'] = $this->get_search_crosses($crosses);
                 }
             }
@@ -777,7 +816,8 @@ class Product_model extends Default_model
         return $return;
     }
 
-    public function get_by_slug($slug, $get_tecdoc_info = true)
+    public
+    function get_by_slug($slug, $get_tecdoc_info = true)
     {
         $this->db->from($this->table);
         $this->db->where('slug', $slug);
@@ -792,8 +832,9 @@ class Product_model extends Default_model
         return false;
     }
 
-    //Для карты сайта
-    public function get_sitemap($id)
+//Для карты сайта
+    public
+    function get_sitemap($id)
     {
         $return = false;
         $this->db->select('id, slug,(SELECT MAX(updated_at) FROM ax_product_price WHERE product_id = id) as updated_at', false);
@@ -815,7 +856,8 @@ class Product_model extends Default_model
         return $return;
     }
 
-    public function get_product_for_cart($product_id, $supplier_id, $term)
+    public
+    function get_product_for_cart($product_id, $supplier_id, $term)
     {
         $this->db->from('product_price');
         $this->db->where('product_id', (int)$product_id);
@@ -832,8 +874,9 @@ class Product_model extends Default_model
         return false;
     }
 
-    //API поставщиков
-    public function api_supplier($sku, $brand, $crosses_search)
+//API поставщиков
+    public
+    function api_supplier($sku, $brand, $crosses_search)
     {
         $cross_suppliers = [];
         $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
