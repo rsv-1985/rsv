@@ -128,6 +128,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <td><input type="text" name="pricing[0][price_to]" class="form-control"></td>
                                 <td><input type="text" name="pricing[0][brand]" class="form-control"></td>
                                 <td>
+                                    <select name="pricing[0][customer_group_id]" class="form-control">
+                                        <option></option>
+                                        <?php foreach ($groups as $group){?>
+                                            <option value="<?php echo $group['id'];?>"><?php echo $group['name'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                </td>
+                                <td>
                                     <select name="pricing[0][method_price]" class="form-control">
                                         <option value="+"><?php echo lang('text_pricing_margin'); ?></option>
                                         <option value="-"><?php echo lang('text_pricing_discount'); ?></option>
