@@ -16,7 +16,7 @@ class supplier extends Admin_controller
         $this->load->model('supplier_model');
         $this->load->model('pricing_model');
         $this->load->model('product_model');
-
+        $this->load->model('customergroup_model');
     }
 
     public function index()
@@ -50,8 +50,10 @@ class supplier extends Admin_controller
                 $this->error = validation_errors();
             }
         }
+        $data['groups'] = $this->customergroup_model->get_group();
+
         $this->load->view('admin/header');
-        $this->load->view('admin/supplier/create');
+        $this->load->view('admin/supplier/create',$data);
         $this->load->view('admin/footer');
     }
 
@@ -79,6 +81,8 @@ class supplier extends Admin_controller
         $data['pricing'] = $this->pricing_model->get_by_supplier($id);
         //Статистика по поставщику
         $data['count'] = $this->product_model->product_count_all(['supplier_id' => (int)$id]);
+
+        $data['groups'] = $this->customergroup_model->get_group();
 
         $this->load->view('admin/header');
         $this->load->view('admin/supplier/edit', $data);
@@ -125,7 +129,8 @@ class supplier extends Admin_controller
                     if (($pricing['value'] > 0 || $pricing['fix_value'] > 0) && $pricing['price_from'] >= 0 && $pricing['price_to'] > 0 ) {
                         $save = [];
                         $save['supplier_id'] = $supplier_id;
-                        $save['brand'] = $pricing['brand'];
+                        $save['brand'] = (string)$pricing['brand'];
+                        $save['customer_group_id'] = (int)$pricing['customer_group_id'];
                         $save['price_from'] = (float)$pricing['price_from'];
                         $save['price_to'] = (float)$pricing['price_to'];
                         $save['method_price'] = (string)$pricing['method_price'];
