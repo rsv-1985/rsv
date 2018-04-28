@@ -434,6 +434,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $('[data-toggle="popover"]').popover()
             });
 
+            <?php if(!isset($_GET['sort'])){?>
+            var one_day = [];
+            $(".one_day").each(function(index,item){
+                $(item).parent('tbody').prepend(item);
+            });
+            var in_stock = [];
+            $(".in_stock").each(function(index,item){
+                $(item).parent('tbody').prepend(item);
+            });
+            <?php } ?>
+
+
             $(".filter-brand input").click(function(){
                 var checked = 0;
                 $(".item").hide();
