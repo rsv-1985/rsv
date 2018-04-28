@@ -142,7 +142,12 @@ class supplier extends Admin_controller
             }
 
             $this->session->set_flashdata('success', lang('text_success'));
-            redirect('autoxadmin/supplier');
+            if($id){
+                redirect('autoxadmin/supplier/edit/'.$id);
+            }else{
+                redirect('autoxadmin/supplier');
+            }
+
         }
     }
 
