@@ -451,14 +451,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             if(in_stock){
                 in_stock = in_stock.reverse();
                 $(in_stock).each(function(index,i){
-                    $(i).parent('tbody').prepend(i);
+                    $(i).parent('tbody').prepend(i).show();
                 })
             }
 
             if(one_day){
                 one_day = one_day.reverse();
                 $(one_day).each(function(index,i){
-                    $(i).parent('tbody').prepend(i);
+                    $(i).parent('tbody').prepend(i).show();
                 })
             }
             <?php } ?>
