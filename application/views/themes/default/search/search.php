@@ -463,12 +463,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
 
         function sort(field){
-            var redirect = '/search?sort='+field;
-            <?php unset($_GET['sort']);?>
-            <?php foreach ($this->input->get() as $key => $value){?>
-            redirect += '&<?php echo $key;?>=<?php echo $value;?>';
-            <?php } ?>
-            location.href=redirect;
+            if(field){
+                var redirect = '/search?sort='+field;
+                <?php unset($_GET['sort']);?>
+                <?php foreach ($this->input->get() as $key => $value){?>
+                redirect += '&<?php echo $key;?>=<?php echo $value;?>';
+                <?php } ?>
+                location.href=redirect;
+            }
         }
 
         function go(price_key) {
