@@ -439,12 +439,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             var one_day = [];
             $(".one_day").each(function(index,item){
                 one_day.push(item);
-                //$(item).parent('tbody').prepend(item);
             });
             var in_stock = [];
             $(".in_stock").each(function(index,item){
                 in_stock.push(item);
-                //$(item).parent('tbody').prepend(item);
             });
 
 
@@ -452,14 +450,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 in_stock = in_stock.reverse();
                 $(in_stock).each(function(index,i){
                     $(i).parent('tbody').prepend(i).show();
-                })
+                });
+
+                $(".in_stock").show();
             }
 
             if(one_day){
                 one_day = one_day.reverse();
                 $(one_day).each(function(index,i){
                     $(i).parent('tbody').prepend(i).show();
-                })
+                });
+
+                $(".one_day").show();
             }
             <?php } ?>
 
