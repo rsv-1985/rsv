@@ -230,6 +230,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="form-group">
                                 <label>Сортировать</label>
                                 <select class="form-control" onchange="sort($(this).val());">
+                                    <option></option>
                                     <option <?php if($this->input->get('sort') == 'price'){?>selected<?php } ?> value="price">Цена</option>
                                     <option <?php if($this->input->get('sort') == 'term'){?>selected<?php } ?> value="term">Срок доставки</option>
                                     <option <?php if($this->input->get('sort') == 'qty'){?>selected<?php } ?> value="qty">Наличие</option>
