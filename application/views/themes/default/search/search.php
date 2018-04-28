@@ -470,6 +470,17 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 redirect += '&<?php echo $key;?>=<?php echo $value;?>';
                 <?php } ?>
                 location.href=redirect;
+            }else{
+                var redirect = '/search';
+                <?php unset($_GET['sort']);?>
+                <?php $q = 0; foreach ($this->input->get() as $key => $value){?>
+                <?php if($q == 0){?>
+                redirect += '?<?php echo $key;?>=<?php echo $value;?>';
+                <?php }else{?>
+                redirect += '&<?php echo $key;?>=<?php echo $value;?>';
+                <?php } ?>
+                <?php $q++; } ?>
+                location.href=redirect;
             }
         }
 
