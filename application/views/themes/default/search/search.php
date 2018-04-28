@@ -438,12 +438,29 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <?php if(!isset($_GET['sort'])){?>
             var one_day = [];
             $(".one_day").each(function(index,item){
-                $(item).parent('tbody').prepend(item);
+                one_day.push(item);
+                //$(item).parent('tbody').prepend(item);
             });
             var in_stock = [];
             $(".in_stock").each(function(index,item){
-                $(item).parent('tbody').prepend(item);
+                in_stock.push(item);
+                //$(item).parent('tbody').prepend(item);
             });
+
+
+            if(in_stock){
+                in_stock = in_stock.reverse();
+                $(in_stock).each(function(index,i){
+                    $(i).parent('tbody').prepend(i);
+                })
+            }
+
+            if(one_day){
+                one_day = one_day.reverse();
+                $(one_day).each(function(index,i){
+                    $(i).parent('tbody').prepend(i);
+                })
+            }
             <?php } ?>
 
 
