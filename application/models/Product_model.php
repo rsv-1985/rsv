@@ -587,7 +587,10 @@ class Product_model extends Default_model
         if ($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])) {
             foreach ($this->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
                 if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
-                    if ($supplier_price['brand'] && $supplier_price['customer_group_id'] && $product['brand'] == $supplier_price['brand'] && $this->customergroup_model->customer_group == $supplier_price['customer_group_id']) {
+                    if ($supplier_price['brand'] && $supplier_price['customer_group_id']){
+                        if($product['brand'] != $supplier_price['brand'] || $this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
+                            continue;
+                        }
                         switch ($supplier_price['method_price']) {
                             case '+':
                                 if ($supplier_price['value'] > 0) {
@@ -605,7 +608,10 @@ class Product_model extends Default_model
                         break;
                     }
 
-                    if ($supplier_price['brand'] && $product['brand'] == $supplier_price['brand']) {
+                    if ($supplier_price['brand']) {
+                        if($product['brand'] != $supplier_price['brand']){
+                            continue;
+                        }
                         switch ($supplier_price['method_price']) {
                             case '+':
                                 if ($supplier_price['value'] > 0) {
@@ -623,7 +629,10 @@ class Product_model extends Default_model
                         break;
                     }
 
-                    if ($supplier_price['customer_group_id'] && $this->customergroup_model->customer_group['id'] == $supplier_price['customer_group_id']) {
+                    if ($supplier_price['customer_group_id']) {
+                        if($this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
+                            continue;
+                        }
                         switch ($supplier_price['method_price']) {
                             case '+':
                                 if ($supplier_price['value'] > 0) {
