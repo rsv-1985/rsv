@@ -16,6 +16,17 @@ class Ajax extends Front_controller
         }
     }
 
+    public function get_brands()
+    {
+        $this->load->model('product_model');
+        $search = $this->input->post('search',true);
+        $json['brands'] = $this->product_model->get_brands($search);
+
+        $this->output
+            ->set_content_type('application/html')
+            ->set_output(json_encode($json));
+    }
+
     public function cookie_modal(){
         $this->load->helper('cookie');
         $cookie = array(
