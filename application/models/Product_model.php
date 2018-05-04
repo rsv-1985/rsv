@@ -718,7 +718,7 @@ class Product_model extends Default_model
                         break;
                 }
             }
-        return $customer_price > 0 ? exit('da') : $price;
+        return $customer_price > 0 ? $customer_price : $price;
     }
 
 //Новинки
