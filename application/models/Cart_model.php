@@ -83,4 +83,24 @@ class Cart_model extends CI_Model{
         $this->db->where('customer_id',(int)$customer_id);
         $this->db->update($this->table);
     }
+
+    public function add_deferred($customer_id, $product){
+        $save = [
+            'customer_id' => $customer_id,
+            'product_id' => $product['product_id'],
+            'supplier_id' => $product['supplier_id'],
+            'term' => $product['term'],
+            'quantity' => $product['qty']
+        ];
+
+        $this->db->insert('cart_deferred',$save);
+    }
+
+    public function get_deferred($customer_id){
+        return $this->db->where('customer_id',(int)$customer_id)->get('cart_deferred')->result_array();
+    }
+
+    public function delete_deferred($customer_id,$deferred_id){
+        $this->db->where('id',(int)$deferred_id)->where('customer_id',(int)$customer_id)->delete('cart_deferred');
+    }
 }
