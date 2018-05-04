@@ -4,6 +4,7 @@
  * Site: cms.autoxcatalog.com
  * Email: sergey.rasputniy@gmail.com
  */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Search extends Front_controller
