@@ -307,6 +307,8 @@ class Product extends Admin_controller
         $product['bought'] = (int)$this->input->post('bought');
         $product['category_id'] = (int)$this->input->post('category_id');
         $product['description'] = $this->input->post('description');
+        $product['static_price'] = (float)$this->input->post('static_price');
+        $product['static_currency_id'] = (int)$this->input->post('static_currency_id');
         if($this->input->post('slug')){
             $product['slug'] = $this->input->post('slug', true);
         }else{
@@ -328,7 +330,6 @@ class Product extends Admin_controller
                         $save['currency_id'] = (int)$price['currency_id'];
                         $save['delivery_price'] = (float)$price['delivery_price'];
                         $save['saleprice'] = (float)$price['saleprice'];
-                        $save['price'] = (float)$price['price'];
                         $save['quantity'] = (int)$price['quantity'];
                         $save['term'] = (int)$price['term'];
                         $save['updated_at'] = date('Y-m-d H:i:s');

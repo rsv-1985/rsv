@@ -35,6 +35,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <b><?php echo lang('text_price'); ?></b>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Цена</label>
+                        <input type="text" name="static_price" class="form-control" value="<?php echo set_value('static_proce');?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Валюта</label>
+                        <select name="static_currency_id" class="form-control">
+                            <?php foreach ($currency as $cur){?>
+                                <option value="<?php echo $cur['id'];?>" <?php echo set_select('static_currency_id');?>><?php echo $cur['name'];?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
                     <b><?php echo lang('text_product_seo'); ?></b>
                 </div>
                 <div class="box-body">
@@ -178,7 +198,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <thead>
                         <tr>
                             <th><?php echo lang('text_delivery_price'); ?></th>
-                            <th><?php echo lang('text_price'); ?></th>
                             <th><?php echo lang('text_saleprice'); ?></th>
                             <th><?php echo lang('text_currency_id'); ?></th>
                             <th><?php echo lang('text_quantity'); ?></th>
@@ -191,10 +210,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                        value="<?php echo set_value('delivery_price'); ?>"
                                        class="form-control"
                                        required></td>
-                            <td><input type="text" name="prices[0][price]"
-                                       id="price"
-                                       value="<?php echo set_value('price'); ?>"
-                                       class="form-control"></td>
                             <td><input type="text" name="prices[0][saleprice]"
                                        value="<?php echo set_value('saleprice'); ?>"
                                        class="form-control"></td>

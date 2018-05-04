@@ -12,6 +12,7 @@ class Product_model extends Default_model
     public $table = 'product';
     public $total_rows = 0;
     public $seo_url_template;
+    public $product;
 
     public function __construct()
     {
@@ -457,59 +458,58 @@ class Product_model extends Default_model
             $product_prices = $query->result_array();
             if ($calculate) {
                 foreach ($product_prices as &$product_price) {
-                    $product_price['brand'] = $product['brand'];
-                    $product_price['price'] = $this->calculate_customer_price($product_price);
-                    unset($product_price['brand']);
+                    $product_price['price'] = $this->calculate_customer_price(array_merge($product,$product_price));
                 }
             }
         }
 
-        $sort = 'price';
+        if($calculate){
+            $sort = 'price';
 
-        if ($this->input->get('sort')) {
-            switch ($this->input->get('sort')) {
-                case 'price':
-                    usort($product_prices, function ($a, $b) {
-                        if ($a['price'] == $b['price']) {
-                            return 0;
-                        }
-                        return ($a['price'] < $b['price']) ? -1 : 1;
-                    });
-                    break;
-                case 'term':
-                    usort($product_prices, function ($a, $b) {
-                        if ($a['term'] == $b['term']) {
-                            return 0;
-                        }
-                        return ($a['term'] < $b['term']) ? -1 : 1;
-                    });
-                    break;
-                case 'qty':
-                    usort($product_prices, function ($a, $b) {
-                        if ($a['quantity'] == $b['quantity']) {
-                            return 0;
-                        }
-                        return ($a['quantity'] > $b['quantity']) ? -1 : 1;
-                    });
-                    break;
-                default:
-                    usort($product_prices, function ($a, $b) {
-                        if ($a['price'] == $b['price']) {
-                            return 0;
-                        }
-                        return ($a['price'] < $b['price']) ? -1 : 1;
-                    });
-                    break;
-            }
-        } else {
-            usort($product_prices, function ($a, $b) {
-                if ($a['price'] == $b['price']) {
-                    return 0;
+            if ($this->input->get('sort')) {
+                switch ($this->input->get('sort')) {
+                    case 'price':
+                        usort($product_prices, function ($a, $b) {
+                            if ($a['price'] == $b['price']) {
+                                return 0;
+                            }
+                            return ($a['price'] < $b['price']) ? -1 : 1;
+                        });
+                        break;
+                    case 'term':
+                        usort($product_prices, function ($a, $b) {
+                            if ($a['term'] == $b['term']) {
+                                return 0;
+                            }
+                            return ($a['term'] < $b['term']) ? -1 : 1;
+                        });
+                        break;
+                    case 'qty':
+                        usort($product_prices, function ($a, $b) {
+                            if ($a['quantity'] == $b['quantity']) {
+                                return 0;
+                            }
+                            return ($a['quantity'] > $b['quantity']) ? -1 : 1;
+                        });
+                        break;
+                    default:
+                        usort($product_prices, function ($a, $b) {
+                            if ($a['price'] == $b['price']) {
+                                return 0;
+                            }
+                            return ($a['price'] < $b['price']) ? -1 : 1;
+                        });
+                        break;
                 }
-                return ($a['price'] < $b['price']) ? -1 : 1;
-            });
+            } else {
+                usort($product_prices, function ($a, $b) {
+                    if ($a['price'] == $b['price']) {
+                        return 0;
+                    }
+                    return ($a['price'] < $b['price']) ? -1 : 1;
+                });
+            }
         }
-
 
         return $product_prices;
     }
@@ -576,99 +576,101 @@ class Product_model extends Default_model
     //Расчет цены по группе покупателя
     public function calculate_customer_price($product)
     {
-        //Статичкская цена
-        if ($product['price'] > 0) {
-            return $product['price'];
-        }
-        //Расчет по курсу
-        $price = $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
+        //Статическая цена
+        if($product['static_price'] > 0){
+            $price = $product['static_price'] * $this->currency_model->currencies[$product['static_currency_id']]['value'];
+        }else{
+            //Расчет по курсу
+            $price = $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
 
-        //Ценообразование по поставщику
-        if ($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])) {
-            foreach ($this->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
-                if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
-                    if ($supplier_price['brand'] && $supplier_price['customer_group_id']){
-                        if($product['brand'] != $supplier_price['brand'] || $this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
-                            continue;
-                        }
-                        switch ($supplier_price['method_price']) {
-                            case '+':
-                                if ($supplier_price['value'] > 0) {
-                                    $price = $price + $price * $supplier_price['value'] / 100;
-                                }
-                                $price = $price + $supplier_price['fix_value'];
-                                break;
-                            case '-':
-                                if ($supplier_price['value'] > 0) {
-                                    $price = $price - $price * $supplier_price['value'] / 100;
-                                }
-                                $price = $price - $supplier_price['fix_value'];
-                                break;
-                        }
-                        break;
-                    }
-
-                    if ($supplier_price['brand']) {
-                        if($product['brand'] != $supplier_price['brand']){
-                            continue;
-                        }
-                        switch ($supplier_price['method_price']) {
-                            case '+':
-                                if ($supplier_price['value'] > 0) {
-                                    $price = $price + $price * $supplier_price['value'] / 100;
-                                }
-                                $price = $price + $supplier_price['fix_value'];
-                                break;
-                            case '-':
-                                if ($supplier_price['value'] > 0) {
-                                    $price = $price - $price * $supplier_price['value'] / 100;
-                                }
-                                $price = $price - $supplier_price['fix_value'];
-                                break;
-                        }
-                        break;
-                    }
-
-                    if ($supplier_price['customer_group_id']) {
-                        if($this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
-                            continue;
-                        }
-                        switch ($supplier_price['method_price']) {
-                            case '+':
-                                if ($supplier_price['value'] > 0) {
-                                    $price = $price + $price * $supplier_price['value'] / 100;
-                                }
-                                $price = $price + $supplier_price['fix_value'];
-                                break;
-                            case '-':
-                                if ($supplier_price['value'] > 0) {
-                                    $price = $price - $price * $supplier_price['value'] / 100;
-                                }
-                                $price = $price - $supplier_price['fix_value'];
-                                break;
-                        }
-                        break;
-                    }
-
-                    switch ($supplier_price['method_price']) {
-                        case '+':
-                            if ($supplier_price['value'] > 0) {
-                                $price = $price + $price * $supplier_price['value'] / 100;
+            //Ценообразование по поставщику
+            if ($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])) {
+                foreach ($this->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
+                    if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
+                        if ($supplier_price['brand'] && $supplier_price['customer_group_id']){
+                            if($product['brand'] != $supplier_price['brand'] || $this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
+                                continue;
                             }
-                            $price = $price + $supplier_price['fix_value'];
-                            break;
-                        case '-':
-                            if ($supplier_price['value'] > 0) {
-                                $price = $price - $price * $supplier_price['value'] / 100;
+                            switch ($supplier_price['method_price']) {
+                                case '+':
+                                    if ($supplier_price['value'] > 0) {
+                                        $price = $price + $price * $supplier_price['value'] / 100;
+                                    }
+                                    $price = $price + $supplier_price['fix_value'];
+                                    break;
+                                case '-':
+                                    if ($supplier_price['value'] > 0) {
+                                        $price = $price - $price * $supplier_price['value'] / 100;
+                                    }
+                                    $price = $price - $supplier_price['fix_value'];
+                                    break;
                             }
-                            $price = $price - $supplier_price['fix_value'];
                             break;
+                        }
+
+                        if ($supplier_price['brand']) {
+                            if($product['brand'] != $supplier_price['brand']){
+                                continue;
+                            }
+                            switch ($supplier_price['method_price']) {
+                                case '+':
+                                    if ($supplier_price['value'] > 0) {
+                                        $price = $price + $price * $supplier_price['value'] / 100;
+                                    }
+                                    $price = $price + $supplier_price['fix_value'];
+                                    break;
+                                case '-':
+                                    if ($supplier_price['value'] > 0) {
+                                        $price = $price - $price * $supplier_price['value'] / 100;
+                                    }
+                                    $price = $price - $supplier_price['fix_value'];
+                                    break;
+                            }
+                            break;
+                        }
+
+                        if ($supplier_price['customer_group_id']) {
+                            if($this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
+                                continue;
+                            }
+                            switch ($supplier_price['method_price']) {
+                                case '+':
+                                    if ($supplier_price['value'] > 0) {
+                                        $price = $price + $price * $supplier_price['value'] / 100;
+                                    }
+                                    $price = $price + $supplier_price['fix_value'];
+                                    break;
+                                case '-':
+                                    if ($supplier_price['value'] > 0) {
+                                        $price = $price - $price * $supplier_price['value'] / 100;
+                                    }
+                                    $price = $price - $supplier_price['fix_value'];
+                                    break;
+                            }
+                            break;
+                        }
+
+                        switch ($supplier_price['method_price']) {
+                            case '+':
+                                if ($supplier_price['value'] > 0) {
+                                    $price = $price + $price * $supplier_price['value'] / 100;
+                                }
+                                $price = $price + $supplier_price['fix_value'];
+                                break;
+                            case '-':
+                                if ($supplier_price['value'] > 0) {
+                                    $price = $price - $price * $supplier_price['value'] / 100;
+                                }
+                                $price = $price - $supplier_price['fix_value'];
+                                break;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
-        }
 
+
+        }
 
         //Ценообразование по группе покупателей
         $customer_price = 0;
@@ -716,8 +718,7 @@ class Product_model extends Default_model
                         break;
                 }
             }
-
-        return $customer_price <= 0 ? $price : $customer_price;
+        return $customer_price > 0 ? exit('da') : $price;
     }
 
 //Новинки
