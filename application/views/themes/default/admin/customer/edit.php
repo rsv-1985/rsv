@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-6">
                 <div class="form-group">
                     <label><?php echo lang('text_email'); ?></label>
-                    <input type="email" class="form-control" name="email" value="<?php echo set_value('email', $customer['email']); ?>" maxlength="32">
+                    <input type="email" class="form-control" name="email" value="<?php echo set_value('email', $customer['email']); ?>" maxlength="96">
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_phone'); ?></label>
