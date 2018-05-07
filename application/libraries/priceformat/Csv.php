@@ -183,7 +183,7 @@ class Csv{
          pp.excerpt,
          pp.delivery_price,
          pp.saleprice,
-         pp.price,
+         p.static_price,
          pp.quantity,
          pp.currency_id,
          pp.supplier_id,
@@ -209,7 +209,7 @@ class Csv{
         if($data['category_id']){
            $sql .= " AND p.category_id = '".(int)$data['category_id']."'";
         }
-        if($data['supplier_id']){
+        if(@$data['supplier_id']){
             $sql .= " AND pp.supplier_id IN ('".implode('\',\'',$data['supplier_id'])."')";
         }
         if($data['saleprice']){
