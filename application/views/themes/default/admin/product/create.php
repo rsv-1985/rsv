@@ -198,6 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <thead>
                         <tr>
                             <th><?php echo lang('text_delivery_price'); ?></th>
+                            <th><?php echo lang('text_price'); ?></th>
                             <th><?php echo lang('text_saleprice'); ?></th>
                             <th><?php echo lang('text_currency_id'); ?></th>
                             <th><?php echo lang('text_quantity'); ?></th>
@@ -210,6 +211,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                        value="<?php echo set_value('delivery_price'); ?>"
                                        class="form-control"
                                        required></td>
+                            <td>
+                                <input type="text" name="prices[0][price]"
+                                       value="<?php echo set_value('price'); ?>"
+                                       class="form-control">
+                            </td>
                             <td><input type="text" name="prices[0][saleprice]"
                                        value="<?php echo set_value('saleprice'); ?>"
                                        class="form-control"></td>

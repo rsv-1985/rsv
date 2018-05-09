@@ -333,6 +333,7 @@ class Product extends Admin_controller
                         $save['quantity'] = (int)$price['quantity'];
                         $save['term'] = (int)$price['term'];
                         $save['updated_at'] = date('Y-m-d H:i:s');
+                        $save['price'] = (float)$price['price'];
                         $this->product_model->table = 'product_price';
 
                         $this->product_model->insert($save);

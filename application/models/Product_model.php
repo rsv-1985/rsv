@@ -577,8 +577,10 @@ class Product_model extends Default_model
     public function calculate_customer_price($product)
     {
         //Статическая цена
-        if($product['static_price'] > 0){
+        if($product['static_price'] > 0) {
             $price = $product['static_price'] * $this->currency_model->currencies[$product['static_currency_id']]['value'];
+        }elseif($product['price'] > 0){
+            $price = $product['price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
         }else{
             //Расчет по курсу
             $price = $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
@@ -668,8 +670,6 @@ class Product_model extends Default_model
                     }
                 }
             }
-
-
         }
 
         //Ценообразование по группе покупателей
