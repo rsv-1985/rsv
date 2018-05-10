@@ -72,9 +72,9 @@ FROM `ax_order` o";
                $this->load->model('orderstatus_model');
                $return_status = $this->orderstatus_model->get_return();
                if($return_status){
-                   $sql .= " AND o.status > '0' AND o.status != '".(int)$return_status['id']."'";
+                   $sql .= " AND op.status_id NOT IN (0,".(int)$return_status['id'].")";
                }else{
-                   $sql .= " AND o.status > '0'";
+                   $sql .= " AND op.status_id > '0'";
                }
            }
 
