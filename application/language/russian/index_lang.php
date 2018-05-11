@@ -26,3 +26,4 @@ $lang['index_text_years'] = 'Год производства';
 $lang['index_text_manufacturer'] = 'Производитель';
 $lang['index_text_model'] = 'Модель';
 $lang['index_text_typ'] = 'Тип';
+$lang['text_full_original'] = 'Оригинальные каталоги';
