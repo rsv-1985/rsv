@@ -690,6 +690,34 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </div>
 
 <script>
+    $(document).ready(function () {
+        var one_day = [];
+        $(".one_day").each(function(index,item){
+            one_day.push(item);
+        });
+        var in_stock = [];
+        $(".in_stock").each(function(index,item){
+            in_stock.push(item);
+        });
+
+
+        if(in_stock){
+            in_stock = in_stock.reverse();
+            $(in_stock).each(function(index,i){
+                $(i).parent('tbody').prepend(i).show();
+            });
+
+            $(".in_stock").show();
+        }
+
+        if(one_day){
+            one_day = one_day.reverse();
+            $(one_day).each(function(index,i){
+                $(i).parent('tbody').prepend(i).show();
+            });
+            $(".one_day").show();
+        }
+    });
     $(function () {
         $('[data-toggle="popover"]').popover()
     });
