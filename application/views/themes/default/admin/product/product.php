@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
-                            <form><tr>
+                            <tr>
                                 <th><?php echo lang('text_sku');?></th>
                                 <th><?php echo lang('text_brand');?></th>
                                 <th><?php echo lang('text_name');?></th>
