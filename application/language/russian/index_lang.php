@@ -27,3 +27,4 @@ $lang['index_text_manufacturer'] = 'Производитель';
 $lang['index_text_model'] = 'Модель';
 $lang['index_text_typ'] = 'Тип';
 $lang['text_full_original'] = 'Оригинальные каталоги';
+$lang['text_full_to'] = 'Комплекты ТО';
