@@ -37,7 +37,7 @@ class Hotline{
 
         if($suppliers){
             $html .= '<div class="form-group"><label>Поставщик</label>';
-            $html .= '<select name="supplier_id" class="form-control">';
+            $html .= '<select name="supplier_id[]" class="form-control" multiple>';
             $html .= '<option></option>';
             foreach ($suppliers as $supplier){
                 $html .= '<option value="'.$supplier['id'].'">'.$supplier['name'].'</option>';
@@ -115,7 +115,7 @@ class Hotline{
         }
 
         if(@$data['supplier_id']){
-            $this->CI->db->where('supplier_id',(int)$data['supplier_id']);
+            $this->CI->db->where_in('supplier_id',$data['supplier_id']);
         }
 
         if(@$data['saleprice']){
@@ -135,11 +135,12 @@ class Hotline{
         }
 
         $this->CI->db->order_by('id','ASC');
+
         if(@$data['unique']){
-            $this->CI->db->order_by('calculate_price','ASC');
+            $this->CI->db->group_by('id');
         }
 
-        $this->CI->db->limit(10000);
+        $this->CI->db->limit(1000);
         $query = $this->CI->db->get();
 
         if($query->num_rows() == 0 && $data['id'] == 0){
