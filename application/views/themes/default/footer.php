@@ -103,14 +103,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                 <div class="pull-right" id="powered">
                     <?php if(@$this->contacts['copyright']){?>
-                    <?php echo $this->contacts['copyright'];?>
-                    <div style="display: none">
-                        <?php }else{ ?>
+                        <?php echo $this->contacts['copyright'];?>
+                    <?php }else{ ?>
                         <div>
-                            <?php }?>
-                            Powered by <a href="http://autox.pro" title="Создание интернет-магазина автозапчастей">Autox</a>
+                            <a href="https://autox.pro" title="Создание интернет-магазина автозапчастей">Autox.pro</a>
                         </div>
-                    </div>
+                    <?php }?>
                 </div>
             </div>
         </div>
