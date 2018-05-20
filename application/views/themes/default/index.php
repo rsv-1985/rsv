@@ -192,18 +192,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="col-md-12">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#catalog" aria-controls="catalog" role="tab" data-toggle="tab"><?php echo lang('text_full_tecdoc'); ?></a></li>
-                    <li role="presentation"><a href="#original" aria-controls="original" role="tab" data-toggle="tab"><?php echo lang('text_full_original'); ?></a></li>
-                    <li role="presentation"><a href="#to" aria-controls="original" role="tab" data-toggle="tab"><?php echo lang('text_full_to'); ?></a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="catalog" style="text-align: center">
                         <?php echo $catalog; ?>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="original">
-                        <iframe src="https://autox.pro/catalog?site=<?php echo site_url();?>" style="width:100%; height: 1500px; border: 0px; overflow: hidden;"></iframe>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="to">
-                        <iframe src="https://autox.pro/catalog/to?site=<?php echo site_url();?>" style="width:100%; height: 1500px; border: 0px; overflow: hidden;"></iframe>
                     </div>
                 </div>
             </div>
