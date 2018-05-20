@@ -243,6 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             $("[name='phone']").mask("<?php echo @$this->options['phonemask'];?>");
         });
     </script>
+
     <?php if($this->config->item('my_script')){?>
         <?php foreach ($this->config->item('my_script') as $script){?>
             <?php echo @file_get_contents(base_url($script));?>
@@ -251,5 +252,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php if(ENVIRONMENT == 'development' || $this->input->get('debug_show')){
         $this->output->enable_profiler(TRUE);
     }?>
+
     </body>
     </html>
