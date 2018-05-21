@@ -18,17 +18,24 @@ class Cross extends Admin_controller
         $this->load->helper('file');
     }
 
+    public function delete_by_filter(){
+        $this->cross_model->delete_by_filter();
+        exit('Все прошло успешно');
+    }
+
     public function index(){
         $data = [];
         $this->load->library('pagination');
 
+
+
         $config['base_url'] = base_url('autoxadmin/cross/index');
-        $config['total_rows'] = $this->cross_model->count_all();
         $config['per_page'] = 10;
+        $data['crosses'] = $this->cross_model->cross_get_all($config['per_page'], $this->uri->segment(4));
+        $config['total_rows'] = $this->cross_model->total_rows;
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
-
-        $data['crosses'] = $this->cross_model->get_all($config['per_page'], $this->uri->segment(4));
 
         $this->load->view('admin/header');
         $this->load->view('admin/cross/cross', $data);
