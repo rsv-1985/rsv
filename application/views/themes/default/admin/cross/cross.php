@@ -35,6 +35,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </div>
                             </th>
                         </tr>
+                        <?php echo form_open('/autoxadmin/cross',['id' => 'filter-form', 'method' => 'get']);?>
+                            <tr>
+                                <td>
+                                    <input type="text" name="code" class="form-control" value="<?php echo $this->input->get('code');?>">
+                                </td>
+                                <td>
+                                    <input type="text" name="brand" class="form-control" value="<?php echo $this->input->get('brand');?>">
+                                </td>
+                                <td>
+                                    <input type="text" name="code2" class="form-control" value="<?php echo $this->input->get('code2');?>">
+                                </td>
+                                <td>
+                                    <input type="text" name="brand2" class="form-control" value="<?php echo $this->input->get('brand2');?>">
+                                </td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <?php if($this->input->get()){?>
+                                            <a href="#" onclick="delete_filter(event)" class="btn btn-danger" title="Удалить по фильтру"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            <a href="/autoxadmin/cross" class="btn btn-default" title="Сброс"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                        <?php } ?>
+                                        <button type="submit" class="btn btn btn-info" title="Поиск"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php echo form_close();?>
                         <?php if($crosses){?>
                             <?php foreach($crosses as $cross){?>
                                 <tr>
@@ -60,3 +85,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         </div><!-- /.col -->
     </div>
 </section><!-- /.content -->
+<script>
+    function delete_filter(e){
+        e.preventDefault();
+        if(confirm('Продолжить удаление?')){
+            $.ajax({
+                url:'/autoxadmin/cross/delete_by_filter',
+                data: $("#filter-form").serialize(),
+                method:'get',
+                success:function (response) {
+                    alert(response);
+                }
+            });
+        }
+    }
+</script>
