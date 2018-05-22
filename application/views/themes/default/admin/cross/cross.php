@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <td>
                                     <div class="btn-group pull-right">
                                         <?php if($this->input->get()){?>
-                                            <a href="#" onclick="delete_filter(event)" class="btn btn-danger confirm" title="Удалить по фильтру"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            <a href="#" onclick="delete_filter(event)" class="btn btn-danger" title="Удалить по фильтру"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                             <a href="/autoxadmin/cross" class="btn btn-default" title="Сброс"><i class="fa fa-refresh" aria-hidden="true"></i></a>
                                         <?php } ?>
                                         <button type="submit" class="btn btn btn-info" title="Поиск"><i class="fa fa-search" aria-hidden="true"></i></button>
