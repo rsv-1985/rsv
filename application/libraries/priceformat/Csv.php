@@ -243,7 +243,6 @@ class Csv{
         if($query->num_rows() > 0){
 
             $products = $query->result_array();
-
             foreach ($products as $product){
 
                 $product['slug'] = base_url('product/'.$product['slug']);
@@ -292,6 +291,8 @@ class Csv{
 
 
             }
+
+            print_r($product);
 
             echo('<html>
                     <head>
