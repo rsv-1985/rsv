@@ -161,6 +161,10 @@ class Cross extends Admin_controller
                 $code2 = $this->product_model->clear_sku($data_f[2]);
                 $brand2 =$this->product_model->clear_brand($data_f[3]);
 
+                if(!$code || !$brand || !$code2 || !$brand2){
+                    continue;
+                }
+
                 $save[]= [
                     'code' => $code,
                     'brand' => $brand,
