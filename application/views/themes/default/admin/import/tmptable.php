@@ -212,7 +212,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             method: 'get',
             data: $('#import-form').serialize(),
             success: function(json){
-                console.log(json);
                 if(json['continue']){
                     doImport(json['continue']);
                 }else{
