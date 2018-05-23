@@ -208,7 +208,7 @@ class Csv{
         $sql .= " WHERE 1";
 
         if($data['category_id']){
-           $sql .= " AND p.category_id = '".(int)$data['category_id']."'";
+            $sql .= " AND p.category_id = '".(int)$data['category_id']."'";
         }
         if(@$data['supplier_id']){
             $sql .= " AND pp.supplier_id IN ('".implode('\',\'',$data['supplier_id'])."')";
@@ -241,7 +241,6 @@ class Csv{
             exit('<a href="'.base_url('autoxadmin/price').'">Home</a><br/>Товары по фильтру не найдены');
         }
         if($query->num_rows() > 0){
-
             $products = $query->result_array();
             foreach ($products as $product){
 
@@ -276,23 +275,19 @@ class Csv{
 
                 if($data['id'] == 0){
                     @unlink('./uploads/price/csv/price.csv');
-                    $data['id'] = $product['product_id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'w');
                     $product = array_intersect_key($product,$data['template']);
                     fputcsv($fp, array_keys($product),';');
                 }else{
-                    $data['id'] = $product['product_id'];
                     $fp = fopen('./uploads/price/csv/price.csv', 'a');
                 }
 
                 $product = array_intersect_key($product,$data['template']);
 
                 fputcsv($fp, $product,';');
-
-
             }
 
-            print_r($product);
+            $data['id'] = $product['product_id'];
 
             echo('<html>
                     <head>
