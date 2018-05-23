@@ -205,19 +205,26 @@ class Import extends Admin_controller
         $products = $this->import_model->import_get_all();
 
         if($products){
-
             foreach($products as $product){
-                $product_data = [
-                    'sku' => $product['sku'],
-                    'brand' => $product['brand'],
-                    'name' => $product['name'],
-                    'image' => $product['image'],
-                    'slug' => $this->product_model->getSlug($product),
-                    'category_id' => $product['category_id'],
-                    'description' => $product['description'],
-                ];
 
-                $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'), $this->input->get('update_seo_url'));
+                $ids[] = $product['id'];
+                if(!$product['product_id'] || $this->input->get('update_product_field')){
+                    $product_data = [
+                        'sku' => $product['sku'],
+                        'brand' => $product['brand'],
+                        'name' => $product['name'],
+                        'image' => $product['image'],
+                        'slug' => $this->product_model->getSlug($product),
+                        'category_id' => $product['category_id'],
+                        'description' => $product['description'],
+                    ];
+
+                    $product_id = $this->product_model->product_insert($product_data, $this->input->get('update_product_field'), $this->input->get('update_seo_url'));
+
+                }else{
+                    $product_id = $product['product_id'];
+                }
+
                 if($product_id){
                     $price_data[] = [
                         'product_id' => $this->db->escape($product_id),
@@ -266,6 +273,8 @@ class Import extends Admin_controller
                 'continue' => base_url('autoxadmin/import/add').'/'.$product['id'].'?supplier_id='.$this->input->get('supplier_id').'&update_product_field='.$this->input->get('update_product_field').'&update_seo_url='.$this->input->get('update_seo_url'),
                 'row' => $id
             ];
+
+            $this->import_model->import_delete($ids);
 
             $this->output
                 ->set_content_type('application/json')
