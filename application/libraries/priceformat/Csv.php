@@ -49,7 +49,7 @@ class Csv{
         $this->CI->load->model('customergroup_model');
         $groups = $this->CI->customergroup_model->get_group();
 
-        if($suppliers){
+        if($groups){
             $html .= '<div class="form-group"><label>Группа покупателей</label>';
             $html .= '<select name="customer_group_id" class="form-control">';
             foreach ($groups as $group){
@@ -187,7 +187,8 @@ class Csv{
          pp.quantity,
          pp.currency_id,
          pp.supplier_id,
-         pp.term 
+         pp.term,
+         pp.price 
           ";
         if(isset($data['template']['category_name'])){
             $sql .= " ,(SELECT name FROM ax_category c WHERE c.id = p.category_id ) as category_name";
