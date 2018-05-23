@@ -34,20 +34,19 @@ class Import_model extends Default_model
     }
     
     public function import_get_all(){
-        $return = false;
-        $this->db->limit(1000);
-        $query = $this->db->get($this->table);
+        $sql = "SELECT i.*,p.id as product_id FROM ax_importtmp i LEFT JOIN ax_product p ON p.sku = i.sku AND p.brand=i.brand   LIMIT 1000";
+
+        $query = $this->db->query($sql);
         if($query->num_rows() > 0){
-            $return = $query->result_array();
-            $id = [];
-            foreach ($return as $item){
-                $id[] = $item['id'];
-            }
-            $this->db->where_in('id',$id);
-            $this->db->delete('importtmp');
-            unset($id);
+            return $query->result_array();
         }
-        return $return;
+        return false;
+    }
+
+    public function import_delete($ids)
+    {
+        $this->db->where_in('id',$ids);
+        $this->db->delete('importtmp');
     }
 
     public function get_importtmp($limit = false, $start = false){
