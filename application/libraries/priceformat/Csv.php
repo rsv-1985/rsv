@@ -298,7 +298,7 @@ class Csv{
                     <title>Export...</title>
                     </head>
                     <body>
-                    Export...<br /><a id="go" href=\'/autoxadmin/price/get_data?library_name=Csv&data='.serialize($data).'\'>.</a>
+                    Export...'.$data['id'].'<br /><a id="go" href=\'/autoxadmin/price/get_data?library_name=Csv&data='.serialize($data).'\'>.</a>
                     <script type="text/javascript">document.getElementById(\'go\').click();</script>
                     </body>
                     </html>');
