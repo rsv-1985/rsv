@@ -229,7 +229,7 @@ class Csv{
             $sql .= " AND pp.term <= '".(int)$data['term_to']."'";
         }
 
-        $sql .= " AND pp.product_id > ".$data['id'];
+        $sql .= " AND p.id > ".$data['id'];
 
         $sql .= " ORDER BY pp.product_id ASC";
 
