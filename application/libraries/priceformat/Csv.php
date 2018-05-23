@@ -233,7 +233,7 @@ class Csv{
 
         $sql .= " ORDER BY pp.product_id ASC";
 
-        $sql .= " LIMIT 500";
+        $sql .= " LIMIT 1000";
 
         $query = $this->CI->db->query($sql);
 
