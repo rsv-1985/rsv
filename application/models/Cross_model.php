@@ -18,7 +18,7 @@ class Cross_model extends Default_model{
             }
 
             if($this->input->get('code2')){
-                $this->db->like('code2',$this->input->get('code',true),'after');
+                $this->db->like('code2',$this->input->get('code2',true),'after');
             }
 
             if($this->input->get('brand')){
