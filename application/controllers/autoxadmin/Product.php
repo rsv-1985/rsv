@@ -342,7 +342,7 @@ class Product extends Admin_controller
             }
             //Атрибуты к товару
             $this->product_attribute_model->delete($product_id);
-            if($this->input->post('attributes') && $product['category_id']){
+            if($this->input->post('attributes')){
                 foreach ($this->input->post('attributes') as $attribute){
                     $attributes_data[] = [
                         'product_id' => $product_id,
