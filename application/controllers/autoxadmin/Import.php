@@ -239,7 +239,7 @@ class Import extends Admin_controller
                         'updated_at' => $this->db->escape(date("Y-m-d H:i:s")),
                     ];
 
-                    if($product['attributes']  && $product['category_id']){
+                    if($product['attributes']){
                         $this->product_attribute_model->delete($product_id);
                         $attribute_group = explode('|',$product['attributes']);
                         if($attribute_group){
