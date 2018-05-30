@@ -156,6 +156,14 @@ class Cross extends Admin_controller
             // построчное считывание и анализ строк из файла
             while (($data_f = fgetcsv($handle_f, 1000, ';')) !== false) {
 
+                $encoding = mb_detect_encoding($data_f[0],mb_detect_order(),true);
+
+                if($encoding != 'UTF-8'){
+                    $data_f = array_map(function($text){
+                        return iconv('WINDOWS-1251', "UTF-8", $text);
+                    },$data_f);
+                }
+
                 $code = $this->product_model->clear_sku($data_f[0]);
                 $brand = $this->product_model->clear_brand($data_f[1]);
                 $code2 = $this->product_model->clear_sku($data_f[2]);
