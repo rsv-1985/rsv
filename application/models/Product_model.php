@@ -287,11 +287,11 @@ class Product_model extends Default_model
         if ($tecdoc) {
             foreach ($tecdoc as $item) {
                 //Проверяем есть бренд в группах брендов
-                $check_brand[] = $this->clear_brand($item->Brand);
+                $check_brand[] = $this->clear_brand(preg_replace('~^OE ~','',$item->Brand));
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
-                    'brand' => $this->clear_brand($item->Brand),
+                    'brand' => $this->clear_brand(preg_replace('~^OE ~','',$item->Brand)),
                     'sku' => $this->clear_sku($item->Article),
                     'image' => '/image?img=' . $item->Image . '&width=50&height=50',
                 ];
