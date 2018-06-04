@@ -53,33 +53,6 @@ class Cart extends Front_controller
             redirect('customer/registration');
         }
         $data = [];
-        //Проверяем есть ли отложенные товары
-        $data['deferred'] = [];
-        $deferred = $this->cart_model->get_deferred($this->is_login);
-        if($deferred){
-            foreach ($deferred as $d){
-                $product = $this->product_model->get_product_for_cart($d['product_id'],$d['supplier_id'],$d['term']);
-                if($product){
-                    $price = format_currency($product['saleprice'] > 0 ? $product['saleprice'] : $product['price'],false);
-
-                    $data['deferred'][] = [
-                        'id' => $d['id'],
-                        'slug' => $product['slug'],
-                        'product_id' => $d['product_id'],
-                        'supplier_id' => $d['supplier_id'],
-                        'term' => $d['term'],
-                        'sku' => $product['sku'],
-                        'brand' => $product['brand'],
-                        'name' => $product['name'],
-                        'excerpt' => $product['excerpt'],
-                        'price' => $price,
-                        'quantity' => $d['quantity'],
-                        'subtotal' => $price*$d['quantity'],
-                        'comment' => $d['comment']
-                    ];
-                }
-            }
-        }
 
         $data['terms_of_use'] = $this->settings_model->get_by_key('terms_of_use');
         $this->setTitle(lang('text_cart_heading'));
@@ -415,39 +388,5 @@ class Cart extends Front_controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
-    }
-
-    public function deferred_add(){
-        if($this->is_login){
-            $key = $this->input->get('cart_key');
-            foreach ($this->cart->contents() as $item){
-                if($item['rowid'] == $key){
-                    $deferred_id = $this->cart_model->add_deferred($this->is_login,$item);
-                    break;
-                }
-            }
-            $this->cart->remove($key);
-            echo $deferred_id;
-        }
-    }
-
-    public function deferred_delete(){
-        $json = [];
-
-        $id = $this->input->get('deferred_id');
-        $deferred = $this->cart_model->getDeferred($id);
-
-        if($deferred){
-            $this->cart_model->delete_deferred($this->is_login,$id);
-            $json['product_id'] = $deferred['product_id'];
-            $json['supplier_id'] = $deferred['supplier_id'];
-            $json['term'] = $deferred['term'];
-            $json['quantity'] = $deferred['quantity'];
-        }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-
     }
 }
