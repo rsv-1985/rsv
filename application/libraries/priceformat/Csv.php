@@ -285,9 +285,11 @@ class Csv{
                 $product_input = array_intersect_key($product,$data['template']);
 
                 fputcsv($fp, $product_input,';');
+
+                $data['id'] = $product['product_id'];
             }
 
-            $data['id'] = $product['product_id'];
+
 
             echo('<html>
                     <head>
