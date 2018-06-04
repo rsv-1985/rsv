@@ -112,6 +112,7 @@ class Cart extends Front_controller
                      }
                     $products = [];
                     foreach($this->cart->contents() as $item){
+
                         $products[] = [
                             'order_id' => $order_id,
                             'product_id' => $item['product_id'],
@@ -127,6 +128,17 @@ class Cart extends Front_controller
                             'term' => (int)$item['term'],
                             'excerpt' => $item['excerpt']
                         ];
+
+                        if($item['is_stock']){
+                            $this->product_model->update_stock(
+                                [
+                                    'product_id' => $item['product_id'],
+                                    'supplier_id' => $item['supplier_id'],
+                                    'term' => $item['term'],
+                                    'quantity' => $item['qty']
+                                ],
+                                '-');
+                        }
                         
                         $this->product_model->update_bought($item);
                     }
