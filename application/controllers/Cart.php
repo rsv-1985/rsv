@@ -25,6 +25,29 @@ class Cart extends Front_controller
     }
 
     public function index(){
+        //Возвразаем отложенные товары в корзину
+        if(isset($_SESSION['deferred'])){
+            foreach ($_SESSION['deferred'] as $deferred){
+                $this->cart->insert($deferred);
+            }
+            unset($_SESSION['deferred']);
+        }
+
+        if($this->input->post('deferred')){
+            foreach ($this->cart->contents() as $item){
+                if(!in_array($item['rowid'],$_POST['deferred'])){
+                    $_SESSION['deferred'][] = $item;
+                    $this->cart->remove($item['rowid']);
+                }
+            }
+            redirect('/cart/ordering');
+        }
+        $this->load->view('header');
+        $this->load->view('cart/pre_cart');
+        $this->load->view('footer');
+    }
+
+    public function ordering(){
         if(@$this->options['order_only_registered'] && !$this->is_login){
             $this->session->set_flashdata('error', lang('error_order_only_registered'));
             redirect('customer/registration');
@@ -175,6 +198,14 @@ class Cart extends Front_controller
                     }
 
                     $this->cart->destroy();
+
+                    //Возвразаем отложенные товары в корзину
+                    if(isset($_SESSION['deferred'])){
+                        foreach ($_SESSION['deferred'] as $deferred){
+                            $this->cart->insert($deferred);
+                        }
+                        unset($_SESSION['deferred']);
+                    }
                     
                     //Если это api платежной системы передаем ей управление
                     if(!empty($cart_data['paymentInfo']['api'])){
@@ -341,7 +372,7 @@ class Cart extends Front_controller
             $quantity = 1;
         }
 
-        $this->load->model('product_model');
+
         $product = $this->product_model->get_product_for_cart($product_id,$supplier_id,$term);
         if ($product) {
 
@@ -391,14 +422,32 @@ class Cart extends Front_controller
             $key = $this->input->get('cart_key');
             foreach ($this->cart->contents() as $item){
                 if($item['rowid'] == $key){
-                    $this->cart_model->add_deferred($this->is_login,$item);
+                    $deferred_id = $this->cart_model->add_deferred($this->is_login,$item);
+                    break;
                 }
             }
+            $this->cart->remove($key);
+            echo $deferred_id;
         }
     }
 
     public function deferred_delete(){
+        $json = [];
+
         $id = $this->input->get('deferred_id');
-        $this->cart_model->delete_deferred($this->is_login,$id);
+        $deferred = $this->cart_model->getDeferred($id);
+
+        if($deferred){
+            $this->cart_model->delete_deferred($this->is_login,$id);
+            $json['product_id'] = $deferred['product_id'];
+            $json['supplier_id'] = $deferred['supplier_id'];
+            $json['term'] = $deferred['term'];
+            $json['quantity'] = $deferred['quantity'];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+
     }
 }
