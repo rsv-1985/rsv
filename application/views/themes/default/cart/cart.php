@@ -203,6 +203,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </div>
                                         </div>
                                     <?php } ?>
+                                    <a href="/cart/clear_cart"
+                                       class="btn btn-danger pull-left"><?php echo lang('text_clear_cart'); ?></a>
                                     <button class="btn pull-right"
                                             type="submit"><?php echo lang('button_order'); ?></button>
                                 </div>
