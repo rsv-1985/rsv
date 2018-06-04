@@ -150,8 +150,7 @@ class Search extends Front_controller
             }
         }
 
-
-        $product_search = array_slice(array_unique($product_search,SORT_REGULAR),0,2000);
+        $product_search = array_unique($product_search,SORT_REGULAR);
 
         if ($product_search) {
             $products = $this->product_model->get_search($product_search);
