@@ -249,7 +249,7 @@ class Product_model extends Default_model
         if ($ID_art) {
             $cross = $this->tecdoc->getCrosses($ID_art);
             if ($cross) {
-                foreach ($cross as $item) {
+                foreach (array_slice($cross,0,2000) as $item) {
                     if ($this->clear_sku($item->Display) == $sku && $item->Brand == $brand) {
                         continue;
                     }
