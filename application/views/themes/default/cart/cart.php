@@ -25,85 +25,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <div class="product-content-right">
                     <div class="woocommerce">
-                        <?php if ($deferred) { ?>
-                            <button class="btn btn-success" type="button" data-toggle="collapse"
-                                    data-target="#collapsedeferred" aria-expanded="false"
-                                    aria-controls="collapseExample">
-                                Отложенные товары
-                            </button>
-                            <hr/>
-                            <div class="collapse in" id="collapsedeferred">
-                                <div class="table-responsive">
-                                    <table cellspacing="0" class="shop_table cart">
-                                        <thead>
-                                        <tr>
-                                            <th class="product-remove">&nbsp</th>
-                                            <th>&nbsp</th>
-                                            <th><?php echo lang('text_sku'); ?></th>
-                                            <th><?php echo lang('text_brand'); ?></th>
-                                            <th class="product-name"><?php echo lang('text_product'); ?></th>
-                                            <th class="product-price"><?php echo lang('text_price'); ?></th>
-                                            <th class="product-quantity"><?php echo lang('text_quantity'); ?></th>
-                                            <th class="product-subtotal"><?php echo lang('text_subtotal'); ?></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach ($deferred as $item) { ?>
-                                            <tr>
-                                                <td>
-                                                    <a class="remove" style="cursor: pointer"
-                                                       onclick="deferred_delete('<?php echo $item['id']; ?>')">×</a>
-                                                </td>
-
-                                                <td>
-                                                    <input type="checkbox"
-                                                           onchange="deferred_delete('<?php echo $item['id']; ?>',<?php echo $item['product_id']; ?>,<?php echo $item['supplier_id']; ?>,<?php echo $item['term']; ?>,<?php echo $item['quantity']; ?>);">
-                                                </td>
-
-                                                <td>
-                                                    <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['sku']; ?></a>
-                                                </td>
-                                                <td>
-                                                    <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['brand']; ?></a>
-                                                </td>
-                                                <td>
-                                                    <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['name']; ?></a>
-                                                    <?php if ($item['excerpt']) { ?>
-                                                        <br/><?php echo $item['excerpt']; ?>
-                                                    <?php } ?>
-                                                </td>
-
-                                                <td>
-                                                    <span class="amount"><?php echo format_currency($item['price']); ?></span>
-                                                </td>
-
-                                                <td>
-                                                    <?php echo $item['quantity']; ?>
-                                                </td>
-
-                                                <td>
-                                                    <?php echo $item['subtotal']; ?>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <hr/>
-                            </div>
-                        <?php } ?>
                         <?php if ($this->cart->total_items() > 0) { ?>
                             <div class="table-responsive">
                                 <table cellspacing="0" class="shop_table cart">
                                     <thead>
                                     <tr>
-                                        <th class="product-remove">&nbsp</th>
-                                        <?php if ($this->is_login) { ?>
-                                            <th>&nbsp</th>
-                                        <?php } ?>
                                         <th><?php echo lang('text_sku'); ?></th>
                                         <th><?php echo lang('text_brand'); ?></th>
                                         <th class="product-name"><?php echo lang('text_product'); ?></th>
@@ -115,16 +43,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <tbody>
                                     <?php foreach ($this->cart->contents() as $key => $item) { ?>
                                         <tr class="cart_item" id="<?php echo $key; ?>">
-                                            <td class="product-remove">
-                                                <a class="remove" href="#"
-                                                   onclick="remove_cart('<?php echo $key; ?>', event)">×</a>
-                                            </td>
-                                            <?php if ($this->is_login) { ?>
-                                                <td>
-                                                    <input type="checkbox" checked
-                                                           onchange="deferred_add('<?php echo $key; ?>');">
-                                                </td>
-                                            <?php } ?>
                                             <td>
                                                 <a href="/product/<?php echo $item['slug']; ?>"><?php echo $item['sku']; ?></a>
                                             </td>
@@ -143,16 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </td>
 
                                             <td class="product-quantity">
-                                                <div class="quantity buttons_added">
-                                                    <input type="button" class="minus" value="-"
-                                                           onclick="minus('<?php echo $key; ?>')">
-                                                    <input style="width: 51px" type="text" id="quan<?php echo $key; ?>"
-                                                           onchange="quan('<?php echo $key; ?>')" size="4"
-                                                           class="input-text qty" value="<?php echo $item['qty']; ?>"
-                                                           min="0" step="1">
-                                                    <input type="button" class="plus" value="+"
-                                                           onclick="plus('<?php echo $key; ?>')">
-                                                </div>
+                                                <?php echo $item['qty']; ?>
                                             </td>
 
                                             <td class="product-subtotal">
@@ -164,7 +73,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="clearfix"></div>
                             <?php echo form_open('', ['id' => 'cart']); ?>
                             <div class="cart-collaterals">
                                 <div class="cross-sells">
@@ -295,8 +203,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </div>
                                         </div>
                                     <?php } ?>
-                                    <a href="/cart/clear_cart"
-                                       class="btn btn-danger pull-left"><?php echo lang('text_clear_cart'); ?></a>
                                     <button class="btn pull-right"
                                             type="submit"><?php echo lang('button_order'); ?></button>
                                 </div>
@@ -474,32 +380,46 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     }
 
-    //В корзине отложоть товары
-    function deferred_add(cart_key) {
-        $.ajax({
-            url: '/cart/deferred_add',
-            data: {cart_key: cart_key},
-            success: function (response) {
-                remove_cart(cart_key, event);
-                location.reload();
-            }
-        })
+    //В корзине отложить товары
+    function deferred(obj, reload, add_cart) {
+        console.log(obj);
+        if ($(obj).prop('checked')) {
+            var deferred_id = $(obj).attr('data-deferred');
+            $.ajax({
+                url: '/cart/deferred_delete',
+                data: {deferred_id: deferred_id},
+                dataType: 'json',
+                success: function (json) {
+                    if (json['product_id'] && add_cart) {
+                        $.ajax({
+                            url: '/cart/add_cart',
+                            method: 'POST',
+                            data: {product_id: json['product_id'], supplier_id: json['supplier_id'], term: json['term'], quantity: json['quantity']},
+                            success: function () {
+                            }
+                        });
+                    }
+
+                    if(reload){
+                        location.reload();
+                    }else{
+                        total();
+                    }
+                }
+            });
+        } else {
+            var cart_key = $(obj).attr('data-key');
+            $.ajax({
+                url: '/cart/deferred_add',
+                data: {cart_key: cart_key},
+                success: function (deferred_id) {
+                    $(obj).attr('data-deferred',deferred_id);
+                    total();
+                }
+            });
+        }
+
     }
 
-    function deferred_delete(deferred_id, product_id, supplier_id, term, quantity) {
-        $.ajax({
-            url: '/cart/deferred_delete',
-            data: {deferred_id: deferred_id},
-            success: function () {
-                if (product_id) {
-                    $.ajax({
-                        url: '/cart/add_cart',
-                        method: 'POST',
-                        data: {product_id: product_id, supplier_id: supplier_id, term: term, quantity: quantity}
-                    });
-                }
-                location.reload();
-            }
-        });
-    }
+
 </script>
