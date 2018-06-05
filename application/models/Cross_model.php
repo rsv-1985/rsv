@@ -52,7 +52,6 @@ class Cross_model extends Default_model{
             $this->db->like('brand2',$this->input->get('brand2',true),'after');
         }
 
-
         $this->db->limit((int)$limit, (int)$start);
 
         $query = $this->db->get();
