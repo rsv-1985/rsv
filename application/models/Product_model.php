@@ -892,8 +892,10 @@ class Product_model extends Default_model
         $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
         if ($api_supplier) {
             foreach ($api_supplier as $supplier) {
-                $this->load->library('apisupplier/' . $supplier['api']);
-                $cross_suppliers[] = $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
+                if(file_exists('./application/libraries/apisupplier/'.ucfirst($supplier['api']).'.php')){
+                    $this->load->library('apisupplier/' . $supplier['api']);
+                    $cross_suppliers[] = $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
+                }
             }
         }
         return $cross_suppliers;
