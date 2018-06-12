@@ -1467,7 +1467,7 @@ li.list-group-item.active a {
     background-color: #17a78b;
 }
 .product-bit-title.text-center {
-    color: #fff;
+    color: #333;
     font-size: 24px;
 }
 #newsletter {
