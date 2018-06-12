@@ -113,6 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
         </div>
     </div> <!-- End footer bottom area -->
+</div>
     <!-- Modal login-->
     <div class="modal fade" id="login" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
