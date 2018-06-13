@@ -34,9 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </script>
     <?php } ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
-    <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
+
     <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v=2">
     <?php if($this->config->item('my_style')){?>
         <?php foreach ($this->config->item('my_style') as $style){?>
