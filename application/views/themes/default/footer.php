@@ -229,7 +229,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
     <link href='https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-
+<link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
+<link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
     <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
     <script src="<?php echo theme_url();?>js/jquery.maskedinput.min.js"></script>
     <script src="<?php echo theme_url();?>js/function.js?v9"></script>
