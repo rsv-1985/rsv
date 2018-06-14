@@ -232,10 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <link rel="stylesheet" href="<?php echo theme_url();?>css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo theme_url();?>css/owl.carousel.css">
 <link rel="stylesheet" href="<?php echo theme_url();?>css/responsive.css">
-<script
-        src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-        crossorigin="anonymous"></script>
+
     <script src="<?php echo theme_url();?>js/bootstrap.min.js"></script>
     <script src="<?php echo theme_url();?>js/jquery.maskedinput.min.js"></script>
     <script src="<?php echo theme_url();?>js/function.js?v9"></script>
