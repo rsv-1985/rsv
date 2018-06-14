@@ -381,47 +381,4 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             }
         });
     }
-
-    //В корзине отложить товары
-    function deferred(obj, reload, add_cart) {
-        console.log(obj);
-        if ($(obj).prop('checked')) {
-            var deferred_id = $(obj).attr('data-deferred');
-            $.ajax({
-                url: '/cart/deferred_delete',
-                data: {deferred_id: deferred_id},
-                dataType: 'json',
-                success: function (json) {
-                    if (json['product_id'] && add_cart) {
-                        $.ajax({
-                            url: '/cart/add_cart',
-                            method: 'POST',
-                            data: {product_id: json['product_id'], supplier_id: json['supplier_id'], term: json['term'], quantity: json['quantity']},
-                            success: function () {
-                            }
-                        });
-                    }
-
-                    if(reload){
-                        location.reload();
-                    }else{
-                        total();
-                    }
-                }
-            });
-        } else {
-            var cart_key = $(obj).attr('data-key');
-            $.ajax({
-                url: '/cart/deferred_add',
-                data: {cart_key: cart_key},
-                success: function (deferred_id) {
-                    $(obj).attr('data-deferred',deferred_id);
-                    total();
-                }
-            });
-        }
-
-    }
-
-
 </script>
