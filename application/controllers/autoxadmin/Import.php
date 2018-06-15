@@ -146,7 +146,7 @@ class Import extends Admin_controller
                 $this->error = validation_errors();
             }
         }
-        $data['suppliers'] = $this->supplier_model->get_all();
+        $data['suppliers'] = $this->supplier_model->get_all(false, false, false, ['name' => 'ASC']);
         $data['currency'] = $this->currency_model->get_all();
         $data['category'] = $this->category_model->get_all();
         $this->load->view('admin/header');
