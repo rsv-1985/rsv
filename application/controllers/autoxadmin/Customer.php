@@ -142,4 +142,7 @@ class Customer extends Admin_controller
             redirect('autoxadmin/customer');
         }
     }
+    public function export(){
+        $this->customer_model->export_csv();
+    }
 }
