@@ -39,7 +39,7 @@ class Newsletter_model extends Default_model{
     public function export_csv(){
         $this->load->dbutil();
         $query = $this->db->query("SELECT * FROM ax_newsletter");
-        $delimiter = ",";
+        $delimiter = ";";
         $newline = "\r\n";
         $enclosure = '"';
         header('Content-Type: text/csv; charset=utf-8');
