@@ -201,4 +201,17 @@ class Customer_model extends Default_model{
         }
         return false;
     }
+
+    public function export_csv(){
+        $this->load->dbutil();
+        $query = $this->db->query("SELECT * FROM ax_customer");
+        $delimiter = ";";
+        $newline = "\r\n";
+        $enclosure = '"';
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=data.csv');
+        // create a file pointer connected to the output stream
+        $output = fopen('php://output', 'w');
+        fwrite($output, $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+    }
 }
