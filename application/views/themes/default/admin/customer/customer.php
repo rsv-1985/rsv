@@ -20,6 +20,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
+                    <div class="pull-right">
+                        <a href="/autoxadmin/customer/export" class="btn btn-info">Export CSV</a>
+                    </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive">
