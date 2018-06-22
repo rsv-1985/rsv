@@ -113,11 +113,6 @@ class Product_model extends Default_model
         $this->db->where('id', (int)$product['product_id']);
         $this->db->set('bought', 'bought + 1', FALSE);
         $this->db->update($this->table);
-
-        if ($product['is_stock']) {
-            $product['quantity'] = (int)$product['qty'];
-            $this->update_stock($product, '-');
-        }
     }
 
     public function update_viewed($product_id)
