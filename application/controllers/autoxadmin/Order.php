@@ -207,7 +207,7 @@ class Order extends Admin_controller
                 if ($data['products']) {
                     foreach ($data['products'] as $return_product) {
                         $supplier_info = $this->supplier_model->get($return_product['supplier_id']);
-                        if ($supplier_info['stock']) {
+                        if ($supplier_info['stock'] && $return_product['status_id'] != $return_order_status_id) {
                             $this->product_model->update_stock($return_product, '+');
                         }
                     }
@@ -229,6 +229,11 @@ class Order extends Admin_controller
                             'status_id' => $this->input->post('set_products_status') ? $save['status'] : $item['status_id'],
                             'term' => (int)$item['term']
                         ];
+
+                        $supplier_info = $this->supplier_model->get($product['supplier_id']);
+                        if ($supplier_info['stock'] && $return_order_status_id != $product['status_id'] && $return_order_status_id != $order_status_id) {
+                            $this->product_model->update_stock($product, '-');
+                        }
 
                         $this->order_product_model->insert($product,$product_id);
                     }
