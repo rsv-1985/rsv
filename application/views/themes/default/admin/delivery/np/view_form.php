@@ -121,11 +121,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                         <div class="form-group">
                             <label>Сумма наложки</label>
-                            <input type="number" name="RedeliveryString" class="form-control" value="<?php echo $order_info['total'] - $order_info['prepayment']; ?>">
+                            <input type="text" name="RedeliveryString" class="form-control" value="<?php echo $order_info['total'] - $order_info['prepayment']; ?>">
                         </div>
                         <div class="form-group">
                             <label>Объявленная стоимость</label>
-                            <input type="number" name="Cost" value="<?php echo $order_info['total']; ?>"
+                            <input type="text" name="Cost" value="<?php echo $order_info['total']; ?>"
                                    class="form-control">
                         </div>
                         <div class="form-group">
