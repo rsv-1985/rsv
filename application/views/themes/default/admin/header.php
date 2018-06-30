@@ -62,6 +62,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+                    <li>
+                        <a target="_blank" href="https://t.me/joinchat/E8H7Q0QeDmQY7iul11PIFg">Складчина telegram</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://t.me/autox_pro">Канал telegram</a>
+                    </li>
                     <li class="dropdown user user-menu">
                         <a href="<?php echo base_url('autoxadmin/user/logout');?>" title="<?php echo lang('text_logout');?>" data-toggle="tooltip" class="dropdown-toggle">
                             <span class="hidden-xs"><?php echo lang('text_logout');?></span>
