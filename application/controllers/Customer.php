@@ -184,6 +184,10 @@ class Customer extends Front_controller
             show_404();
         }
 
+        if($data['order_info']['customer_id'] == 0 && !$this->is_admin){
+            show_404();
+        }
+
         $data['order_products'] = $this->order_product_model->product_get($data['order_info']['id']);
 
         $this->load->view('customer/orderinfo', $data);
