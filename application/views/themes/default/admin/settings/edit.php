@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <section class="content-header">
     <h3></h3>
     <ol class="breadcrumb">
-        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
+        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home'); ?></a></li>
         <li><a href="/autoxadmin/settings"><?php echo lang('text_heading'); ?></a></li>
         <li><a href="#"><?php echo lang('button_add'); ?></a></li>
     </ol>
@@ -133,8 +133,133 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                      aria-labelledby="heading5">
                                     <div class="panel-body">
                                         <div class="col-md-12">
-                                            <label>API Key</label>
-                                            <input type="text" name="settings[np][api_key]" value="<?php echo set_value('settings[np][api_key]', @$settings['np']['api_key']); ?>" class="form-control">
+                                            <div class="form-group">
+                                                <label>API Key</label>
+                                                <input type="text" name="settings[np][api_key]"
+                                                       value="<?php echo set_value('settings[np][api_key]', @$settings['np']['api_key']); ?>"
+                                                       class="form-control">
+                                            </div>
+                                            <?php if (@$settings['np']['api_key']) { ?>
+                                                <div class="form-group">
+                                                    <label>Идентификатор города отправителя</label>
+                                                    <input id="CitySender" onkeyup="getCity($(this).val())" type="text"
+                                                           name="settings[np][CitySender]"
+                                                           value="<?php echo set_value('settings[np][CitySender]', @$settings['np']['CitySender']); ?>"
+                                                           class="form-control"
+                                                    placeholder="Начните вводить для поиска">
+                                                    <div class="ciry-res">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Идентификатор отправителя</label>
+                                                    <input id="Sender" onclick="getSenders()" type="text"
+                                                           name="settings[np][Sender]"
+                                                           value="<?php echo set_value('settings[np][Sender]', @$settings['np']['Sender']); ?>"
+                                                           class="form-control" placeholder="Клик для поиска">
+                                                    <div class="sender-res">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Идентификатор контактного лица отправителя</label>
+                                                    <input onclick="getContactSender($('#Sender').val())" id="ContactSender"
+                                                           type="text" name="settings[np][ContactSender]"
+                                                           value="<?php echo set_value('settings[np][ContactSender]', @$settings['np']['ContactSender']); ?>"
+                                                           class="form-control" placeholder="Клик для поиска">
+                                                    <div class="ContactSender-res">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Идентификатор адреса отправителя</label>
+                                                    <input onclick="getSenderAddress($('#CitySender').val())" id="SenderAddress" type="text"
+                                                           name="settings[np][SenderAddress]"
+                                                           value="<?php echo set_value('settings[np][SenderAddress]', @$settings['np']['SenderAddress']); ?>"
+                                                           class="form-control" placeholder="Клик для поиска">
+                                                    <div class="SenderAddress-res">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Телефон отправителя в формате: +380660000000, 380660000000,
+                                                        0660000000</label>
+                                                    <input id="SendersPhone" type="text"
+                                                           name="settings[np][SendersPhone]"
+                                                           value="<?php echo set_value('settings[np][SendersPhone]', @$settings['np']['SendersPhone']); ?>"
+                                                           class="form-control">
+                                                </div>
+
+                                                <script>
+                                                    var timeout = null;
+
+                                                    function getSenders(term) {
+                                                        $.ajax({
+                                                            url: '/delivery/np/getSenders',
+                                                            success: function (json) {
+                                                                console.log(json);
+                                                                var html = '';
+                                                                $(json).each(function (index, item) {
+                                                                    html += '<a href="#" onclick="$(\'#Sender\').val(\'' + item['Ref'] + '\'); $(\'.sender-res\').empty();return false;">' + item['Description'] + '</a><br>';
+                                                                });
+                                                                $(".sender-res").html(html);
+                                                            }
+                                                        });
+                                                    }
+
+                                                    function getContactSender(Ref) {
+                                                        $.ajax({
+                                                            url: '/delivery/np/getContactSender',
+                                                            data: {Ref: Ref},
+                                                            success: function (json) {
+                                                                var html = '';
+                                                                $(json).each(function (index, item) {
+                                                                    html += '<a href="#" onclick="$(\'#ContactSender\').val(\'' + item['Ref'] + '\');$(\'#SendersPhone\').val(\'' + item['Phones'] + '\'); $(\'.ContactSender-res\').empty();return false;">' + item['Description'] + '</a><br>';
+                                                                });
+                                                                $(".ContactSender-res").html(html);
+                                                            }
+                                                        })
+                                                    }
+
+                                                    function getCity(term) {
+                                                        clearTimeout(timeout);
+                                                        timeout = setTimeout(function () {
+                                                            if (term.length > 2) {
+                                                                $.ajax({
+                                                                    url: '/delivery/np/searchSettlements',
+                                                                    data: {city: term},
+                                                                    success: function (json) {
+                                                                        console.log(json);
+                                                                        var html = '';
+                                                                        $(json).each(function (index, item) {
+                                                                            html += '<a href="#" onclick="$(\'#CitySender\').val(\'' + item['DeliveryCity'] + '\'); $(\'.ciry-res\').empty();return false;">' + item['Present'] + '</a><br>';
+                                                                        });
+                                                                        $(".ciry-res").html(html);
+                                                                    }
+                                                                })
+                                                            }
+                                                        }, 1000);
+                                                    }
+
+                                                    function getSenderAddress(Ref) {
+                                                        $.ajax({
+                                                            url: '/delivery/np/getSenderAddress',
+                                                            data: {Ref: Ref},
+                                                            success: function (json) {
+                                                                console.log(json);
+                                                                var html = '';
+                                                                $(json).each(function (index, item) {
+                                                                    html += '<a href="#" onclick="$(\'#SenderAddress\').val(\'' + item['Ref'] + '\');$(\'.SenderAddress-res\').empty();return false;">' + item['Description'] + '</a><br>';
+                                                                });
+                                                                $(".SenderAddress-res").html(html);
+                                                            }
+                                                        })
+                                                    }
+                                                </script>
+                                            <?php } else { ?>
+                                                Сохраните ключ API для отображения доп. настроек
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -217,11 +342,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div class="panel-body">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <textarea class="textarea" name="settings[recharge]"><?php echo set_value('settings[sms][login]', @$settings['recharge']); ?></textarea>
+                                                <textarea class="textarea"
+                                                          name="settings[recharge]"><?php echo set_value('settings[sms][login]', @$settings['recharge']); ?></textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            Данный текст или форму будет видеть клиент в личном кабинете в разделе пополнить счет.
+                                            Данный текст или форму будет видеть клиент в личном кабинете в разделе
+                                            пополнить счет.
                                         </div>
                                     </div>
                                 </div>
@@ -240,11 +367,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <div class="panel-body">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <textarea class="textarea" name="settings[terms_of_use]"><?php echo set_value('settings[terms_of_use]', @$settings['terms_of_use']); ?></textarea>
+                                                <textarea class="textarea"
+                                                          name="settings[terms_of_use]"><?php echo set_value('settings[terms_of_use]', @$settings['terms_of_use']); ?></textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            Если данное поле не пустое, клиент не сможет оформить заказ , пока не согласится с ним.
+                                            Если данное поле не пустое, клиент не сможет оформить заказ , пока не
+                                            согласится с ним.
                                         </div>
                                     </div>
                                 </div>
@@ -266,7 +395,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Google analytics</label>
-                                                    <textarea class="form-control"  name="settings[options][analytics]"><?php echo @$settings['options']['analytics'];?></textarea>
+                                                    <textarea class="form-control"
+                                                              name="settings[options][analytics]"><?php echo @$settings['options']['analytics']; ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -277,29 +407,32 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Google tag manager <i>head</i></label>
-                                                    <textarea class="form-control"  name="settings[options][google_tag_head]"><?php echo @$settings['options']['google_tag_head'];?></textarea>
+                                                    <textarea class="form-control"
+                                                              name="settings[options][google_tag_head]"><?php echo @$settings['options']['google_tag_head']; ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                Код Google tag manager  в раздел <i>head</i>
+                                                Код Google tag manager в раздел <i>head</i>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Google tag manager <i>body</i></label>
-                                                    <textarea class="form-control"  name="settings[options][google_tag_body]"><?php echo @$settings['options']['google_tag_body'];?></textarea>
+                                                    <textarea class="form-control"
+                                                              name="settings[options][google_tag_body]"><?php echo @$settings['options']['google_tag_body']; ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                Код Google tag manager  в раздел <i>body</i>
+                                                Код Google tag manager в раздел <i>body</i>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Style</label>
-                                                    <textarea class="form-control"  name="settings[options][style]"><?php echo @$settings['options']['style'];?></textarea>
+                                                    <textarea class="form-control"
+                                                              name="settings[options][style]"><?php echo @$settings['options']['style']; ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -311,14 +444,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][order_only_registered]" value="1" <?php echo set_checkbox('settings[options][order_only_registered]',true,(bool)@$settings['options']['order_only_registered']);?>>
-                                                            <?php echo lang('text_order_only_registered');?>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][order_only_registered]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][order_only_registered]', true, (bool)@$settings['options']['order_only_registered']); ?>>
+                                                            <?php echo lang('text_order_only_registered'); ?>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <?php echo lang('text_order_only_registered_description');?>
+                                                <?php echo lang('text_order_only_registered_description'); ?>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -326,7 +461,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][top_sellers]" value="1" <?php echo set_checkbox('settings[options][top_sellers]',true,(bool)@$settings['options']['top_sellers']);?>>
+                                                            <input type="checkbox" name="settings[options][top_sellers]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][top_sellers]', true, (bool)@$settings['options']['top_sellers']); ?>>
                                                             Топ продаж на главной
                                                         </label>
                                                     </div>
@@ -341,7 +477,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][novelty]" value="1" <?php echo set_checkbox('settings[options][novelty]',true,(bool)@$settings['options']['novelty']);?>>
+                                                            <input type="checkbox" name="settings[options][novelty]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][novelty]', true, (bool)@$settings['options']['novelty']); ?>>
                                                             Новые товары
                                                         </label>
                                                     </div>
@@ -356,7 +493,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][show_customer_group_type]" value="1" <?php echo set_checkbox('settings[options][show_customer_group_type]',true,(bool)@$settings['options']['show_customer_group_type']);?>>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][show_customer_group_type]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][show_customer_group_type]', true, (bool)@$settings['options']['show_customer_group_type']); ?>>
                                                             Отображать скидку или наценку клиента
                                                         </label>
                                                     </div>
@@ -371,7 +510,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][check_day_off]" value="1" <?php echo set_checkbox('settings[options][check_day_off]',true,(bool)@$settings['options']['check_day_off']);?>>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][check_day_off]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][check_day_off]', true, (bool)@$settings['options']['check_day_off']); ?>>
                                                             Учет выходного дня
                                                         </label>
                                                     </div>
@@ -386,7 +527,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][show_currency_rate]" value="1" <?php echo set_checkbox('settings[options][show_currency_rate]',true,(bool)@$settings['options']['show_currency_rate']);?>>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][show_currency_rate]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][show_currency_rate]', true, (bool)@$settings['options']['show_currency_rate']); ?>>
                                                             Отображать курс Валют
                                                         </label>
                                                     </div>
@@ -401,8 +544,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][use_tecdoc_name]" value="1" <?php echo set_checkbox('settings[options][use_tecdoc_name]',true,(bool)@$settings['options']['use_tecdoc_name']);?>>
-                                                           Названия с ТекДок
+                                                            <input type="checkbox"
+                                                                   name="settings[options][use_tecdoc_name]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][use_tecdoc_name]', true, (bool)@$settings['options']['use_tecdoc_name']); ?>>
+                                                            Названия с ТекДок
                                                         </label>
                                                     </div>
                                                 </div>
@@ -416,7 +561,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][show_fast_order_search]" value="1" <?php echo set_checkbox('settings[options][show_fast_order_search]',true,(bool)@$settings['options']['show_fast_order_search']);?>>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][show_fast_order_search]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][show_fast_order_search]', true, (bool)@$settings['options']['show_fast_order_search']); ?>>
                                                             Кнопка быстрого заказа при поиске
                                                         </label>
                                                     </div>
@@ -431,7 +578,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][show_tecdoc_product_without_price]" value="1" <?php echo set_checkbox('settings[options][show_tecdoc_product_without_price]',true,(bool)@$settings['options']['show_tecdoc_product_without_price']);?>>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][show_tecdoc_product_without_price]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][show_tecdoc_product_without_price]', true, (bool)@$settings['options']['show_tecdoc_product_without_price']); ?>>
                                                             Отображать товары tecdoc без цены
                                                         </label>
                                                     </div>
@@ -446,7 +595,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="settings[options][show_callback]" value="1" <?php echo set_checkbox('settings[options][show_callback]',true,(bool)@$settings['options']['show_callback']);?>>
+                                                            <input type="checkbox"
+                                                                   name="settings[options][show_callback]"
+                                                                   value="1" <?php echo set_checkbox('settings[options][show_callback]', true, (bool)@$settings['options']['show_callback']); ?>>
                                                             Отображать кнопку обратной связи
                                                         </label>
                                                     </div>
@@ -460,12 +611,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>
-                                                        <input type="text" class="form-control" name="settings[options][phonemask]" value="<?php echo set_value('settings[options][phonemask]',@$settings['options']['phonemask']);?>" >
+                                                        <input type="text" class="form-control"
+                                                               name="settings[options][phonemask]"
+                                                               value="<?php echo set_value('settings[options][phonemask]', @$settings['options']['phonemask']); ?>">
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                Маска ввода номера телефона <small>(пример: 38(999)999-99-99)</small>
+                                                Маска ввода номера телефона
+                                                <small>(пример: 38(999)999-99-99)</small>
                                             </div>
                                         </div>
                                     </div>

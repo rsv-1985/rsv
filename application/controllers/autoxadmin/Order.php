@@ -24,6 +24,7 @@ class Order extends Admin_controller
         $this->load->model('message_template_model');
         $this->load->model('product_model');
         $this->load->library('sender');
+        $this->load->model('order_ttn_model');
     }
 
     public function products()
@@ -110,12 +111,21 @@ class Order extends Admin_controller
         }
         $data['customer_info'] = $this->customer_model->get($data['order']['customer_id']);
 
+        $data['delivery_view_form'] = false;
+        $delivery_info = $this->delivery_model->get($data['order']['delivery_method_id']);
+        if($delivery_info && $delivery_info['api']){
+            $this->load->library('delivery/'.$delivery_info['api']);
+            $data['delivery_view_form'] = $this->{$delivery_info['api']}->view_form($data);
+        }
+
         $data['status'] = $this->orderstatus_model->status_get_all();
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['history'] = $this->order_history_model->history_get($id);
         $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']]);
+
+
 
         if ($this->input->post()) {
             $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
@@ -325,6 +335,30 @@ class Order extends Admin_controller
             }
         }
 
+
+        $order_ttn = $this->order_ttn_model->getByOrder($id);
+
+        $data['ttns'] = [];
+
+        if($order_ttn){
+            foreach ($order_ttn as $ttn){
+                $this->load->library('delivery/'.$ttn['library']);
+
+                $track = $this->{$ttn['library']}->track(json_decode($ttn['data']));
+
+                $information = json_decode($ttn['data']);
+
+                $data['ttns'][] = [
+                    'ttn' => $ttn['ttn'],
+                    'data' => @implode('<br>',$information[0]),
+                    'status' => $track['Status'],
+                    'delete' => '/delivery/'.$ttn['library'].'/delete_en?id='.$ttn['id'],
+                    'print' => '/delivery/'.$ttn['library'].'/print?id='.$ttn['id'],
+                ];
+            }
+        }
+
+
         $this->load->view('admin/header');
         $this->load->view('admin/order/edit', $data);
         $this->load->view('admin/footer');
@@ -335,6 +369,9 @@ class Order extends Admin_controller
         $this->order_model->delete($id);
         $this->order_product_model->delete_by_order($id);
         $this->order_history_model->delete_by_order($id);
+
+        $this->load->model('delivery/np_model');
+        $this->np_model->delete_by_order($id);
         $this->session->set_flashdata('success', lang('text_success'));
         redirect('autoxadmin/order');
     }

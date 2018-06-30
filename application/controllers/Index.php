@@ -96,4 +96,9 @@ class Index extends Front_controller {
         $this->load->view('page_404');
         $this->load->view('footer');
     }
+
+    public function test(){
+	    $this->load->library('api_delivery/np');
+	    echo $this->np->get_form();
+    }
 }

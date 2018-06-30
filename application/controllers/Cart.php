@@ -22,6 +22,7 @@ class Cart extends Front_controller
         $this->load->model('supplier_model');
         $this->load->model('message_template_model');
         $this->load->model('cart_model');
+        $this->load->helper('cookie');
     }
 
     public function index(){
@@ -55,15 +56,34 @@ class Cart extends Front_controller
         $data = [];
 
         $data['terms_of_use'] = $this->settings_model->get_by_key('terms_of_use');
+
         $this->setTitle(lang('text_cart_heading'));
         $this->setH1(lang('text_cart_heading'));
+
         $data['delivery'] = $this->delivery_model->get_all(false, false, false, ['sort' => 'ASC']);
         $data['payment'] = $this->payment_model->get_all(false, false, false, ['sort' => 'ASC']);
         $data['suppliers'] = $this->supplier_model->supplier_get_all();
-        if($this->is_login){
-            $data['customer'] = $this->customer_model->get($this->is_login);
+
+
+        $customer_coockie = get_cookie('customer');
+
+        if($customer_coockie){
+            $data['customer'] = (array)json_decode($customer_coockie);
+        }elseif ($this->is_login){
+            $customer = $this->customer_model->get($this->is_login);
+            if($customer){
+                $data['customer'] = [
+                    'first_name' => $customer['first_name'],
+                    'last_name' => $customer['second_name'],
+                    'patronymic' => $customer['patronymic'],
+                    'telephone' => $customer['phone'],
+                    'email' => $customer['email'],
+                    'address' => $customer['address']
+                ];
+            }
         }
         if($this->input->post() && $this->cart->total_items() > 0){
+
             $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
             $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'required|max_length[250]');
@@ -74,16 +94,16 @@ class Cart extends Front_controller
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]');
             if ($this->form_validation->run() !== false){
-                //Получаем данные способа доставки, если это апи получаем текст для коментария
-                $additional_comment = '';
-                $deliveryInfo = $this->delivery_model->get((int)$this->input->post('delivery_method'));
-                if($deliveryInfo && !empty($deliveryInfo['api'])){
-                    $this->load->helper('security');
-                    $this->load->add_package_path(APPPATH.'third_party/delivery/'.$deliveryInfo['api'].'/', FALSE);
-                    $this->load->library($deliveryInfo['api']);
-                    $additional_comment = xss_clean($this->{$deliveryInfo['api']}->get_comment());
-                    $this->load->remove_package_path();
-                }
+                //Сохраняем данные клиента для повторного использования
+                $cookie = array(
+                    'name'   => 'customer',
+                    'value'  => json_encode($this->input->post()),
+                    'expire' => 60*60*24*12,
+                    'secure' => TRUE
+                );
+
+                set_cookie('customer',json_encode($this->input->post()),60*60*24*12);
+
                 $order_status = $this->orderstatus_model->get_default();
                 $cart_data = $this->total_cart();
                 $save = [];
@@ -96,7 +116,7 @@ class Cart extends Front_controller
                 $save['delivery_method_id'] = (int)$this->input->post('delivery_method');
                 $save['payment_method_id'] = (int)$this->input->post('payment_method');
                 $save['address'] = $this->input->post('address', true);
-                $save['comments'] = $this->input->post('comment', true)."\n".$additional_comment;
+                $save['comments'] = $this->input->post('comment', true);
                 $save['total'] = (float)$cart_data['total'];
                 $save['created_at'] = date('Y-m-d H:i:s');
                 $save['updated_at'] = date('Y-m-d H:i:s');
@@ -105,6 +125,14 @@ class Cart extends Front_controller
                 $save['delivery_price'] = (float)$cart_data['delivery_price'];
                 $order_id = $this->order_model->insert($save);
                 if($order_id){
+
+                    $deliveryInfo = $this->delivery_model->get((int)$save['delivery_method_id']);
+
+                    if($deliveryInfo && !empty($deliveryInfo['api'])){
+                        $this->load->library('delivery/'.$deliveryInfo['api']);
+                        $this->{$deliveryInfo['api']}->save_form($order_id);
+                    }
+
                     if($this->is_login && $save['payment_method_id'] == 0){
                         $this->customerbalance_model->add_transaction($this->is_login, $save['total'], 'Оплата заказа №'.$order_id.' c баланса. Сумма '.$save['total']);
                         $save['paid'] = 1;
@@ -228,12 +256,10 @@ class Cart extends Front_controller
             $this->load->model('delivery_model');
             $deliveryInfo = $this->delivery_model->delivery_get($delivery_id);
 
-            if($deliveryInfo['api']){
-                $this->load->add_package_path(APPPATH.'third_party/delivery/'.$deliveryInfo['api'].'/', FALSE);
-                $this->load->library($deliveryInfo['api']);
-                $form_data = $this->{$deliveryInfo['api']}->get_form();
-                $json['delivery_description'] = $this->load->view('form', $form_data, true);
-                $delivery_price = $this->{$deliveryInfo['api']}->delivery_price;
+            if($deliveryInfo['api'] && file_exists(APPPATH.'libraries/delivery/'.ucfirst($deliveryInfo['api'].'.php'))){
+                $this->load->library('delivery/'.$deliveryInfo['api']);
+                $json['delivery_description'] = $this->{$deliveryInfo['api']}->get_form();
+                $delivery_price = $this->{$deliveryInfo['api']}->delivery_price();
                 $this->load->remove_package_path();
             }else{
                 if($deliveryInfo['free_cost'] == 0  || $total < $deliveryInfo['free_cost']){

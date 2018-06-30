@@ -328,7 +328,7 @@ class Tecdoc
         $check = json_decode($res);
         if (isset($check->Data)) {
             if ($use_cache) {
-                $this->CI->cache->file->save($key, $check->Data, 30000);
+                $this->CI->cache->file->save($key, $check->Data, 60*60*24*30);
             }
             return $check->Data;
         } else {
