@@ -95,13 +95,14 @@ class Np extends CI_Controller
         $order_ttn_id = $this->input->get('id');
         $this->load->model('order_ttn_model');
         $order_ttn_info = $this->order_ttn_model->get($order_ttn_id);
-        if($order_ttn_info){
 
+        if($order_ttn_info){
+            $this->order_ttn_model->delete($order_ttn_id);
             $data = json_decode($order_ttn_info['data']);
 
             $result = $this->novaposhta->InternetDocumentDelete([$data[0]->Ref]);
             if($result['success']){
-                $this->order_ttn_model->delete($order_ttn_id);
+
                 redirect('/autoxadmin/order/edit/'.$order_ttn_info['order_id']);
             }else{
                 print_r($result['errors']);
