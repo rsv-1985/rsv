@@ -9,6 +9,36 @@ class Category_model extends Default_model
 {
     public $table = 'category';
 
+    public $total_rows = 0;
+
+    public function cat_get_all($limit, $start){
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        if($this->input->get('id')){
+            $this->db->where('id',(int)$this->input->get('id'));
+        }
+        if($this->input->get('name')){
+            $this->db->like('name',$this->input->get('name',true), 'both');
+        }
+        if(isset($_GET['status']) && !empty($_GET['status'])){
+            $this->db->where('status',(int)$this->input->get('status'));
+        }
+
+        if ($limit && $start) {
+            $this->db->limit((int)$limit, (int)$start);
+        } elseif ($limit) {
+            $this->db->limit((int)$limit);
+        }
+
+        $query = $this->db->get($this->table);
+
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+        return false;
+    }
+
     public function admin_category_get_all()
     {
         $query = $this->db->get($this->table);
@@ -124,7 +154,7 @@ class Category_model extends Default_model
         return false;
     }
 
-    public function get_brends($id, $limit = false)
+    public function get_brands($id, $limit = false)
     {
         $cache = $this->cache->file->get('category_brands' . $id);
         if (!$cache && !is_null($cache)) {

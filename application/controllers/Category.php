@@ -30,7 +30,7 @@ class Category extends Front_controller{
         }
 
         $data = [];
-        $data['brands'] = $this->category_model->get_brends($category['id']);
+        $data['brands'] = $this->category_model->get_brands($category['id']);
         if($brand && !isset($data['brands'][$brand])){
             $brand = false;
         }

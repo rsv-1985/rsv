@@ -22,12 +22,12 @@ class Category extends Admin_controller
         $this->load->library('pagination');
 
         $config['base_url'] = base_url('autoxadmin/category/index');
-        $config['total_rows'] = $this->category_model->count_all();
-        $config['per_page'] = 10;
+        $config['per_page'] = 20;
+        $data['categorys'] = $this->category_model->cat_get_all($config['per_page'], $this->uri->segment(4));
+        $config['total_rows'] = $this->category_model->total_rows;
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
-
-        $data['categorys'] = $this->category_model->get_all($config['per_page'], $this->uri->segment(4));
 
         $this->load->view('admin/header');
         $this->load->view('admin/category/category', $data);
