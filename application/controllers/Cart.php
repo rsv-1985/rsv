@@ -67,10 +67,10 @@ class Cart extends Front_controller
 
         $customer_coockie = get_cookie('customer');
 
-        if($customer_coockie){
-            $data['customer'] = (array)json_decode($customer_coockie);
-        }elseif ($this->is_login){
+        if ($this->is_login){
+
             $customer = $this->customer_model->get($this->is_login);
+
             if($customer){
                 $data['customer'] = [
                     'first_name' => $customer['first_name'],
@@ -82,6 +82,11 @@ class Cart extends Front_controller
                 ];
             }
         }
+
+        if($customer_coockie){
+            $data['customer'] = (array)json_decode($customer_coockie);
+        }
+
         if($this->input->post() && $this->cart->total_items() > 0){
 
             $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');

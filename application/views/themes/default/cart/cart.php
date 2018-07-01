@@ -86,14 +86,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php foreach ($delivery as $delivery) { ?>
                                                 <option
                                                         id="delivery-<?php echo $delivery['id']; ?>"
-                                                        value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method', $delivery['id']); ?>><?php echo $delivery['name']; ?></option>
+                                                        value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method', $delivery['id'],$delivery['id'] == @$customer['delivery_method']); ?>><?php echo $delivery['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                         <small id="delivery_description"></small>
                                     </div>
                                     <div class="form-group">
                                         <label><?php echo lang('text_payment_method'); ?></label>
-                                        <select disabled id="payment" class="form-control" name="payment_method"
+                                        <select id="payment" class="form-control" name="payment_method"
                                                 onchange="get_payment();"
                                                 required>
                                             <option></option>
@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
                                                         id="payment-<?php echo $payment['id']; ?>"
-                                                        value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method', $payment['id']); ?>><?php echo $payment['name']; ?></option>
+                                                        value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method', $payment['id'],  $payment['id'] == @$customer['payment_method']); ?>><?php echo $payment['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                         <small id="payment_description"></small>
@@ -223,6 +223,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
 </div>
 <script>
+
+    $(document).ready(function(){
+       get_delivery();
+       get_payment();
+    });
 
     function remove_cart(key, event) {
         event.preventDefault();
