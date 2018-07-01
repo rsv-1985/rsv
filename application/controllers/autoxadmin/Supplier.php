@@ -25,12 +25,12 @@ class supplier extends Admin_controller
         $this->load->library('pagination');
 
         $config['base_url'] = base_url('autoxadmin/supplier/index');
-        $config['total_rows'] = $this->supplier_model->count_all();
-        $config['per_page'] = 10;
+        $config['per_page'] = 20;
+        $data['supplieres'] = $this->supplier_model->get_suppliers($config['per_page'], $this->uri->segment(4));
+        $config['total_rows'] = $this->supplier_model->total_rows;
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
-
-        $data['supplieres'] = $this->supplier_model->get_all($config['per_page'], $this->uri->segment(4));
 
         $this->load->view('admin/header');
         $this->load->view('admin/supplier/supplier', $data);
