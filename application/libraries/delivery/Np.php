@@ -16,6 +16,7 @@ class Np{
         $this->CI->load->library('novaposhta', $params);
         $this->CI->load->helper('cookie');
         $this->CI->load->model('delivery/np_model');
+        $this->CI->load->language('np');
     }
 
     public function get_form(){

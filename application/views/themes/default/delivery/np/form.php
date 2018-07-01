@@ -2,12 +2,12 @@
     <div class="panel panel-default">
         <div class="col-md-12">
             <div class="form-group">
-                <label>Город</label>
+                <label><?php echo lang('text_np_address');?></label>
                 <input name="np_address" value="<?php echo @$customer->np_address;?>" type="text" onkeyup="getCity($(this).val())" class="form-control" >
                 <div class="city-res"></div>
             </div>
             <div class="form-group" id="form-group-RecipientAddressName" <?php if(@$customer->RecipientAddressName2){?>style="display: none;"<?php } ?>>
-                <label>Склад</label>
+                <label><?php echo lang('text_np_RecipientAddressName');?></label>
                 <select disabled name="RecipientAddressName" class="form-control">
                     <?php if(isset($customer->RecipientAddressName)){?>
                         <option value="<?php echo $customer->RecipientAddressName;?>" selected><?php echo $customer->RecipientAddressName;?></option>
@@ -17,21 +17,21 @@
             <div id="WarehouseDoors" <?php if(!@$customer->RecipientAddressName2){?>style="display: none;"<?php } ?>>
                 <div class="form-group">
                     <div class="form-group">
-                        <label>Адрес</label>
+                        <label><?php echo lang('text_np_RecipientAddressName2');?></label>
                         <input value="<?php echo @$customer->RecipientAddressName2;?>" class="form-control" type="text" name="RecipientAddressName2">
                     </div>
                     <div class="form-group">
-                        <label>Номер дома</label>
+                        <label><?php echo lang('text_np_RecipientHouse');?></label>
                         <input value="<?php echo @$customer->RecipientHouse;?>" class="form-control" type="text" name="RecipientHouse">
                     </div>
                     <div class="form-group">
-                        <label>Этаж</label>
+                        <label><?php echo lang('text_np_RecipientFlat');?></label>
                         <input value="<?php echo @$customer->RecipientFlat;?>" class="form-control" type="text" name="RecipientFlat">
                     </div>
                 </div>
             </div>
             <div class="checkbox">
-                <label><input <?php if(@$customer->RecipientAddressName2){?>checked<?php } ?> type="checkbox" onchange="getField(this)">Адресная доставка</label>
+                <label><input <?php if(@$customer->RecipientAddressName2){?>checked<?php } ?> type="checkbox" onchange="getField(this)"><?php echo lang('text_np_WarehouseDoors');?></label>
             </div>
             <input id="DeliveryCity" type="hidden" name="DeliveryCity" value="<?php echo @$customer->DeliveryCity;?>">
             <input type="hidden" name="RecipientCityName" value="<?php echo @$customer->RecipientCityName;?>" class="form-control">

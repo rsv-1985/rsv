@@ -61,9 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <a href="/autoxadmin/customer?status=false" class="small-box-footer">Подробнее <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xs-6">
-                    <iframe style="width: 100%; height: 750px; border: 0px;" src="https://cms-autox.blogspot.com/"></iframe>
-                </div>
             </div>
             <div class="clearfix"></div>
         </section><!-- /.content -->
