@@ -66,7 +66,7 @@ class Product_model extends Default_model
             $this->db->select('SQL_CALC_FOUND_ROWS *', false);
             $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
             if ($this->input->get('sku')) {
-                $this->db->where('sku', $this->input->get('sku', true));
+                $this->db->where('sku', $this->clear_sku($this->input->get('sku', true)));
             }
             if ($this->input->get('brand')) {
                 $this->db->where('brand', $this->input->get('brand', true));
