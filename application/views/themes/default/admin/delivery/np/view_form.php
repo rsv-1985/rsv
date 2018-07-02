@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                         <div class="form-group">
                             <label>Вес</label>
-                            <input required type="number" name="Weight" class="form-control">
+                            <input required type="text" name="Weight" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Количество мест</label>
