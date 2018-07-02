@@ -31,13 +31,13 @@ class Np{
     public function save_form($order_id){
         $save['order_id'] = (int)$order_id;
 
-        $save['RecipientCityName'] = $this->CI->input->post('RecipientCityName', true);
-        $save['RecipientArea'] = $this->CI->input->post('RecipientArea', true);
-        $save['RecipientAreaRegions'] = $this->CI->input->post('RecipientAreaRegions', true);
-        $save['RecipientAddressName'] = $this->CI->input->post('RecipientAddressName', true);
-        $save['RecipientAddressName2'] = $this->CI->input->post('RecipientAddressName2', true);
-        $save['RecipientHouse'] = $this->CI->input->post('RecipientHouse', true);
-        $save['RecipientFlat'] = $this->CI->input->post('RecipientFlat', true);
+        $save['RecipientCityName'] = (string)$this->CI->input->post('RecipientCityName', true);
+        $save['RecipientArea'] = (string)$this->CI->input->post('RecipientArea', true);
+        $save['RecipientAreaRegions'] = (string)$this->CI->input->post('RecipientAreaRegions', true);
+        $save['RecipientAddressName'] = (string)$this->CI->input->post('RecipientAddressName', true);
+        $save['RecipientAddressName2'] = (string)$this->CI->input->post('RecipientAddressName2', true);
+        $save['RecipientHouse'] = (string)$this->CI->input->post('RecipientHouse', true);
+        $save['RecipientFlat'] = (string)$this->CI->input->post('RecipientFlat', true);
 
         $this->CI->load->model('delivery/np_model');
         $this->CI->np_model->save_form($save);
