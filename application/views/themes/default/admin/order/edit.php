@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <!-- Nav tabs -->
 
 
-    <input type="hidden" name="customer_id" value="<?php echo $order['customer_id']; ?>">
+
     <!-- title row -->
     <div class="row">
         <div class="col-xs-12">
@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="tab1">
             <?php echo form_open('', ['id' => 'order_form']); ?>
+            <input type="hidden" name="customer_id" value="<?php echo $order['customer_id']; ?>">
             <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
                     <div class="form-group">
