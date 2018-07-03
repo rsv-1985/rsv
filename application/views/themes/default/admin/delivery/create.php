@@ -40,6 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="form-group">
                         <label><?php echo lang('text_api'); ?></label>
                         <input type="text" class="form-control" name="api" value="<?php echo set_value('api'); ?>" maxlength="32">
+                        <p><a href="https://cms-autox.blogspot.com/2018/07/blog-post.html">np - Новая почта</a></p>
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label><?php echo lang('text_sort'); ?></label>
