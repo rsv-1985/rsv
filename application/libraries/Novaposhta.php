@@ -91,7 +91,7 @@ class Novaposhta
             "PaymentMethod" => $data['PaymentMethod'],
             "CargoType" => $data['CargoType'],
             "VolumeGeneral" => $data['VolumeGeneral'],
-            "Weight" => $data['Weight'],
+            "Weight" => trim(str_replace(',','.',$data['Weight'])),
             "ServiceType" => $data['ServiceType'],
             "SeatsAmount" => $data['SeatsAmount'],
             "Description" => $data['Description'],
