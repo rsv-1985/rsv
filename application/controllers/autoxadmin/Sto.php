@@ -11,6 +11,7 @@ class Sto extends Admin_controller {
     {
         parent::__construct();
         $this->load->model('sto_model');
+        $this->load->library('sender');
     }
 
     public function index(){
@@ -149,5 +150,13 @@ class Sto extends Admin_controller {
         $save['updated_at'] = date('Y-m-d H:i:s');
         $save['status'] = $status;
         $this->sto_model->insert($save, $id);
+
+        $contacts = $this->settings_model->get_by_key('contact_settings');
+        if ($save['email'] != '' && (bool)$this->input->post('send_email')) {
+            $this->sender->email('СТО', $save['comment'], $save['email'], explode(';', $contacts['email']));
+        }
+        if ($save['telephone'] != '' && (bool)$this->input->post('send_sms')) {
+            $this->sender->sms($save['phone'],$save['comment']);
+        }
     }
 }
