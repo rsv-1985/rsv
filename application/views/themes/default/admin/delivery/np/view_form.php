@@ -115,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="form-group">
                             <label>Форма оплаты</label>
                             <select name="nalojka" class="form-control">
-                                <option value="1">Наложенный платежь</option>
+                                <option value="1">Наложенный платеж</option>
                                 <option value="0">Предоплата</option>
                             </select>
                         </div>
