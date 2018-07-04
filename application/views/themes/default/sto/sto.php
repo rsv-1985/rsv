@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     </div>
                                     <div class="form-group">
                                         <input type="hidden" name="typ" value="">
-                                        <select id="typ" class="form-control" disabled required onchange="change_typ()">
+                                        <select id="typ" class="form-control" disabled onchange="change_typ()">
                                             <option>Модификация</option>
                                         </select>
                                     </div>
@@ -193,13 +193,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <div class="panel-heading">Контактные данные</div>
                         <div class="panel-body" style="min-height: 301px;">
                             <div class="form-group">
-                                <input type="text" name="name" class="form-control" placeholder="ФИО*" required>
+                                <input type="text" name="name" class="form-control" placeholder="ФИО">
                             </div>
                             <div class="form-group">
                                 <input type="text" name="phone" class="form-control" placeholder="Телефон*" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="carnumber" class="form-control" placeholder="Номер автомобиля*" required>
+                                <input type="text" name="carnumber" class="form-control" placeholder="Номер автомобиля">
                             </div>
                             <div class="form-group">
                                 <input type="email" name="email" class="form-control" placeholder="E-email">

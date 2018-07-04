@@ -72,13 +72,13 @@ class Sto extends Front_controller
             $this->form_validation->set_rules('service', 'Услуга', 'required|trim|max_length[255]');
             $this->form_validation->set_rules('manufacturer', 'Производитель', 'required|trim|max_length[255]');
             $this->form_validation->set_rules('model', 'Модель', 'required|trim|max_length[255]');
-            $this->form_validation->set_rules('typ', 'Модификация', 'required|trim|max_length[255]');
+            $this->form_validation->set_rules('typ', 'Модификация', 'trim|max_length[255]');
             $this->form_validation->set_rules('vin', 'VIN автомобиля', 'trim|max_length[32]');
             $this->form_validation->set_rules('date', 'Дата', 'required|trim|max_length[32]');
             $this->form_validation->set_rules('time', 'Время', 'required|trim|max_length[32]');
-            $this->form_validation->set_rules('name', 'ФИО', 'required|trim|max_length[255]');
+            $this->form_validation->set_rules('name', 'ФИО', 'trim|max_length[255]');
             $this->form_validation->set_rules('phone', 'Телефон', 'required|trim|max_length[32]');
-            $this->form_validation->set_rules('carnumber', 'Номер автомобиля', 'required|trim|max_length[32]');
+            $this->form_validation->set_rules('carnumber', 'Номер автомобиля', 'trim|max_length[32]');
             $this->form_validation->set_rules('email', 'E-mail', 'max_length[255]|valid_email');
             $this->form_validation->set_rules('comment', 'Комментарий', 'trim|max_length[3000]');
             $this->form_validation->set_rules('cmsautox', 'cmsautox', 'required|trim');
