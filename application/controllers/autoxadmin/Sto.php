@@ -151,12 +151,19 @@ class Sto extends Admin_controller {
         $save['status'] = $status;
         $this->sto_model->insert($save, $id);
 
-        $contacts = $this->settings_model->get_by_key('contact_settings');
-        if ($save['email'] != '' && (bool)$this->input->post('send_email')) {
-            $this->sender->email('СТО', $save['comment'], $save['email'], explode(';', $contacts['email']));
+        if($this->input->post('message')){
+            $message = $this->input->post('message',true);
+
+            $contacts = $this->settings_model->get_by_key('contact_settings');
+
+            if ($save['email'] != '' && (bool)$this->input->post('send_email')) {
+                $this->sender->email('СТО', $message, $save['email'], explode(';', $contacts['email']));
+            }
+            if ($save['phone'] != '' && (bool)$this->input->post('send_sms')) {
+                $this->sender->sms($save['phone'],$message);
+            }
         }
-        if ($save['telephone'] != '' && (bool)$this->input->post('send_sms')) {
-            $this->sender->sms($save['phone'],$save['comment']);
-        }
+
+
     }
 }

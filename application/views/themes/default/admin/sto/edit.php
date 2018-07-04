@@ -34,18 +34,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <label>Email</label>
                             <input type="email" class="form-control" name="email" value="<?php echo set_value('email', $record['email']); ?>" maxlength="32">
                         </div><!-- /.form group -->
+                        <div class="form-group">
+                            <label>Комментарий</label>
+                            <textarea name="comment" class="form-control"><?php echo $record['comment'];?></textarea>
+                        </div><!-- /.form group -->
                         <div class="well well-sm">
                             <div class="form-group">
-                                <label>Комментарий</label>
-                                <textarea name="comment" class="form-control"><?php echo $record['comment'];?></textarea>
+                                <label>Сообщение</label>
+                                <textarea name="message" class="form-control"></textarea>
                             </div><!-- /.form group -->
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value="1" name="send_sms">
+                                    <input checked type="checkbox" value="1" name="send_sms">
                                     Отправить в SMS
                                 </label>
                                 <label>
-                                    <input type="checkbox" value="1" name="send_email">
+                                    <input checked type="checkbox" value="1" name="send_email">
                                     Отправить в Email
                                 </label>
                             </div>
