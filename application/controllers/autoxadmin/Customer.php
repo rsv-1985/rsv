@@ -107,6 +107,8 @@ class Customer extends Admin_controller
     }
 
     public function login($id){
+        $this->load->helper('cookie');
+        delete_cookie('customer');
         $customer_info = $this->customer_model->get($id);
         if($id){
             $this->customer_model->login($customer_info['login'],'',true);
