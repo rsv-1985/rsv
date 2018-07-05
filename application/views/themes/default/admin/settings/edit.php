@@ -124,12 +124,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="panel-heading" role="tab" id="heading5">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                           href="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                                           href="#collapse6" aria-expanded="true" aria-controls="collapse6">
                                             Новая почта
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="collapse5" class="panel-collapse collapse" role="tabpanel"
+                                <div id="collapse6" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="heading5">
                                     <div class="panel-body">
                                         <div class="col-md-12">
