@@ -61,6 +61,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <a href="/autoxadmin/customer?status=false" class="small-box-footer">Подробнее <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <script async src="https://telegram.org/js/telegram-widget.js?4" data-telegram-post="autox_pro/2" data-width="100%" data-userpic="true"></script>
+                </div>
             </div>
             <div class="clearfix"></div>
         </section><!-- /.content -->
