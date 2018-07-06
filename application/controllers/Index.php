@@ -35,13 +35,13 @@ class Index extends Front_controller {
         $data['news'] = $this->news_model->get_all(10,false,['status' => true],['id' => 'DESC']);
 
         if(@$this->options['novelty']){
-            $data['novelty'] = $this->product_model->get_novelty();
+            $data['novelty'] = false;//$this->product_model->get_novelty();
         }else{
             $data['novelty'] = false;
         }
 
         if(@$this->options['top_sellers']){
-            $data['top_sellers'] = $this->product_model->top_sellers();
+            $data['top_sellers'] = false;//$this->product_model->top_sellers();
         }else{
             $data['top_sellers'] = false;
         }
