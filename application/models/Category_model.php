@@ -161,7 +161,6 @@ class Category_model extends Default_model
             $this->db->distinct();
             $this->db->select('brand');
             $this->db->where('category_id', (int)$id);
-            $this->db->order_by('brand', 'ASC');
             $this->db->limit(1000);
             $query = $this->db->get('product');
 
