@@ -547,19 +547,8 @@ class Product_model extends Default_model
             $this->db->where_in('id', $filter_products_id);
         }
 
-        if ($limit && $start) {
-            $this->db->limit((int)$limit, (int)$start);
-        } elseif ($limit) {
-            $this->db->limit((int)$limit);
-        }
 
-        if ($order) {
-            foreach ($order as $field => $value) {
-                $this->db->order_by($field, $value);
-            }
-        }
-
-        $this->total_rows = $this->db->count_all_results();
+        $this->total_rows = $this->db->count_all_results('product');
 
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
