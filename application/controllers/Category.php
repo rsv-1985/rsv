@@ -32,10 +32,10 @@ class Category extends Front_controller{
         $data = [];
         $data['brands'] = [];
 
-        $brands = $this->category_model->get_brands($category['id']);
+        $data['brands'] = $this->category_model->get_brands($category['id']);
 
-        if($brands){
-            $data['brands'] = asort($brands);
+        if($data['brands']){
+           asort($data['brands']);
         }
 
         if($brand && !isset($data['brands'][$brand])){
