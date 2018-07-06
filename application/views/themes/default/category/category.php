@@ -119,9 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </a>
                                     </div>
                                     <small><?php echo $product['brand'] . ' ' . $product['sku']; ?></small>
-                                    <h2>
-                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 75); ?></a>
-                                    </h2>
+                                    <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 75); ?></a>
                                     <div class="product-carousel-price">
                                         <b>
                                             <?php if ($product['min_price'] == $product['max_price']) { ?>
@@ -136,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                                     </div>
                                     <div class="product-option-shop">
-                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo plural_form($product['countPrice'], ['предложение', 'предложения', 'предложений']); ?></a>
+                                        <a class="btn btn-default" href="/product/<?php echo $product['slug']; ?>"><?php echo lang('button_cart'); ?></a>
                                     </div>
                                 </div>
                             </div>
