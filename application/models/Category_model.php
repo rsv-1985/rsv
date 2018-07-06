@@ -154,20 +154,16 @@ class Category_model extends Default_model
         return false;
     }
 
-    public function get_brands($id, $limit = false)
+    public function get_brands($id)
     {
         $cache = $this->cache->file->get('category_brands' . $id);
         if (!$cache && !is_null($cache)) {
+            $this->db->distinct();
             $this->db->select('brand');
-            $this->db->join('product', 'product.id=product_price.product_id');
             $this->db->where('category_id', (int)$id);
-            $this->db->where('brand !=', '');
-            if ($limit) {
-                $this->db->limit((int)$limit);
-            }
             $this->db->order_by('brand', 'ASC');
-            $this->db->group_by('brand');
-            $query = $this->db->get('product_price');
+
+            $query = $this->db->get('product');
 
             if ($query->num_rows() > 0) {
                 $brands = [];
