@@ -115,8 +115,12 @@ class Category extends Front_controller{
         }
 
 
+        if($this->uri->segment(3) || $this->uri->segment(5)){
+            $data['description'] = '';
+        }else{
+            $data['description'] = $category['description'].@$seo['text'];
+        }
 
-        $data['description'] = !$this->uri->segment(3) || !$this->uri->segment(5) ? $category['description'].@$seo['text'] : '';
         $data['slug'] = $category['slug'];
         $this->load->library('pagination');
 
