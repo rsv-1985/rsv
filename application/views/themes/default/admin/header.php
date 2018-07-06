@@ -63,10 +63,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li>
+                        <a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q">Оплата</a>
+                    </li>
+                    <li>
                         <a target="_blank" href="https://t.me/joinchat/E8H7Q0QeDmQY7iul11PIFg">Складчина</a>
                     </li>
                     <li>
-                        <a target="_blank" href="https://t.me/autox_pro">Новости AutoX</i></a>
+                        <a target="_blank" href="https://t.me/autox_pro">Обновления</i></a>
                     </li>
                     <li class="dropdown user user-menu">
                         <a href="<?php echo base_url('autoxadmin/user/logout');?>" title="<?php echo lang('text_logout');?>" data-toggle="tooltip" class="dropdown-toggle">
