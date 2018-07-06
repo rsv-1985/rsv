@@ -512,7 +512,7 @@ class Product_model extends Default_model
     //Получаем товары для категории
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS * FROM ax_product', false);
+        $this->db->select(' * FROM ax_product', false);
         if ($where) {
             foreach ($where as $field => $value) {
                 $this->db->where($field, $value);
@@ -537,7 +537,29 @@ class Product_model extends Default_model
 
         $query = $this->db->get();
 
-        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+        if ($where) {
+            foreach ($where as $field => $value) {
+                $this->db->where($field, $value);
+            }
+        }
+
+        if ($filter_products_id) {
+            $this->db->where_in('id', $filter_products_id);
+        }
+
+        if ($limit && $start) {
+            $this->db->limit((int)$limit, (int)$start);
+        } elseif ($limit) {
+            $this->db->limit((int)$limit);
+        }
+
+        if ($order) {
+            foreach ($order as $field => $value) {
+                $this->db->order_by($field, $value);
+            }
+        }
+
+        $this->total_rows = $this->db->count_all_results();
 
         if ($query->num_rows() > 0) {
             $products = $query->result_array();
