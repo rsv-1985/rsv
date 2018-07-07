@@ -512,7 +512,8 @@ class Product_model extends Default_model
     //Получаем товары для категории
     public function product_get_all($limit = false, $start = false, $where = false, $order = false, $filter_products_id = false)
     {
-        $this->db->select(' * FROM ax_product', false);
+        $this->db->from('product');
+        $this->db->select('*');
         if ($where) {
             foreach ($where as $field => $value) {
                 $this->db->where($field, $value);
@@ -533,6 +534,8 @@ class Product_model extends Default_model
             foreach ($order as $field => $value) {
                 $this->db->order_by($field, $value);
             }
+        }else{
+            $this->db->order_by("-(SELECT min(delivery_price) as price FROM ax_product_price WHERE ax_product_price.product_id = ax_product.id) DESC", true);
         }
 
         $query = $this->db->get();

@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div> <!-- End footer top area -->
-<?php if($this->options['show_callback']){?>
+<?php if(@$this->options['show_callback']){?>
 <!--PHONE BTN-->
 <div class="dws"  data-toggle="modal" data-target="#call-back-modal">
     <div class="pulse">

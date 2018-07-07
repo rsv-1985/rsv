@@ -1387,7 +1387,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
 #login-form-wrap input[type="submit"] {
     margin-bottom: 15px;
 }
-.single-shop-product h2 {
+.single-shop-product>.name {
     font-size: 14px;
     margin: 0;
     height: 48px;

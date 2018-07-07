@@ -41,6 +41,7 @@ class Category extends Front_controller{
         if($brand && !isset($data['brands'][$brand])){
             $brand = false;
         }
+
         if($brand){
             $settings = $this->settings_model->get_by_key('seo_brand');
             if($settings){
@@ -144,7 +145,7 @@ class Category extends Front_controller{
         }
 
         //Если активна опция использовать наименования с текдок
-        if($this->options['use_tecdoc_name'] && $products){
+        if(@$this->options['use_tecdoc_name'] && $products){
             foreach ($products as &$product){
                 if(@$product['tecdoc_info']['article']['Name']){
                     $product['name'] = $product['tecdoc_info']['article']['Name'];

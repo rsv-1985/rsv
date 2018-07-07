@@ -119,7 +119,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </a>
                                     </div>
                                     <small><?php echo $product['brand'] . ' ' . $product['sku']; ?></small>
-                                    <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 75); ?></a>
+                                    <div class="name">
+                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 75); ?></a>
+                                    </div>
+
                                     <div class="product-carousel-price">
                                         <b>
                                             <?php if ($product['min_price'] == $product['max_price']) { ?>
