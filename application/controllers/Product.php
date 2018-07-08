@@ -107,7 +107,7 @@ class Product extends Front_controller
 
         if($data['image']){
             $data['images'][] = [
-                'src' => 'uploads/product/'.$data['image'],
+                'src' => '/uploads/product/'.$data['image'],
                 'alt' => $seo['alt_img']
             ];
             $count_img = 2;
