@@ -222,41 +222,25 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div style="text-align: center;">
-                    <?php if ($image) { ?>
-                        <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
+                    <?php if ($images) { ?>
+                        <a href="<?php echo $images[0]['src']; ?>" data-fancybox="quick-view-1"
                            data-type="image">
-                            <img src="/uploads/product/<?php echo $image; ?>"/>
+                            <img src="<?php echo $images[0]['src']; ?>" alt="<?php echo $images[0]['alt']; ?>"/>
                         </a>
-                    <?php } else if ($tecdoc_info['images']) { ?>
-                        <a href="<?php echo $tecdoc_info['images'][0]->Image; ?>" data-fancybox="quick-view-1"
-                           data-type="image">
-                            <img src="<?php echo $tecdoc_info['images'][0]->Image; ?>"/>
-                        </a>
-                    <?php } else { ?>
+                        <?php unset($images[0]);
+                    } else { ?>
                         <a href="/image" data-fancybox="quick-view-1" data-type="image">
                             <img src="/image"/>
                         </a>
                     <?php } ?>
                     <div class="product-images">
-                        <?php if ($image || $tecdoc_info['images']) { ?>
-                            <?php if ($image) { ?>
-                                <a href="/uploads/product/<?php echo $image; ?>" data-fancybox="quick-view-1"
+                        <?php if ($images) { ?>
+                            <?php foreach ($images as $image) { ?>
+                                <a href="<?php echo $image; ?>" data-fancybox="quick-view-1"
                                    data-type="image">
-                                    <img src="/uploads/product/<?php echo $image; ?>"/>
+                                    <img src="<?php echo $image; ?>" alt="<?php echo $images['alt']; ?>"/>
                                 </a>
                             <?php } ?>
-                            <?php if ($tecdoc_info['images']) { ?>
-                                <?php foreach ($tecdoc_info['images'] as $tc_image) { ?>
-                                    <a href="<?php echo $tc_image->Image; ?>" data-fancybox="quick-view-1"
-                                       data-type="image">
-                                        <img src="<?php echo $tc_image->Image; ?>"/>
-                                    </a>
-                                <?php } ?>
-                            <?php } ?>
-                        <?php } else { ?>
-                            <a href="/image" data-fancybox="quick-view-1" data-type="image">
-                                <img src="/image"/>
-                            </a>
                         <?php } ?>
                     </div>
                     <?php if ($banner) { ?>
@@ -444,7 +428,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                         <small><?php echo $applicability->DateMake; ?></small>
                                                     </td>
                                                     <td>
-                                                        <?php echo $applicability->Name; ?> <?php echo $applicability->Fuel; ?>
+                                                        <?php echo $applicability->Name; ?><?php echo $applicability->Fuel; ?>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -491,11 +475,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <td class="search-product-term"><?php echo format_term($price['term']); ?></td>
                                                 <td class="search-product-quantity"><?php echo format_quantity($price['quantity']); ?></td>
                                                 <td class="search-product-price">
-                                                    <?php if($price['saleprice'] > 0){?>
-                                                        <?php echo format_currency($price['saleprice']);?><br>
-                                                        <small><strike><?php echo format_currency($price['price']);?></strike></small>
-                                                    <?php }else{?>
-                                                        <?php echo format_currency($price['price']);?>
+                                                    <?php if ($price['saleprice'] > 0) { ?>
+                                                        <?php echo format_currency($price['saleprice']); ?><br>
+                                                        <small>
+                                                            <strike><?php echo format_currency($price['price']); ?></strike>
+                                                        </small>
+                                                    <?php } else { ?>
+                                                        <?php echo format_currency($price['price']); ?>
                                                     <?php } ?>
                                                 </td>
                                                 <?php if (@$this->options['show_fast_order_search']) { ?>
@@ -562,7 +548,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <a href="/product/<?php echo $product['slug']; ?>">
                                         <b><?php echo $product['brand']; ?></b>
                                         <?php echo $product['sku']; ?>
-                                        <br><?php echo $product['name'];?>
+                                        <br><?php echo $product['name']; ?>
                                     </a>
                                 </div>
                                 <div class="col-md-8 col-xs-12 table_info_item" style="text-align: center;">
@@ -586,11 +572,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                     <td class="search-product-term"><?php echo format_term($price['term']); ?></td>
                                                     <td class="search-product-quantity"><?php echo format_quantity($price['quantity']); ?></td>
                                                     <td class="search-product-price">
-                                                        <?php if($price['saleprice'] > 0){?>
-                                                            <?php echo format_currency($price['saleprice']);?><br>
-                                                            <small><strike><?php echo format_currency($price['price']);?></strike></small>
-                                                        <?php }else{?>
-                                                            <?php echo format_currency($price['price']);?>
+                                                        <?php if ($price['saleprice'] > 0) { ?>
+                                                            <?php echo format_currency($price['saleprice']); ?><br>
+                                                            <small>
+                                                                <strike><?php echo format_currency($price['price']); ?></strike>
+                                                            </small>
+                                                        <?php } else { ?>
+                                                            <?php echo format_currency($price['price']); ?>
                                                         <?php } ?>
                                                     </td>
                                                     <?php if (@$this->options['show_fast_order_search']) { ?>
@@ -692,27 +680,27 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script>
     $(document).ready(function () {
         var one_day = [];
-        $(".one_day").each(function(index,item){
+        $(".one_day").each(function (index, item) {
             one_day.push(item);
         });
         var in_stock = [];
-        $(".in_stock").each(function(index,item){
+        $(".in_stock").each(function (index, item) {
             in_stock.push(item);
         });
 
 
-        if(in_stock){
+        if (in_stock) {
             in_stock = in_stock.reverse();
-            $(in_stock).each(function(index,i){
+            $(in_stock).each(function (index, i) {
                 $(i).parent('tbody').prepend(i).show();
             });
 
             $(".in_stock").show();
         }
 
-        if(one_day){
+        if (one_day) {
             one_day = one_day.reverse();
-            $(one_day).each(function(index,i){
+            $(one_day).each(function (index, i) {
                 $(i).parent('tbody').prepend(i).show();
             });
             $(".one_day").show();

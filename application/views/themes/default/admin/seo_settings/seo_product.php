@@ -64,6 +64,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <label>SEO text</label>
                     <textarea class="textarea" name="seo_product[text]"><?php echo set_value('title',@$seo_product['text']);?></textarea>
                 </div>
+                <div class="form-group">
+                    <label>ALT image</label>
+                    <input type="text" name="seo_product[alt_img]" value="<?php echo set_value('alt_img',@$seo_product['alt_img']);?>" class="form-control">
+                </div>
                 <p class="help-block">
                     {name} - название<br>
                     {brand} - производитель<br>

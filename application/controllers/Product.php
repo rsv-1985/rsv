@@ -101,6 +101,28 @@ class Product extends Front_controller
             }
         }
 
+        $data['images'] = [];
+
+        $count_img = 0;
+
+        if($data['image']){
+            $data['images'][] = [
+                'src' => 'uploads/product/'.$data['image'],
+                'alt' => $seo['alt_img']
+            ];
+            $count_img = 2;
+        }
+
+        if($data['tecdoc_info']['images']){
+            foreach ($data['tecdoc_info']['images'] as $tc_image){
+                $data['images'][] = [
+                    'src' => $tc_image->Image,
+                    'alt' => $count_img ? $seo['alt_img'].'-'.$count_img : $seo['alt_img']
+                ];
+                $count_img++;
+            }
+        }
+
         $data['description'] .= '<br/>' . @$seo['text'];
 
         $this->product_model->update_viewed($data['id']);
