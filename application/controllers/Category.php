@@ -122,7 +122,7 @@ class Category extends Front_controller{
             }
         }
 
-        if($this->uri->segment(3) || $this->uri->segment(5)){
+        if($this->uri->segment(3) &&  $this->uri->segment(3) != 'brand' || $this->uri->segment(5)){
             $this->canonical = base_url('category/'.$category['slug']);
             $data['description'] = '';
         }else{
