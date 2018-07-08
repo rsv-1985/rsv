@@ -135,7 +135,67 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </b>
                                     </div>
                                     <div class="product-option-shop">
-                                        <a class="btn btn-default" href="/product/<?php echo $product['slug']; ?>"><?php echo lang('button_cart'); ?></a>
+                                        <a rel="nofollow" class="btn btn-default" data-toggle="modal" data-target="#modal-price-<?php echo $product['id'];?>" href="#"><?php echo lang('button_cart'); ?></a>
+                                    </div>
+
+                                    <div class="modal fade" id="modal-price-<?php echo $product['id'];?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel"><?php echo plural_form(count($product['prices']),[lang('text_offer_1'),lang('text_offer_2'),lang('text_offer_5')]);?></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php foreach ($product['prices'] as $price){ $key = $product['id'] . $price['supplier_id'] . $price['term'] ?>
+                                                        <div class="row item">
+                                                            <div class="col-md-3">
+                                                                <?php echo format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price']);?>
+                                                                <?php if($price['excerpt']){?>
+                                                                    <br/>
+                                                                    <small>
+                                                                        <?php echo $price['excerpt'];?>
+                                                                    </small>
+                                                                <?php } ?>
+
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php echo format_term($price['term']);?>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php echo format_quantity($price['quantity']);?>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <?php echo form_open('/ajax/add_cart', ['onsubmit' => 'add_cart($(this).serialize(), event)', 'method' => 'post']); ?>
+                                                                <div class="input-group">
+                                                                    <input placeholder="кол." type="number"
+                                                                           name="quantity"
+                                                                           class="form-control">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="<?php echo $product['id']; ?>">
+                                                                    <input type="hidden" name="supplier_id"
+                                                                           value="<?php echo $price['supplier_id']; ?>">
+                                                                    <input type="hidden" name="term"
+                                                                           value="<?php echo $price['term']; ?>">
+                                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="submit"><i
+                                                                    class="fa fa-shopping-cart"></i></button>
+                                                    </span>
+                                                                </div>
+                                                                </form>
+                                                                <small>
+                                                                    <a href="/cart" class="<?php echo $key; ?>"
+                                                                        <?php if (!key_exists(md5($key), $this->cart->contents())) { ?>
+                                                                            style="display: none;"
+                                                                        <?php } ?>
+                                                                    ><i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
+                                                                    </a>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

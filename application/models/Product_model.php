@@ -561,10 +561,11 @@ class Product_model extends Default_model
                 $product['min_price'] = 0;
                 $product['max_price'] = 0;
 
-                $prices = $this->get_product_price($product);
-                if ($prices) {
+                $product['prices'] = $this->get_product_price($product);
+
+                if ($product['prices']) {
                     $price_arrray = [];
-                    foreach ($prices as $price) {
+                    foreach ($product['prices'] as $price) {
                         $price_arrray[] = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
                     }
                     $product['countPrice'] = count($price_arrray);
