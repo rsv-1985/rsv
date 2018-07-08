@@ -129,12 +129,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php echo format_currency($product['min_price']); ?>
                                             <?php } else { ?>
                                                 <?php echo format_currency($product['min_price']); ?>
-                                                <small> -</small>
+                                                <small> - </small>
                                                 <?php echo format_currency($product['max_price']); ?>
-
                                             <?php } ?>
                                         </b>
-
                                     </div>
                                     <div class="product-option-shop">
                                         <a class="btn btn-default" href="/product/<?php echo $product['slug']; ?>"><?php echo lang('button_cart'); ?></a>
