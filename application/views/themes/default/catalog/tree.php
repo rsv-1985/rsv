@@ -88,9 +88,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </a>
                                         </div>
                                         <small><?php echo $part->Brand.' '.$part->Search;?></small>
-                                        <h2>
+                                        <div class="name">
                                             <a href="/product/<?php echo $part->product['slug'];?>"><?php echo $part->Name;?></a>
-                                        </h2>
+                                        </div>
                                         <div class="product-carousel-price">
                                             <b>
                                                 <?php echo format_currency($part->product['prices'][0]['price']); ?>
@@ -188,9 +188,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 </a>
                                             </div>
                                             <small><?php echo $part->Brand.' '.$part->Search;?></small>
-                                            <h2>
+                                            <div class="name">
                                                 <a href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo $part->Name;?></a>
-                                            </h2>
+                                            </div>
                                             <div class="product-carousel-price"></div>
                                             <div class="product-option-shop">
                                                 <a class="btn btn-default" href="/search?search=<?php echo $part->Search; ?>&ID_art=<?php echo $part->ID_art; ?>&brand=<?php echo $part->Brand; ?>"><?php echo lang('text_cross'); ?></a>
