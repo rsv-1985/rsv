@@ -118,6 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/autoxadmin/waybill"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_waybill');?></a></li>
+                        <li><a href="/autoxadmin/order_ttn"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_order_ttn');?></a></li>
                     </ul>
                 </li>
                 <li class="treeview">

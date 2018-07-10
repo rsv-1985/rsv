@@ -41,6 +41,7 @@ $lang['text_nav_brand_group'] = 'Группы брендов';
 $lang['text_nav_synonym_name'] = 'Синонимы наименований';
 $lang['text_nav_import'] = 'Импорт прайс листов';
 $lang['text_nav_cross'] = 'Кросс номера';
+$lang['text_nav_order_ttn'] = 'ТТН';
 $lang['text_nav_price'] = 'Экспорт прайс листов';
 $lang['text_settings'] = 'Настройки';
 $lang['text_nav_settings'] = 'Настройки магазина';
