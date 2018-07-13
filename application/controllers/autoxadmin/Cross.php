@@ -243,20 +243,26 @@ class Cross extends Admin_controller
                 $brand = $this->product_model->clear_brand($excel->sheets[0]['cells'][$i][2]);
                 $code2 = $this->product_model->clear_sku($excel->sheets[0]['cells'][$i][3]);
                 $brand2 =$this->product_model->clear_brand($excel->sheets[0]['cells'][$i][4]);
-                $save[]= [
-                    'code' => $code,
-                    'brand' => $brand,
-                    'code2' => $code2,
-                    'brand2' => $brand2,
-                ];
-                if($xcross){
-                    $save2[] = [
-                        'code' => $code2,
-                        'brand' => $brand2,
-                        'code2' => $code,
-                        'brand2' => $brand,
+
+                if($code && $code2 && $brand && $brand2){
+                    $save[]= [
+                        'code' => $code,
+                        'brand' => $brand,
+                        'code2' => $code2,
+                        'brand2' => $brand2,
                     ];
+
+                    if($xcross){
+                        $save2[] = [
+                            'code' => $code2,
+                            'brand' => $brand2,
+                            'code2' => $code,
+                            'brand2' => $brand,
+                        ];
+                    }
                 }
+
+
                 $q++;
                 if ($q > 2000) {
                     $this->cross_model->insert_batch($save);
