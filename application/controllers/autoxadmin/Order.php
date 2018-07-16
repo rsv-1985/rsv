@@ -547,7 +547,7 @@ class Order extends Admin_controller
      */
     public function search_products()
     {
-        $search = $this->input->post('search', true);
+        $search = $this->product_model->clear_sku($this->input->post('search', true));
         $products = $this->product_model->get_search_text($search);
         $html = 'Ничего не найдено';
         if ($products) {
