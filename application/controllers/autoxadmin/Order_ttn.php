@@ -21,7 +21,7 @@ class Order_ttn extends Admin_controller
         $data = [];
         $this->load->library('pagination');
 
-        $config['base_url'] = base_url('autoxadmin/orderstatus/index');
+        $config['base_url'] = base_url('autoxadmin/order_ttn/index');
         $config['total_rows'] = $this->order_ttn_model->count_all();
         $config['per_page'] = 10;
 
