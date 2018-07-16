@@ -123,7 +123,7 @@ class Order extends Admin_controller
         $data['delivery'] = $this->delivery_model->delivery_get_all();
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['history'] = $this->order_history_model->history_get($id);
-        $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']]);
+        $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']], ['id' => 'ASC']);
 
 
 
