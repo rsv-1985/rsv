@@ -82,8 +82,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="form-group">
                     <label><?php echo lang('text_import_settings');?></label>
                     <select name="settings" class="form-control">
-                        <option value="1"><label><?php echo lang('text_import_settings_add');?></label></option>
                         <option value="2"><label><?php echo lang('text_import_settings_delete');?></label></option>
+                        <option value="1"><label><?php echo lang('text_import_settings_add');?></label></option>
                     </select>
                 </div>
                 <?php if($this->input->get('supplier_id')){?>
