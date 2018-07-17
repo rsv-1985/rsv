@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="xcross" value="1">
+                                <input type="checkbox" name="xcross" value="1" checked>
                                 Создать обратный кросс
                             </label>
                         </div>
