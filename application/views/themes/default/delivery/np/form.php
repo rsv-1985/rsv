@@ -45,7 +45,7 @@
 <script>
 
     $(document).ready(function(){
-        $("#form-group-address").hide();
+        //$("#form-group-address").hide();
 
         if($("[name='DeliveryCity']").val()){
             var Ref = $("[name='DeliveryCity']").val();
