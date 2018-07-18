@@ -93,14 +93,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $product['name'];?></td>
                                         <td><?php echo isset($supplier[$product['supplier_id']]) ? $supplier[$product['supplier_id']]['name'] : '';?></td>
                                         <td>
-                                            <input type="number" min="0" name="delivery_price" value="<?php echo $product['delivery_price'];?>" class="form-control">
+                                            <input type="text" name="delivery_price" value="<?php echo $product['delivery_price'];?>" class="form-control">
                                             <small><?php echo isset($currency[$product['currency_id']]) ? $currency[$product['currency_id']]['name'] : '';?></small>
                                         </td>
                                             <td>
-                                                <input type="number" name="price" min="0" value="<?php echo $product['price'];?>" class="form-control">
+                                                <input type="text" name="price"  value="<?php echo $product['price'];?>" class="form-control">
                                             </td>
                                         <td>
-                                            <input type="number" name="saleprice" min="0" value="<?php echo $product['saleprice'];?>" class="form-control">
+                                            <input type="text" name="saleprice"  value="<?php echo $product['saleprice'];?>" class="form-control">
 
                                         </td>
                                         <td>
