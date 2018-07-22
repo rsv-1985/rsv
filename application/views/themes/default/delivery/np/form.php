@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label><?php echo lang('text_np_address');?></label>
-                <input name="np_address" value="<?php echo @$customer->np_address;?>" type="text" onkeyup="getCity($(this).val())" class="form-control" >
+                <input required name="np_address" value="<?php echo @$customer->np_address;?>" type="text" onkeyup="getCity($(this).val())" class="form-control" >
                 <div class="city-res"></div>
             </div>
             <div class="form-group" id="form-group-RecipientAddressName" <?php if(@$customer->RecipientAddressName2){?>style="display: none;"<?php } ?>>
@@ -109,6 +109,11 @@
                         if(json){
                             var html = '';
                             $(json).each(function(index,item){
+                                item['DeliveryCity'] = item['DeliveryCity'].replace("'","\\'");
+                                item['MainDescription'] = item['MainDescription'].replace("'","\\'");
+                                item['Area'] = item['Area'].replace("'","\\'");
+                                item['Region'] = item['Region'].replace("'","\\'");
+
                                 console.log(item);
                                 html += '<a href="#" onclick="set(\''+item['DeliveryCity']+'\',\''+item['MainDescription']+'\',\''+item['Area']+'\',\''+item['Region']+'\');$(\'.city-res\').empty();return false;">'+item['Present']+'</a><br>';
                             });
