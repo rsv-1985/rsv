@@ -182,7 +182,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         if (json) {
                             var html = '';
                             $(json).each(function (index, item) {
-                                console.log(item);
+                                item['DeliveryCity'] = item['DeliveryCity'].replace("'","\\'");
+                                item['MainDescription'] = item['MainDescription'].replace("'","\\'");
+                                item['Area'] = item['Area'].replace("'","\\'");
+                                item['Region'] = item['Region'].replace("'","\\'");
                                 html += '<a href="#" onclick="set(\'' + item['DeliveryCity'] + '\',\'' + item['MainDescription'] + '\',\'' + item['Area'] + '\',\'' + item['Region'] + '\');$(\'.city-res\').empty();return false;">' + item['Present'] + '</a><br>';
                             });
                         }
