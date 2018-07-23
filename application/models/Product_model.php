@@ -421,7 +421,7 @@ class Product_model extends Default_model
 
         foreach ($search as $search) {
             $this->db->group_start();
-            $this->db->or_where('sku', $search, 'both');
+            $this->db->or_where('sku', $this->clear_sku($search));
             $this->db->or_like('name', $search, 'both');
             $this->db->or_like('brand', $search, 'both');
             $this->db->group_end();
