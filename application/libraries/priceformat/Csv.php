@@ -235,6 +235,7 @@ class Csv{
 
         $sql .= " LIMIT 1000";
 
+
         $query = $this->CI->db->query($sql);
 
         if($query->num_rows() == 0 && $data['id'] == 0){
@@ -242,6 +243,7 @@ class Csv{
         }
         if($query->num_rows() > 0){
             $products = $query->result_array();
+
             foreach ($products as $product){
 
                 $product['slug'] = base_url('product/'.$product['slug']);
@@ -285,11 +287,9 @@ class Csv{
                 $product_input = array_intersect_key($product,$data['template']);
 
                 fputcsv($fp, $product_input,';');
-
-                $data['id'] = $product['product_id'];
             }
 
-
+            $data['id'] = end($products)['product_id'];
 
             echo('<html>
                     <head>
@@ -302,8 +302,8 @@ class Csv{
                     </html>');
             die();
         }else{
-            echo 'Link to price: <a download href="'.base_url().'uploads/price/csv/price.csv?ver='.time().'">'.base_url().'uploads/price/csv/price.csv</a>';
-            exit();
+            $this->CI->session->set_flashdata('success', 'Link to price: <a download href="'.base_url().'uploads/price/csv/price.csv?ver='.time().'">'.base_url().'uploads/price/csv/price.csv</a>');
+            redirect('/autoxadmin/price');
         }
     }
 
