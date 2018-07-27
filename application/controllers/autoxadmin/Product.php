@@ -117,7 +117,7 @@ class Product extends Admin_controller
                 $file_name = $this->input->post('image');
                 if(isset($_FILES['userfile']['name']) && !empty($_FILES['userfile']['name'])){
                     $config['upload_path']          = './uploads/product/';
-                    $config['allowed_types']        = 'gif|jpg|png';
+                    $config['allowed_types']        = 'gif|jpg|jpeg|png';
                     $config['encrypt_name']         = true;
 
                     $this->load->library('upload', $config);
