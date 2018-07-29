@@ -432,7 +432,7 @@ class Cart extends Front_controller
                 $this->sender->email($message_template['subject'], $message_template['text'], $this->input->post('email'), explode(';', $this->contacts['email']));
             }
 
-            if ($this->input->post('phone')) {
+            if ($this->input->post('telephone')) {
                 $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
             }
         }
