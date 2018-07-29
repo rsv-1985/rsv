@@ -440,5 +440,6 @@ class Cart extends Front_controller
 
         $this->customer_model->login($save['phone'], $pass);
         return $customer_id;
+
     }
 }
