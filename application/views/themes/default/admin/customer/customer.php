@@ -29,7 +29,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <table class="table table-bordered">
                             <thead><tr>
                                 <th>ID</th>
-                                <th><?php echo lang('text_login');?></th>
                                 <th><?php echo lang('text_customer_group_id');?></th>
                                 <th><?php echo lang('text_first_name');?></th>
                                 <th><?php echo lang('text_second_name');?></th>
@@ -45,11 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <?php echo form_open('/autoxadmin/customer',['method' => 'get']);?>
                             <tr>
                                 <td><input type="text" class="form-control" name="id" value="<?php echo $this->input->get('id');?>"></td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="login" value="<?php echo $this->input->get('login');?>">
-                                    </div>
-                                </td>
                                 <td>
                                     <div class="form-group">
                                         <select name="customer_group_id" class="form-control">
@@ -107,9 +101,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php foreach($customeres as $customer){?>
                                     <tr>
                                         <td><?php echo $customer['id'];?></td>
-                                        <td>
-                                            <?php echo $customer['login'];?>
-                                        </td>
                                         <td><?php echo @$customergroup[$customer['customer_group_id']]['name'];?></td>
                                         <td><?php echo $customer['first_name'];?></td>
                                         <td><?php echo $customer['second_name'];?></td>

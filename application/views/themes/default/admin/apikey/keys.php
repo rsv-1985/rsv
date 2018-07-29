@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <tr>
                                     <td><?php echo $key['id'];?></td>
                                     <td><?php echo $key['key'];?></td>
-                                    <td><?php echo $key['login'];?></td>
+                                    <td><?php echo $key['customer_name'];?></td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <a href="/autoxadmin/apikey/delete/<?php echo $key['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>

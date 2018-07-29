@@ -12,7 +12,7 @@ class Search_history_model extends Default_model{
 
     public function search_history_get_all($limit, $start){
         $this->db->from('search_history sh');
-        $this->db->select('SQL_CALC_FOUND_ROWS sh.*, c.login, c.id as cid', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS sh.*, CONCAT_WS(" ", c.phone, c.first_name, c.second_name) as customer_name, c.id as cid', false);
         $this->db->join('customer c', 'c.id=sh.customer_id', 'left');
 
         if ($this->input->get('sku')) {
@@ -22,7 +22,7 @@ class Search_history_model extends Default_model{
             $this->db->where('sh.brand', $this->input->get('brand', true));
         }
         if ($this->input->get('name')) {
-            $this->db->or_like('c.login', $this->input->get('name', true));
+            $this->db->or_like('c.phone', format_phone($this->input->get('name', true)));
             $this->db->or_like('c.first_name', $this->input->get('name', true));
             $this->db->or_like('c.second_name', $this->input->get('name', true));
             $this->db->or_like('c.patronymic', $this->input->get('name', true));

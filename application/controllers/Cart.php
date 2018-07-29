@@ -23,6 +23,7 @@ class Cart extends Front_controller
         $this->load->model('message_template_model');
         $this->load->model('cart_model');
         $this->load->helper('cookie');
+        $this->load->library('sender');
     }
 
     public function index(){
@@ -65,8 +66,6 @@ class Cart extends Front_controller
         $data['suppliers'] = $this->supplier_model->supplier_get_all();
 
 
-        $customer_coockie = get_cookie('customer');
-
         if ($this->is_login){
 
             $customer = $this->customer_model->get($this->is_login);
@@ -77,42 +76,42 @@ class Cart extends Front_controller
                     'last_name' => $customer['second_name'],
                     'patronymic' => $customer['patronymic'],
                     'telephone' => $customer['phone'],
+                    'payment_method_id' => $customer['payment_method_id'],
+                    'delivery_method_id' => $customer['delivery_method_id'],
                     'email' => $customer['email'],
-                    'address' => $customer['address']
+                    'address' => $customer['address'],
+                    'additional_information' => unserialize($customer['additional_information'])
                 ];
             }
         }
 
-        if($customer_coockie){
-            $data['customer'] = (array)json_decode($customer_coockie);
-        }
-
         if($this->input->post() && $this->cart->total_items() > 0){
+            $_POST['telephone'] = format_phone($_POST['telephone']);
 
-            $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
-            $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer');
-            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'required|max_length[250]');
-            $this->form_validation->set_rules('last_name', lang('text_last_name'), 'required|max_length[250]');
-            $this->form_validation->set_rules('patronymic', lang('text_patronymic'), 'max_length[255]');
-            $this->form_validation->set_rules('telephone', lang('text_telephone'), 'required|max_length[32]');
-            $this->form_validation->set_rules('email', 'email', 'valid_email');
+            if(!$this->is_login){
+                $this->form_validation->set_rules('telephone', lang('text_telephone'), 'is_unique[customer.telephone]');
+                $this->form_validation->set_rules('email', 'Email', 'is_unique[customer.email]|valid_email');
+            }
+
+            $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer|trim');
+            $this->form_validation->set_rules('payment_method', lang('text_payment_method'), 'required|integer|trim');
+            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'required|max_length[250]|trim');
+            $this->form_validation->set_rules('last_name', lang('text_last_name'), 'required|max_length[250]|trim');
+            $this->form_validation->set_rules('patronymic', lang('text_patronymic'), 'max_length[255]|trim');
+            $this->form_validation->set_rules('telephone', lang('text_telephone'), 'required|max_length[32]|trim');
+            $this->form_validation->set_rules('email', 'email', 'valid_email|max_length[96]|trim');
             $this->form_validation->set_rules('comment', lang('text_comment'), 'max_length[3000]');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]');
             if ($this->form_validation->run() !== false){
-                //Сохраняем данные клиента для повторного использования
-                $cookie = array(
-                    'name'   => 'customer',
-                    'value'  => json_encode($this->input->post()),
-                    'expire' => 60*60*24*12,
-                    'secure' => TRUE
-                );
-
-                set_cookie('customer',json_encode($this->input->post()),60*60*24*12);
-
                 $order_status = $this->orderstatus_model->get_default();
                 $cart_data = $this->total_cart();
                 $save = [];
-                $save['customer_id'] = $this->is_login;
+                if($this->is_login){
+                    $save['customer_id'] = $this->is_login;
+                }else{
+                    $save['customer_id'] = $this->auto_registration();
+                }
+
                 $save['first_name'] = $this->input->post('first_name', true);
                 $save['last_name'] = $this->input->post('last_name', true);
                 $save['patronymic'] = $this->input->post('patronymic', true);
@@ -159,7 +158,7 @@ class Cart extends Front_controller
                             'supplier_id' => $item['supplier_id'],
                             'status_id' => $order_status['id'],
                             'term' => (int)$item['term'],
-                            'excerpt' => $item['excerpt']
+                            'excerpt' => (string)$item['excerpt']
                         ];
 
                         if($item['is_stock']){
@@ -233,11 +232,7 @@ class Cart extends Front_controller
                     
                     $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));
 
-                    if($this->is_login){
-                        redirect('/customer');
-                    }else{
-                        redirect('/');
-                    }
+                    redirect('/customer');
                 }
             }else{
                 $this->error = validation_errors();
@@ -388,48 +383,61 @@ class Cart extends Front_controller
             $quantity = 1;
         }
 
-
-        $product = $this->product_model->get_product_for_cart($product_id,$supplier_id,$term);
-        if ($product) {
-
-           $cartId = $product_id.$supplier_id.$term;
-           $price = (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
-            $data = [
-                'id' => $cartId,
-                'qty' => (int)$quantity,
-                'slug' => $product['slug'],
-                'delivery_price' => $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'],
-                'price' => format_currency($price,false),
-                'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
-                'excerpt' => $product['excerpt'],
-                'sku' => $product['sku'],
-                'brand' => $product['brand'],
-                'product_id' => (int)$product['id'],
-                'supplier_id' => (int)$product['supplier_id'],
-                'term' => (int)$product['term'],
-                'is_stock' => (bool)$this->supplier_model->suppliers[$supplier_id]['stock'],
-                'created_at' => date('Y-m-d H:i:s')
-            ];
-
-            if ($this->supplier_model->suppliers[$supplier_id]['stock']){
-                $quan_in_cart = key_exists(md5($cartId), $this->cart->contents()) ? $this->cart->contents()[md5($cartId)]['qty'] : 0;
-
-                if ($product['quantity'] < $quantity + $quan_in_cart) {
-                    $json['error'] = lang('text_error_qty_cart_add');
-                    unset($data);
-                }
-            }
-        }
-
-        if (isset($data) && $this->cart->insert($data)) {
-            $json['cartId'] = $cartId;
-            $json['success'] = lang('text_success_cart');
-            $json['product_count'] = $this->cart->total_items();
-            $json['cart_amunt'] = format_currency($this->cart->total());
-        }
+        $json = $this->cart_model->addCart($product_id,$supplier_id,$term,$quantity);
 
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
+    }
+
+    private function auto_registration(){
+        $this->load->model('message_template_model');
+        $this->load->model('customer_model');
+        $pass = rand(1000,9999);
+        $save = [];
+        $save['first_name'] = $this->input->post('first_name', true);
+        $save['second_name'] = $this->input->post('last_name', true);
+        $save['patronymic'] = $this->input->post('patronymic', true);
+        $save['email'] = $this->input->post('email', true);
+        $save['address'] = $this->input->post('address', true);
+        $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
+        $save['password'] = password_hash($pass, PASSWORD_BCRYPT);
+        $save['phone'] = format_phone($this->input->post('telephone', true));
+        $save['created_at'] = date('Y-m-d H:i:s');
+        $save['status'] = $this->config->item('active_new_customer');
+        $save['negative_balance'] = (int)$this->config->item('negative_balance');
+        $save['payment_method_id'] = (int)$this->input->post('payment_method_id');
+        $save['delivery_method_id'] = (int)$this->input->post('delivery_method_id');
+
+        $customer_id = $this->customer_model->insert($save,false);
+
+        if($customer_id){
+            //Получаем шаблон сообщения 3 - Регистрация
+            $message_template = $this->message_template_model->get(3);
+
+            foreach ($this->input->post() as $field => $value) {
+                $message_template['subject'] = str_replace('{' . $field . '}', $value, $message_template['subject']);
+                $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
+                $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
+            }
+
+            $message_template['text'] = str_replace('{pass}',$pass, $message_template['text']);
+            $message_template['subject'] = str_replace('{customer_id}', $customer_id, $message_template['subject']);
+            $message_template['text'] = str_replace('{customer_id}', $customer_id, $message_template['text']);
+            $message_template['text_sms'] = str_replace('{customer_id}', $customer_id, $message_template['text_sms']);
+
+            $this->sender->email($message_template['subject'], $message_template['text'], explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
+
+            if ($this->input->post('email')) {
+                $this->sender->email($message_template['subject'], $message_template['text'], $this->input->post('email'), explode(';', $this->contacts['email']));
+            }
+
+            if ($this->input->post('phone')) {
+                $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
+            }
+        }
+
+        $this->customer_model->login($save['phone'], $pass);
+        return $customer_id;
     }
 }

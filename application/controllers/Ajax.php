@@ -16,6 +16,26 @@ class Ajax extends Front_controller
         }
     }
 
+    public function get_customer_by_phone(){
+        $this->load->model('customer_model');
+        $phone = $this->input->post('telephone', true);
+        $customer_info = $this->customer_model->getByPhone($phone);
+
+        if($customer_info){
+            if($this->is_admin){
+                $is_login = $this->customer_model->login($customer_info['phone'],'', true);
+                if($is_login){
+                    exit('is_login');
+                }else{
+                    exit('error');
+                }
+            }else{
+                exit('true');
+            }
+        }
+        exit('false');
+    }
+
     public function get_brands()
     {
         $this->load->model('product_model');
@@ -237,28 +257,7 @@ class Ajax extends Front_controller
             ->set_output(json_encode($json));
     }
 
-    public function login()
-    {
-        $json = [];
-        $this->load->language('customer');
-        $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim');
-        $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
-        if ($this->form_validation->run() !== false) {
-            $login = $this->input->post('login', true);
-            $password = $this->input->post('password', true);
-            if ($this->customer_model->login($login, $password)) {
-                $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
-                $json['success'] = true;
-            } else {
-                $json['error'] = lang('text_error');
-            }
-        } else {
-            $json['error'] = validation_errors();
-        }
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
+
 
     public function get_tecdoc_info()
     {

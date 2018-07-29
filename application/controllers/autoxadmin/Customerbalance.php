@@ -34,11 +34,11 @@ class Customerbalance extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function username_check($str)
+    public function id_check($str)
     {
-        if (!$this->customer_model->getByLogin($str))
+        if (!$this->customer_model->get($str))
         {
-            $this->form_validation->set_message('login', 'Customer '.$str.' not find');
+            $this->form_validation->set_message('id_check', 'Customer '.$str.' not find');
             return FALSE;
         }
         else
@@ -50,7 +50,7 @@ class Customerbalance extends Admin_controller
     public function create(){
         $data['types'] = $this->customerbalance_model->types;
         if($this->input->post()){
-            $this->form_validation->set_rules('login', 'Логин покупателя', 'required|callback_username_check|trim');
+            $this->form_validation->set_rules('id', 'ID клиента', 'required|callback_id_check|trim');
             $this->form_validation->set_rules('type', 'Тип транзакции', 'required|integer');
             $this->form_validation->set_rules('value', 'Сумма', 'required|numeric');
             $this->form_validation->set_rules('transaction_created_at', 'Дата транзакции', 'required');
@@ -74,8 +74,8 @@ class Customerbalance extends Admin_controller
     }
 
     protected function _save_data($id = false){
-        $customerInfo = $this->customer_model->getByLogin($this->input->post('login', true));
-        $save['customer_id'] = $customerInfo['id'];
+        $customerInfo = $this->customer_model->get($this->input->post('id', true));
+        $save['customer_id'] = $this->input->post('id', true);
         $save['type'] = (int)$this->input->post('type');
         $save['value'] = (float)$this->input->post('value');
         $save['transaction_created_at'] = $this->input->post('transaction_created_at', true);

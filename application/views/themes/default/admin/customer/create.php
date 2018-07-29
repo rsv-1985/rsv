@@ -21,10 +21,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label><?php echo lang('text_login'); ?></label>
-                    <input required type="text" class="form-control" name="login" value="<?php echo set_value('login'); ?>" maxlength="32">
-                </div>
-                <div class="form-group">
                     <label><?php echo lang('text_customer_group_id'); ?></label>
                     <select name="customer_group_id" class="form-control" required>
                         <?php foreach($customergroup as $group){?>

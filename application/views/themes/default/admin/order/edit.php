@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="tab1">
             <?php echo form_open('', ['id' => 'order_form']); ?>
-            <input type="hidden" name="customer_id" value="<?php echo $order['customer_id']; ?>">
+
             <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
                     <div class="form-group">
@@ -110,6 +110,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         </select>
                     </div>
+                    <input type="hidden" name="customer_id" value="<?php echo $order['customer_id']; ?>">
+                    <?php if($order['customer_id']){?>
+                        <div class="form-group">
+                            <label>Клиент</label>
+                            <br><a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $customer_info['first_name'].' '.$customer_info['second_name'];?></a>
+                            <br><small><?php echo $customer_info['balance'];?></small>
+                        </div>
+                    <?php } ?>
                 </div><!-- /.col -->
             </div><!-- /.row -->
             <div class="row">

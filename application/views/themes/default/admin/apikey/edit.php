@@ -22,8 +22,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="box">
                 <div class="box-body">
                     <div class="form-group">
-                        <label><?php echo lang('text_login'); ?></label>
-                        <input required type="text" class="form-control" name="login" value="<?php echo set_value('login',$keydata['login']); ?>">
+                        <label><?php echo lang('text_id'); ?></label>
+                        <input required type="text" class="form-control" name="login" value="<?php echo set_value('id',$keydata['id']); ?>">
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label><?php echo lang('text_key'); ?></label>

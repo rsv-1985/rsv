@@ -41,14 +41,13 @@ class Customer extends Admin_controller
     public function create()
     {
         if ($this->input->post()) {
-            $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
             $this->form_validation->set_rules('customer_group_id', lang('text_customer_group_id'), 'required|integer|trim');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[250]|trim');
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('patronymic', lang('text_patronymic'), 'max_length[255]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
-            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim');
+            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim|is_unique[customer.email]');
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required|is_unique[customer.phone]|min_length[10]|max_length[32]');
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
 
@@ -76,17 +75,26 @@ class Customer extends Admin_controller
         }
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('customer_group_id', lang('text_customer_group_id'), 'required|integer|trim');
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
-            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim');
+
+            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim|required');
+            if($this->input->post('email', true) != $data['customer']['email']){
+                $this->form_validation->set_rules('email', lang('text_email'), 'is_unique[customer.email]');
+            }
+
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required|max_length[32]');
+            if($this->input->post('phone', true) != $data['customer']['phone']){
+                $this->form_validation->set_rules('phone', lang('text_phone'), 'is_unique[customer.phone]');
+            }
+
             if ($this->input->post('password')) {
                 $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
                 $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
             }
+
             if ($this->form_validation->run() !== false) {
                 $this->save_data($id);
             } else {
@@ -109,9 +117,9 @@ class Customer extends Admin_controller
     public function login($id){
         $this->load->helper('cookie');
         delete_cookie('customer');
-        $customer_info = $this->customer_model->get($id);
+
         if($id){
-            $this->customer_model->login($customer_info['login'],'',true);
+            $this->customer_model->login($id,'',true);
             redirect('/');
         }
     }
@@ -119,14 +127,13 @@ class Customer extends Admin_controller
     private function save_data($id = false)
     {
         $save = [];
-        $save['login'] = $this->input->post('login', true);
         $save['customer_group_id'] = (int)$this->input->post('customer_group_id', true);
         $save['first_name'] = $this->input->post('first_name', true);
         $save['second_name'] = $this->input->post('second_name', true);
         $save['patronymic'] = $this->input->post('patronymic', true);
         $save['address'] = $this->input->post('address', true);
         $save['email'] = $this->input->post('email', true);
-        $save['phone'] = $this->input->post('phone', true);
+        $save['phone'] = format_phone($this->input->post('phone', true));
         if ($this->input->post('password')) {
             $save['password'] = password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
         }

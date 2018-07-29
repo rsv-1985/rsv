@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <section class="content-header">
     <h1>
         Баланс
-        <small>покупателей</small>
+        <small>клиентов</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Баланс покупателей</h3>
+            <h3 class="box-title">Баланс клиентов</h3>
         </div>
         <div class="box-body">
             <table class="table table-bordered">
@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <th>Тип</th>
                     <th>Сумма</th>
                     <th>Описание</th>
-                    <th>Покупатель</th>
+                    <th>Клиент</th>
                     <th>Дата транзакции</th>
                     <th>Дата добавления</th>
                     <th class="text-right"><a href="/autoxadmin/customerbalance/create" class="btn btn-info">Добавить</a></th>
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <input type="text" name="description" value="<?php echo $this->input->get('description',true);?>" class="form-control">
                     </td>
                     <td>
-                        <input type="text" name="login" value="<?php echo $this->input->get('login',true);?>" class="form-control">
+                        <input type="text" name="customer_name" value="<?php echo $this->input->get('customer_name',true);?>" class="form-control">
                     </td>
                     <td>
                         <input type="text" name="created_at" value="<?php echo $this->input->get('created_at',true);?>" class="form-control">
@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </td>
                             <td><small><?php echo $balance['description'];?></small></td>
                             <td>
-                                <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $balance['customer_id'];?>"><?php echo $balance['login'];?></a><br/>
+                                <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $balance['customer_id'];?>"><?php echo $balance['customer_name'];?></a><br/>
                                 <small>(<?php echo $balance['balance'];?>)</small>
                             </td>
                             <td>

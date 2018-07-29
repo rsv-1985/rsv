@@ -97,3 +97,7 @@ function plural_form($number, $after) {
 function format_data($data){
     return substr($data, 0, 4)."-".substr($data, 4, 2);
 }
+
+function format_phone($phone){
+    return preg_replace('/[^0-9]/','',$phone);
+}

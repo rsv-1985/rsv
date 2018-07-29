@@ -50,8 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <?php if($search_history){?>
                             <?php foreach($search_history as $sh){?>
                                 <tr>
-                                    <td><?php if($sh['login']){?>
-                                            <a href="/autoxadmin/customer/edit/<?php echo $sh['cid'];?>"><?php echo $sh['login'];?></a>
+                                    <td><?php if($sh['customer_name']){?>
+                                            <a href="/autoxadmin/customer/edit/<?php echo $sh['cid'];?>"><?php echo $sh['customer_name'];?></a>
                                         <?php }else{?>
                                             Незарегистрированный
                                         <?php } ;?>

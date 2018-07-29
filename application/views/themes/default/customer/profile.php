@@ -30,8 +30,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <div class="form-group">
                         <label><?php echo lang('text_address');?></label>
                         <input type="text" name="address" class="form-control" value="<?php echo set_value('address',$customer['address']);?>">
-                        <label><?php echo lang('text_login');?></label>
-                        <input type="text" name="login" class="form-control" value="<?php echo set_value('login',$customer['login']);?>" maxlength="32">
                     </div>
                 </div>
                 <div class="col-md-6">

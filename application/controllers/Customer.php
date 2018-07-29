@@ -89,50 +89,57 @@ class Customer extends Front_controller
         }
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'required|max_length[32]|trim');
 
-            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'trim|required');
-            $this->form_validation->set_rules('second_name', lang('text_second_name'), 'trim|required');
-            $this->form_validation->set_rules('patronymic', lang('patronymic'), 'trim|required');
-            $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email');
-            $this->form_validation->set_rules('captcha', 'Проверочный код', 'trim|required|callback_validate_captcha');
+            if($this->input->post('phone')){
+                $_POST['phone'] = format_phone($_POST['phone']);
+            }
+
+            $this->form_validation->set_rules('phone', lang('text_phone'), 'required|min_length[10]|max_length[32]|trim|is_unique[customer.phone]');
 
             $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
             $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
 
+            $this->form_validation->set_rules('first_name', lang('text_first_name'), 'trim|required');
+            $this->form_validation->set_rules('second_name', lang('text_second_name'), 'trim|required');
+            $this->form_validation->set_rules('patronymic', lang('patronymic'), 'trim|required');
+            $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email|is_unique[customer.email]');
+            $this->form_validation->set_rules('captcha', lang('text_captcha'), 'trim|required|callback_validate_captcha');
+
+
             if ($this->form_validation->run() !== false) {
                 $customer_id = $this->save_data();
+                if($customer_id){
+                    //Получаем шаблон сообщения 3 - Регистрация
+                    $message_template = $this->message_template_model->get(3);
+                    foreach ($this->input->post() as $field => $value) {
+                        $message_template['subject'] = str_replace('{' . $field . '}', $value, $message_template['subject']);
+                        $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
+                        $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
+                    }
+                    $message_template['text'] = str_replace('{pass}',$this->input->post('password', true), $message_template['text']);
+                    $message_template['subject'] = str_replace('{customer_id}', $customer_id, $message_template['subject']);
+                    $message_template['text'] = str_replace('{customer_id}', $customer_id, $message_template['text']);
+                    $message_template['text_sms'] = str_replace('{customer_id}', $customer_id, $message_template['text_sms']);
 
-                //Получаем шаблон сообщения 3 - Регистрация
-                $message_template = $this->message_template_model->get(3);
-                foreach ($this->input->post() as $field => $value) {
-                    $message_template['subject'] = str_replace('{' . $field . '}', $value, $message_template['subject']);
-                    $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
-                    $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
+                    $this->sender->email($message_template['subject'], $message_template['text'], explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
+
+                    if ($this->input->post('email')) {
+                        $this->sender->email($message_template['subject'], $message_template['text'], $this->input->post('email'), explode(';', $this->contacts['email']));
+                    }
+
+                    if ($this->input->post('phone')) {
+                        $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
+                    }
+
+                    if ($this->customer_model->login($customer_id, $this->input->post('password', true))) {
+                        $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
+                        redirect('/');
+                    } else {
+                        $this->session->set_flashdata('error', 'ERROR REGISTRATION');
+                        redirect('/');
+                    }
                 }
 
-                $message_template['subject'] = str_replace('{customer_id}', $customer_id, $message_template['subject']);
-                $message_template['text'] = str_replace('{customer_id}', $customer_id, $message_template['text']);
-                $message_template['text_sms'] = str_replace('{customer_id}', $customer_id, $message_template['text_sms']);
-
-                $this->sender->email($message_template['subject'], $message_template['text'], explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
-
-                if ($this->input->post('email')) {
-                    $this->sender->email($message_template['subject'], $message_template['text'], $this->input->post('email'), explode(';', $this->contacts['email']));
-                }
-
-                if ($this->input->post('phone')) {
-                    $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
-                }
-
-                if ($this->customer_model->login($this->input->post('login', true), $this->input->post('password', true))) {
-                    $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
-                    redirect('/');
-                } else {
-                    $this->session->set_flashdata('error', 'ERROR REGISTRATION');
-                    redirect('/');
-                }
             } else {
                 $this->error = validation_errors();
             }
@@ -173,7 +180,16 @@ class Customer extends Front_controller
 
     public function logout()
     {
-        $this->session->sess_destroy();
+        if($this->is_admin){
+            unset($_SESSION['customer_id']);
+            unset($_SESSION['customer_group_id']);
+            unset($_SESSION['customer_name']);
+            unset($_SESSION['cart_contents']);
+        }else{
+            $this->session->sess_destroy(session_id());
+        }
+
+
         redirect('/');
     }
 
@@ -245,12 +261,12 @@ class Customer extends Front_controller
         $save['email'] = $this->input->post('email', true);
         $save['address'] = $this->input->post('address', true);
         $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
-        $save['login'] = $this->input->post('login', true);
         $save['password'] = password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
-        $save['phone'] = $this->input->post('phone', true);
+        $save['phone'] = format_phone($this->input->post('phone', true));
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['status'] = $this->config->item('active_new_customer');
         $save['negative_balance'] = (int)$this->config->item('negative_balance');
+
 
         //Удаляем картинки каптчи
         $this->load->helper('file');
@@ -265,38 +281,31 @@ class Customer extends Front_controller
         $data['customer_group'] = $this->customergroup_model->get($data['customer']['customer_group_id']);
 
         if ($this->input->post()) {
-            if ($this->input->post('login') != $data['customer']['login']) {
-                $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[32]|trim|is_unique[customer.login]');
-            }
+            $_POST['phone'] = format_phone($_POST['phone']);
+
             $this->form_validation->set_rules('first_name', lang('text_first_name'), 'max_length[250]|trim');
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[250]|trim');
             $this->form_validation->set_rules('patronymic', lang('patronymic'), 'max_length[255]|trim|required');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
-            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
-            $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required');
+
+            if($this->input->post('email',true) != $data['customer']['email']){
+                $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email|trim|is_unique[customer.email]');
+            }else{
+                $this->form_validation->set_rules('email', lang('text_email'), 'required|valid_email|trim');
+            }
+            if($this->input->post('phone',true) != $data['customer']['phone']){
+                $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required|is_unique[customer.phone]');
+            }else{
+                $this->form_validation->set_rules('phone', lang('text_phone'), 'trim|required');
+            }
             if ($this->input->post('password')) {
                 $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
                 $this->form_validation->set_rules('confirm_password', lang('text_confirm_password'), 'required|trim|matches[password]');
             }
 
             if ($this->form_validation->run() !== false) {
-                $save = [];
-                $save['login'] = $this->input->post('login', true);
-                $save['customer_group_id'] = (int)$data['customer']['customer_group_id'];
-                $save['first_name'] = $this->input->post('first_name', true);
-                $save['second_name'] = $this->input->post('second_name', true);
-                $save['patronymic'] = $this->input->post('patronymic', true);
-                $save['address'] = $this->input->post('address', true);
-                $save['email'] = $this->input->post('email', true);
-                $save['phone'] = $this->input->post('phone', true);
-                if ($this->input->post('password')) {
-                    $save['password'] = password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
-                }
+                $id = $this->save_data($data['customer']['id']);
 
-                $save['updated_at'] = date("Y-m-d H:i:s");
-
-                $save['status'] = true;
-                $id = $this->customer_model->insert($save, $data['customer']['id']);
                 if ($id) {
                     $this->session->set_flashdata('success', lang('text_success'));
                     redirect('customer/profile');
@@ -321,7 +330,7 @@ class Customer extends Front_controller
             $customer_info = $this->customer_model->get($this->is_login);
             if($customer_info){
                 $subject = 'Сообщение об оплате';
-                $text = 'Логин:'.$customer_info['login'].'<br>Сумма:'.$this->input->post('sum',true).'<br>Комментарий:'.$this->input->post('comment',true);
+                $text = 'Клиент ID :'.$customer_info['id'].'<br>Сумма:'.$this->input->post('sum',true).'<br>Комментарий:'.$this->input->post('comment',true);
                 $this->sender->email($subject,$text,$this->contacts['email'],$this->contacts['email']);
                 $this->session->set_flashdata('success', 'Сообщение отправлено');
                 redirect('customer/balance');
@@ -448,5 +457,29 @@ class Customer extends Front_controller
         $this->load->view('header');
         $this->load->view('customer/vin_info', $data);
         $this->load->view('footer');
+    }
+
+    public function login()
+    {
+        $json = [];
+        $this->load->language('customer');
+        $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[96]|trim');
+        $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
+
+        if ($this->form_validation->run() !== false) {
+            $login = $this->input->post('login', true);
+            $password = $this->input->post('password', true);
+            if ($this->customer_model->login($login, $password)) {
+                $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
+                $json['success'] = true;
+            } else {
+                $json['error'] = lang('text_error');
+            }
+        } else {
+            $json['error'] = validation_errors();
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
     }
 }

@@ -7,12 +7,6 @@ class MY_Cart extends CI_Cart {
         parent::__construct();
         $this->CI = &get_instance();
         $this->CI->load->model('cart_model');
-        if($this->CI->session->customer_id){
-            $cart_data = $this->CI->cart_model->cart_get($this->CI->session->customer_id);
-            if(!$cart_data){
-                $this->destroy();
-            }
-        }
     }
 
     public function destroy()
@@ -65,7 +59,7 @@ class MY_Cart extends CI_Cart {
         $this->CI->session->set_userdata(array('cart_contents' => $this->_cart_contents));
 
         //Если пользователь залогинен, сохраняем корзину в базу данных
-        if($this->CI->is_login){
+        if(@$this->CI->is_login){
             $this->CI->cart_model->cart_insert(serialize($this->_cart_contents),$this->CI->is_login);
         }
 

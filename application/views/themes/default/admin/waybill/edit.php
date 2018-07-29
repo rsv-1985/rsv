@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php echo $order['address']; ?>
                                         <?php if ($order['customer_info']) { ?>
                                             <br>
-                                            <small><b><?php echo $order['customer_info']['login']; ?></b>
+                                            <small><b><?php echo $order['customer_info']['id']; ?></b>
                                                 (<?php echo $order['customer_info']['balance']; ?>)
                                             </small>
                                         <?php } ?>
@@ -167,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php echo $parcel['telephone']; ?><br>
                                         <?php echo $parcel['address']; ?>
                                         <?php if($parcel['customer_info']){?>
-                                            <br><small><b><?php echo $parcel['customer_info']['login'];?></b> (<?php echo $parcel['customer_info']['balance'];?>)</small>
+                                            <br><small>ID <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $parcel['customer_info']['id'];?>"> <?php echo $parcel['customer_info']['id'];?></a> баланс:(<?php echo $parcel['customer_info']['balance'];?>)</small>
                                         <?php } ?>
                                     </td>
                                     <td><?php echo $parcel['delivery_method']; ?></td>

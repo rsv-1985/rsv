@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <!-- Modal login-->
     <div class="modal fade" id="login" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <?php echo form_open('/ajax/login',['id' => 'login_form']);?>
+            <?php echo form_open('/customer/login',['id' => 'login_form']);?>
             <div class="modal-content">
                 <div class="product-big-title-area">
                     <div class="product-bit-title text-center">
@@ -128,11 +128,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="alert alert-danger" role="alert" style="display: none"></div>
                     <div class="form-group">
                         <label><?php echo lang('text_login');?></label>
-                        <input type="text" name="login" required class="form-control">
+                        <input type="text" name="login" placeholder="Телефон или email" required class="form-control" maxlength="96">
                     </div>
                     <div class="form-group">
                         <label><?php echo lang('text_password');?></label>
-                        <input type="password" name="password" required class="form-control">
+                        <input type="password" name="password" required class="form-control" maxlength="255">
                     </div>
                     <div class="form-group" style="text-align: center">
                         <a href="/customer/registration"><?php echo lang('text_registration');?></a> |

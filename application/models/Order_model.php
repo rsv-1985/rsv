@@ -15,9 +15,6 @@ class Order_model extends Default_model{
             foreach ($statuses as $status_id => $value){
                 $sql = "(SELECT SUM(total) FROM ax_order LEFT JOIN ax_customer ON ax_customer.id = ax_order.customer_id WHERE ax_order.status ='".$status_id."'";
                 if($this->input->get()) {
-                    if ($this->input->get('login')) {
-                        $sql .= " AND login = '".$this->input->get('login', true)."'";
-                    }
                     if ($this->input->get('id')) {
                         $sql .= " AND ax_order.id = '".(int)$this->input->get('id', true)."'";
                     }
@@ -92,13 +89,10 @@ class Order_model extends Default_model{
     }
 
     public function order_get_all($limit = false, $start = false){
-        $this->db->select('SQL_CALC_FOUND_ROWS `ax_order`.*, ax_customer.login, ax_customer.balance', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS `ax_order`.*, ax_customer.balance', false);
         $this->db->from($this->table);
         $this->db->join('customer', 'customer.id = order.customer_id', 'left');
         if($this->input->get()){
-            if($this->input->get('login')){
-                $this->db->where('login', $this->input->get('login', true));
-            }
             if($this->input->get('id')){
                 $this->db->where('ax_order.id', (int)$this->input->get('id', true));
             }

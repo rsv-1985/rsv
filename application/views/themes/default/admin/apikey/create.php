@@ -22,8 +22,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="box">
                 <div class="box-body">
                     <div class="form-group">
-                        <label><?php echo lang('text_login'); ?></label>
-                        <input required type="text" class="form-control" name="login" value="<?php echo set_value('login'); ?>">
+                        <label><?php echo lang('text_id'); ?></label>
+                        <input required type="text" class="form-control" name="id" value="<?php echo set_value('id'); ?>">
                     </div><!-- /.form group -->
                     <div class="form-group">
                         <label><?php echo lang('text_key'); ?></label>
@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="checkbox">
                             <label>
                                 <label>
-                                    <input type="checkbox"  name="is_private_key" value="1" <?php echo set_checkbox('is_private_key',1,true);?>>
+                                    <input type="checkbox"  name="is_private_key" value="1" <?php echo set_checkbox('is_private_key',1,false);?>>
                                     is_private_key
                                 </label>
                             </label>

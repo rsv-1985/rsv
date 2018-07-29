@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_telephone');?></th>
                                 <th><?php echo lang('text_delivery_method');?></th>
                                 <th><?php echo lang('text_payment_method');?></th>
-                                <th><?php echo lang('text_total');?>/<?php echo lang('text_login');?></th>
+                                <th><?php echo lang('text_total');?></th>
                                 <th><?php echo lang('text_status');?></th>
                                 <th><?php echo lang('text_paid');?></th>
                                 <th><?php echo lang('text_product_status');?></th>
@@ -103,11 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </select>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="text" name="login" class="form-control" value="<?php echo $this->input->get('login', true);?>" style="width: 86px">
-                                    </div>
-                                </td>
+                                <td></td>
                                 <td>
                                     <div class="form-group">
                                         <select name="status" class="form-control">
@@ -135,7 +131,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <b>#<?php echo $order['id'];?><br></b>
                                             <small><?php echo $order['created_at'];?></small>
                                         </td>
-                                        <td><?php echo $order['first_name'];?></td>
+                                        <td>
+
+                                            <?php if($order['customer_id']){?>
+                                                <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['first_name'];?></a>
+                                               <small><?php echo $order['balance'];?></small>
+                                            <?php }else{?>
+                                                <?php echo $order['first_name'];?>
+                                            <?php } ?>
+                                        </td>
                                         <td><?php echo $order['last_name'];?></td>
                                         <td class="email"><?php echo $order['email'];?></td>
                                         <td>
@@ -145,7 +149,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $payment[$order['payment_method_id']]['name'];?></td>
                                         <td>
                                             <b><?php echo $order['total'];?></b><br />
-                                            <small><?php echo $order['login'];?> <?php echo $order['login'] ? '(<b>'.$order['balance'].'</b>)' : '';?></small>
                                         </td>
                                         <td>
                                             <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></b>

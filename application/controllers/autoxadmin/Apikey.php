@@ -39,7 +39,7 @@ class Apikey extends Admin_controller {
     public function create(){
         $data['random_key'] = random_string('sha1');
         if($this->input->post()){
-            $this->form_validation->set_rules('login', lang('text_login'), 'required|callback_username_check');
+            $this->form_validation->set_rules('id', lang('text_id'), 'required|callback_username_check');
             $this->form_validation->set_rules('key', lang('text_key'), 'required|max_length[40]');
             $this->form_validation->set_rules('key', lang('text_key'), 'is_unique[keys.key]');
 
@@ -79,7 +79,7 @@ class Apikey extends Admin_controller {
 
     public function username_check($str)
     {
-        if (!$this->customer_model->getByLogin($str))
+        if (!$this->customer_model->get($str))
         {
             $this->form_validation->set_message('username_check', 'Customer '.$str.' not find');
             return FALSE;
@@ -91,7 +91,7 @@ class Apikey extends Admin_controller {
     }
 
     private function save_data($id = false){
-        $customerInfo = $this->customer_model->getByLogin($this->input->post('login', true));
+        $customerInfo = $this->customer_model->get($this->input->post('id', true));
         $save['user_id'] = (int)$customerInfo['id'];
         $save['key'] = $this->input->post('key',true);
         $save['level'] = (int)$this->input->post('level');

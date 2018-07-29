@@ -8,14 +8,14 @@ class Vinrequest_model extends Default_model {
 
     public function vin_get_all($limit, $start){
         $this->db->from('vin v');
-        $this->db->select('SQL_CALC_FOUND_ROWS v.*, c.login, c.id as cid', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS v.*, CONCAT_WS(" ",c.phone,c.first_name, c.second_name) as customer_name, c.id as cid', false);
         $this->db->join('customer c', 'c.id=v.customer_id', 'left');
 
         if ($this->input->get('vin')) {
             $this->db->where('v.vin', $this->input->get('vin', true));
         }
         if ($this->input->get('name')) {
-            $this->db->or_like('c.login', $this->input->get('name', true));
+            $this->db->or_like('c.phone', format_phone($this->input->get('name')));
             $this->db->or_like('c.first_name', $this->input->get('name', true));
             $this->db->or_like('c.second_name', $this->input->get('name', true));
             $this->db->or_like('c.patronymic', $this->input->get('name', true));

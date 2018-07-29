@@ -16,9 +16,17 @@ class Customerbalance_model extends Default_model
 
     public function customerbalance_get_all($limit,$offset){
         $this->db->from($this->table);
-        $this->db->select('SQL_CALC_FOUND_ROWS ax_customer_balance.*,ax_customer.login,ax_customer.balance,CONCAT(ax_user.firstname," ",ax_user.lastname) as user',false);
+        $this->db->select('SQL_CALC_FOUND_ROWS ax_customer_balance.*,ax_customer.balance,CONCAT(ax_user.firstname," ",ax_user.lastname) as user,CONCAT_WS(" ", ax_customer.phone, ax_customer.first_name, ax_customer.second_name) as customer_name',false);
         $this->db->join('user','ax_user.id=ax_customer_balance.user_id','left');
         $this->db->join('customer','ax_customer.id=ax_customer_balance.customer_id','left');
+
+        if($this->input->get('customer_name')){
+            $this->db->group_start();
+            $this->db->or_like('ax_customer.phone', format_phone($this->input->get('customer_name')));
+            $this->db->or_like('ax_customer.first_name', $this->input->get('customer_name',true), 'both');
+            $this->db->or_like('ax_customer.second_name',  $this->input->get('customer_name',true), 'both');
+            $this->db->group_end();
+        }
         if($this->input->get('type')){
             $this->db->where('type',(int)$this->input->get('type'));
         }
@@ -29,10 +37,6 @@ class Customerbalance_model extends Default_model
 
         if($this->input->get('description')){
             $this->db->like('description',strip_tags($this->input->get('description',true)));
-        }
-
-        if($this->input->get('login')){
-            $this->db->where('login',strip_tags($this->input->get('login',true)));
         }
 
         if($this->input->get('created_at')){

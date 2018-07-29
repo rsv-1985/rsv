@@ -21,15 +21,19 @@ class Np{
 
     public function get_form(){
         $data = [];
-        $customer_coockie = get_cookie('customer');
-        if($customer_coockie){
-            $data['customer'] = json_decode($customer_coockie);
+        $data['customer'] = false;
+        if($this->CI->is_login){
+            $customer = $this->CI->customer_model->get($this->CI->is_login);
+            if($customer){
+                $data['customer'] = (object)unserialize($customer['additional_information']);
+            }
         }
+
         return $this->CI->load->view('delivery/np/form',$data, TRUE);
     }
 
     public function save_form($order_id){
-        $save['order_id'] = (int)$order_id;
+
 
         $save['RecipientCityName'] = (string)$this->CI->input->post('RecipientCityName', true);
         $save['RecipientArea'] = (string)$this->CI->input->post('RecipientArea', true);
@@ -38,9 +42,16 @@ class Np{
         $save['RecipientAddressName2'] = (string)$this->CI->input->post('RecipientAddressName2', true);
         $save['RecipientHouse'] = (string)$this->CI->input->post('RecipientHouse', true);
         $save['RecipientFlat'] = (string)$this->CI->input->post('RecipientFlat', true);
+        $save['order_id'] = (int)$order_id;
+
+        if($this->CI->is_login){
+            $this->CI->customer_model->insert(['additional_information' => serialize($this->CI->input->post())],$this->CI->is_login);
+        }
 
         $this->CI->load->model('delivery/np_model');
         $this->CI->np_model->save_form($save);
+
+
         //unset($save['order_id']);
         //$this->CI->db->query("UPDATE ax_order SET address = ".$this->CI->db->escape(implode(',',$save))." WHERE id = '".(int)$order_id."'");
     }

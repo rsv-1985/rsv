@@ -132,6 +132,7 @@ class User extends Front_controller {
                         'access' => $user_info['access'],
                         'user_group_id' => $user_info['group_id']
                     );
+                    $this->config->set_item('sess_expiration', $this->config->item('remember_sess_expiration'));
                     $this->session->set_userdata($newdata);
                     redirect('autoxadmin');
                 }else{

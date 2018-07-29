@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <h4>Сообщить об оплате</h4>
                         <div class="form-group">
                             <label>Сумма</label>
-                            <input type="text" name="sum" class="form-control">
+                            <input type="text" name="sum" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Комментарий</label>

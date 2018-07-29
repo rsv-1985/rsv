@@ -30,8 +30,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Логин покупателя</label>
-                        <input required type="text" name="login" value="<?php echo set_value('login');?>" class="form-control" >
+                        <label>ID клиента</label>
+                        <input required type="text" name="id" value="<?php echo set_value('id');?>" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Тип</label>

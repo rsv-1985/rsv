@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <ol class="breadcrumb">
         <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
         <li><a href="/autoxadmin/customer"><?php echo lang('text_heading');?></a></li>
-        <li><a href="#"><?php echo $customer['login'];?></a></li>
+        <li><a href="#"><?php echo $customer['id'];?></a></li>
     </ol>
 </section>
 <!-- Main content -->
@@ -20,10 +20,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="box">
         <div class="box-body">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label><?php echo lang('text_login'); ?></label>
-                    <input required type="text" class="form-control" name="login" value="<?php echo set_value('login', $customer['login']); ?>" maxlength="32">
-                </div>
                 <div class="form-group">
                     <label><?php echo lang('text_customer_group_id'); ?></label>
 
@@ -54,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
                 <div class="form-group">
                     <label><?php echo lang('text_phone'); ?></label>
-                    <input type="text" class="form-control" name="phone" value="<?php echo set_value('phone', $customer['phone']); ?>" maxlength="32">
+                    <input type="text" class="form-control" name="phone" value="<?php echo set_value('phone', $customer['phone']); ?>" maxlength="32" minlength="10">
                 </div>
 
                 <div class="form-group">

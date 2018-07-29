@@ -78,6 +78,50 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="cross-sells">
                                     <h2><?php echo lang('text_customer_info'); ?></h2>
                                     <div class="form-group">
+                                        <label><?php echo lang('text_telephone'); ?>*</label>
+                                        <input required type="text" class="form-control" name="telephone"
+                                               value="<?php echo set_value('telephone', @$customer['telephone']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_last_name'); ?>*</label>
+                                        <input
+                                            <?php if (!$this->is_login){ ?>disabled<?php } ?>
+                                            required type="text" class="form-control" name="last_name"
+                                            value="<?php echo set_value('last_name', @$customer['last_name']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_first_name'); ?>*</label>
+                                        <input
+                                            <?php if (!$this->is_login){ ?>disabled<?php } ?>
+                                            required type="text" class="form-control" name="first_name"
+                                            value="<?php echo set_value('first_name', @$customer['first_name']); ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label><?php echo lang('text_patronymic'); ?></label>
+                                        <input
+                                            <?php if (!$this->is_login){ ?>disabled<?php } ?>
+                                            type="text" class="form-control" name="patronymic"
+                                            value="<?php echo set_value('patronymic', @$customer['patronymic']); ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input
+                                            <?php if (!$this->is_login){ ?>disabled<?php } ?>
+                                            type="email" class="form-control" name="email"
+                                            value="<?php echo set_value('email', @$customer['email']); ?>">
+                                    </div>
+                                    <div class="form-group" id="form-group-address">
+                                        <label><?php echo lang('text_address'); ?></label>
+                                        <input
+                                            <?php if (!$this->is_login){ ?>disabled<?php } ?>
+                                            type="text" class="form-control" name="address"
+                                            value="<?php echo set_value('address', @$customer['address']); ?>">
+                                    </div>
+                                    <br>
+                                    <hr>
+                                    <div class="form-group">
                                         <label><?php echo lang('text_delivery_method'); ?></label>
                                         <select id="delivery" class="form-control" name="delivery_method"
                                                 onchange="get_delivery();"
@@ -86,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php foreach ($delivery as $delivery) { ?>
                                                 <option
                                                         id="delivery-<?php echo $delivery['id']; ?>"
-                                                        value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method', $delivery['id'],$delivery['id'] == @$customer['delivery_method']); ?>><?php echo $delivery['name']; ?></option>
+                                                        value="<?php echo $delivery['id']; ?>" <?php echo set_select('delivery_method', $delivery['id'], $delivery['id'] == @$customer['delivery_method_id']); ?>><?php echo $delivery['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                         <small id="delivery_description"></small>
@@ -103,45 +147,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
                                                         id="payment-<?php echo $payment['id']; ?>"
-                                                        value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method', $payment['id'],  $payment['id'] == @$customer['payment_method']); ?>><?php echo $payment['name']; ?></option>
+                                                        value="<?php echo $payment['id']; ?>" <?php echo set_select('payment_method', $payment['id'], $payment['id'] == @$customer['payment_method_id']); ?>><?php echo $payment['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                         <small id="payment_description"></small>
                                     </div>
-                                    <br>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label><?php echo lang('text_last_name'); ?></label>
-                                        <input required type="text" class="form-control" name="last_name"
-                                               value="<?php echo set_value('last_name', @$customer['last_name']); ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label><?php echo lang('text_first_name'); ?></label>
-                                        <input required type="text" class="form-control" name="first_name"
-                                               value="<?php echo set_value('first_name', @$customer['first_name']); ?>">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label><?php echo lang('text_patronymic'); ?></label>
-                                        <input type="text" class="form-control" name="patronymic"
-                                               value="<?php echo set_value('patronymic', @$customer['patronymic']); ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label><?php echo lang('text_telephone'); ?></label>
-                                        <input required type="text" class="form-control" name="telephone"
-                                               value="<?php echo set_value('telephone', @$customer['telephone']); ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" name="email"
-                                               value="<?php echo set_value('email', @$customer['email']); ?>">
-                                    </div>
-                                    <div class="form-group" id="form-group-address">
-                                        <label><?php echo lang('text_address'); ?></label>
-                                        <input type="text" class="form-control" name="address"
-                                               value="<?php echo set_value('address', @$customer['address']); ?>">
-                                    </div>
-
                                 </div>
                                 <div class="cart_totals ">
                                     <h2><?php echo lang('text_cart_total'); ?></h2>
@@ -216,82 +226,51 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 </div>
 <script>
 
-    $(document).ready(function(){
-       get_delivery();
-       get_payment();
+    $(document).ready(function () {
+        get_delivery();
+        get_payment();
+        <?php if(!$this->is_login){?>
+        $("[name='telephone']").keyup(function () {
+            var telephone = $(this).val().replace(/\D/g, '');
+            if (telephone.length >= 12) {
+                $.ajax({
+                    url: '/ajax/get_customer_by_phone',
+                    data: {telephone: telephone},
+                    method: 'post',
+                    success: function (response) {
+                        switch (response){
+                            case 'true':
+                                $("#cart input").each(function () {
+                                    if ($(this).attr('name') != 'telephone') {
+                                        $(this).attr('disabled', 'disabled').val('');
+                                    }
+                                });
+                                $("[name='login']").val(telephone);
+                                $("#login").modal('show');
+                                break;
+                            case 'is_login':
+                                location.reload();
+                                break;
+                            case 'false':
+                                $("#cart input").each(function () {
+                                    $(this).removeAttr('disabled');
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                })
+            }
+        });
+        <?php } ?>
     });
-
-    function remove_cart(key, event) {
-        event.preventDefault();
-        $.ajax({
-            url: '/cart/remove_cart',
-            method: 'POST',
-            dataType: 'json',
-            data: {key: key},
-            success: function (json) {
-                $("#" + key).remove();
-                total();
-            }
-        });
-    }
-
-    function plus(key) {
-        var quan = $("#quan" + key).val();
-        quan++;
-        $("#quan" + key).val(quan);
-        $.ajax({
-            url: '/cart/update_cart',
-            method: 'POST',
-            dataType: 'json',
-            data: {key: key, quan: quan},
-            success: function (json) {
-                $("#subtotal" + key).html(json['product_subtotal']);
-                total();
-            }
-        });
-
-    }
-
-    function minus(key) {
-        var quan = $("#quan" + key).val();
-        quan--;
-        if (quan < 1) {
-            quan = 1;
-        }
-        $("#quan" + key).val(quan);
-        $.ajax({
-            url: '/cart/update_cart',
-            method: 'POST',
-            dataType: 'json',
-            data: {key: key, quan: quan},
-            success: function (json) {
-                $("#subtotal" + key).html(json['product_subtotal']);
-                total();
-            }
-        });
-    }
-
-    function quan(key) {
-        var quan = $("#quan" + key).val();
-        $.ajax({
-            url: '/cart/update_cart',
-            method: 'POST',
-            dataType: 'json',
-            data: {key: key, quan: quan},
-            success: function (json) {
-                $("#subtotal" + key).html(json['product_subtotal']);
-                total();
-            }
-        });
-    }
 
     function get_delivery() {
         $.ajax({

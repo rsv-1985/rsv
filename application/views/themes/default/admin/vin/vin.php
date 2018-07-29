@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <tbody><tr>
                             <th>ID</th>
                             <th>VIN</th>
-                            <th>Покупатель</th>
+                            <th>Клиент</th>
                             <th>Статус</th>
                             <th></th>
                         </tr>
@@ -51,8 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <tr>
                                     <td><?php echo $vin['id'];?></td>
                                     <td><?php echo $vin['vin'];?></td>
-                                    <td><?php if($vin['login']){?>
-                                            <a href="/autoxadmin/customer/edit/<?php echo $vin['cid'];?>"><?php echo $vin['name'];?></a>
+                                    <td><?php if($vin['customer_name']){?>
+                                            <a href="/autoxadmin/customer/edit/<?php echo $vin['cid'];?>"><?php echo $vin['customer_name'];?></a>
                                         <?php }else{?>
                                             <?php echo $vin['name'];?>
                                         <?php } ;?>
