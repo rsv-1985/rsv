@@ -420,7 +420,7 @@ class Cart extends Front_controller
                 $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
                 $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
             }
-
+            $message_template['subject'] = str_replace('{pass}', $pass, $message_template['subject']);
             $message_template['text'] = str_replace('{pass}',$pass, $message_template['text']);
             $message_template['text_sms'] = str_replace('{pass}',$pass, $message_template['text_sms']);
             $message_template['subject'] = str_replace('{customer_id}', $customer_id, $message_template['subject']);
@@ -429,12 +429,12 @@ class Cart extends Front_controller
 
             $this->sender->email($message_template['subject'], $message_template['text'], explode(';', $this->contacts['email']), explode(';', $this->contacts['email']));
 
-            if ($this->input->post('email')) {
-                $this->sender->email($message_template['subject'], $message_template['text'], $this->input->post('email'), explode(';', $this->contacts['email']));
+            if ($save['email'] && $message_template['text']) {
+                $this->sender->email($message_template['subject'], $message_template['text'], $save['email'], explode(';', $this->contacts['email']));
             }
 
-            if ($this->input->post('telephone')) {
-                $this->sender->sms($this->input->post('telephone'), $message_template['text_sms']);
+            if ($save['phone'] && $message_template['text_sms']) {
+                $this->sender->sms($save['phone'], $message_template['text_sms']);
             }
         }
 
