@@ -120,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </div>
                                     <small><?php echo $product['brand'] . ' ' . $product['sku']; ?></small>
                                     <div class="name">
-                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 75); ?></a>
+                                        <a href="/product/<?php echo $product['slug']; ?>"><?php echo character_limiter($product['name'], 50); ?></a>
                                     </div>
 
                                     <div class="product-carousel-price">
