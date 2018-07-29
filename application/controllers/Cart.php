@@ -433,7 +433,7 @@ class Cart extends Front_controller
             }
 
             if ($this->input->post('telephone')) {
-                $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
+                $this->sender->sms($this->input->post('telephone'), $message_template['text_sms']);
             }
         }
 
