@@ -422,6 +422,8 @@ class Cart extends Front_controller
             }
             $message_template['text'] = str_replace('{phone}',$save['phone'], $message_template['text']);
             $message_template['text'] = str_replace('{pass}',$pass, $message_template['text']);
+            $message_template['text_sms'] = str_replace('{phone}',$save['phone'], $message_template['text_sms']);
+            $message_template['text_sms'] = str_replace('{pass}',$pass, $message_template['text_sms']);
             $message_template['subject'] = str_replace('{customer_id}', $customer_id, $message_template['subject']);
             $message_template['text'] = str_replace('{customer_id}', $customer_id, $message_template['text']);
             $message_template['text_sms'] = str_replace('{customer_id}', $customer_id, $message_template['text_sms']);
