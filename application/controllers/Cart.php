@@ -415,7 +415,7 @@ class Cart extends Front_controller
             //Получаем шаблон сообщения 3 - Регистрация
             $message_template = $this->message_template_model->get(3);
 
-            foreach ($this->input->post() as $field => $value) {
+            foreach ($save as $field => $value) {
                 $message_template['subject'] = str_replace('{' . $field . '}', $value, $message_template['subject']);
                 $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
                 $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
