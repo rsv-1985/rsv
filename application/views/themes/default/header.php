@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="navbar-collapse collapse">
                 <?php if($this->category){?>
                 <div class="nav_catalog">
-                    <span class="nav_catalog_title">Каталог</span>
+                    <span class="nav_catalog_title"><?php echo lang('text_header_nav_catalog');?></span>
                     <ul class="nav_catalog_dropdown">
                         <?php echo $this->category;?>
                     </ul>
