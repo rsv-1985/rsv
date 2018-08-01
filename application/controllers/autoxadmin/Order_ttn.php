@@ -39,6 +39,7 @@ class Order_ttn extends Admin_controller
 
                 $data['ttns'][] = [
                     'ttn' => $ttn['ttn'],
+                    'order_id' => $ttn['order_id'],
                     'data' => @implode('<br>',$information[0]),
                     'status' => $track['Status'],
                     'delete' => '/delivery/'.$ttn['library'].'/delete_en?id='.$ttn['id'],

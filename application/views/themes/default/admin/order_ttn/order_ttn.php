@@ -24,14 +24,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tbody><tr>
-                            <th>Номер</th>
+                            <th>Номер ТТН</th>
+                            <th>Заказ</th>
                             <th>Статус</th>
                             <th></th>
                         </tr>
-                        <?php if($ttns){?>
+                        <?php if($ttns){ print_r($ttns);?>
                             <?php foreach($ttns as $ttn){?>
                                 <tr>
                                     <td><?php echo $ttn['ttn'];?></td>
+                                    <td>
+                                        <a href="/autoxadmin/order/edit/<?php echo $ttn['order_id'];?>"><?php echo $ttn['order_id'];?></a>
+                                    </td>
                                     <td><?php echo $ttn['status'];?></td>
                                     <td>
                                         <div class="pull-right">
