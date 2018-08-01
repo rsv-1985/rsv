@@ -382,7 +382,7 @@ class Import extends Admin_controller
             $save = [];
             // построчное считывание и анализ строк из файла
             while (($data_f = fgetcsv($handle_f, 1000, $params['delimiter'])) !== false) {
-                $encoding = mb_detect_encoding($data_f[$params['sample']['name'] - 1],mb_detect_order(),true);
+                $encoding = mb_detect_encoding(@$data_f[$params['sample']['name'] - 1],mb_detect_order(),true);
 
                 if($encoding != 'UTF-8'){
                     $data_f = array_map(function($text){
@@ -404,6 +404,7 @@ class Import extends Admin_controller
                 } else {
                     $brand = '';
                 }
+
 
                 if(isset($data_f[$params['sample']['name'] - 1])){
                     $name = trim($data_f[$params['sample']['name'] - 1]);
