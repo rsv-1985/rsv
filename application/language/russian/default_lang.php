@@ -63,3 +63,4 @@ $lang['text_offer_1'] = 'Предложение';
 $lang['text_offer_2'] = 'Предложения';
 $lang['text_offer_5'] = 'Предложений';
 $lang['text_fast_order_link'] = '<i class="glyphicon glyphicon-send"></i> В 1 клик';
+$lang['text_header_nav_catalog'] = 'Каталог';
