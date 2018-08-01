@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <tr>
                                     <td><?php echo $ttn['ttn'];?></td>
                                     <td>
-                                        <a href="/autoxadmin/order/edit/<?php echo $ttn['order_id'];?>"><?php echo $ttn['order_id'];?></a>
+                                        <a target="_blank" href="/autoxadmin/order/edit/<?php echo $ttn['order_id'];?>"><?php echo $ttn['order_id'];?></a>
                                     </td>
                                     <td><?php echo $ttn['status'];?></td>
                                     <td>
