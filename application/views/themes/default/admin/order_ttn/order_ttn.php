@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>Статус</th>
                             <th></th>
                         </tr>
-                        <?php if($ttns){ print_r($ttns);?>
+                        <?php if($ttns){?>
                             <?php foreach($ttns as $ttn){?>
                                 <tr>
                                     <td><?php echo $ttn['ttn'];?></td>
