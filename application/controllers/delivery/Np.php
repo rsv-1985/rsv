@@ -14,36 +14,52 @@ class Np extends CI_Controller
         parent::__construct();
         $this->params = $this->settings_model->get_by_key('np');
         $this->load->library('novaposhta',$this->params);
+        $this->load->library('sender');
+        $this->load->model('order_model');
+        $this->load->model('delivery/np_model');
     }
 
     public function create_en(){
-        $this->load->model('delivery/np_model');
-        $save['RecipientCityName'] = $this->input->post('RecipientCityName',true);
-        $save['RecipientArea'] = $this->input->post('RecipientArea',true);
-        $save['RecipientAreaRegions'] = $this->input->post('RecipientAreaRegions',true);
-        if($this->input->post('RecipientAddressName',true)){
-            $save['RecipientAddressName'] = $this->input->post('RecipientAddressName',true);
-            $save['RecipientAddressName2'] = '';
-        }else{
-            $save['RecipientAddressName'] = '';
-            $save['RecipientAddressName2'] = $this->input->post('RecipientAddressName2',true);
-        }
 
-        $save['RecipientHouse'] = $this->input->post('RecipientHouse',true);
-        $save['RecipientFlat'] = $this->input->post('RecipientFlat',true);
-        $this->np_model->insert($save,(int)$this->input->post('np_id'));
-        $result = $this->novaposhta->InternetDocument($this->input->post());
-        if($result['success']){
-            $this->load->model('order_ttn_model');
-            $save2 = [];
-            $save2['order_id'] = (int)$this->input->post('order_id',true);
-            $save2['ttn'] = $result['data'][0]['IntDocNumber'];
-            $save2['library'] = 'np';
-            $save2['data'] = json_encode($result['data']);
-            $this->order_ttn_model->insert($save2);
-        }else{
-            foreach ($result['errors'] as $error){
-                echo $error.'\n';
+        $order_info = $this->order_model->get($this->input->post('order_id',true));
+        if($order_info){
+            $save['RecipientCityName'] = $this->input->post('RecipientCityName',true);
+            $save['RecipientArea'] = $this->input->post('RecipientArea',true);
+            $save['RecipientAreaRegions'] = $this->input->post('RecipientAreaRegions',true);
+            if($this->input->post('RecipientAddressName',true)){
+                $save['RecipientAddressName'] = $this->input->post('RecipientAddressName',true);
+                $save['RecipientAddressName2'] = '';
+            }else{
+                $save['RecipientAddressName'] = '';
+                $save['RecipientAddressName2'] = $this->input->post('RecipientAddressName2',true);
+            }
+
+            $save['RecipientHouse'] = $this->input->post('RecipientHouse',true);
+            $save['RecipientFlat'] = $this->input->post('RecipientFlat',true);
+            $this->np_model->insert($save,(int)$this->input->post('np_id'));
+            $result = $this->novaposhta->InternetDocument($this->input->post());
+            if($result['success']){
+                $this->load->model('order_ttn_model');
+                $save2 = [];
+                $save2['order_id'] = (int)$this->input->post('order_id',true);
+                $save2['ttn'] = $result['data'][0]['IntDocNumber'];
+                $save2['library'] = 'np';
+                $save2['data'] = json_encode($result['data']);
+                $this->order_ttn_model->insert($save2);
+
+                if($this->input->post('send_sms') && $order_info['telephone']){
+                    $this->sender->sms($order_info['telephone'], 'Ваш заказ отправлен ТТН '.$save2['ttn']);
+                }
+
+                if($this->input->post('send_email') && $order_info['email']){
+                    $contacts = $this->settings_model->get_by_key('contact_settings');
+                    $this->sender->email('Ваш заказ отправлен','Ваш заказ отправлен ТТН '.$save2['ttn'], explode(';', $contacts['email']));
+                }
+
+            }else{
+                foreach ($result['errors'] as $error){
+                    echo $error.'\n';
+                }
             }
         }
     }

@@ -139,6 +139,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
 
                         <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="send_sms" value="1">
+                                    Отправить ТТН в смс
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="send_email" value="1">
+                                    Отправить ТТН в email
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <button type="submit" class="btn btn-info pull-right">Создать ЭН</button>
                         </div>
                     </div>

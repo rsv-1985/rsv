@@ -14,7 +14,6 @@ class Order_ttn extends Admin_controller
         parent::__construct();
         $this->load->language('admin/order_ttn');
         $this->load->model('order_ttn_model');
-
     }
 
     public function index(){
