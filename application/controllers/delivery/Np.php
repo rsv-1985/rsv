@@ -48,12 +48,12 @@ class Np extends CI_Controller
                 $this->order_ttn_model->insert($save2);
 
                 if($this->input->post('send_sms') && $order_info['telephone']){
-                    $this->sender->sms($order_info['telephone'], 'Ваш заказ отправлен ТТН '.$save2['ttn']);
+                    $this->sender->sms($order_info['telephone'], 'Ваш заказ отправлен ТТН '.$save2['ttn'].' количество мест '.$this->input->post('SeatsAmount',true));
                 }
 
                 if($this->input->post('send_email') && $order_info['email']){
                     $contacts = $this->settings_model->get_by_key('contact_settings');
-                    $this->sender->email('Ваш заказ отправлен','Ваш заказ отправлен ТТН '.$save2['ttn'], explode(';', $contacts['email']));
+                    $this->sender->email('Ваш заказ отправлен','Ваш заказ отправлен ТТН '.$save2['ttn'].' количество мест '.$this->input->post('SeatsAmount',true), explode(';', $contacts['email']));
                 }
 
             }else{
