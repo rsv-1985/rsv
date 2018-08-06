@@ -236,6 +236,7 @@ class Product_model extends Default_model
     //Получаем кросс номера
     public function get_crosses($ID_art, $brand, $sku)
     {
+
         //Получаем кросс номера
         $sku = $this->clear_sku($sku);
         $brand = $this->clear_brand($brand);
@@ -267,6 +268,28 @@ class Product_model extends Default_model
         if ($query->num_rows() > 0) {
             $crosses = array_merge($crosses, $query->result_array());
         }
+
+
+
+        //получаем кросы autox
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.autox.pro/v1/cross?article='.$sku.'&brand='.urlencode($brand).'&key=c4ca4238a0b923820dcc509a6f75849b',
+            CURLOPT_USERAGENT => 'Googlebot/2.1 (+http://www.google.com/bot.html)',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => false,
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        if($response){
+            $autox_crosses = json_decode($response);
+            foreach ($autox_crosses as $ac){
+                $crosses[] = ['sku' => $ac->article,'brand' => $ac->brand];
+            }
+        }
+
 
         return $crosses;
     }
