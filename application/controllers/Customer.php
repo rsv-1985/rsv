@@ -116,7 +116,11 @@ class Customer extends Front_controller
                         $message_template['text'] = str_replace('{' . $field . '}', $value, $message_template['text']);
                         $message_template['text_sms'] = str_replace('{' . $field . '}', $value, $message_template['text_sms']);
                     }
+
+                    $message_template['subject'] = str_replace('{pass}', $this->input->post('password', true), $message_template['subject']);
                     $message_template['text'] = str_replace('{pass}',$this->input->post('password', true), $message_template['text']);
+                    $message_template['text_sms'] = str_replace('{pass}',$this->input->post('password', true), $message_template['text_sms']);
+
                     $message_template['subject'] = str_replace('{customer_id}', $customer_id, $message_template['subject']);
                     $message_template['text'] = str_replace('{customer_id}', $customer_id, $message_template['text']);
                     $message_template['text_sms'] = str_replace('{customer_id}', $customer_id, $message_template['text_sms']);
