@@ -379,6 +379,30 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </div>
                             </div>
                             <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading6">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                                            Autox Cross
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse7" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="heading7">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>API KEY</label>
+                                                <input type="text" name="settings[autox][api_key_cross]"
+                                                       value="<?php echo set_value('settings[autox][api_key_cross]', @$settings['autox']['api_key_cross']); ?>"
+                                                       class="form-control">
+                                                <p>Накопительная база кроссов с кэшбеком</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading4">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion"

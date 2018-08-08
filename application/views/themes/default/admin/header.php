@@ -181,6 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_type"><i class="fa fa-circle-o"></i>Tecdoc модификации</a></li>
                         <li><a href="/autoxadmin/seo_settings/tecdoc_tree"><i class="fa fa-circle-o"></i>Tecdoc категории</a></li>
                         <li><a href="/autoxadmin/seo_settings/hook"><i class="fa fa-circle-o"></i>SEO hook</a></li>
+                        <li><a href="/autoxadmin/seo_settings/redirect"><i class="fa fa-circle-o"></i>Redirect</a></li>
                     </ul>
                 </li>
                 <li class="treeview">

@@ -88,6 +88,11 @@ class Front_controller extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
+        //Проверяем нет ли редиретов в SEO redirect
+        $redirect_info = $this->redirect_model->getByUri($_SERVER['REQUEST_URI']);
+        if($redirect_info){
+            redirect($redirect_info['url_to'], 'auto', $redirect_info['status_code']);
+        }
         $this->load->library('cart');
         $this->load->model(
             ['customer_group_pricing_model']

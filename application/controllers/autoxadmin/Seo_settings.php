@@ -259,4 +259,96 @@ class Seo_settings extends Admin_controller{
             ->set_content_type('application/json')
             ->set_output(json_encode($hook));
     }
+
+    public function redirect(){
+        $this->load->helper('file');
+        $this->load->model('redirect_model');
+
+        if($this->input->get('add')){
+            if(@$_FILES['userfile']['name']){
+                if (($handle = fopen($_FILES['userfile']['tmp_name'], "r")) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                        if($data[0] && $data[1] && $data[2]){
+                            $save = [
+                                'url_from' => trim($data[0]),
+                                'url_to' => trim($data[1]),
+                                'status_code' =>  trim($data[2])
+                            ];
+
+                            $this->redirect_model->insert($save);
+                        }
+                    }
+                    fclose($handle);
+                }
+                redirect('/autoxadmin/seo_settings/redirect');
+            }else{
+                $this->form_validation->set_rules('url_from', 'url_from', 'required|max_length[255]|trim');
+                $this->form_validation->set_rules('url_to', 'url_to', 'required|max_length[255]|trim');
+                $this->form_validation->set_rules('status_code', 'status_code', 'required|trim');
+
+                if ($this->form_validation->run() !== false){
+                    $save = [
+                        'url_from' => $this->input->post('url_from', true),
+                        'url_to' => $this->input->post('url_to', true),
+                        'status_code' => (int)$this->input->post('status_code')
+                    ];
+
+                    $this->redirect_model->insert($save);
+
+                    redirect('/autoxadmin/seo_settings/redirect');
+                }else{
+                    $this->error = validation_errors();
+                }
+            }
+        }
+
+        if($this->input->get('edit')){
+            $redirect_id = $this->input->get('edit');
+
+            $save = [
+                'url_from' => $this->input->post('url_from', true),
+                'url_to' => $this->input->post('url_to', true),
+                'status_code' => (int)$this->input->post('status_code')
+            ];
+
+            $this->redirect_model->insert($save, $redirect_id);
+
+            redirect('/autoxadmin/seo_settings/redirect');
+        }
+
+        if($this->input->get('delete')){
+            $this->redirect_model->delete($this->input->get('delete'));
+            redirect('/autoxadmin/seo_settings/redirect');
+        }
+
+        $filter_data = [];
+
+        if($this->input->get('url_from')){
+            $filter_data['url_from'] = $this->input->get('url_from', true);
+        }
+
+        if($this->input->get('url_to')){
+            $filter_data['url_to'] = $this->input->get('url_to', true);
+        }
+
+        if($this->input->get('status_code')){
+            $filter_data['status_code'] = (int)$this->input->get('status_code');
+        }
+
+
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('autoxadmin/language/index');
+        $config['total_rows'] = $this->redirect_model->count_all($filter_data);
+        $config['per_page'] = 50;
+        $config['reuse_query_string'] = TRUE;
+
+        $this->pagination->initialize($config);
+
+        $data['redirects'] = $this->redirect_model->get_all($config['per_page'], $this->uri->segment(5),$filter_data);
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/seo_settings/seo_redirect', $data);
+        $this->load->view('admin/footer');
+    }
 }

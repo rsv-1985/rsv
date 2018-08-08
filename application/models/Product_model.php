@@ -270,25 +270,24 @@ class Product_model extends Default_model
         }
 
 
+        $autox_settings = $this->settings_model->get_by_key('autox');
+        if($autox_settings && $autox_settings['api_key_cross']){
+            //получаем кросы autox
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.autox.pro/v1/cross?article='.$sku.'&brand='.urlencode($brand).'&key='.$autox_settings['api_key_cross'],
+                CURLOPT_RETURNTRANSFER => true,
+            ));
 
-        //получаем кросы autox
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.autox.pro/v1/cross?article='.$sku.'&brand='.urlencode($brand).'&key=c4ca4238a0b923820dcc509a6f75849b',
-            CURLOPT_USERAGENT => 'Googlebot/2.1 (+http://www.google.com/bot.html)',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => false,
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        if($response){
-            $autox_crosses = json_decode($response);
-            foreach ($autox_crosses as $ac){
-                $crosses[] = ['sku' => $ac->article,'brand' => $ac->brand];
+            $response = curl_exec($curl);
+            curl_close($curl);
+            if($response && $autox_crosses = json_decode($response)){
+                foreach ($autox_crosses as $ac){
+                    $crosses[] = ['sku' => $ac->article,'brand' => $ac->brand];
+                }
             }
         }
+
 
 
         return $crosses;
@@ -360,6 +359,34 @@ class Product_model extends Default_model
                     'sku' => $item['code'],
                     'image' => '/image?width=50',
                 ];
+            }
+        }
+
+        //Получаем бренды с базы кроссов
+        $autox_settings = $this->settings_model->get_by_key('autox');
+        if($autox_settings && $autox_settings['api_key_cross']){
+            //получаем кросы autox
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.autox.pro/v1/article?article=OC90&key='.$autox_settings['api_key_cross'],
+                CURLOPT_RETURNTRANSFER => true,
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            if($response && $autox_brands = json_decode($response)){
+                foreach ($autox_brands as $brand){
+                    if(!in_array($brand->brand,$check_brand)){
+                        $return[] = [
+                            'ID_art' => 0,
+                            'name' => '',
+                            'brand' => $brand->brand,
+                            'sku' => $brand->search,
+                            'image' => '/image?width=50',
+                        ];
+                    }
+                }
             }
         }
 

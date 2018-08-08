@@ -144,5 +144,6 @@ $autoload['model'] = array(
     'currency_model',
     'category_model',
     'supplier_model',
-    'pricing_model'
+    'pricing_model',
+    'redirect_model'
 );
