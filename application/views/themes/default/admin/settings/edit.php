@@ -472,7 +472,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                Собственные стили
+                                                Сообщение в шапке сайта на всех страницах
                                             </div>
                                         </div>
                                         <div class="row">
