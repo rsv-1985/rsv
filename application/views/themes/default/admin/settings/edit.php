@@ -466,6 +466,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label>Текст сообщение в шапке</label>
+                                                    <textarea class="form-control"
+                                                              name="settings[options][head_text_messages]"><?php echo @$settings['options']['head_text_messages']; ?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Собственные стили
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox"
