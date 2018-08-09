@@ -20,5 +20,4 @@ class Brand extends REST_Controller
         $response = $this->product_model->get_brands($this->input->get('sku', true));
         $this->response($response);
     }
-
 }
