@@ -78,6 +78,17 @@ img {
     z-index: 999;
     width: 66px;
 }
+.head_messages{
+    width: 100%;
+    background-color: #31708f;
+    height: 50px;
+}
+.head_messages p {
+    text-align: center;
+    color: white;
+    padding-top: 11px;
+    font-weight: bold;
+}
 .catalog img {
     margin: .6%;
     width: 94px;
