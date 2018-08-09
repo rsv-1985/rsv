@@ -48,6 +48,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
+<?php if($this->options['head_text_messages']){?>
+    <noindex>
+        <div class="head_messages">
+            <p><?php echo $this->options['head_text_messages'];?></p>
+        </div>
+    </noindex>
+<?php } ?>
 
 <?php if(@$this->options['google_tag_body']){
     echo $this->options['google_tag_body'];
