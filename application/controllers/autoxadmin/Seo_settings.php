@@ -338,7 +338,7 @@ class Seo_settings extends Admin_controller{
 
         $this->load->library('pagination');
 
-        $config['base_url'] = base_url('autoxadmin/language/index');
+        $config['base_url'] = base_url('autoxadmin/seo_settings/redirect');
         $config['total_rows'] = $this->redirect_model->count_all($filter_data);
         $config['per_page'] = 50;
         $config['reuse_query_string'] = TRUE;
