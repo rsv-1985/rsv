@@ -25,6 +25,7 @@ class Order extends Admin_controller
         $this->load->model('product_model');
         $this->load->library('sender');
         $this->load->model('order_ttn_model');
+        $this->load->model('black_list_model');
     }
 
     public function products()
@@ -110,7 +111,7 @@ class Order extends Admin_controller
             show_404();
         }
         $data['customer_info'] = $this->customer_model->get($data['order']['customer_id']);
-
+        $data['black_list_info'] = $this->black_list_model->get($data['order']['customer_id']);
         $data['delivery_view_form'] = false;
         $delivery_info = $this->delivery_model->get($data['order']['delivery_method_id']);
         if($delivery_info && $delivery_info['api']){

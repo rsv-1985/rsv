@@ -115,7 +115,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="form-group">
                             <label>Клиент</label>
                             <br><a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $customer_info['first_name'].' '.$customer_info['second_name'];?></a>
-                            <br><small><?php echo $customer_info['balance'];?></small>
+                            <?php if($black_list_info){?>
+                                <p class="label label-danger">! <?php echo $black_list_info['comment'];?></p>
+                            <?php }else{?>
+                                <a href="#" onclick="addBlack(event)" class="btn btn-xs btn-danger"> В черный список</a>
+                            <?php } ?>
+                            <br>Баланс: <small><?php echo $customer_info['balance'];?></small>
+
                         </div>
                     <?php } ?>
                 </div><!-- /.col -->
@@ -505,5 +511,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 }
             }
         });
+    }
+
+    function addBlack(e){
+        e.preventDefault();
+        var comment = prompt('Комментарий');
+        $.ajax({
+            url: '/autoxadmin/blacklist/add',
+            data: {comment:comment, customer_id:'<?php echo $order['customer_id'];?>'},
+            method: 'post',
+            success: function(response){
+                alert('Добавлен с черный список');
+            }
+        })
     }
 </script>
