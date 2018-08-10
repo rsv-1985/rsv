@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>ID клиента</label>
-                        <input required type="text" name="id" value="<?php echo set_value('id');?>" class="form-control" >
+                        <input required type="text" name="id" value="<?php echo set_value('id', (int)$this->input->get('customer_id'));?>" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Тип</label>

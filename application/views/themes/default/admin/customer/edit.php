@@ -84,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <textarea class="form-control" name="address"><?php echo set_value('address', $customer['address']);?></textarea>
                 </div><!-- /.form group -->
                 <div class="form-group">
+                    <a href="/autoxadmin/customerbalance/create?customer_id=<?php echo $customer['id'];?>" class="btn btn-danger pull-left">Баланс</a>
                     <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_submit');?></button>
                 </div><!-- /.form group -->
             </div>
