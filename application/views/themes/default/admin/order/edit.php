@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php if($black_list_info){?>
                                 <p class="label label-danger">! <?php echo $black_list_info['comment'];?></p>
                             <?php }else{?>
-                                <a href="#" onclick="addBlack(event)" class="btn btn-xs btn-danger"> В черный список</a>
+                                <a href="#" onclick="addBlack(event)" class="btn btn-xs btn-default"> В черный список</a>
                             <?php } ?>
                             <br>Баланс: <small><?php echo $customer_info['balance'];?></small>
 
