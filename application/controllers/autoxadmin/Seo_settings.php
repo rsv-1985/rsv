@@ -345,7 +345,7 @@ class Seo_settings extends Admin_controller{
 
         $this->pagination->initialize($config);
 
-        $data['redirects'] = $this->redirect_model->get_all($config['per_page'], $this->uri->segment(5),$filter_data);
+        $data['redirects'] = $this->redirect_model->get_all($config['per_page'], $this->uri->segment(4),$filter_data);
 
         $this->load->view('admin/header');
         $this->load->view('admin/seo_settings/seo_redirect', $data);
