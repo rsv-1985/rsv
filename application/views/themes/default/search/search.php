@@ -445,6 +445,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 in_stock.push(item);
             });
 
+            if(one_day){
+                one_day = one_day.reverse();
+                $(one_day).each(function(index,i){
+                    $(i).parent('tbody').prepend(i).show();
+                });
+
+                $(".one_day").show();
+            }
 
             if(in_stock){
                 in_stock = in_stock.reverse();
@@ -453,15 +461,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 });
 
                 $(".in_stock").show();
-            }
-
-            if(one_day){
-                one_day = one_day.reverse();
-                $(one_day).each(function(index,i){
-                    $(i).parent('tbody').prepend(i).show();
-                });
-
-                $(".one_day").show();
             }
             <?php } ?>
 
