@@ -64,4 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         </div><!-- /.box-footer-->
     </div><!-- /.box -->
 </form>
+    <script>
+
+    </script>
 </section><!-- /.content -->

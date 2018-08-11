@@ -89,6 +89,12 @@ img {
     padding-top: 11px;
     font-weight: bold;
 }
+.fa-star.active {
+    color: #337ab7;
+}
+.rating_form input{
+    display: none;
+}
 .catalog img {
     margin: .6%;
     width: 94px;

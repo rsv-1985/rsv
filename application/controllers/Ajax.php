@@ -188,6 +188,37 @@ class Ajax extends Front_controller
             ->set_output(json_encode($json));
     }
 
+    public function review()
+    {
+        $json = [];
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('rating', lang('text_review_rating'), 'required');
+        $this->form_validation->set_rules('text', lang('text_review_text'), 'required|trim|max_length[3000]');
+        $this->form_validation->set_rules('author', lang('text_review_author'), 'trim|max_length[64]');
+        $this->form_validation->set_rules('contact', lang('text_review_contact'), 'trim|max_length[64]');
+        if ($this->form_validation->run() == true) {
+            $this->load->model('review_model');
+            $save = [
+                'product_id' => (int)$this->input->post('product_id'),
+                'customer_id' => $this->is_login,
+                'author' => $this->input->post('author', true),
+                'contact' => $this->input->post('contact', true),
+                'text' => $this->input->post('text', true),
+                'rating' => (int)$this->input->post('rating'),
+                'status' => 0,
+                'created_at' => date('Y-m-d')
+            ];
+            $this->review_model->insert($save);
+            $this->session->set_flashdata('success', lang('text_review_success'));
+            $json['success'] = true;
+        } else {
+            $json['error'] = validation_errors();
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+    }
+
     public function call_back()
     {
         $json = [];

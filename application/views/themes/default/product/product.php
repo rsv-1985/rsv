@@ -308,6 +308,21 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } else { ?>
                         <p><?php echo lang('text_not_available'); ?></p>
                     <?php } ?>
+                    <div class="reviews">
+                        <?php if ($count_reviews > 0) { ?>
+                            <br>
+                            <?php for ($i = 1; $i <= 5; $i++) { ?>
+                                <?php if ($avg_rating < $i) { ?>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                <?php } else { ?>
+                                    <i class="fa fa-star fa-lg active" aria-hidden="true"></i>
+                                <?php } ?>
+                            <?php } ?>
+                            <br>
+                        <?php } ?>
+                        <a href="#review-h"><?php echo lang('text_review');?>: <?php echo $count_reviews; ?></a>
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">
@@ -441,10 +456,70 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php $q++;
                     } ?>
                 <?php } ?>
+                <h3 id="review-h"><?php echo lang('text_review');?></h3>
+                <?php if ($count_reviews > 0) { ?>
+                    <?php foreach ($reviews as $review) { ?>
+                        <div class="media">
+                            <div class="media-body">
+                                <?php for ($i = 1; $i <= 5; $i++) { ?>
+                                    <?php if ($review['rating'] < $i) { ?>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    <?php } else { ?>
+                                        <i class="fa fa-star active" aria-hidden="true"></i>
+                                    <?php } ?>
+                                <?php } ?>
+                                <small class="pull-right">
+                                    <?php echo $review['created_at']; ?>
+                                </small>
+                                <p>
+                                    <?php echo $review['text']; ?>
+                                </p>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
+                <a class="btn btn-info" style="width: 100%" role="button" data-toggle="collapse" href="#review">
+                    <?php echo lang('text_write_review');?>
+                </a>
+                <div class="clearfix"></div>
+                <div class="collapse" id="review">
+                    <form id="review_form">
+                        <input type="hidden" name="product_id" value="<?php echo $id;?>">
+                        <div class="well well-sm">
+                            <div class="form-group">
+                                <label><?php echo lang('text_review_rating');?></label>
+                                <div class="rating_form">
+                                    <label data-rate="1"><input required id="r1" name="rating" value="1" type="radio"><i class="fa fa-star r1" aria-hidden="true"></i></label>
+                                    <label data-rate="2"><input required id="r2"  name="rating" value="2" type="radio"><i class="fa fa-star r2" aria-hidden="true"></i></label>
+                                    <label data-rate="3"><input required id="r3"  name="rating" value="3" type="radio"><i class="fa fa-star r3" aria-hidden="true"></i></label>
+                                    <label data-rate="4"><input required id="r4"  name="rating" value="4" type="radio"><i class="fa fa-star r4" aria-hidden="true"></i></label>
+                                    <label data-rate="5"><input required id="r5"  name="rating" value="5" type="radio"><i class="fa fa-star r5" aria-hidden="true"></i></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('text_review_author');?></label>
+                                <input type="text" name="author" class="form-control" maxlength="64">
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('text_review_contact');?></label>
+                                <input type="text" name="contact" class="form-control" maxlength="64">
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('text_review_text');?></label>
+                                <textarea required minlength="10" maxlength="3000" name="text" rows="8" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info pull-right">
+                                    <?php echo lang('button_send');?>
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+
             </div>
             <div class="col-md-8 col-sm-12">
-
-
                 <?php if ($prices || $cross) { ?>
                     <h3>
                         Всего <?php echo plural_form(count($prices), [lang('text_offer_1'), lang('text_offer_2'), lang('text_offer_5')]); ?></h3>

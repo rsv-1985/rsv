@@ -19,6 +19,7 @@ class Product extends Front_controller
         $this->load->model('banner_model');
         $this->load->model('delivery_model');
         $this->load->model('payment_model');
+        $this->load->model('review_model');
     }
 
     public function index($slug)
@@ -175,6 +176,13 @@ class Product extends Front_controller
                     }
                 }
             }
+        }
+
+        //Отзывы о товаре
+        $data['count_reviews'] = $this->review_model->count_all(['product_id' => $data['id'], 'status' => true]);
+        if($data['count_reviews']){
+            $data['avg_rating'] = (int)$this->review_model->getAvg(['product_id' => $data['id'], 'status' => true])['rating'];
+            $data['reviews'] = $this->review_model->get_all(10, false, ['product_id' => $data['id'], 'status' => true]);
         }
 
         if ($data['prices']) {

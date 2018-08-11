@@ -110,6 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/customerbalance"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_customerbalance');?></a></li>
                         <li><a href="/autoxadmin/newsletter"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_newsletter');?></a></li>
                         <li><a href="/autoxadmin/vin"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_vin');?></a></li>
+                        <li><a href="/autoxadmin/review"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_review');?></a></li>
                     </ul>
                 </li>
                 <li class="treeview">

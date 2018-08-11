@@ -1,4 +1,18 @@
 $(document).ready(function(){
+    $(".rating_form label").click(function(){
+        var rate = $(this).attr('data-rate');
+        $("#r"+rate).prop('checked', true);
+        for(i = 1; i <= 5; i++){
+            if(i<=rate){
+                $(".fa-star.r"+i).addClass('active');
+            }else{
+                $(".fa-star.r"+i).removeClass('active');
+            }
+        }
+    });
+
+
+
     $("#button_search,.list-group-item>a").click(function(e){
         if($("#search_input").val()){
             $("body").prepend('<div class="cssload-container"><div class="cssload-shaft1"></div><div class="cssload-shaft2"></div><div class="cssload-shaft3"></div><div class="cssload-shaft4"></div><div class="cssload-shaft5"></div><div class="cssload-shaft6"></div><div class="cssload-shaft7"></div><div class="cssload-shaft8"></div><div class="cssload-shaft9"></div><div class="cssload-shaft10"></div></div>');
@@ -37,6 +51,22 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(json){
+                if(json['success']){
+                    location.reload();
+                } else {
+                    $(".alert-danger").html(json['error']).fadeIn();
+                }
+            }
+        });
+    });
+
+    $("#review_form").submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: '/ajax/review',
+            method: 'post',
+            data: $(this).serialize(),
+            success: function (json) {
                 if(json['success']){
                     location.reload();
                 } else {
