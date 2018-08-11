@@ -468,6 +468,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <i class="fa fa-star active" aria-hidden="true"></i>
                                     <?php } ?>
                                 <?php } ?>
+                                <br><?php echo $review['author'];?>
+
                                 <small class="pull-right">
                                     <?php echo $review['created_at']; ?>
                                 </small>
