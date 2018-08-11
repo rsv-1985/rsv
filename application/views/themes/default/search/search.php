@@ -462,6 +462,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
                 $(".in_stock").show();
             }
+
             <?php } ?>
 
 
