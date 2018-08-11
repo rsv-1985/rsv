@@ -117,6 +117,16 @@ class Order_model extends Default_model{
             if($this->input->get('status')){
                 $this->db->where('ax_order.status', (int)$this->input->get('status', true));
             }
+
+            if(isset($_GET['paid'])){
+                if($_GET['paid'] == 'true'){
+                    $this->db->where('ax_order.paid', true);
+                }
+
+                if($_GET['paid'] == 'false'){
+                    $this->db->where('ax_order.paid', false);
+                }
+            }
         }
         if($limit && $start){
             $this->db->limit((int)$limit, (int)$start);

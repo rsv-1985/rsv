@@ -114,7 +114,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </select>
                                     </div>
                                 </td>
-                                <td>1</td>
+                                <td>
+                                    <div class="form-group">
+                                        <select name="paid" class="form-control">
+                                            <option></option>
+                                            <option value="false" <?php if($this->input->get('paid') == 'false'){?>selected<?php } ?>>Не оплачен</option>
+                                            <option value="true" <?php if($this->input->get('paid') == 'true'){?>selected<?php } ?>>Оплачен</option>
+                                        </select>
+                                    </div>
+                                </td>
                                 <td></td>
                                 <td>
                                     <div class="btn-group">
