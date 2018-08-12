@@ -93,6 +93,12 @@ class Front_controller extends CI_Controller{
         if($redirect_info){
             redirect($redirect_info['url_to'], 'auto', $redirect_info['status_code']);
         }
+
+        //Прописываем каноникал
+        $canonical_info = $this->canonical_model->getByUri($_SERVER['REQUEST_URI']);
+        if($canonical_info){
+            $this->canonical = $canonical_info['canonical'];
+        }
         $this->load->library('cart');
         $this->load->model(
             ['customer_group_pricing_model']

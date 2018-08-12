@@ -145,5 +145,6 @@ $autoload['model'] = array(
     'category_model',
     'supplier_model',
     'pricing_model',
-    'redirect_model'
+    'redirect_model',
+    'canonical_model'
 );

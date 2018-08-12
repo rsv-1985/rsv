@@ -19,10 +19,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Redirect</h3>
+                    <h3 class="box-title">Canonical</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <?php echo form_open_multipart('/autoxadmin/seo_settings/redirect?add=1', ['method' => 'post']);?>
+                    <?php echo form_open_multipart('/autoxadmin/seo_settings/canonical?add=1', ['method' => 'post']);?>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -32,16 +32,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label>URL From</label>
-                                <input  type="text" name="url_from" class="form-control" value="">
+                                <label>URL</label>
+                                <input  type="text" name="url" class="form-control" value="">
                             </div>
                             <div class="form-group">
-                                <label>URL to</label>
-                                <input  type="text" name="url_to" class="form-control" value="">
-                            </div>
-                            <div class="form-group">
-                                <label>Status code</label>
-                                <input  type="text" name="status_code" class="form-control" value="">
+                                <label>Canonical</label>
+                                <input  type="text" name="canonical" class="form-control" value="">
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-info pull-right" type="submit">Добавить</button>
@@ -54,26 +50,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>URL From</th>
-                                    <th>URL To</th>
-                                    <th>Status Code</th>
+                                    <th>URL</th>
+                                    <th>Canonical</th>
                                     <th></th>
                                 </tr>
-                                <?php echo form_open('/autoxadmin/seo_settings/redirect', ['method' => 'get']); ?>
+                                <?php echo form_open('/autoxadmin/seo_settings/canonical', ['method' => 'get']); ?>
                                 <tr>
                                     <th>
-                                        <input type="text" name="url_from" class="form-control" value="<?php echo $this->input->get('url_from', true);?>">
+                                        <input type="text" name="url" class="form-control" value="<?php echo $this->input->get('url', true);?>">
                                     </th>
                                     <th>
-                                        <input type="text" name="url_to" class="form-control" value="<?php echo $this->input->get('url_to', true);?>">
-                                    </th>
-                                    <th>
-                                        <input type="text" name="status_code" class="form-control" value="<?php echo $this->input->get('status_code', true);?>">
+                                        <input type="text" name="canonical" class="form-control" value="<?php echo $this->input->get('canonical', true);?>">
                                     </th>
                                     <th>
                                         <button type="submit" class="btn btn-info">Поиск</button>
                                         <?php if($this->input->get()){?>
-                                            <a href="/autoxadmin/seo_settings/redirect" class="btn btn-danger">Сброс</a>
+                                            <a href="/autoxadmin/seo_settings/canonical" class="btn btn-danger">Сброс</a>
                                         <?php } ?>
                                     </th>
                                 </tr>
@@ -81,22 +73,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </thead>
 
                                 <tbody>
-                                <?php if($redirects){?>
-                                    <?php foreach ($redirects as $redirect){?>
-                                        <?php echo form_open('/autoxadmin/seo_settings/redirect?edit='.$redirect['id'], ['method' => 'post']);?>
+                                <?php if($canonicals){?>
+                                    <?php foreach ($canonicals as $canonical){?>
+                                        <?php echo form_open('/autoxadmin/seo_settings/canonical?edit='.$canonical['id'], ['method' => 'post']);?>
                                         <tr>
                                             <td>
-                                                <input type="text" name="url_from" value="<?php echo $redirect['url_from'];?>" class="form-control">
+                                                <input type="text" name="url" value="<?php echo $canonical['url'];?>" class="form-control">
                                             </td>
                                             <td>
-                                                <input type="text" name="url_to" value="<?php echo $redirect['url_to'];?>" class="form-control">
-                                            </td>
-                                            <td>
-                                                <input type="text" name="status_code" value="<?php echo $redirect['status_code'];?>" class="form-control">
+                                                <input type="text" name="canonical" value="<?php echo $canonical['canonical'];?>" class="form-control">
                                             </td>
                                             <td>
                                                 <button type="submit" class="btn btn-info ">Сохранить</button>
-                                                <a class="btn btn-danger " href="/autoxadmin/seo_settings/redirect?delete=<?php echo $redirect['id'];?>">Удалить</a>
+                                                <a class="btn btn-danger " href="/autoxadmin/seo_settings/canonical?delete=<?php echo $canonical['id'];?>">Удалить</a>
                                             </td>
                                         </tr>
                                         <?php echo form_close();?>

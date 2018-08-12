@@ -351,4 +351,88 @@ class Seo_settings extends Admin_controller{
         $this->load->view('admin/seo_settings/seo_redirect', $data);
         $this->load->view('admin/footer');
     }
+
+    public function canonical(){
+        $this->load->helper('file');
+        $this->load->model('canonical_model');
+
+        if($this->input->get('add')){
+            if(@$_FILES['userfile']['name']){
+                if (($handle = fopen($_FILES['userfile']['tmp_name'], "r")) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                        if(isset($data[0]) && isset($data[1])){
+                            $save = [
+                                'url' => trim($data[0]),
+                                'canonical' => trim($data[1]),
+                            ];
+
+                            $this->canonical_model->insert($save);
+                        }
+                    }
+                    fclose($handle);
+                }
+                redirect('/autoxadmin/seo_settings/canonical');
+            }else{
+                $this->form_validation->set_rules('url', 'url', 'required|max_length[255]|trim');
+                $this->form_validation->set_rules('canonical', 'canonical', 'required|max_length[255]|trim');
+
+                if ($this->form_validation->run() !== false){
+                    $save = [
+                        'url' => $this->input->post('url', true),
+                        'canonical' => $this->input->post('canonical', true),
+                    ];
+
+                    $this->canonical_model->insert($save);
+
+                    redirect('/autoxadmin/seo_settings/canonical');
+                }else{
+                    $this->error = validation_errors();
+                }
+            }
+        }
+
+        if($this->input->get('edit')){
+            $canonical_id = $this->input->get('edit');
+
+            $save = [
+                'url' => $this->input->post('url', true),
+                'canonical' => $this->input->post('canonical', true),
+            ];
+
+            $this->canonical_model->insert($save, $canonical_id);
+
+            redirect('/autoxadmin/seo_settings/canonical');
+        }
+
+        if($this->input->get('delete')){
+            $this->canonical_model->delete($this->input->get('delete'));
+            redirect('/autoxadmin/seo_settings/canonical');
+        }
+
+        $filter_data = [];
+
+        if($this->input->get('url')){
+            $filter_data['url'] = $this->input->get('url', true);
+        }
+
+        if($this->input->get('canonical')){
+            $filter_data['canonical'] = $this->input->get('canonical', true);
+        }
+
+
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('autoxadmin/seo_settings/canonical');
+        $config['total_rows'] = $this->canonical_model->count_all($filter_data);
+        $config['per_page'] = 50;
+        $config['reuse_query_string'] = TRUE;
+
+        $this->pagination->initialize($config);
+
+        $data['canonicals'] = $this->canonical_model->get_all($config['per_page'], $this->uri->segment(4),$filter_data);
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/seo_settings/seo_canonical', $data);
+        $this->load->view('admin/footer');
+    }
 }
