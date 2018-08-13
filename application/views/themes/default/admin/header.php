@@ -63,6 +63,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li>
+                        <a href="https://goo.gl/forms/2rUp7sODDIZrJgT63" target="_blank">Доработки</a>
+                    </li>
+                    <li>
                         <a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q">Оплата</a>
                     </li>
                     <li>
