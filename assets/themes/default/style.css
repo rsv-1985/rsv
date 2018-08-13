@@ -1407,7 +1407,8 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
 .single-shop-product>.name {
     font-size: 14px;
     margin: 0;
-    height: 48px;
+    height: 75px;
+    overflow: hidden;
 }
 .product-option-shop {
     margin-top: 15px;
