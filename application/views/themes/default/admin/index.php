@@ -61,8 +61,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <a href="/autoxadmin/customer?status=false" class="small-box-footer">Подробнее <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-2 col-xs-6"></div>
+                <div class="col-md-4">
+                    <div class="info-box bg-green">
+                        <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Подписка на обновления</span>
+                            <span class="info-box-number">Активна</span>
+                            <span class="progress-description">0.00$</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Голосование за доработки</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" style="">
+                            <div class="row">
+                                <div class="col-md-12">
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="clearfix"></div>
