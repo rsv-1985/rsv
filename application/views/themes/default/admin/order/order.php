@@ -132,15 +132,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <b>#<?php echo $order['id'];?><br></b>
                                             <small><?php echo date('y-m-d H:i',strtotime($order['created_at']));?></small>
                                         </td>
-                                        <td><?php echo $order['last_name'];?></td>
                                         <td>
-
-                                            <?php if($order['customer_id']){?>
-                                                <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['first_name'];?></a>
+                                        <?php if($order['customer_id']){?>
+                                                <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['last_name'];?></a>
                                                 <br><?php echo format_balance($order['balance']);?>
                                             <?php }else{?>
-                                                <?php echo $order['first_name'];?>
+                                            <?php echo $order['last_name'];?>
                                             <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $order['first_name'];?>
                                         </td>
                                         <td>
                                             <?php echo $order['telephone'];?><br/>
