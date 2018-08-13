@@ -16,6 +16,7 @@ class Customer extends Admin_controller
         $this->load->model('customer_model');
         $this->load->model('customergroup_model');
         $this->load->model('orderstatus_model');
+        $this->load->model('black_list_model');
     }
 
     public function index()
@@ -73,6 +74,8 @@ class Customer extends Admin_controller
         if (!$data['customer']) {
             show_404();
         }
+
+        $data['black_list_info'] = $this->black_list_model->get($id);
 
         if ($this->input->post()) {
             $this->form_validation->set_rules('customer_group_id', lang('text_customer_group_id'), 'required|integer|trim');

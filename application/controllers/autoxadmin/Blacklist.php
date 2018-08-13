@@ -18,4 +18,8 @@ class Blacklist extends Admin_controller {
         $this->black_list_model->insert(['customer_id' => (int)$this->input->post('customer_id'), 'comment' => (string)$this->input->post('comment',true)]);
     }
 
+    public function delete(){
+        $this->black_list_model->delete((int)$this->input->post('customer_id'));
+    }
+
 }

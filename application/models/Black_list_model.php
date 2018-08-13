@@ -12,4 +12,8 @@ class Black_list_model extends Default_model{
         $this->db->where('customer_id', (int)$customer_id);
         return $this->db->get($this->table)->row_array();
     }
+
+    public function delete($customer_id){
+        $this->db->where('customer_id',(int)$customer_id)->delete($this->table);
+    }
 }
