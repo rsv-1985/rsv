@@ -80,7 +80,7 @@ class Customer extends Admin_controller
             $this->form_validation->set_rules('second_name', lang('text_second_name'), 'max_length[32]|trim');
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]|trim');
 
-            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim|required');
+            $this->form_validation->set_rules('email', lang('text_email'), 'valid_email|trim');
             if($this->input->post('email', true) != $data['customer']['email']){
                 $this->form_validation->set_rules('email', lang('text_email'), 'is_unique[customer.email]');
             }
