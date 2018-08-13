@@ -101,3 +101,11 @@ function format_data($data){
 function format_phone($phone){
     return preg_replace('/[^0-9]/','',$phone);
 }
+
+function format_balance($balance){
+    if($balance < 0){
+        return '<span title="Баланс" class="label label-danger">'.$balance.'</span>';
+    }else{
+        return '<span title="Баланс" class="label label-success">'.$balance.'</span>';
+    }
+}

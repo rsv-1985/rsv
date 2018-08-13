@@ -22,16 +22,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             <div class="row">
                 <div class="col-md-12">
                     <h2><?php echo $customer['first_name'] . ' ' . $customer['second_name']; ?>
-                        <?php if($customer['balance'] >= 0){?>
-                            <span class="label label-info pull-right" title="Баланс">
-                                <?php echo($customer['balance']);?>
-                            </span>
-                        <?php }else{ ?>
-                            <span class="label label-danger pull-right" title="Баланс">
-                                <?php echo($customer['balance']);?>
-                            </span>
-                        <?php } ?>
-
+                        <div class="pull-right">
+                            <?php echo format_balance($customer['balance']);?>
+                        </div>
                     </h2>
 
                         <div class="pull-right" style="text-align: right">
