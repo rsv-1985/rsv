@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <title><?php echo str_replace('"','',$this->title);?></title>
     <meta name="description" content="<?php echo str_replace('"','',$this->description);?>">
     <meta name="keywords" content="<?php echo str_replace('"','',$this->keywords);?>">
-    <script src="<?php echo theme_url(); ?>js/jquery-1.12.3.min.js"></script>
+    <script async src="<?php echo theme_url(); ?>js/jquery-1.12.3.min.js"></script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
     <?php if($this->rel_prev){?>
         <link rel="prev" href="<?php echo $this->rel_prev;?>">
@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </script>
     <?php } ?>
     <link rel="stylesheet" href="<?php echo theme_url();?>css/bootstrap.min.css">
-    <link rel="alternate stylesheet" onload="this.rel='stylesheet'" href="<?php echo theme_url();?>style.css?v=5">
+    <link rel="stylesheet" href="<?php echo theme_url();?>style.css?v=5">
     <?php if($this->config->item('my_style')){?>
         <?php foreach ($this->config->item('my_style') as $style){?>
             <link rel="stylesheet" href="<?php echo $style;?>">
