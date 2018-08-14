@@ -48,11 +48,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </head>
 <body>
 <?php if($this->options['head_text_messages']){?>
-    <noindex>
+
         <div class="head_messages">
             <p><?php echo $this->options['head_text_messages'];?></p>
         </div>
-    </noindex>
+
 <?php } ?>
 
 <?php if(@$this->options['google_tag_body']){
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <?php echo @$this->options['analytics'];?>
 <?php if($this->show_modal && @$this->important_news['status']){?>
-    <noindex>
+
     <div class="modal fade" id="important_news" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             });
         });
     </script>
-    </noindex>
+
 <?php } ?>
 <div class="header-area">
     <div class="container">
