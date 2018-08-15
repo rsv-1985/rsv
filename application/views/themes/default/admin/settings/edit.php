@@ -396,7 +396,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <input type="text" name="settings[autox][api_key_cross]"
                                                        value="<?php echo set_value('settings[autox][api_key_cross]', @$settings['autox']['api_key_cross']); ?>"
                                                        class="form-control">
-                                                <p>Накопительная база кроссов с кэшбеком</p>
+                                                <p>Накопительная база кроссов с кэшбеком. <a href="https://api.autox.pro/user/registration" target="_blank">Получить API KEY</a> </p>
                                             </div>
                                         </div>
                                     </div>

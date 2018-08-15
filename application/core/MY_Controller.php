@@ -135,6 +135,9 @@ class Front_controller extends CI_Controller{
         $this->category = $this->category_model->category_get_all();
         $this->contacts = $this->settings_model->get_by_key('contact_settings');
         $this->options = $this->settings_model->get_by_key('options');
+        $autox_settings = $this->settings_model->get_by_key('autox');
+
+        $this->load->library('autox_cross',['api_key' => $autox_settings['api_key_cross']]);
 
     }
 

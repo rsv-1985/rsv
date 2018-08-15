@@ -245,7 +245,7 @@ class Product_model extends Default_model
         if ($ID_art) {
             $cross = $this->tecdoc->getCrosses($ID_art);
             if ($cross) {
-                foreach (array_slice($cross,0,1000) as $item) {
+                foreach (array_slice($cross, 0, 1000) as $item) {
                     if ($this->clear_sku($item->Display) == $sku && $item->Brand == $brand) {
                         continue;
                     }
@@ -269,25 +269,13 @@ class Product_model extends Default_model
             $crosses = array_merge($crosses, $query->result_array());
         }
 
+        $autox_crosses = $this->autox_cross->getCrosses($sku, $brand);
 
-        $autox_settings = $this->settings_model->get_by_key('autox');
-        if($autox_settings && $autox_settings['api_key_cross']){
-            //получаем кросы autox
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api.autox.pro/v1/cross?article='.$sku.'&brand='.urlencode($brand).'&key='.$autox_settings['api_key_cross'],
-                CURLOPT_RETURNTRANSFER => true,
-            ));
-
-            $response = curl_exec($curl);
-            curl_close($curl);
-            if($response && $autox_crosses = json_decode($response)){
-                foreach ($autox_crosses as $ac){
-                    $crosses[] = ['sku' => $ac->article,'brand' => $ac->brand];
-                }
+        if ($autox_crosses) {
+            foreach ($autox_crosses as $ac) {
+                $crosses[] = ['sku' => $ac->article, 'brand' => $ac->brand];
             }
         }
-
 
 
         return $crosses;
@@ -304,11 +292,11 @@ class Product_model extends Default_model
         if ($tecdoc) {
             foreach ($tecdoc as $item) {
                 //Проверяем есть бренд в группах брендов
-                $check_brand[] = $this->clear_brand(preg_replace('~^OE ~','',$item->Brand));
+                $check_brand[] = $this->clear_brand(preg_replace('~^OE ~', '', $item->Brand));
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
-                    'brand' => $this->clear_brand(preg_replace('~^OE ~','',$item->Brand)),
+                    'brand' => $this->clear_brand(preg_replace('~^OE ~', '', $item->Brand)),
                     'sku' => $this->clear_sku($item->Article),
                     'image' => '/image?img=' . $item->Image . '&width=50&height=50',
                 ];
@@ -363,29 +351,18 @@ class Product_model extends Default_model
         }
 
         //Получаем бренды с базы кроссов
-        $autox_settings = $this->settings_model->get_by_key('autox');
-        if($autox_settings && $autox_settings['api_key_cross']){
-            //получаем кросы autox
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api.autox.pro/v1/article?article=OC90&key='.$autox_settings['api_key_cross'],
-                CURLOPT_RETURNTRANSFER => true,
-            ));
+        $autox_brands = $this->autox_cross->getBrands($sku);
 
-            $response = curl_exec($curl);
-            curl_close($curl);
-
-            if($response && $autox_brands = json_decode($response)){
-                foreach ($autox_brands as $brand){
-                    if(!in_array($brand->brand,$check_brand)){
-                        $return[] = [
-                            'ID_art' => 0,
-                            'name' => '',
-                            'brand' => $brand->brand,
-                            'sku' => $brand->search,
-                            'image' => '/image?width=50',
-                        ];
-                    }
+        if ($autox_brands) {
+            foreach ($autox_brands as $brand) {
+                if (!in_array($brand->brand, $check_brand)) {
+                    $return[] = [
+                        'ID_art' => 0,
+                        'name' => '',
+                        'brand' => $brand->brand,
+                        'sku' => $brand->search,
+                        'image' => '/image?width=50',
+                    ];
                 }
             }
         }
@@ -503,12 +480,12 @@ class Product_model extends Default_model
             $product_prices = $query->result_array();
             if ($calculate) {
                 foreach ($product_prices as &$product_price) {
-                    $product_price['price'] = $this->calculate_customer_price(array_merge($product,$product_price));
+                    $product_price['price'] = $this->calculate_customer_price(array_merge($product, $product_price));
                 }
             }
         }
 
-        if($calculate){
+        if ($calculate) {
             $sort = 'price';
 
             if ($this->input->get('sort')) {
@@ -584,7 +561,7 @@ class Product_model extends Default_model
             foreach ($order as $field => $value) {
                 $this->db->order_by($field, $value);
             }
-        }else{
+        } else {
             $this->db->order_by("-(SELECT min(delivery_price) as price FROM ax_product_price WHERE ax_product_price.product_id = ax_product.id) DESC", true);
         }
 
@@ -634,11 +611,11 @@ class Product_model extends Default_model
     public function calculate_customer_price($product)
     {
         //Статическая цена
-        if($product['static_price'] > 0) {
+        if ($product['static_price'] > 0) {
             $price = $product['static_price'] * $this->currency_model->currencies[$product['static_currency_id']]['value'];
-        }elseif($product['price'] > 0){
+        } elseif ($product['price'] > 0) {
             $price = $product['price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
-        }else{
+        } else {
             //Расчет по курсу
             $price = $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'];
 
@@ -646,8 +623,8 @@ class Product_model extends Default_model
             if ($this->pricing_model->pricing && isset($this->pricing_model->pricing[$product['supplier_id']])) {
                 foreach ($this->pricing_model->pricing[$product['supplier_id']] as $supplier_price) {
                     if ($supplier_price['price_from'] <= $price && $supplier_price['price_to'] >= $price) {
-                        if ($supplier_price['brand'] && $supplier_price['customer_group_id']){
-                            if($product['brand'] != $supplier_price['brand'] || $this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
+                        if ($supplier_price['brand'] && $supplier_price['customer_group_id']) {
+                            if ($product['brand'] != $supplier_price['brand'] || $this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']) {
                                 continue;
                             }
                             switch ($supplier_price['method_price']) {
@@ -668,7 +645,7 @@ class Product_model extends Default_model
                         }
 
                         if ($supplier_price['brand']) {
-                            if($product['brand'] != $supplier_price['brand']){
+                            if ($product['brand'] != $supplier_price['brand']) {
                                 continue;
                             }
                             switch ($supplier_price['method_price']) {
@@ -689,7 +666,7 @@ class Product_model extends Default_model
                         }
 
                         if ($supplier_price['customer_group_id']) {
-                            if($this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']){
+                            if ($this->customergroup_model->customer_group['id'] != $supplier_price['customer_group_id']) {
                                 continue;
                             }
                             switch ($supplier_price['method_price']) {
@@ -949,7 +926,7 @@ class Product_model extends Default_model
         $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
         if ($api_supplier) {
             foreach ($api_supplier as $supplier) {
-                if(file_exists('./application/libraries/apisupplier/'.ucfirst($supplier['api']).'.php')){
+                if (file_exists('./application/libraries/apisupplier/' . ucfirst($supplier['api']) . '.php')) {
                     $this->load->library('apisupplier/' . $supplier['api']);
                     $cross_suppliers[] = $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
                 }
