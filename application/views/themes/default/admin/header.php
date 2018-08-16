@@ -62,15 +62,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="https://goo.gl/forms/2rUp7sODDIZrJgT63" target="_blank">Доработки</a>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">AutoX <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="https://goo.gl/forms/2rUp7sODDIZrJgT63" target="_blank">Пожелания / ошибки</a></li>
+                            <li>
+                                <a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q">Оплата услуг</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="https://t.me/autox_pro">Телеграм AutoX</i></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a target="_blank" href="https://t.me/s_rozputnii">Поддержка в Telegram</a>
+                            </li>
+                            <li><a rel="nofollow" target="_blank" href="viber://chat?number=+380991306362">Поддержка в Viber</a></li>
+                            <li class="divider"></li>
+                        </ul>
                     </li>
-                    <li>
-                        <a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q">Оплата</a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="https://t.me/autox_pro">Новости AutoX</i></a>
-                    </li>
+
+
+
                     <li class="dropdown user user-menu">
                         <a href="<?php echo base_url('autoxadmin/user/logout');?>" title="<?php echo lang('text_logout');?>" data-toggle="tooltip" class="dropdown-toggle">
                             <span class="hidden-xs"><?php echo lang('text_logout');?></span>

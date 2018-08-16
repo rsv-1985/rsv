@@ -350,23 +350,6 @@ class Product_model extends Default_model
             }
         }
 
-        //Получаем бренды с базы кроссов
-        $autox_brands = $this->autox_cross->getBrands($sku);
-
-        if ($autox_brands) {
-            foreach ($autox_brands as $brand) {
-                if (!in_array($brand->brand, $check_brand)) {
-                    $return[] = [
-                        'ID_art' => 0,
-                        'name' => '',
-                        'brand' => $brand->brand,
-                        'sku' => $brand->search,
-                        'image' => '/image?width=50',
-                    ];
-                }
-            }
-        }
-
         unset($check_brand);
         return $return;
 

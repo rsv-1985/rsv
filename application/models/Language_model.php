@@ -28,8 +28,13 @@ class Language_model extends Default_model{
     }
 
     public function language_count_all(){
-        if($this->input->get('search')){
-            $this->db->like('text', $this->input->get('search',true));
+        if($this->input->get()){
+            if($this->input->get('filter_text')){
+                $this->db->like('text', $this->input->get('filter_text',true));
+            }
+            if($this->input->get('filter_key')){
+                $this->db->like('line', $this->input->get('filter_key',true));
+            }
             return $this->db->count_all_results($this->table);
         }else{
             return $this->db->count_all($this->table);
@@ -41,8 +46,11 @@ class Language_model extends Default_model{
         $this->db->from($this->table);
         $this->db->limit((int)$limit, (int)$start);
         $this->db->order_by('id','DESC');
-        if($this->input->get('search')){
-            $this->db->like('text', $this->input->get('search',true));
+        if($this->input->get('filter_text')){
+            $this->db->like('text', $this->input->get('filter_text',true));
+        }
+        if($this->input->get('filter_key')){
+            $this->db->like('line', $this->input->get('filter_key',true));
         }
         $query = $this->db->get();
 

@@ -217,27 +217,33 @@ class Customer extends Front_controller
     {
         $data = [];
         if ($this->input->post()) {
-            $this->form_validation->set_rules('email', lang('text_email'), 'trim|required|valid_email');
+            $this->form_validation->set_rules('search', lang('text_forgot_input'), 'trim|required');
             if ($this->form_validation->run() !== false) {
+
                 $this->load->helper('string');
-                $user = $this->customer_model->getByEmail($this->input->post('email', true));
-                if ($user) {
+
+                $customer = $this->customer_model->getByEmail($this->input->post('search', true));
+                if(!$customer){
+                    $customer = $this->customer_model->getByPhone($this->input->post('search', true));
+                }
+
+                if ($customer) {
                     $new_password = random_string();
 
                     $save['password'] = password_hash($new_password, PASSWORD_BCRYPT);
-                    $this->customer_model->insert($save, $user['id']);
+                    $this->customer_model->insert($save, $customer['id']);
 
                     $this->load->library('sender');
 
                     $send_email = '';
-                    if ($user['email']) {
-                        $this->sender->email('News password', 'New password: ' . $new_password, $user['email'], $this->contacts['email']);
+                    if ($customer['email']) {
+                        $this->sender->email('News password', 'New password: ' . $new_password, $customer['email'], $this->contacts['email']);
                         $send_email = 'в email';
                     }
 
                     $send_sms = '';
-                    if ($user['phone']) {
-                        $this->sender->sms($user['phone'], $new_password);
+                    if ($customer['phone']) {
+                        $this->sender->sms($customer['phone'], $new_password);
                         $send_sms = 'в SMS';
                     }
 

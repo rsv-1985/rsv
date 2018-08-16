@@ -61,3 +61,5 @@ $lang['text_forgot_success'] = 'Новый пароль отправлен Ва�
 $lang['text_customer_balance'] = 'Баланс';
 $lang['text_orders_date'] = 'Дата';
 $lang['text_captcha'] = 'Проверочный код';
+$lang['text_forgot_input'] = 'Телефон или Email';
+$lang['text_forgot_input_placeholder'] = '380991112233 или test@test.test';

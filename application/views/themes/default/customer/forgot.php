@@ -13,8 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="col-md-offset-3 col-md-6">
                 <?php echo form_open();?>
                     <div class="form-group">
-                        <label><?php echo lang('text_email');?></label>
-                        <input type="text" name="email" class="form-control"/>
+                        <label><?php echo lang('text_forgot_input');?></label>
+                        <input type="text" name="search" placeholder="<?php echo lang('text_forgot_input_placeholder');?>" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <div class="pull-right">

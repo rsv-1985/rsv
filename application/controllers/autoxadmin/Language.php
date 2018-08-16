@@ -16,6 +16,11 @@ class Language extends Admin_controller{
         $this->load->language('admin/language');
     }
 
+    public function truncate(){
+        $this->language_model->truncate();
+        redirect('/autoxadmin/language');
+    }
+
     public function index(){
         $data = [];
         $this->load->library('pagination');
@@ -23,6 +28,7 @@ class Language extends Admin_controller{
         $config['base_url'] = base_url('autoxadmin/language/index');
         $config['total_rows'] = $this->language_model->language_count_all();
         $config['per_page'] = 20;
+        $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
 
