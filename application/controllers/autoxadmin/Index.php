@@ -12,9 +12,13 @@ class Index extends Admin_controller{
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('order_model');
     }
 
     public function index(){
+        $_GET['status'] = $this->orderstatus_model->get_default()['id'];
+        $data['new_orders'] = $this->order_model->order_get_all(50);
+
         $data['new_order'] = $this->db->where(['status' => $this->orderstatus_model->get_default()['id']])->count_all_results('order');
         $data['new_vin'] = $this->db->where(['status' => 0])->count_all_results('vin');
         $data['new_customer'] = $this->db->where(['status' => false])->count_all_results('customer');

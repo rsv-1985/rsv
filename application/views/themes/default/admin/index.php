@@ -63,8 +63,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <?php if($new_orders){?>
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Заказы со статусом <?php echo $this->orderstatus_model->get_default()['name'];?></h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Фио</th>
+                                            <th>Телефон</th>
+                                            <th>Сумма</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($new_orders as $order){?>
+                                            <tr>
+                                                <td><a href="/autoxadmin/order/edit/<?php echo $order['id'];?>"><?php echo $order['id'];?></a></td>
+                                                <td><?php echo $order['last_name'] . ' ' . $order['first_name'];?></td>
+                                                <td><?php echo $order['telephone'];?></td>
+                                                <td>
+                                                    <?php echo $order['total'];?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
                 <div class="col-md-4">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user-2">
