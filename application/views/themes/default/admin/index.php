@@ -107,24 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div>
                 <div class="col-md-4">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-yellow">
-                            <!-- /.widget-user-image -->
-                            <h5 class="widget-user-desc">История обновлений</h5>
-                        </div>
-                        <div class="box-footer no-padding">
-                            <?php if($updates){?>
-                                <ul class="nav nav-stacked">
-                                    <?php foreach ($updates as $update){?>
-                                        <li><a href="#"><?php echo $update['comment'];?> <span class="pull-right badge bg-blue"><?php echo $update['time'];?></span></a></li>
-                                    <?php } ?>
-                                </ul>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <!-- /.widget-user -->
+
                 </div>
             </div>
             <div class="clearfix"></div>
