@@ -25,8 +25,9 @@ class Index extends Admin_controller{
             if(is_array($output)){
                 foreach ($output as $item) {
                     $text = explode(':',$item);
+                    $encoding = mb_detect_encoding($text[0],mb_detect_order(),true);
                     $data['updates'][] = [
-                        'time' => iconv('ISO-8859-1','UTF-8',trim($text[0])),
+                        'time' => iconv($encoding,'UTF-8',trim($text[0])),
                         'comment' => trim($text[1])
                     ];
                 }
