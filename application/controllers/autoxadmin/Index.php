@@ -21,7 +21,7 @@ class Index extends Admin_controller{
         $data['updates'] = [];
         $cache = $this->cache->file->get('updates');
         if(!$cache){
-            @exec('git log --pretty=format:"%ar : %s" -5', $output);
+            @exec('git log origin/master --pretty=format:"%ar : %s" -7', $output);
             if(is_array($output)){
                 foreach ($output as $item) {
                     $text = explode(':',$item);
