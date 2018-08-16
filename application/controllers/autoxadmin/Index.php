@@ -26,13 +26,13 @@ class Index extends Admin_controller{
                 foreach ($output as $item) {
                     $text = explode(':',$item);
                     $data['updates'][] = [
-                        'time' => trim($text[0]),
+                        'time' => iconv('ISO-8859-1','UTF-8',trim($text[0])),
                         'comment' => trim($text[1])
                     ];
                 }
             }
 
-            $this->cache->file->save('updates',$data['updates'], 86400);
+            //$this->cache->file->save('updates',$data['updates'], 86400);
         }else{
             $data['updates'] = $cache;
         }
