@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div>
                 <div class="col-md-4">
-
+                    <iframe style="width: 100%; height: 600px; border: 0;" frameborder="0" src="http://reformal.ru/widget/980760"></iframe>
                 </div>
             </div>
             <div class="clearfix"></div>

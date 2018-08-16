@@ -65,7 +65,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">AutoX <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="https://goo.gl/forms/2rUp7sODDIZrJgT63" target="_blank">Пожелания / ошибки</a></li>
                             <li>
                                 <a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q">Оплата услуг</a>
                             </li>
