@@ -63,6 +63,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user-2">
