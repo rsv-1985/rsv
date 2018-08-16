@@ -110,22 +110,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="clearfix"></div>
         </section><!-- /.content -->
 
-<script type="text/javascript">
-    var reformalOptions = {
-        project_id: 980760,
-        project_host: "autox-pro.reformal.ru",
-        tab_orientation: "bottom-right",
-        tab_indent: "10px",
-        tab_bg_color: "#000000",
-        tab_border_color: "#FFFFFF",
-        tab_image_url: "http://tab.reformal.ru/0J%252FRgNC10LTQu9C%252B0LbQtdC90LjRjw==/FFFFFF/3299ddc96cf2600fd0984ca7d9c32e9c/bottom-right/0/tab.png",
-        tab_border_width: 0
-    };
-
-    (function() {
-        var script = document.createElement('script');
-        script.type = 'text/javascript'; script.async = true;
-        script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'media.reformal.ru/widgets/v3/reformal.js';
-        document.getElementsByTagName('head')[0].appendChild(script);
-    })();
-</script><noscript><a href="http://reformal.ru"><img src="http://media.reformal.ru/reformal.png" /></a><a href="http://autox-pro.reformal.ru">Предложения</a></noscript>
