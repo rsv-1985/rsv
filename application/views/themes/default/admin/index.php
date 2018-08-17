@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <?php if($new_orders){?>
                         <div class="box box-info">
                             <div class="box-header with-border">
@@ -105,6 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </div>
                         </div>
                     <?php } ?>
+                </div>
+                <div class="col-md-4">
+                    <iframe src="https://tgwidget.com/channel/v2.0/?id=5b3286a083ba88c12c8b4567" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" width="100%" height="540px" async></iframe>
                 </div>
             </div>
             <div class="clearfix"></div>
