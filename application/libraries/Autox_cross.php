@@ -26,6 +26,11 @@ class Autox_cross{
         return $this->query($url);
     }
 
+    public function getUser(){
+        $url = '/v1/user?';
+        return $this->query($url);
+    }
+
     private function query($url){
         if($this->key){
             $curl = curl_init();

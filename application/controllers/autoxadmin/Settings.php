@@ -19,6 +19,13 @@ class Settings extends Admin_controller
 
         $data = [];
         $data['settings'] = $this->settings_model->get_by_group('company_settings');
+
+        $data['autox_cross_user_info'] = false;
+        if($data['settings']['autox']['api_key_cross']){
+            $this->load->library('autox_cross',['api_key' => $data['settings']['autox']['api_key_cross']]);
+            $data['autox_cross_user_info'] = $this->autox_cross->getUser();
+        }
+
         $data['tecdoc_manufacturer'] = $this->tecdoc->getManufacturer();
 
 
