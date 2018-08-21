@@ -68,6 +68,7 @@ class Image extends CI_Controller
         $this->load->library('image_lib', $config);
 
         $this->image_lib->resize();
+        die();
     }
 
     private function fileExists($path){
