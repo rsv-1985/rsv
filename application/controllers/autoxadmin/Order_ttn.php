@@ -26,7 +26,7 @@ class Order_ttn extends Admin_controller
 
         $this->pagination->initialize($config);
 
-        $ttns = $this->order_ttn_model->get_all($config['per_page'], $this->uri->segment(4));
+        $ttns = $this->order_ttn_model->get_all($config['per_page'], $this->uri->segment(4),false, ['id' => 'DESC']);
         $data['ttns'] = [];
         if($ttns){
             foreach ($ttns as $ttn){
