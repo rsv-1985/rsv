@@ -88,17 +88,18 @@ class Cart_model extends CI_Model{
         $this->load->model('product_model');
         $json = [];
         $product = $this->product_model->get_product_for_cart($product_id,$supplier_id,$term);
+
         if ($product) {
 
             $cartId = $product_id.$supplier_id.$term;
             $price = (float)$product['saleprice'] > 0 ? $product['saleprice'] : $product['price'];
             $data = [
-                'id' => $cartId,
+                'id' => (int)$cartId,
                 'qty' => (int)$quantity,
                 'slug' => $product['slug'],
                 'delivery_price' => $product['delivery_price'] * $this->currency_model->currencies[$product['currency_id']]['value'],
                 'price' => format_currency($price,false),
-                'name' => mb_strlen($product['name']) == 0 ? 'no name' : mb_ereg_replace("[^a-zA-ZА-Яа-я0-9\s]", "", $product['name']),
+                'name' => mb_strlen($product['name']) == 0 ? 'no name' : (string) mb_ereg_replace("[^-a-zA-Zа-яА-ЯёЁ0-9 ]", "", trim($product['name'])),
                 'excerpt' => $product['excerpt'],
                 'sku' => $product['sku'],
                 'brand' => $product['brand'],
