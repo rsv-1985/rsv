@@ -17,6 +17,9 @@ class Catalog extends Front_controller
 
     public function index()
     {
+        if(isset($_SESSION['ID_typ'])){
+            unset($_SESSION['ID_typ']);
+        }
         if($this->input->get('id_tree')){
             $settings = $this->settings_model->get_by_key('seo_tecdoc_with_tree');
             $tree_info = $this->tecdoc->getTreeNode($this->input->get('id_tree'));
@@ -96,6 +99,7 @@ class Catalog extends Front_controller
 
     public function model($slug)
     {
+        unset($_SESSION['ID_typ']);
         $data = [];
         $data['breadcrumb'][] = ['href' => '/catalog', 'title' => lang('text_index')];
         $ID_mfa = $this->int($slug);
@@ -166,6 +170,9 @@ class Catalog extends Front_controller
 
     public function typ($ID_mfa, $ID_mod)
     {
+        if(isset($_SESSION['ID_typ'])){
+            unset($_SESSION['ID_typ']);
+        }
         $ID_mfa = $this->int($ID_mfa);
         $ID_mod = $this->int($ID_mod);
 
@@ -260,13 +267,44 @@ class Catalog extends Front_controller
         $this->load->view('footer');
     }
 
-    public function tree($ID_mfa, $ID_mod, $ID_typ, $ID_tree = 10001){
+    public function tree($ID_mfa, $ID_mod, $ID_typ = false, $ID_tree = 10001){
+        if($ID_typ){
+            if(isset($_SESSION['ID_typ'])){
+                unset($_SESSION['ID_typ']);
+            }
+            $segment = $this->uri->segment_array();
+            if(isset($segment[4])){
+                unset($segment[4]);
+            }
+            if($this->input->get('id_tree')){
+                redirect(implode('/',$segment).'?id_tree='.$this->input->get('id_tree'),'auto', 301);
+            }else{
+                redirect(implode('/',$segment),'auto', 301);
+            }
+
+        }
         $settings_tecdoc_tree = $this->settings_model->get_by_key('tecdoc_tree');
+
+        if($this->input->get('change_id_typ')){
+            $_SESSION['ID_typ'] = (int)$this->input->get('change_id_typ');
+        }
 
         $this->load->model('product_model');
         $ID_mfa = $this->int($ID_mfa);
         $ID_mod = $this->int($ID_mod);
-        $ID_typ = $this->int($ID_typ);
+
+        $data['types'] = $this->tecdoc->getType($ID_mod);
+
+
+        if(isset($_SESSION['ID_typ'])){
+            $data['show_modal_types'] = false;
+            $ID_typ = $_SESSION['ID_typ'];
+        }else{
+            $data['show_modal_types'] = true;
+            $ID_typ = $data['types'][0]->ID_typ;
+        }
+
+        $data['typ_info'] = $this->tecdoc->getType($ID_mod, $ID_typ)[0];
 
         $data['popular_category'] = [];
         $data['trees'] = [];
@@ -348,7 +386,7 @@ class Catalog extends Front_controller
         $data['breadcrumb'][] = ['href' => '/catalog', 'title' => lang('text_index')];
         $data['breadcrumb'][] = ['href' => base_url('catalog') . '/' . url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/', 'title' => $manufacturer_info[0]->Name];
         $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod, 'title' => $model_info[0]->Name];
-        $data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod.'/'.url_title($typ_info[0]->Name).'_'.$typ_info[0]->ID_typ, 'title' => $typ_info[0]->Name];
+        //$data['breadcrumb'][] = ['href' => base_url('catalog').'/'.url_title($manufacturer_info[0]->Name) . '_' . $ID_mfa . '/'.url_title( $model_info[0]->Name).'_'. $model_info[0]->ID_mod.'/'.url_title($typ_info[0]->Name).'_'.$typ_info[0]->ID_typ, 'title' => $typ_info[0]->Name];
 
         $data['name'] = $manufacturer_info[0]->Name.' '.$model_info[0]->Name.' '.$typ_info[0]->Name;
 
@@ -461,6 +499,7 @@ class Catalog extends Front_controller
         $this->load->view('footer');
 
     }
+
     private function int($string)
     {
         $array = explode('_', $string);

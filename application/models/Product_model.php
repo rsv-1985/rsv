@@ -277,7 +277,6 @@ class Product_model extends Default_model
             }
         }
 
-
         return $crosses;
     }
 

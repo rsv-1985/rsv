@@ -305,6 +305,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
             </div>
             <div class="col-md-4">
+                <div class="well">
+                    <label>Модификация</label>
+                    <ul>
+                        <li><b><?php echo lang('text_column_engine');?></b>: <?php echo $typ_info->Name;?></li>
+                        <li><b><?php echo lang('text_column_engine_code');?></b>: <?php echo $typ_info->Engines;?></li>
+                        <li><b><?php echo lang('text_column_ccm');?></b>: <?php echo $typ_info->CCM;?></li>
+                        <li><b><?php echo lang('text_column_KwHp');?></b>: <?php echo $typ_info->KwHp;?></li>
+                        <li><b><?php echo lang('text_column_Fuel');?></b>: <?php echo $typ_info->Fuel;?></li>
+                        <li><b><?php echo lang('text_column_Drive');?></b>: <?php echo $typ_info->Drive;?></li>
+                        <li><b><?php echo lang('text_column_Body');?></b>: <?php echo $typ_info->Body;?></li>
+                    </ul>
+                    <a href="#" data-toggle="modal" data-target="#types">Изменить</a>
+                </div>
                 <?php if ($filters) { ?>
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         <div class="panel panel-default">
@@ -364,9 +377,46 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+<div id="types" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th><?php echo lang('text_column_engine');?></th>
+                        <th><?php echo lang('text_column_engine_code');?></th>
+                        <th><?php echo lang('text_column_ccm');?></th>
+                        <th><?php echo lang('text_column_KwHp');?></th>
+                        <th><?php echo lang('text_column_Fuel');?></th>
+                        <th><?php echo lang('text_column_Drive');?></th>
+                        <th><?php echo lang('text_column_Body');?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($types as $typ){?>
+                        <tr style="cursor: pointer;" onclick="$.get('<?php echo current_url();?>?change_id_typ=<?php echo $typ->ID_typ;?>'); location.reload();">
+                            <td><?php echo $typ->Name;?></a></td>
+                            <td><?php echo $typ->Engines;?></td>
+                            <td><?php echo $typ->CCM;?></td>
+                            <td><?php echo $typ->KwHp;?></td>
+                            <td><?php echo $typ->Fuel;?></td>
+                            <td><?php echo $typ->Drive;?></td>
+                            <td><?php echo $typ->Body;?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
-        $('.filters').click(function () {
+        <?php if($show_modal_types){?>
+        $("#types").modal();
+        <?php } ?>
+         $('.filters').click(function () {
             var countChecked = 0;
             $(".filters-item").hide();
             $(".filters").each(function () {

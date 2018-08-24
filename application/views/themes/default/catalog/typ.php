@@ -60,7 +60,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <td><?php echo $typ['Body'];?></td>
                     </tr>
                 <?php } ?>
-            </table>       </div>
+            </table>
+            </div>
 
         </div>
     </div>
