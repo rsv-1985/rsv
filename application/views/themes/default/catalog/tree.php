@@ -393,7 +393,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </thead>
                     <tbody>
                     <?php foreach($types as $typ){?>
-                        <tr style="cursor: pointer;" onclick="$.get('<?php echo current_url();?>?change_id_typ=<?php echo $typ->ID_typ;?>'); location.reload();">
+                        <tr style="cursor: pointer;" onclick="$.get('<?php echo current_url();?>?change_id_typ=<?php echo $typ->ID_typ;?>',function() {
+                                location.reload();
+                                }); ">
                             <td><?php echo $typ->Name;?></a></td>
                             <td><?php echo $typ->Engines;?></td>
                             <td><?php echo $typ->CCM;?></td>
