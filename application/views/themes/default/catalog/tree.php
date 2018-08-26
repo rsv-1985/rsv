@@ -305,18 +305,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
             </div>
             <div class="col-md-4">
-                <div class="well">
-                    <label>Модификация</label>
-                    <ul>
-                        <li><b><?php echo lang('text_column_engine');?></b>: <?php echo $typ_info->Name;?></li>
-                        <li><b><?php echo lang('text_column_engine_code');?></b>: <?php echo $typ_info->Engines;?></li>
-                        <li><b><?php echo lang('text_column_ccm');?></b>: <?php echo $typ_info->CCM;?></li>
-                        <li><b><?php echo lang('text_column_KwHp');?></b>: <?php echo $typ_info->KwHp;?></li>
-                        <li><b><?php echo lang('text_column_Fuel');?></b>: <?php echo $typ_info->Fuel;?></li>
-                        <li><b><?php echo lang('text_column_Drive');?></b>: <?php echo $typ_info->Drive;?></li>
-                        <li><b><?php echo lang('text_column_Body');?></b>: <?php echo $typ_info->Body;?></li>
-                    </ul>
-                    <a href="#" data-toggle="modal" data-target="#types">Изменить</a>
+                <div class="panel panel-info">
+                    <div class="panel-heading">Двигатель</div>
+                    <div class="panel-body">
+                        <a class="pull-right" href="#" data-toggle="modal" data-target="#types">Изменить</a>
+                        <b>
+                            <?php echo $typ_info->Name;?> <?php echo $typ_info->Engines;?>
+                        </b>
+
+
+                    </div>
                 </div>
                 <?php if ($filters) { ?>
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
