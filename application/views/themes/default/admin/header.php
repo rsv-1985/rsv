@@ -225,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <li><a href="/autoxadmin/apikey"><i class="fa fa-circle-o"></i>API ключи</a></li>
                         <li><a href="/autoxadmin/message_template"><i class="fa fa-circle-o"></i><?php echo lang('text_nav_message_template');?></a></li>
                         <li><a href="/autoxadmin/index/cache"><i class="fa fa-circle-o"></i>Очистить кэш</a></li>
-                        <li><a target="_blank" class="confirm" data-confirm="Вы ознакомились с обновлениями и хотите продолжить ?" href="/updatesystem.php"><i class="fa fa-circle-o"></i>Обновить систему</a></li>
+                        <li><a target="_blank" class="confirm" data-confirm="Вы ознакомились с обновлениями и хотите продолжить ?" href="/autoxadmin/index/updatesystem"><i class="fa fa-circle-o"></i>Обновить систему</a></li>
                     </ul>
                 </li>
 
