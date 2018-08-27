@@ -403,8 +403,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <th><?php echo lang('text_column_ccm');?></th>
                         <th><?php echo lang('text_column_KwHp');?></th>
                         <th><?php echo lang('text_column_Fuel');?></th>
-                        <th><?php echo lang('text_column_Drive');?></th>
-                        <th><?php echo lang('text_column_Body');?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -417,8 +415,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td><?php echo $typ->CCM;?></td>
                             <td><?php echo $typ->KwHp;?></td>
                             <td><?php echo $typ->Fuel;?></td>
-                            <td><?php echo $typ->Drive;?></td>
-                            <td><?php echo $typ->Body;?></td>
                         </tr>
                     <?php } ?>
                     </tbody>
