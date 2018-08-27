@@ -114,13 +114,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <span class="info-box-text">Подписка на обновления CMS</span>
                                 <span class="info-box-number">
                                     <?php if($cms_updates->balance > 0){ ?>
-                                        <span class="label label-success">Активна</span>
-                                        <br>Баланс: <?php echo $cms_updates->balance;?>
+                                        <span class="label label-success">Активна | Баланс: <?php echo $cms_updates->balance;?></span>
                                     <?php }else{ ?>
-                                        <span class="label label-danger">Не активна</span>
-                                        <br><small>Баланс: <?php echo $cms_updates->balance;?><a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q"> Пополнить баланс</a></small>
+                                        <span class="label label-danger">Не активна | Баланс: <?php echo $cms_updates->balance;?></span>
+                                        <br><small><a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q"> Пополнить баланс</a></small>
                                     <?php } ?>
-
+                                    <br><a style="font-size: 8px" class="pull-right" href="https://docs.google.com/document/d/1Ou203X8O2sTkOVB3Ahp1XWDrW-N-dcEkIRx8KfJmpVE/edit?usp=sharing" target="_blank">Условия и стоимость подписки</a>
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
