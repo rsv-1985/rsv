@@ -40,7 +40,7 @@ class Index extends Admin_controller{
     public function updatesystem(){
         $cms_updates = json_decode(file_get_contents('https://api.autox.pro/cmsupdates?site='.$_SERVER['HTTP_HOST']));
         if($cms_updates->status){
-            exec($cms_updates['command'],$output);
+            exec($cms_updates->command,$output);
             if($output){
                 exit('<h3 style="text-align: center;">Система обновлена.</h3>');
             }
