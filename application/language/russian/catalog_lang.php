@@ -38,3 +38,4 @@ $lang['text_column_Fuel'] = 'Топливо';
 $lang['text_column_Drive'] = 'Привод';
 $lang['text_column_Body'] = 'Кузов';
 $lang['text_catalog_tree'] = 'Категории';
+$lang['text_select_modification'] = 'Выберите модификацию двигателя ';
