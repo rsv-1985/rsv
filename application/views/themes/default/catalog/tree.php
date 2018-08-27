@@ -308,12 +308,24 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="panel panel-info">
                     <div class="panel-heading">Двигатель</div>
                     <div class="panel-body">
-                        <a class="pull-right" href="#" data-toggle="modal" data-target="#types">Изменить</a>
+                        <button class="btn btn-info pull-right" data-toggle="collapse" data-target="#collapse-types">Изменить</button>
                         <b>
                             <?php echo $typ_info->Name;?> <?php echo $typ_info->Engines;?>
                         </b>
-
-
+                    </div>
+                </div>
+                <div class="collapse" id="collapse-types" style="max-height: 500px; overflow: auto;">
+                    <div class="list-group">
+                        <?php foreach($types as $typ){?>
+                        <a href="#" class="list-group-item <?php if($typ->ID_typ == $typ_info->ID_typ){?>active<?php } ?>" onclick="$.get('<?php echo current_url();?>?change_id_typ=<?php echo $typ->ID_typ;?>',function() {
+                                location.reload();
+                                }); return false;">
+                            <b class="list-group-item-heading"><?php echo $typ->Name;?></b>
+                            <small class="list-group-item-text"> <?php echo lang('text_column_engine_code');?> : <?php echo $typ->Engines;?>
+                                <br><?php echo lang('text_column_ccm');?>: <?php echo $typ->CCM;?>
+                                <br><?php echo lang('text_column_KwHp');?>: <?php echo $typ->KwHp;?></small>
+                        </a>
+                        <?php } ?>
                     </div>
                 </div>
                 <?php if ($filters) { ?>
@@ -375,9 +387,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+<?php if($show_modal_types){?>
 <div id="types" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <?php echo lang('text_select_modification');?>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -411,6 +427,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
 </div>
+<?php } ?>
 <script>
     $(document).ready(function () {
         <?php if($show_modal_types){?>
