@@ -310,8 +310,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="panel-body">
                         <button class="btn btn-info pull-right" data-toggle="collapse" data-target="#collapse-types">Изменить</button>
                         <b>
-                            <?php echo $typ_info->Name;?> <?php echo $typ_info->Engines;?>
+                            <?php echo $typ_info->Name;?>
                         </b>
+                        <small><br><?php echo lang('text_column_engine_code');?>: <?php echo $typ_info->Engines;?></small>
                     </div>
                 </div>
                 <div class="collapse" id="collapse-types" style="max-height: 500px; overflow: auto;">
