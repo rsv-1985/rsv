@@ -23,6 +23,9 @@ class Index extends Admin_controller{
         $data['new_vin'] = $this->db->where(['status' => 0])->count_all_results('vin');
         $data['new_customer'] = $this->db->where(['status' => false])->count_all_results('customer');
 
+        //Проверяем статус обновлений
+        $data['cms_updates'] = json_decode(file_get_contents('https://api.autox.pro/cmsupdates/status?site='.$_SERVER['HTTP_HOST']));
+
         $this->load->view('admin/header');
         $this->load->view('admin/index',$data);
         $this->load->view('admin/footer');
@@ -32,5 +35,17 @@ class Index extends Admin_controller{
         $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success_cache'));
         redirect('autoxadmin');
+    }
+
+    public function updatesystem(){
+        $cms_updates = json_decode(file_get_contents('https://api.autox.pro/cmsupdates?site='.$_SERVER['HTTP_HOST']));
+        if($cms_updates->status){
+            exec($cms_updates['command'],$output);
+            if($output){
+                exit('<h3 style="text-align: center;">Система обновлена.</h3>');
+            }
+        }else{
+            exit('Доступ запрещен к обновлениям.');
+        }
     }
 }

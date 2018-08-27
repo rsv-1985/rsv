@@ -10,12 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dashboard
+                Панель управления
                 <small>Version 2.0</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
-                <li class="active">Dashboard</li>
+                <li class="active">Панель управления</li>
             </ol>
         </section>
 
@@ -107,6 +107,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div>
                 <div class="col-md-4">
+
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Подписка на обновления CMS</span>
+                                <span class="info-box-number">
+                                    <?php if($cms_updates->balance > 0){ ?>
+                                        <span class="label label-success">Активна</span>
+                                        <br>Баланс: <?php echo $cms_updates->balance;?>
+                                    <?php }else{ ?>
+                                        <span class="label label-danger">Не активна</span>
+                                        <br><small>Баланс: <?php echo $cms_updates->balance;?><a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q"> Пополнить баланс</a></small>
+                                    <?php } ?>
+
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+
                     <iframe src="https://tgwidget.com/channel/v2.0/?id=5b3286a083ba88c12c8b4567" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" width="100%" height="540px" async></iframe>
                 </div>
             </div>
