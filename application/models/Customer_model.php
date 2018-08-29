@@ -66,6 +66,13 @@ class Customer_model extends Default_model
                 $cart_data = $this->cart_model->cart_get($query->row_array()['id']);
 
                 if ($cart_data) {
+                    //Обновляем в моделях данные
+                    $this->customer_info = $this->get($query->row_array()['id']);
+                    $this->customergroup_model->customer_group =   $this->customergroup_model->get_customer_group();
+                    if($this->customergroup_model->customer_group) {
+                        $this->customer_group_pricing_model->pricing = $this->customer_group_pricing_model->get_customer_group_pricing($this->customergroup_model->customer_group['id']);
+                    }
+
                     $cart_contents = unserialize($cart_data['cart_data']);
                     if ($admin_login) {
                         $this->load->library('cart');
