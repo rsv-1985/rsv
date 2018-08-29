@@ -99,10 +99,12 @@ class Front_controller extends CI_Controller{
         if($canonical_info){
             $this->canonical = $canonical_info['canonical'];
         }
-        $this->load->library('cart');
+
         $this->load->model(
             ['customer_group_pricing_model']
         );
+
+        $this->load->library('cart');
 
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();
