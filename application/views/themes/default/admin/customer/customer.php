@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <div class="btn-group pull-right">
                                                 <a href="/autoxadmin/customer/delete/<?php echo $customer['id'];?>" type="button" class="btn btn-danger confirm" title="<?php echo lang('button_delete');?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                 <a href="/autoxadmin/customer/edit/<?php echo $customer['id'];?>" type="button" class="btn btn-info" title="<?php echo lang('button_edit');?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                <a href="/autoxadmin/customer/login/<?php echo $customer['id'];?>" class="btn btn-warning" title="Зайти под клиентом"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                                                <a href="/autoxadmin/customer/login/<?php echo $customer['id'];?>" class="btn btn-warning" title="Зайти под клиентом" target="_blank"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                                             </div>
                                         </td>
                                     </tr>
