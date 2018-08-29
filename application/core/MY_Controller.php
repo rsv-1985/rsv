@@ -104,7 +104,7 @@ class Front_controller extends CI_Controller{
             ['customer_group_pricing_model']
         );
 
-        $this->load->library('cart');
+
 
         $this->header_page = $this->page_model->get_header_page();
         $this->footer_page = $this->page_model->get_footer_page();
@@ -140,7 +140,7 @@ class Front_controller extends CI_Controller{
         $autox_settings = $this->settings_model->get_by_key('autox');
 
         $this->load->library('autox_cross',['api_key' => $autox_settings['api_key_cross']]);
-
+        $this->load->library('cart');
     }
 
     public function setTitle($string = ''){
