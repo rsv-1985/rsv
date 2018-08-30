@@ -140,7 +140,7 @@ class Search extends Front_controller
 
         $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $product_search);
 
-        if ($cross_suppliers) {
+        if ($cross_suppliers && $brand) {
             foreach ($cross_suppliers as $cross_supplier) {
                 if($cross_supplier){
                     $post = [
