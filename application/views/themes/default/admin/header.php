@@ -74,6 +74,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <li>
                                 <a target="_blank" href="https://t.me/autox_pro">Телеграм канал</i></a>
                             </li>
+                            <li>
+                                <a href="https://t.me/joinchat/E8H7Q0QeDmQY7iul11PIFg" target="_blank">Группа телеграм</a>
+                            </li>
                             <li class="divider"></li>
                             <li>
                                 <a target="_blank" href="https://t.me/s_rozputnii">Поддержка в Telegram</a>
