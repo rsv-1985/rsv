@@ -399,8 +399,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 <?php if($autox_cross_user_info){?>
                                                     <ul>
                                                         <li>Доступ к базе: <?php echo  $autox_cross_user_info->status ? '<b style="color:green;">Полный доступ</b>' : '<b style="color:red;">Только к своим</b> <a href="https://autox.pro/cross#price" target="_blank">Подать заявку на полный доступ</a>';?></li>
-                                                        <li>Просмотров: <?php echo $autox_cross_user_info->view;?></li>
-                                                        <li>Баланс: <?php echo $autox_cross_user_info->balance;?></li>
                                                     </ul>
                                                     <a href="https://api.autox.pro/user" target="_blank">Кабинет</a>
                                                 <?php }else{?>
