@@ -138,7 +138,14 @@ class Search extends Front_controller
             }
         }
 
-        $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $product_search);
+        if(@$group_brands){
+            foreach ($group_brands as $group_brand){
+                $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $group_brand['brand'], $product_search);
+            }
+        }else{
+            $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $product_search);
+        }
+
 
         if ($cross_suppliers && $brand) {
             foreach ($cross_suppliers as $cross_supplier) {
