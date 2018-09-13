@@ -222,7 +222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div style="text-align: center;">
-                    <?php if ($images) { ?>
+                    <?php if ($images) { print_r($images);?>
                         <a href="<?php echo $images[0]['src']; ?>" data-fancybox="quick-view-1"
                            data-type="image">
                             <img src="<?php echo $images[0]['src']; ?>" alt="<?php echo $images[0]['alt']; ?>"/>
@@ -236,9 +236,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="product-images">
                         <?php if ($images) { ?>
                             <?php foreach ($images as $image) { ?>
-                                <a href="<?php echo $image; ?>" data-fancybox="quick-view-1"
+                                <a href="<?php echo $image['src']; ?>" data-fancybox="quick-view-1"
                                    data-type="image">
-                                    <img src="<?php echo $image; ?>" alt="<?php echo $images['alt']; ?>"/>
+                                    <img src="<?php echo $image['src']; ?>" alt="<?php echo $image['alt']; ?>"/>
                                 </a>
                             <?php } ?>
                         <?php } ?>
