@@ -109,7 +109,7 @@ class Product extends Front_controller
         if($data['image']){
             $data['images'][] = [
                 'src' => '/uploads/product/'.$data['image'],
-                'alt' => $seo['alt_img']
+                'alt' => @$seo['alt_img']
             ];
             $count_img = 2;
         }
@@ -118,7 +118,7 @@ class Product extends Front_controller
             foreach ($data['tecdoc_info']['images'] as $tc_image){
                 $data['images'][] = [
                     'src' => $tc_image->Image,
-                    'alt' => $count_img ? $seo['alt_img'].'-'.$count_img : $seo['alt_img']
+                    'alt' => $count_img ? @$seo['alt_img'].'-'.$count_img : @$seo['alt_img']
                 ];
                 $count_img++;
             }
