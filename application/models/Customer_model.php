@@ -70,6 +70,7 @@ class Customer_model extends Default_model
                     $this->customer_info = $this->get($query->row_array()['id']);
                     $this->customergroup_model->customer_group =   $this->customergroup_model->get_customer_group();
                     if($this->customergroup_model->customer_group) {
+                        $this->load->model('customer_group_pricing_model');
                         $this->customer_group_pricing_model->pricing = $this->customer_group_pricing_model->get_customer_group_pricing($this->customergroup_model->customer_group['id']);
                     }
 
