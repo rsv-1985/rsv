@@ -222,7 +222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div style="text-align: center;">
-                    <?php if ($images) { print_r($images);?>
+                    <?php if ($images) { ?>
                         <a href="<?php echo $images[0]['src']; ?>" data-fancybox="quick-view-1"
                            data-type="image">
                             <img src="<?php echo $images[0]['src']; ?>" alt="<?php echo $images[0]['alt']; ?>"/>
