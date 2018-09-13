@@ -141,36 +141,61 @@ class Search extends Front_controller
         if(@$group_brands){
             foreach ($group_brands as $group_brand){
                 $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $group_brand['brand'], $product_search);
+                if ($cross_suppliers && $brand) {
+                    foreach ($cross_suppliers as $cross_supplier) {
+                        if($cross_supplier){
+                            $post = [
+                                'sku' => $search,
+                                'brand' => $brand,
+                                'cross' => $cross_supplier
+                            ];
+                            $ch = curl_init('https://api.autox.pro/import/insert');
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+                            curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+                            curl_setopt($ch, CURLOPT_HEADER, 0);
+                            curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+                            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+                            curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
+                            $response = curl_exec($ch);
+                            curl_close($ch);
+                            foreach ($cross_supplier as $cs){
+                                $product_search[] = $cs;
+                            }
+                        }
+                    }
+                }
             }
         }else{
             $cross_suppliers = $this->product_model->api_supplier($this->product_model->clear_sku($search), $brand, $product_search);
-        }
-
-
-        if ($cross_suppliers && $brand) {
-            foreach ($cross_suppliers as $cross_supplier) {
-                if($cross_supplier){
-                    $post = [
-                        'sku' => $search,
-                        'brand' => $brand,
-                        'cross' => $cross_supplier
-                    ];
-                    $ch = curl_init('https://api.autox.pro/import/insert');
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-                    curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-                    curl_setopt($ch, CURLOPT_HEADER, 0);
-                    curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-                    curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
-                    $response = curl_exec($ch);
-                    curl_close($ch);
-                    foreach ($cross_supplier as $cs){
-                        $product_search[] = $cs;
+            if ($cross_suppliers && $brand) {
+                foreach ($cross_suppliers as $cross_supplier) {
+                    if($cross_supplier){
+                        $post = [
+                            'sku' => $search,
+                            'brand' => $brand,
+                            'cross' => $cross_supplier
+                        ];
+                        $ch = curl_init('https://api.autox.pro/import/insert');
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+                        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+                        curl_setopt($ch, CURLOPT_HEADER, 0);
+                        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+                        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+                        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
+                        $response = curl_exec($ch);
+                        curl_close($ch);
+                        foreach ($cross_supplier as $cs){
+                            $product_search[] = $cs;
+                        }
                     }
                 }
             }
         }
+
+
+
 
         $product_search = array_unique($product_search,SORT_REGULAR);
 
