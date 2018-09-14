@@ -59,7 +59,7 @@ class Ajax extends Front_controller
     }
 
     public function get_manufacturer_year(){
-        $html = '<option>---</option>';
+        $html = '<option>'.lang('index_text_manufacturer').'</option>';
         $year = $this->input->post('year');
         $manufacturers = $this->tecdoc->getManufacturerYear($year);
         $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
@@ -85,7 +85,7 @@ class Ajax extends Front_controller
         $ID_mfa = (int)$this->input->post('ID_mfa');
         $year = $this->input->post('year');
         $models = $this->tecdoc->getModelYear($ID_mfa,$year);
-        $html = '<option>---</option>';
+        $html = '<option>'.lang('index_text_model').'</option>';
         if($models){
             foreach ($models as $model){
                 $html .= '<option value="'.$model->ID_mod.'">'.$model->Name.'</option>';
@@ -99,7 +99,7 @@ class Ajax extends Front_controller
         $ID_mod = (int)$this->input->post('ID_mod');
         $year = $this->input->post('year');
         $types = $this->tecdoc->getTypeYear($ID_mod, $year);
-        $html = '<option>---</option>';
+        $html = '<option>'.lang('index_text_typ').'</option>';
         if($types){
             foreach ($types as $typ){
                 $html .= '<option value="'.$typ->ID_typ.'">'.$typ->Name.'('.$typ->Engines.' '.$typ->Fuel.')</option>';
