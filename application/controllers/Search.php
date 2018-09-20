@@ -48,6 +48,12 @@ class Search extends Front_controller
                redirect('/search?search='.$search.'&ID_art='.@$brands[0]['ID_art'].'&brand='.$brands[0]['brand']);
            }
 
+           if(!$brands && count($data['group_brands']) == 1){
+               foreach ($data['group_brands'] as $id => $item){
+                   redirect('/search?search='.$search.'&id_group='.$id);
+               }
+           }
+
         }else{
             redirect('/search?search='.$search);
         }
