@@ -23,12 +23,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
-                        <tbody><tr>
+                        <thead>
+                        <tr>
                             <th>Номер ТТН</th>
                             <th>Заказ</th>
                             <th>Статус</th>
                             <th></th>
                         </tr>
+                        <?php echo form_open('/autoxadmin/order_ttn', ['method' => 'get']);?>
+                        <tr>
+                            <th>
+                                <input class="form-control" type="text" name="ttn" value="<?php echo $this->input->get('ttn');?>">
+                            </th>
+                            <th>
+                                <input class="form-control" type="text" name="order_id" value="<?php echo $this->input->get('order_id');?>">
+                            </th>
+                            <th></th>
+                            <th>
+                                <button type="submit" class="btn btn-info">Поиск</button>
+                                <?php if($this->input->get()){?>
+                                    <a href="/autoxadmin/order_ttn" class="btn btn-danger">Сброс</a>
+                                <?php } ?>
+                            </th>
+                        </tr>
+                        <?php echo form_close();?>
+                        </thead>
+                        <tbody>
+
                         <?php if($ttns){?>
                             <?php foreach($ttns as $ttn){?>
                                 <tr>
