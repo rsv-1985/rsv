@@ -43,15 +43,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         <table class="table table-condensed">
                             <tbody><tr>
                                 <th>#</th>
+                                <th>Баланс</th>
                                 <th><?php echo lang('text_last_name');?></th>
                                 <th><?php echo lang('text_first_name');?></th>
                                 <th><?php echo lang('text_telephone');?></th>
-                                <th><?php echo lang('text_paid');?></th>
                                 <th><?php echo lang('text_payment_method');?></th>
                                 <th><?php echo lang('text_delivery_method');?></th>
                                 <th><?php echo lang('text_status');?></th>
                                 <th><?php echo lang('text_product_status');?></th>
                                 <th><?php echo lang('text_total');?></th>
+                                <th><?php echo lang('text_paid');?></th>
                                 <th><a href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
                             <?php echo form_open('/autoxadmin/order/index',['method' => 'GET']);?>
@@ -61,6 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <input type="text" name="id" class="form-control" value="<?php echo $this->input->get('id', true);?>" style="width: 60px">
                                     </div>
                                 </td>
+                                <td></td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" name="last_name" class="form-control" value="<?php echo $this->input->get('last_name', true);?>">
@@ -76,15 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <input type="text" name="telephone" class="form-control" value="<?php echo $this->input->get('telephone', true);?>">
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="form-group">
-                                        <select name="paid" class="form-control">
-                                            <option></option>
-                                            <option value="false" <?php if($this->input->get('paid') == 'false'){?>selected<?php } ?>>Не оплачен</option>
-                                            <option value="true" <?php if($this->input->get('paid') == 'true'){?>selected<?php } ?>>Оплачен</option>
-                                        </select>
-                                    </div>
-                                </td>
+
                                 <td>
                                     <div class="form-group">
                                         <select name="payment_method_id" class="form-control">
@@ -118,6 +112,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <td></td>
                                 <td></td>
                                 <td>
+                                    <div class="form-group">
+                                        <select name="paid" class="form-control">
+                                            <option></option>
+                                            <option value="false" <?php if($this->input->get('paid') == 'false'){?>selected<?php } ?>>Не оплачен</option>
+                                            <option value="true" <?php if($this->input->get('paid') == 'true'){?>selected<?php } ?>>Оплачен</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <a href="/autoxadmin/order" type="button" class="btn btn-link" title="<?php echo lang('button_reset');?>"><i class="fa fa-times" aria-hidden="true"></i></a>
                                         <button type="submit" class="btn btn-link pull-right" title="<?php echo lang('button_search');?>"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -130,12 +133,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <tr style="border-left: 5px solid <?php echo @$status[$order['status']]['color'];?>">
                                         <td>
                                             <b>#<?php echo $order['id'];?><br></b>
-                                            <small><?php echo date('y-m-d H:i',strtotime($order['created_at']));?></small>
+                                            <small><?php echo date('y-m-d',strtotime($order['created_at']));?></small>
+                                        </td>
+                                        <td>
+                                            <?php if( $order['customer_id']){?>
+                                                <a target="_blank" href="/autoxadmin/customerbalance/create?customer_id=<?php echo $order['customer_id'];?>">
+                                                    <?php echo format_balance($order['balance']);?>
+                                                </a>
+                                            <?php } ?>
                                         </td>
                                         <td>
                                         <?php if($order['customer_id']){?>
                                                 <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['last_name'];?></a>
-                                                <br><?php echo format_balance($order['balance']);?>
+
                                             <?php }else{?>
                                             <?php echo $order['last_name'];?>
                                             <?php } ?>
@@ -146,24 +156,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td>
                                             <?php echo $order['telephone'];?><br/>
                                         </td>
-                                        <td>
-                                            <?php if($order['paid']){?>
-                                                <small style="color: green;"><?php echo lang('text_paid');?></small>
-                                            <?php } ?>
-                                            <?php if($order['prepayment'] > 0){?>
-                                                <br><small style="color: grey;">Предоплата:<?php echo $order['prepayment'];?></small>
-                                            <?php } ?>
-                                        </td>
+
                                         <td><?php echo $payment[$order['payment_method_id']]['name'];?></td>
                                         <td><?php echo $delivery[$order['delivery_method_id']]['name'];?></td>
                                         <td>
-                                            <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></b>
+                                            <small style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></small>
                                         </td>
                                         <td>
                                             <?php if($order['products_status']){?>
                                                 <small>
                                                     <?php foreach ($order['products_status'] as $product_status){?>
-                                                        <b style="color: <?php echo $product_status['color'];?>"><?php echo $product_status['name'];?></b><br/>
+                                                        <small style="color: <?php echo $product_status['color'];?>"><?php echo $product_status['name'];?></small><br/>
                                                     <?php } ?>
                                                 </small>
                                             <?php } ?>
@@ -171,6 +174,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <b><?php echo $order['total'];?></b><br />
+                                        </td>
+                                        <td>
+                                            <?php if($order['paid']){?>
+                                                <small style="color: green;"><?php echo lang('text_paid');?></small>
+                                            <?php } ?>
+                                            <?php if($order['prepayment'] > 0){?>
+                                                <br><small style="color: grey;">Предоплата:<?php echo $order['prepayment'];?></small>
+                                            <?php } ?>
                                         </td>
                                         <td style="width: 92px;">
                                             <div class="btn-group">
