@@ -6,7 +6,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
-<script lang="javascript" src="./application/libraries/jsxls/xlsx.core.min.js"></script>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -253,13 +253,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         });
     });
 
-    function delete_sample(id){
+    function delete_sample(id, e){
+        e.preventDefault();
         $.ajax({
             url: '/autoxadmin/supplier/delete_sample',
             method: 'POST',
             data: {sample_id: id},
             success: function(){
                 $("#sample_"+id).remove();
+            }
+        });
+    }
+
+    function edit_sample(id, e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/autoxadmin/supplier/edit_sample',
+            method: 'POST',
+            data: {sample_id: id},
+            dataType: 'json',
+            success: function(json){
+                if(json){
+                    console.log(json);
+                    $("[name='sample_name']").val(json['name']);
+                    $("[name='sample_save']").prop('checked', true);
+
+                    $("[name='sample[currency_id]'] option[value='"+json['value']['currency_id']+"']").attr('selected','selected');
+                    $("[name='sample[default_category_id]'] option[value='"+json['value']['default_category_id']+"']").attr('selected','selected');
+                    $("[name='sample[default_excerpt]'").val(json['value']['default_excerpt']);
+                    $("[name='sample[default_term]'").val(json['value']['default_term']);
+                    $("input[name='sample[default_term_unit]'][value=" + json['value']['default_term_unit'] + "]").attr('checked', 'checked');
+                    $("[name='sample[default_regular]'").val(json['value']['default_regular']);
+
+                    $("[name='sample[sku]'").val(json['value']['sku']);
+                    $("[name='sample[brand]'").val(json['value']['brand']);
+                    $("[name='sample[name]'").val(json['value']['name']);
+                    $("[name='sample[description]'").val(json['value']['description']);
+                    $("[name='sample[excerpt]'").val(json['value']['excerpt']);
+                    $("[name='sample[delivery_price]'").val(json['value']['delivery_price']);
+                    $("[name='sample[saleprice]'").val(json['value']['saleprice']);
+                    $("[name='sample[quantity]'").val(json['value']['quantity']);
+                    $("[name='sample[term]'").val(json['value']['term']);
+                    $("[name='sample[category]'").val(json['value']['category']);
+                    $("[name='sample[image]'").val(json['value']['image']);
+                    $("[name='sample[attributes]'").val(json['value']['attributes']);
+
+
+
+                    $("#sample_form").show();
+                }
             }
         });
     }
