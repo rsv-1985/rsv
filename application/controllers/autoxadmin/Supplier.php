@@ -151,8 +151,32 @@ class supplier extends Admin_controller
         }
     }
 
+
+
     public function get_sample()
     {
+        $this->load->language('admin/import');
+
+        $fields = [
+            'currency_id' => lang('text_sample_currency'),
+            'default_category_id' => lang('text_sample_default_category'),
+            'default_excerpt' => lang('text_sample_default_excerpt'),
+            'default_term' => lang('text_sample_default_term'),
+            'default_term_unit' => lang('text_sample_term_unit'),
+            'default_regular' => 'Очистка номера',
+            'sku' => lang('text_sample_sku'),
+            'brand' => lang('text_sample_brand'),
+            'name' => lang('text_sample_name'),
+            'description' => lang('text_sample_description'),
+            'excerpt' => lang('text_sample_excerpt'),
+            'delivery_price' => lang('text_sample_delivery_price'),
+            'saleprice' => lang('text_sample_saleprice'),
+            'quantity' => lang('text_sample_quantity'),
+            'term'=> lang ('text_sample_term'),
+            'category' => lang('text_sample_category'),
+            'image' => lang('text_sample_image'),
+            'attributes' => lang('text_sample_attributes')
+        ];
         $html = '';
         if ($this->input->is_ajax_request()) {
             $this->load->model('sample_model');
@@ -162,13 +186,13 @@ class supplier extends Admin_controller
                 foreach($results as $item){
 
                     $html .= '<div class="radio" id="sample_'.$item['id'].'">';
-                    $html .= '    <i class="fa fa-remove pull-right" onclick="delete_sample('.$item['id'].')"></i>';
+                    $html .= '<div class="pull-right"><button class="btn btn-danger btn-xs" onclick="delete_sample('.$item['id'].',event)"><i class="fa fa-remove"></i></button> <button class="btn btn-info btn-xs" onclick="edit_sample('.$item['id'].',event)"><i class="glyphicon glyphicon-pencil"></i></button></div>';
                     $html .= '    <label>';
                     $html .= '        <input type="radio" name="sample_id" value="'.$item['id'].'">';
                     $html .= '            <b>'.$item['name'].'</b>';
                     $html .= '            <p class="help-block">';
                     foreach(unserialize($item['value']) as  $index => $value ) {
-                        $html .= $index.':'.$value.'<br>';
+                        $html .= $fields[$index].' : <b>'.$value.'</b><br>';
                     }
                     $html .= '</p>';
                     $html .= '    </label>';
@@ -193,6 +217,21 @@ class supplier extends Admin_controller
                 $this->load->model('sample_model');
                 $this->sample_model->delete((int)$sample_id);
             }
+        }
+    }
+
+    public function edit_sample(){
+        $id = $this->input->post('sample_id');
+        $this->load->model('sample_model');
+
+        $sample = $this->sample_model->get($id);
+
+        if($sample){
+            $sample['value'] = unserialize($sample['value']);
+
+            $this->output
+                ->set_content_type('application/html')
+                ->set_output(json_encode($sample));
         }
     }
 }
