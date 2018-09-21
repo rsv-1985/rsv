@@ -233,6 +233,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         $("#sample_add").click(function(event){
             event.preventDefault();
             $("#sample_form").toggle();
+            $('html, body').animate({
+                scrollTop: $("#sample_form").offset().top
+            }, 1000);
         });
 
         $("#supplier").on("change", function(){
@@ -301,6 +304,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 
                     $("#sample_form").show();
+                    $('html, body').animate({
+                        scrollTop: $("#sample_form").offset().top
+                    }, 1000);
                 }
             }
         });
