@@ -850,6 +850,13 @@ class Product_model extends Default_model
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
+
+            //Получаем цены по апи
+            $this->load->library('user_agent');
+
+            if (!$this->agent->is_robot() && !$this->is_admin) {
+                $this->api_supplier($result['sku'], $result['brand'], false);
+            }
             if ($get_tecdoc_info) {
                 $result['tecdoc_info'] = $this->tecdoc_info($result['sku'], $result['brand'], true);
             }
