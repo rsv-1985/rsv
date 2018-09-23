@@ -22,13 +22,29 @@ class Synonym extends Admin_controller
         $data = [];
         $this->load->library('pagination');
 
+        $filter = [];
+        if($this->input->get('id')){
+            $filter['id'] = (int)$this->input->get('id', true);
+        }
+        if($this->input->get('brand1')){
+            $filter['brand1'] = $this->product_model->clear_brand($this->input->get('brand1', true));
+        }
+        if($this->input->get('brand2')){
+            $filter['brand2'] = $this->product_model->clear_brand($this->input->get('brand2', true));
+        }
+
         $config['base_url'] = base_url('autoxadmin/synonym/index');
-        $config['total_rows'] = $this->synonym_model->count_all();
+        $config['total_rows'] = $this->synonym_model->count_all($filter);
         $config['per_page'] = 10;
+        $config['reuse_query_string'] = TRUE;
+
+
+
 
         $this->pagination->initialize($config);
 
-        $data['synonymes'] = $this->synonym_model->get_all($config['per_page'], $this->uri->segment(4));
+        $data['synonymes'] = $this->synonym_model->get_all($config['per_page'], $this->uri->segment(4), $filter);
+
 
         $this->load->view('admin/header');
         $this->load->view('admin/synonym/synonym', $data);

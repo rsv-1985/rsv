@@ -30,6 +30,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th><a href="/autoxadmin/synonym/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                         </tr>
                         <?php if($synonymes){?>
+                            <?php echo form_open('/autoxadmin/synonym', ['method' => 'get']);?>
+                            <tr>
+                                <td>
+                                    <input type="text" name="id" value="<?php echo $this->input->get('id');?>" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" name="brand1" value="<?php echo $this->input->get('brand1');?>" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" name="brand2" value="<?php echo $this->input->get('brand2');?>" class="form-control">
+                                </td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <?php if($this->input->get()){?>
+                                            <a href="/autoxadmin/synonym" class="btn btn-default" title="Сброс"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                        <?php } ?>
+                                        <button type="submit" class="btn btn btn-info" title="Поиск"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php echo form_close();?>
                             <?php foreach($synonymes as $synonym){?>
                                 <tr>
                                     <td><?php echo $synonym['id'];?></td>
