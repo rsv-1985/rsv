@@ -444,6 +444,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script>
     var row = '<?php echo $row;?>';
 
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            $("#search").click();
+        }
+    });
+
     $(document).ready(function () {
 
         $("#order_form input,select").change(function () {
