@@ -854,7 +854,7 @@ class Product_model extends Default_model
             //Получаем цены по апи
             $this->load->library('user_agent');
 
-            if (!$this->agent->is_robot() && !$this->is_admin) {
+            if (!$this->agent->is_robot()) {
                 $this->api_supplier($result['sku'], $result['brand'], false);
             }
             if ($get_tecdoc_info) {
