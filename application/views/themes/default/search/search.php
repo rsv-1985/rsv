@@ -262,9 +262,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                        data-toggle="popover" data-placement="right"
                                        data-content="<?php echo htmlspecialchars('<img src="'.$product['image'].'"/>'); ?>"
                                     >
-                                        <i class="glyphicon glyphicon-picture"></i>
+                                        <img src="<?php echo $product['image'];?>" alt="<?php echo $product['name'];?>">
                                     </a>
                                 <?php } ?>
+                            </div>
+                            <div class="col-md-3 col-sm-12 col-xs-7">
+                                <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
                                 <?php if($product['info']){?>
                                     <a data-trigger="hover" data-container="body" data-html="true"
                                        data-toggle="popover" data-placement="right"
@@ -273,9 +276,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <i class="glyphicon glyphicon-info-sign"></i>
                                     </a>
                                 <?php } ?>
-                            </div>
-                            <div class="col-md-3 col-sm-12 col-xs-7">
-                                <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
                                 <br>
                                 <small>
                                     <a href="/product/<?php echo $product['slug'];?>"><?php echo $product['name'];?></a>
