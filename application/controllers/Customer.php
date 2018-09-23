@@ -74,6 +74,12 @@ class Customer extends Front_controller
         $this->pagination->initialize($config);
 
         $data['orders'] = $this->order_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login],['id' => 'DESC']);
+        if($data['orders']){
+            foreach ($data['orders'] as &$order){
+                $order['products'] = $this->order_product_model->product_get($order['id']);
+            }
+        }
+
         $data['status'] = $this->orderstatus_model->status_get_all();
 
 
