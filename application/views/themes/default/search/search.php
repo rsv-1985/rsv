@@ -267,7 +267,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                             </div>
                             <div class="col-md-3 col-sm-12 col-xs-7">
-                                <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
+                                <a href="/product/<?php echo $product['slug'];?>">
+                                    <b><?php echo $product['brand'];?></b> <?php echo $product['sku'];?>
+                                </a>
                                 <?php if($product['info']){?>
                                     <a data-trigger="hover" data-container="body" data-html="true"
                                        data-toggle="popover" data-placement="right"
