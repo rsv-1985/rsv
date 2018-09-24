@@ -42,9 +42,7 @@ class Index extends Admin_controller{
         if($cms_updates->status){
             exec($cms_updates->command,$output);
             if($output){
-                foreach ($output as $item){
-                    echo $item.'<br>';
-                }
+                exit('<h1>Сайт обновлен</h1>');
             }
         }else{
             exit('Доступ запрещен к обновлениям.');
