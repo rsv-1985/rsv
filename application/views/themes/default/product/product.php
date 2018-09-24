@@ -292,7 +292,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <input type="hidden" name="term"
                                    value="<?php echo $one_price['term']; ?>">
                             <span class="input-group-btn">
-                                            <button class="btn btn-штащ" type="submit"><i
+                                            <button class="btn btn-info" type="submit"><i
                                                         class="fa fa-shopping-cart"></i> <?php echo lang('button_cart'); ?></button>
                                             </span>
                         </div>
