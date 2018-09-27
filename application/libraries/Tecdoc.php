@@ -20,6 +20,19 @@ class Tecdoc
         $this->url = $this->CI->config->item('api_url');
     }
 
+    public function getArticleArray($array){
+        foreach ($array as &$item){
+            $item['brand'] = urlencode(mb_strtoupper(str_replace(['+',' ','-'],['','',''],$item['brand']), 'UTF-8'));
+        }
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getArticleArray',
+            'params' => ['items' => $array]
+        ];
+
+        return $this->res($query);
+    }
+
     public function getManufacturerYear($year)
     {
         $query = [
