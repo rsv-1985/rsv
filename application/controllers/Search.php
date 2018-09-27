@@ -197,7 +197,17 @@ class Search extends Front_controller
         if ($product_search) {
             $products = $this->product_model->get_search($product_search);
 
+
+
             if ($products) {
+                //Массово получаем инфу с текдока
+                foreach ($products as $product){
+                    $key = md5($product['sku'].$product['brand']);
+                    $td[$key] = ['sku' => $product['sku'], 'brand' => $product['brand']];
+                }
+
+                $tecdoc_info_array = (array)$this->tecdoc->getArticleArray($td);
+
                 foreach ($products as $product) {
                     if ($product['prices']) {
                         if($product['sku'] != $this->product_model->clear_sku($search) || !in_array($product['brand'],$check_brands)){
@@ -206,7 +216,15 @@ class Search extends Front_controller
                             $is_cross = 0;
                         }
                         $product['is_cross'] =  $is_cross;
-                        $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
+
+                        $key = md5($product['sku'].$product['brand']);
+
+                        if(isset($tecdoc_info_array[$key])){
+                            $tecdoc_info['article'] = (array)$tecdoc_info_array[$key];
+                        }else{
+                            //Для обратной совместимости у Андрея нет $tecdoc_info_array
+                            $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
+                        }
 
                         //Если активна опция использовать наименования с текдок
                         if (@$this->options['use_tecdoc_name'] && @$tecdoc_info['article']['Name']) {
