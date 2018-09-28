@@ -457,6 +457,8 @@ class Product_model extends Default_model
     {
         $product_prices = [];
         $this->db->where('product_id', (int)$product['id']);
+        $this->db->where('quantity >', 0);
+
         $query = $this->db->get('product_price');
         if ($query->num_rows() > 0) {
             $product_prices = $query->result_array();
