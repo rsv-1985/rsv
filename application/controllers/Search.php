@@ -101,6 +101,8 @@ class Search extends Front_controller
 
 
         $data['products'] = [];
+        $data['cross'] = [];
+
         $data['filter_brands'] = [];
 
         $data['min_price'] = false;
@@ -197,8 +199,6 @@ class Search extends Front_controller
         if ($product_search) {
             $products = $this->product_model->get_search($product_search);
 
-
-
             if ($products) {
                 //Массово получаем инфу с текдока
                 foreach ($products as $product){
@@ -215,6 +215,7 @@ class Search extends Front_controller
                         }else{
                             $is_cross = 0;
                         }
+
                         $product['is_cross'] =  $is_cross;
 
                         $key = md5($product['sku'].$product['brand']);
@@ -242,6 +243,13 @@ class Search extends Front_controller
 
                         $filter_brands[] = $product['brand'];
                         foreach ($product['prices'] as &$price) {
+
+                            if($price['term'] < 24){
+                                $product['like_term'] = 0;
+                            }else{
+                                $product['like_term'] = 1;
+                            }
+
                             $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
 
                             if($product['is_cross'] == 1){
@@ -297,7 +305,12 @@ class Search extends Front_controller
                             $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];
                         }
 
-                        $data['products'][] = $product;
+                        if($product['is_cross']){
+                            $data['cross'][] = $product;
+                        }else{
+                            $data['products'][] = $product;
+                        }
+
                     }
                 }
             }
@@ -346,12 +359,23 @@ class Search extends Front_controller
             sort($data['filter_brands'], SORT_STRING);
         }
 
-        usort($data['products'], function ($a, $b) {
-            if ($a['is_cross'] == $b['is_cross']) {
-                return 0;
-            }
-            return ($a['is_cross'] < $b['is_cross']) ? -1 : 1;
-        });
+        if($data['products']){
+            usort($data['products'], function ($a, $b) {
+                if ($a['like_term'] == $b['like_term']) {
+                    return 0;
+                }
+                return ($a['like_term'] < $b['like_term']) ? -1 : 1;
+            });
+        }
+
+        if($data['cross']){
+            usort($data['cross'], function ($a, $b) {
+                if ($a['like_term'] == $b['like_term']) {
+                    return 0;
+                }
+                return ($a['like_term'] < $b['like_term']) ? -1 : 1;
+            });
+        }
 
         $this->load->view('header');
         $this->load->view('search/search', $data);
