@@ -508,12 +508,35 @@ class Product_model extends Default_model
                         break;
                 }
             } else {
-                usort($product_prices, function ($a, $b) {
-                    if ($a['price'] == $b['price']) {
-                        return 0;
+                $like_term = [];
+                $other = [];
+                foreach ($product_prices as $price){
+                    if($price['term'] < 24){
+                        $like_term[] = $price;
+                    }else{
+                        $other[] = $price;
                     }
-                    return ($a['price'] < $b['price']) ? -1 : 1;
-                });
+                }
+
+                if($like_term){
+                    usort($like_term, function ($a, $b) {
+                        if ($a['price'] == $b['price']) {
+                            return 0;
+                        }
+                        return ($a['price'] < $b['price']) ? -1 : 1;
+                    });
+                }
+
+                if($other){
+                    usort($other, function ($a, $b) {
+                        if ($a['price'] == $b['price']) {
+                            return 0;
+                        }
+                        return ($a['price'] < $b['price']) ? -1 : 1;
+                    });
+                }
+
+                $product_prices = array_merge($like_term, $other);
             }
         }
 
