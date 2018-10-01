@@ -100,8 +100,8 @@ class Search extends Front_controller
 
 
 
-        $data['products'] = [];
-        $data['cross'] = [];
+        $products_items = [];
+        $cross_items = [];
 
         $data['filter_brands'] = [];
 
@@ -244,12 +244,6 @@ class Search extends Front_controller
                         $filter_brands[] = $product['brand'];
                         foreach ($product['prices'] as &$price) {
 
-                            if($price['term'] < 24){
-                                $product['like_term'] = 0;
-                            }else{
-                                $product['like_term'] = 1;
-                            }
-
                             $p = $price['saleprice'] > 0 ? $price['saleprice'] : $price['price'];
 
                             if($product['is_cross'] == 1){
@@ -306,9 +300,9 @@ class Search extends Front_controller
                         }
 
                         if($product['is_cross']){
-                            $data['cross'][] = $product;
+                            $cross_items[] = $product;
                         }else{
-                            $data['products'][] = $product;
+                            $products_items[] = $product;
                         }
 
                     }
@@ -339,11 +333,13 @@ class Search extends Front_controller
                         $product['info'] = @$tecdoc_info['article']['Info'];
 
                         $filter_brands[] = $product['brand'];
+
                         foreach ($product['prices'] as &$price) {
                             $price['key'] = $product['id'] . $price['supplier_id'] . $price['term'];
                         }
 
-                        $data['products'][] = $product;
+
+                        $products_items[] = $product;
                     }
                 }
             }
@@ -359,22 +355,34 @@ class Search extends Front_controller
             sort($data['filter_brands'], SORT_STRING);
         }
 
-        if($data['products']){
-            usort($data['products'], function ($a, $b) {
-                if ($a['like_term'] == $b['like_term']) {
-                    return 0;
+        if($products_items){
+            $like_term = [];
+            $other = [];
+            foreach ($products_items as $product){
+                if($product['prices'] && $product['prices'][0]['term'] < 24){
+                    $like_term[] = $product;
+                }else{
+                    $other[] = $product;
                 }
-                return ($a['like_term'] < $b['like_term']) ? -1 : 1;
-            });
+            }
+
+            $data['products'] = array_merge($like_term,$other);
+        }else{
+            $data['products'] = false;
         }
 
-        if($data['cross']){
-            usort($data['cross'], function ($a, $b) {
-                if ($a['like_term'] == $b['like_term']) {
-                    return 0;
+        if($cross_items){
+            $like_term = [];
+            $other = [];
+            foreach ($cross_items as $product){
+                if($product['prices'] && $product['prices'][0]['term'] < 24){
+                    $like_term[] = $product;
+                }else{
+                    $other[] = $product;
                 }
-                return ($a['like_term'] < $b['like_term']) ? -1 : 1;
-            });
+            }
+
+            $data['cross'] = array_merge($like_term,$other);
         }
 
         $this->load->view('header');
