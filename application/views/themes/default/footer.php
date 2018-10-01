@@ -217,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="modal-body" id="fast-order-body">
                 <?php echo form_open('/ajax/fastorder', ['id' => 'fast_order_form']); ?>
-                <input type="hidden" name="href" id="fast-order-product" value="" required>
+                <input type="hidden" name="href" id="fast-order-product">
                 <div class="form-group">
                     <label>Имя</label>
                     <input type="text" class="form-control" name="name" minlength="3">
