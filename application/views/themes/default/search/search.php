@@ -552,37 +552,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 $('[data-toggle="popover"]').popover()
             });
 
-            <?php if(!isset($_GET['sort'])){?>
-            var one_day = [];
-            $(".one_day").each(function(index,item){
-                one_day.push(item);
-            });
-            var in_stock = [];
-            $(".in_stock").each(function(index,item){
-                in_stock.push(item);
-            });
-
-            if(one_day){
-                one_day = one_day.reverse();
-                $(one_day).each(function(index,i){
-                    $(i).parent('tbody').prepend(i).show();
-                });
-
-                $(".one_day").show();
-            }
-
-            if(in_stock){
-                in_stock = in_stock.reverse();
-                $(in_stock).each(function(index,i){
-                    $(i).parent('tbody').prepend(i).show();
-                });
-
-                $(".in_stock").show();
-            }
-
-            <?php } ?>
-
-
             $(".filter-brand input").click(function(){
                 var checked = 0;
                 $(".item").hide();
