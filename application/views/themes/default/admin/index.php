@@ -125,8 +125,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
-
-                    <iframe src="https://tgwidget.com/channel/v2.0/?id=5b3286a083ba88c12c8b4567" frameborder="0" scrolling="no" horizontalscrolling="no" verticalscrolling="no" width="100%" height="540px" async></iframe>
                 </div>
             </div>
             <div class="clearfix"></div>
