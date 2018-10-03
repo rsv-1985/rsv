@@ -125,6 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
+                    <iframe src="https://blog.autox.pro/" style="border: 0px; width: 100%; height: 600px"></iframe>
                 </div>
             </div>
             <div class="clearfix"></div>
