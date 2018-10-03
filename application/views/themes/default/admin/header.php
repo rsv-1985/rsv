@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <a onclick="alert('В комментарии укажите название услуги.');" target="_blank" href="https://send.monobank.com.ua/9R6XYW3Q">Оплата услуг</a>
                             </li>
                             <li>
-                                <a href="https://cms-autox.blogspot.com/" target="_blank">Блог</a>
+                                <a href="https://blog.autox.pro" target="_blank">Блог</a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://t.me/autox_pro">Телеграм канал</i></a>
