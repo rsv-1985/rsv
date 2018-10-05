@@ -161,6 +161,7 @@ class Category_model extends Default_model
             $this->db->distinct();
             $this->db->select('brand');
             $this->db->where('category_id', (int)$id);
+            $this->db->where("(SELECT count(*) FROM ax_product_price pp WHERE pp.delivery_price > 0 AND pp.product_id = id) > 0", null, false);
             $this->db->limit(1000);
             $query = $this->db->get('product');
 
