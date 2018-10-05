@@ -42,7 +42,7 @@ class Language extends Admin_controller{
     public function update(){
         $id = (int)$this->input->post('id');
         $text = $this->input->post('text', true);
-        if($id && $text){
+        if($id){
             $this->language_model->insert(['text' => $text],$id);
             exit('success');
         }else{
