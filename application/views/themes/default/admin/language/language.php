@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <script>
     function save_text(text_id) {
         var text = $("#text"+text_id).val();
-        if(text.length > 0){
+
             $.ajax({
                 url: '/autoxadmin/language/update',
                 data: {id:text_id,text:text},
@@ -85,6 +85,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     alert(response);
                 }
             })
-        }
+
     }
 </script>
