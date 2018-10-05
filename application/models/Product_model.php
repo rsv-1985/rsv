@@ -554,6 +554,8 @@ class Product_model extends Default_model
             }
         }
 
+        $this->db->where("(SELECT count(*) FROM ax_product_price pp WHERE pp.delivery_price > 0 AND pp.product_id = id) > 0", null, false);
+
         if ($filter_products_id) {
             $this->db->where_in('id', $filter_products_id);
         }
