@@ -44,9 +44,9 @@ class Search extends Front_controller
                 }
             $data['brands'] = $brands;
 
-           //if(count($brands) == 1 && !$data['group_brands']){
-               //redirect('/search?search='.$search.'&ID_art='.@$brands[0]['ID_art'].'&brand='.urlencode($brands[0]['brand']);
-           //}
+           if(count($brands) == 1 && !$data['group_brands']){
+               redirect('/search?search='.$search.'&ID_art='.@$brands[0]['ID_art'].'&brand='.urlencode($brands[0]['brand']));
+           }
 
            if(!$brands && count($data['group_brands']) == 1){
                foreach ($data['group_brands'] as $id => $item){
