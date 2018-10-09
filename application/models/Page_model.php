@@ -38,7 +38,6 @@ class Page_model extends Default_model
     {
         $cache = $this->cache->file->get('footer_page');
         if (!$cache && !is_null($cache)) {
-            $this->db->where('status', true);
             $this->db->where('show_footer', true);
             $this->db->order_by('sort', 'ASC');
             $query = $this->db->get($this->table);
