@@ -275,21 +275,21 @@ class Csv{
                     continue;
                 }
 
+                $product_input = array_intersect_key($product,$data['template']);
+
                 if($data['id'] == 0){
                     @unlink('./uploads/price/csv/price.csv');
                     $fp = fopen('./uploads/price/csv/price.csv', 'w');
-                    $product_input = array_intersect_key($product,$data['template']);
                     fputcsv($fp, array_keys($product_input),';');
                 }else{
                     $fp = fopen('./uploads/price/csv/price.csv', 'a');
+                    fputcsv($fp, $product_input,';');
                 }
 
-                $product_input = array_intersect_key($product,$data['template']);
 
-                fputcsv($fp, $product_input,';');
+
+                $data['id'] = $product['product_id'];
             }
-
-            $data['id'] = end($products)['product_id'];
 
             echo('<html>
                     <head>
