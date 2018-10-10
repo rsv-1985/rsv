@@ -127,8 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <label><?php echo lang('text_sku'); ?></label>
                             <input autocomplete="off" id="input-sku" onkeyup="get_brands($(this).val())" type="text" name="sku" value="<?php echo set_value('sku'); ?>"
                                    class="form-control" required>
-                            <div id="autocomplite" style="display: none;position: absolute;background: white;width: 100%;z-index: 9;">
-                            </div>
+                            <div id="autocomplite" class="collapse"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -267,6 +266,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </section>
 </form>
 <script>
+    $(document).ready(function(){
+        $("body").click(function(){
+           $("#autocomplite").collapse('hide');
+        });
+    });
     var attribute_row = 0;
     function productAttribute() {
         var attribute_name = $("#new_attribute_name").val();
@@ -293,7 +297,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                          $.each(json['brands'], function( index, brand ) {
                             html += '<a href="#" onclick="writeInput(\''+brand['sku']+'\',\''+brand['brand']+'\',\''+brand['name']+'\', event)">'+brand['brand']+'<br><small>'+brand['name']+'</small></a><hr>';
                          });
-                         $("#autocomplite").html(html).show();
+                         $("#autocomplite").html(html).collapse('show');
                      }
                 }
             });
