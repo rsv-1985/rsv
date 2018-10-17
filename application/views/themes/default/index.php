@@ -202,7 +202,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </div>
     </div>
     <div class="product-widget-area">
-        <div class="zigzag-bottom"></div>
         <div class="container">
             <hr>
             <div class="row">
