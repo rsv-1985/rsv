@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 <script src="<?php echo theme_url();?>admin/dist/js/demo.js"></script>
 
 <script src="<?php echo theme_url();?>admin/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
-<script src="<?php echo theme_url();?>admin/ckeditor.js"></script>
+<script src="<?php echo theme_url();?>admin/plugins/ckeditor4/ckeditor.js"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('a[href="/<?php echo $this->uri->uri_string() ?>"]').parents('li').addClass('active');
