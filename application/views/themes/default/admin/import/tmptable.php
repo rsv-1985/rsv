@@ -188,7 +188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             method: 'get',
             success: function(json){
                 if(json['continue']){
-                    tecdoc_row += 10;
+                    tecdoc_row += 500;
                     var procent = tecdoc_row * 100 / totalRows;
                     $(".tecdoc .sr-only").text(procent);
                     $(".tecdoc #progress").css('width',procent+'%');
