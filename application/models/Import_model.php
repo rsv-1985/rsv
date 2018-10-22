@@ -23,7 +23,7 @@ class Import_model extends Default_model
 
     public function check_get_all($id){
         $return = false;
-        $this->db->limit(500);
+        $this->db->limit(100);
         $this->db->where('id >',$id);
         $this->db->order_by('id','ASC');
         $query = $this->db->get($this->table);
