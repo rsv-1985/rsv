@@ -342,7 +342,7 @@ class Import extends Admin_controller
                             $save['name'] = $synonym_names[$save['name']];
                         }
                     }
-                    //$this->import_model->insert($save, $product['id']);
+                    $this->import_model->insert($save, $product['id']);
                 } else {
                     if ($id == 0) {
                         $fp = fopen('./uploads/check_tecdoc.csv', 'w');
