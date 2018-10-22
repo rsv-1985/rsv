@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php if($this->is_login){?>
                         <a href="/customer">
                             <?php echo $this->customer_model->first_name .' '.$this->customer_model->second_name;?>
-                            <small>(<b><?php echo format_currency($this->customer_model->balance);?></b>)</small>
+                            <?php echo format_balance($this->customer_model->balance);?>
                         </a>/
                         <a href="/customer/logout"><?php echo lang('text_logout');?></a>
                     <?php }else{?>
@@ -192,7 +192,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
                 <?php } ?>
                 <ul class="nav navbar-nav">
-                    <li><a href="/"><?php echo lang('text_home');?></a></li>
                     <?php if($this->header_page){?>
                         <?php foreach($this->header_page as $hpage){?>
                             <?php if(!$this->is_login && $hpage['show_for_user']){continue;}?>
