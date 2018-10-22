@@ -303,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>>
                             <i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
                         </a>
-                        <br><a href="#"
+                        <a href="#"
                                onclick="fastOrder('<?php echo $_SERVER['REQUEST_URI']; ?>',event);"><?php echo lang('text_fast_order_link'); ?></a>
                     <?php } else { ?>
                         <p><?php echo lang('text_not_available'); ?></p>
@@ -320,7 +320,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                             <br>
                         <?php } ?>
-                        <a href="#review-h"><?php echo lang('text_review');?>: <?php echo $count_reviews; ?></a>
+                        <a href="#review-h" rel="nofollow"><?php echo lang('text_review');?>: <?php echo $count_reviews; ?></a>
                     </div>
 
                 </div>
