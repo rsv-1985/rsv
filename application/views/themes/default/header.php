@@ -157,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="col-sm-3 col-xs-12 cart_m">
                 <div class="shopping-item">
-                    <a id="button-cart" rel="nofollow" href="/cart"><?php echo lang('text_cart');?> - <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span> <i class="fa fa-shopping-cart"></i>
+                    <a id="button-cart" rel="nofollow" href="/cart"><?php echo lang('text_cart');?> <span class="cart-amunt"><?php echo format_currency($this->cart->total());?></span></i>
                          <span
                         <?php if($this->cart->total_items() == 0){?>
                             style="display: none;"
