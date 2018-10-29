@@ -848,23 +848,46 @@ class Product_model extends Default_model
     function tecdoc_info($sku, $brand, $full_info = false)
     {
         $return = false;
-        if($sku && $brand){
-            $tecdoc_info = $this->tecdoc->getInfo($sku, $brand, $full_info);
+        //Для совместимости с текдок
+        if($this->config->item('api_url') == 'https://td.autox.pro/?json='){
+            if($sku && $brand){
+                $tecdoc_info = $this->tecdoc->getInfo($sku, $brand, $full_info);
 
-            if($tecdoc_info){
-                $return['article'] = (array)$tecdoc_info->article;
-                if($full_info){
-                    $crosses = $this->get_crosses($tecdoc_info->ID_art, $brand, $sku);
+                if($tecdoc_info){
+                    $return['article'] = (array)$tecdoc_info->article;
+                    if($full_info){
+                        $crosses = $this->get_crosses($tecdoc_info->ID_art, $brand, $sku);
+                        if ($crosses) {
+                            $return['cross'] = $this->get_search_crosses($crosses);
+                        }
+
+                        $return['applicability'] = (array)$tecdoc_info->applicability;
+                        $return['components'] = (array)$tecdoc_info->components;
+                        $return['images'] = (array)$tecdoc_info->images;
+                    }
+                }
+            }
+        }else{
+            if ($sku && $brand) {
+                $ID_art = $this->tecdoc->getIDart($sku, $brand);
+                if ($full_info) {
+                    $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
                     if ($crosses) {
                         $return['cross'] = $this->get_search_crosses($crosses);
                     }
-
-                    $return['applicability'] = (array)$tecdoc_info->applicability;
-                    $return['components'] = (array)$tecdoc_info->components;
-                    $return['images'] = (array)$tecdoc_info->images;
+                }
+                if (isset($ID_art[0]->ID_art)) {
+                    $ID_art = $ID_art[0]->ID_art;
+                    $return['article'] = (array)$this->tecdoc->getArticle($ID_art)[0];
+                    if ($full_info) {
+                        $return['applicability'] = $this->tecdoc->getUses($ID_art);
+                        $return['components'] = $this->tecdoc->getPackage($ID_art);
+                        $return['images'] = $this->tecdoc->getImages($ID_art);
+                    }
                 }
             }
         }
+
 
         return $return;
     }
