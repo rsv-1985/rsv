@@ -128,7 +128,7 @@ class Product extends Front_controller
 
         $this->product_model->update_viewed($data['id']);
 
-        $this->canonical = base_url('product/' . $slug);
+        //$this->canonical = base_url('product/' . $slug);
 
         if (mb_strlen($data['h1']) > 0) {
             $this->setH1($data['h1']);
