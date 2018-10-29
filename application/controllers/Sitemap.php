@@ -18,12 +18,11 @@ class Sitemap extends Front_controller{
         $this->load->model('page_model');
     }
 
-    public function write_file($urls,$index = '', $priority = '0.5'){
+    public function write_file($urls,$index = ''){
         $xml = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
         foreach ($urls as $url){
             $xml .= '<url>';
             $xml .= '<loc>'.$url['url'].'</loc>';
-            $xml .= '<priority>'.$priority.'</priority>';
             $xml .= '</url>';
         }
         $xml .= '</urlset>';
@@ -44,21 +43,21 @@ class Sitemap extends Front_controller{
                 'updated_at' => date('Y-m-d H:i:s')
             ];
 
-            $this->write_file($url, 'url_home', '1');
+            $this->write_file($url, 'url_home');
 
             $url_page = $this->page_model->get_sitemap();
             if($url_page){
-                $this->write_file($url_page, 'url_page','0.7');
+                $this->write_file($url_page, 'url_page');
             }
 
             $url_news = $this->news_model->get_sitemap();
             if($url_news){
-                $this->write_file($url_news, 'url_news','0.6');
+                $this->write_file($url_news, 'url_news');
             }
 
             $url_category = $this->category_model->get_sitemap();
             if($url_category){
-                $this->write_file($url_category, 'url_category','0.9');
+                $this->write_file($url_category, 'url_category');
             }
 
         }
@@ -70,7 +69,7 @@ class Sitemap extends Front_controller{
             $html = '<a id="next" href="/sitemap/index/'.$result['id'].'?file_number='.($file_number + 1).'">Загрузка</a>';
             $html .= '<script type="text/javascript">document.getElementById("next").click();</script>';
 
-            $this->write_file($result['urls'], 'product'.$file_number,'0.8');
+            $this->write_file($result['urls'], 'product'.$file_number);
             echo $html;
             die();
         } else {
@@ -84,7 +83,6 @@ class Sitemap extends Front_controller{
                     if($info['extension'] == 'xml' && $info['basename'] != 'sitemap.xml'){
                         $text .= '<sitemap>';
                         $text .= '<loc>' . base_url('map') . '/' . $file . '</loc>';
-                        $text .= '<lastmod>' . date('Y-m-d') . '</lastmod>';
                         $text .= '</sitemap>';
                     }
                 }
