@@ -20,6 +20,17 @@ class Tecdoc
         $this->url = $this->CI->config->item('api_url');
     }
 
+    public function getInfo($sku, $brand, $full_info = false){
+        $brand = urlencode(mb_strtoupper(str_replace(['+',' ','-'],['','',''],$brand), 'UTF-8'));
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getInfo',
+            'params' => ['article' => $sku, 'brand' => $brand, 'full_info' => $full_info]
+        ];
+
+        return $this->res($query);
+    }
+
     public function getArticleArray($array){
         foreach ($array as &$item){
             $item['brand'] = urlencode(mb_strtoupper(str_replace(['+',' ','-'],['','',''],$item['brand']), 'UTF-8'));
