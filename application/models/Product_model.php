@@ -848,24 +848,24 @@ class Product_model extends Default_model
     function tecdoc_info($sku, $brand, $full_info = false)
     {
         $return = false;
-        if ($sku && $brand) {
-            $ID_art = $this->tecdoc->getIDart($sku, $brand);
-            if ($full_info) {
-                $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
-                if ($crosses) {
-                    $return['cross'] = $this->get_search_crosses($crosses);
-                }
-            }
-            if (isset($ID_art[0]->ID_art)) {
-                $ID_art = $ID_art[0]->ID_art;
-                $return['article'] = (array)$this->tecdoc->getArticle($ID_art)[0];
-                if ($full_info) {
-                    $return['applicability'] = $this->tecdoc->getUses($ID_art);
-                    $return['components'] = $this->tecdoc->getPackage($ID_art);
-                    $return['images'] = $this->tecdoc->getImages($ID_art);
+        if($sku && $brand){
+            $tecdoc_info = $this->tecdoc->getInfo($sku, $brand, $full_info);
+
+            if($tecdoc_info){
+                $return['article'] = (array)$tecdoc_info->article;
+                if($full_info){
+                    $crosses = $this->get_crosses($tecdoc_info->ID_art, $brand, $sku);
+                    if ($crosses) {
+                        $return['cross'] = $this->get_search_crosses($crosses);
+                    }
+
+                    $return['applicability'] = (array)$tecdoc_info->applicability;
+                    $return['components'] = (array)$tecdoc_info->components;
+                    $return['images'] = (array)$tecdoc_info->images;
                 }
             }
         }
+
         return $return;
     }
 
@@ -893,13 +893,12 @@ class Product_model extends Default_model
     }
 
 //Для карты сайта
-    public
-    function get_sitemap($id)
+    public function get_sitemap($id)
     {
         $return = false;
         $this->db->select('id, slug,(SELECT MAX(updated_at) FROM ax_product_price WHERE product_id = id) as updated_at', false);
         $this->db->from($this->table);
-        $this->db->limit(30000);
+        $this->db->limit(5000);
         $this->db->where('id >', $id);
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
