@@ -262,7 +262,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <?php echo @file_get_contents(base_url($script)); ?>
     <?php } ?>
 <?php } ?>
-<?php if (ENVIRONMENT == 'development' || $this->input->get('debug_show')) {
+<script>
+    $(document).ready(function() {
+        if(localStorage.getItem('popState') != 'shown'){
+            $('body').append('<div class="text-cookie"><?php echo lang('text_cookie');?> <button class="btn btn-info pull-right" id="btn-text-cookie"><?php echo lang('text_button_cookie');?></button></>');
+
+        }
+        $("#btn-text-cookie").click(function(e){
+            e.preventDefault();
+            localStorage.setItem('popState','shown');
+            $(".text-cookie").fadeOut('slow').remove();
+        });
+    });
+</script>
+<?php if (ENVIRONMENT == 'development') {
     $this->output->enable_profiler(TRUE);
 } ?>
 
