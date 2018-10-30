@@ -2093,3 +2093,15 @@ img#loading {
     }
 }
 
+.text-cookie {
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    background: black;
+    height: 50px;
+    bottom: 0;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+
