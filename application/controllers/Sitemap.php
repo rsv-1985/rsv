@@ -23,6 +23,10 @@ class Sitemap extends Front_controller{
         foreach ($urls as $url){
             $xml .= '<url>';
             $xml .= '<loc>'.$url['url'].'</loc>';
+            $xml .= '<changefreq>weekly</changefreq>';
+            if(isset($url['updated_at'])){
+                $xml .= '<lastmod>'.date('Y-m-d', strtotime($url['updated_at'])).'</lastmod>';
+            }
             $xml .= '</url>';
         }
         $xml .= '</urlset>';
