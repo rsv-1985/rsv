@@ -288,9 +288,10 @@ class Csv{
 
 
 
-                $data['id'] = $product['product_id'];
-            }
 
+            }
+            $end = end($products);
+            $data['id'] = $end['product_id'];
             echo('<html>
                     <head>
                     <title>Export...</title>
