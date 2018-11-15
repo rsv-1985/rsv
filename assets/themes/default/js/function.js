@@ -6,11 +6,13 @@ $(document).ready(function(){
        switch (type) {
            case 'phone':
                $("#login-by-email").hide();
+               $("[name='email']").val('');
                $("#login-by-phone").show();
                break;
            case 'email':
                $("#login-by-email").show();
                $("#login-by-phone").hide();
+               $("[name='phone']").val('');
                break;
            default:
                $("#login-by-email").hide();
