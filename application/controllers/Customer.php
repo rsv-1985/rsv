@@ -479,11 +479,18 @@ class Customer extends Front_controller
     {
         $json = [];
         $this->load->language('customer');
-        $this->form_validation->set_rules('login', lang('text_login'), 'required|max_length[96]|trim');
         $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
 
         if ($this->form_validation->run() !== false) {
-            $login = $this->input->post('login', true);
+
+            if($this->input->post('phone')){
+                $login = $this->input->post('phone', true);
+            }
+
+            if($this->input->post('email')){
+                $login = $this->input->post('email', true);
+            }
+
             $password = $this->input->post('password', true);
             if ($this->customer_model->login($login, $password)) {
                 $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
