@@ -43,8 +43,13 @@ class Customer_model extends Default_model
     public function login($login, $password, $admin_login = false)
     {
         //$this->db->or_where('id', (int)$login);
-        $this->db->or_where('phone', format_phone($login));
-        $this->db->or_where('email', trim($login));
+        if($phone =  format_phone($login)){
+            $this->db->or_where('phone',$phone);
+        }
+
+        if(filter_var($login, FILTER_VALIDATE_EMAIL)){
+            $this->db->or_where('email', trim($login));
+        }
 
         $this->db->where('status', true);
         $query = $this->db->get($this->table);
