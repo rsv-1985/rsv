@@ -1,4 +1,23 @@
 $(document).ready(function(){
+
+    $(".login-by").click(function(){
+       var type = $(this).attr('data-type');
+
+       switch (type) {
+           case 'phone':
+               $("#login-by-email").hide();
+               $("#login-by-phone").show();
+               break;
+           case 'email':
+               $("#login-by-email").show();
+               $("#login-by-phone").hide();
+               break;
+           default:
+               $("#login-by-email").hide();
+               $("#login-by-phone").show();
+               break;
+       }
+    });
     $(".rating_form label").click(function(){
         var rate = $(this).attr('data-rate');
         $("#r"+rate).prop('checked', true);
