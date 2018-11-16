@@ -127,23 +127,37 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="product-bit-title text-center">
                     <?php echo lang('text_login_link'); ?>
                 </div>
+
+
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger" role="alert" style="display: none"></div>
-                <div class="form-group">
-                    <label><?php echo lang('text_login'); ?></label>
-                    <input type="text" name="login" placeholder="Телефон или email" required class="form-control"
-                           maxlength="96">
+                <div class="col-md-12" id="login-by-phone">
+                    <div class="form-group">
+                        <label><?php echo lang('text_phone'); ?> <span data-type="email" class="btn btn-link login-by"><?php echo lang('text_email'); ?></span></label>
+                        <input type="text" name="phone" class="form-control"
+                               maxlength="96">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label><?php echo lang('text_password'); ?></label>
-                    <input type="password" name="password" required class="form-control" maxlength="255">
+
+                <div class="col-md-12" id="login-by-email" style="display: none;">
+                    <div class="form-group">
+                        <label><span data-type="phone" class="btn btn-link login-by"><?php echo lang('text_phone'); ?></span><?php echo lang('text_email'); ?></label>
+                        <input type="email" name="email" class="form-control"
+                               maxlength="96">
+                    </div>
                 </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label><?php echo lang('text_password'); ?></label>
+                        <input type="password" name="password" required class="form-control" maxlength="255">
+                    </div>
+                </div>
+
                 <div class="form-group" style="text-align: center">
                     <a href="/customer/registration"><?php echo lang('text_registration'); ?></a> |
-                    <a href="/customer/forgot">
-                        <small><?php echo lang('text_remainder'); ?></small>
-                    </a>
+                    <a href="/customer/forgot"><?php echo lang('text_remainder'); ?></a>
                 </div>
                 <div class="form-group">
                     <input class="pull-right" type="submit" value="<?php echo lang('text_login_link'); ?>">
@@ -244,7 +258,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <script src="<?php echo theme_url(); ?>js/bootstrap.min.js"></script>
 <script src="<?php echo theme_url(); ?>js/jquery.maskedinput.min.js"></script>
-<script src="<?php echo theme_url(); ?>js/function.js?v10"></script>
+<script src="<?php echo theme_url(); ?>js/function.js?v13"></script>
 <script src="<?php echo theme_url(); ?>js/owl.carousel.min.js"></script>
 <script src="<?php echo theme_url(); ?>js/main.js?v6"></script>
 <script type="text/javascript" src="<?php echo theme_url(); ?>js/bxslider.min.js"></script>
