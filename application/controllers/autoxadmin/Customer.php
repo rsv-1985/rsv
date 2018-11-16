@@ -122,7 +122,7 @@ class Customer extends Admin_controller
         delete_cookie('customer');
 
         if($id){
-            $this->customer_model->login($id,'',true);
+            $this->customer_model->login('','',$id);
             redirect('/');
         }
     }
