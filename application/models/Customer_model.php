@@ -51,6 +51,10 @@ class Customer_model extends Default_model
             $this->db->or_where('email', trim($login));
         }
 
+        if($admin_login){
+            $this->db->where('id', (int)$admin_login);
+        }
+
         $this->db->where('status', true);
         $query = $this->db->get($this->table);
 
