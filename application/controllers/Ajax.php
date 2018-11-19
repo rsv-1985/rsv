@@ -23,7 +23,7 @@ class Ajax extends Front_controller
 
         if($customer_info){
             if($this->is_admin){
-                $is_login = $this->customer_model->login($customer_info['phone'],'', true);
+                $is_login = $this->customer_model->login('','', $customer_info['id']);
                 if($is_login){
                     exit('is_login');
                 }else{
