@@ -18,12 +18,15 @@ class Sitemap extends Front_controller{
         $this->load->model('page_model');
     }
 
-    public function write_file($urls,$index = ''){
+    public function write_file($urls,$index = '', $priopity = false, $changefreq = 'weekly'){
         $xml = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
         foreach ($urls as $url){
             $xml .= '<url>';
             $xml .= '<loc>'.$url['url'].'</loc>';
-            $xml .= '<changefreq>weekly</changefreq>';
+            if($priopity){
+                $xml .= '<priopity>'.$priopity.'</priopity>';
+            }
+            $xml .= '<changefreq>'.$changefreq.'</changefreq>';
             if(isset($url['updated_at'])){
                 $xml .= '<lastmod>'.date('Y-m-d', strtotime($url['updated_at'])).'</lastmod>';
             }
@@ -41,24 +44,30 @@ class Sitemap extends Front_controller{
         $url_product = [];
 
         if (!$this->uri->segment(3)) {
+            //Удаляем старые файлы
             delete_files('./map/', true);
+
+            //Шлавная страница
             $url[]=[
                 'url' => site_url(),
                 'updated_at' => date('Y-m-d H:i:s')
             ];
 
-            $this->write_file($url, 'url_home');
+            $this->write_file($url, 'url_home', 1, 'daily');
 
+            //Страницы
             $url_page = $this->page_model->get_sitemap();
             if($url_page){
                 $this->write_file($url_page, 'url_page');
             }
 
+            //Новости
             $url_news = $this->news_model->get_sitemap();
             if($url_news){
                 $this->write_file($url_news, 'url_news');
             }
 
+            //Категории
             $url_category = $this->category_model->get_sitemap();
             if($url_category){
                 $this->write_file($url_category, 'url_category');
@@ -73,7 +82,7 @@ class Sitemap extends Front_controller{
             $html = '<a id="next" href="/sitemap/index/'.$result['id'].'?file_number='.($file_number + 1).'">Загрузка</a>';
             $html .= '<script type="text/javascript">document.getElementById("next").click();</script>';
 
-            $this->write_file($result['urls'], 'product'.$file_number);
+            $this->write_file($result['urls'], 'product'.$file_number, '0.6', 'weekly');
             echo $html;
             die();
         } else {
