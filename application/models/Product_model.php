@@ -510,15 +510,15 @@ class Product_model extends Default_model
             } else {
                 $like_term = [];
                 $other = [];
-                foreach ($product_prices as $price){
-                    if($price['term'] < 24){
+                foreach ($product_prices as $price) {
+                    if ($price['term'] < 24) {
                         $like_term[] = $price;
-                    }else{
+                    } else {
                         $other[] = $price;
                     }
                 }
 
-                if($like_term){
+                if ($like_term) {
                     usort($like_term, function ($a, $b) {
                         if ($a['price'] == $b['price']) {
                             return 0;
@@ -527,7 +527,7 @@ class Product_model extends Default_model
                     });
                 }
 
-                if($other){
+                if ($other) {
                     usort($other, function ($a, $b) {
                         if ($a['price'] == $b['price']) {
                             return 0;
@@ -554,7 +554,9 @@ class Product_model extends Default_model
             }
         }
 
-        $this->db->where("(SELECT count(*) FROM ax_product_price pp WHERE pp.delivery_price > 0 AND pp.product_id = id) > 0", null, false);
+        if (!@$this->options['show_tecdoc_product_without_price']) {
+            $this->db->where("(SELECT count(*) FROM ax_product_price pp WHERE pp.delivery_price > 0 AND pp.product_id = id) > 0", null, false);
+        }
 
         if ($filter_products_id) {
             $this->db->where_in('id', $filter_products_id);
@@ -849,13 +851,13 @@ class Product_model extends Default_model
     {
         $return = false;
         //Для совместимости с текдок
-        if($this->config->item('api_url') == 'https://td.autox.pro/?json='){
-            if($sku && $brand){
+        if ($this->config->item('api_url') == 'https://td.autox.pro/?json=') {
+            if ($sku && $brand) {
                 $tecdoc_info = $this->tecdoc->getInfo($sku, $brand, $full_info);
 
-                if($tecdoc_info){
+                if ($tecdoc_info) {
                     $return['article'] = (array)$tecdoc_info->article;
-                    if($full_info){
+                    if ($full_info) {
                         $crosses = $this->get_crosses($tecdoc_info->ID_art, $brand, $sku);
                         if ($crosses) {
                             $return['cross'] = $this->get_search_crosses($crosses);
@@ -867,7 +869,7 @@ class Product_model extends Default_model
                     }
                 }
             }
-        }else{
+        } else {
             if ($sku && $brand) {
                 $ID_art = $this->tecdoc->getIDart($sku, $brand);
                 if ($full_info) {
