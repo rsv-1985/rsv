@@ -58,8 +58,22 @@ class Seo_settings extends Admin_controller{
     }
 
     public function sitemap(){
+
+        if($this->input->post()){
+            $this->db->where('group_settings','seo_map');
+            $this->db->or_where('key_settings','seo_map');
+            $this->db->delete('settings');
+
+            $save['group_settings'] = 'seo_map';
+            $save['key_settings'] = 'seo_map';
+            $save['value'] = serialize($this->input->post('seo_map'));
+            $this->settings_model->add($save);
+        }
+
+        $data['seo_map'] = $this->settings_model->get_by_key('seo_map');
+
         $this->load->view('admin/header');
-        $this->load->view('admin/seo_settings/seo_sitemap');
+        $this->load->view('admin/seo_settings/seo_sitemap', $data);
         $this->load->view('admin/footer');
     }
 
