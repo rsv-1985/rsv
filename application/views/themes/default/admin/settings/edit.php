@@ -625,13 +625,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                             <input type="checkbox"
                                                                    name="settings[options][show_tecdoc_product_without_price]"
                                                                    value="1" <?php echo set_checkbox('settings[options][show_tecdoc_product_without_price]', true, (bool)@$settings['options']['show_tecdoc_product_without_price']); ?>>
-                                                            Отображать товары tecdoc без цены
+                                                            Отображать товары без цен в категориях
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                Отображать товары tecdoc без цены в каталоге
+                                                Отображать товары без цены в своих категориях и категориях текдок
                                             </div>
                                         </div>
                                         <div class="row">
