@@ -203,82 +203,32 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     </div>
     <div class="product-widget-area">
         <div class="container">
-            <hr>
             <div class="row">
-                <?php if ($top_sellers) { ?>
-                    <div class="col-md-4">
-                        <div class="single-product-widget">
-                            <h2 class="product-wid-title"><?php echo lang('text_top_sales'); ?></h2>
-                            <?php foreach ($top_sellers as $top_sellers) { ?>
-                                <div class="single-wid-product">
-                                    <a href="/product/<?php echo $top_sellers['slug']; ?>">
-                                        <?php if ($top_sellers['image']){ ?>
-                                        <img onerror="imgError(this);"
-                                             src="/image?img=<?php echo $top_sellers['image']; ?>&height=100"
-                                             alt="<?php echo $top_sellers['name']; ?>"
-                                             title="<?php echo $top_sellers['name']; ?>" class="product-thumb"></a>
-                                    <?php } ?>
-                                    <h2>
-                                        <a href="/product/<?php echo $top_sellers['slug']; ?>"><?php echo $top_sellers['name']; ?></a>
-                                    </h2>
-                                    <div class="product-wid-price">
-                                        <ins><?php echo format_currency($top_sellers['saleprice'] > 0 ? $top_sellers['saleprice'] : $top_sellers['price']); ?></ins>
-                                        <?php if ($top_sellers['saleprice'] > 0) { ?>
-                                            <del><?php echo format_currency($top_sellers['price']); ?></del>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                <?php } ?>
-                <?php if ($novelty) { ?>
-                    <div class="col-md-4">
-                        <div class="single-product-widget">
-                            <h2 class="product-wid-title"><?php echo lang('text_novetly'); ?></h2>
-                            <?php foreach ($novelty as $novelty) { ?>
-                                <div class="single-wid-product">
-                                    <a href="/product/<?php echo $novelty['slug']; ?>">
-                                        <?php if ($novelty['image']){ ?>
-                                        <img onerror="imgError(this);"
-                                             src="/image?img=<?php echo $novelty['image']; ?>&height=100"
-                                             alt="<?php echo $novelty['name']; ?>"
-                                             title="<?php echo $novelty['name']; ?>" class="product-thumb"></a>
-                                    <?php } ?>
-                                    <h2>
-                                        <a href="/product/<?php echo $novelty['slug']; ?>"><?php echo $novelty['name']; ?></a>
-                                    </h2>
-                                    <div class="product-wid-price">
-                                        <ins><?php echo format_currency($novelty['saleprice'] > 0 ? $novelty['saleprice'] : $novelty['price']); ?></ins>
-                                        <?php if ($novelty['saleprice'] > 0) { ?>
-                                            <del><?php echo format_currency($novelty['price']); ?></del>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                <?php } ?>
                 <?php if ($news) { ?>
-                <div class="col-md-4"
-                <div class="single-product-widget">
-                    <h2 class="product-wid-title"><?php echo lang('text_news'); ?></h2>
-                    <?php foreach ($news as $news) { ?>
-                        <div class="single-wid-product">
-                            <h2>
-                                <a href="/news/<?php echo $news['slug']; ?>"><?php echo $news['name']; ?></a>
-                            </h2>
-                        </div>
-                    <?php } ?>
+                <div class="col-md-4">
+                    <div class="snews-widget">
+                        <h2><?php echo lang('text_news'); ?></h2>
+                        <div class="list-group">
+                         <?php foreach ($news as $news) { ?>
+                              <a href="/news/<?php echo $news['slug']; ?>" class="list-group-item">
+                                <h4 class="list-group-item-heading"><?php echo $news['name']; ?></h4>
+                                <p class="list-group-item-text"><?php echo $news['created_at'];?></p>
+                              </a>
+                               <?php } ?>
+                            </div>
+
+                        <a href="/news"><?php echo lang('text_all_news');?></a>
+                    </div>
                 </div>
-            </div>
-            <?php } ?>
-            <div class="row">
-                <div class="col-md-12">
-                    <h1 class="product-wid-title"><?php echo $name; ?></h1>
+                <div class="col-md-8">
+                <?php }else{?>
+                    <div class="col-md-12">
+                <?php } ?>
+                    <h1><?php echo $name; ?></h1>
                     <?php echo $description; ?>
                 </div>
             </div>
+
         </div>
     </div> <!-- End product widget area -->
 <?php if ($carousel) { ?>
