@@ -133,6 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
+
         <div class="box-footer">
             <button type="submit" class="btn btn-info"><?php echo lang('button_submit');?></button>
             <a onclick="$('#seo_map').submit()" class="btn btn-info pull-right" href="<?php echo base_url('sitemap'); ?>">Сгенирировать новую</a>
