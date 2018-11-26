@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                          <?php foreach ($news as $news) { ?>
                               <a href="/news/<?php echo $news['slug']; ?>" class="list-group-item">
                                 <b class="list-group-item-heading"><?php echo $news['name']; ?></b>
-                                <p class="list-group-item-text"><?php echo date('d.m.Y', strtotime($news['created_at']));?></p>
+                                <p class="list-group-item-text"><?php echo date('d.m.Y', strtotime($news['updated_at']));?></p>
                               </a>
                                <?php } ?>
                             </div>
