@@ -18,15 +18,15 @@ class Sitemap extends Front_controller{
         $this->load->model('page_model');
     }
 
-    public function write_file($urls, $index = '', $priopity = false, $changefreq = false){
+    public function write_file($urls, $index = '', $priority = false, $changefreq = false){
         $xml = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
         foreach ($urls as $url){
             $xml .= '<url>';
 
             $xml .= '<loc>'.$url['url'].'</loc>';
 
-            if($priopity){
-                $xml .= '<priopity>'.$priopity.'</priopity>';
+            if($priority){
+                $xml .= '<priority>'.$priority.'</priority>';
             }
 
             if($changefreq){
