@@ -163,6 +163,11 @@ class Csv{
     }
 
     public function get_data($data){
+        $clear = false;
+        if(!isset($data['id'])){
+            $data['id'] = 0;
+            $clear = true;
+        }
 
         $this->CI->load->model('product_model');
         $this->CI->load->model('customergroup_model');
@@ -170,10 +175,6 @@ class Csv{
 
         $this->CI->customergroup_model->customer_group = $this->CI->customergroup_model->get($data['customer_group_id']);
         $this->CI->customer_group_pricing_model->pricing = $this->CI->customer_group_pricing_model->get_customer_group_pricing($data['customer_group_id']);
-
-        if(!@$data['id']){
-            $data['id'] = 0;
-        }
 
         $sql = "SELECT p.sku,
          p.brand,
@@ -276,22 +277,20 @@ class Csv{
                 }
 
                 $product_input = array_intersect_key($product,$data['template']);
-
-                if($data['id'] == 0){
+                if($clear){
                     @unlink('./uploads/price/csv/price.csv');
                     $fp = fopen('./uploads/price/csv/price.csv', 'w');
                     fputcsv($fp, array_keys($product_input),';');
+                    $clear = false;
                 }else{
                     $fp = fopen('./uploads/price/csv/price.csv', 'a');
                     fputcsv($fp, $product_input,';');
                 }
-
-
-
-
             }
             $end = end($products);
+
             $data['id'] = $end['product_id'];
+
             echo('<html>
                     <head>
                     <title>Export...</title>
