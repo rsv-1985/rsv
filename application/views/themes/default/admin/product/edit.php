@@ -7,6 +7,8 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <section class="content-header">
+    <a target="_blank" href="/product/<?php echo $product['slug'];?>" class="btn btn-link pull-left">Посмотреть на сайте</a>
+
     <h3></h3>
     <ol class="breadcrumb">
         <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
@@ -14,6 +16,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         <li><a href="#"><?php echo $product['name']; ?></a></li>
     </ol>
 </section>
+<style>
+    table {
+        table-layout:fixed;
+    }
+    table td {
+        width: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 <?php echo form_open_multipart(); ?>
 <section class="content">
     <div class="row">
