@@ -16,16 +16,25 @@ class Sto extends Front_controller
 
     public function index()
     {
+        $this->load->language('sto_lang');
         $data = [];
 
         $settings = $this->settings_model->get_by_key('sto_settings');
+        $statuses = $this->sto_model->getStatuses();
 
-        $status = 'Новый2';
-        if(isset($settings['status'])){
-            $statuses = explode(PHP_EOL,$settings['status']);
-            if(count($statuses)){
-                $status = explode('#',$statuses[0])[0];
-            }
+        $new_status = false;
+
+        if($statuses){
+           foreach ($statuses as $st){
+               if($st['is_new']){
+                   $new_status = $st['id'];
+                   break;
+               }
+           }
+
+           if(!$new_status){
+               $new_status = $statuses[0]['id'];
+           }
         }
 
         $this->setTitle($settings['title']);
@@ -35,41 +44,10 @@ class Sto extends Front_controller
         $data['h1'] = $this->h1;
 
         $data['description'] = $settings['description'];
-        $data['services'] = explode(PHP_EOL, $settings['services']);
-        $data['time_morning'] = explode(PHP_EOL, $settings['time_morning']);
-        $data['time_afternoon'] = explode(PHP_EOL, $settings['time_afternoon']);
-
-        $manufacturers = $this->tecdoc->getManufacturer();
-        if ($manufacturers) {
-            $settings_tecdoc_manufacturer = $this->settings_model->get_by_key('tecdoc_manufacturer');
-            $array_manuf = [];
-            foreach ($manufacturers as $item) {
-                if($settings_tecdoc_manufacturer){
-                    if(isset($settings_tecdoc_manufacturer[url_title($item->Name)]) && @$settings_tecdoc_manufacturer[url_title($item->Name)]['status']){
-                        $array_manuf[] = [
-                            'slug' => url_title($item->Name).'_'.$item->ID_mfa,
-                            'ID_mfa' => $item->ID_mfa,
-                            'name' => $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['name'] : $item->Name,
-                            'logo' => $settings_tecdoc_manufacturer[url_title($item->Name)]['logo'] ? $settings_tecdoc_manufacturer[url_title($item->Name)]['logo'] : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
-                        ];
-                    }
-                }else{
-                    if(file_exists('./uploads/model/'.str_replace('Ë','E',$item->Name).'.png')){
-                        $array_manuf[] = [
-                            'slug' => url_title($item->Name).'_'.$item->ID_mfa,
-                            'ID_mfa' => $item->ID_mfa,
-                            'name' => $item->Name,
-                            'logo' => strlen($item->Logo) > 0 ? $item->Logo : '/uploads/model/'.str_replace('Ë','E',$item->Name).'.png',
-                        ];
-                    }
-                }
-            }
-            $data['manufacturers'] = $array_manuf;
-        }
-
+        $data['services'] = $this->sto_model->getServices();
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('service', 'Услуга', 'required|trim|max_length[255]');
+            $this->form_validation->set_rules('service_id', 'Услуга', 'required');
             $this->form_validation->set_rules('manufacturer', 'Производитель', 'required|trim|max_length[255]');
             $this->form_validation->set_rules('model', 'Модель', 'required|trim|max_length[255]');
             $this->form_validation->set_rules('typ', 'Модификация', 'trim|max_length[255]');
@@ -82,16 +60,9 @@ class Sto extends Front_controller
             $this->form_validation->set_rules('email', 'E-mail', 'max_length[255]|valid_email');
             $this->form_validation->set_rules('comment', 'Комментарий', 'trim|max_length[3000]');
             $this->form_validation->set_rules('cmsautox', 'cmsautox', 'required|trim');
-            if ($this->form_validation->run() == true && $this->input->post('cmsautox') == 'true') {
-                $this->_save_data($status);
-                $this->load->library('sender');
-                $subject = 'Заявка СТО';
-                $html = '';
-                foreach ($this->input->post() as $key => $value) {
-                    $html .= $key . ':' . $value . '<br>';
-                }
 
-                $this->sender->email($subject, $html, explode(';', $this->contacts['email']),$this->input->post('email',true));
+            if ($this->form_validation->run() == true && $this->input->post('cmsautox') == 'true') {
+                $this->_save_data($new_status);
                 $this->session->set_flashdata('success', 'Ваша заявка отправлена');
                 redirect('/sto');
             } else {
@@ -106,13 +77,11 @@ class Sto extends Front_controller
 
     private function _save_data($status){
         $save = [];
-        $save['service'] = $this->input->post('service',true);
+        $save['service_id'] = $this->input->post('service_id',true);
         $save['manufacturer'] = $this->input->post('manufacturer',true);
         $save['model'] = $this->input->post('model',true);
-        $save['typ'] = $this->input->post('typ',true);
         $save['vin'] = $this->input->post('vin',true);
-        $save['date'] = $this->input->post('date',true);
-        $save['time'] = $this->input->post('time',true);
+        $save['date'] = $this->input->post('date',true).' '.$this->input->post('time',true);
         $save['name'] = $this->input->post('name',true);
         $save['phone'] = $this->input->post('phone',true);
         $save['carnumber'] = $this->input->post('carnumber',true);
@@ -120,7 +89,65 @@ class Sto extends Front_controller
         $save['comment'] = $this->input->post('comment',true);
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['updated_at'] = date('Y-m-d H:i:s');
-        $save['status'] = $status;
-        $this->sto_model->insert($save);
+        $save['status_id'] = $status;
+        $id = $this->sto_model->insert($save);
+
+        //Если есть шаблон смс или email отправлем сообщение
+        $status_info = $this->sto_model->getStatus($status);
+        $sto_info = $this->sto_model->get($id);
+
+        $this->load->library('sender');
+        //SMS
+        if($status_info['sms_template'] && $save['phone'] != ''){
+            $message = $status_info['sms_template'];
+
+            foreach ($sto_info as $key => $value){
+                if($key == 'status_id'){
+                    $value = $sto_info['name'];
+                }
+
+                if($key == 'service_id'){
+                    $value = $this->sto_model->getService($value)['name'];
+                }
+                $message = str_replace('{'.$key.'}',$value, $message);
+            }
+
+            $this->sender->sms($save['phone'], $message);
+        }
+        //EMAIL
+        if($status_info['email_template'] && $save['email'] != ''){
+            $message = $status_info['email_template'];
+
+            foreach ($sto_info as $key => $value){
+                if($key == 'status_id'){
+                    $value = $sto_info['name'];
+                }
+
+                if($key == 'service_id'){
+                    $value = $this->sto_model->getService($value)['name'];
+                }
+                $message = str_replace('{'.$key.'}',$value, $message);
+            }
+
+            $this->sender->email('СТО', nl2br($message), $save['email'], explode(';', $this->contacts['email']));
+        }
+
+
+        $settings = $this->settings_model->get_by_key('sto_settings');
+
+        //SMS админу
+        if(@$settings['telephone_notification']){
+            $telephones = explode(';',$settings['telephone_notification']);
+            foreach ($telephones as $telephone){
+                $this->sender->sms($telephone, 'Новая заявка СТО №'.$id);
+            }
+        }
+        //Email админу
+        if(@$settings['email_notification']){
+            $emails = explode(';',$settings['email_notification']);
+            foreach ($emails as $email){
+                $this->sender->email('Новая заявка СТО', 'Новая заявка СТО №'.$id, $email, explode(';', $this->contacts['email']));
+            }
+        }
     }
 }
