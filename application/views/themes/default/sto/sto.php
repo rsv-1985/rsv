@@ -65,43 +65,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Услуги и данные о автомобиле</div>
+                        <div class="panel-heading"><?php echo lang('text_section_auto');?></div>
                         <div class="panel-body">
                                 <div class="form-inline">
                                     <div class="form-group">
-                                        <select name="service" class="form-control" required onchange="$('#manufacturer').removeAttr('disabled')">
+                                        <select name="service_id" class="form-control" required>
                                             <option value="">Услуга</option>
                                             <?php foreach ($services as $service){?>
-                                                <option value="<?php echo $service;?>" <?php echo set_select('service',$service);?>><?php echo $service;?></option>
+                                                <option value="<?php echo $service['id'];?>" <?php echo set_select('service',$service['id']);?>><?php echo $service['name'];?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <input type="hidden" name="manufacturer" value="">
-                                        <select id="manufacturer" class="form-control" disabled required onchange="get_model($(this).val())">
-                                            <option value="">Выберите производителя</option>
-                                            <?php foreach ($manufacturers as $manufacturer){?>
-                                                <option value="<?php echo $manufacturer['ID_mfa'];?>"><?php echo $manufacturer['name'];?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <input required placeholder="<?php echo lang('text_manufacturer');?>" type="text" name="manufacturer" value="<?php echo set_value('manufacturer');?>" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <input type="hidden" name="model" value="">
-                                        <select id="model" class="form-control" disabled required onchange="get_typ($(this).val())">
-                                            <option>Модель</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="hidden" name="typ" value="">
-                                        <select id="typ" class="form-control" disabled onchange="change_typ()">
-                                            <option>Модификация</option>
-                                        </select>
+                                        <input required placeholder="<?php echo lang('text_model');?>"  type="text" name="model" value="<?php echo set_value('model');?>" class="form-control">
                                     </div>
                                     <div class="form-group pull-right">
-                                       <input type="text" name="vin" class="form-control" placeholder="VIN автомобиля">
+                                       <input type="text" value="<?php echo set_value('vin');?>" name="vin" class="form-control" placeholder="<?php echo lang('text_vin');?>">
                                     </div>
                                 </div>
-
                         </div>
                     </div>
                 </div>
@@ -110,9 +94,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="row">
                 <div class="col-md-4">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Выберите дату</div>
+                        <div class="panel-heading"><?php echo lang('text_section_date_time');?></div>
                         <div class="panel-body" style="min-height: 301px;">
-                            <div id="datepicker"></div>
+                            <div class="form-group">
+                                <label>Дата</label>
+                                <div id="datepicker"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Время</label>
+                                <input required onkeyup="change_time($(this).val())" type="time" name="time" class="form-control" value="<?php echo set_value('time');?>">
+                            </div>
                             <input type="hidden" name="date" value="" required>
                             <script>
                                 ( function( factory ) {
@@ -140,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         dayNamesShort: [ "вск","пнд","втр","срд","чтв","птн","сбт" ],
                                         dayNamesMin: [ "Вс","Пн","Вт","Ср","Чт","Пт","Сб" ],
                                         weekHeader: "Нед",
-                                        dateFormat: "dd.mm.yy",
+                                        dateFormat: "yy.mm.dd",
                                         firstDay: 1,
                                         isRTL: false,
                                         showMonthAfterYear: false,
@@ -163,32 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Выберите время</div>
-                        <div class="panel-body" style="min-height: 301px;">
-                            <input type="hidden" name="time" value="" required>
-                            <div class="form-group">
-                                <label>Утро</label><br>
-                                <?php foreach ($time_morning as $time_morning){?>
-                                    <a href="#" onclick="change_time('<?php echo trim($time_morning);?>','<?php echo md5($time_morning);?>',event)">
-                                        <span id="<?php echo md5($time_morning);?>" class="label label-default"><?php echo $time_morning;?></span>
-                                    </a>
-                                <?php } ?>
-                                <hr>
-                            </div>
-                            <div class="form-group">
-                                <label>День</label><br>
-                                <?php foreach ($time_afternoon as $time_afternoon){?>
-                                    <a href="#" onclick="change_time('<?php echo trim($time_afternoon);?>','<?php echo md5($time_afternoon);?>',event)">
-                                        <span id="<?php echo md5($time_afternoon);?>" class="label label-default"><?php echo $time_afternoon;?></span>
-                                    </a>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">Контактные данные</div>
                         <div class="panel-body" style="min-height: 301px;">
@@ -226,38 +193,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </div>
 </div>
 <script>
-    function change_time(time,itemId, event){
+    function change_time(time){
         event.preventDefault();
-        $("[name='time']").val(time);
-        $(".label").removeClass('active');
-        $("#"+itemId).addClass('active');
         $("#time").html(time);
-    }
-    function get_model(ID_mfa){
-        $("[name='manufacturer']").val($("#manufacturer :selected").text());
-        $.ajax({
-           url: '/ajax/get_model',
-            data: {ID_mfa:ID_mfa},
-            method: 'post',
-            success: function (html) {
-                $("#model").html(html).removeAttr('disabled')
-            }
-        });
-    }
-
-    function get_typ(ID_mod){
-        $("[name='model']").val($("#model :selected").text());
-        $.ajax({
-            url: '/ajax/get_typ',
-            data: {ID_mod:ID_mod},
-            method: 'post',
-            success: function (html) {
-                $("#typ").html(html).removeAttr('disabled')
-            }
-        });
-    }
-
-    function change_typ(){
-        $("[name='typ']").val($("#typ :selected").text());
     }
 </script>
