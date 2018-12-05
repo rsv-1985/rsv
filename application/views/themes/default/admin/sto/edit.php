@@ -24,19 +24,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>ФИО</label>
-                            <input required type="text" class="form-control" name="name" value="<?php echo set_value('name', $record['name']); ?>" maxlength="255">
+                            <input required type="text" class="form-control" name="name" value="<?php echo set_value('name', @$record['name']); ?>" maxlength="255">
                         </div><!-- /.form group -->
                         <div class="form-group">
                             <label>Телефон</label>
-                            <input required type="text" class="form-control" name="phone" value="<?php echo set_value('phone', $record['phone']); ?>" maxlength="32">
+                            <input required type="text" class="form-control" name="phone" value="<?php echo set_value('phone', @$record['phone']); ?>" maxlength="32">
                         </div><!-- /.form group -->
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" name="email" value="<?php echo set_value('email', $record['email']); ?>" maxlength="32">
+                            <input type="email" class="form-control" name="email" value="<?php echo set_value('email', @$record['email']); ?>" maxlength="32">
                         </div><!-- /.form group -->
                         <div class="form-group">
                             <label>Комментарий</label>
-                            <textarea name="comment" class="form-control"><?php echo $record['comment'];?></textarea>
+                            <textarea name="comment" class="form-control"><?php echo @$record['comment'];?></textarea>
                         </div><!-- /.form group -->
                         <div class="well well-sm">
                             <div class="form-group">
@@ -58,19 +58,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Услуга</label>
-                            <select name="service" class="form-control">
+                            <select name="service_id" class="form-control">
                                 <?php foreach ($services as $service){?>
-                                    <option value="<?php echo $service;?>" <?php echo set_select('service',$service,$service == $record['service']);?>><?php echo $service;?></option>
+                                    <option value="<?php echo $service['id'];?>" <?php echo set_select('service_id',$service['id'],$service['id'] == $record['service_id']);?>><?php echo $service['name'];?></option>
                                 <?php } ?>
                             </select>
                         </div><!-- /.form group -->
                         <div class="form-group">
                             <label>Дата</label>
-                            <input type="text" class="form-control" name="date" value="<?php echo set_value('date', $record['date']); ?>" maxlength="255">
+                            <input type="date" class="form-control" name="date" value="<?php echo set_value('date', date('Y-m-d',strtotime($record['date']))); ?>">
                         </div><!-- /.form group -->
                         <div class="form-group">
                             <label>Время</label>
-                            <input type="text" class="form-control" name="time" value="<?php echo set_value('time', $record['time']); ?>" maxlength="255">
+                            <input type="time" class="form-control" name="time" value="<?php echo set_value('time', date('H:i',strtotime($record['date']))); ?>">
                         </div><!-- /.form group -->
                         <div class="form-group">
                             <label>Номер автомобиля</label>
@@ -89,14 +89,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <input type="model" class="form-control" name="model" value="<?php echo set_value('model', $record['model']); ?>" maxlength="255">
                         </div><!-- /.form group -->
                         <div class="form-group">
-                            <label>Тип</label>
-                            <input type="typ" class="form-control" name="typ" value="<?php echo set_value('typ', $record['typ']); ?>" maxlength="255">
-                        </div><!-- /.form group -->
-                        <div class="form-group">
                             <label>Статус</label>
-                            <select name="status" class="form-control">
+                            <select name="status_id" class="form-control">
                                 <?php foreach ($statuses as $status){?>
-                                    <option value="<?php echo $status;?>" <?php echo set_select('status',$status,$status == $record['status']);?>><?php echo $status;?></option>
+                                    <option value="<?php echo $status['id'];?>" <?php echo set_select('status_id',$status['id'],$status['id'] == $record['status_id']);?>><?php echo $status['name'];?></option>
                                 <?php } ?>
                             </select>
                         </div><!-- /.form group -->
