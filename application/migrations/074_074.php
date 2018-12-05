@@ -11,7 +11,7 @@ class Migration_074 extends CI_Migration
 
     public function up()
     {
-        $this->db->query("DROP TABLE `autox`.`ax_sto`");
+        $this->db->query("DROP TABLE `ax_sto`");
 
         $this->db->query("CREATE TABLE `ax_sto` (
   `id` int(11) NOT NULL,
