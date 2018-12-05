@@ -26,9 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     }
     .calendar .cal td {
         border: 1px solid #ecf0f5;
-        height: 150px;
+        height: 50px;
         text-align: center;
-        width: 100px;
+        width: 50px;
     }
     .calendar .cal td:hover {
         background: #f0f3f7;
@@ -58,62 +58,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </section>
     <section class="content">
         <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Календарь</h3>
-                <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Календарь</h3>
+                    </div>
+                    <div class="box-body">
+                        <?php echo $calendar;?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box-header">
+                        <h3 class="box-title">Списком</h3>
+                        <div class="pull-right">
+                            <a href="/autoxadmin/sto/create" class="btn btn-info">Добавить</a>
+                        </div>
+                    </div>
+                    <?php if($records){?>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tbody>
+                                <tr>
+                                    <th>Клиент</th>
+                                    <th>Дата</th>
+                                    <th>Статус</th>
+                                    <th>Услуга</th>
+                                    <th></th>
+                                </tr>
+                                <?php foreach ($records as $record){?>
+                                    <tr style="border-left: 10px solid <?php echo @$statuses[$record['status_id']]['color'];?>">
+                                        <td><?php echo $record['name'];?><br>
+                                            <small><?php echo $record['phone'];?><br>
+                                                <?php echo $record['email'];?></small></td>
+                                        <td>
+                                            <?php echo $record['date'];?>
+                                        </td>
+                                        <td>
+                                            <b style="color: <?php echo @$statuses[$record['status_id']]['color'];?>"><?php echo $statuses[$record['status_id']]['name'];?></b>
+                                        </td>
+                                        <td><?php echo $record['service'];?></td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <a href="/autoxadmin/sto/delete/<?php echo $record['id'];?>" class="btn btn-danger confirm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                <a href="/autoxadmin/sto/edit/<?php echo $record['id'];?>" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php echo $this->pagination->create_links();?>
+                    <?php } ?>
                 </div>
             </div>
-            <div class="box-body">
-                <?php echo $calendar;?>
-            </div>
-        </div>
-
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Списком</h3>
-            </div>
-            <?php if($records){?>
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
-                    <tbody>
-
-                            <tr>
-                                <th>ID</th>
-                                <th>Клиент</th>
-                                <th>Дата</th>
-                                <th>Статус</th>
-                                <th>Услуга</th>
-                                <th></th>
-                            </tr>
-                            <?php foreach ($records as $record){?>
-                                <tr style="border-left: 10px solid <?php echo @$statuses[$record['status']]['color'] ?? 'white';?>">
-                                    <td><?php echo $record['id'];?></td>
-                                    <td><?php echo $record['name'];?><br>
-                                    <small><?php echo $record['phone'];?><br>
-                                    <?php echo $record['email'];?></small></td>
-                                    <td>
-                                        <?php echo $record['date'].' '.$record['time'];?>
-                                    </td>
-                                    <td>
-                                        <b style="color: <?php echo @$statuses[$record['status']]['color'] ?? 'white';?>"><?php echo $record['status'];?></b>
-                                    </td>
-                                    <td><?php echo $record['service'];?></td>
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/sto/delete/<?php echo $record['id'];?>" class="btn btn-danger confirm">Удалить</a>
-                                            <a href="/autoxadmin/sto/edit/<?php echo $record['id'];?>" class="btn btn-info">Изменить</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-                <?php echo $this->pagination->create_links();?>
-             <?php } ?>
-
         </div>
     </section>
 
