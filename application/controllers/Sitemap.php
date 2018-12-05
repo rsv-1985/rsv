@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sitemap extends Front_controller{
+class Sitemap extends Admin_controller {
 
     public function __construct()
     {
