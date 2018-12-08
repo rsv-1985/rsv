@@ -29,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tr>
+                                <th>ID Категории</th>
                                 <th><?php echo lang('text_sku');?></th>
                                 <th><?php echo lang('text_brand');?></th>
                                 <th><?php echo lang('text_name');?></th>
@@ -40,6 +41,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </tr>
                             <?php echo form_open('', ['method' => 'GET', 'id' => 'filter-form']);?>
                             <tr>
+                                <td>
+                                    <input type="text" name="category_id" class="form-control" value="<?php echo $this->input->get('category_id');?>">
+                                </td>
                                 <td>
                                     <input type="text" name="sku" class="form-control" value="<?php echo $this->input->get('sku');?>">
                                 </td>
@@ -80,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <input type="hidden" name="supplier_id" value="<?php echo $product['supplier_id'];?>">
                                     <input type="hidden" name="term" value="<?php echo $product['term'];?>">
                                         <tr>
+                                            <td><?php echo $product['category_name'];?></td>
                                         <td>
                                             <?php echo $product['sku'];?>
                                             <?php if(!$this->tecdoc->getIDart($product['sku'],$product['brand'])){?>
