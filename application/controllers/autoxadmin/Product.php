@@ -32,7 +32,7 @@ class Product extends Admin_controller
         $config['per_page'] = 10;
         $data['products'] = $this->product_model->admin_product_get_all($config['per_page'], $this->uri->segment(4));
 
-        $config['total_rows'] = $this->product_model->total_rows;
+        $config['total_rows'] = $this->product_model->admin_product_get_all(false, false, true);
         $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);
