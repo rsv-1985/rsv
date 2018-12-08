@@ -53,31 +53,34 @@ class Product_model extends Default_model
         $this->db->delete('product_price');
     }
 
-    public function admin_product_get_all($limit = false, $start = false)
-    {
+    public function admin_product_get_all($limit = false, $start = false, $return_count = false){
+        $this->db->from('product_price pp');
+        $this->db->select('pp.*, p.*, c.name as category_name, s.name as supplier_name, cr.name as currency_name');
+        $this->db->join('product p', 'p.id=pp.product_id', 'left');
+        $this->db->join('category c', 'c.id = p.category_id', 'left');
+        $this->db->join('supplier s', 's.id=pp.supplier_id', 'left');
+        $this->db->join('currency cr', 'cr.id = pp.currency_id', 'left');
 
-        if (!$this->input->get()) {
-            $this->db->from('product_price');
-            $this->db->select('SQL_CALC_FOUND_ROWS *, (SELECT id FROM ax_product WHERE id = product_id) as id,(SELECT name FROM ax_product WHERE id = product_id) as name,
-            (SELECT sku FROM ax_product WHERE id = product_id) as sku,
-            (SELECT brand FROM ax_product WHERE id = product_id) as brand', false);
-        } else {
-            $this->db->from('product');
-            $this->db->select('SQL_CALC_FOUND_ROWS *', false);
-            $this->db->join('product_price', 'product_price.product_id=product.id', 'left');
+        if($this->input->get()){
             if ($this->input->get('sku')) {
-                $this->db->where('sku', $this->clear_sku($this->input->get('sku', true)));
+                $this->db->where('p.sku', $this->clear_sku($this->input->get('sku', true)));
             }
             if ($this->input->get('brand')) {
-                $this->db->where('brand', $this->input->get('brand', true));
+                $this->db->where('p.brand', $this->input->get('brand', true));
             }
             if ($this->input->get('name')) {
-                $this->db->like('name', $this->input->get('name', true));
+                $this->db->like('p.name', $this->input->get('name', true));
             }
+
+            if (isset($_GET['category_id'])) {
+                $this->db->where('p.category_id', (int)$this->input->get('category_id'));
+            }
+
             if ($this->input->get('supplier_id')) {
-                $this->db->where('supplier_id', $this->input->get('supplier_id', true));
+                $this->db->where('pp.supplier_id', $this->input->get('supplier_id', true));
             }
         }
+
 
         if ($limit && $start) {
             $this->db->limit((int)$limit, (int)$start);
@@ -85,9 +88,11 @@ class Product_model extends Default_model
             $this->db->limit((int)$limit);
         }
 
-        $query = $this->db->get();
+        if($return_count){
+            return $this->db->count_all_results();
+        }
 
-        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
