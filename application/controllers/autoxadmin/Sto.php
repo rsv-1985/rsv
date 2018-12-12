@@ -165,7 +165,7 @@ class Sto extends Admin_controller
         $save['created_at'] = date('Y-m-d H:i:s');
         $save['updated_at'] = date('Y-m-d H:i:s');
         $save['status_id'] = $status;
-        $this->sto_model->insert($save, $id);
+        $id = $this->sto_model->insert($save, $id);
 
 
         $contacts = $this->settings_model->get_by_key('contact_settings');
@@ -186,7 +186,7 @@ class Sto extends Admin_controller
 
         //Если был изменен статус и в статусе есть шаблоны смс или email
         if($new_status){
-
+            $sto_info = $this->sto_model->get($id);
             $status_info = $this->sto_model->getStatus($status);
 
             if($status_info['sms_template'] && $save['phone'] != ''){
@@ -203,6 +203,7 @@ class Sto extends Admin_controller
                     }
                     $message = str_replace('{'.$key.'}',$value, $message);
                 }
+
 
                 $this->sender->sms($save['phone'], $message);
             }
