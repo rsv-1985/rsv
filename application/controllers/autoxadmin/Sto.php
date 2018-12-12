@@ -147,6 +147,8 @@ class Sto extends Admin_controller
             if ($sto_info['status_id'] != $status) {
                 $new_status = true;
             }
+        }else{
+            $new_status = true;
         }
 
         $save = [];
