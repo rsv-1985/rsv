@@ -173,7 +173,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         </li>
                         <li> <a href="/autoxadmin/customer_pay?customer_id=<?php echo $customer['id']; ?>">Оплаты</a></li>
-                        <li><a href="/autoxadmin/customerbalance/create?customer_id=<?php echo $customer['id']; ?>">Пополнить баланс</a></li>
                         <li> <a href="/autoxadmin/customerbalance?customer_id=<?php echo $customer['id']; ?>">История баланса</a></li>
                         <li><a href="/autoxadmin/invoice?customer_id=<?php echo $customer['id']; ?>">Расходные накладные</a></li>
                     </ul>
