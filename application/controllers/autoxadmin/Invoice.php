@@ -1,0 +1,193 @@
+<?php
+/**
+ * Developer: Распутний Сергей Викторович
+ * Site: cms.autoxcatalog.com
+ * Email: sergey.rasputniy@gmail.com
+ */
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Invoice extends Admin_controller{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('invoice_model');
+        $this->load->model('order_product_model');
+    }
+
+    public function index(){
+        $data = [];
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url('autoxadmin/invoice/index');
+        $config['per_page'] = 30;
+        $data['invoices'] = $this->invoice_model->invoice_get_all($config['per_page'], $this->uri->segment(4));
+        $config['total_rows'] = $this->invoice_model->total_rows;
+        $config['reuse_query_string'] = true;
+        $this->pagination->initialize($config);
+
+        $data['statuses'] = $this->invoice_model->statuses;
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/invoice/index', $data);
+        $this->load->view('admin/footer');
+    }
+
+    public function delete_product($product_id){
+        $this->invoice_model->deleteProduct($product_id);
+        $this->session->set_flashdata('success', lang('text_success'));
+    }
+
+    private function _save_data($id = false){
+
+        $save['status_id'] = (int)$this->input->post('status_id');
+        $save['delivery_price'] = (float)$this->input->post('delivery_price');
+        $id = $this->invoice_model->insert($save, $id);
+
+        //Обновляем количество в товарах
+        if($this->input->post('products')){
+            foreach ($this->input->post('products') as $product_id => $product){
+                $this->invoice_model->updateProductQty($product_id,$product['qty']);
+            }
+        }
+
+        //Если статус инвойса проведен
+        if($save['status_id'] == 1 && $id){
+
+            $products = $this->invoice_model->getProducts($id);
+
+            if($products){
+
+                foreach ($products as $product){
+                    //Обновляем статус тоара
+                    $this->db->where('id',$product['order_product_id']);
+                    $this->db->set('status_id',(int)$this->input->post('product_status_id', true));
+                    $this->db->update('order_product');
+
+
+                    //Разбиваем товары в заказе если не соответствует количество
+                    //Если количество не соответствует в заказе
+                    if($product['quantity'] != $product['iqty']){
+
+                        $new_quantity = $product['quantity'] - $product['iqty'];
+                        //Обновляем количество в заказе
+                        $this->db->where('id',$product['order_product_id']);
+                        $this->db->set('quantity',(int)$product['iqty']);
+                        $this->db->update('order_product');
+
+                        //Добавляем товар
+                        $product = [
+                            'order_id' => $product['order_id'],
+                            'product_id' => $product['product_id'],
+                            'slug' => $product['slug'],
+                            'quantity' => $new_quantity,
+                            'delivery_price' => $product['delivery_price'] / $product['quantity'] * $new_quantity,
+                            'price' => $product['price'],
+                            'name' => $product['name'],
+                            'sku' => $product['sku'],
+                            'brand' => $product['brand'],
+                            'supplier_id' => $product['supplier_id'],
+                            'status_id' => $product['status_id'],
+                            'term' => (int)$product['term'],
+                            'excerpt' => (string)$product['excerpt']
+                        ];
+
+                        $this->order_product_model->insert($product);
+                    }
+                }
+
+                //Списываем сумму инвойса с баланса клиента
+                $invoice_total = $this->invoice_model->getTotal($id);
+                $invoice_info = $this->invoice_model->get($id);
+
+                $this->customerbalance_model->add_transaction(
+                    $invoice_info['customer_id'],
+                    $invoice_total,
+                     lang('text_invoice').' '.$id,
+                    2,
+                    date('Y-m-d H:i:s'),
+                    $this->session->userdata('user_id'),
+                    $id
+                );
+            }
+        }
+    }
+
+    public function edit($id){
+        $data['invoice_info'] = $this->invoice_model->get($id);
+        if (!$data['invoice_info']) {
+            show_404();
+        }
+
+        if($this->input->post()){
+            $this->_save_data($id);
+            $this->session->set_flashdata('success', lang('text_success'));
+            redirect('autoxadmin/invoice/edit/' . $id);
+        }
+
+        $data['customer_info'] = $this->customer_model->get($data['invoice_info']['customer_id']);
+        $data['statuses'] = $this->invoice_model->statuses;
+        $data['product_statuses'] = $this->orderstatus_model->status_get_all();
+        $data['products'] = $this->invoice_model->getProducts($id);
+
+        $data['total'] = $this->invoice_model->getTotal($id);
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/invoice/edit', $data);
+        $this->load->view('admin/footer');
+    }
+
+    public function add(){
+        $type = $this->input->post('type');
+        $data = $this->input->post('data');
+        $messages = '';
+        switch ($type){
+            case 'order':
+                $messages = $this->invoice_model->addByOrder($data);
+                break;
+            case 'item':
+                $messages = $this->invoice_model->addByItem($data);
+                break;
+            case 'filter':
+                $messages = $this->invoice_model->addByFilter($data);
+                break;
+        }
+
+        exit($messages);
+    }
+
+    public function view($id){
+        $data['invoice_info'] = $this->invoice_model->get($id);
+        $data['invoice_products'] = $this->invoice_model->getProducts($id);
+        $data['total'] = $this->invoice_model->getTotal($id);
+        $data['customer_info'] = $this->customer_model->get($data['invoice_info']['id']);
+
+        $this->load->view('customer/invoice_view', $data);
+    }
+
+    public function delete($id){
+        //Отменяем транзакцию
+        $balance_info = $this->customerbalance_model->getByInvoice($id);
+        if($balance_info){
+            $this->customerbalance_model->delete($balance_info['id']);
+            $this->session->set_flashdata('success', 'Транзакция отменена. Баланс пересчитан');
+        }
+
+        $this->invoice_model->delete($id);
+
+        redirect('/autoxadmin/invoice');
+    }
+
+    public function cancel($id){
+        //Отменяем транзакцию
+        $balance_info = $this->customerbalance_model->getByInvoice($id);
+        if($balance_info){
+            $this->customerbalance_model->delete($balance_info['id']);
+            $this->session->set_flashdata('success', 'Транзакция отменена. Баланс пересчитан');
+        }
+
+        $this->invoice_model->cancel($id);
+
+        redirect('/autoxadmin/invoice/edit/'.$id);
+    }
+}
