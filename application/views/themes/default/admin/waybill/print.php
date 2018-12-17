@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     }
 
 </style>
-<body onload="print()">
+<body>
 <div>
     <?php if ($parcels) { ?>
         <table id="t01">
@@ -89,6 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </tbody>
         </table>
     <?php } ?>
+    <button class="btn btn-default pull-right" onclick="print()">Печать</button>
 </div>
 </body>
 </html>

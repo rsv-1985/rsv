@@ -14,6 +14,10 @@ class Default_model extends CI_Model{
         return $this->table;
     }
 
+    public function fields(){
+        return $this->db->list_fields($this->table);
+    }
+
     public function count_all($where = false){
         if($where){
             foreach($where as $field => $value){

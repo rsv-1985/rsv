@@ -126,7 +126,7 @@ class Np extends CI_Controller
         }
     }
 
-    public function print(){
+    public function print_delivery(){
         $order_ttn_id = $this->input->get('id');
         $this->load->model('order_ttn_model');
         $order_ttn_info = $this->order_ttn_model->get($order_ttn_id);

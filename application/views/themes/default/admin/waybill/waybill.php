@@ -6,55 +6,57 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');?>
-<section class="content-header">
-    <h3></h3>
-    <ol class="breadcrumb">
-        <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
-        <li><a href="#"><?php echo lang('text_heading');?></a></li>
-    </ol>
-</section>
+<html>
+<head>
+    <link rel="stylesheet" href="<?php echo theme_url();?>admin/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
 <!-- Main content -->
 <section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><?php echo lang('text_heading');?></h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <tbody><tr>
-                            <th style="width: 10px">#</th>
-                            <th><?php echo lang('text_created_at');?></th>
-                            <th><?php echo lang('text_updated_at');?></th>
-                            <th><?php echo lang('text_status');?></th>
-                            <th><?php echo lang('text_notes');?></th>
-                            <th><a href="/autoxadmin/waybill/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
-                        </tr>
-                        <?php if($waybills){?>
-                            <?php foreach($waybills as $waybill){?>
-                                <tr>
-                                    <td><?php echo $waybill['id'];?></td>
-                                    <td><?php echo $waybill['created_at'];?></td>
-                                    <td><?php echo $waybill['updated_at'];?></td>
-                                    <td><?php echo $this->waybill_model->statuses[$waybill['status_id']];?></td>
-                                    <td><?php echo $waybill['notes'];?></td>
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/waybill/delete/<?php echo $waybill['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <a href="/autoxadmin/waybill/edit/<?php echo $waybill['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div><!-- /.box-body -->
-                <div class="box-footer clearfix">
-                    <?php echo $this->pagination->create_links();?>
+    <?php if($results){?>
+        <?php foreach ($results as $delivery){?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?php echo $delivery['delivery_method'];?></h3>
                 </div>
-            </div><!-- /.box -->
-        </div><!-- /.col -->
-    </div>
+                <div class="panel-body">
+                    <?php foreach ($delivery['addresses'] as $address){?>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?php echo $address['telephone'];?><br>
+                                <?php echo $address['last_name'];?> <?php echo $address['first_name'];?> <br>
+                                <?php echo $address['address'];?>
+                            </div>
+                            <div class="col-md-8">
+                                <table border="1px" style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Артикул</th>
+                                        <th>Бренд</th>
+                                        <th>Название</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    </thead>
+                                    <?php foreach ($address['products'] as $product){?>
+                                        <tr>
+                                            <td><?php echo $product['sku'];?></td>
+                                            <td><?php echo $product['brand'];?></td>
+                                            <td><?php echo $product['name'];?></td>
+                                            <td><?php echo $product['quantity'];?></td>
+                                        </tr>
+                                    <? } ?>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                    <?php } ?>
+                </div>
+            </div>
+            <div style="page-break-before:always;">
+        <?php } ?>
+    <?php } ?>
+                <button class="btn btn-default pull-right" onclick="this.remove();print();">Печать</button>
 </section><!-- /.content -->
+</body>
+</html>

@@ -25,20 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?php echo lang('text_heading');?></h3>
-                    <?php if($status_totals){?>
-                        <div class="pull-right" style="text-align: right">
-                            <?php foreach ($status as $stid => $v){
-                                if(isset($status_totals['sum_'.$stid])){
-                                    echo '<small style="color:'.$v['color'].'">'.$v['name'].':</small>'.$status_totals['sum_'.$stid].' ';
-                                }
-                            }?>
-                        </div>
-                    <?php } ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-
-                        <a style="color: green" href="/autoxadmin/order">Заказы</a> /
-                        <a href="/autoxadmin/order/products">Отобразить товары в заказах</a>
                     <div class="table-responsive">
                         <table class="table table-condensed">
                             <tbody><tr>
@@ -52,7 +40,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_status');?></th>
                                 <th><?php echo lang('text_product_status');?></th>
                                 <th><?php echo lang('text_total');?></th>
-                                <th><?php echo lang('text_paid');?></th>
                                 <th><a href="/autoxadmin/order/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
                             <?php echo form_open('/autoxadmin/order/index',['method' => 'GET']);?>
@@ -112,15 +99,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <div class="form-group">
-                                        <select name="paid" class="form-control">
-                                            <option></option>
-                                            <option value="false" <?php if($this->input->get('paid') == 'false'){?>selected<?php } ?>>Не оплачен</option>
-                                            <option value="true" <?php if($this->input->get('paid') == 'true'){?>selected<?php } ?>>Оплачен</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td>
                                     <div class="btn-group">
                                         <a href="/autoxadmin/order" type="button" class="btn btn-link" title="<?php echo lang('button_reset');?>"><i class="fa fa-times" aria-hidden="true"></i></a>
                                         <button type="submit" class="btn btn-link pull-right" title="<?php echo lang('button_search');?>"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -137,14 +115,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <?php if( $order['customer_id']){?>
-                                                <a target="_blank" href="/autoxadmin/customerbalance/create?customer_id=<?php echo $order['customer_id'];?>">
+                                                <a href="/autoxadmin/customerbalance/create?customer_id=<?php echo $order['customer_id'];?>">
                                                     <?php echo format_balance($order['balance']);?>
                                                 </a>
                                             <?php } ?>
                                         </td>
                                         <td>
                                         <?php if($order['customer_id']){?>
-                                                <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['last_name'];?></a>
+                                                <a href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['last_name'];?></a>
 
                                             <?php }else{?>
                                             <?php echo $order['last_name'];?>
@@ -175,16 +153,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td>
                                             <b><?php echo $order['total'];?></b><br />
                                         </td>
-                                        <td>
-                                            <?php if($order['paid']){?>
-                                                <small style="color: green;"><?php echo lang('text_paid');?></small>
-                                            <?php } ?>
-                                            <?php if($order['prepayment'] > 0){?>
-                                                <br><small style="color: grey;">Предоплата:<?php echo $order['prepayment'];?></small>
-                                            <?php } ?>
-                                        </td>
-                                        <td style="width: 92px;">
+                                        <td style="width: 130px;">
                                             <div class="btn-group">
+                                                <button type="button" onclick="addInvoiceByOrder(<?php echo $order['id'];?>)" class="btn btn-success" title="<?php echo lang('button_invoice');?>"><i class="fa fa-file-text-o"></i></button>
                                                 <a href="/autoxadmin/order/delete/<?php echo $order['id'];?>" class="confirm btn btn-danger" title="<?php echo lang('button_delete');?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                 <a href="/autoxadmin/order/edit/<?php echo $order['id'];?>" class="btn btn-info" title="<?php echo lang('button_view');?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                             </div>

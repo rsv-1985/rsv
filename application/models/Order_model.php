@@ -10,69 +10,54 @@ class Order_model extends Default_model{
 
     public $total_rows = 0;
 
-    public function get_status_totals($statuses){
-        if($statuses){
-            foreach ($statuses as $status_id => $value){
-                $sql = "(SELECT SUM(total) FROM ax_order LEFT JOIN ax_customer ON ax_customer.id = ax_order.customer_id WHERE ax_order.status ='".$status_id."'";
-                if($this->input->get()) {
-                    if ($this->input->get('id')) {
-                        $sql .= " AND ax_order.id = '".(int)$this->input->get('id', true)."'";
-                    }
-                    if ($this->input->get('first_name')) {
-                        $sql .= " AND ax_order.first_name LIKE '%".$this->input->get('first_name', true)."%'";
-                    }
-                    if ($this->input->get('last_name')) {
-                        $sql .= " AND ax_order.last_name LIKE '%".$this->input->get('last_name', true)."%'";
-                    }
-                    if ($this->input->get('email')) {
-                        $sql .= " AND ax_order.email LIKE '%".$this->input->get('email', true)."%'";
-                    }
-                    if ($this->input->get('telephone')) {
-                        $sql .= " AND ax_order.telephone LIKE '%".$this->input->get('telephone', true)."%'";
-                    }
-                    if ($this->input->get('delivery_method_id')) {
-                        $sql .= " AND ax_order.delivery_method_id = '".(int)$this->input->get('delivery_method_id', true)."'";
-                    }
-                    if ($this->input->get('payment_method_id')) {
-                        $sql .= " AND ax_order.payment_method_id = '".(int)$this->input->get('payment_method_id', true)."'";
-                    }
-                }
-                $sql .= ") as sum_".$status_id;
-                $this->db->select($sql);
-            }
-           
-            $query = $this->db->get($this->table);
-
-            return $query->row_array();
-        }
-
-        return false;
-    }
-
     public function order_get_all_products($limit, $start){
-        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
-        $this->db->from('order_product');
+        $this->db->select('SQL_CALC_FOUND_ROWS op.*, ip.invoice_id, o.status, c.id as customer_id, CONCAT_WS(" ", c.first_name, c.second_name) as customer_name', false);
+        $this->db->from('order_product op');
+        $this->db->join('order o','op.order_id=o.id', 'left');
+        $this->db->join('customer c','o.customer_id=c.id', 'left');
+        $this->db->join('invoice_product ip','op.id=ip.product_id', 'left');
         if($this->input->get()){
+            if($this->input->get('customer_name')){
+                $this->db->group_start();
+                $phone = format_phone($this->input->get('customer_name'));
+                if($phone){
+                    $this->db->or_like('o.phone', $phone);
+                }
+
+                $this->db->or_like('o.first_name', $this->input->get('customer_name',true), 'both');
+                $this->db->or_like('o.last_name',  $this->input->get('customer_name',true), 'both');
+                $this->db->or_like('o.patronymic',  $this->input->get('customer_name',true), 'both');
+                $this->db->or_like('o.email',  $this->input->get('customer_name',true), 'both');
+                $this->db->group_end();
+            }
+
+            if($this->input->get('customer_id')){
+                $this->db->where('o.customer_id', (int)$this->input->get('customer_id'));
+            }
+
             if($this->input->get('order_id')){
-                $this->db->where('order_id', (int)$this->input->get('order_id'));
+                $this->db->where('o.order_id', (int)$this->input->get('order_id'));
             }
             if($this->input->get('name')){
-                $this->db->like('name', $this->input->get('name', true));
+                $this->db->like('op.name', $this->input->get('name', true));
             }
             if($this->input->get('sku')){
-                $this->db->where('sku', $this->input->get('sku', true));
+                $this->db->where('op.sku', $this->product_model->clear_sku($this->input->get('sku', true)));
             }
             if($this->input->get('brand')){
-                $this->db->where('brand', $this->input->get('brand', true));
+                $this->db->where('op.brand', $this->input->get('brand', true));
             }
             if($this->input->get('quantity')){
-                $this->db->where('quantity', (int)$this->input->get('quantity'));
+                $this->db->where('op.quantity', (int)$this->input->get('quantity'));
             }
             if($this->input->get('supplier_id')){
-                $this->db->where('supplier_id', (int)$this->input->get('supplier_id'));
+                $this->db->where_in('op.supplier_id', (array)$this->input->get('supplier_id'));
             }
             if($this->input->get('status_id')){
-                $this->db->where('status_id', (int)$this->input->get('status_id'));
+                $this->db->where('o.status', (int)$this->input->get('status_id'));
+            }
+            if($this->input->get('product_status_id')){
+                $this->db->where('op.status_id', (int)$this->input->get('product_status_id'));
             }
         }
         if($limit && $start){
@@ -80,7 +65,7 @@ class Order_model extends Default_model{
         }elseif($limit){
             $this->db->limit((int)$limit);
         }
-        $this->db->order_by('order_id', 'DESC');
+        $this->db->order_by('id', 'DESC');
         $query = $this->db->get();
         $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
         if ($query->num_rows() > 0) {
@@ -93,6 +78,10 @@ class Order_model extends Default_model{
         $this->db->from($this->table);
         $this->db->join('customer', 'customer.id = order.customer_id', 'left');
         if($this->input->get()){
+            if($this->input->get('customer_id')){
+                $this->db->where('ax_order.customer_id', (int)$this->input->get('customer_id', true));
+            }
+
             if($this->input->get('id')){
                 $this->db->where('ax_order.id', (int)$this->input->get('id', true));
             }
@@ -117,16 +106,6 @@ class Order_model extends Default_model{
             if($this->input->get('status')){
                 $this->db->where('ax_order.status', (int)$this->input->get('status', true));
             }
-
-            if(isset($_GET['paid'])){
-                if($_GET['paid'] == 'true'){
-                    $this->db->where('ax_order.paid', true);
-                }
-
-                if($_GET['paid'] == 'false'){
-                    $this->db->where('ax_order.paid', false);
-                }
-            }
         }
         if($limit && $start){
             $this->db->limit((int)$limit, (int)$start);
@@ -141,6 +120,7 @@ class Order_model extends Default_model{
         }
         return false;
     }
+
     //customer order info
     public function order_get($id){
         $this->db->select('o.*,d.name as delivery_name, p.name as payment_name, s.name as status_name', true);
@@ -176,5 +156,18 @@ class Order_model extends Default_model{
             return $query->result_array();
         }
         return false;
+    }
+
+    public function getSubtotal($id){
+
+        $sql = "SELECT SUM(op.quantity*op.price) as sub_total FROM ax_order_product op WHERE op.order_id = '".(int)$id."'";
+
+        $return_order_statuses = $this->orderstatus_model->get_return();
+
+        if($return_order_statuses){
+            $sql .= " AND op.status_id NOT IN ('".implode("','",$return_order_statuses)."')";
+        }
+
+        return $this->db->query($sql)->row_array()['sub_total'];
     }
 }

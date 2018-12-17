@@ -122,6 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="pull-right">
                     <?php if ($this->is_login) { ?>
                         <a href="/customer">
+                            ID:<?php echo $this->customer_model->id;?>
                             <?php echo $this->customer_model->first_name . ' ' . $this->customer_model->second_name; ?>
                             <?php echo format_balance($this->customer_model->balance); ?>
                         </a>/

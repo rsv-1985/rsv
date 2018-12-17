@@ -37,7 +37,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                         </div><!-- /.input group -->
                     </div><!-- /.form group -->
-
+                    <div class="form-group">
+                        <label>Сортировка</label>
+                        <input type="text" class="form-control" name="sort_order" value="<?php echo set_value('sort_order');?>">
+                    </div><!-- /.form group -->
                     <div class="form-group">
                         <div class="checkbox">
                             <label>

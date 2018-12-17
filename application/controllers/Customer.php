@@ -23,46 +23,6 @@ class Customer extends Front_controller
         $this->load->library('sender');
     }
 
-    public function pay($order_id)
-    {
-        $this->customer_model->is_login('/customer/login');
-        $orderInfo = $this->order_model->get($order_id);
-        if (!$orderInfo || $orderInfo['customer_id'] != $this->session->userdata('customer_id')) {
-            $this->session->set_flashdata('error', 'Заказ не найтед');
-            redirect('/customer');
-        }
-
-        if (!$this->customer_model->negative_balance && $this->customer_model->balance < $orderInfo['total']) {
-            $this->session->set_flashdata('error', 'Не достаточно средств для оплаты.');
-            redirect('/customer');
-        }
-
-        if($orderInfo['paid']){
-            $this->session->set_flashdata('success', 'Заказ оплачен');
-            redirect('/customer');
-        }
-
-        if ($this->customerbalance_model->add_transaction($this->session->userdata('customer_id'),$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
-            //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
-            $save3['paid'] = 1;
-            $save3['payment_method_id'] = 0;
-
-            $this->order_model->insert($save3, $orderInfo['id']);
-
-            //Комментарий к заказу
-            $this->load->model('order_history_model');
-            $history['order_id'] = $order_id;
-            $history['date'] = date("Y-m-d H:i:s");
-            $history['text'] = 'Оплата заказа c баланса. Сумма '.$orderInfo['total'];
-            $history['user_id'] = 0;
-            $this->order_history_model->insert($history);
-
-        }
-        $this->session->set_flashdata('success', 'Заказ успешно оплачен');
-
-        redirect('/customer');
-    }
-
     public function index()
     {
         $this->customer_model->is_login('/customer/login');
@@ -345,11 +305,29 @@ class Customer extends Front_controller
             $this->load->model('customer_model');
             $customer_info = $this->customer_model->get($this->is_login);
             if($customer_info){
-                $subject = 'Сообщение об оплате';
-                $text = 'Клиент ID :'.$customer_info['id'].'<br>Сумма:'.$this->input->post('sum',true).'<br>Комментарий:'.$this->input->post('comment',true);
-                $this->sender->email($subject,$text,$this->contacts['email'],$this->contacts['email']);
-                $this->session->set_flashdata('success', 'Сообщение отправлено');
-                redirect('customer/balance');
+                $this->form_validation->set_rules('sum', 'Сумма', 'required|numeric');
+                $this->form_validation->set_rules('date', 'Дата и время', 'required');
+                $this->form_validation->set_rules('time', 'Дата и время', 'required');
+
+                if ($this->form_validation->run() !== false){
+                    $this->load->model('customer_pay_model');
+                    $save['customer_id'] = (int)$customer_info['id'];
+                    $save['amount'] = (float)$this->input->post('sum',true);
+                    $save['transaction_date'] = date("Y-m-d H:i:s",strtotime($this->input->post('date', true).' '.$this->input->post('time', true)));
+                    $save['comment'] = (string)$this->input->post('comment', true);
+
+                    $this->customer_pay_model->insert($save);
+
+                    $subject = 'Сообщение об оплате';
+                    $text = 'Клиент ID :'.$customer_info['id'].'<br>Сумма:'.$this->input->post('sum',true).'<br>Комментарий:'.$this->input->post('comment',true);
+                    $this->sender->email($subject,$text,$this->contacts['email'],$this->contacts['email']);
+                    $this->session->set_flashdata('success', 'Сообщение отправлено');
+                    redirect('customer/balance');
+                }else{
+                    $this->error = validation_errors();
+                }
+
+
             }
         }
         $this->load->model('customerbalance_model');
@@ -370,9 +348,12 @@ class Customer extends Front_controller
 
     public function products(){
         $this->customer_model->is_login('/customer/login');
+
         $this->load->model('orderstatus_model');
         $this->load->model('order_product_model');
+
         $data = [];
+
         $data['statuses'] = $this->orderstatus_model->status_get_all();
 
         $config['base_url'] = base_url('customer/products');
@@ -381,38 +362,13 @@ class Customer extends Front_controller
         $config['total_rows'] = $this->order_product_model->total_rows;
         $config['reuse_query_string'] = true;
 
+        $data['status_totals'] = $this->order_product_model->get_status_totals($data['statuses'], $this->is_login);
+
         $this->pagination->initialize($config);
 
 
         $this->load->view('header');
         $this->load->view('customer/products', $data);
-        $this->load->view('footer');
-    }
-
-    public function print_parcel($parcel_id){
-        $this->customer_model->is_login('/customer/login');
-        $this->load->model('waybill_model');
-        $data['parcel'] = $this->waybill_model->get_parcel($parcel_id);
-        if(!$data['parcel'] || $this->is_login != $data['parcel']['customer_id']){
-            show_404();
-        }
-        $data['products'] = $this->waybill_model->get_parcel_products($parcel_id);
-        $this->load->view('customer/print_parcel',$data);
-    }
-
-    public function parcels(){
-        $this->customer_model->is_login('/customer/login');
-        $this->load->model('waybill_model');
-        $data = [];
-        $config['base_url'] = base_url('customer/parcels');
-        $config['per_page'] = 20;
-        $data['parcels'] = $this->waybill_model->get_parcels_by_customer($this->is_login,$config['per_page'], $this->uri->segment(3));
-        $config['total_rows'] = $this->waybill_model->total_parcels;
-
-        $this->pagination->initialize($config);
-
-        $this->load->view('header');
-        $this->load->view('customer/parcels', $data);
         $this->load->view('footer');
     }
 
@@ -477,32 +433,89 @@ class Customer extends Front_controller
 
     public function login()
     {
+
         $json = [];
         $this->load->language('customer');
         $this->form_validation->set_rules('password', lang('text_password'), 'required|trim');
+        if($this->input->post()){
+            if ($this->form_validation->run() !== false) {
 
-        if ($this->form_validation->run() !== false) {
+                if($this->input->post('phone')){
+                    $login = $this->input->post('phone', true);
+                }
 
-            if($this->input->post('phone')){
-                $login = $this->input->post('phone', true);
-            }
+                if($this->input->post('email')){
+                    $login = $this->input->post('email', true);
+                }
 
-            if($this->input->post('email')){
-                $login = $this->input->post('email', true);
-            }
-
-            $password = $this->input->post('password', true);
-            if ($this->customer_model->login($login, $password)) {
-                $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
-                $json['success'] = true;
+                $password = $this->input->post('password', true);
+                if ($this->customer_model->login($login, $password)) {
+                    $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
+                    $json['success'] = true;
+                } else {
+                    $json['error'] = lang('text_error');
+                }
             } else {
-                $json['error'] = lang('text_error');
+                $json['error'] = validation_errors();
             }
-        } else {
-            $json['error'] = validation_errors();
+
+            if($this->input->is_ajax_request()){
+                exit(json_encode($json));
+            }else{
+                redirect('/customer/login');
+            }
         }
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
+
+        $this->load->view('header');
+        $this->load->view('customer/login');
+        $this->load->view('footer');
+    }
+
+    public function invoices(){
+        $this->customer_model->is_login('/customer/login');
+
+        $this->load->model('invoice_model');
+
+        $data = [];
+        $config['base_url'] = base_url('customer/invoices');
+        $config['total_rows'] = $this->invoice_model->count_all(['customer_id' => $this->is_login]);
+        $config['per_page'] = 20;
+
+        $this->pagination->initialize($config);
+
+        $data['invoices'] = $this->invoice_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login],['id' => 'DESC']);
+        if($data['invoices']){
+            foreach ($data['invoices'] as &$invoice){
+                $invoice['total'] = $this->invoice_model->getTotal($invoice['id']);
+            }
+        }
+
+        $data['statuses'] = $this->invoice_model->statuses;
+
+        $this->load->view('header');
+        $this->load->view('customer/invoices', $data);
+        $this->load->view('footer');
+    }
+
+    public function invoice($id){
+        $this->load->model('invoice_model');
+
+        $data['invoice_info'] = $this->invoice_model->get($id);
+
+        if($data['invoice_info']['customer_id'] != $this->customer_model->id){
+            show_404();
+        }
+        $data['invoice_products'] = $this->invoice_model->getProducts($id);
+        $data['total'] = $this->invoice_model->getTotal($id);
+        $data['customer_info'] = $this->customer_model->get($data['invoice_info']['id']);
+
+        $this->load->view('customer/invoice_view', $data);
+    }
+
+    public function pay($id){
+        $this->load->model('customer_pay_model');
+        $data['pay_info'] = $this->customer_pay_model->get($id);
+        print_r($data['pay_info']);
+        exit($id);
     }
 }

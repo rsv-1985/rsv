@@ -22,15 +22,21 @@ class Orderstatus_model extends Default_model{
     }
 
     public function get_return(){
+        $return = [];
         $this->db->where('is_return', true);
         $query = $this->db->get($this->table);
         if($query->num_rows() > 0){
-            return $query->row_array();
+            $results = $query->result_array();
+            foreach ($results as $result){
+                $return[] = $result['id'];
+            }
+            return $return;
         }
         return false;
     }
 
     public function status_get_all(){
+        $this->db->order_by('sort_order', 'ASC');
         $statuses = $this->db->get($this->table)->result_array();
         $return = [];
         foreach($statuses as $status){

@@ -24,7 +24,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <!-- Nav tabs -->
 
 
-
     <!-- title row -->
     <div class="row">
         <div class="col-xs-12">
@@ -111,17 +110,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </select>
                     </div>
                     <input type="hidden" name="customer_id" value="<?php echo $order['customer_id']; ?>">
-                    <?php if($order['customer_id']){?>
+                    <?php if ($order['customer_id']) { ?>
                         <div class="form-group">
                             <label>Клиент</label>
-                            <br><a target="_blank" href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $customer_info['first_name'].' '.$customer_info['second_name'];?></a>
-                            <?php if($black_list_info){?>
-                                <p class="label label-danger">! <?php echo $black_list_info['comment'];?></p>
-                            <?php }else{?>
-                                <a href="#" onclick="addBlack(event)" class="btn btn-xs btn-default pull-right"> В черный список</a>
+                            <br><a target="_blank"
+                                   href="/autoxadmin/customer/edit/<?php echo $order['customer_id']; ?>"><?php echo $customer_info['first_name'] . ' ' . $customer_info['second_name']; ?></a>
+                            <?php if ($black_list_info) { ?>
+                                <p class="label label-danger">! <?php echo $black_list_info['comment']; ?></p>
+                            <?php } else { ?>
+                                <a href="#" onclick="addBlack(event)" class="btn btn-xs btn-default pull-right"> В
+                                    черный список</a>
                             <?php } ?>
-                            <br>Баланс: <small><?php echo $customer_info['balance'];?></small>
-
+                            <br>Баланс: <?php echo format_balance($customer_info['balance']); ?>
                         </div>
                     <?php } ?>
                 </div><!-- /.col -->
@@ -158,87 +158,251 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tr>
                         </thead>
                         <tbody id="order-products">
-                        <?php $row = 0;
-                        $subtotal = 0; ?>
+                        <?php $row = 0; ?>
                         <?php if ($products) { ?>
                             <?php foreach ($products as $product) { ?>
-                                <tr id="row<?php echo $product['id']; ?>"
-                                    style="color: <?php echo @$status[$product['status_id']]['color']; ?>;">
-                                    <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
-                                           value="<?php echo $product['slug']; ?>">
-                                    <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
-                                           value="<?php echo $product['product_id']; ?>"/>
-                                    <td style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color']; ?>">
-                                        <select name="products[<?php echo $product['id']; ?>][supplier_id]"
-                                                class="form-control">
-                                            <?php foreach ($supplier as $sp) { ?>
-                                                <option value="<?php echo $sp['id']; ?>"
-                                                        <?php if ($product['supplier_id'] == $sp['id']){ ?>selected<?php } ?>><?php echo $sp['name']; ?></option>
+                                <?php if(!$product['invoice_id']){?>
+                                    <tr id="row<?php echo $product['id']; ?>">
+                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
+                                               value="<?php echo $product['slug']; ?>">
+                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
+                                               value="<?php echo $product['product_id']; ?>"/>
+                                        <td style="border-left:  2px solid <?php echo @$status[$product['status_id']]['color']; ?>;">
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input type="hidden"
+                                                       name="products[<?php echo $product['id']; ?>][supplier_id]"
+                                                       value="<?php echo $product['supplier_id']; ?>">
+                                                <?php echo $supplier[$product['supplier_id']]['name']; ?>
+                                            <?php } else { ?>
+                                                <select name="products[<?php echo $product['id']; ?>][supplier_id]"
+                                                        class="form-control">
+                                                    <?php foreach ($supplier as $sp) { ?>
+                                                        <option value="<?php echo $sp['id']; ?>"
+                                                                <?php if ($product['supplier_id'] == $sp['id']){ ?>selected<?php } ?>><?php echo $sp['name']; ?></option>
+                                                    <?php } ?>
+                                                </select>
                                             <?php } ?>
-                                        </select>
-                                    <td>
-                                        <?php echo $product['name']; ?>
-                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
-                                               value="<?php echo $product['name']; ?>">
-                                    </td>
-                                    <td>
-                                        <?php echo $product['sku']; ?>
-                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][sku]"
-                                               value="<?php echo $product['sku']; ?>">
-                                    </td>
-                                    <td>
-                                        <?php echo $product['brand']; ?>
-                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][brand]"
-                                               value="<?php echo $product['brand']; ?>">
-                                    </td>
-                                    <td>
-                                        <?php echo @format_term($product['term']); ?>
-                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
-                                               value="<?php echo $product['term']; ?>">
-                                    </td>
-                                    <td>
-                                        <?php echo $product['excerpt']; ?>
-                                    </td>
-                                    <td>
-                                        <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
-                                               id="qty<?php echo $product['id']; ?>"
-                                               name="products[<?php echo $product['id']; ?>][quantity]" type="text"
-                                               value="<?php echo $product['quantity']; ?>" class="form-control"
-                                               style="width: 80px;">
-                                    </td>
-                                    <td>
-                                        <input
-                                                name="products[<?php echo $product['id']; ?>][delivery_price]"
-                                                type="text"
-                                                value="<?php echo $product['delivery_price']; ?>" class="form-control"
-                                                style="width: 100px;">
-                                    </td>
-                                    <td>
-                                        <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
-                                               id="price<?php echo $product['id']; ?>"
-                                               name="products[<?php echo $product['id']; ?>][price]" type="text"
-                                               value="<?php echo $product['price']; ?>" class="form-control"
-                                               style="width: 100px;">
-                                    </td>
-                                    <td><span
-                                                id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
-                                            $subtotal += $product['quantity'] * $product['price']; ?></span></td>
-                                    <td>
-                                        <select name="products[<?php echo $product['id']; ?>][status_id]"
-                                                class="form-control">
-                                            <?php foreach ($status as $st) { ?>
-                                                <option
-                                                        value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
+                                        <td>
+                                            <?php echo $product['name']; ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
+                                                   value="<?php echo $product['name']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $product['sku']; ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][sku]"
+                                                   value="<?php echo $product['sku']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $product['brand']; ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][brand]"
+                                                   value="<?php echo $product['brand']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo @format_term($product['term']); ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
+                                                   value="<?php echo $product['term']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $product['excerpt']; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input type="hidden"
+                                                       name="products[<?php echo $product['id']; ?>][quantity]"
+                                                       value="<?php echo $product['quantity']; ?>">
+                                                <?php echo $product['quantity']; ?>
+                                            <?php } else { ?>
+                                                <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                                       id="qty<?php echo $product['id']; ?>"
+                                                       name="products[<?php echo $product['id']; ?>][quantity]" type="text"
+                                                       value="<?php echo $product['quantity']; ?>" class="form-control"
+                                                       style="width: 80px;">
                                             <?php } ?>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-xs btn-danger confirm"
-                                           href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id']; ?>">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+
+                                        </td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input name="products[<?php echo $product['id']; ?>][delivery_price]"
+                                                       type="hidden" value="<?php echo $product['delivery_price']; ?>">
+                                                <?php echo $product['delivery_price']; ?>
+                                            <?php } else { ?>
+                                                <input
+                                                        name="products[<?php echo $product['id']; ?>][delivery_price]"
+                                                        type="text"
+                                                        value="<?php echo $product['delivery_price']; ?>"
+                                                        class="form-control"
+                                                        style="width: 100px;">
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input name="products[<?php echo $product['id']; ?>][price]" type="hidden"
+                                                       value="<?php echo $product['price']; ?>">
+                                                <?php echo $product['price']; ?>
+                                            <?php } else { ?>
+                                                <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                                       id="price<?php echo $product['id']; ?>"
+                                                       name="products[<?php echo $product['id']; ?>][price]" type="text"
+                                                       value="<?php echo $product['price']; ?>" class="form-control"
+                                                       style="width: 100px;">
+                                            <?php } ?>
+                                        </td>
+                                        <td><span
+                                                    id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
+                                                ?></span></td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input type="hidden"
+                                                       name="products[<?php echo $product['id']; ?>][status_id]"
+                                                       value="<?php echo $product['status_id']; ?>">
+                                                <?php echo $status[$product['status_id']]['name']; ?>
+                                            <?php } else { ?>
+                                                <select
+                                                        style="border:  1px solid <?php echo @$status[$product['status_id']]['color']; ?>;"
+                                                        name="products[<?php echo $product['id']; ?>][status_id]"
+                                                        class="form-control">
+                                                    <?php foreach ($status as $st) { ?>
+                                                        <option
+                                                                style="color: <?php echo @$st['color']; ?>;"
+                                                                value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if($product['invoice_id']){?>
+                                                <a href="/autoxadmin/invoice/edit/<?php echo $product['invoice_id'];?>"><?php echo lang('text_invoice');?> <?php echo $product['invoice_id'];?></a>
+                                            <?php }else{?>
+                                                <a class="btn btn-danger confirm"
+                                                   href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id']; ?>">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            <?php } ?>
+
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                                <?php $row++;
+                            } ?>
+                            <?php foreach ($products as $product) { ?>
+                                <?php if($product['invoice_id']){?>
+                                    <tr id="row<?php echo $product['id']; ?>">
+                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
+                                               value="<?php echo $product['slug']; ?>">
+                                        <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
+                                               value="<?php echo $product['product_id']; ?>"/>
+                                        <td style="border-left:  2px solid <?php echo @$status[$product['status_id']]['color']; ?>;">
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input type="hidden"
+                                                       name="products[<?php echo $product['id']; ?>][supplier_id]"
+                                                       value="<?php echo $product['supplier_id']; ?>">
+                                                <?php echo @$supplier[$product['supplier_id']]['name']; ?>
+                                            <?php } else { ?>
+                                                <select name="products[<?php echo $product['id']; ?>][supplier_id]"
+                                                        class="form-control">
+                                                    <?php foreach ($supplier as $sp) { ?>
+                                                        <option value="<?php echo $sp['id']; ?>"
+                                                                <?php if ($product['supplier_id'] == $sp['id']){ ?>selected<?php } ?>><?php echo $sp['name']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            <?php } ?>
+                                        <td>
+                                            <?php echo $product['name']; ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][name]"
+                                                   value="<?php echo $product['name']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $product['sku']; ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][sku]"
+                                                   value="<?php echo $product['sku']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $product['brand']; ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][brand]"
+                                                   value="<?php echo $product['brand']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo @format_term($product['term']); ?>
+                                            <input type="hidden" name="products[<?php echo $product['id']; ?>][term]"
+                                                   value="<?php echo $product['term']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $product['excerpt']; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input type="hidden"
+                                                       name="products[<?php echo $product['id']; ?>][quantity]"
+                                                       value="<?php echo $product['quantity']; ?>">
+                                                <?php echo $product['quantity']; ?>
+                                            <?php } else { ?>
+                                                <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                                       id="qty<?php echo $product['id']; ?>"
+                                                       name="products[<?php echo $product['id']; ?>][quantity]" type="text"
+                                                       value="<?php echo $product['quantity']; ?>" class="form-control"
+                                                       style="width: 80px;">
+                                            <?php } ?>
+
+                                        </td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input name="products[<?php echo $product['id']; ?>][delivery_price]"
+                                                       type="hidden" value="<?php echo $product['delivery_price']; ?>">
+                                                <?php echo $product['delivery_price']; ?>
+                                            <?php } else { ?>
+                                                <input
+                                                        name="products[<?php echo $product['id']; ?>][delivery_price]"
+                                                        type="text"
+                                                        value="<?php echo $product['delivery_price']; ?>"
+                                                        class="form-control"
+                                                        style="width: 100px;">
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input name="products[<?php echo $product['id']; ?>][price]" type="hidden"
+                                                       value="<?php echo $product['price']; ?>">
+                                                <?php echo $product['price']; ?>
+                                            <?php } else { ?>
+                                                <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
+                                                       id="price<?php echo $product['id']; ?>"
+                                                       name="products[<?php echo $product['id']; ?>][price]" type="text"
+                                                       value="<?php echo $product['price']; ?>" class="form-control"
+                                                       style="width: 100px;">
+                                            <?php } ?>
+                                        </td>
+                                        <td><span
+                                                    id="row_subtotal<?php echo $product['id']; ?>"><?php echo $product['quantity'] * $product['price'];
+                                                ?></span></td>
+                                        <td>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <input type="hidden"
+                                                       name="products[<?php echo $product['id']; ?>][status_id]"
+                                                       value="<?php echo $product['status_id']; ?>">
+                                                <?php echo $status[$product['status_id']]['name']; ?>
+                                            <?php } else { ?>
+                                                <select name="products[<?php echo $product['id']; ?>][status_id]"
+                                                        class="form-control">
+                                                    <?php foreach ($status as $st) { ?>
+                                                        <option
+                                                                value="<?php echo $st['id']; ?>" <?php echo set_select('products[' . $row . '][status_id]', $st['id'], $st['id'] == $product['status_id']); ?>><?php echo $st['name']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if($product['invoice_id']){?>
+                                                <a href="/autoxadmin/invoice/edit/<?php echo $product['invoice_id'];?>"><?php echo lang('text_invoice');?> <?php echo $product['invoice_id'];?></a>
+                                            <?php }else{?>
+                                                <a class="btn btn-danger confirm"
+                                                   href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id']; ?>">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            <?php } ?>
+
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                                 <?php $row++;
                             } ?>
                         <?php } ?>
@@ -337,58 +501,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <th><?php echo lang('text_revenue'); ?></th>
-                                <td>
-                                    <div class="form-group" id="revenue"></div>
-                                </td>
-                            </tr>
-
                         </table>
-                        <div class="well well-sm">
-                            <b>Данные по оплате</b>
-                            <table class="table">
-                                <tr>
-                                    <td>Предоплата</td>
-                                    <td><input type="text" name="prepayment"
-                                               value="<?php echo set_value('prepayment', $order['prepayment']); ?>"
-                                               class="form-control" placeholder="предоплата"></td>
-                                </tr>
-                                <tr>
-                                    <td>Статус оплаты</td>
-                                    <td>
-                                        <select class="form-control" name="paid">
-                                            <option <?php echo set_select('paid', 0, (bool)$order['paid']); ?>
-                                                    value="0">Не
-                                                оплачен
-                                            </option>
-                                            <option <?php echo set_select('paid', 1, (bool)$order['paid']); ?>
-                                                    value="1">
-                                                Оплачен
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <?php if (!$order['paid']) { ?>
-                                    <tr>
-                                        <td>Остаток оплаты</td>
-                                        <td>
-                                            <?php echo round($order['total'] - $order['prepayment'], 2); ?>
-                                            <?php if ($order['customer_id']) { ?>
-                                                <a id="pay" href="/autoxadmin/order/pay/<?php echo $order['id']; ?>"
-                                                   class="pull-right">Оплатить с баланса покупателя
-                                                    (<?php echo $customer_info['balance']; ?>)</a>
-                                            <?php } ?>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </table>
-                        </div>
                         <div class="pull-right">
+                            <button onclick="addInvoiceByOrder(<?php echo $order['id']; ?>);" class="btn btn-success"
+                                    title="<?php echo lang('button_invoice'); ?>"><i class="fa fa-file-text-o"></i>
+                            </button>
                             <button class="btn btn-info btn-flat"
                                     type="submit"><?php echo lang('button_submit'); ?></button>
-                            <a target="_blank" class="btn btn-default btn-flat"
-                               href="/customer/orderinfo/<?php echo $order['id']; ?>">Invoice</a>
                             <a class="btn btn-default btn-flat"
                                href="/autoxadmin/order"><?php echo lang('button_close'); ?></a>
                         </div>
@@ -418,14 +537,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($ttns as $ttn){?>
+                        <?php foreach ($ttns as $ttn) { ?>
                             <tr>
-                                <td><?php echo $ttn['ttn'];?></td>
-                                <td><?php echo $ttn['status'];?></td>
+                                <td><?php echo $ttn['ttn']; ?></td>
+                                <td><?php echo $ttn['status']; ?></td>
                                 <td>
                                     <div class="pull-right">
-                                        <a href="<?php echo $ttn['delete'];?>" class="btn btn-xs btn-danger confirm">Удалить</a>
-                                        <a target="_blank" href="<?php echo $ttn['print'];?>" class="btn btn-xs btn-info">Печать</a>
+                                        <a href="<?php echo $ttn['delete']; ?>" class="btn btn-xs btn-danger confirm">Удалить</a>
+                                        <a target="_blank" href="<?php echo $ttn['print']; ?>"
+                                           class="btn btn-xs btn-info">Печать</a>
                                     </div>
                                 </td>
                             </tr>
@@ -444,18 +564,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script>
     var row = '<?php echo $row;?>';
 
-    $(document).keypress(function(e) {
-        if(e.which == 13) {
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
             e.preventDefault();
             $("#search").click();
         }
     });
 
     $(document).ready(function () {
-
-        $("#order_form input,select").change(function () {
-            total();
-        });
 
         $("select").change(function () {
             $("[type='submit']").show();
@@ -475,28 +591,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     });
 
-    function total() {
-        $("#pay").fadeOut();
-        $.ajax({
-            url: '/autoxadmin/order/get_total',
-            data: $("#order_form").serialize(),
-            method: 'POST',
-            success: function (json) {
-                $("#subtotal").html(json['subtotal'].toFixed(2));
-                $("[name='delivery_price']").val(json['delivery_price']);
-                $("#commission").html(json['commission'].toFixed(2));
-                $("#total").html(json['total'].toFixed(2));
-                $("#revenue").html(json['revenue'].toFixed(2));
-            }
-        });
-    }
 
     function row_subtotal(product_id) {
         var price = $("#price" + product_id).val();
         var qty = $("#qty" + product_id).val();
         var sub_total = price * qty;
         $("#row_subtotal" + product_id).html(sub_total.toFixed(2));
-        total();
     }
 
     //Добавдение товара к заказу
@@ -520,14 +620,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     }
 
-    function addBlack(e){
+    function addBlack(e) {
         e.preventDefault();
         var comment = prompt('Комментарий');
         $.ajax({
             url: '/autoxadmin/blacklist/add',
-            data: {comment:comment, customer_id:'<?php echo $order['customer_id'];?>'},
+            data: {comment: comment, customer_id: '<?php echo $order['customer_id'];?>'},
             method: 'post',
-            success: function(response){
+            success: function (response) {
                 alert('Добавлен с черный список');
             }
         })

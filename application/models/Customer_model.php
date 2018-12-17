@@ -105,6 +105,15 @@ class Customer_model extends Default_model
         return false;
     }
 
+    public function search($term){
+        $this->db->select('id as value, CONCAT_WS(" ", first_name, second_name, phone) as label', false);
+        $this->db->or_like('first_name', $term);
+        $this->db->or_like('second_name', $term);
+        $this->db->or_like('phone', $term);
+        $this->db->or_like('email', $term);
+        return $this->db->get($this->table)->result_array();
+    }
+
     public function customer_count_all()
     {
         if ($this->input->get()) {

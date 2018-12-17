@@ -14,7 +14,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             </div>
             <div class="col-md-9">
                 <h2>Детали в работе</h2>
-
+                <?php if($status_totals) { ?>
+                    <?php foreach ($status_totals as $status_id => $item){?>
+                        <a href="/customer/products?status_id=<?php echo $status_id;?>" class="btn btn-link" style="color:<?php echo $statuses[$status_id]['color'];?>"><?php echo $statuses[$status_id]['name'];?> (<?php echo format_currency($item['total']);?>)</a>
+                    <?php } ?>
+                <?php } ?>
                     <table class="table table-bordered table-striped">
                         <thead>
                         <?php echo form_open('',['method' => 'get']);?>
@@ -57,9 +61,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </div>
                             </td>
                             <td>
-                                <div class="btn-group pull-right">
-                                    <a href="/customer/products" type="button" class="btn btn-link">Сброс</a>
-                                    <button type="submit" class="btn btn-xs pull-right">Поиск</button>
+                                <div class="btn-group">
+                                    <?php if($this->input->get()){?>
+                                        <a href="/customer/products" type="button" class="btn btn-default">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </a>
+                                    <?php } ?>
+
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -75,7 +84,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>Цена</th>
                             <th>Количество</th>
                             <th>Статус</th>
-                            <th></th>
                         </tr>
                         <?php if($products){?>
                             <?php foreach ($products as $product){?>
@@ -95,18 +103,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <b style="color: <?php echo @$statuses[$product['status_id']]['color'];?>">
                                             <?php echo @$statuses[$product['status_id']]['name'];?>
                                         </b>
-                                    </td>
-                                    <td>
-                                        <?php if($product['parcel_id']){?>
-                                            <a href="/customer/print_parcel/<?php echo $product['parcel_id'];?>" target="_blank">
-                                                <?php if($product['ttn']){?>
-                                                    <small>ТТН:<?php echo $product['ttn'];?></small>
-                                                <?php } ?>
-                                                <?php if($product['parcel_id']){?>
-                                                    <small>Посылка:<?php echo $product['parcel_id'];?></small>
-                                                <?php } ?>
-                                            </a>
-                                        <?php } ?>
                                     </td>
                                 </tr>
                             <?php } ?>

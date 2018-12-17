@@ -26,29 +26,36 @@ class Order_product_model extends Default_model{
         return false;
     }
 
+    public function getProducts($order_id){
+        $sql = "SELECT op.*, ip.invoice_id FROM ax_order_product op 
+        LEFT JOIN ax_invoice_product ip ON op.id = ip.product_id WHERE op.order_id = '".(int)$order_id."' ORDER BY op.id ASC";
+        return $this->db->query($sql)->result_array();
+    }
+
     public function get_products_by_customer($customer_id,$limit,$start){
-        $sql = "SELECT SQL_CALC_FOUND_ROWS op.*,o.created_at,wp.ttn,wp.id as parcel_id FROM ax_order_product op
-         LEFT JOIN ax_order o ON o.id=op.order_id LEFT JOIN ax_waybill_product wp2 ON op.id=wp2.order_product_id LEFT JOIN ax_waybill_parcel wp ON wp.id=wp2.waybill_parcel_id
+        $sql = "SELECT SQL_CALC_FOUND_ROWS op.*,o.created_at FROM ax_order_product op
+         LEFT JOIN ax_order o ON o.id=op.order_id
          WHERE o.customer_id = '".$customer_id."'";
 
         if($this->input->get()){
             if($this->input->get('order_id')){
                 $sql .= " AND op.order_id='".(int)$this->input->get('order_id')."'";
             }
-            if($this->input->get('name')){
-                $sql .= " AND op.name=".$this->db->escape($this->input->get('name', true))."";
-            }
+
             if($this->input->get('sku')){
                 $this->load->model('product_model');
                 $sql .= " AND op.sku=".$this->db->escape($this->product_model->clear_sku($this->input->get('sku', true)))."";
             }
+
             if($this->input->get('brand')){
                 $this->load->model('product_model');
                 $sql .= " AND op.brand=".$this->db->escape($this->product_model->clear_brand($this->input->get('brand', true)))."";
             }
+
             if($this->input->get('quantity')){
                 $sql .= " AND op.quantity='".(int)$this->input->get('quantity')."'";
             }
+
             if($this->input->get('status_id')){
                 $sql .= " AND op.status_id='".(int)$this->input->get('status_id')."'";
             }
@@ -65,5 +72,33 @@ class Order_product_model extends Default_model{
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    public function get_status_totals($statuses, $customer_id = false){
+        $return = [];
+        if($statuses){
+            foreach ($statuses as $status_id => $value){
+                $sql = "SELECT SUM(op.price * op.quantity) as total, SUM(op.quantity) as qty FROM ax_order_product op 
+                LEFT JOIN ax_order o ON o.id = op.order_id
+                LEFT JOIN ax_customer c ON c.id = o.customer_id WHERE op.status_id ='".(int)$status_id."'";
+                if($customer_id){
+                    $sql .= " AND o.customer_id = '".(int)$customer_id."'";
+                }
+
+                $res = $this->db->query($sql)->row_array();
+                if($res){
+                    $return[$status_id] = $res;
+                }else{
+                    $return[$status_id] = [
+                        'total' => '0',
+                        'qty' => '0'
+                    ];
+                }
+            }
+
+           return $return;
+        }
+
+        return false;
     }
 }

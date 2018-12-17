@@ -26,6 +26,7 @@ class Order extends Admin_controller
         $this->load->library('sender');
         $this->load->model('order_ttn_model');
         $this->load->model('black_list_model');
+        $this->load->helper('text');
     }
 
     public function products()
@@ -50,7 +51,7 @@ class Order extends Admin_controller
         }
 
         $config['base_url'] = base_url('autoxadmin/order/products');
-        $config['per_page'] = 20;
+        $config['per_page'] = 50;
         $data['products'] = $this->order_model->order_get_all_products($config['per_page'], $this->uri->segment(4));
         $config['total_rows'] = $this->order_model->total_rows;
         $config['reuse_query_string'] = true;
@@ -59,7 +60,7 @@ class Order extends Admin_controller
 
         $data['status'] = $this->orderstatus_model->status_get_all();
         $data['suppliers'] = $this->supplier_model->supplier_get_all();
-        $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
+        $data['status_totals'] = $this->order_product_model->get_status_totals($data['status'], $this->input->get('customer_id'));
 
         $this->load->view('admin/header');
         $this->load->view('admin/order/products', $data);
@@ -87,7 +88,7 @@ class Order extends Admin_controller
 
         $data['orders'] = $orders;
         $data['status'] = $this->orderstatus_model->status_get_all();
-        $data['status_totals'] = $this->order_model->get_status_totals($data['status']);
+
         $data['payment'] = $this->payment_model->payment_get_all();
         $data['delivery'] = $this->delivery_model->delivery_get_all();
 
@@ -110,8 +111,12 @@ class Order extends Admin_controller
         if (!$data['order']) {
             show_404();
         }
+
+        $data['subtotal'] = $this->order_model->getSubtotal($id);
+
         $data['customer_info'] = $this->customer_model->get($data['order']['customer_id']);
         $data['black_list_info'] = $this->black_list_model->get($data['order']['customer_id']);
+
         $data['delivery_view_form'] = false;
         $delivery_info = $this->delivery_model->get($data['order']['delivery_method_id']);
         if($delivery_info && $delivery_info['api']){
@@ -124,9 +129,7 @@ class Order extends Admin_controller
         $data['delivery'] = $this->delivery_model->delivery_get_all();
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['history'] = $this->order_history_model->history_get($id);
-        $data['products'] = $this->order_product_model->get_all(false, false, ['order_id' => (int)$data['order']['id']], ['id' => 'ASC']);
-
-
+        $data['products'] = $this->order_product_model->getProducts($data['order']['id']);
 
         if ($this->input->post()) {
             $this->form_validation->set_rules('delivery_method', lang('text_delivery_method'), 'required|integer');
@@ -140,28 +143,57 @@ class Order extends Admin_controller
             $this->form_validation->set_rules('address', lang('text_address'), 'max_length[3000]');
             if ($this->form_validation->run() !== false) {
 
+                $return_order_statuses = $this->orderstatus_model->get_return();
+
                 $delivery_price = (float)$this->input->post('delivery_price');
+
                 $commissionpay = 0;
-                $total = 0;
-                $return_order_status_id = $this->orderstatus_model->get_return()['id'];
+
 
                 if($this->input->post('set_products_status')){
                     $order_status_id = (int)$this->input->post('status', true);
                 }else{
                     $order_status_id = '---';
                 }
-                if ($this->input->post('products')) {
-                    foreach ($this->input->post('products') as $product) {
-                        if((bool)$this->input->post('set_products_status')){
-                            $product['status_id'] = (int)$this->input->post('status');
-                        }
-                        if($return_order_status_id != $product['status_id'] && $return_order_status_id != $order_status_id){
-                            $total += $product['quantity'] * $product['price'];
+
+                //Возвращаем товары на склад если у поставщик отмечено "Наш склад"
+                if ($data['products']) {
+                    foreach ($data['products'] as $return_product) {
+                        $supplier_info = $this->supplier_model->get($return_product['supplier_id']);
+                        if ($supplier_info['stock'] && !in_array($return_product['status_id'],$return_order_statuses)) {
+                            $this->product_model->update_stock($return_product, '+');
                         }
                     }
                 }
 
+                foreach ($this->input->post('products') as $product_id => $item) {
+                    $product = [
+                        'order_id' => $id,
+                        'slug' => $item['slug'],
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'delivery_price' => (float)$item['delivery_price'],
+                        'price' => (float)$item['price'],
+                        'name' => $item['name'],
+                        'sku' => $item['sku'],
+                        'brand' => $item['brand'],
+                        'supplier_id' => (int)$item['supplier_id'],
+                        'status_id' => $this->input->post('set_products_status') ? (int)$this->input->post('status', true) : $item['status_id'],
+                        'term' => (int)$item['term']
+                    ];
+
+                    $supplier_info = $this->supplier_model->get($product['supplier_id']);
+                    if ($supplier_info['stock'] &&  !in_array($product['status_id'],$return_order_statuses) &&  !in_array($order_status_id,$return_order_statuses)) {
+                        $this->product_model->update_stock($product, '-');
+                    }
+
+                    $this->order_product_model->insert($product,$product_id);
+                }
+
+                $total = $this->order_model->getSubtotal($id);
+
                 $payment_id = (int)$this->input->post('payment_method', true);
+
                 if ($payment_id) {
                     $paymentInfo = $this->payment_model->get($payment_id);
                     if ($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0) {
@@ -192,62 +224,12 @@ class Order extends Admin_controller
                 $save['status'] = (int)$this->input->post('status', true);
                 $save['commission'] = (float)$commissionpay;
                 $save['delivery_price'] = (float)$delivery_price;
-                $save['paid'] = (bool)$this->input->post('paid', true);
-                $save['prepayment'] = (float)$this->input->post('prepayment');
                 $order_id = $this->order_model->insert($save, $id);
 
-                //Если была предоплата
-                if($save['prepayment'] && $save['customer_id'] != 0 && $data['order']['prepayment'] != $save['prepayment']){
-                    $description = 'Предоплата по заказу №'.$order_id;
-                    $this->customerbalance_model->add_transaction($save['customer_id'],$save['prepayment'], $description, 1, '', $this->session->userdata('user_id'));
-                }
 
-                //Возвращием или списываем деньги с баланса клиента если это
-                if($save['customer_id'] != 0 && $data['order']['paid']){
-                    $value = $data['order']['total'] - $save['total'];
-                    if($value > 0){
-                        //Возвращаем деньги
-                        $description = 'Сумма заказ №'.$order_id.' изменилась с '.$data['order']['total'].' на '.$save['total'];
-                        $this->customerbalance_model->add_transaction($save['customer_id'],$value, $description, 1, '', $this->session->userdata('user_id'));
-                    }else if($value < 0){
-                        $description = 'Сумма заказ №'.$order_id.' изменилась с '.$data['order']['total'].' на '.$save['total'];
-                        $this->customerbalance_model->add_transaction($save['customer_id'],-$value, $description, 2, '', $this->session->userdata('user_id'));
-                    }
-                }
-                //Возвращаем товары на склад если у поставщик отмечено "Наш склад"
-                if ($data['products']) {
-                    foreach ($data['products'] as $return_product) {
-                        $supplier_info = $this->supplier_model->get($return_product['supplier_id']);
-                        if ($supplier_info['stock'] && $return_product['status_id'] != $return_order_status_id) {
-                            $this->product_model->update_stock($return_product, '+');
-                        }
-                    }
-                }
 
                 if ($order_id) {
-                    foreach ($this->input->post('products') as $product_id => $item) {
-                        $product = [
-                            'order_id' => $order_id,
-                            'slug' => $item['slug'],
-                            'product_id' => $item['product_id'],
-                            'quantity' => $item['quantity'],
-                            'delivery_price' => (float)$item['delivery_price'],
-                            'price' => (float)$item['price'],
-                            'name' => $item['name'],
-                            'sku' => $item['sku'],
-                            'brand' => $item['brand'],
-                            'supplier_id' => (int)$item['supplier_id'],
-                            'status_id' => $this->input->post('set_products_status') ? $save['status'] : $item['status_id'],
-                            'term' => (int)$item['term']
-                        ];
 
-                        $supplier_info = $this->supplier_model->get($product['supplier_id']);
-                        if ($supplier_info['stock'] && $return_order_status_id != $product['status_id'] && $return_order_status_id != $order_status_id) {
-                            $this->product_model->update_stock($product, '-');
-                        }
-
-                        $this->order_product_model->insert($product,$product_id);
-                    }
 
 
                     $this->session->set_flashdata('success', lang('text_success'));
@@ -276,22 +258,7 @@ class Order extends Admin_controller
 
                         $this->order_history_model->insert($history);
                     }
-                    //Предоплата
-                    if($save['prepayment'] != $data['order']['prepayment']){
-                        $history['order_id'] = $order_id;
-                        $history['date'] = date("Y-m-d H:i:s");
-                        $history['text'] = 'Предоплата: '.$save['prepayment'];
-                        $history['user_id'] = $this->User_model->is_login();
-                        $this->order_history_model->insert($history);
-                    }
-                    //статус оплаты
-                    if($save['paid'] != $data['order']['paid']){
-                        $history['order_id'] = $order_id;
-                        $history['date'] = date("Y-m-d H:i:s");
-                        $history['text'] = $save['paid'] ? 'Оплачен' : 'Не оплачен';
-                        $history['user_id'] = $this->User_model->is_login();
-                        $this->order_history_model->insert($history);
-                    }
+
                     //order_status
                     if ($save['status'] != $data['order']['status']) {
                         $order_info = $save;
@@ -354,7 +321,7 @@ class Order extends Admin_controller
                     'data' => @implode('<br>',$information[0]),
                     'status' => $track['Status'],
                     'delete' => '/delivery/'.$ttn['library'].'/delete_en?id='.$ttn['id'],
-                    'print' => '/delivery/'.$ttn['library'].'/print?id='.$ttn['id'],
+                    'print' => '/delivery/'.$ttn['library'].'/print_delivery?id='.$ttn['id'],
                 ];
             }
         }
@@ -377,70 +344,6 @@ class Order extends Admin_controller
         redirect('autoxadmin/order');
     }
 
-    //ajax сумма заказа при редактировании
-    public function get_total()
-    {
-        $json = [];
-        $delivery_price = 0;
-        $commissionpay = 0;
-        $total = 0;
-        $delivery_total = 0;
-        $revenue = 0;
-
-        $return_order_status_id = $this->orderstatus_model->get_return()['id'];
-
-        if ($this->input->post('products')) {
-            foreach ($this->input->post('products') as $product) {
-                if((bool)$this->input->post('set_products_status')){
-                    $product['status_id'] = (int)$this->input->post('status');
-                }
-                if($product['status_id'] != $return_order_status_id){
-                    $total += $product['quantity'] * $product['price'];
-                    $delivery_total += $product['delivery_price'];
-                }
-            }
-        }
-
-        $revenue = $total - $delivery_total;
-
-        $delivery_id = (int)$this->input->post('delivery_method', true);
-        if ($delivery_id) {
-
-            $deliveryInfo = $this->delivery_model->get($delivery_id);
-            if ($this->input->post('delivery_price')) {
-                $delivery_price = (float)$this->input->post('delivery_price');
-            } else {
-                $delivery_price = (float)$deliveryInfo['price'];
-            }
-
-            $json['delivery_description'] = $deliveryInfo['description'];
-        }
-
-
-        $payment_id = (int)$this->input->post('payment_method', true);
-        if ($payment_id) {
-            $paymentInfo = $this->payment_model->get($payment_id);
-            if ($paymentInfo['fix_cost'] > 0 || $paymentInfo['comission'] > 0) {
-                if ($paymentInfo['comission'] > 0) {
-                    $commissionpay = $paymentInfo['comission'] * ($total + $delivery_price) / 100;
-                }
-                if ($paymentInfo['fix_cost'] > 0) {
-                    $commissionpay = $commissionpay + $paymentInfo['fix_cost'];
-                }
-            }
-        }
-
-        $json['delivery_price'] = $delivery_price;
-        $json['commission'] = $commissionpay;
-        $json['subtotal'] = $total;
-        $json['delivery_total'] = $delivery_total;
-        $json['total'] = $total + $delivery_price + $commissionpay;
-        $json['revenue'] = $revenue;
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($json));
-    }
 
     //Обновление суммы заказа после удаления или добавления позиции
     private function _get_total($order_id){
@@ -449,14 +352,14 @@ class Order extends Admin_controller
         $total = 0;
 
         $order_info = $this->order_model->get($order_id);
-        $return_order_status_id = $this->orderstatus_model->get_return()['id'];
+        $return_order_status_id = $this->orderstatus_model->get_return();
         $products = $this->order_product_model->get_all(false, false, ['order_id' => (int)$order_id]);
         if ($products) {
             foreach ($products as $product) {
                 if((bool)$this->input->post('set_products_status')){
                     $product['status_id'] = (int)$this->input->post('status');
                 }
-                if($product['status_id'] != $return_order_status_id){
+                if(!in_array($product['status_id'],$return_order_status_id)){
                     $total += $product['quantity'] * $product['price'];
                 }
             }
@@ -481,18 +384,6 @@ class Order extends Admin_controller
         $save['commission'] = $commissionpay;
         $save['delivery_price'] = $delivery_price;
         $save['total'] = $total + $delivery_price + $commissionpay;
-
-        //Возвращием или списываем деньги с баланса клиента если это
-        if($order_info && $order_info['customer_id'] != 0 && $order_info['payment_method_id'] == 0 && $order_info['paid']){
-            $value = $order_info['total'] - $save['total'];
-            if($value > 0){
-                $description = 'Сумма заказ №'.$order_id.' изменилась с '.$order_info['total'].' на '.$save['total'];
-                $this->customerbalance_model->add_transaction($order_info['customer_id'],$value, $description, 1, '', $this->session->userdata('user_id'));
-            }else if($value < 0){
-                $description = 'Сумма заказ №'.$order_id.' изменилась с '.$order_info['total'].' на '.$save['total'];
-                $this->customerbalance_model->add_transaction($order_info['customer_id'],-$value, $description, 2, '', $this->session->userdata('user_id'));
-            }
-        }
 
         $this->order_model->insert($save,$order_id);
     }
@@ -565,17 +456,75 @@ class Order extends Admin_controller
 
     //Массове редактирование статусов товаров в заказах
     public function change_status_products(){
-        $this->db->set('status_id',(int)$this->input->post('status_id'));
+
+        $this->db->from('order_product op');
+        $this->db->select('op.id');
+        $this->db->join('order o','op.order_id=o.id', 'left');
+        $this->db->join('customer c','o.customer_id=c.id', 'left');
+
         if($this->input->get()){
-            foreach ($this->input->get() as $field =>$value){
-                if($value != ''){
-                    $this->db->where($field,$value);
+            if($this->input->get('customer_name')){
+
+                $this->db->group_start();
+                $phone = format_phone($this->input->get('customer_name'));
+                if($phone){
+                    $this->db->or_like('o.phone', $phone);
                 }
+
+                $this->db->or_like('o.first_name', $this->input->get('customer_name',true), 'both');
+                $this->db->or_like('o.last_name',  $this->input->get('customer_name',true), 'both');
+                $this->db->or_like('o.patronymic',  $this->input->get('customer_name',true), 'both');
+                $this->db->or_like('o.email',  $this->input->get('customer_name',true), 'both');
+                $this->db->group_end();
+
+            }
+
+            if($this->input->get('customer_id')){
+                $this->db->where('o.customer_id', (int)$this->input->get('customer_id'));
+            }
+
+            if($this->input->get('order_id')){
+                $this->db->where('o.order_id', (int)$this->input->get('order_id'));
+            }
+            if($this->input->get('name')){
+                $this->db->like('op.name', $this->input->get('name', true));
+            }
+            if($this->input->get('sku')){
+                $this->db->where('op.sku', $this->product_model->clear_sku($this->input->get('sku', true)));
+            }
+            if($this->input->get('brand')){
+                $this->db->where('op.brand', $this->input->get('brand', true));
+            }
+            if($this->input->get('quantity')){
+                $this->db->where('op.quantity', (int)$this->input->get('quantity'));
+            }
+            if($this->input->get('supplier_id')){
+                $this->db->where_in('op.supplier_id', (array)$this->input->get('supplier_id'));
+            }
+            if($this->input->get('status_id')){
+                $this->db->where('o.status', (int)$this->input->get('status_id'));
+            }
+            if($this->input->get('product_status_id')){
+                $this->db->where('op.status_id', (int)$this->input->get('product_status_id'));
             }
         }
-        $query = $this->db->update('order_product');
-        $this->session->set_flashdata('success', lang('text_success'));
-        exit('success');
+
+        $where_clause = $this->db->get()->result_array();
+        if($where_clause){
+            $where = [];
+            foreach ($where_clause as $wc){
+                $where[] = $wc['id'];
+            }
+
+            $this->db->set('status_id', (int)$this->input->post('status_id'));
+            $this->db->where_in("id", $where);
+            $this->db->update('order_product');
+
+            $this->session->set_flashdata('success', lang('text_success'));
+            exit('success');
+        }
+
+
     }
 
     public function export_xls()
@@ -583,7 +532,7 @@ class Order extends Admin_controller
         require_once './application/libraries/excel/PHPExcel.php';
 
         $this->load->model('order_model');
-        $products = $this->order_product_model->get_all(false, false, $this->input->get());
+        $products = $this->order_model->order_get_all_products(false, false, $this->input->get());
         if ($products) {
             $columns = array_keys($products[0]);
 
@@ -596,6 +545,7 @@ class Order extends Admin_controller
                 $c++;
             }
 
+            $statuses = $this->orderstatus_model->status_get_all();
 
             $row = 2;
             foreach ($products as $product) {
@@ -606,7 +556,7 @@ class Order extends Admin_controller
                             $value = @$this->supplier_model->suppliers[$value]['name'];
                             break;
                         case 'status_id':
-                            $statuses = $this->orderstatus_model->status_get_all();
+                        case 'status':
                             $value = @$statuses[$value]['name'];
                             break;
                     }
@@ -732,32 +682,5 @@ class Order extends Admin_controller
                 $this->db->where('id',$product['product_id'])->set('status_id',$product['status_id'])->update('order_product');
             }
         }
-    }
-
-    public function pay($order_id)
-    {
-        $orderInfo = $this->order_model->get($order_id);
-
-        if(!$orderInfo['paid']){
-            if ($this->customerbalance_model->add_transaction($orderInfo['customer_id'],$orderInfo['total'],'Оплата заказа №' . $orderInfo['id'])) {
-                //Ставим ОПЛАЧЕН заказу и способ оплаты С БАЛАНСА
-                $save3['paid'] = 1;
-                $save3['payment_method_id'] = 0;
-
-                $this->order_model->insert($save3, $orderInfo['id']);
-
-                //Комментарий к заказу
-                $this->load->model('order_history_model');
-                $history['order_id'] = $order_id;
-                $history['date'] = date("Y-m-d H:i:s");
-                $history['text'] = 'Оплата заказа c баланса. Сумма '.$orderInfo['total'];
-                $history['user_id'] = 0;
-                $this->order_history_model->insert($history);
-
-            }
-        }
-        $this->session->set_flashdata('success', 'Заказ оплачен');
-
-        redirect('/autoxadmin/order/edit/'.$order_id);
     }
 }

@@ -42,7 +42,7 @@ class Order_ttn extends Admin_controller
                     'data' => @implode('<br>',$information[0]),
                     'status' => $track['Status'],
                     'delete' => '/delivery/'.$ttn['library'].'/delete_en?id='.$ttn['id'],
-                    'print' => '/delivery/'.$ttn['library'].'/print?id='.$ttn['id'],
+                    'print' => '/delivery/'.$ttn['library'].'/print_delivery?id='.$ttn['id'],
                 ];
             }
         }

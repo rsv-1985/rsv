@@ -85,6 +85,7 @@ class Orderstatus extends Admin_controller
         $save['is_new'] = (bool)$this->input->post('is_new', true);
         $save['is_complete'] = (bool)$this->input->post('is_complete', true);
         $save['is_return'] = (bool)$this->input->post('is_return', true);
+        $save['sort_order'] = (int)$this->input->post('sort_order', true);
         $id = $this->orderstatus_model->insert($save, $id);
         if($id){
             $this->session->set_flashdata('success', lang('text_success'));

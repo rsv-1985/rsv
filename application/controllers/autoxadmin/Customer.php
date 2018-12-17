@@ -16,7 +16,9 @@ class Customer extends Admin_controller
         $this->load->model('customer_model');
         $this->load->model('customergroup_model');
         $this->load->model('orderstatus_model');
+        $this->load->model('order_product_model');
         $this->load->model('black_list_model');
+        $this->load->model('order_model');
     }
 
     public function index()
@@ -75,6 +77,9 @@ class Customer extends Admin_controller
             show_404();
         }
 
+        $data['statuses'] = $this->orderstatus_model->status_get_all();
+        $data['status_totals'] = $this->order_product_model->get_status_totals($data['statuses'], $id);
+
         $data['black_list_info'] = $this->black_list_model->get($id);
 
         if ($this->input->post()) {
@@ -105,6 +110,10 @@ class Customer extends Admin_controller
             }
         }
         $data['customergroup'] = $this->customergroup_model->get_group();
+
+        $data['orders'] = $this->order_model->get_all(5,false,['customer_id' => (int)$id], ['id' => 'DESC']);
+
+        $data['statuses'] = $this->orderstatus_model->status_get_all();
         $this->load->view('admin/header');
         $this->load->view('admin/customer/edit', $data);
         $this->load->view('admin/footer');
@@ -156,5 +165,15 @@ class Customer extends Admin_controller
     }
     public function export(){
         $this->customer_model->export_csv();
+    }
+
+    public function search(){
+        $term = $this->input->get('term', true);
+
+        $customers = $this->customer_model->search($term);
+
+        $this->output
+            ->set_content_type('application/html')
+            ->set_output(json_encode($customers));
     }
 }

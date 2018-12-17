@@ -135,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="col-md-12" id="login-by-phone">
                     <div class="form-group">
                         <label><?php echo lang('text_phone'); ?> <span data-type="email" class="btn btn-link login-by"><?php echo lang('text_email'); ?></span></label>
-                        <input autocomplete="on" type="text" name="phone" class="form-control"
+                        <input type="text" name="phone" class="form-control"
                                maxlength="96">
                     </div>
                 </div>
@@ -143,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="col-md-12" id="login-by-email" style="display: none;">
                     <div class="form-group">
                         <label><span data-type="phone" class="btn btn-link login-by"><?php echo lang('text_phone'); ?></span><?php echo lang('text_email'); ?></label>
-                        <input autocomplete="on" type="email" name="email" class="form-control"
+                        <input type="email" name="email" class="form-control"
                                maxlength="96">
                     </div>
                 </div>
@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label><?php echo lang('text_password'); ?></label>
-                        <input autocomplete="on" type="password" name="password" required class="form-control" maxlength="255">
+                        <input type="password" name="password" required class="form-control" maxlength="255">
                     </div>
                 </div>
 

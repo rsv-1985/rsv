@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <h2><?php echo lang('text_customer_info'); ?></h2>
                                     <div class="form-group">
                                         <label><?php echo lang('text_telephone'); ?>*</label>
-                                        <input required type="text" class="form-control" name="telephone"
+                                        <input autocomplete="off" required type="text" class="form-control" name="telephone"
                                                value="<?php echo set_value('telephone', @$customer['telephone']); ?>">
                                     </div>
                                     <div class="form-group">
@@ -141,9 +141,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 onchange="get_payment();"
                                                 required>
                                             <option></option>
-                                            <?php if ($this->is_login) { ?>
-                                                <option selected value="0" id="payment-0">С личного баланса</option>
-                                            <?php } ?>
                                             <?php foreach ($payment as $payment) { ?>
                                                 <option
                                                         id="payment-<?php echo $payment['id']; ?>"
@@ -340,20 +337,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             success: function (json) {
                 if (json['total_items'] == 0) {
                     location.reload();
-                }
-
-                if (<?php echo (int)@$this->customer_model->negative_balance;?> || <?php echo (int)@$this->customer_model->balance;?> >=
-                json['total_val']
-            )
-                {
-                    $("#payment-0").removeAttr('disabled');
-                }
-            else
-                {
-                    $("#payment-0").attr('disabled', 'disabled');
-                    if ($("#payment-0").is(':selected')) {
-                        $('#payment').prop('selectedIndex', 0);
-                    }
                 }
 
                 $(".total").html(json['total']);

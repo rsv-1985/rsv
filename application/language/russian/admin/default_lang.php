@@ -19,6 +19,8 @@ $lang['text_logout'] = 'Выход';
 $lang['text_shop'] = 'Магазин';
 $lang['text_store'] = 'Склад';
 $lang['text_home'] = 'Главная';
+$lang['text_invoice'] = 'Расходная накладная';
+$lang['button_invoice'] = 'Создать расходную накладную';
 //menu
 
 $lang['text_nav_waybill'] = 'Путевой лист';
@@ -68,3 +70,10 @@ $lang['text_nav_message_template'] = 'Шаблоны сообщений';
 $lang['text_access_denied'] = 'Вашей группе пользователей запрещен доступ в данный раздел';
 $lang['text_nav_report_sale_order'] = 'По продажам';
 $lang['text_nav_review'] = 'Отзывы';
+$lang['text_balance'] = 'Баланс';
+$lang['text_nav_invoice'] = 'Расходные накладные';
+$lang['text_nav_blacklist'] = 'Черный список';
+$lang['text_nav_customer_pay'] = 'Приходный кассовый ордер';
+$lang['text_nav_seo_settings'] = 'SEO настройки';
+$lang['text_nav_tecdoc_settings'] = 'TecDoc настройки';
+$lang['text_customer_pay'] = 'Приходный кассовый ордер';

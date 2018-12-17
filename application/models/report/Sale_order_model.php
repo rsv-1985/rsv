@@ -70,9 +70,9 @@ FROM `ax_order` o";
                $sql .= " AND o.status = '" . (int)$this->input->get('status_id') . "'";
            } else {
                $this->load->model('orderstatus_model');
-               $return_status = $this->orderstatus_model->get_return();
-               if($return_status){
-                   $sql .= " AND op.status_id NOT IN (0,".(int)$return_status['id'].")";
+               $return_statuses = $this->orderstatus_model->get_return();
+               if($return_statuses){
+                   $sql .= " AND op.status_id NOT IN (0,".implode(",",$return_statuses).")";
                }else{
                    $sql .= " AND op.status_id > '0'";
                }
