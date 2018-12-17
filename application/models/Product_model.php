@@ -56,10 +56,15 @@ class Product_model extends Default_model
     public function admin_product_get_all($limit = false, $start = false, $return_count = false){
         $this->db->from('product_price pp');
         $this->db->select('pp.*, p.*, c.name as category_name, s.name as supplier_name, cr.name as currency_name');
-        $this->db->join('product p', 'p.id=pp.product_id', 'left');
-        $this->db->join('category c', 'c.id = p.category_id', 'left');
-        $this->db->join('supplier s', 's.id=pp.supplier_id', 'left');
-        $this->db->join('currency cr', 'cr.id = pp.currency_id', 'left');
+        if(!$return_count || $this->input->get()){
+            $this->db->join('product p', 'p.id=pp.product_id', 'left');
+            $this->db->join('category c', 'c.id = p.category_id', 'left');
+            $this->db->join('supplier s', 's.id=pp.supplier_id', 'left');
+            $this->db->join('currency cr', 'cr.id = pp.currency_id', 'left');
+        }
+
+
+
 
         if($this->input->get()){
             if ($this->input->get('sku')) {
