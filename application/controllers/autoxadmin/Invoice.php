@@ -160,7 +160,7 @@ class Invoice extends Admin_controller{
         $data['invoice_info'] = $this->invoice_model->get($id);
         $data['invoice_products'] = $this->invoice_model->getProducts($id);
         $data['total'] = $this->invoice_model->getTotal($id);
-        $data['customer_info'] = $this->customer_model->get($data['invoice_info']['id']);
+        $data['customer_info'] = $this->customer_model->get($data['invoice_info']['customer_id']);
 
         $this->load->view('customer/invoice_view', $data);
     }
