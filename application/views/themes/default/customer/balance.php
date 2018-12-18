@@ -17,30 +17,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php echo $recharge; ?>
                     </div>
                 <?php } ?>
-                <?php echo form_open('/customer/balance'); ?>
-                <div class="well well-sm">
-                    <h4>Сообщить об оплате</h4>
-                    <div class="form-group">
-                        <label>Сумма</label>
-                        <input value="<?php echo set_value('sum');?>" type="text" name="sum" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Дата и время</label>
-                        <input name="date" value="<?php echo set_value('date');?>" type="date" class="form-control input-sm">
-                        <br>
-                        <input name="time" value="<?php echo set_value('time');?>" type="time" class="form-control input-sm">
-                    </div>
-                    <div class="form-group">
-                        <label>Комментарий</label>
-                        <textarea name="comment" class="form-control"><?php echo set_value('comment');?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-xs pull-right">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                </form>
-
             </div>
             <div class="col-md-9">
                 <div class="pull-right">
@@ -52,7 +28,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <tbody>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Сумма</th>
+                            <th>Дебет</th>
+                            <th>Кредит</th>
                             <th>Баланс</th>
                             <th>Описание</th>
                             <th>Дата добавления</th>
@@ -64,7 +41,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <td>
                                         <?php if ($balance['type'] == 1) { ?>
                                             <span class="label label-success"><?php echo $balance['value']; ?></span>
-                                        <?php } else { ?>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php if($balance['type'] != 1){?>
                                             <span class="label label-danger">-<?php echo $balance['value']; ?></span>
                                         <?php } ?>
                                     </td>

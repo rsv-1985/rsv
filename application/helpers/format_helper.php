@@ -109,3 +109,7 @@ function format_balance($balance){
         return '<span title="Баланс" class="label label-success">'.$balance.'</span>';
     }
 }
+
+function format_date($date){
+    return date(lang('format_date'),strtotime($date));
+}

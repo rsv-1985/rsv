@@ -77,3 +77,5 @@ $lang['text_nav_customer_pay'] = 'Приходный кассовый ордер
 $lang['text_nav_seo_settings'] = 'SEO настройки';
 $lang['text_nav_tecdoc_settings'] = 'TecDoc настройки';
 $lang['text_customer_pay'] = 'Приходный кассовый ордер';
+$lang['format_date'] = 'd.m.Y';
+$lang['format_time'] = 'd.m.Y H:i';

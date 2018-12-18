@@ -81,13 +81,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <table class="table table-bordered">
                 <tbody><tr>
                     <th style="width: 10px">ID транзакции</th>
-                    <th>Сумма</th>
+                    <th>Дебет</th>
+                    <th>Кредит</th>
                     <th>Баланс</th>
                     <th>Описание</th>
                     <th>Клиент</th>
                     <th>Дата транзакции</th>
                     <th>Дата добавления</th>
-                    <th>Автор</th>
+                    <th>Менеджер</th>
                     <th></th>
                 </tr>
 
@@ -99,7 +100,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <td>
                                 <?php if($balance['type'] == 1){?>
                                     <span class="label label-success"><?php echo $balance['value'];?></span>
-                                <?php }else{?>
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <?php if($balance['type'] != 1){?>
                                     <span class="label label-danger">-<?php echo $balance['value'];?></span>
                                 <?php } ?>
                             </td>
@@ -111,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <?php echo $balance['customer_name'];?></a><br/>
                             </td>
                             <td>
-                                <?php echo $balance['transaction_created_at'];?><br/>
+                                <?php echo format_date($balance['transaction_created_at']);?><br/>
                             </td>
                             <td>
                                 <?php echo $balance['created_at'];?><br/>

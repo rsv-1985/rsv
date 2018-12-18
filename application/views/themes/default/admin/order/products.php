@@ -125,8 +125,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <th>Артикул</th>
                                 <th>Производитель</th>
                                 <th>Название</th>
+                                <th><?php echo lang('text_delivery_price');?></th>
                                 <th>Цена</th>
                                 <th>Количество</th>
+                                <th><?php echo lang('text_subtotal');?></th>
                                 <th>Поставщик</th>
                                 <th>Статус товара</th>
                                 <th></th>
@@ -159,9 +161,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </a>
                                         </td>
 
-
+                                        <td><?php echo $product['delivery_price']; ?></td>
                                         <td><?php echo $product['price']; ?></td>
                                         <td><?php echo $product['quantity']; ?></td>
+                                        <td><?php echo $product['price'] * $product['quantity']; ?></td>
                                         <td><?php echo @$suppliers[$product['supplier_id']]['name']; ?></td>
                                         <td>
                                             <div class="form-group">

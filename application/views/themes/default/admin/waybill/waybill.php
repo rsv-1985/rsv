@@ -23,12 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 <div class="panel-body">
                     <?php foreach ($delivery['addresses'] as $address){?>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4" >
                                 <?php echo $address['telephone'];?><br>
                                 <?php echo $address['last_name'];?> <?php echo $address['first_name'];?> <br>
                                 <?php echo $address['address'];?>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-8 col-xs-8">
                                 <table border="1px" style="width: 100%">
                                     <thead>
                                     <tr>

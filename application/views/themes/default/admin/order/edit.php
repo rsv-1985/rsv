@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php $row = 0; ?>
                         <?php if ($products) { ?>
                             <?php foreach ($products as $product) { ?>
-                                <?php if(!$product['invoice_id']){?>
+                                <?php if (!$product['invoice_id']) { ?>
                                     <tr id="row<?php echo $product['id']; ?>">
                                         <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
                                                value="<?php echo $product['slug']; ?>">
@@ -214,7 +214,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php } else { ?>
                                                 <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
                                                        id="qty<?php echo $product['id']; ?>"
-                                                       name="products[<?php echo $product['id']; ?>][quantity]" type="text"
+                                                       name="products[<?php echo $product['id']; ?>][quantity]"
+                                                       type="text"
                                                        value="<?php echo $product['quantity']; ?>" class="form-control"
                                                        style="width: 80px;">
                                             <?php } ?>
@@ -236,7 +237,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </td>
                                         <td>
                                             <?php if ($product['invoice_id']) { ?>
-                                                <input name="products[<?php echo $product['id']; ?>][price]" type="hidden"
+                                                <input name="products[<?php echo $product['id']; ?>][price]"
+                                                       type="hidden"
                                                        value="<?php echo $product['price']; ?>">
                                                 <?php echo $product['price']; ?>
                                             <?php } else { ?>
@@ -270,14 +272,15 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <?php if($product['invoice_id']){?>
-                                                <a href="/autoxadmin/invoice/edit/<?php echo $product['invoice_id'];?>"><?php echo lang('text_invoice');?> <?php echo $product['invoice_id'];?></a>
-                                            <?php }else{?>
-                                                <a class="btn btn-danger confirm"
-                                                   href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id']; ?>">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
-                                            <?php } ?>
+                                            <a onclick="addInvoiceByItem(<?php echo $product['id']; ?>)" href=""
+                                               class="btn btn-success"
+                                               title="<?php echo lang('button_invoice'); ?>"><i
+                                                        class="fa fa-file-text-o"></i></a>
+                                            <a class="btn btn-danger confirm"
+                                               href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id']; ?>">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+
 
                                         </td>
                                     </tr>
@@ -285,7 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php $row++;
                             } ?>
                             <?php foreach ($products as $product) { ?>
-                                <?php if($product['invoice_id']){?>
+                                <?php if ($product['invoice_id']) { ?>
                                     <tr id="row<?php echo $product['id']; ?>">
                                         <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
                                                value="<?php echo $product['slug']; ?>">
@@ -338,7 +341,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php } else { ?>
                                                 <input onkeyup="row_subtotal(<?php echo $product['id']; ?>)"
                                                        id="qty<?php echo $product['id']; ?>"
-                                                       name="products[<?php echo $product['id']; ?>][quantity]" type="text"
+                                                       name="products[<?php echo $product['id']; ?>][quantity]"
+                                                       type="text"
                                                        value="<?php echo $product['quantity']; ?>" class="form-control"
                                                        style="width: 80px;">
                                             <?php } ?>
@@ -360,7 +364,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </td>
                                         <td>
                                             <?php if ($product['invoice_id']) { ?>
-                                                <input name="products[<?php echo $product['id']; ?>][price]" type="hidden"
+                                                <input name="products[<?php echo $product['id']; ?>][price]"
+                                                       type="hidden"
                                                        value="<?php echo $product['price']; ?>">
                                                 <?php echo $product['price']; ?>
                                             <?php } else { ?>
@@ -391,9 +396,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <?php if($product['invoice_id']){?>
-                                                <a href="/autoxadmin/invoice/edit/<?php echo $product['invoice_id'];?>"><?php echo lang('text_invoice');?> <?php echo $product['invoice_id'];?></a>
-                                            <?php }else{?>
+                                            <?php if ($product['invoice_id']) { ?>
+                                                <a href="/autoxadmin/invoice/edit/<?php echo $product['invoice_id']; ?>"><?php echo lang('text_invoice'); ?><?php echo $product['invoice_id']; ?></a>
+                                            <?php } else { ?>
                                                 <a class="btn btn-danger confirm"
                                                    href="/autoxadmin/order/delete_product?product_id=<?php echo $product['id']; ?>&order_id=<?php echo $order['id']; ?>">
                                                     <i class="fa fa-trash-o"></i>
