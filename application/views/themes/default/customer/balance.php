@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </td>
 
                                     <td>
-                                        <?php echo $balance['created_at']; ?><br/>
+                                        <?php echo format_time($balance['created_at']); ?><br/>
                                     </td>
                                 </tr>
                             <?php } ?>
