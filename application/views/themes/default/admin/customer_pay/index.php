@@ -109,25 +109,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 
                         <?php if($pays){?>
-                            <?php foreach($pays as $pay){?>
+                            <?php foreach ($pays as $group => $items){?>
                                 <tr>
-                                    <td><?php echo $pay['id'];?></td>
-                                    <td>ID<?php echo $pay['customer_id'];?> <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $pay['customer_id'];?>"><?php echo $pay['customer_name'];?></a> </td>
-                                    <td><?php echo $pay['amount'];?></td>
-                                    <td><?php echo $pay['transaction_date'];?></td>
-                                    <td style="text-align: center; width:90px;">
-                                        <?php echo $statuses[$pay['status_id']];?>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/customer_pay/delete/<?php echo $pay['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <?php if($pay['status_id'] == 0){?>
-                                                <a href="/autoxadmin/customer_pay/edit/<?php echo $pay['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
-                                            <?php } ?>
-                                        </div>
-                                    </td>
+                                    <td colspan="6"><b><?php echo $group;?></b></td>
                                 </tr>
+                                <?php foreach($items as $pay){?>
+                                    <tr>
+                                        <td><?php echo $pay['id'];?></td>
+                                        <td>ID<?php echo $pay['customer_id'];?> <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $pay['customer_id'];?>"><?php echo $pay['customer_name'];?></a> </td>
+                                        <td><?php echo $pay['amount'];?></td>
+                                        <td><?php echo format_time($pay['transaction_date']);?></td>
+                                        <td style="text-align: center; width:90px;">
+                                            <?php echo $statuses[$pay['status_id']];?>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <a href="/autoxadmin/customer_pay/delete/<?php echo $pay['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
+                                                <?php if($pay['status_id'] == 0){?>
+                                                    <a href="/autoxadmin/customer_pay/edit/<?php echo $pay['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
+                                                <?php } ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             <?php } ?>
+
                         <?php } ?>
                         </tbody>
                     </table>

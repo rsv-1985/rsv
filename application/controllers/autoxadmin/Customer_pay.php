@@ -18,13 +18,18 @@ class Customer_pay extends Admin_controller
     }
 
     public function index(){
-        $data = [];
+        $data['pays'] = array();
         $this->load->library('pagination');
 
 
         $config['base_url'] = base_url('autoxadmin/customer_pay/index');
         $config['per_page'] = 30;
-        $data['pays'] = $this->customer_pay_model->customer_pay_get_all($config['per_page'], $this->uri->segment(4));
+        $pays = $this->customer_pay_model->customer_pay_get_all($config['per_page'], $this->uri->segment(4));
+        if($pays){
+            foreach ($pays as $pay){
+                $data['pays'][format_date($pay['transaction_date'])][] = $pay;
+            }
+        }
         $config['total_rows'] = $this->customer_pay_model->total_rows;
         $config['reuse_query_string'] = true;
         $this->pagination->initialize($config);

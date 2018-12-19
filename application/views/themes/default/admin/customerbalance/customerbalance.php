@@ -99,12 +99,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <td><?php echo $balance['id'];?></td>
                             <td>
                                 <?php if($balance['type'] == 1){?>
-                                    <span class="label label-success"><?php echo $balance['value'];?></span>
+                                    <?php echo format_balance($balance['value']);?>
                                 <?php } ?>
                             </td>
                             <td>
                                 <?php if($balance['type'] != 1){?>
-                                    <span class="label label-danger">-<?php echo $balance['value'];?></span>
+                                    <?php echo format_balance(-$balance['value']);?>
                                 <?php } ?>
                             </td>
                             <td><?php echo $balance['balance'];?></td>

@@ -104,12 +104,16 @@ function format_phone($phone){
 
 function format_balance($balance){
     if($balance < 0){
-        return '<span title="Баланс" class="label label-danger">'.$balance.'</span>';
+        return '<b title="Баланс" class="text-danger">'.$balance.'</b>';
     }else{
-        return '<span title="Баланс" class="label label-success">'.$balance.'</span>';
+        return '<b title="Баланс" class="text-success">'.$balance.'</b>';
     }
 }
 
 function format_date($date){
     return date(lang('format_date'),strtotime($date));
+}
+
+function format_time($date){
+    return date(lang('format_time'),strtotime($date));
 }
