@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 </div>
                 <h2>История по балансу</h2>
                 <?php if ($balances) { ?>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-condensed">
                         <tbody>
                         <tr>
                             <th style="width: 10px">#</th>
