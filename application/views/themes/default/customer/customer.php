@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <thead>
                             <tr class="active">
                                 <th colspan="2"><?php echo lang('text_orders_id');?>: <?php echo $order['id'];?></th>
-                                <th colspan="2"><?php echo lang('text_orders_date');?>: <?php echo $order['created_at'];?></th>
+                                <th colspan="2"><?php echo lang('text_orders_date');?>: <?php echo format_time($order['created_at']);?></th>
                                 <th colspan="4">
                                     <a target="_blank" href="/customer/orderinfo/<?php echo $order['id'];?>" class="pull-right">Подробнее</a>
                                     <a href="/customer/products?order_id=<?php echo $order['id'];?>">Детали в работе</a>

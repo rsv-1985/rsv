@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <?php echo $invoice['total']; ?>
                                     </td>
                                     <td>
-                                        <small><?php echo $invoice['created_at']; ?></small>
+                                        <small><?php echo format_time($invoice['created_at']); ?></small>
                                     </td>
                                     <td>
                                         <?php echo $statuses[$invoice['status_id']];?>
