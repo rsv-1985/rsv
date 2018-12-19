@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <b><?php echo $product['order_id'];?></b>
                                         </a>
                                     </td>
-                                    <td><small><?php echo $product['created_at'];?></small></td>
+                                    <td><small><?php echo format_time($product['created_at']);?></small></td>
                                     <td><?php echo $product['name'];?></td>
                                     <td><?php echo $product['sku'];?></td>
                                     <td><?php echo $product['brand'];?></td>
