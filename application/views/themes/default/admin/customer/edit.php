@@ -147,13 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="box-body">
                         <ul class="nav nav-stacked">
                             <?php if($statuses && $status_totals){?>
-                                <?php foreach ($statuses as $status){
-                                    if($status['is_complete'] ||$status['is_return']){
-                                        $close += $status_totals[$status['id']]['total'];
-                                    }else{
-                                        $open += $status_totals[$status['id']]['total'];
-                                    }
-                                    ?>
+                                <?php foreach ($statuses as $status){ ?>
                                     <li><a href="/autoxadmin/order/products?customer_id=<?php echo $customer['id'];?>&product_status_id=<?php echo $status['id'];?>"> Количество: <?php echo $status_totals[$status['id']]['qty'];?> сумма: <b><?php echo $status_totals[$status['id']]['total'];?></b> <span class="pull-right badge" style="background-color: <?php echo $status['color'];?>"><?php echo $status['name'];?></span></a></li>
                                 <?php } ?>
                             <?php } ?>
