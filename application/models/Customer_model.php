@@ -43,15 +43,15 @@ class Customer_model extends Default_model
     public function login($login, $password, $admin_login = false)
     {
         //$this->db->or_where('id', (int)$login);
-        if($phone =  format_phone($login)){
-            $this->db->or_where('phone',$phone);
+        if ($phone = format_phone($login)) {
+            $this->db->or_where('phone', $phone);
         }
 
-        if(filter_var($login, FILTER_VALIDATE_EMAIL)){
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
             $this->db->or_where('email', trim($login));
         }
 
-        if($admin_login){
+        if ($admin_login) {
             $this->db->where('id', (int)$admin_login);
         }
 
@@ -77,8 +77,8 @@ class Customer_model extends Default_model
                 if ($cart_data) {
                     //Обновляем в моделях данные
                     $this->customer_info = $this->get($query->row_array()['id']);
-                    $this->customergroup_model->customer_group =   $this->customergroup_model->get_customer_group();
-                    if($this->customergroup_model->customer_group) {
+                    $this->customergroup_model->customer_group = $this->customergroup_model->get_customer_group();
+                    if ($this->customergroup_model->customer_group) {
                         $this->load->model('customer_group_pricing_model');
                         $this->customer_group_pricing_model->pricing = $this->customer_group_pricing_model->get_customer_group_pricing($this->customergroup_model->customer_group['id']);
                     }
@@ -90,9 +90,9 @@ class Customer_model extends Default_model
                     unset($cart_contents['cart_total']);
                     unset($cart_contents['total_items']);
 
-                    if(count($cart_contents) > 0){
+                    if (count($cart_contents) > 0) {
                         foreach ($cart_contents as $product) {
-                            $this->cart_model->addCart($product['product_id'],$product['supplier_id'],$product['term'],$product['qty']);
+                            $this->cart_model->addCart($product['product_id'], $product['supplier_id'], $product['term'], $product['qty']);
                         }
                     }
                 }
@@ -105,7 +105,8 @@ class Customer_model extends Default_model
         return false;
     }
 
-    public function search($term){
+    public function search($term)
+    {
         $this->db->select('id as value, CONCAT_WS(" ", first_name, second_name, phone) as label', false);
         $this->db->or_like('first_name', $term);
         $this->db->or_like('second_name', $term);
@@ -248,5 +249,32 @@ class Customer_model extends Default_model
         // create a file pointer connected to the output stream
         $output = fopen('php://output', 'w');
         fwrite($output, $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+    }
+
+    //Расчет долга по деталям в работе
+    public function getWorkBalance($customer_id)
+    {
+        $close_status = [];
+        //Получаем статусы которые относятся к закрытым
+        $statuses = $this->orderstatus_model->status_get_all();
+        if ($statuses) {
+            foreach ($statuses as $status) {
+                if ($status['is_complete'] || $status['is_return']) {
+                    $close_status[] = $status['id'];
+                }
+            }
+        }
+
+        $sql = "SELECT SUM(op.price * op.quantity) as total FROM ax_order_product op 
+                LEFT JOIN ax_order o ON o.id = op.order_id
+                LEFT JOIN ax_customer c ON c.id = o.customer_id WHERE op.status_id NOT IN (" . implode(',', $close_status) . ") AND o.customer_id = '" . (int)$customer_id . "'";
+
+        $result = $this->db->query($sql)->row_array();
+
+        $total = $result['total'];
+
+        $customer_info = $this->get($customer_id);
+
+        return (-$total + $customer_info['balance']);
     }
 }

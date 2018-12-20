@@ -36,6 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_phone');?></th>
                                 <th><?php echo lang('text_sum');?></th>
                                 <th><?php echo lang('text_balance');?></th>
+                                <th>Баланс в работе</th>
                                 <th><?php echo lang('text_status');?></th>
                                 <th><a href="/autoxadmin/customer/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
@@ -84,6 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </label>
 
                                     </div></td>
+                                <td></td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="status" value="<?php echo $this->input->get('status');?>">
@@ -115,6 +117,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                             <?php echo $customer['balance'];?>
+                                        </td>
+                                        <td>
+                                            <?php echo $this->customer_model->getWorkBalance($customer['id']);?>
                                         </td>
                                         <td>
                                             <?php if($customer['status']){?>

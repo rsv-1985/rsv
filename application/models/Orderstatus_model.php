@@ -21,6 +21,20 @@ class Orderstatus_model extends Default_model{
         return false;
     }
 
+    public function get_complete(){
+        $return = [];
+        $this->db->where('is_return', true);
+        $query = $this->db->get($this->table);
+        if($query->num_rows() > 0){
+            $results = $query->result_array();
+            foreach ($results as $result){
+                $return[] = $result['id'];
+            }
+            return $return;
+        }
+        return false;
+    }
+
     public function get_return(){
         $return = [];
         $this->db->where('is_return', true);

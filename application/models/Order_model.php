@@ -11,7 +11,7 @@ class Order_model extends Default_model{
     public $total_rows = 0;
 
     public function order_get_all_products($limit, $start){
-        $this->db->select('SQL_CALC_FOUND_ROWS op.*, ip.invoice_id, o.status, c.id as customer_id, CONCAT_WS(" ", c.first_name, c.second_name) as customer_name', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS o.created_at, op.*, ip.invoice_id, o.status, c.id as customer_id, CONCAT_WS(" ", c.first_name, c.second_name) as customer_name', false);
         $this->db->from('order_product op');
         $this->db->join('order o','op.order_id=o.id', 'left');
         $this->db->join('customer c','o.customer_id=c.id', 'left');

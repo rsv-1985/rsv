@@ -24,10 +24,11 @@ class Waybill extends Admin_controller
     }
     private function _get_address($delivery_method_id, $items){
         $results = [];
+        $invoices = [];
         foreach ($items as $item){
             if($item['delivery_method_id'] == $delivery_method_id){
                 $key = $this->_get_key($item);
-
+                $invoices[] = $item['invoice_id'];
                 if($item['RecipientCityName']){
                     $address = $item['RecipientCityName'].' '.$item['RecipientAddressName'];
                 }else{
@@ -38,7 +39,8 @@ class Waybill extends Admin_controller
                     'last_name' => $item['last_name'],
                     'address' => $address,
                     'telephone' => $item['telephone'],
-                    'products' => $this->_get_products($delivery_method_id,$key,$items)
+                    'products' => $this->_get_products($delivery_method_id,$key,$items),
+                    'invoices' => $invoices
                 ];
             }
         }
@@ -84,9 +86,15 @@ class Waybill extends Admin_controller
                 'addresses' => $this->_get_address($delivery_method_id,$results)
             ];
         }
-        //$this->load->view('admin/header');
-        $this->load->view('admin/waybill/waybill', $data);
-        //$this->load->view('admin/footer');
+
+        if($this->input->get('print')){
+            $this->load->view('admin/waybill/waybill', $data);
+        }else{
+            $this->load->view('admin/header');
+            $this->load->view('admin/waybill/waybill', $data);
+            $this->load->view('admin/footer');
+        }
+
     }
 
 }

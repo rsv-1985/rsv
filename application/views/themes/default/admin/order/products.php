@@ -91,15 +91,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <div class="pull-right">
                                     <?php if ($this->input->get()) { ?>
                                         <a href="/autoxadmin/order/products" type="button"
-                                           class="btn btn-link"><?php echo lang('button_reset'); ?></a>
+                                           class="btn btn-danger"><?php echo lang('button_reset'); ?></a>
                                     <?php } ?>
                                     <button type="submit"
-                                            class="btn btn-link pull-right"><?php echo lang('button_search'); ?></button>
+                                            class="btn btn-info"><?php echo lang('button_search'); ?></button>
                                 </div>
                             </div>
                         </div>
                         <?php echo form_close(); ?>
                         <?php if ($this->input->get()) { ?>
+                            <hr>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-right">
@@ -120,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <table class="table table-condensed table-hover">
                             <tbody>
                             <tr>
+                                <th>Дата</th>
                                 <th>Заказ №</th>
                                 <th>Клиент</th>
                                 <th>Артикул</th>
@@ -139,6 +141,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <?php echo form_open(null, ['class' => 'product-form']); ?>
                                     <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
                                     <tr style="border-left: 5px solid <?php echo @$status[$product['status_id']]['color']; ?>">
+                                        <td>
+                                            <?php echo format_date($product['created_at']);?>
+                                        </td>
                                         <td>
                                             <a
                                                href="/autoxadmin/order/edit/<?php echo $product['order_id']; ?>">

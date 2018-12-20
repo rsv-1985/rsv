@@ -25,7 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="col-md-12">
                             <h3  <?php if ($black_list_info) { ?>style="color: red" <?php } ?>><?php echo $customer['first_name'] . ' ' . $customer['second_name']; ?>
                                 <div class="pull-right">
-                                    <?php echo format_balance($customer['balance']);?>
+                                    Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($customer['id']));?>
+                                    Баланс: <?php echo format_balance($customer['balance']);?>
                                 </div>
                             </h3>
                             <?php if ($black_list_info) { ?>
@@ -145,15 +146,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <div class="box-body">
                         <ul class="nav nav-stacked">
-                            <?php if($statuses && $status_totals){?>
-                                <?php foreach ($statuses as $status){?>
-                                    <?php if($status_totals[$status['id']]['total'] > 0){?>
-                                        <li><a href="/autoxadmin/order/products?customer_id=<?php echo $customer['id'];?>&product_status_id=<?php echo $status['id'];?>"> Количество: <?php echo $status_totals[$status['id']]['qty'];?> сумма: <b><?php echo $status_totals[$status['id']]['total'];?></b> <span class="pull-right badge" style="background-color: <?php echo $status['color'];?>"><?php echo $status['name'];?></span></a></li>
-                                    <?php } ?>
+                            <?php $close = 0; $open = 0; if($statuses && $status_totals){?>
+                                <?php foreach ($statuses as $status){
+                                    if($status['is_complete'] ||$status['is_return']){
+                                        $close += $status_totals[$status['id']]['total'];
+                                    }else{
+                                        $open += $status_totals[$status['id']]['total'];
+                                    }
+                                    ?>
+                                    <li><a href="/autoxadmin/order/products?customer_id=<?php echo $customer['id'];?>&product_status_id=<?php echo $status['id'];?>"> Количество: <?php echo $status_totals[$status['id']]['qty'];?> сумма: <b><?php echo $status_totals[$status['id']]['total'];?></b> <span class="pull-right badge" style="background-color: <?php echo $status['color'];?>"><?php echo $status['name'];?></span></a></li>
                                 <?php } ?>
                             <?php } ?>
-
                         </ul>
+                        <?php echo 'open'.$open.'close'.$close;?>
                     </div>
                 </div>
             <?php } ?>

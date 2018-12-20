@@ -43,11 +43,11 @@ class Invoice_model extends Default_model{
         }
 
         if($this->input->get('date_from')){
-            $this->db->where('i.created_at >=', (string)$this->input->get('date_from', true), false);
+            $this->db->where('DATE(i.created_at) >=', (string)$this->input->get('date_from', true));
         }
 
         if($this->input->get('date_to')){
-            $this->db->where('i.created_at <=', (string)$this->input->get('date_to', true), false);
+            $this->db->where('DATE(i.created_at) <=', (string)$this->input->get('date_to', true));
         }
 
         $this->db->limit($limit,$offset);

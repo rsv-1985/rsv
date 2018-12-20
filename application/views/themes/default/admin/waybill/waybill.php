@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     <link rel="stylesheet" href="<?php echo theme_url();?>admin/bootstrap/css/bootstrap.min.css">
 
 </head>
-<body>
+<body <?php if($this->input->get('print')){?>onload="print();" <?php } ?>
 <!-- Main content -->
 <section class="content">
     <?php if($results){?>
@@ -56,7 +56,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <div style="page-break-before:always;">
         <?php } ?>
     <?php } ?>
-                <button class="btn btn-default pull-right" onclick="this.remove();print();">Печать</button>
+                <?php if(!$this->input->get('print')){?>
+                    <a class="btn btn-default pull-right" href="/autoxadmin/waybill?print=1" target="_blank">Печать</a>
+                <?php } ?>
+
 </section><!-- /.content -->
 </body>
 </html>
