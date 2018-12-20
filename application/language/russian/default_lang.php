@@ -71,3 +71,4 @@ $lang['text_review'] = 'Отзывы';
 $lang['text_review_contact'] = 'Контакты';
 $lang['text_review_author'] = 'Имя';
 $lang['text_review_success'] = 'Ваш отзыв отправлен на модерацию';
+$lang['text_balance'] = 'Баланс';
