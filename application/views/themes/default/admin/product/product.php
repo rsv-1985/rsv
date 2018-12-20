@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <th><?php echo lang('text_saleprice');?></th>
                                 <th><a style="display: none;" href="/autoxadmin/product/create" class="btn btn-info pull-right"><?php echo lang('button_add');?></a></th>
                             </tr>
-                            <?php echo form_open('', ['method' => 'GET', 'id' => 'filter-form']);?>
+                            <?php echo form_open('/autoxadmin/product', ['method' => 'GET', 'id' => 'filter-form']);?>
                             <tr>
                                 <td>
                                     <input type="text" name="category_id" class="form-control" value="<?php echo $this->input->get('category_id');?>">
