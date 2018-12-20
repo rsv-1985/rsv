@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             </div>
             <div class="col-md-9">
                 <div class="pull-right">
+                    Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($this->customer_model->id));?>
                     Баланс: <?php echo format_balance($this->customer_model->balance); ?>
                 </div>
                 <h2>История по балансу</h2>

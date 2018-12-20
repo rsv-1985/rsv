@@ -146,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
                     <div class="box-body">
                         <ul class="nav nav-stacked">
-                            <?php $close = 0; $open = 0; if($statuses && $status_totals){?>
+                            <?php if($statuses && $status_totals){?>
                                 <?php foreach ($statuses as $status){
                                     if($status['is_complete'] ||$status['is_return']){
                                         $close += $status_totals[$status['id']]['total'];
@@ -158,7 +158,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                             <?php } ?>
                         </ul>
-                        <?php echo 'open'.$open.'close'.$close;?>
                     </div>
                 </div>
             <?php } ?>
