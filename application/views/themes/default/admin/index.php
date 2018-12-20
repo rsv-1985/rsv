@@ -107,7 +107,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div>
                 <div class="col-md-4">
-
                         <div class="info-box">
                             <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
                             <div class="info-box-content">
@@ -125,8 +124,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
-                    <iframe src="https://blog.autox.pro/" style="border: 0px; width: 100%; height: 600px"></iframe>
-                </div>
+                    <div style="width: 100%">
+                        <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = 'https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v3.2';
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));</script>
+                        <div class="fb-page" data-href="https://www.facebook.com/cmsautox/" data-tabs="timeline,messages" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com/cmsautox/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/cmsautox/">AutoX</a></blockquote></div>
+
+                    </div>
+                   </div>
             </div>
             <div class="clearfix"></div>
         </section><!-- /.content -->
