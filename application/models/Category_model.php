@@ -119,6 +119,7 @@ class Category_model extends Default_model
 
         if(isset($cats[$parent_id])){
             foreach ($cats[$parent_id] as $cat){
+
                 if(isset($cats[$cat['id']])){
                     $tree .= '<li class="nav_catalog_has_dd"><a href="#">' . $cat['name'].'</a><ul>';
                     $tree .= $this->build_tree($cats,$cat['id'],true);

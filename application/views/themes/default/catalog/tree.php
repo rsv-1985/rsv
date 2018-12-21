@@ -7,6 +7,9 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <style>
+    .sub{
+        display: none;
+    }
     .row.item {
         border: 1px solid #e5e5e5;
         margin: 5px;
@@ -367,21 +370,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
                 <?php if ($trees) { ?>
                     <h3><?php echo lang('text_catalog_tree'); ?></h3>
-                    <ul class="list-unstyled trees">
-                        <?php foreach ($trees as $tree) { ?>
-                            <?php if ($tree['Level'] == 1) { ?>
-                                <li id="<?php echo $tree['ID_tree']; ?>">
-                                    <?php if ($tree['Childs'] > 0) { ?>
-                                        <i class="fa fa-plus-square-o"></i> <a href="#"
-                                                                               onclick="show_tree('<?php echo $tree['ID_tree']; ?>', event)"><?php echo ucfirst($tree['Name']); ?></a>
-                                    <?php } else { ?>
-                                        <i class="fa fa-circle-o"></i> <a
-                                                href="<?php echo current_url(); ?>?id_tree=<?php echo $tree['ID_tree']; ?>"><?php echo ucfirst($tree['Name']); ?></a>
-                                    <?php } ?>
-                                </li>
-                            <?php } ?>
-                        <?php } ?>
-                    </ul>
+                    <?php echo doOutputList(build_tree($trees));?>
                 <?php } ?>
             </div>
 
@@ -427,6 +416,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php } ?>
 <script>
     $(document).ready(function () {
+        $(".trees a").click(function(e){
+            if($(this).next('.sub').length){
+                e.preventDefault();
+                $(this).next('.sub').toggle();
+            }
+        });
         <?php if($show_modal_types){?>
         $("#types").modal();
         <?php } ?>
@@ -452,34 +447,5 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     });
 
-    function show_tree(ID_tree, event) {
-        event.preventDefault();
-        var trees = [];
-        <?php foreach ($trees as $tree){?>
-        var p = {
-            'ID_tree': "<?php echo $tree['ID_tree'];?>",
-            'ID_parent': "<?php echo $tree['ID_parent'];?>",
-            'Name': "<?php echo ucfirst($tree['Name']);?>",
-            'Level': "<?php echo $tree['Level'];?>",
-            'Path': <?php echo $tree['Path'];?>,
-            'Childs': "<?php echo $tree['Childs'];?>"
-        };
-        trees.push(p);
-        <?php } ?>
-        var html = '<ul class="sub" id="' + ID_tree + '">';
-        $.each(trees, function (index, tree) {
-            if (tree.ID_parent == ID_tree) {
-                if (tree.Childs > 0) {
-                    html += '<li id="' + tree.ID_tree + '"><i class="fa fa-plus-square-o"></i> <a href="#" onclick="show_tree(\'' + tree.ID_tree + '\', event)">' + tree.Name + '</a></li>';
-                } else {
-                    html += '<li id="' + tree.ID_tree + '"><i class="fa fa-circle-o"></i> <a href="<?php echo current_url();?>?id_tree=' + tree.ID_tree + '">' + tree.Name + '</a></li>';
-                }
-            }
-        });
-        html += '</ul>';
-        if ($("#" + ID_tree + " > ul").length > 0) {
-            $("#" + ID_tree + " > ul").remove();
-        }
-        $("#" + ID_tree).append(html);
-    }
+
 </script>

@@ -117,3 +117,47 @@ function format_date($date){
 function format_time($date){
     return date(lang('format_time'),strtotime($date));
 }
+
+function build_tree(array $elements, $parentId = 10001){
+
+    $branch = array();
+
+    foreach ($elements as $element) {
+        if ($element['ID_parent'] == $parentId) {
+            $children = build_tree($elements, $element['ID_tree']);
+            if ($children) {
+                $element['children'] = $children;
+            }
+            $branch[$element['ID_tree']] = $element;
+            unset($elements[$element['ID_tree']]);
+        }
+    }
+
+    return $branch;
+}
+
+function doOutputList($TreeArray, $sub = false)
+{
+    if($sub){
+        $output = '<ul class="sub">';
+    }else{
+        $output = '<ul class="list-unstyled trees">';
+    }
+
+
+    foreach ($TreeArray as $tree){
+        if(@$tree['children']){
+            $output .= '<li>';
+            $output .= '<i class="fa fa-plus-square-o"></i> <a href="#">'.$tree['Name'].'</a>';
+            $output .= doOutputList($tree['children'], true);
+            $output .= '</li>';
+        }else{
+            $output .= '<li>';
+            $output .= '<a href="?id_tree='.$tree['ID_tree'].'">'.$tree['Name'].'</a>';
+            $output .= '</li>';
+        }
+
+    }
+    return $output .= '</ul>';
+}
+
