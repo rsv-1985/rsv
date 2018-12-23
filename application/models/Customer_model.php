@@ -254,6 +254,7 @@ class Customer_model extends Default_model
     //Расчет долга по деталям в работе
     public function getWorkBalance($customer_id)
     {
+        $this->load->model('orderstatus_model');
         $close_status = [];
         //Получаем статусы которые относятся к закрытым
         $statuses = $this->orderstatus_model->status_get_all();
