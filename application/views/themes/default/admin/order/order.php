@@ -32,6 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <tbody><tr>
                                 <th>#</th>
                                 <th>Баланс</th>
+                                <th>Баланс в работе</th>
                                 <th><?php echo lang('text_last_name');?></th>
                                 <th><?php echo lang('text_first_name');?></th>
                                 <th><?php echo lang('text_telephone');?></th>
@@ -49,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <input type="text" name="id" class="form-control" value="<?php echo $this->input->get('id', true);?>" style="width: 60px">
                                     </div>
                                 </td>
+                                <td></td>
                                 <td></td>
                                 <td>
                                     <div class="form-group">
@@ -118,6 +120,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                                 <a href="/autoxadmin/customerbalance/create?customer_id=<?php echo $order['customer_id'];?>">
                                                     <?php echo format_balance($order['balance']);?>
                                                 </a>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?php if($order['customer_id']){?>
+                                                <?php echo format_balance($this->customer_model->getWorkBalance($order['customer_id']));?>
                                             <?php } ?>
                                         </td>
                                         <td>

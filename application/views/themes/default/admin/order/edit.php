@@ -122,6 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     черный список</a>
                             <?php } ?>
                             <br>Баланс: <?php echo format_balance($customer_info['balance']); ?>
+                            Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($customer_info['id']));?>
                         </div>
                     <?php } ?>
                 </div><!-- /.col -->
