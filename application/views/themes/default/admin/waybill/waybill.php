@@ -53,7 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                     <?php } ?>
                 </div>
             </div>
-            <div style="page-break-before:always;">
         <?php } ?>
     <?php } ?>
                 <?php if(!$this->input->get('print')){?>
