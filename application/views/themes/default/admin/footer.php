@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         document.getElementsByTagName('head')[0].appendChild(script);
     })();
 </script><noscript><a href="http://reformal.ru"><img src="http://media.reformal.ru/reformal.png" /></a><a href="http://autox-pro.reformal.ru">Предложения</a></noscript>
-<script src="<?php echo theme_url();?>admin/main.js"></script>
+<script src="<?php echo theme_url();?>admin/main.js?v=1"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="<?php echo theme_url();?>admin/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->

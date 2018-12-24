@@ -17,6 +17,7 @@ class Waybill extends Admin_controller
         $this->load->model('delivery_model');
         $this->load->model('payment_model');
         $this->load->model('orderstatus_model');
+        $this->load->model('invoice_model');
     }
 
     private function _get_key($item){
@@ -28,6 +29,7 @@ class Waybill extends Admin_controller
         foreach ($items as $item){
             if($item['delivery_method_id'] == $delivery_method_id){
                 $key = $this->_get_key($item);
+                $invoices = [];
                 $invoices[] = $item['invoice_id'];
                 if($item['RecipientCityName']){
                     $address = $item['RecipientCityName'].' '.$item['RecipientAddressName'];
@@ -40,7 +42,7 @@ class Waybill extends Admin_controller
                     'address' => $address,
                     'telephone' => $item['telephone'],
                     'products' => $this->_get_products($delivery_method_id,$key,$items),
-                    'invoices' => $invoices
+                    'invoice' => $item['invoice_id']
                 ];
             }
         }
@@ -87,8 +89,12 @@ class Waybill extends Admin_controller
             ];
         }
 
+        $data['invoice_statuses'] = $this->invoice_model->statuses;
+
+        $data['order_statuses'] = $this->orderstatus_model->status_get_all();
+
         if($this->input->get('print')){
-            $this->load->view('admin/waybill/waybill', $data);
+            $this->load->view('admin/waybill/print', $data);
         }else{
             $this->load->view('admin/header');
             $this->load->view('admin/waybill/waybill', $data);

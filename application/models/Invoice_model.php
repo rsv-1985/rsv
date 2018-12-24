@@ -20,18 +20,8 @@ class Invoice_model extends Default_model{
         $this->db->select('SQL_CALC_FOUND_ROWS i.*, CONCAT_WS(" ", c.phone, c.first_name, c.second_name) as customer_name, c.balance FROM ax_invoice i',false);
         $this->db->join('ax_customer c','c.id = i.customer_id', 'left', false);
 
-        if($this->input->get('customer_name')){
-            $this->db->group_start();
-            $phone = format_phone($this->input->get('customer_name'));
-            if($phone){
-                $this->db->or_like('c.phone', $phone, 'both');
-            }
-
-            $this->db->or_like('c.first_name', $this->input->get('customer_name',true), 'both');
-            $this->db->or_like('c.second_name',  $this->input->get('customer_name',true), 'both');
-            $this->db->or_like('c.patronymic',  $this->input->get('customer_name',true), 'both');
-            $this->db->or_like('c.email',  $this->input->get('customer_name',true), 'both');
-            $this->db->group_end();
+        if($this->input->get('id')){
+            $this->db->where('i.id', (int)$this->input->get('id'), false);
         }
 
         if($this->input->get('customer_id')){

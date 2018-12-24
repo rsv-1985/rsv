@@ -23,6 +23,11 @@ class Invoice extends Admin_controller{
 
             $this->db->select('id');
             $this->db->set('status_id',(int)$this->input->post('status_id'));
+
+            if($this->input->get('id')){
+                $this->db->where('id', (int)$this->input->get('id'));
+            }
+
             if($this->input->get('customer_id')){
                 $this->db->where('customer_id', (int)$this->input->get('customer_id'));
             }

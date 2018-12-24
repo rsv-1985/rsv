@@ -26,25 +26,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
             <?php echo form_open('/autoxadmin/invoice',['method' => 'get']);?>
             <div class="well">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label>Дата с</label>
-                            <input type="date" name="date_from" value="<?php echo $this->input->get('date_from',true);?>" class="form-control">
+                            <label>ID расходной</label>
+                            <input type="text" name="id" value="<?php echo $this->input->get('id',true);?>" class="form-control">
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Дата по</label>
-                            <input type="date" name="date_to" value="<?php echo $this->input->get('date_to',true);?>" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="form-group">
                             <label>ID клиента</label>
                             <input type="text" name="customer_id" value="<?php echo $this->input->get('customer_id',true);?>" class="form-control">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Дата с</label>
+                                <input type="date" name="date_from" value="<?php echo $this->input->get('date_from',true);?>" class="form-control">
+                            </div>
+                            <label>Дата по</label>
+                            <input type="date" name="date_to" value="<?php echo $this->input->get('date_to',true);?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Статус</label>
                             <select name="status_id" class="form-control">
@@ -121,14 +123,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Смена статусов</h4>
+                <h4 class="modal-title">Применить к отфильтрованным</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo form_open('/autoxadmin/invoice/change_status?' . http_build_query($this->input->get()), ['id' => 'change_status']); ?>
                             <div class="form-group">
-                                <label>Применить к отфильтрованным:</label>
+                                <label>Статус</label>
                                 <select required name="status_id" class="form-control" onchange="checkVal($(this).val());" >
                                     <option></option>
                                     <?php foreach ($statuses as $status_id => $status_name){?>

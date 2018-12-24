@@ -47,19 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>ID клиента</label>
-                                    <input type="text" name="customer_id" class="form-control"
-                                           value="<?php echo $this->input->get('customer_id', true); ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label>Клиент</label>
-                                    <input type="text" name="customer_name" class="form-control"
-                                           placeholder="ФИО телефон email"
-                                           value="<?php echo $this->input->get('customer_name', true); ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
                                     <label>Статус детали</label>
                                     <select name="product_status_id" class="form-control">
                                         <option></option>
@@ -81,12 +68,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Поставщик</label>
-                                    <select multiple name="supplier_id[]" class="form-control">
+                                    <select multiple name="supplier_id[]" class="form-control" style="height: 108px;">
                                         <option></option>
                                         <?php foreach ($suppliers as $supplier) { ?>
                                             <option value="<?php echo $supplier['id']; ?>" <?php echo set_select('supplier_id', $supplier['id'], @in_array($supplier['id'], $this->input->get('supplier_id'))); ?>><?php echo $supplier['name']; ?></option>
                                         <?php } ?>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>ID клиента</label>
+                                    <input type="text" name="customer_id" class="form-control"
+                                           value="<?php echo $this->input->get('customer_id', true); ?>">
                                 </div>
                                 <div class="pull-right">
                                     <?php if ($this->input->get()) { ?>
