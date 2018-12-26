@@ -190,10 +190,10 @@ class Order_model extends Default_model{
      */
     public function getRevenue($order_id){
         //Получаем промежуточный итог
-        echo $sub_total = $this->getSubtotal($order_id);
-echo '|';
+        $sub_total = $this->getSubtotal($order_id);
+
         //Получаем сумму закупки
-        echo $sub_total_delivery = $this->getSubtotalDelivery($order_id);
+        $sub_total_delivery = $this->getSubtotalDelivery($order_id);
 
         return $sub_total - $sub_total_delivery;
     }
