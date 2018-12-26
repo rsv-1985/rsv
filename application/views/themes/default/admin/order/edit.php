@@ -163,12 +163,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php if ($products) { ?>
                             <?php foreach ($products as $product) { ?>
                                 <?php if (!$product['invoice_id']) { ?>
-                                    <tr id="row<?php echo $product['id']; ?>">
+                                    <tr id="row<?php echo $product['id']; ?>"  style="color: <?php echo @$status[$product['status_id']]['color']; ?>;">
                                         <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
                                                value="<?php echo $product['slug']; ?>">
                                         <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
                                                value="<?php echo $product['product_id']; ?>"/>
-                                        <td style="border-left:  2px solid <?php echo @$status[$product['status_id']]['color']; ?>;">
+                                        <td>
                                             <?php if ($product['invoice_id']) { ?>
                                                 <input type="hidden"
                                                        name="products[<?php echo $product['id']; ?>][supplier_id]"
@@ -272,7 +272,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 </select>
                                             <?php } ?>
                                         </td>
-                                        <td>
+                                        <td style="width: 90px">
                                             <a onclick="addInvoiceByItem(<?php echo $product['id']; ?>)" href=""
                                                class="btn btn-success"
                                                title="<?php echo lang('button_invoice'); ?>"><i
@@ -290,12 +290,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             } ?>
                             <?php foreach ($products as $product) { ?>
                                 <?php if ($product['invoice_id']) { ?>
-                                    <tr id="row<?php echo $product['id']; ?>">
+                                    <tr id="row<?php echo $product['id']; ?>" style="color: <?php echo @$status[$product['status_id']]['color']; ?>;">
                                         <input type="hidden" name="products[<?php echo $product['id']; ?>][slug]"
                                                value="<?php echo $product['slug']; ?>">
                                         <input type="hidden" name="products[<?php echo $product['id']; ?>][product_id]"
                                                value="<?php echo $product['product_id']; ?>"/>
-                                        <td style="border-left:  2px solid <?php echo @$status[$product['status_id']]['color']; ?>;">
+                                        <td>
                                             <?php if ($product['invoice_id']) { ?>
                                                 <input type="hidden"
                                                        name="products[<?php echo $product['id']; ?>][supplier_id]"
@@ -506,6 +506,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <input type="checkbox" name="set_products_status" value="1"> Применить к товарам
                                     </div>
                                 </td>
+                            </tr>
+                            <tr>
+                                <th><?php echo lang('text_revenue');?></th>
+                                <td><span><?php echo $revenue; ?></span></td>
                             </tr>
                         </table>
                         <div class="pull-right">

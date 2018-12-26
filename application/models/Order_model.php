@@ -170,4 +170,31 @@ class Order_model extends Default_model{
 
         return $this->db->query($sql)->row_array()['sub_total'];
     }
+
+    public function getSubtotalDelivery($id){
+
+        $sql = "SELECT SUM(op.delivery_price) as sub_total FROM ax_order_product op WHERE op.order_id = '".(int)$id."'";
+
+        $return_order_statuses = $this->orderstatus_model->get_return();
+
+        if($return_order_statuses){
+            $sql .= " AND op.status_id NOT IN ('".implode("','",$return_order_statuses)."')";
+        }
+
+        return $this->db->query($sql)->row_array()['sub_total'];
+    }
+
+    /**
+     * @param $order_id
+     * Расчет прибыли по заказу
+     */
+    public function getRevenue($order_id){
+        //Получаем промежуточный итог
+        echo $sub_total = $this->getSubtotal($order_id);
+echo '|';
+        //Получаем сумму закупки
+        echo $sub_total_delivery = $this->getSubtotalDelivery($order_id);
+
+        return $sub_total - $sub_total_delivery;
+    }
 }

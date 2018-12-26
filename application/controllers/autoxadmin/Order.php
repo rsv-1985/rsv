@@ -105,13 +105,14 @@ class Order extends Admin_controller
 
     public function edit($id)
     {
-
         $data = [];
         $data['order'] = $this->order_model->get($id);
         if (!$data['order']) {
             show_404();
         }
 
+        //Прибыль по заказу
+        $data['revenue'] = $this->order_model->getRevenue($id);
         $data['subtotal'] = $this->order_model->getSubtotal($id);
 
         $data['customer_info'] = $this->customer_model->get($data['order']['customer_id']);
