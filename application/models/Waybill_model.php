@@ -18,6 +18,7 @@ class Waybill_model extends Default_model{
         n.*, 
         dm.name as delivery_method,
         i.customer_id,
+        i.comment,
         ip.* FROM ax_invoice_product ip
        
         INNER JOIN ax_invoice i ON i.id = ip.invoice_id

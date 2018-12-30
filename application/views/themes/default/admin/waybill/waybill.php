@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php echo $address['last_name']; ?> <?php echo $address['first_name']; ?> <br>
                                 <?php echo $address['address']; ?><br>
                                 Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($address['products'][0]['customer_id']));?>
-
+                                <br><?php echo $address['products'][0]['comment'];?>
                             </div>
                             <div class="col-md-8 col-xs-8">
                                 <table border="1px" style="width: 100%">
