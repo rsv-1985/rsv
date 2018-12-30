@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     <label>Статус деталей</label>
                                     <select name="product_status_id" class="form-control">
                                         <?php foreach ($product_statuses as $status){?>
-                                            <option value="<?php echo $status['id'];?>"><?php echo $status['name'];?></option>
+                                            <option <?php if($status['is_complete']){?>selected<?php } ?> value="<?php echo $status['id'];?>"><?php echo $status['name'];?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -116,6 +116,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <div class="col-md-8"></div>
                         <?php } ?>
                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Комментарий</label>
+                                <textarea name="comment" class="form-control"><?php echo $invoice_info['comment'];?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>ТТН</label>
+                                <input type="text" name="ttn" value="<?php echo $invoice_info['ttn'];?>" class="form-control">
+                            </div>
                             <div class="pull-right">
                                 <a target="_blank" href="/autoxadmin/invoice/view/<?php echo $invoice_info['id'];?>" class="btn btn-default">Печать</a>
                                 <?php if($invoice_info['status_id'] == 1){?>

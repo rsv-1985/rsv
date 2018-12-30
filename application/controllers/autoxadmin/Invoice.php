@@ -20,6 +20,7 @@ class Invoice extends Admin_controller{
         if($this->input->get()){
             $status_id  = (int)$this->input->post('status_id');
             $product_status_id = (int)$this->input->post('product_status_id');
+            $ttn = $this->input->post('ttn');
 
             $this->db->select('id');
             $this->db->set('status_id',(int)$this->input->post('status_id'));
@@ -55,12 +56,18 @@ class Invoice extends Admin_controller{
                         $this->_provodka($invoice['id']);
                         $this->db->where('id',$invoice['id']);
                         $this->db->set('status_id',1);
+                        if($ttn){
+                            $this->db->set('ttn', $ttn);
+                        }
                         $this->db->update('invoice');
                     }
                 }else{
                     foreach ($invoices as $invoice){
                         $this->db->where('id',$invoice['id']);
                         $this->db->set('status_id',$status_id);
+                        if($ttn){
+                            $this->db->set('ttn', $ttn);
+                        }
                         $this->db->update('invoice');
                     }
                 }
@@ -164,6 +171,9 @@ class Invoice extends Admin_controller{
 
         $save['status_id'] = (int)$this->input->post('status_id');
         $save['delivery_price'] = (float)$this->input->post('delivery_price');
+        $save['comment'] = (string)$this->input->post('comment', true);
+        $save['ttn'] = (string)$this->input->post('ttn', true);
+
         $id = $this->invoice_model->insert($save, $id);
 
         //Обновляем количество в товарах

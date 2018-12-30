@@ -23,13 +23,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="panel-body">
                     <?php foreach ($delivery['addresses'] as $address) { ?>
                         <div class="row">
-                            <div class="col-md-4 col-xs-4">
-                                <?php echo $address['telephone']; ?><br>
-                                <?php echo $address['last_name']; ?> <?php echo $address['first_name']; ?> <br>
-                                <?php echo $address['address']; ?><br>
+                            <div class="col-md-1 col-xs-1">
                                 <a href="#" onclick="invoice_id = <?php echo $address['invoice']; ?>"
                                    class="btn btn-success btn-xs" data-toggle="modal" data-target="#change-status"
                                    title="Сменить статус"><i class="fa fa-edit"></i></a>
+                            </div>
+                            <div class="col-md-3 col-xs-3">
+                                <b>Получатель</b><br>
+                                <?php echo $address['telephone']; ?><br>
+                                <?php echo $address['last_name']; ?> <?php echo $address['first_name']; ?> <br>
+                                <?php echo $address['address']; ?><br>
+                                Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($address['products'][0]['customer_id']));?>
+
                             </div>
                             <div class="col-md-8 col-xs-8">
                                 <table border="1px" style="width: 100%">
@@ -84,15 +89,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <?php } ?>
                             </select>
                         </div>
-                        <div id="product_status_id" class="form-group">
-                            <label>Статус деталей</label>
-                            <select name="product_status_id" class="form-control">
-                                <?php foreach ($order_statuses as $status) { ?>
-                                    <option <?php if ($status['is_complete']){ ?>selected<?php } ?>
-                                            value="<?php echo $status['id']; ?>"><?php echo $status['name']; ?></option>
-                                <?php } ?>
-                            </select>
+                        <div id="product_status_id">
+                            <div class="form-group">
+                                <label>Статус деталей</label>
+                                <select name="product_status_id" class="form-control">
+                                    <?php foreach ($order_statuses as $status) { ?>
+                                        <option <?php if ($status['is_complete']){ ?>selected<?php } ?>
+                                                value="<?php echo $status['id']; ?>"><?php echo $status['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>ТТН</label>
+                                <input type="text" name="ttn" class="form-control">
+                            </div>
                         </div>
+
                         </form>
                     </div>
                 </div>

@@ -33,8 +33,10 @@ class Order_product_model extends Default_model{
     }
 
     public function get_products_by_customer($customer_id,$limit,$start){
-        $sql = "SELECT SQL_CALC_FOUND_ROWS op.*,o.created_at FROM ax_order_product op
+        $sql = "SELECT SQL_CALC_FOUND_ROWS op.*, i.ttn, o.created_at FROM ax_order_product op
          LEFT JOIN ax_order o ON o.id=op.order_id
+         LEFT JOIN ax_invoice_product ip ON ip.product_id = op.id
+         LEFT JOIN ax_invoice i ON i.id = ip.invoice_id
          WHERE o.customer_id = '".$customer_id."'";
 
         if($this->input->get()){

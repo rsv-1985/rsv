@@ -22,6 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <th>Сумма</th>
                             <th>Дата добавления</th>
                             <th>Статус</th>
+                            <th>ТТН</th>
                             <th></th>
                         </tr>
 
@@ -36,6 +37,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </td>
                                     <td>
                                         <?php echo $statuses[$invoice['status_id']];?>
+                                    </td>
+                                    <td>
+                                        <?php echo $invoice['ttn']; ?>
                                     </td>
                                     <td>
                                         <a target="_blank" class="btn btn-info" href="/customer/invoice/<?php echo $invoice['id'];?>">Печать</a>

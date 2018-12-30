@@ -84,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <th>Цена</th>
                             <th>Количество</th>
                             <th>Статус</th>
+                            <th>ТТН</th>
                         </tr>
                         <?php if($products){?>
                             <?php foreach ($products as $product){?>
@@ -103,6 +104,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <b style="color: <?php echo @$statuses[$product['status_id']]['color'];?>">
                                             <?php echo @$statuses[$product['status_id']]['name'];?>
                                         </b>
+                                    </td>
+                                    <td>
+                                        <?php echo $product['ttn'];?>
                                     </td>
                                 </tr>
                             <?php } ?>
