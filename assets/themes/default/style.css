@@ -1699,13 +1699,11 @@ img#loading {
 }
 .nav_catalog_dropdown li a {
     display: block;
-    padding: 20px 12px 20px 0;
+    padding: 5px 12px 5px 0;
     text-align: left;
-    border-bottom: 1px solid #3f88ad;
     line-height: 15px;
     font-size: 13px;
     font-weight: 600;
-    color: #6e6a6a;
     position: relative;
 }
 .nav_catalog_dropdown li:last-child a {
