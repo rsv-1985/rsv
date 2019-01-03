@@ -248,7 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         $(this).attr('disabled', 'disabled').val('');
                                     }
                                 });
-                                $("[name='login']").val(telephone);
+                                $("[name='phone']").val(telephone);
                                 $("#login").modal('show');
                                 break;
                             case 'is_login':
