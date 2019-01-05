@@ -109,11 +109,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                         </select>
                     </div>
-                    <input type="hidden" name="customer_id" value="<?php echo $order['customer_id']; ?>">
+                    <div class="form-group">
+                        <label>Клиент</label>
+                        <input required type="text" name="customer_id" value="<?php echo set_value('customer_id',$order['customer_id'] ? $order['customer_id'] : ''); ?>" class="form-control">
+                    </div>
+
                     <?php if ($order['customer_id']) { ?>
                         <div class="form-group">
-                            <label>Клиент</label>
-                            <br><a target="_blank"
+                            <a target="_blank"
                                    href="/autoxadmin/customer/edit/<?php echo $order['customer_id']; ?>"><?php echo $customer_info['first_name'] . ' ' . $customer_info['second_name']; ?></a>
                             <?php if ($black_list_info) { ?>
                                 <p class="label label-danger">! <?php echo $black_list_info['comment']; ?></p>
