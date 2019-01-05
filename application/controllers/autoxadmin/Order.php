@@ -99,7 +99,7 @@ class Order extends Admin_controller
 
     public function create()
     {
-        $order_id = $this->order_model->insert(['first_name' => '---']);
+        $order_id = $this->order_model->insert(['first_name' => '---', 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),]);
         redirect('/autoxadmin/order/edit/'.$order_id);
     }
 
