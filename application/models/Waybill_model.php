@@ -14,7 +14,7 @@ class Waybill_model extends Default_model{
         // полусаем товары с инвойсов кторые на отправку
         return $this->db->query("SELECT 
         o.address, o.first_name, o.last_name, o.delivery_method_id, o.telephone,
-        op.sku, op.brand, op.name, op.order_id,
+        op.sku, op.brand, op.name, op.order_id, op.price,
         n.*, 
         dm.name as delivery_method,
         i.customer_id,

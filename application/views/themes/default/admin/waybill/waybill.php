@@ -44,16 +44,24 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <th>Бренд</th>
                                         <th>Название</th>
                                         <th>Количество</th>
+                                        <th>Цена</th>
+                                        <th>Сумма</th>
                                     </tr>
                                     </thead>
-                                    <?php foreach ($address['products'] as $product) { ?>
+                                    <?php $sub_total = 0; foreach ($address['products'] as $product){?>
                                         <tr>
-                                            <td><?php echo $product['sku']; ?></td>
-                                            <td><?php echo $product['brand']; ?></td>
-                                            <td><?php echo $product['name']; ?></td>
-                                            <td><?php echo $product['quantity']; ?></td>
+                                            <td><?php echo $product['sku'];?></td>
+                                            <td><?php echo $product['brand'];?></td>
+                                            <td><?php echo $product['name'];?></td>
+                                            <td><?php echo $product['quantity'];?></td>
+                                            <td><?php echo $product['price'];?></td>
+                                            <td><?php $sub_total += $product['quantity'] * $product['price']; echo $product['quantity'] * $product['price'];?></td>
                                         </tr>
                                     <? } ?>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td><b><?php echo $sub_total;?></b></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

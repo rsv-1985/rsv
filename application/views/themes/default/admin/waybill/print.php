@@ -27,6 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php echo $address['telephone'];?><br>
                                 <?php echo $address['last_name'];?> <?php echo $address['first_name'];?> <br>
                                 <?php echo $address['address'];?>
+                                Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($address['products'][0]['customer_id']));?>
+                                <br><?php echo $address['products'][0]['comment'];?>
                             </div>
                             <div class="col-md-8 col-xs-8">
                                 <table border="1px" style="width: 100%">
@@ -36,16 +38,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <th>Бренд</th>
                                         <th>Название</th>
                                         <th>Количество</th>
+                                        <th>Цена</th>
+                                        <th>Сумма</th>
                                     </tr>
                                     </thead>
-                                    <?php foreach ($address['products'] as $product){?>
+                                    <?php $sub_total = 0; foreach ($address['products'] as $product){?>
                                         <tr>
                                             <td><?php echo $product['sku'];?></td>
                                             <td><?php echo $product['brand'];?></td>
                                             <td><?php echo $product['name'];?></td>
                                             <td><?php echo $product['quantity'];?></td>
+                                            <td><?php echo $product['price'];?></td>
+                                            <td><?php $sub_total += $product['quantity'] * $product['price']; echo $product['quantity'] * $product['price'];?></td>
                                         </tr>
                                     <? } ?>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td><b><?php echo $sub_total;?></b></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

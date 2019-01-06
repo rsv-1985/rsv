@@ -562,6 +562,7 @@ class Import extends Admin_controller
 
         //Удаляем позиции в которых цена 0 или наличие 0
         $this->import_model->clear_importtmp();
+
         //Обновляем дату последнего обновления у поставщика
         $this->supplier_model->insert(['updated_at' => date("Y-m-d H:i:s")], $supplier_id);
 
