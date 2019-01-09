@@ -182,8 +182,6 @@ class Category extends Front_controller{
             $this->rel_next = $this->pagination->rel_next;
         }
 
-        $this->output->cache(43800);
-
         $this->load->view('header');
         $this->load->view('category/category', $data);
         $this->load->view('footer');
