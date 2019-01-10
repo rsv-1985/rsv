@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Клиент</label>
+                        <label>ID клиента</label>
                         <input required type="text" name="customer_id" value="<?php echo set_value('customer_id',$order['customer_id'] ? $order['customer_id'] : ''); ?>" class="form-control">
                     </div>
 
