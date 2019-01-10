@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Meata description</label>
+                        <label>Meta description</label>
                         <input type="text" name="meta_description"
                                value="<?php echo set_value('meta_description', $product['meta_description']); ?>"
                                class="form-control">
