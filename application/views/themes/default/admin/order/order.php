@@ -113,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <tr style="border-left: 5px solid <?php echo @$status[$order['status']]['color'];?>">
                                         <td>
                                             <b>#<?php echo $order['id'];?><br></b>
-                                            <small><?php echo date('y-m-d',strtotime($order['created_at']));?></small>
+                                            <small><?php echo format_date($order['created_at']);?></small>
                                         </td>
                                         <td>
                                             <?php if( $order['customer_id']){?>
@@ -142,10 +142,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <?php echo $order['telephone'];?><br/>
                                         </td>
 
-                                        <td><?php echo $payment[$order['payment_method_id']]['name'];?></td>
-                                        <td><?php echo $delivery[$order['delivery_method_id']]['name'];?></td>
+                                        <td><?php echo @$payment[$order['payment_method_id']]['name'];?></td>
+                                        <td><?php echo @$delivery[$order['delivery_method_id']]['name'];?></td>
                                         <td>
-                                            <small style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></small>
+                                            <small style="color: <?php echo @$status[$order['status']]['color'];?>"><?php echo @$status[$order['status']]['name'];?></small>
                                         </td>
                                         <td>
                                             <?php if($order['products_status']){?>

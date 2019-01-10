@@ -95,15 +95,15 @@ class Customer_pay extends Admin_controller
         }else if($pay_info){
             $data['date'] = date('Y-m-d', strtotime($pay_info['transaction_date']));
         }else{
-            $data['date'] = '';
+            $data['date'] = date('Y-m-d');
         }
 
         if($this->input->post('time')){
             $data['time'] = $this->input->post('time', true);
         }else if($pay_info){
-            $data['time'] = date('H:i:s', strtotime($pay_info['transaction_date']));
+            $data['time'] = date('H:i', strtotime($pay_info['transaction_date']));
         }else{
-            $data['time'] = '';
+            $data['time'] = date('H:i');
         }
 
         if($this->input->post('comment')){

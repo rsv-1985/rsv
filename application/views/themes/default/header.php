@@ -123,8 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php if ($this->is_login) { ?>
                         <a href="/customer">
                             <?php echo $this->customer_model->first_name; ?>
-                            <?php echo lang('text_balance');?>: <?php echo format_balance($this->customer_model->balance); ?> /
-                            <?php echo lang('text_work_balance');?>: <?php echo format_balance($this->customer_model->getWorkBalance($this->customer_model->id));?>
+                            <?php echo lang('text_balance');?>: <?php echo format_balance($this->customer_model->balance); ?>
                         </a>/
                         <a href="/customer/logout"><?php echo lang('text_logout'); ?></a>
                     <?php } else { ?>

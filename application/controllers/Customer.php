@@ -300,6 +300,40 @@ class Customer extends Front_controller
         $this->customer_model->is_login('/customer/login');
         $data['recharge'] = $this->settings_model->get_by_key('recharge');
 
+        if($this->input->get('csv')){
+            $this->load->dbutil();
+            $sql = "SELECT * FROM ax_customer_balance WHERE customer_id = '".(int)$this->is_login."'";
+
+            if($this->input->get('date_from')){
+                $sql .= " AND DATE(created_at) >= ".$this->db->escape($this->input->get('date_from', true));
+            }
+
+            if($this->input->get('date_to')){
+                $sql .= " AND DATE(created_at) <= ".$this->db->escape($this->input->get('date_to', true));
+            }
+
+            if($this->input->get('type') && $this->input->get('type') != '*'){
+                $sql .= " AND type = ".(int)$this->input->get('type');
+            }
+
+            $query = $this->db->query($sql);
+
+            $config = array (
+                'root'          => 'root',
+                'element'       => 'element',
+                'newline'       => "\n",
+                'tab'           => "\t"
+            );
+            header("Content-disposition: attachment; filename=balance.csv");
+            header("Content-type: application/vnd.ms-excel");
+            $delimiter = ";";
+            $newline = "\r\n";
+            $enclosure = '"';
+
+            echo $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure);
+            die();
+        }
+
         if($this->input->post()){
             $this->load->library('sender');
             $this->load->model('customer_model');
@@ -333,13 +367,27 @@ class Customer extends Front_controller
         $this->load->model('customerbalance_model');
         $this->customer_model->is_login('/customer/login');
 
+        $where['customer_id'] = $this->is_login;
+        if($this->input->get('date_from')){
+            $where['DATE(created_at)'] = $this->input->get('date_from', true);
+        }
+
+        if($this->input->get('date_to')){
+            $where['DATE(created_at)'] = $this->input->get('date_to', true);
+        }
+
+        if($this->input->get('type') && $this->input->get('type') != '*'){
+            $where['type'] = (int)$this->input->get('type');
+        }
+
         $config['base_url'] = base_url('customer/balance');
-        $config['total_rows'] = $this->customerbalance_model->count_all(['customer_id' => $this->is_login]);
-        $config['per_page'] = 50;
+        $config['total_rows'] = $this->customerbalance_model->count_all($where);
+        $config['per_page'] = 20;
+        $config['reuse_query_string'] = true;
 
         $this->pagination->initialize($config);
 
-        $data['balances'] = $this->customerbalance_model->get_all($config['per_page'], $this->uri->segment(3), ['customer_id' => $this->is_login],['id' => 'desc']);
+        $data['balances'] = $this->customerbalance_model->get_all($config['per_page'], $this->uri->segment(3), $where,['id' => 'desc']);
         $data['types'] = $this->customerbalance_model->types;
         $this->load->view('header');
         $this->load->view('customer/balance', $data);

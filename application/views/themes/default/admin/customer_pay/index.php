@@ -97,6 +97,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 </a>
                             </th>
                             <th>
+                                Комментарий
+                            </th>
+                            <th>
                                 <a href="" class="sort" data-sort="status_id">
                                     Статус
                                 </a>
@@ -119,6 +122,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td>ID<?php echo $pay['customer_id'];?> <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $pay['customer_id'];?>"><?php echo $pay['customer_name'];?></a> </td>
                                         <td><?php echo $pay['amount'];?></td>
                                         <td><?php echo format_time($pay['transaction_date']);?></td>
+                                        <td style="text-align: center; width:90px;">
+                                            <?php echo $pay['comment'];?>
+                                        </td>
                                         <td style="text-align: center; width:90px;">
                                             <?php echo $statuses[$pay['status_id']];?>
                                         </td>
