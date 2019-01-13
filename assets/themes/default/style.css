@@ -2102,3 +2102,11 @@ img#loading {
     text-align: center;
 }
 
+.head_negative_balance {
+    text-align: center;
+    background: #ef0909;
+    color: white;
+    font-weight: bold;
+    height: 23px;
+}
+

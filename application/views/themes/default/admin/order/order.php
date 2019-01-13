@@ -120,6 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                                 <a href="/autoxadmin/customerbalance/create?customer_id=<?php echo $order['customer_id'];?>">
                                                     <?php echo format_balance($order['balance']);?>
                                                 </a>
+
                                             <?php } ?>
                                         </td>
                                         <td>
@@ -129,6 +130,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         </td>
                                         <td>
                                         <?php if($order['customer_id']){?>
+                                            <?php if($text_negative_balance = $this->customer_model->checkNegativeBalance($order['customer_id'])){ ?>
+                                                <i class="glyphicon glyphicon-info-sign" style="color: red;" title="<?php echo $text_negative_balance;?>"></i>
+                                            <?php } ?>
+                                            <?php if($text_вeferment_payment = $this->customer_model->checkDefermentPayment($order['customer_id'])){ ?>
+                                                <i class="glyphicon glyphicon-info-sign" style="color: red;" title="<?php echo $text_вeferment_payment;?>"></i>
+                                            <?php } ?>
                                                 <a href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['last_name'];?></a>
 
                                             <?php }else{?>

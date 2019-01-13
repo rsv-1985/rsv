@@ -26,6 +26,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     href="/autoxadmin/customer/edit/<?php echo $customer_info['id']; ?>"><?php echo $customer_info['first_name']. ' ' .$customer_info['second_name']; ?> <?php echo format_balance($customer_info['balance']); ?></a>
                         </small>
                     </h3>
+                    <?php if($text_negative_balance = $this->customer_model->checkNegativeBalance($customer_info['id'])){ ?>
+                        <h4 style="color: red;"><?php echo $text_negative_balance;?></h4>
+                    <?php } ?>
+                    <?php if($text_deferment_payment = $this->customer_model->checkDefermentPayment($customer_info['id'])){ ?>
+                        <h4 style="color: red;"><?php echo $text_deferment_payment;?></h4>
+                    <?php } ?>
                     <?php if ($products) { ?>
                         <table class="table table-condensed table-striped">
                             <thead>

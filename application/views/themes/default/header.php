@@ -48,6 +48,20 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <?php } ?>
 </head>
 <body>
+<?php if($this->customer_model->checkNegativeBalance($this->is_login)){?>
+    <noindex>
+        <div class="head_negative_balance">
+            <p><?php echo lang('text_head_negative_balance'); ?></p>
+        </div>
+    </noindex>
+<?php } ?>
+<?php if($this->customer_model->checkDefermentPayment($this->is_login)){?>
+    <noindex>
+        <div class="head_negative_balance">
+            <p><?php echo lang('text_head_deferment_payment'); ?></p>
+        </div>
+    </noindex>
+<?php } ?>
 <?php if ($this->options['head_text_messages']) { ?>
     <noindex>
         <div class="head_messages">

@@ -156,7 +156,8 @@ class Customer extends Admin_controller
             $save['updated_at'] = date("Y-m-d H:i:s");
         }
         $save['status'] = (bool)$this->input->post('status');
-        $save['negative_balance'] = (bool)$this->input->post('negative_balance');
+        $save['negative_balance'] = (float)$this->input->post('negative_balance');
+        $save['deferment_payment'] = (int)$this->input->post('deferment_payment');
         $id = $this->customer_model->insert($save, $id);
         if ($id) {
             $this->session->set_flashdata('success', lang('text_success'));

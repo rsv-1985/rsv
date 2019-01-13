@@ -23,5 +23,6 @@ $lang['text_confirm_password'] = 'Повторите пароль';
 $lang['text_status'] = 'Активен';
 $lang['text_success'] = 'Все прошло успешно';
 $lang['text_sum'] = 'Сумма заказов';
-$lang['text_negative_balance'] = 'Разрешить отрицательный баланс';
+$lang['text_negative_balance'] = 'Лимит отрицательного баланса';
 $lang['text_balance'] = 'Баланс';
+$lang['text_deferment_payment'] = 'Отсрочна платежа в днях';

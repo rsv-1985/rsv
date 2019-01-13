@@ -23,10 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3  <?php if ($black_list_info) { ?>style="color: red" <?php } ?>><?php echo $customer['first_name'] . ' ' . $customer['second_name']; ?>
+                            <h3 <?php if ($black_list_info) { ?>style="color: red" <?php } ?>><?php echo $customer['first_name'] . ' ' . $customer['second_name']; ?>
                                 <div class="pull-right">
-                                    Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($customer['id']));?>
-                                    Баланс: <?php echo format_balance($customer['balance']);?>
+                                    Баланс в
+                                    работе: <?php echo format_balance($this->customer_model->getWorkBalance($customer['id'])); ?>
+                                    Баланс: <?php echo format_balance($customer['balance']); ?>
                                 </div>
                             </h3>
                             <?php if ($black_list_info) { ?>
@@ -51,18 +52,28 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="form-group">
                             <label><?php echo lang('text_first_name'); ?></label>
                             <input type="text" class="form-control" name="first_name"
-                                   value="<?php echo set_value('first_name', $customer['first_name']); ?>" maxlength="250">
+                                   value="<?php echo set_value('first_name', $customer['first_name']); ?>"
+                                   maxlength="250">
                         </div>
                         <div class="form-group">
                             <label><?php echo lang('text_second_name'); ?></label>
                             <input type="text" class="form-control" name="second_name"
-                                   value="<?php echo set_value('second_name', $customer['second_name']); ?>" maxlength="250">
+                                   value="<?php echo set_value('second_name', $customer['second_name']); ?>"
+                                   maxlength="250">
                         </div>
                         <div class="form-group">
                             <label><?php echo lang('text_patronymic'); ?></label>
                             <input type="text" class="form-control" name="patronymic"
-                                   value="<?php echo set_value('patronymic', $customer['patronymic']); ?>" maxlength="255">
+                                   value="<?php echo set_value('patronymic', $customer['patronymic']); ?>"
+                                   maxlength="255">
                         </div>
+                        <div class="form-group">
+                            <label><?php echo lang('text_negative_balance'); ?></label>
+                            <input type="text" name="negative_balance" value="<?php echo set_value('negative_balance', (float)$customer['negative_balance']); ?>" placeholder="-1000" class="form-control">
+                        </div>
+                        <?php if($text_negative_balance = $this->customer_model->checkNegativeBalance($customer['id'])){ ?>
+                            <p style="color: red;"><?php echo $text_negative_balance;?></p>
+                        <?php } ?>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -73,7 +84,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <div class="form-group">
                             <label><?php echo lang('text_phone'); ?></label>
                             <input type="text" class="form-control" name="phone"
-                                   value="<?php echo set_value('phone', $customer['phone']); ?>" maxlength="32" minlength="10">
+                                   value="<?php echo set_value('phone', $customer['phone']); ?>" maxlength="32"
+                                   minlength="10">
                         </div>
 
                         <div class="form-group">
@@ -87,6 +99,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                    value="<?php echo set_value('confirm_password'); ?>" maxlength="255">
                         </div>
                         <div class="form-group">
+                            <label><?php echo lang('text_deferment_payment'); ?></label>
+                            <input type="text" name="deferment_payment" value="<?php echo set_value('deferment_payment', (int)$customer['deferment_payment']); ?>" class="form-control">
+                            <?php if($text_deferment_payment = $this->customer_model->checkDefermentPayment($customer['id'])){ ?>
+                                <p style="color: red;"><?php echo $text_deferment_payment;?></p>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group">
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" name="status"
@@ -95,15 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="negative_balance"
-                                           value="1" <?php echo set_checkbox('negative_balance', 1, (bool)$customer['negative_balance']); ?>>
-                                    <?php echo lang('text_negative_balance'); ?>
-                                </label>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -112,43 +123,55 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                       name="address"><?php echo set_value('address', $customer['address']); ?></textarea>
                         </div><!-- /.form group -->
                         <div class="form-group">
-                            <a href="/autoxadmin/customer/login/<?php echo $customer['id'];?>" class="btn btn-warning" title="Авторизоваться под клиентом" target="_blank"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
-                            <button type="submit" class="btn btn-info pull-right"><?php echo lang('button_submit'); ?></button>
+                            <a href="/autoxadmin/customer/login/<?php echo $customer['id']; ?>" class="btn btn-warning"
+                               title="Авторизоваться под клиентом" target="_blank"><i class="fa fa-sign-in"
+                                                                                      aria-hidden="true"></i></a>
+                            <button type="submit"
+                                    class="btn btn-info pull-right"><?php echo lang('button_submit'); ?></button>
                         </div><!-- /.form group -->
                     </div>
                 </div><!-- /.box-body -->
             </div>
-            <?php echo form_close();?>
+            <?php echo form_close(); ?>
         </div>
         <div class="col-md-4">
-            <?php if($orders){?>
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <a class="pull-right" href="/autoxadmin/order?customer_id=<?php echo $customer['id'];?>">все</a>
-                    <h3 class="box-title">Заказы</h3>
-                </div>
-                <div class="box-body">
-                    <ul class="nav nav-stacked">
-                        <?php foreach ($orders as $order){?>
-                            <li>
-                                <a href="/autoxadmin/order/edit/<?php echo $order['id'];?>">ID: <?php echo $order['id'];?>
-                                 сумма: <b><?php echo $order['total'];?></b>
-                                <span class="pull-right badge" style="background-color: <?php echo $statuses[$order['status']]['color'];?>"><?php echo $statuses[$order['status']]['name'];?></span></a>
-                            </li>
-                        <?php } ?>
-                   </ul>
-                </div>
-            </div>
+            <?php if ($orders) { ?>
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <a class="pull-right" href="/autoxadmin/order/products?customer_id=<?php echo $customer['id'];?>">все</a>
+                        <a class="pull-right"
+                           href="/autoxadmin/order?customer_id=<?php echo $customer['id']; ?>">все</a>
+                        <h3 class="box-title">Заказы</h3>
+                    </div>
+                    <div class="box-body">
+                        <ul class="nav nav-stacked">
+                            <?php foreach ($orders as $order) { ?>
+                                <li>
+                                    <a href="/autoxadmin/order/edit/<?php echo $order['id']; ?>">№<?php echo $order['id']; ?>
+                                        сумма: <b><?php echo $order['total']; ?></b>
+                                        <span class="pull-right badge"
+                                              style="background-color: <?php echo $statuses[$order['status']]['color']; ?>"><?php echo $statuses[$order['status']]['name']; ?></span></a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <a class="pull-right"
+                           href="/autoxadmin/order/products?customer_id=<?php echo $customer['id']; ?>">все</a>
                         <h3 class="box-title">Детали в работе</h3>
                     </div>
                     <div class="box-body">
                         <ul class="nav nav-stacked">
-                            <?php if($statuses && $status_totals){?>
-                                <?php foreach ($statuses as $status){ ?>
-                                    <li><a href="/autoxadmin/order/products?customer_id=<?php echo $customer['id'];?>&product_status_id=<?php echo $status['id'];?>"> Количество: <?php echo $status_totals[$status['id']]['qty'];?> сумма: <b><?php echo $status_totals[$status['id']]['total'];?></b> <span class="pull-right badge" style="background-color: <?php echo $status['color'];?>"><?php echo $status['name'];?></span></a></li>
+                            <?php if ($statuses && $status_totals) { ?>
+                                <?php foreach ($statuses as $status) { ?>
+                                    <li>
+                                        <a href="/autoxadmin/order/products?customer_id=<?php echo $customer['id']; ?>&product_status_id=<?php echo $status['id']; ?>">
+                                            Количество: <?php echo $status_totals[$status['id']]['qty']; ?> сумма:
+                                            <b><?php echo $status_totals[$status['id']]['total']; ?></b> <span
+                                                    class="pull-right badge"
+                                                    style="background-color: <?php echo $status['color']; ?>"><?php echo $status['name']; ?></span></a>
+                                    </li>
                                 <?php } ?>
                             <?php } ?>
                         </ul>
@@ -166,13 +189,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <li>
                             <?php if ($black_list_info) { ?>
                                 <a href="#" onclick="deleteBlack(event)">Удалить из черного списка</a>
-                            <?php }else{ ?>
+                            <?php } else { ?>
                                 <a href="#" onclick="addBlack(event)">В черный список</a>
                             <?php } ?>
                         </li>
-                        <li> <a href="/autoxadmin/customer_pay?customer_id=<?php echo $customer['id']; ?>">Оплаты</a></li>
-                        <li> <a href="/autoxadmin/customerbalance?customer_id=<?php echo $customer['id']; ?>">История баланса</a></li>
-                        <li><a href="/autoxadmin/invoice?customer_id=<?php echo $customer['id']; ?>">Расходные накладные</a></li>
+                        <li><a href="/autoxadmin/customer_pay?customer_id=<?php echo $customer['id']; ?>">Оплаты</a>
+                        </li>
+                        <li><a href="/autoxadmin/customerbalance?customer_id=<?php echo $customer['id']; ?>">История
+                                баланса</a></li>
+                        <li><a href="/autoxadmin/invoice?customer_id=<?php echo $customer['id']; ?>">Расходные
+                                накладные</a></li>
                     </ul>
                 </div>
                 <!-- /.box-body -->
@@ -194,14 +220,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     }
 
-    function addBlack(e){
+    function addBlack(e) {
         e.preventDefault();
         var comment = prompt('Комментарий');
         $.ajax({
             url: '/autoxadmin/blacklist/add',
-            data: {comment:comment, customer_id:'<?php echo $customer['id'];?>'},
+            data: {comment: comment, customer_id: '<?php echo $customer['id'];?>'},
             method: 'post',
-            success: function(response){
+            success: function (response) {
                 location.reload();
             }
         });

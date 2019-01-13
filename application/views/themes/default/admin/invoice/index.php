@@ -94,7 +94,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <?php echo format_date($invoice['created_at']);?><br/>
                                 </td>
                                 <td>
-                                    ID<?php echo $invoice['customer_id'];?>
+                                    <?php if($text_negative_balance = $this->customer_model->checkNegativeBalance($invoice['customer_id'])){ ?>
+                                        <i class="glyphicon glyphicon-info-sign" style="color: red;" title="<?php echo $text_negative_balance;?>"></i>
+                                    <?php } ?>
+                                    <?php if($text_deferment_payment = $this->customer_model->checkDefermentPayment($invoice['customer_id'])){ ?>
+                                        <i class="glyphicon glyphicon-info-sign" style="color: red;" title="<?php echo $text_deferment_payment;?>"></i>
+                                    <?php } ?>
                                     <a target="_blank" href="/autoxadmin/customer/edit/<?php echo $invoice['customer_id'];?>">
                                         <?php echo $invoice['customer_name'];?></a><br/>
                                 </td>

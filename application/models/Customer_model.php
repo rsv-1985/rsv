@@ -278,4 +278,30 @@ class Customer_model extends Default_model
 
         return (-$total + $customer_info['balance']);
     }
+
+    public function checkNegativeBalance($customer_id){
+        $customer_info = $this->get($customer_id);
+        if($customer_info['negative_balance'] < 0 && $customer_info['balance'] <= $customer_info['negative_balance']){
+            return 'Превышен отрицательный баланс по клиенту!';
+        }
+
+        return false;
+    }
+
+   public function checkDefermentPayment($customer_id){
+       $customer_info = $this->get($customer_id);
+       if($customer_info['balance'] < 0 && $customer_info['deferment_payment'] > 0){
+           //Смотрим дату когда появился минус
+           $date = $this->db->query("SELECT created_at FROM ax_customer_balance WHERE customer_id = '".(int)$customer_id."' AND balance >= 0 ORDER BY id DESC LIMIT 1")->row_array()['created_at'];
+
+           //Проверяем сколько дней минус
+           $days = date_diff(new DateTime(), new DateTime($date))->days;
+
+           if($days >= $customer_info['deferment_payment']){
+               return 'Превышен период отсрочки';
+           }
+       }
+
+       return false;
+   }
 }

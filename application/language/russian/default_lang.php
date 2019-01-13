@@ -73,3 +73,5 @@ $lang['text_review_author'] = 'Имя';
 $lang['text_review_success'] = 'Ваш отзыв отправлен на модерацию';
 $lang['text_balance'] = 'Баланс';
 $lang['text_work_balance'] = 'Баланс в работе';
+$lang['text_head_negative_balance'] = 'Превышен отрицательный баланс! Отгрузка запрещена.';
+$lang['text_head_deferment_payment'] = 'Превышен период отсрочки платежа! Отгрузка запрещена.';

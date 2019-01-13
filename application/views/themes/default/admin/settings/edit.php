@@ -411,6 +411,35 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </div>
                             </div>
                             <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading6">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapse8" aria-expanded="true" aria-controls="collapse8">
+                                            Liqpay
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse8" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="heading7">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>public_key</label>
+                                                <input type="text" name="settings[liqpay][public_key]"
+                                                       value="<?php echo set_value('settings[liqpay][public_key]', @$settings['liqpay']['public_key']); ?>"
+                                                       class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>merchant_public_key</label>
+                                                <input type="text" name="settings[liqpay][merchant_public_key]"
+                                                       value="<?php echo set_value('settings[liqpay][merchant_public_key]', @$settings['liqpay']['merchant_public_key']); ?>"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading4">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion"
