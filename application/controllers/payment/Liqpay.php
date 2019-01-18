@@ -12,6 +12,7 @@ class Liqpay extends CI_Controller{
     private $action = 'pay';
 
     public function index(){
+        exit('da');
         $this->load->language('payment/liqpay');
 
 
