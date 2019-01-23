@@ -124,6 +124,17 @@ class Product extends Front_controller
             }
         }
 
+        $images = $this->product_model->getProductImages($data['id']);
+        if($images){
+            foreach ($images as $im){
+                $data['images'][] = [
+                    'src' => '/uploads/product/'.$im['image'],
+                    'alt' => $count_img ? @$seo['alt_img'].'-'.$count_img : @$seo['alt_img']
+                ];
+                $count_img++;
+            }
+        }
+
         $data['description'] .= '<br/>' . @$seo['text'];
 
         $this->product_model->update_viewed($data['id']);

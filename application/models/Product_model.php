@@ -984,4 +984,10 @@ class Product_model extends Default_model
         }
         return $cross_suppliers;
     }
+
+    public function getProductImages($product_id){
+        $this->db->where('product_id', (int)$product_id);
+        $this->db->order_by('id', 'ASC');
+        return $this->db->get('product_images')->result_array();
+    }
 }

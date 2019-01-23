@@ -12,7 +12,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js"></script>
 <style>
     .product .product-images {
-        display: none;
+        display: block;
+    }
+
+    .product .product-images img{
+       max-width: 50px;
+        opacity: 0.5;
     }
 
     img {

@@ -81,6 +81,8 @@ class Product extends Admin_controller
 
         $data['attributes'] = $this->product_attribute_model->get_product_attributes($id);
 
+        $data['images'] = $this->product_model->getProductImages($id);
+
         if($this->input->post()){
             $this->form_validation->set_rules('sku', lang('text_sku'), 'required|max_length[32]|trim');
             $this->form_validation->set_rules('brand', lang('text_brand'), 'required|max_length[32]|trim');
@@ -128,14 +130,19 @@ class Product extends Admin_controller
                     }
                     else{
                         $this->session->set_flashdata('error', $this->upload->display_errors());
-                        redirect('autoxadmin/product/edit/'.$slug);
+                        redirect('autoxadmin/product/edit/'.$id);
                     }
                 }else{
                     if(mb_strlen($file_name) == 0){
                         @unlink('./uploads/product/'.$data['product']['image']);
                     }
                 }
-                $this->save_data($id, $file_name);
+
+                if(isset($_FILES['userfile2'])){
+                    $images = $this->upload_files();
+                }
+
+                $this->save_data($id, $file_name, $images);
             }else{
                 $this->error = validation_errors();
             }
@@ -289,7 +296,7 @@ class Product extends Admin_controller
         $this->load->view('admin/footer');
     }
 
-    public function save_data($id = false, $file_name){
+    public function save_data($id = false, $file_name, $images = false){
 
         $synonym = $this->synonym_model->get_synonyms();
 
@@ -354,6 +361,16 @@ class Product extends Admin_controller
                 $this->product_attribute_model->insert_batch($attributes_data);
             }
 
+            if($images){
+                foreach ($images as $image){
+                    $save = [
+                        'product_id' => (int)$product_id,
+                        'image' => $image
+                    ];
+
+                    $this->db->insert('product_images', $save);
+                }
+            }
         }
         $this->clear_cache();
         $this->session->set_flashdata('success', lang('text_success'));
@@ -365,5 +382,46 @@ class Product extends Admin_controller
         $this->product_attribute_model->delete_by_name($attribute_name);
         $this->clear_cache();
         exit('success');
+    }
+
+    public function delete_image(){
+        $image_id = $this->input->get('image_id');
+        $image_info = $this->db->where('id',$image_id)->get('product_images')->row_array();
+        if($image_info){
+            $path = './uploads/product/'.$image_info['image'];
+            if(file_exists('./uploads/product/'.$image_info['image'])){
+                unlink($path);
+            }
+
+            $this->db->where('id',$image_id)->delete('product_images');
+        }
+    }
+
+    private function upload_files()
+    {
+        $images = [];
+
+        $config['upload_path']          = './uploads/product';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['encrypt_name']         = true;
+
+        $this->load->library('upload', $config);
+
+        foreach ($_FILES['userfile2']['name'] as $key => $image) {
+            $_FILES['images']['name']= $_FILES['userfile2']['name'][$key];
+            $_FILES['images']['type']= $_FILES['userfile2']['type'][$key];
+            $_FILES['images']['tmp_name']= $_FILES['userfile2']['tmp_name'][$key];
+            $_FILES['images']['error']= $_FILES['userfile2']['error'][$key];
+            $_FILES['images']['size']= $_FILES['userfile2']['size'][$key];
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('images')) {
+                $upload_data = $this->upload->data();
+                $images[] = $upload_data['file_name'];
+            }
+        }
+
+        return $images;
     }
 }

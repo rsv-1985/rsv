@@ -55,6 +55,32 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <b>Доп. <?php echo lang('text_product_image'); ?></b>
+                </div>
+                <div class="box-body">
+                    <?php if($images){?>
+
+                        <table class="table table-condensed">
+                            <?php foreach ($images as $image){?>
+                                <tr>
+                                    <td>
+                                        <img width="100" src="/uploads/product/<?php echo $image['image'];?>">
+                                    </td>
+                                    <td class="text-right" style="vertical-align: inherit">
+                                        <button onclick="deleteImage(<?php echo $image['id'];?>, event)" class="btn btn-danger btn-xs">Удалить</button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    <?php } ?>
+                    <input id="image" type="hidden" name="image"
+                           value="<?php echo set_value('image', $product['image']); ?>">
+                    <input type="file" name="userfile2[]" multiple>
+                </div>
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
                     <b><?php echo lang('text_price'); ?></b>
                 </div>
                 <div class="box-body">
@@ -401,6 +427,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
             success: function(response){
                 alert(response);
             }
+        });
+    }
+
+    function deleteImage(image_id, e) {
+        e.preventDefault();
+        $.ajax({
+           url: '/autoxadmin/product/delete_image?image_id='+image_id,
+           success: function () {
+               location.reload();
+           }
         });
     }
 </script>
