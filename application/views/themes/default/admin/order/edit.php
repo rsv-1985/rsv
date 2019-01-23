@@ -436,38 +436,28 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php if ($history) { ?>
                         <hr>
                         <b>История по заказу</b>
-                        <table class="table table-condensed table-striped" style="background: white">
-                            <thead>
-                            <tr>
-                                <th>Дата добавления</th>
-                                <th>Комментарий</th>
-                                <th>Отправлено в SMS</th>
-                                <th>Отправлено в Email</th>
-                                <th>Менеджер</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($history as $history) { ?>
-                                <tr>
-                                    <td>
-                                        <small><?php echo $history['date']; ?></small>
-                                    </td>
-                                    <td><?php echo $history['text']; ?></td>
-                                    <td align="center">
-                                        <?php if ($history['send_sms']) { ?>
-                                            <i class="fa fa-check-circle-o"></i>
-                                        <?php } ?>
-                                    </td>
-                                    <td align="center">
-                                        <?php if ($history['send_email']) { ?>
-                                            <i class="fa fa-check-circle-o"></i>
-                                        <?php } ?>
-                                    </td>
-                                    <td><?php echo $history['manager']; ?></td>
-                                </tr>
+                        <div class="list-group">
+                            <?php foreach ($history as $history){?>
+
+                                <span  class="list-group-item">
+                                    <p class="list-group-item-heading" style="word-break: break-all"><?php echo $history['text']; ?></p>
+                                    <p class="list-group-item-text" style="text-align: right">
+                                        <small >
+                                        <?php echo $history['date']; ?>
+                                            <?php if ($history['send_sms']) { ?>
+                                                SMS <i class="fa fa-check-circle-o"></i>
+                                            <?php } ?>
+                                            <?php if ($history['send_email']) { ?>
+                                                Email <i class="fa fa-check-circle-o"></i>
+                                            <?php } ?>
+
+                                        <?php echo $history['manager']; ?>
+                                            </small>
+                                    </p>
+                                </span>
+
                             <?php } ?>
-                            </tbody>
-                        </table>
+                        </div>
                     <?php } ?>
 
                 </div><!-- /.col -->
