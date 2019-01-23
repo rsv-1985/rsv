@@ -440,7 +440,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php foreach ($history as $history){?>
 
                                 <span  class="list-group-item">
-                                    <p class="list-group-item-heading" style="word-break: break-all"><?php echo $history['text']; ?></p>
+                                    <p class="list-group-item-heading" style="word-break: break-all"><?php echo nl2br($history['text']); ?></p>
                                     <p class="list-group-item-text" style="text-align: right">
                                         <small >
                                         <?php echo $history['date']; ?>
@@ -568,7 +568,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     var row = '<?php echo $row;?>';
 
     $(document).keypress(function (e) {
-        if (e.which == 13) {
+        if (e.which == 13 && $("#search_val").is( ":focus" )) {
             e.preventDefault();
             $("#search").click();
         }
