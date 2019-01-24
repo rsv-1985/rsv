@@ -17,6 +17,10 @@ class Product extends REST_Controller
         $this->load->model('customergroup_model');
         $this->load->model('customer_group_pricing_model');
         $this->load->model('customer_model');
+
+        $autox_settings = $this->settings_model->get_by_key('autox');
+
+        $this->load->library('autox_cross',['api_key' => $autox_settings['api_key_cross']]);
     }
 
     public function index_get()
