@@ -438,12 +438,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <b>История по заказу</b>
                         <div class="list-group">
                             <?php foreach ($history as $history){?>
-
+                                <?php echo format_time($history['date']); ?>
+                                <span class="pull-right">
+                                    <?php echo $history['manager']; ?>
+                                </span>
                                 <span  class="list-group-item">
                                     <p class="list-group-item-heading" style="word-break: break-all"><?php echo nl2br($history['text']); ?></p>
                                     <p class="list-group-item-text" style="text-align: right">
-                                        <small >
-                                        <?php echo $history['date']; ?>
+
                                             <?php if ($history['send_sms']) { ?>
                                                 SMS <i class="fa fa-check-circle-o"></i>
                                             <?php } ?>
@@ -451,8 +453,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                 Email <i class="fa fa-check-circle-o"></i>
                                             <?php } ?>
 
-                                        <?php echo $history['manager']; ?>
-                                            </small>
+
+
                                     </p>
                                 </span>
 
