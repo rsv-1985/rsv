@@ -64,6 +64,6 @@ $lang['text_captcha'] = 'Проверочный код';
 $lang['text_forgot_input'] = 'Телефон или Email';
 $lang['text_forgot_input_placeholder'] = '380991112233 или test@test.test';
 $lang['text_menu_invoice'] = 'Расходные накладные';
-$lang['text_report_payment'] = 'Сообщить';
+$lang['text_report_payment'] = 'Сообщить об оплате';
 $lang['text_pay_online'] = 'Пополнить';
 $lang['text_prompt_amount'] = 'Укажите сумму';
