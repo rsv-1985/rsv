@@ -5,7 +5,7 @@
     <hr>
     <div class="btn-group" role="group" aria-label="...">
         <?php if($this->settings_model->get_by_key('liqpay')){?>
-            <button onclick="payOnline()" class="btn btn-success"><?php echo lang('text_pay_online');?></button>
+            <button onclick="payOnline()" class="btn btn-success btn-xs"><?php echo lang('text_pay_online');?></button>
             <script>
                 function payOnline() {
                     var amount = prompt('<?php echo lang('text_prompt_amount');?>');
@@ -15,7 +15,7 @@
                 }
             </script>
         <?php } ?>
-        <button class="btn btn-info" onclick="$('#pay-form').toggle();"><?php echo lang('text_report_payment');?></button>
+        <button class="btn btn-info btn-xs" onclick="$('#pay-form').toggle();"><?php echo lang('text_report_payment');?></button>
     </div>
 
     <div class="clearfix"></div>
