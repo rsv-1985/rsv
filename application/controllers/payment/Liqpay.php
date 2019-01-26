@@ -66,7 +66,7 @@ class Liqpay extends Front_controller{
 
     public function callback()
     {
-        $data = $this->input->post['data'];
+        $data = $this->input->post('data');
 
         $settings = $this->settings_model->get_by_key('liqpay');
 
@@ -78,7 +78,7 @@ class Liqpay extends Front_controller{
 
         $pay_id = $parsed_data['order_id'];
 
-        if ($signature == $this->input->post['signature']) {
+        if ($signature == $this->input->post('signature')) {
 
             $this->load->model('customer_pay_model');
             $this->load->model('customerbalance_model');
