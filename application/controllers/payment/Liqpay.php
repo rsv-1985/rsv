@@ -101,6 +101,9 @@ class Liqpay extends Front_controller{
                     0,//invoice_id
                     $pay_info['id']//pay_id
                 );
+            }else{
+                //Меняем статус оплаты
+                $this->customer_pay_model->insert(['status_id' => 2], $pay_info['id']);
             }
         }
     }
