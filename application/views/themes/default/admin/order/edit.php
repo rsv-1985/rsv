@@ -444,20 +444,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 </span>
                                 <span  class="list-group-item">
                                     <p class="list-group-item-heading" style="word-break: break-all"><?php echo nl2br($history['text']); ?></p>
-                                    <p class="list-group-item-text" style="text-align: right">
-
-                                            <?php if ($history['send_sms']) { ?>
-                                                SMS <i class="fa fa-check-circle-o"></i>
-                                            <?php } ?>
-                                            <?php if ($history['send_email']) { ?>
-                                                Email <i class="fa fa-check-circle-o"></i>
-                                            <?php } ?>
-
-
-
-                                    </p>
+                                    <p style="text-align: right" class="text-muted"><?php if ($history['send_sms']) { ?>
+                                            SMS <i class="fa fa-check-circle-o"></i>
+                                        <?php } ?>
+                                        <?php if ($history['send_email']) { ?>
+                                            Email <i class="fa fa-check-circle-o"></i>
+                                        <?php } ?></p>
                                 </span>
-
                             <?php } ?>
                         </div>
                     <?php } ?>

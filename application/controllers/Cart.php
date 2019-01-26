@@ -221,8 +221,7 @@ class Cart extends Front_controller
                     
                     //Если это api платежной системы передаем ей управление
                     if(!empty($cart_data['paymentInfo']['api'])){
-                        $this->load->library($cart_data['paymentInfo']['api']);
-                        $this->{$cart_data['paymentInfo']['api']}->get_form($order_id);
+                        redirect('/payment/'.$cart_data['paymentInfo']['api'].'?amount='.$cart_data['total']);
                     }
                     
                     $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));

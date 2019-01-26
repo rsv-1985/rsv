@@ -3,7 +3,21 @@
     <?php echo lang('text_balance');?>: <?php echo format_balance($this->customer_model->balance); ?><br/>
     <?php echo lang('text_work_balance');?>: <?php echo format_balance($this->customer_model->getWorkBalance($this->customer_model->id));?>
     <hr>
-    <button class="btn btn-info pull-right" onclick="$('#pay-form').toggle();">Сообщить об оплате</button>
+    <div class="btn-group" role="group" aria-label="...">
+        <?php if($this->settings_model->get_by_key('liqpay')){?>
+            <button onclick="payOnline()" class="btn btn-success"><?php echo lang('text_pay_online');?></button>
+            <script>
+                function payOnline() {
+                    var amount = prompt('<?php echo lang('text_prompt_amount');?>');
+                    if(amount > 0){
+                        location.href = '/payment/liqpay?amount='+amount;
+                    }
+                }
+            </script>
+        <?php } ?>
+        <button class="btn btn-info" onclick="$('#pay-form').toggle();"><?php echo lang('text_report_payment');?></button>
+    </div>
+
     <div class="clearfix"></div>
 </div>
 <?php echo form_open('/customer/balance'); ?>

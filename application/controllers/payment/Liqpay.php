@@ -6,29 +6,28 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Liqpay extends CI_Controller{
+class Liqpay extends Front_controller{
 
     private $version = 3;
     private $action = 'pay';
 
     public function index(){
-        exit('da');
         $this->load->language('payment/liqpay');
 
 
         $amount = (float)$this->input->get('amount');
-        if($amount > 0){
+        if($amount > 0 && $this->is_login){
             $settings = $this->settings_model->get_by_key('liqpay');
+            //Создаем полату
+            $this->load->model('customer_pay_model');
+            $order_id = $this->customer_pay_model->create($this->is_login, $amount, 'liqpay');
 
-            $order_id = rand(1,200);
-
-
-            $description = "#" . $order_id;
+            $description = "Пополнение баланса #" . $order_id;
             $result_url = base_url('/payment/liqpay/success');
             $server_url = base_url('/payment/liqpay/callback');
 
-            $private_key = $settings['public_key'];
-            $public_key = $settings['merchant_public_key'];
+            $public_key = $settings['public_key'];
+            $private_key = $settings['merchant_public_key'];
 
             $currency = $this->currency_model->get_default()['code'];
             if ($currency == 'RUR') {
@@ -56,13 +55,10 @@ class Liqpay extends CI_Controller{
             $data['language'] = $language;
             $data['action'] = 'https://www.liqpay.com/api/3/checkout';
 
-            $data['text_no_close'] = $this->language->get('text_no_close');
+            $data['text_no_close'] = lang('text_no_close');
 
-            if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/liqpay.tpl')) {
-                return $this->load->view($this->config->get('config_template') . '/template/payment/liqpay.tpl', $data);
-            } else {
-                return $this->load->view('default/template/payment/liqpay.tpl', $data);
-            }
+            $this->load->view('payment/liqpay', $data);
+
         }else{
             redirect('/');
         }
@@ -70,42 +66,52 @@ class Liqpay extends CI_Controller{
 
     public function callback()
     {
-        $data = $this->request->post['data'];
-        $private_key = $this->config->get('liqpay_signature');
+        $data = $this->input->post['data'];
+
+        $settings = $this->settings_model->get_by_key('liqpay');
+
+        $private_key = $settings['merchant_public_key'];
+
         $signature = $this->calculateSignature($data, $private_key);
+
         $parsed_data = json_decode(base64_decode($data), true);
-        file_put_contents('liqpay.txt',json_encode($parsed_data));
-        $order_id = explode('_',$parsed_data['order_id'])[0];
 
-        if ($signature == $this->request->post['signature']) {
-            $this->load->model('checkout/order');
-            $order_info = $this->model_checkout_order->getOrder($order_id);
+        $pay_id = $parsed_data['order_id'];
+
+        if ($signature == $this->input->post['signature']) {
+
+            $this->load->model('customer_pay_model');
+            $this->load->model('customerbalance_model');
+
+            $pay_info = $this->customer_pay_model->get($pay_id);
+
             if($parsed_data['status'] == 'success'){
-                $this->model_checkout_order->addOrderHistory($order_id, $this->config->get('liqpay_order_status_id'),'Оплата подтверждена автоматически ID'.$parsed_data['payment_id']);
-                //Ставим статус оплаты Оплата подтверждена
-                $this->db->query("UPDATE ".DB_PREFIX."order SET pay_status_id = '2' WHERE order_id = '".(int)$order_id."'");
 
-                //Создаем оплату
-                $this->db->query("INSERT INTO ".DB_PREFIX."pay_history SET 
-                   order_id = '".(int)$order_id."',
-                   pay_fio = '".$this->db->escape('ID: '.$parsed_data['payment_id'].' Карта: '.$parsed_data['sender_card_mask2'].' Дата:'.$parsed_data['end_date'])."',
-                   pay_total = '".(float)$parsed_data['amount']."',
-                   pay_date = '".date('Y-m-d')."',
-                   pay_time = '".date('H:i')."',
-                   created_at = '".date('Y-m-d H:i:s')."',
-                    where_paid = 'LiqPay',
-                    currency_pay_id = '".(int)$order_info['currency_id']."'
-                  ");
-            }else{
+                //Меняем статус оплаты
+                $this->customer_pay_model->insert(['status_id' => 1], $pay_info['id']);
 
-                $this->model_checkout_order->addOrderHistory($order_id, $order_info['order_status_id'],'Liqpay status: '.$parsed_data['status']);
+                //Зачисляем на баланс деньги
+                $this->customerbalance_model->add_transaction(
+                    $pay_info['customer_id'],
+                    (float)$pay_info['amount'],
+                    lang('text_customer_pay').' '. (int)$pay_info['id'],
+                    1, //Зачисдение
+                    $pay_info['transaction_date'],
+                    0,//user_id
+                    0,//invoice_id
+                    $pay_info['id']//pay_id
+                );
             }
-
         }
     }
 
     private function calculateSignature($data, $private_key)
     {
         return base64_encode(sha1($private_key . $data . $private_key, true));
+    }
+
+
+    public function success(){
+        redirect('/customer');
     }
 }

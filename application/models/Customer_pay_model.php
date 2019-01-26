@@ -15,6 +15,17 @@ class Customer_pay_model extends Default_model
 
     public $table = 'customer_pay';
 
+    public function create($customer_id, $amount, $comment = ''){
+        $save = [
+            'customer_id' => (int)$customer_id,
+            'amount' => (float)round($amount, 2),
+            'transaction_date' => date('Y-m-y H:i:s'),
+            'comment' => $comment
+        ];
+
+        return $this->insert($save);
+    }
+
     public function customer_pay_get_all($limit, $start){
         $fields = $this->customer_pay_model->fields();
 
