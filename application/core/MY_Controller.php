@@ -84,6 +84,8 @@ class Front_controller extends CI_Controller{
     public $show_modal = false;
     //Структурированные данные
     public $structure;
+    //Open Graph
+    public $og;
 
     public function __construct()
     {
@@ -171,5 +173,9 @@ class Front_controller extends CI_Controller{
         if(!$this->h1){
             $this->h1 = $string;
         }
+    }
+
+    public function setOg($key, $value){
+        $this->og[$key] = $value;
     }
 }

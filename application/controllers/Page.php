@@ -43,6 +43,12 @@ class Page extends Front_controller{
 
         $data['parent'] = $this->page_model->get_parent($data['id']);
         $data['main'] = $this->page_model->get_main($data['parent_id']);
+
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
+
+
         $this->load->view('header');
         $this->load->view('page/page',$data);
         $this->load->view('footer');

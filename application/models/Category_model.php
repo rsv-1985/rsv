@@ -11,6 +11,27 @@ class Category_model extends Default_model
 
     public $total_rows = 0;
 
+    public function getCategories($parent_id = 0){
+        $this->db->where('parent_id', (int)$parent_id);
+        $this->db->where('status', 1);
+        $this->db->order_by('sort', 'ASC');
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function getBreadcrumb($parent_id){
+        $this->db->where('id',(int)$parent_id);
+        $parent_info = $this->db->get($this->table)->row_array();
+
+        if($parent_info){
+            $breadcrumb[] = $parent_info;
+            if($parent_info['parent_id']){
+                $this->getBreadcrumb($parent_info['parent_id']);
+            }
+        }
+
+        return @$breadcrumb;
+    }
+
     public function cat_get_all($limit, $start){
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
         if($this->input->get('id')){
@@ -121,7 +142,7 @@ class Category_model extends Default_model
             foreach ($cats[$parent_id] as $cat){
 
                 if(isset($cats[$cat['id']])){
-                    $tree .= '<li class="nav_catalog_has_dd"><a href="#">' . $cat['name'].'</a><ul>';
+                    $tree .= '<li class="nav_catalog_has_dd"><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a><ul>';
                     $tree .= $this->build_tree($cats,$cat['id'],true);
                     if(@$cat['image']){
                         $tree .= '<img class="catalog_nav_img " src="'.$cat['image'].'">';

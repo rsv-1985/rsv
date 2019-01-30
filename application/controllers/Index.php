@@ -25,6 +25,14 @@ class Index extends Front_controller {
             $this->setTitle($settings['title']);
             $this->setDescription($settings['meta_description']);
             $this->setKeywords($settings['meta_keywords']);
+
+            $this->setOg('title',$settings['title']);
+            $this->setOg('description',$settings['meta_description']);
+            $this->setOg('url',base_url());
+            if($this->config->item('company_logo')){
+                $this->setOg('image',base_url($this->config->item('company_logo')));
+            }
+
         }
         $data['name'] = $settings['name'];
         $data['description'] = $settings['description'];
@@ -84,6 +92,8 @@ class Index extends Front_controller {
                 $data['catalog'] = $this->load->view($catalog_settings['views'],['manufacturers' => $catalog_settings['manufacturers']],true);
             }
         }
+
+
 
         $this->load->view('header');
         $this->load->view('index', $data);

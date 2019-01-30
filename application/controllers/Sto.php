@@ -70,6 +70,10 @@ class Sto extends Front_controller
             }
         }
 
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
+
         $this->load->view('header');
         $this->load->view('sto/sto', $data);
         $this->load->view('footer');

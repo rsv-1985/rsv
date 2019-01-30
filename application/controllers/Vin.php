@@ -23,6 +23,10 @@ class Vin extends Front_controller{
         $this->setSeotext(@$seo['text']);
 
         $data['h1'] = $this->h1;
+
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
         
         $this->load->view('header');
         $this->load->view('vin/vin', $data);

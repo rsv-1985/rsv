@@ -91,6 +91,10 @@ class Catalog extends Front_controller
                 $data['catalog'] = $this->load->view($catalog_settings['views'],['manufacturers' => $catalog_settings['manufacturers']],true);
             }
         }
+
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
         
         $this->load->view('header');
         $this->load->view('catalog/index', $data);
@@ -162,6 +166,10 @@ class Catalog extends Front_controller
                 'slug' => url_title($model_type->Name). '_' . $model_type->ID_mod . ($this->input->get('id_tree') ? '?id_tree='.$this->input->get('id_tree') : '')
             ];
         }
+
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
         
         $this->load->view('header');
         $this->load->view('catalog/model', $data);
@@ -261,6 +269,10 @@ class Catalog extends Front_controller
             'slug' => url_title($type->Name). '_' . $type->ID_typ . ($this->input->get('id_tree') ? '?id_tree='.$this->input->get('id_tree') : '')
             ];
         }
+
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
 
         $this->load->view('header');
         $this->load->view('catalog/typ', $data);
@@ -493,6 +505,9 @@ class Catalog extends Front_controller
             redirect($this->uri->uri_string());
         }
 
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
 
         $this->load->view('header');
         $this->load->view('catalog/tree', $data);

@@ -64,6 +64,10 @@ class Search extends Front_controller
         $this->setDescription(sprintf(lang('text_search_pre_search_description'), $search));
         $this->setKeywords(sprintf(lang('text_search_pre_search_keywords'), $search));
 
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
+
         $this->load->view('header');
         $this->load->view('search/pre_search', $data);
         $this->load->view('footer');

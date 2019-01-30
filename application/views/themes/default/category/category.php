@@ -9,6 +9,22 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="product-big-title-area">
     <div class="container">
+        <?php if($breadcrumbs){?>
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+                        <?php $q = 0; foreach ($breadcrumbs as $breadcrumb){?>
+                            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem" class="breadcrumb-item">
+                                <a itemprop="item" href="<?php echo $breadcrumb['href'];?>">
+                                    <span itemprop="name"><?php echo $breadcrumb['name'];?></span>
+                                </a>
+                                <meta itemprop="position" content="<?php echo $q;?>">
+                            </li>
+                            <?php $q++; } ?>
+                    </ol>
+                </div>
+            </div>
+        <?php } ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
@@ -97,6 +113,18 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } ?>
             </div>
             <div class="col-md-8">
+                <?php if($categories){?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b><?php echo lang('text_subcategory');?></b>
+                            <ul>
+                                <?php foreach ($categories as $category){?>
+                                    <li><a href="/category/<?php echo $category['slug'];?>"><?php echo $category['name'];?></a> </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+                <?php } ?>
                 <?php if ($products) { ?>
                     <div class="row">
                         <?php foreach ($products as $product) { ?>

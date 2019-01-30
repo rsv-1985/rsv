@@ -49,6 +49,10 @@ class News extends Front_controller{
         $data['h1'] = $this->h1;
         $data['description'] = auto_typography($news['description']);
 
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
+
         $this->load->view('header');
         $this->load->view('news/view', $data);
         $this->load->view('footer');

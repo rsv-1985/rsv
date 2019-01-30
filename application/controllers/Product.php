@@ -43,7 +43,16 @@ class Product extends Front_controller
 
 
         $category_info = $this->category_model->get($data['category_id']);
+
+
         if ($category_info) {
+            $category_breadcrumbs = $this->category_model->getBreadcrumb($category_info['parent_id']);
+
+            if($category_breadcrumbs){
+                foreach ($category_breadcrumbs as $category_breadcrumb){
+                    $data['breadcrumbs'][] = ['href' => base_url('category/'.$category_breadcrumb['slug']), 'text' => $category_breadcrumb['name']];
+                }
+            }
             $data['breadcrumbs'][] = ['href' => base_url('category/' . $category_info['slug']), 'text' => $category_info['name']];
         }
 
@@ -108,7 +117,7 @@ class Product extends Front_controller
 
         if($data['image']){
             $data['images'][] = [
-                'src' => '/uploads/product/'.$data['image'],
+                'src' => base_url('/uploads/product/'.$data['image']),
                 'alt' => @$seo['alt_img']
             ];
             $count_img = 2;
@@ -128,7 +137,7 @@ class Product extends Front_controller
         if($images){
             foreach ($images as $im){
                 $data['images'][] = [
-                    'src' => '/uploads/product/'.$im['image'],
+                    'src' => base_url('/uploads/product/'.$im['image']),
                     'alt' => $count_img ? @$seo['alt_img'].'-'.$count_img : @$seo['alt_img']
                 ];
                 $count_img++;
@@ -233,6 +242,14 @@ class Product extends Front_controller
             ];
 
             $this->structure = json_encode($structure);
+        }
+
+
+        $this->setOg('title',$this->title);
+        $this->setOg('description',$this->description);
+        $this->setOg('url',current_url());
+        if($data['images']){
+            $this->setOg('image',$data['images'][0]['src']);
         }
 
         $this->load->view('header');

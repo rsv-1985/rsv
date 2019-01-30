@@ -18,9 +18,10 @@ class Category extends Front_controller{
         $this->load->helper('text');
     }
 
-    public function index($slug, $brand = false){
+    public function view($slug, $brand = false){
         $slug = xss_clean($slug);
         $category = $this->category_model->get_by_slug($slug);
+
         if(!$category){
             $this->output->set_status_header(410, lang('text_page_404'));
             $this->load->view('header');
@@ -30,12 +31,34 @@ class Category extends Front_controller{
         }
 
         $data = [];
+
+        $breadcrumbs =  $this->category_model->getBreadcrumb($category['parent_id']);
+        $data['breadcrumbs'][] = [
+            'name' => lang('text_home'),
+            'href' => base_url()
+        ];
+        if($breadcrumbs){
+            foreach ($breadcrumbs as $breadcrumb){
+                $data['breadcrumbs'][] = [
+                    'name' => $breadcrumb['name'],
+                    'href' => base_url('category/'.$breadcrumb['slug'])
+                ];
+            }
+        }
+
+        $data['breadcrumbs'][] = [
+            'name' => $category['name'],
+            'href' => base_url('category/'.$category['slug'])
+        ];
+
+        $data['categories'] = $this->category_model->getCategories($category['id']);
+
         $data['brands'] = [];
 
         $data['brands'] = $this->category_model->get_brands($category['id']);
 
         if($data['brands']){
-           asort($data['brands']);
+            asort($data['brands']);
         }
 
         if($brand && !isset($data['brands'][$brand])){
@@ -86,6 +109,10 @@ class Category extends Front_controller{
             $this->setTitle(@$seo['title']);
             $this->setDescription(@$seo['description']);
             $this->setKeywords(@$seo['keywords']);
+
+            $this->setOg('title',@$seo['title']);
+            $this->setOg('description',@$seo['description']);
+            $this->setOg('url',current_url());
         }else{
             if(mb_strlen($category['h1']) > 0){
                 $this->setH1($category['h1']);
@@ -105,6 +132,7 @@ class Category extends Front_controller{
                 $this->setTitle($data['h1']);
             }
 
+
             if(mb_strlen($category['meta_description']) > 0){
                 $this->setDescription($category['meta_description']);
             }elseif (mb_strlen(@$seo['description']) > 0){
@@ -120,6 +148,10 @@ class Category extends Front_controller{
             }else{
                 $this->setKeywords(str_replace(' ',',',$this->title));
             }
+
+            $this->setOg('title',$this->title);
+            $this->setOg('description',$this->description);
+            $this->setOg('url',current_url());
         }
 
         if($this->uri->segment(3) &&  $this->uri->segment(3) != 'brand' || $this->uri->segment(5)){
@@ -184,6 +216,13 @@ class Category extends Front_controller{
 
         $this->load->view('header');
         $this->load->view('category/category', $data);
+        $this->load->view('footer');
+    }
+
+    public function index(){
+        $data['categories'] = $this->category_model->getCategories();
+        $this->load->view('header');
+        $this->load->view('category/index', $data);
         $this->load->view('footer');
     }
 

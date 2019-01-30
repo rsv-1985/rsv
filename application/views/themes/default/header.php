@@ -19,6 +19,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <meta name="keywords" content="<?php echo str_replace('"', '', $this->keywords); ?>">
     <script src="<?php echo theme_url(); ?>js/jquery-1.12.3.min.js"></script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/ico">
+    <?php if($this->og){?>
+        <?php foreach ($this->og as $key => $value){?>
+            <meta property="og:<?php echo $key;?>" content="<?php echo $value;?>"/>
+        <?php } ?>
+    <?php } ?>
     <?php if ($this->rel_prev) { ?>
         <link rel="prev" href="<?php echo $this->rel_prev; ?>">
     <?php } ?>
