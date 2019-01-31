@@ -36,7 +36,7 @@ class Order_model extends Default_model{
             }
 
             if($this->input->get('order_id')){
-                $this->db->where('o.order_id', (int)$this->input->get('order_id'));
+                $this->db->where('o.id', (int)$this->input->get('order_id'));
             }
             if($this->input->get('name')){
                 $this->db->like('op.name', $this->input->get('name', true));
