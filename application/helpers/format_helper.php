@@ -104,9 +104,9 @@ function format_phone($phone){
 
 function format_balance($balance){
     if($balance < 0){
-        return '<b title="Баланс" class="text-danger">'.$balance.'</b>';
+        return '<b title="Баланс" class="text-danger">'.round_out($balance,2).'</b>';
     }else{
-        return '<b title="Баланс" class="text-success">'.$balance.'</b>';
+        return '<b title="Баланс" class="text-success">'.round_out($balance,2).'</b>';
     }
 }
 
