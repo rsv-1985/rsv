@@ -213,6 +213,22 @@ class Product extends Front_controller
             } else {
                 $image = '';
             }
+
+            $structure = [
+                "@context" => "http://schema.org/",
+                "@type" => "Product",
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => $data['count_reviews'] ? $data['avg_rating'] : 0,
+                    "reviewCount" => $data['count_reviews'] ? $data['count_reviews'] : 0
+                ],
+                "description" => $data['description'],
+                "name" => $this->h1,
+                "brand" => $data['brand'],
+                "sku" => $data['sku'],
+                "image" => $image
+            ];
+
             //Готовим струтурированные данные
             foreach ($data['prices'] as $price) {
                 $offers[] = [
@@ -224,22 +240,38 @@ class Product extends Front_controller
                     "priceCurrency" => $this->currency_model->default_currency['code']
                 ];
             }
-            $structure = [
-                "@context" => "http://schema.org/",
-                "@type" => "Product",
-                "name" => $this->h1,
-                "brand" => $data['brand'],
-                "sku" => $data['sku'],
-                "image" => $image,
-                "offers" => [
-                    "@type" => "AggregateOffer",
-                    "highPrice" => format_currency(end($data['prices'])['price'], false),
-                    "lowPrice" => format_currency($data['prices'][0]['price'], false),
-                    "offerCount" => count($data['prices']),
-                    "priceCurrency" => $this->currency_model->default_currency['code'],
-                    "offers" => $offers
-                ]
+
+            $structure["offers"] = [
+                "@type" => "AggregateOffer",
+                "highPrice" => format_currency(end($data['prices'])['price'], false),
+                "lowPrice" => format_currency($data['prices'][0]['price'], false),
+                "offerCount" => count($data['prices']),
+                "priceCurrency" => $this->currency_model->default_currency['code'],
+                "offers" => $offers
             ];
+
+
+
+            if($data['count_reviews']){
+                foreach ($data['reviews'] as $review){
+                    $structure_review[] = [
+                        "@type" => "Review",
+                        "author" => $review['author'],
+                        "datePublished" => $review['created_at'],
+                        "description" => $review['text'],
+                        "name" => $review['author'],
+                        "reviewRating" => [
+                          "@type" => "Rating",
+                          "bestRating" => "5",
+                          "ratingValue" => $review['rating'],
+                          "worstRating" => "1"
+                      ]
+                    ];
+                }
+
+                $structure['review'] = $structure_review;
+            }
+
 
             $this->structure = json_encode($structure);
         }
