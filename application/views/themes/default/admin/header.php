@@ -73,10 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <a href="https://blog.autox.pro" target="_blank">Блог</a>
                             </li>
                             <li>
-                                <a target="_blank" href="https://t.me/autox_pro">Телеграм канал</i></a>
-                            </li>
-                            <li>
-                                <a href="https://t.me/joinchat/E8H7Q0QeDmQY7iul11PIFg" target="_blank">Группа телеграм</a>
+                                <a href="https://invite.viber.com/?g2=AQBhGLd%2FtdKJ0kkw75AjRkor33GajHcQZgIzBTMD%2BmlICzls7EsPBtY06txz%2BqKG" target="_blank">Группа viber</a>
                             </li>
                             <li class="divider"></li>
                             <li>
