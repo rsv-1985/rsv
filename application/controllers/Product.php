@@ -217,11 +217,6 @@ class Product extends Front_controller
             $structure = [
                 "@context" => "http://schema.org/",
                 "@type" => "Product",
-                "aggregateRating" => [
-                    "@type" => "AggregateRating",
-                    "ratingValue" => $data['count_reviews'] ? $data['avg_rating'] : 0,
-                    "reviewCount" => $data['count_reviews'] ? $data['count_reviews'] : 0
-                ],
                 "description" => $data['description'],
                 "name" => $this->h1,
                 "brand" => $data['brand'],
@@ -270,6 +265,12 @@ class Product extends Front_controller
                 }
 
                 $structure['review'] = $structure_review;
+
+                $structure["aggregateRating"] = [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => $data['avg_rating'],
+                    "reviewCount" => $data['count_reviews']
+                ];
             }
 
 
