@@ -18,9 +18,18 @@ class Liqpay extends Front_controller{
         $amount = (float)$this->input->get('amount');
         if($amount > 0 && $this->is_login){
             $settings = $this->settings_model->get_by_key('liqpay');
+
             //Создаем полату
             $this->load->model('customer_pay_model');
-            $order_id = $this->customer_pay_model->create($this->is_login, $amount, 'liqpay');
+
+            if($settings['commission']){
+                $total = round($amount + $amount * $settings['commission'] / 100, 2);
+                $order_id = $this->customer_pay_model->create($this->is_login, $amount, 'liqpay +'.(float)$settings['commission'].'% '.$total);
+            }else{
+                $order_id = $this->customer_pay_model->create($this->is_login, $amount, 'liqpay');
+                $total = $amount;
+            }
+
 
             $description = "Пополнение баланса #" . $order_id;
             $result_url = base_url('/payment/liqpay/success');
@@ -36,9 +45,11 @@ class Liqpay extends Front_controller{
 
             $language = 'ru';
 
+
+
             $send_data = array('version' => $this->version,
                 'public_key' => $public_key,
-                'amount' => $amount,
+                'amount' => round($total,2),
                 'currency' => $currency,
                 'description' => $description,
                 'order_id' => $order_id.'_'.time(),
