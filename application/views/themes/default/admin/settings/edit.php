@@ -435,6 +435,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                                        value="<?php echo set_value('settings[liqpay][merchant_public_key]', @$settings['liqpay']['merchant_public_key']); ?>"
                                                        class="form-control">
                                             </div>
+                                            <div class="form-group">
+                                                <label>Комиссия</label>
+                                                <input type="text" name="settings[liqpay][commission]"
+                                                       value="<?php echo set_value('settings[liqpay][commission]', @$settings['liqpay']['commission']); ?>"
+                                                       class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
