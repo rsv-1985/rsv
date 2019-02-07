@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>
-        <li><a href="/autoxadmin/customer_pay"><i class="fa fa-dashboard"></i> Оплата</a></li>
+        <li><a href="/autoxadmin/customer_pay">Оплата</a></li>
         <li class="active">Создать</li>
     </ol>
 </section>

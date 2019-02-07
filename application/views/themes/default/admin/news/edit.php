@@ -56,6 +56,12 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <label><?php echo lang('text_sort'); ?></label>
                         <input type="number" class="form-control" name="sort" value="<?php echo set_value('sort', $news['sort']); ?>" maxlength="255">
                     </div>
+
+                    <div class="form-group">
+                        <label><?php echo lang('text_created_at'); ?></label>
+                        <input type="date" class="form-control" name="created_at" value="<?php echo set_value('created_at', date('Y-m-d',strtotime($news['created_at']))); ?>">
+                    </div>
+
                     <div class="form-group">
                         <div class="checkbox">
                             <label>

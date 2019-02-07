@@ -62,6 +62,7 @@ $lang['text_nav_sto'] = 'Журнал СТО';
 $lang['text_nav_seo_settings  '] = 'SEO нстройки';
 $lang['text_catalog'] = 'Каталог';
 $lang['text_nav_category'] = 'Категории';
+$lang['text_success'] = 'Все прошло успешно';
 $lang['text_success_cache'] = 'Кэш очищен';
 $lang['text_site'] = 'На сайт';
 $lang['text_nav_newsletter'] = 'Подписчики';

@@ -110,12 +110,8 @@ class News extends Admin_controller
         }else{
             $save['slug'] = url_title($this->input->post('name', true),'dash',true);
         }
-        if($id){
-            $save['updated_at'] = date('Y-m-d H:i:s');
-        }else{
-            $save['created_at'] = date('Y-m-d H:i:s');
-            $save['updated_at'] = date('Y-m-d H:i:s');
-        }
+        $save['created_at'] = $this->input->post('created_at', true);
+        $save['updated_at'] = date('Y-m-d H:i:s');
         $save['sort'] = (int)$this->input->post('sort', true);
         $save['status'] = (bool)$this->input->post('status', true);
 

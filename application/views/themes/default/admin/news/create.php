@@ -58,6 +58,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
 
                     <div class="form-group">
+                        <label><?php echo lang('text_created_at'); ?></label>
+                        <input type="date" class="form-control" name="created_at" value="<?php echo set_value('created_at', date('Y-m-d')); ?>">
+                    </div>
+
+                    <div class="form-group">
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="status" value="1" <?php echo set_checkbox('status', 1, true);?>>
