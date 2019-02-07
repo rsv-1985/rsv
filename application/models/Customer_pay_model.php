@@ -19,7 +19,7 @@ class Customer_pay_model extends Default_model
         $save = [
             'customer_id' => (int)$customer_id,
             'amount' => (float)round($amount, 2),
-            'transaction_date' => date('Y-m-y H:i:s'),
+            'transaction_date' => date('Y-m-d H:i:s'),
             'comment' => $comment
         ];
 
