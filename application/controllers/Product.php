@@ -76,7 +76,7 @@ class Product extends Front_controller
         $data['components'] = $product->getComponents();
 
 
-        $data['cross'] = false;
+        $data['cross'] = [];
         $crosses = $product->getCrosses();
         if($crosses){
             foreach ($crosses as $cross){
@@ -93,6 +93,13 @@ class Product extends Front_controller
                 }
             }
         }
+
+        $data['oecross'] = [];
+        $oecross = $product->getOeCross();
+        if($oecross){
+            $data['oecross'] = $oecross;
+        }
+
 
         $settings = $this->settings_model->get_by_key('seo_product');
         if ($settings) {

@@ -173,7 +173,7 @@ class Mproduct extends Default_model{
         }
 
         //Если нет картинок пробуем достать с td2018
-        if(!$images){
+        if($images){
             //td2018
             $this->load->library('td');
 
@@ -187,6 +187,11 @@ class Mproduct extends Default_model{
 
 
         return $images;
+    }
+
+    public function getOeCross(){
+        $this->load->library('td');
+        return $this->td->getOeCross($this->sku, $this->brand);
     }
 
     public function getPrices($calculate = false){

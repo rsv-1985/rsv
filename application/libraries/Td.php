@@ -45,6 +45,20 @@ class Td {
         }
     }
 
+    public function getOeCross($sku, $brand){
+
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getOeCross',
+            'params' => [
+                'article' => $sku,
+                'brand' => $brand
+            ]
+        ];
+
+        return $this->res($query);
+    }
+
     public function res($query, $use_cache = false)
     {
         if ($use_cache) {
@@ -68,7 +82,7 @@ class Td {
         curl_close($curl);
 
         if($res){
-            $res = json_decode($res);
+            $res = json_decode($res, true);
             if ($use_cache) {
                 $this->CI->cache->file->save($key, $res, 60*60*24*30);
             }

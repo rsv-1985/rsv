@@ -15,8 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         display: block;
     }
 
-    .product .product-images img{
-       max-width: 50px;
+    .product .product-images img {
+        max-width: 50px;
         opacity: 0.5;
     }
 
@@ -309,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <i class="fa fa-shopping-cart"></i> <?php echo lang('text_in_cart'); ?>
                         </a>
                         <a href="#"
-                               onclick="fastOrder('<?php echo $_SERVER['REQUEST_URI']; ?>',event);"><?php echo lang('text_fast_order_link'); ?></a>
+                           onclick="fastOrder('<?php echo $_SERVER['REQUEST_URI']; ?>',event);"><?php echo lang('text_fast_order_link'); ?></a>
                     <?php } else { ?>
                         <p><?php echo lang('text_not_available'); ?></p>
                     <?php } ?>
@@ -325,7 +325,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <?php } ?>
                             <br>
                         <?php } ?>
-                        <a href="#review-h" rel="nofollow"><?php echo lang('text_review');?>: <?php echo $count_reviews; ?></a>
+                        <a href="#review-h" rel="nofollow"><?php echo lang('text_review'); ?>
+                            : <?php echo $count_reviews; ?></a>
                     </div>
 
                 </div>
@@ -411,6 +412,26 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                     </table>
                 </div>
+                <?php if ($oecross) { ?>
+                    <h3><?php echo lang('text_oe_cross'); ?></h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                            <?php foreach ($oecross as $oc) { ?>
+                                <tr>
+                                    <td><?php echo $oc['brand']; ?></td>
+                                    <td>
+                                        <a href="/search?search=<?php echo clear_sku($oc['sku']);?>&brand=<?php echo clear_brand($oc['brand']);?>">
+                                            <?php echo $oc['sku']; ?>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } ?>
                 <?php if ($applicability) { ?>
                     <h3><?php echo lang('text_applicability'); ?></h3>
                     <?php $q = 0;
@@ -461,7 +482,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php $q++;
                     } ?>
                 <?php } ?>
-                <h3 id="review-h"><?php echo lang('text_review');?></h3>
+                <h3 id="review-h"><?php echo lang('text_review'); ?></h3>
                 <?php if ($count_reviews > 0) { ?>
                     <?php foreach ($reviews as $review) { ?>
                         <div class="media">
@@ -473,7 +494,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <i class="fa fa-star active" aria-hidden="true"></i>
                                     <?php } ?>
                                 <?php } ?>
-                                <br><?php echo $review['author'];?>
+                                <br><?php echo $review['author']; ?>
 
                                 <small class="pull-right">
                                     <?php echo $review['created_at']; ?>
@@ -486,38 +507,44 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <?php } ?>
                 <?php } ?>
                 <a class="btn btn-info" style="width: 100%" role="button" data-toggle="collapse" href="#review">
-                    <?php echo lang('text_write_review');?>
+                    <?php echo lang('text_write_review'); ?>
                 </a>
                 <div class="clearfix"></div>
                 <div class="collapse" id="review">
                     <form id="review_form">
-                        <input type="hidden" name="product_id" value="<?php echo $id;?>">
+                        <input type="hidden" name="product_id" value="<?php echo $id; ?>">
                         <div class="well well-sm">
                             <div class="form-group">
-                                <label><?php echo lang('text_review_rating');?></label>
+                                <label><?php echo lang('text_review_rating'); ?></label>
                                 <div class="rating_form">
-                                    <label data-rate="1"><input required id="r1" name="rating" value="1" type="radio"><i class="fa fa-star r1" aria-hidden="true"></i></label>
-                                    <label data-rate="2"><input required id="r2"  name="rating" value="2" type="radio"><i class="fa fa-star r2" aria-hidden="true"></i></label>
-                                    <label data-rate="3"><input required id="r3"  name="rating" value="3" type="radio"><i class="fa fa-star r3" aria-hidden="true"></i></label>
-                                    <label data-rate="4"><input required id="r4"  name="rating" value="4" type="radio"><i class="fa fa-star r4" aria-hidden="true"></i></label>
-                                    <label data-rate="5"><input required id="r5"  name="rating" value="5" type="radio"><i class="fa fa-star r5" aria-hidden="true"></i></label>
+                                    <label data-rate="1"><input required id="r1" name="rating" value="1" type="radio"><i
+                                                class="fa fa-star r1" aria-hidden="true"></i></label>
+                                    <label data-rate="2"><input required id="r2" name="rating" value="2" type="radio"><i
+                                                class="fa fa-star r2" aria-hidden="true"></i></label>
+                                    <label data-rate="3"><input required id="r3" name="rating" value="3" type="radio"><i
+                                                class="fa fa-star r3" aria-hidden="true"></i></label>
+                                    <label data-rate="4"><input required id="r4" name="rating" value="4" type="radio"><i
+                                                class="fa fa-star r4" aria-hidden="true"></i></label>
+                                    <label data-rate="5"><input required id="r5" name="rating" value="5" type="radio"><i
+                                                class="fa fa-star r5" aria-hidden="true"></i></label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_review_author');?></label>
+                                <label><?php echo lang('text_review_author'); ?></label>
                                 <input type="text" name="author" class="form-control" maxlength="64">
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_review_contact');?></label>
+                                <label><?php echo lang('text_review_contact'); ?></label>
                                 <input type="text" name="contact" class="form-control" maxlength="64">
                             </div>
                             <div class="form-group">
-                                <label><?php echo lang('text_review_text');?></label>
-                                <textarea required minlength="10" maxlength="3000" name="text" rows="8" class="form-control"></textarea>
+                                <label><?php echo lang('text_review_text'); ?></label>
+                                <textarea required minlength="10" maxlength="3000" name="text" rows="8"
+                                          class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-info pull-right">
-                                    <?php echo lang('button_send');?>
+                                    <?php echo lang('button_send'); ?>
                                 </button>
                             </div>
                             <div class="clearfix"></div>
