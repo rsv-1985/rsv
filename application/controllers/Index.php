@@ -106,4 +106,10 @@ class Index extends Front_controller {
         $this->load->view('page_404');
         $this->load->view('footer');
     }
+
+    public function test(){
+	    $this->load->model('mproduct');
+        $product = $this->mproduct->get(1);
+	    print_r($product->getImages());
+    }
 }

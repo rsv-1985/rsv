@@ -13,6 +13,7 @@ class Search extends Front_controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('mproduct');
         $this->load->model('product_model');
         $this->load->model('brand_group_model');
         $this->load->language('search');
@@ -23,7 +24,7 @@ class Search extends Front_controller
     {
         $search = strip_tags($this->input->get('search', true));
 
-        $brands = $this->product_model->get_brands($search);
+        $brands = $this->mproduct->getBrands($search);
         if($brands){
             $data['group_brands'] = [];
             $data['brands'] = [];
@@ -76,6 +77,8 @@ class Search extends Front_controller
 
     public function index()
     {
+        $this->load->model('mproduct');
+
         $search = strip_tags($this->input->get('search', true));
 
         $brand = $this->input->get('brand', true);

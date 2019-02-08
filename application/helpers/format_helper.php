@@ -161,3 +161,33 @@ function doOutputList($TreeArray, $sub = false)
     return $output .= '</ul>';
 }
 
+//Очистка номера от лишних сиволов
+function clear_sku($sku)
+{
+    return str_replace('_', '', mb_strtoupper(preg_replace('/[^\w]+/u', '', $sku)));
+}
+
+//Чистка цены от лишних сиволов
+function clear_price($price)
+{
+    return (float)preg_replace("/[^0-9,.]+/iu", "", str_replace(',', '.', $price));
+}
+
+//Чистка бренда
+function clear_brand($brand, $synonym = false)
+{
+    $brand = trim(mb_strtoupper($brand, 'UTF-8'));
+    if ($synonym) {
+        if (isset($synonym[$brand])) {
+            $brand = $synonym[$brand];
+        }
+    }
+    return $brand;
+}
+
+//Чистка количества
+function clear_quan($q)
+{
+    return (int)preg_replace("/[^-0-9\.]/", "", $q);
+}
+

@@ -1,0 +1,78 @@
+<?php
+/**
+ * Developer: Распутний Сергей Викторович
+ * Site: cms.autoxcatalog.com
+ * Email: sergey.rasputniy@gmail.com
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+
+class Td {
+    private $key;
+    private $url = 'https://td2018q2.autox.pro?json=';
+    private $CI;
+
+    private $image_path = 'https://td2018q2.autox.pro/images/';
+
+    public function __construct()
+    {
+        $this->CI = &get_instance();
+        //$this->key = $this->CI->config->item('api_key');
+        //$this->url = $this->CI->config->item('api_url');
+    }
+
+    public function getInfo(){
+
+    }
+
+    public function getImages($sku, $brand){
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getImages',
+            'params' => [
+                'article' => $sku,
+                'brand' => $brand
+            ]
+        ];
+
+        $images = $this->res($query);
+        if($images){
+            $return = [];
+            foreach ($images as $image){
+                $return[] = $this->image_path.$image;
+            }
+            return $return;
+        }
+    }
+
+    public function res($query, $use_cache = false)
+    {
+        if ($use_cache) {
+            $key = md5(json_encode($query));
+            $cache = $this->CI->cache->file->get($key);
+            if ($cache) {
+                return $cache;
+            }
+        }
+
+        echo $jsonurl = $this->url . json_encode($query);
+        echo '<br>';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $jsonurl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+
+        $res = curl_exec($curl);
+        curl_close($curl);
+
+        if($res){
+            $res = json_decode($res);
+            if ($use_cache) {
+                $this->CI->cache->file->save($key, $res, 60*60*24*30);
+            }
+            return $res;
+        }
+    }
+}

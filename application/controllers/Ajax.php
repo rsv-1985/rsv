@@ -337,9 +337,4 @@ class Ajax extends Front_controller
             ->set_content_type('application/json')
             ->set_output(json_encode($json));
     }
-
-    public function goToProduct(){
-        $_SESSION['supplier_id'] = (int)$this->input->post('supplier_id');
-        $_SESSION['term'] = (int)$this->input->post('term');
-    }
 }
