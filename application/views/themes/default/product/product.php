@@ -432,6 +432,28 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </table>
                     </div>
                 <?php } ?>
+                <?php if ($components) { ?>
+                    <h3><?php echo lang('text_components'); ?></h3>
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-striped">
+                            <tbody>
+                            <?php foreach ($components as $component) { ?>
+                                <tr>
+                                    <td><?php echo $component['Name']; ?></td>
+                                    <td><?php echo $component['Brand']; ?></td>
+                                    <td>
+                                        <a href="/search?search=<?php echo clear_sku($component['Display']);?>&brand=<?php echo clear_brand($component['Brand']);?>">
+                                            <?php echo $component['Display']; ?>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                <?php } ?>
                 <?php if ($applicability) { ?>
                     <h3><?php echo lang('text_applicability'); ?></h3>
                     <?php $q = 0;
@@ -747,39 +769,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                 <?php } else { ?>
                     <?php echo lang('text_not_available'); ?>
                 <?php } ?>
-
-
-                <?php if ($components) { ?>
-                    <h3><?php echo lang('text_components'); ?></h3>
-                    <div class="table-responsive">
-                        <table class="table table-condensed">
-                            <thead>
-                            <tr>
-                                <th><?php echo lang('text_brand'); ?></th>
-                                <th><?php echo lang('text_sku'); ?></th>
-                                <th><?php echo lang('text_name'); ?></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($components as $components) { ?>
-                                <tr>
-                                    <td><?php echo $components->Brand; ?></td>
-                                    <td><?php echo $components->Display; ?></td>
-                                    <td><?php echo $components->Name; ?></td>
-                                    <td>
-                                        <a href="/search?search=<?php echo $components->Display; ?>&ID_art=<?php echo $components->ID_art; ?>&brand=<?php echo $components->Brand; ?>"><?php echo lang('button_search'); ?></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                <?php } ?>
-
                 <?php echo $description; ?>
-
             </div>
         </div>
     </div>
