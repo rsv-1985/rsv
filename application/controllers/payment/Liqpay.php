@@ -13,11 +13,11 @@ class Liqpay extends Front_controller{
 
     public function index(){
         $this->load->language('payment/liqpay');
-
+        $settings = $this->settings_model->get_by_key('liqpay');
 
         $amount = (float)$this->input->get('amount');
-        if($amount > 0 && $this->is_login){
-            $settings = $this->settings_model->get_by_key('liqpay');
+        if($amount > 0 && $this->is_login && $settings['public_key']){
+
 
             //Создаем полату
             $this->load->model('customer_pay_model');
