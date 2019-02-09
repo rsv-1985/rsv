@@ -280,6 +280,7 @@ class Catalog extends Front_controller
     }
 
     public function tree($ID_mfa, $ID_mod, $ID_typ = false, $ID_tree = 10001){
+
         if($ID_typ){
             if(isset($_SESSION['ID_typ'])){
                 unset($_SESSION['ID_typ']);

@@ -113,6 +113,10 @@ class Ajax extends Front_controller
         $ID_mod = (int)$this->input->post('ID_mod');
         $ID_typ = (int)$this->input->post('ID_typ');
 
+        $_SESSION['ID_typ'] = $ID_typ;
+        $_SESSION['ID_mod'] = $ID_mod;
+        $_SESSION['ID_mfa'] = $ID_mfa;
+
         $slug = [];
         $manufacturer_info = $this->tecdoc->getManufacturer($ID_mfa);
         if($manufacturer_info){
@@ -125,10 +129,6 @@ class Ajax extends Front_controller
             $slug[] = url_title($model_info[0]->Name).'_'.$ID_mod;
         }
 
-        $type_info = $this->tecdoc->getType($ID_mod,$ID_typ);
-        if($type_info){
-            $slug[] = url_title($type_info[0]->Name).'_'.$ID_typ;
-        }
         exit(base_url('catalog/'.implode('/',$slug)));
     }
 

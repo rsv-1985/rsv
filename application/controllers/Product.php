@@ -121,8 +121,8 @@ class Product extends Front_controller
             }
         }
 
+        $data['images'] = [];
         $images = $product->getImages();
-
         $count_img = 0;
         foreach ($images as $img){
             $data['images'][] = [
