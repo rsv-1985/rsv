@@ -59,6 +59,19 @@ class Td {
         return $this->res($query);
     }
 
+    public function getCrosses($sku, $brand){
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getCrosses',
+            'params' => [
+                'sku' => $sku,
+                'brand' => $brand
+            ]
+        ];
+
+        return $this->res($query);
+    }
+
     public function res($query, $use_cache = false)
     {
         if ($use_cache) {

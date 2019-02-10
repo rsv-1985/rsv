@@ -83,6 +83,27 @@ class Mproduct extends Default_model{
 
     public function getCrosses(){
         $crosses = [];
+
+        //td2018
+        $this->load->library('td');
+        $tdcross = $this->td->getCrosses($this->sku, $this->brand);
+        if($tdcross){
+            foreach ($tdcross as $tdc){
+
+                $sku = clear_sku($tdc['sku']);
+                $brand = clear_brand($tdc['brand']);
+
+                if ($sku == $this->sku && $brand == $this->brand) {
+                    continue;
+                }
+
+                $crosses[] = [
+                    'sku' => $sku,
+                    'brand' => $brand,
+                ];
+            }
+        }
+
         if (self::$tecdocInfo->ID_art) {
             $cross = $this->tecdoc->getCrosses(self::$tecdocInfo->ID_art);
             if ($cross) {

@@ -126,6 +126,16 @@ class Search extends Front_controller
             $product_search[] = ['sku' => $search, 'brand' =>  $brand];
         }
 
+        $this->load->library('td');
+
+        $tdcross = $this->td->getCrosses($search, $brand);
+        if($tdcross){
+            foreach ($tdcross as $tdc){
+                $product_search[] = ['sku' => clear_sku($tdc['sku']), 'brand' =>  clear_brand($brand)];
+            }
+        }
+
+
         $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
 
         if ($system_cross) {
@@ -153,6 +163,13 @@ class Search extends Front_controller
                     }
                     $check_brands[] = $group_brand['brand'];
                     $product_search[] = ['sku' => $search, 'brand' =>  $group_brand['brand']];
+
+                    $tdcross = $this->td->getCrosses($search, $group_brand['brand']);
+                    if($tdcross){
+                        foreach ($tdcross as $tdc){
+                            $product_search[] = ['sku' => clear_sku($tdc['sku']), 'brand' =>  clear_brand($brand)];
+                        }
+                    }
                 }
             }
         }
