@@ -31,7 +31,7 @@ class Liqpay extends Front_controller{
             }
 
 
-            $description = "Пополнение баланса #" . $order_id;
+            $description = sprintf(lang('text_comment'),$order_id);
             $result_url = base_url('/payment/liqpay/success');
             $server_url = base_url('/payment/liqpay/callback');
 
