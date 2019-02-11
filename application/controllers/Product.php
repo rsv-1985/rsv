@@ -225,14 +225,16 @@ class Product extends Front_controller
                     "@type" => "Offer",
                     "availability" => "http://schema.org/InStock",
                     "price" =>  format_currency($data['one_price']['saleprice'] > 0 ? $data['one_price']['saleprice'] : $data['one_price']['price'], false),
-                    "priceCurrency" => $this->currency_model->default_currency['code']
+                    "priceCurrency" => $this->currency_model->default_currency['code'],
+                    "url" => base_url('product/'.$data['slug'])
                 ];
             }else{
                 $structure['offers'] = [
                     "@type" => "Offer",
                     "availability" => "http://schema.org/OutOfStock",
                     "price" => 0,
-                    "priceCurrency" => $this->currency_model->default_currency['code']
+                    "priceCurrency" => $this->currency_model->default_currency['code'],
+                    "url" => base_url('product/'.$data['slug'])
                 ];
             }
 
