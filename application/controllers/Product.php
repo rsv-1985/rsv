@@ -199,7 +199,7 @@ class Product extends Front_controller
             $data['reviews'] = $product->getReviews();
         }
 
-        if ($data['prices']) {
+
 
 
             if ($data['images']) {
@@ -215,31 +215,25 @@ class Product extends Front_controller
                 "name" => $this->h1,
                 "brand" => $data['brand'],
                 "sku" => $data['sku'],
-                "image" => $image
+                "image" => $image,
+                "itemCondition" => 'new'
             ];
 
-            //Готовим струтурированные данные
-            foreach ($data['prices'] as $price) {
-                $offers[] = [
+            if($data['one_price']){
+                $structure['offers'] = [
                     "@type" => "Offer",
-                    "url" => "product/" . $data['slug'],
-                    "availability" => $price['quantity'],
-                    "price" => format_currency($price['saleprice'] > 0 ? $price['saleprice'] : $price['price'], false),
-                    "url" => base_url('product/' . $product->slug),
+                    "availability" => "http://schema.org/InStock",
+                    "price" =>  format_currency($data['one_price']['saleprice'] > 0 ? $data['one_price']['saleprice'] : $data['one_price']['price'], false),
+                    "priceCurrency" => $this->currency_model->default_currency['code']
+                ];
+            }else{
+                $structure['offers'] = [
+                    "@type" => "Offer",
+                    "availability" => "http://schema.org/OutOfStock",
+                    "price" => 0,
                     "priceCurrency" => $this->currency_model->default_currency['code']
                 ];
             }
-
-            $structure["offers"] = [
-                "@type" => "AggregateOffer",
-                "highPrice" => format_currency(end($data['prices'])['price'], false),
-                "lowPrice" => format_currency($data['prices'][0]['price'], false),
-                "offerCount" => count($data['prices']),
-                "priceCurrency" => $this->currency_model->default_currency['code'],
-                "offers" => $offers
-            ];
-
-
 
             if($data['count_reviews']){
                 foreach ($data['reviews'] as $review){
@@ -268,7 +262,7 @@ class Product extends Front_controller
             }
 
             $this->structure = json_encode($structure);
-        }
+
 
 
         $this->setOg('title',$this->title);
