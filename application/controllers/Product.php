@@ -216,7 +216,8 @@ class Product extends Front_controller
                 "brand" => $data['brand'],
                 "sku" => $data['sku'],
                 "image" => $image,
-                "itemCondition" => 'new'
+                "itemCondition" => 'new',
+                "url" => base_url('product/'.$data['slug'])
             ];
 
             if($data['one_price']){
