@@ -41,7 +41,7 @@ class Import extends Admin_controller
         $results = array();
 
         $i = 0; // using 'i' for counting the number of actual row parsed
-        while ($file->valid() && $i <= 2000) {
+        while ($file->valid() && $i <= 3000) {
 
             $line = $file->fgets();
 
@@ -132,6 +132,9 @@ class Import extends Admin_controller
                                 'supplier_id' => (int)$this->input->post('supplier_id', true),
                                 'delimiter' => $this->detect_delimeter($file_name)
                             );
+
+                            print_r($params);
+                            exit('da');
 
                             $_SESSION['params'] = serialize($params);
 
