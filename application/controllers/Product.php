@@ -203,7 +203,7 @@ class Product extends Front_controller
 
 
             if ($data['images']) {
-                $image =$data['images'][0]['src'];
+                $image = $data['images'][0]['src'];
             } else {
                 $image = '';
             }
@@ -272,7 +272,7 @@ class Product extends Front_controller
         $this->setOg('description',$this->description);
         $this->setOg('url',current_url());
         if($data['images']){
-            $this->setOg('image',$data['images'][0]['src']);
+            $this->setOg('image',base_url('image').'?img='.$data['images'][0]['src']);
         }
 
         $this->load->view('header');
