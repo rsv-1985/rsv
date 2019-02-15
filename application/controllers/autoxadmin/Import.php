@@ -133,9 +133,6 @@ class Import extends Admin_controller
                                 'delimiter' => $this->detect_delimeter($file_name)
                             );
 
-                            print_r($params);
-                            exit('da');
-
                             $_SESSION['params'] = serialize($params);
 
                             $this->csv_read();
