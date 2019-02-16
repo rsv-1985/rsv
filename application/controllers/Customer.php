@@ -101,7 +101,7 @@ class Customer extends Front_controller
                         $this->sender->sms($this->input->post('phone'), $message_template['text_sms']);
                     }
 
-                    if ($this->customer_model->login($customer_id, $this->input->post('password', true))) {
+                    if ($this->customer_model->login($this->input->post('phone'), $this->input->post('password', true))) {
                         $this->session->set_flashdata('success', sprintf(lang('text_success_login'), $this->session->customer_name));
                         redirect('/');
                     } else {
