@@ -205,7 +205,7 @@ class Product extends Front_controller
             if ($data['images']) {
                 $image = $data['images'][0]['src'];
             } else {
-                $image = '';
+                $image = base_url('/assets/themes/default/img/no_image.png');
             }
 
             $structure = [
