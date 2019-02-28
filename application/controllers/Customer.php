@@ -236,7 +236,9 @@ class Customer extends Front_controller
         $save['patronymic'] = $this->input->post('patronymic', true);
         $save['email'] = $this->input->post('email', true);
         $save['address'] = $this->input->post('address', true);
-        $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
+        if(!$id){
+            $save['customer_group_id'] = (int)$this->customergroup_model->get_default();
+        }
         $save['password'] = password_hash($this->input->post('password', true), PASSWORD_BCRYPT);
         $save['phone'] = format_phone($this->input->post('phone', true));
         $save['created_at'] = date('Y-m-d H:i:s');
