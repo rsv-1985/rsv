@@ -67,3 +67,6 @@ $lang['text_menu_invoice'] = 'Расходные накладные';
 $lang['text_report_payment'] = 'Сообщить об оплате';
 $lang['text_pay_online'] = 'Пополнить';
 $lang['text_prompt_amount'] = 'Укажите сумму';
+$lang['text_balance_comment'] = 'Комментарий';
+$lang['text_balance_date_time'] = 'Дата и время';
+$lang['text_balance_sum'] = 'Сумма';
