@@ -23,17 +23,17 @@
 <?php echo form_open('/customer/balance'); ?>
 <div class="well well-sm" id="pay-form" style="display: none">
     <div class="form-group">
-        <label>Сумма</label>
+        <label><?php echo lang('text_balance_sum');?></label>
         <input value="<?php echo set_value('sum');?>" type="text" name="sum" class="form-control" required>
     </div>
     <div class="form-group">
-        <label>Дата и время</label>
+        <label><?php echo lang('text_balance_date_time');?></label>
         <input name="date" value="<?php echo set_value('date');?>" type="date" class="form-control input-sm">
         <br>
         <input name="time" value="<?php echo set_value('time');?>" type="time" class="form-control input-sm">
     </div>
     <div class="form-group">
-        <label>Комментарий</label>
+        <label><?php echo lang('text_balance_comment');?></label>
         <textarea name="comment" class="form-control"><?php echo set_value('comment');?></textarea>
     </div>
     <div class="form-group">
