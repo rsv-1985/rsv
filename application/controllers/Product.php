@@ -211,7 +211,7 @@ class Product extends Front_controller
             $structure = [
                 "@context" => "http://schema.org/",
                 "@type" => "Product",
-                "description" => $data['description'],
+                "description" => strip_tags($data['description']),
                 "name" => $this->h1,
                 "brand" => $data['brand'],
                 "sku" => $data['sku'],
