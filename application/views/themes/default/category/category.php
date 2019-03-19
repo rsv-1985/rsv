@@ -39,65 +39,103 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <?php if ($brands || $attributes) { ?>
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <?php if ($brands) { ?>
+                <?php if ($brands || $attributes) { $q = 0;?>
+                    <?php if($checked_values){?>
+                        <div class="well well-sm">
+                            <p>
+                                <?php if($brands){?>
+                                    <?php foreach ($brands as $brand) {?>
+                                        <?php if($brand['checked']){?>
+                                            <span  onclick="$('#<?php echo $brand['slug'];?>').prop('checked',false).change();return false;" class="btn btn-default btn-xs"><?php echo $brand['name']; ?> <i class="glyphicon glyphicon-remove"></i></span>
+                                        <?php } ?>
+                                    <?php } ?>
+                                <?php } ?>
+                                <?php if($attributes){?>
+                                    <?php foreach ($attributes as $attribute){?>
+                                        <?php if($attribute){?>
+                                            <?php foreach ($attribute['values'] as $value){?>
+                                                <?php if($value['checked']){?>
+                                                    <span  onclick="$('#<?php echo $value['slug'];?>').prop('checked',false).change();return false;" class="btn btn-default btn-xs"><?php echo $value['text']; ?> <i class="glyphicon glyphicon-remove"></i></span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    <?php } ?>
+                                <?php } ?>
+                            </p>
+
+                            <p>
+                                <a href="/category/<?php echo $slug;?>">Сбросить все</a>
+                            </p>
+
+                        </div>
+                    <?php } ?>
+
+                    <div id="filter" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <?php if($brands){?>
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                           href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <?php echo lang('text_filter_brand'); ?>
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <?php echo lang('text_filter_brand');?>
                                         </a>
-                                        <?php if ($this->uri->segment(4) || $this->input->get()) { ?>
-                                            <small class="pull-right"><a
-                                                    href="/category/<?php echo $slug; ?>"><?php echo lang('text_filter_reset'); ?></a>
-                                            </small>
-                                        <?php } ?>
                                     </h4>
                                 </div>
-                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                                     aria-labelledby="headingOne">
-                                    <div class="panel panel-default">
-                                        <div id="filter-brand">
-                                            <ul class="list-group">
-                                                <?php foreach ($brands as $url_brand => $name_brand) { ?>
-                                                    <li class="list-group-item"><a
-                                                            href="/category/<?php echo $slug; ?>/brand/<?php echo $url_brand; ?>"><?php echo $name_brand; ?></a>
-                                                    </li>
-                                                <?php } ?>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body" style="max-height: 250px; overflow: auto;">
+                                        <?php foreach ($brands as $brand) {?>
+                                            <div class="form-group">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input
+                                                                id="<?php echo $brand['slug']; ?>"
+                                                                onchange="filterProducts()"
+                                                                type="checkbox"
+                                                                name="brand"
+                                                                value="<?php echo $brand['slug']; ?>"
+                                                                <?php if($brand['checked']){?>
+                                                                    checked
+                                                                <?php } ?>
+                                                        >
+                                                        <?php echo $brand['name']; ?>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        <?php } ?></div>
                                 </div>
                             </div>
                         <?php } ?>
-                        <?php if ($attributes) { ?>
-                            <?php echo form_open(null, ['method' => 'get', 'id' => 'filter']); ?>
-                            <?php $q = 0;
-                            foreach ($attributes as $attribute_name => $attribute_values) { ?>
+                        <?php if($attributes){?>
+                            <?php foreach ($attributes as $attribute){?>
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="heading<?php echo $q; ?>">
+                                    <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                               data-parent="#accordion" href="#collapse<?php echo $q; ?>"
-                                               aria-expanded="false"
-                                               aria-controls="collapse<?php echo $q; ?>">
-                                                <?php echo $attribute_name; ?>
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <?php echo $attribute['name'];?>
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapse<?php echo $q; ?>" class="panel-collapse collapse" role="tabpanel"
-                                         aria-labelledby="heading<?php echo $q; ?>">
-                                        <div class="panel-body">
-                                            <?php foreach ($attribute_values as $attr) { ?>
+                                    <div id="collapseOne" class="panel-collapse collapse <?php if($attribute['max_height']){?>in<?php } ?>" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body" style="max-height: <?php echo $attribute['max_height'] ? $attribute['max_height'] : 430;?>px; overflow: auto;">
+                                            <?php foreach ($attribute['values'] as $attr) { ?>
                                                 <div class="form-group">
-                                                    <div class="checkbox">
+                                                    <div class="checkbox <?php if(!$attr['possible']){?>
+                                                                        disabled
+                                                                    <?php } ?>">
                                                         <label>
-                                                            <input id="<?php echo $q;?>" onchange="$('#filter').submit()" type="checkbox"
-                                                                   name="<?php echo $attr['attribute_slug']; ?>"
-                                                                   value="1" <?php echo set_checkbox($attr['attribute_slug'], 1, (bool)$this->input->get($attr['attribute_slug'])); ?>>
-                                                            <?php echo $attr['attribute_value']; ?>
+                                                            <input
+                                                                    id="<?php echo $attr['slug']; ?>"
+                                                                    onchange="filterProducts()"
+                                                                    type="checkbox"
+                                                                    name="<?php echo $attribute['slug']; ?>"
+                                                                    value="<?php echo $attr['slug']; ?>"
+                                                                <?php if($attr['checked']){?>
+                                                                    checked
+                                                                <?php } ?>
+                                                                    <?php if(!$attr['possible']){?>
+                                                                        disabled
+                                                                    <?php } ?>
+                                                            >
+                                                            <?php echo $attr['text']; ?>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -105,9 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <?php $q++;
-                            } ?>
-                            </form>
+                            <?php } ?>
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -134,14 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <a href="/product/<?php echo $product['slug']; ?>">
                                             <?php if ($product['image']) { ?>
                                                 <img onerror="imgError(this, 165, 165);"
-                                                     src="/image?img=/uploads/product/<?php echo $product['image']; ?>&width=165&height=165"
-                                                     alt="<?php echo $product['name']; ?>">
-                                            <?php } elseif ($product['tecdoc_info']) { ?>
-                                                <img onerror="imgError(this, 165, 165);"
-                                                     src="/image?img=<?php echo $product['tecdoc_info']['article']['Image']; ?>&width=165&height=165"
-                                                     alt="<?php echo $product['name']; ?>">
-                                            <?php } else { ?>
-                                                <img onerror="imgError(this, 165);" src="/image?width=165"
+                                                     src="/image?img=<?php echo $product['image']; ?>&width=165&height=165"
                                                      alt="<?php echo $product['name']; ?>">
                                             <?php } ?>
                                         </a>
@@ -152,15 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                     </div>
 
                                     <div class="product-carousel-price">
-                                        <b>
-                                            <?php if ($product['min_price'] == $product['max_price']) { ?>
-                                                <?php echo format_currency($product['min_price']); ?>
-                                            <?php } else { ?>
-                                                <?php echo format_currency($product['min_price']); ?>
-                                                <small> - </small>
-                                                <?php echo format_currency($product['max_price']); ?>
-                                            <?php } ?>
-                                        </b>
+                                        <b><?php echo $product['prices_text']; ?></b>
                                     </div>
                                     <div class="product-option-shop">
                                         <a rel="nofollow" class="btn btn-default" data-toggle="modal" data-target="#modal-price-<?php echo $product['id'];?>" href="#"><?php echo lang('button_cart'); ?></a>
@@ -243,7 +264,36 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 </div>
 
 <script>
+
+
+    function filterProducts(){
+        var Filters = {};
+
+        $("#filter input:checked").each(function(index,item){
+            Filters[$(item).attr('name')] = [];
+        });
+
+        $("#filter input:checked").each(function(index,item){
+            if($(item).attr('value').length){
+                Filters[$(item).attr('name')].push($(item).attr('value'));
+            }
+        });
+
+        var url_filters = [];
+
+        if(Filters){
+            $.each(Filters, function (key, items)  {
+                if(items){
+                    url_filters.push(key+'='+items.join(','));
+                }
+            });
+        }
+
+        location.href = '/category/<?php echo $slug;?>/'+url_filters.join(';');
+    }
+
     $(document).ready(function(){
+
         $("form#filter input:checked").each(function(index,item){
             console.log(item);
             $("#collapse"+$(item).attr("id")).addClass('in');

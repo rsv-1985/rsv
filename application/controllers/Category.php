@@ -14,11 +14,13 @@ class Category extends Front_controller{
         $this->load->model('category_model');
         $this->load->model('product_model');
         $this->load->model('product_attribute_model');
+        $this->load->model('mproduct');
         $this->load->helper('security');
         $this->load->helper('text');
     }
 
-    public function view($slug, $brand = false){
+    public function view($slug, $filter = false){
+
         $slug = xss_clean($slug);
         $category = $this->category_model->get_by_slug($slug);
 
@@ -32,11 +34,45 @@ class Category extends Front_controller{
 
         $data = [];
 
+        $filter_data = [];
+        $checked_values = [];
+
+        if($filter){
+            $filter_arr = explode(';',$filter);
+            foreach ($filter_arr as $f_arr){
+                $f = explode('=',$f_arr);
+
+                $key = $f[0];
+                $values = explode(',',$f[1]);
+
+                foreach ($values as $value){
+                    if($key == 'brand'){
+                        $filter_data['brand'][] = $value;
+                        $checked_values[] = $value;
+                    }else{
+
+                        $attr_id = @explode('_',$key)[1];
+                        $val = explode('_',$value);
+
+                        if(@$val[1] && @$attr_id){
+                            $filter_data['attr'][$attr_id][] = $val[1];
+                            $checked_values[] = $val[1];
+                        }
+                    }
+                }
+            }
+        }
+
+
+        $data['checked_values'] = $checked_values;
+
         $breadcrumbs =  $this->category_model->getBreadcrumb($category['parent_id']);
+
         $data['breadcrumbs'][] = [
             'name' => lang('text_home'),
             'href' => base_url()
         ];
+
         if($breadcrumbs){
             foreach ($breadcrumbs as $breadcrumb){
                 $data['breadcrumbs'][] = [
@@ -55,13 +91,31 @@ class Category extends Front_controller{
 
         $data['brands'] = [];
 
-        $data['brands'] = $this->category_model->get_brands($category['id']);
+        $brands = $this->category_model->get_brands($category['id']);
 
-        if($data['brands']){
-            asort($data['brands']);
+        if($brands){
+            foreach ($brands as $brand){
+                $brand_slug =  url_title($brand['brand']);
+                $data['brands'][] = [
+                    'name' => $brand['brand'],
+                    'slug' => $brand_slug,
+                    'checked' => @in_array($brand_slug, $checked_values)
+                ];
+            }
         }
 
-        if($brand && !isset($data['brands'][$brand])){
+
+        if(isset($filter_data['brand'])){
+            $brand = [];
+            foreach ($data['brands'] as $b){
+                if(in_array($b['slug'],$filter_data['brand'])){
+                    $brand[] = $b['name'];
+                }
+            }
+            if($brand){
+                $brand = implode(', ',$brand);
+            }
+        }else{
             $brand = false;
         }
 
@@ -75,31 +129,47 @@ class Category extends Front_controller{
                         '{brand}'
                     ],[
                         $category['name'],
-                        $data['brands'][$brand],
+                        $brand,
 
                     ], $value));
                 }
             }
         }
 
-        $filter_products_id = false;
-
-        $filters = false;
-        if($this->input->get()){
-            foreach ($this->input->get() as $filter => $value){
-                $filters[] = $filter;
-            }
-            $filter_products_id = $this->product_attribute_model->get_filter_products_id($filters);
-        }
+        $data['attributes'] = [];
 
 
-        $data['attributes'] = false;
+        $attributes = $this->product_attribute_model->get_attributes($category['id']);
 
-        $attributes = $this->product_attribute_model->get_attributes($category['id'], $filter_products_id);
+        $possible_attributes = $this->product_attribute_model->get_possible_attributes($category['id'], $filter_data);
 
         if($attributes){
             foreach ($attributes as $attribute){
-                $data['attributes'][$attribute['attribute_name']][] = $attribute;
+                if(!$attribute['in_filter']){
+                    continue;
+                }
+
+                if($possible_attributes && !in_array($attribute['attribute_value_id'],$possible_attributes)){
+                    $possible = false;
+                }else{
+                    $possible = true;
+                }
+
+                $attr_values[$attribute['attribute_id']][] = [
+                   'text' => $attribute['attribute_value'],
+                   'slug' => url_title($attribute['attribute_value']).'_'.$attribute['attribute_value_id'],
+                   'checked' => @in_array($attribute['attribute_value_id'], $checked_values),
+                    'possible' => $possible
+                ];
+            }
+
+            foreach ($attributes as $attribute){
+                $data['attributes'][$attribute['attribute_id']] = [
+                    'name' => $attribute['attribute'],
+                    'slug' => url_title($attribute['attribute']).'_'.$attribute['attribute_id'],
+                    'max_height' => $attribute['max_height'],
+                    'values' => $attr_values[$attribute['attribute_id']]
+                ];
             }
         }
 
@@ -154,7 +224,7 @@ class Category extends Front_controller{
             $this->setOg('url',current_url());
         }
 
-        if($this->uri->segment(3) &&  $this->uri->segment(3) != 'brand' || $this->uri->segment(5)){
+        if($filter_data || $this->uri->segment(5)){
             $this->canonical = base_url('category/'.$category['slug']);
             $data['description'] = '';
         }else{
@@ -164,30 +234,81 @@ class Category extends Front_controller{
         $data['slug'] = $category['slug'];
         $this->load->library('pagination');
 
-        if($brand){
-            $config['base_url'] = base_url('/category/'.$category['slug'].'/brand/'.$brand);
+        if($filter){
+            $config['base_url'] = base_url('/category/'.$category['slug'].'/'.$filter);
         }else{
             $config['base_url'] = base_url('/category/'.$category['slug']);
         }
 
-        if($brand){
-            $products = $this->product_model->product_get_all(12, $this->uri->segment(5), ['product.category_id' => $category['id'], 'brand' => $data['brands'][$brand]], false, $filter_products_id);
-        }else{
-            $products = $this->product_model->product_get_all(12, $this->uri->segment(3), ['product.category_id' => $category['id']], false, $filter_products_id);
-        }
+        $data['products'] = [];
 
-        //Если активна опция использовать наименования с текдок
-        if(@$this->options['use_tecdoc_name'] && $products){
-            foreach ($products as &$product){
-                if(@$product['tecdoc_info']['article']['Name']){
-                    $product['name'] = $product['tecdoc_info']['article']['Name'];
+        $products = $this->mproduct->getByCategory($category['id'], $filter_data, 12, $filter_data ? $this->uri->segment(4) : $this->uri->segment(3));
+
+        if($products){
+            //Массово получаем инфу с текдока
+            foreach ($products as $product){
+                $key = md5($product->sku.$product->getBrand());
+                $td[$key] = ['sku' => $product->sku, 'brand' => $product->getBrand()];
+            }
+
+            $tecdoc_info_array = (array)$this->tecdoc->getArticleArray($td);
+
+
+            foreach ($products as $product){
+                $key = md5($product->sku.$product->getBrand());
+
+                $name = $product->getName();
+                if(@$this->options['use_tecdoc_name'] && @$tecdoc_info_array[$key]->Name){
+                    $name = $tecdoc_info_array[$key]->Name;
                 }
+
+                $image = '';
+
+                $images = $product->getImages();
+                if($images){
+                    $image = $images[0];
+                }
+
+                $attributes = [];
+
+                $product_attributes = $product->getAttributes();
+                if($product_attributes){
+                    foreach ($product_attributes as $product_attribute){
+                        if($product_attribute['in_short_description']){
+                            $attributes[] = $product_attribute;
+                        }
+                    }
+                }
+
+                $prices_text = '';
+                $product_prices = $product->getPrices(true);
+                if($product_prices){
+                    $price_from = format_currency($product_prices[0]['saleprice'] > 0 ? $product_prices[0]['saleprice'] : $product_prices[0]['price']);
+                    $price_to = format_currency(end($product_prices)['saleprice'] > 0 ? end($product_prices)['saleprice'] : end($product_prices)['price']);
+
+                    if($price_from == $price_to){
+                        $prices_text = $price_from;
+                    }else{
+                        $prices_text = $price_from.'-'.$price_to;
+                    }
+                }
+
+
+                $data['products'][] = [
+                    'id' => $product->id,
+                    'name' => $name,
+                    'sku' => $product->sku,
+                    'brand' => $product->getBrand(),
+                    'slug' => $product->slug,
+                    'image' => $image,
+                    'attributes' => $attributes,
+                    'prices_text' => $prices_text,
+                    'prices' => $product_prices
+                ];
             }
         }
 
-        $data['products'] = $products;
-
-        $config['total_rows'] = $this->product_model->total_rows;
+        $config['total_rows'] = $this->mproduct->total_rows;
 
         $config['full_tag_open'] = "<ul class='pagination'>";
         $config['full_tag_close'] ="</ul>";

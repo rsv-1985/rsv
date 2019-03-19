@@ -20,6 +20,8 @@ class Product extends Admin_controller
         $this->load->model('pricing_model');
         $this->load->model('currency_model');
         $this->load->model('synonym_model');
+        $this->load->model('admin/mproduct');
+        $this->load->model('admin/mattribute');
     }
 
     public function index(){
@@ -77,9 +79,11 @@ class Product extends Admin_controller
             $data['tecdoc_info'] = true;
         }
 
+        $data['attributes'] = $this->mattribute->getAttributes();
+
         $data['prices'] = $this->product_model->get_product_price($data['product'],false);
 
-        $data['attributes'] = $this->product_attribute_model->get_product_attributes($id);
+        $data['product_attributes'] = $this->mproduct->getAttributes($id);
 
         $data['images'] = $this->product_model->getProductImages($id);
 
@@ -347,18 +351,16 @@ class Product extends Admin_controller
                 }
             }
             //Атрибуты к товару
-            $this->product_attribute_model->delete($product_id);
+            $this->mproduct->deleteAttributes($product_id);
             if($this->input->post('attributes')){
                 foreach ($this->input->post('attributes') as $attribute){
                     $attributes_data[] = [
                         'product_id' => $product_id,
-                        'attribute_name' =>trim($attribute['attribute_name']),
-                        'attribute_value' =>trim($attribute['attribute_value']),
-                        'category_id' => $product['category_id'],
-                        'attribute_slug' => url_title($attribute['attribute_name'].' '.$attribute['attribute_value'])
+                        'attribute_id' => (int)$attribute['attribute_id'],
+                        'attribute_value_id' => (int)$attribute['attribute_value_id'],
                     ];
                 }
-                $this->product_attribute_model->insert_batch($attributes_data);
+                $this->mproduct->addAttributesBatch($attributes_data);
             }
 
             if($images){
@@ -377,12 +379,18 @@ class Product extends Admin_controller
         redirect('autoxadmin/product/edit/'.$product_id);
     }
 
-    public function delete_attribute(){
-        $attribute_name = $this->input->post('attribute_name',true);
-        $this->product_attribute_model->delete_by_name($attribute_name);
-        $this->clear_cache();
-        exit('success');
+    public function get_attribute_values($attribute_id){
+        $html = '';
+        $values = $this->mattribute->getValues($attribute_id);
+        if($values){
+            foreach ($values as $value){
+                $html .= '<option value="'.$value['id'].'">'.$value['value'].'</option>';
+            }
+        }
+        exit($html);
     }
+
+
 
     public function delete_image(){
         $image_id = $this->input->get('image_id');

@@ -148,18 +148,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </thead>
                         <tbody>
                         <?php $attribute_row = 0;?>
-                        <?php if($attributes){?>
-                            <?php foreach ($attributes as $attribute){?>
+                        <?php if($product_attributes){?>
+                            <?php foreach ($product_attributes as $product_attribute){?>
                                 <tr id="attribute<?php echo $attribute_row;?>">
                                     <td>
-                                        <a href="#" onclick="delete_attribute('<?php echo $attribute['attribute_name'];?>');$('#attribute<?php echo $attribute_row;?>').remove(); return false;" class="btn btn-warning btn-xs" rel="tooltip" title="Удалить у всех товарах">x</a>
-                                        <?php echo $attribute['attribute_name'];?>
-
-                                        <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_name]" value="<?php echo $attribute['attribute_name'];?>">
+                                        <?php echo $product_attribute['attribute_name'];?>
+                                        <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_id]" value="<?php echo $product_attribute['attribute_id'];?>">
                                     </td>
                                     <td>
-                                        <?php echo $attribute['attribute_value'];?>
-                                        <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_value]" value="<?php echo $attribute['attribute_value'];?>">
+                                        <?php echo $product_attribute['attribute_value'];?>
+                                        <input type="hidden" name="attributes[<?php echo $attribute_row;?>][attribute_value_id]" value="<?php echo $product_attribute['attribute_value_id'];?>">
                                     </td>
                                     <td><a href="#" onclick="$('#attribute<?php echo $attribute_row;?>').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td>
                                 </tr>
@@ -168,8 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td><input type="text" id="new_attribute_name" class="form-control"></td>
-                                <td><input type="text" id="new_attribute_value" class="form-control"></td>
+                                <td colspan="2"></td>
                                 <td><a href="#" onclick="productAttribute(); return false;" class="btn btn-info btn-xs"><?php echo lang('button_add');?></a></td>
                             </tr>
                         </tfoot>
@@ -408,27 +405,29 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script>
     var attribute_row = '<?php echo $attribute_row;?>';
     function productAttribute(){
-        var attribute_name = $("#new_attribute_name").val();
-        var attribute_value = $("#new_attribute_value").val();
-        if(attribute_name.length && attribute_value.length){
-            var html = '<tr id="attribute'+attribute_row+'"><td>'+attribute_name+'<input type="hidden" name="attributes['+attribute_row+'][attribute_name]" value="'+attribute_name+'"></td><td>'+attribute_value+'<input type="hidden" name="attributes['+attribute_row+'][attribute_value]" value="'+attribute_value+'"></td><td><a href="#" onclick="$(\'#attribute'+attribute_row+'\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td></tr>';
-            $('#attributes_form > tbody').append(html);
-            $("#new_attribute_name").val('');
-            $("#new_attribute_value").val('');
-            attribute_row++;
-        }
+        var html = '';
+        html += '<tr id="attribute'+attribute_row+'">';
+        html += '<td>';
+        html += '<select onchange="getValues($(this).val(),'+attribute_row+')" name="attributes['+attribute_row+'][attribute_id]" class="form-control">';
+        html += '<option value="*">---</option>';
+        <?php foreach ($attributes as $attribute){?>
+        html += '<option value="<?php echo $attribute['id'];?>"><?php echo $attribute['name'];?></option>';
+        <?php } ?>
+        html += '</select>';
+        html += '</td>';
+        html += '<td><select id="attr_values'+attribute_row+'" name="attributes['+attribute_row+'][attribute_value_id]" class="form-control" disabled></select></td>';
+        html += '<td><a href="#" onclick="$(\'#attribute'+attribute_row+'\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td>';
+        $("#attributes_form tbody").append(html);
+        attribute_row++;
+
     }
 
-    function delete_attribute(attribute_name) {
-        $.ajax({
-            url: '/autoxadmin/product/delete_attribute',
-            data:{attribute_name:attribute_name},
-            method: 'post',
-            success: function(response){
-                alert(response);
-            }
+    function getValues(attr_id, row_id) {
+        $.get('/autoxadmin/product/get_attribute_values/'+attr_id,function (response) {
+            $("#attr_values"+row_id).html(response).removeAttr('disabled');
         });
     }
+
 
     function deleteImage(image_id, e) {
         e.preventDefault();

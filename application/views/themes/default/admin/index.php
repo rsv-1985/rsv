@@ -11,7 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
         <section class="content-header">
             <h1>
                 Панель управления
-                <small>Version 2.0</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo lang('text_home');?></a></li>

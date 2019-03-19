@@ -10,15 +10,51 @@ class Mproduct extends Default_model{
 
     CONST image_path = '/uploads/product/';
 
-    public static $tecdocInfo;
-    public $tecdocInfoArray;
+    public static $tecdocInfo = [];
 
     public $table = 'product';
+    public $total_rows = 0;
+
+    public function getByCategory($category_id, $filter_data = [], $limit, $start, $order_by = []){
+
+
+        $this->db->from('product p');
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->where('p.category_id', (int)$category_id);
+
+        if($filter_data){
+            if(isset($filter_data['brand'])){
+                $this->db->where_in('brand',$filter_data['brand']);
+            }
+
+            if(isset($filter_data['attr'])){
+                $SQL = "(SELECT product_id FROM ax_product_attribute WHERE ";
+                $where = [];
+                $count = 0;
+                foreach ($filter_data['attr'] as $attr_id => $values){
+                    $count += count($values);
+                    $where[] = "(attribute_id = ".(int)$attr_id." AND attribute_value_id IN (".implode(',',$values)."))";
+                }
+                $SQL .= implode(' OR ',$where);
+                $SQL .= " group by product_id having count(*) = ".count($filter_data['attr']).") pa";
+                $this->db->join($SQL,'pa.product_id=p.id', 'inner');
+            }
+        }
+        $this->db->limit($limit, $start);
+        if($order_by){
+
+        }else{
+            $this->db->order_by("(SELECT count(*) FROM ax_product_price WHERE product_id = p.id)", 'DESC');
+        }
+        $query = $this->db->get();
+        $this->total_rows = $this->db->query('SELECT FOUND_ROWS() AS `Count`')->row()->Count;
+        return $query->custom_result_object('mproduct');
+    }
 
     public function getById($id)
     {
         $this->db->where('id', (int)$id);
-       
+
         $query = $this->db->get($this->table);
 
         $row = $query->custom_row_object(0, 'mproduct');
@@ -38,7 +74,7 @@ class Mproduct extends Default_model{
 
         $this->load->helper('security');
         $this->db->where('slug', xss_clean($slug));
-       
+
         $query = $this->db->get($this->table);
 
         $row = $query->row(0, 'mproduct');
@@ -57,7 +93,7 @@ class Mproduct extends Default_model{
     public function getBySkuBrand($sku, $brand){
         $this->db->where('sku', clear_brand($sku));
         $this->db->where('brand', clear_sku($brand));
-       
+
         $query = $this->db->get($this->table);
 
         $row = $query->row(0, 'mproduct');
@@ -74,7 +110,7 @@ class Mproduct extends Default_model{
     }
 
     public function getName(){
-        if(@$this->options['use_tecdoc_name'] && self::$tecdocInfo->article->Name){
+        if(@$this->options['use_tecdoc_name'] && isset(self::$tecdocInfo->article->Name)){
             return self::$tecdocInfo->article->Name;
         }
 
@@ -104,7 +140,7 @@ class Mproduct extends Default_model{
             }
         }
 
-        if (self::$tecdocInfo->ID_art) {
+        if (@self::$tecdocInfo->ID_art) {
             $cross = $this->tecdoc->getCrosses(self::$tecdocInfo->ID_art);
             if ($cross) {
                 foreach (array_slice($cross, 0, 1000) as $item) {
@@ -194,7 +230,7 @@ class Mproduct extends Default_model{
         }
 
         //Если нет картинок пробуем достать с td2018
-        if($images){
+        if(!$images){
             //td2018
             $this->load->library('td');
 
@@ -591,5 +627,30 @@ class Mproduct extends Default_model{
         unset($check_brand);
         return $return;
 
+    }
+
+    public function getAttributes(){
+        $attributes = [];
+        $sql = "SELECT * FROM ax_product_attribute pa 
+        LEFT JOIN ax_attribute a ON a.id = pa.attribute_id
+        LEFT JOIN ax_attribute_value av ON av.id = pa.attribute_value_id
+        WHERE pa.product_id = '".(int)$this->id."'";
+        $results = $this->db->query($sql)->result_array();
+        if($results){
+            foreach ($results as $result){
+                $values[$result['attribute_id']][] = $result['value'];
+            }
+
+            foreach ($results as $result){
+                $attributes[$result['attribute_id']] = [
+                    'attribute_name' => $result['name'],
+                    'in_short_description' => $result['in_short_description'],
+                    'values' => implode(',',$values[$result['attribute_id']])
+                ];
+            }
+
+        }
+
+        return $attributes;
     }
 }

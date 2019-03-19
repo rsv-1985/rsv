@@ -183,17 +183,13 @@ class Category_model extends Default_model
             $this->db->distinct();
             $this->db->select('brand');
             $this->db->where('category_id', (int)$id);
-            $this->db->where("(SELECT count(*) FROM ax_product_price pp WHERE pp.delivery_price > 0 AND pp.product_id = id) > 0", null, false);
-            $this->db->limit(1000);
+            $this->db->limit(100);
+            $this->db->order_by('brand', 'ASC');
             $query = $this->db->get('product');
 
             if ($query->num_rows() > 0) {
-                $brands = [];
-                foreach ($query->result_array() as $item) {
-                    $brands[url_title($item['brand'])] = $item['brand'];
-                }
-                $this->cache->file->save('category_brands' . $id, $brands, 604800);
-                return $brands;
+                $this->cache->file->save('category_brands' . $id, $query->result_array(), 604800);
+                return $query->result_array();
             }
             $this->cache->file->save('category_brands' . $id, null, 604800);
             return false;

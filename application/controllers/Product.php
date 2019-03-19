@@ -14,7 +14,6 @@ class Product extends Front_controller
         $this->load->language('product');
         $this->load->model('product_model');
         $this->load->model('mproduct');
-        $this->load->model('product_attribute_model');
         $this->load->model('category_model');
         $this->load->model('banner_model');
         $this->load->model('delivery_model');
@@ -64,7 +63,7 @@ class Product extends Front_controller
 
         $data['banner'] = $this->banner_model->get_product();
 
-        $data['attributes'] = $this->product_attribute_model->get_product_attributes($product->id);
+        $data['attributes'] = $product->getAttributes();
 
         $data['applicability'] = false;
         if ($applicability = $product->getApplicability()) {

@@ -393,11 +393,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <td><?php echo $brand; ?></td>
                         </tr>
                         <?php if ($attributes) { ?>
-                            <?php foreach ($attributes as $attribute) {
-                                ; ?>
+                            <?php foreach ($attributes as $attribute) { ?>
                                 <tr>
                                     <td><?php echo $attribute['attribute_name']; ?></td>
-                                    <td><?php echo $attribute['attribute_value']; ?></td>
+                                    <td><?php echo $attribute['values']; ?></td>
                                 </tr>
                             <?php } ?>
                         <?php } ?>
