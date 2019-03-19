@@ -634,7 +634,9 @@ class Mproduct extends Default_model{
         $sql = "SELECT * FROM ax_product_attribute pa 
         LEFT JOIN ax_attribute a ON a.id = pa.attribute_id
         LEFT JOIN ax_attribute_value av ON av.id = pa.attribute_value_id
-        WHERE pa.product_id = '".(int)$this->id."'";
+      
+        WHERE pa.product_id = '".(int)$this->id."'
+          ORDER BY a.sort_order ASC, av.value ASC";
         $results = $this->db->query($sql)->result_array();
         if($results){
             foreach ($results as $result){
