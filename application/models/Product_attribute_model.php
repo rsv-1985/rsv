@@ -122,7 +122,7 @@ class Product_attribute_model extends Default_model
           INNER JOIN ax_product p ON p.id = pa.product_id
           WHERE p.category_id = '".(int)$category_id."' AND a.in_filter = 1
           GROUP BY pa.attribute_value_id 
-          ORDER BY av.sort_order ASC, a.sort_order ASC
+          ORDER BY av.value ASC, a.sort_order ASC
         ";
 
         $query = $this->db->query($sql);
