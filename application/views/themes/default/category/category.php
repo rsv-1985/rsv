@@ -105,16 +105,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </div>
                         <?php } ?>
                         <?php if($attributes){?>
-                            <?php foreach ($attributes as $attribute){?>
+                            <?php $i = 0; foreach ($attributes as $attribute){?>
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i;?>" aria-expanded="true" aria-controls="collapse<?php echo $i;?>">
                                                 <?php echo $attribute['name'];?>
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapseOne" class="panel-collapse collapse <?php if($attribute['max_height']){?>in<?php } ?>" role="tabpanel" aria-labelledby="headingOne">
+                                    <div id="collapse<?php echo $i;?>" class="panel-collapse collapse <?php if($attribute['max_height']){?>in<?php } ?>" role="tabpanel" aria-labelledby="heading<?php echo $i;?>">
                                         <div class="panel-body" style="max-height: <?php echo $attribute['max_height'] ? $attribute['max_height'] : 430;?>px; overflow: auto;">
                                             <?php foreach ($attribute['values'] as $attr) { ?>
                                                 <div class="form-group">
@@ -143,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         </div>
                                     </div>
                                 </div>
-                            <?php } ?>
+                            <?php $i++;} ?>
                         <?php } ?>
                     </div>
                 <?php } ?>
