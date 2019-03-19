@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <thead>
                             <tr>
                                 <th>Значение опции</th>
-                                <th>Сортировка</th>
+                                <th class="hidden">Сортировка</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <input type="hidden" name="attributes[<?php echo $q;?>][id]" value="<?php echo $value['id'];?>">
                                             <input type="text" name="attributes[<?php echo $q;?>][value]" value="<?php echo $value['value'];?>" class="form-control">
                                         </td>
-                                        <td>
+                                        <td class="hidden">
                                             <input name="attributes[<?php echo $q;?>][sort_order]" type="text" value="<?php echo $value['sort_order'];?>" class="form-control">
                                         </td>
                                         <td class="text-right">
@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="2"></td>
+                                <td colspan="1"></td>
                                 <td class="text-right">
                                     <button class="btn btn-default" onclick="addAttr(event)">Добавить</button>
                                 </td>
