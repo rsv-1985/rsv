@@ -49,10 +49,12 @@ class Product extends Admin_controller
                 $save['delivery_price'] = (float)$this->input->post('delivery_price', true);
                 $save['price'] = (float)$this->input->post('price', true);
                 $save['saleprice'] = (float)$this->input->post('saleprice', true);
+
                 $product_id = (int)$this->input->post('product_id');
                 $supplier_id = (int)$this->input->post('supplier_id');
                 $term = (int)$this->input->post('term');
                 $this->product_model->update_item($save, $product_id, $supplier_id, $term);
+                $this->db->where('id',(int)$product_id)->set('name',$this->input->post('name', true))->update('product');
                 $this->session->set_flashdata('success', lang('text_success'));
             }else{
                 $this->session->set_flashdata('error', validation_errors());

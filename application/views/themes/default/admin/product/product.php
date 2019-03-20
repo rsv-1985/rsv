@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td>
                                             <?php echo $product['brand'];?>
                                         </td>
-                                        <td><?php echo $product['name'];?></td>
+                                        <td><input style='width:auto' type="text" name="name" value="<?php echo $product['name'];?>" class="form-control"></td>
                                         <td><?php echo isset($supplier[$product['supplier_id']]) ? $supplier[$product['supplier_id']]['name'] : '';?></td>
                                         <td>
                                             <input type="text" name="delivery_price" value="<?php echo $product['delivery_price'];?>" class="form-control">
