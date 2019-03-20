@@ -34,6 +34,21 @@ class Category extends Front_controller{
 
         $data = [];
 
+        $data['brands'] = [];
+
+        $brands = $this->category_model->get_brands($category['id']);
+
+        if($brands){
+            foreach ($brands as $brand){
+                $brand_slug =  url_title($brand['brand']);
+                $data['brands'][$brand_slug] = [
+                    'name' => $brand['brand'],
+                    'slug' => $brand_slug,
+                    'checked' => false
+                ];
+            }
+        }
+
         $filter_data = [];
         $checked_values = [];
 
@@ -46,8 +61,9 @@ class Category extends Front_controller{
                 $values = explode(',',$f[1]);
 
                 foreach ($values as $value){
-                    if($key == 'brand'){
-                        $filter_data['brand'][] = $value;
+                    if($key == 'brand' && isset($data['brands'][$value])){
+                        $filter_data['brand'][] = $data['brands'][$value]['name'];
+                        $data['brands'][$value]['checked'] = true;
                         $checked_values[] = $value;
                     }else{
 
@@ -62,6 +78,8 @@ class Category extends Front_controller{
                 }
             }
         }
+
+
 
 
         $data['checked_values'] = $checked_values;
@@ -89,20 +107,7 @@ class Category extends Front_controller{
 
         $data['categories'] = $this->category_model->getCategories($category['id']);
 
-        $data['brands'] = [];
 
-        $brands = $this->category_model->get_brands($category['id']);
-
-        if($brands){
-            foreach ($brands as $brand){
-                $brand_slug =  url_title($brand['brand']);
-                $data['brands'][] = [
-                    'name' => $brand['brand'],
-                    'slug' => $brand_slug,
-                    'checked' => @in_array($brand_slug, $checked_values)
-                ];
-            }
-        }
 
 
         if(isset($filter_data['brand'])){
