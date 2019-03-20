@@ -111,15 +111,7 @@ class Category extends Front_controller{
 
 
         if(isset($filter_data['brand'])){
-            $brand = [];
-            foreach ($data['brands'] as $b){
-                if(in_array($b['slug'],$filter_data['brand'])){
-                    $brand[] = $b['name'];
-                }
-            }
-            if($brand){
-                $brand = implode(', ',$brand);
-            }
+            $brand = implode(', ',$filter_data['brand']);
         }else{
             $brand = false;
         }
