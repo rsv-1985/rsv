@@ -14,6 +14,7 @@ class Category extends Admin_controller
         parent::__construct();
         $this->load->language('admin/category');
         $this->load->model('category_model');
+        $this->load->model('admin/mcategory');
         $this->load->model('product_attribute_model');
     }
 
@@ -23,8 +24,9 @@ class Category extends Admin_controller
 
         $config['base_url'] = base_url('autoxadmin/category/index');
         $config['per_page'] = 20;
-        $data['categorys'] = $this->category_model->cat_get_all($config['per_page'], $this->uri->segment(4));
-        $config['total_rows'] = $this->category_model->total_rows;
+        $data['categories'] = $this->mcategory->getCategories($config['per_page'], $this->uri->segment(4));
+
+        $config['total_rows'] = $this->mcategory->total_rows;
         $config['reuse_query_string'] = TRUE;
 
         $this->pagination->initialize($config);

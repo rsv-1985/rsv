@@ -16,6 +16,7 @@ class Product extends Admin_controller
         $this->load->model('product_model');
         $this->load->model('product_attribute_model');
         $this->load->model('category_model');
+        $this->load->model('admin/mcategory');
         $this->load->model('supplier_model');
         $this->load->model('pricing_model');
         $this->load->model('currency_model');
@@ -153,7 +154,7 @@ class Product extends Admin_controller
         }
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['currency'] = $this->currency_model->currency_get_all();
-        $data['category'] = $this->category_model->admin_category_get_all();
+        $data['categories'] = $this->mcategory->getCategories();
 
         $this->load->view('admin/header');
         $this->load->view('admin/product/edit', $data);

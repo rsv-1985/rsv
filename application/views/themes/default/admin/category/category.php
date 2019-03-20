@@ -60,21 +60,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             </td>
                         </tr>
                         <?php echo form_close();?>
-                        <?php if($categorys){?>
-                            <?php foreach($categorys as $category){?>
+                        <?php if($categories){?>
+                            <?php foreach($categories as $category){?>
                                 <tr>
-                                    <td><?php echo $category['id'];?></td>
-                                    <td><?php echo $category['name'];?></td>
-                                    <td><?php echo $category['sort'];?></td>
+                                    <td><?php echo $category->id;?></td>
                                     <td>
-                                        <?php if ($category['status']){?>
+                                        <small><?php if($path = $category->getPath($category->parent_id)){ echo $path.' > ';}?> </small>
+                                        <?php echo $category->name;?></td>
+                                    <td><?php echo $category->sort;?></td>
+                                    <td>
+                                        <?php if ($category->status){?>
                                             <i class="fa fa-check-circle-o"></i>
                                         <?php } ?>
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right">
-                                            <a href="/autoxadmin/category/delete/<?php echo $category['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
-                                            <a href="/autoxadmin/category/edit/<?php echo $category['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
+                                            <a href="/autoxadmin/category/delete/<?php echo $category->id;?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
+                                            <a href="/autoxadmin/category/edit/<?php echo  $category->id;?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>
                                         </div>
                                     </td>
                                 </tr>

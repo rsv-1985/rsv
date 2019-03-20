@@ -210,9 +210,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <label><?php echo lang('text_category_id'); ?></label>
                             <select name="category_id" class="form-control">
                                 <option></option>
-                                <?php foreach ($category as $category) { ?>
+                                <?php foreach ($categories as $category) { ?>
                                     <option
-                                        value="<?php echo $category['id']; ?>" <?php echo set_select('category_id', $category['id'], $category['id'] == $product['category_id']); ?>><?php echo $category['name']; ?></option>
+                                        value="<?php echo $category->id; ?>" <?php echo set_select('category_id', $category->id, $category->id == $product['category_id']); ?>><?php if($path = $category->getPath($category->parent_id)){echo $path.' > ';} ?> <b><?php echo $category->name; ?></b></option>
                                 <?php } ?>
                             </select>
                         </div>
