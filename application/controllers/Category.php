@@ -20,7 +20,9 @@ class Category extends Front_controller{
     }
 
     public function view($slug, $filter = false){
-
+        if($filter && strpos($filter,'=') === false){
+            $filter = false;
+        }
         $slug = xss_clean($slug);
         $category = $this->category_model->get_by_slug($slug);
 
