@@ -6,7 +6,21 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<style>
+    .single-shop-product > .info{
+        background: #4cbbb9;
+        color: black;
+        height: 1px;
+        overflow: hidden;
+        z-index: 999;
+        text-align: left;
+        font-size: 14px;
+        padding-top: 1px;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: relative;
+    }
+</style>
 <div class="product-big-title-area">
     <div class="container">
         <?php if($breadcrumbs){?>
@@ -246,6 +260,16 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <?php if($product['attributes']){?>
+                                        <i class="glyphicon glyphicon-info-sign hidden-lg hidden-md" ></i>
+                                        <div class="info">
+                                            <?php foreach ($product['attributes'] as $attribute){?>
+                                                <?php echo $attribute['attribute_name'].': '.$attribute['values'];?><br/>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+
                                 </div>
                             </div>
                         <?php } ?>
@@ -297,6 +321,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         $("form#filter input:checked").each(function(index,item){
             console.log(item);
             $("#collapse"+$(item).attr("id")).addClass('in');
+        });
+
+        $(".single-shop-product").mouseover(function(){
+            $(this).children('.info').css("height", "auto");
+        });
+        $(".single-shop-product").mouseout(function(){
+            $(this).children('.info').css("height", "1px");
         });
     });
 </script>

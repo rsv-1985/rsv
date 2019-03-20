@@ -96,20 +96,19 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <table class="table table-striped" id="attributes_form">
                         <thead>
                         <tr>
-                            <th><?php echo lang('text_product_attribute_name'); ?></th>
-                            <th><?php echo lang('text_product_attribute_value'); ?></th>
+                            <th><?php echo lang('text_product_attribute_name');?></th>
+                            <th><?php echo lang('text_product_attribute_value');?></th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
 
+
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td><input type="text" id="new_attribute_name" class="form-control"></td>
-                            <td><input type="text" id="new_attribute_value" class="form-control"></td>
-                            <td><a href="#" onclick="productAttribute(); return false;"
-                                   class="btn btn-info btn-xs"><?php echo lang('button_add'); ?></a></td>
+                            <td colspan="2"></td>
+                            <td><a href="#" onclick="productAttribute(); return false;" class="btn btn-info btn-xs"><?php echo lang('button_add');?></a></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -149,9 +148,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <label><?php echo lang('text_category_id'); ?></label>
                             <select name="category_id" class="form-control">
                                 <option></option>
-                                <?php foreach ($category as $category) { ?>
+                                <?php foreach ($categories as $category) { ?>
                                     <option
-                                        value="<?php echo $category['id']; ?>" <?php echo set_select('category_id', $category['id']); ?>><?php echo $category['name']; ?></option>
+                                            value="<?php echo $category->id; ?>" <?php echo set_select('category_id', $category->id); ?>><?php if($path = $category->getPath($category->parent_id)){echo $path.' > ';} ?> <b><?php echo $category->name; ?></b></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -272,17 +271,30 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         });
     });
     var attribute_row = 0;
-    function productAttribute() {
-        var attribute_name = $("#new_attribute_name").val();
-        var attribute_value = $("#new_attribute_value").val();
-        if (attribute_name.length && attribute_value.length) {
-            var html = '<tr id="attribute' + attribute_row + '"><td>' + attribute_name + '<input type="hidden" name="attributes[' + attribute_row + '][attribute_name]" value="' + attribute_name + '"></td><td>' + attribute_value + '<input type="hidden" name="attributes[' + attribute_row + '][attribute_value]" value="' + attribute_value + '"></td><td><a href="#" onclick="$(\'#attribute' + attribute_row + '\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td></tr>';
-            $('#attributes_form > tbody').append(html);
-            $("#new_attribute_name").val('');
-            $("#new_attribute_value").val('');
-            attribute_row++;
-        }
+    function productAttribute(){
+        var html = '';
+        html += '<tr id="attribute'+attribute_row+'">';
+        html += '<td>';
+        html += '<select onchange="getValues($(this).val(),'+attribute_row+')" name="attributes['+attribute_row+'][attribute_id]" class="form-control">';
+        html += '<option value="*">---</option>';
+        <?php foreach ($attributes as $attribute){?>
+        html += '<option value="<?php echo $attribute['id'];?>"><?php echo $attribute['name'];?></option>';
+        <?php } ?>
+        html += '</select>';
+        html += '</td>';
+        html += '<td><select id="attr_values'+attribute_row+'" name="attributes['+attribute_row+'][attribute_value_id]" class="form-control" disabled></select></td>';
+        html += '<td><a href="#" onclick="$(\'#attribute'+attribute_row+'\').remove(); return false;" class="btn btn-danger btn-xs"><?php echo lang('button_delete');?></a></td>';
+        $("#attributes_form tbody").append(html);
+        attribute_row++;
+
     }
+
+    function getValues(attr_id, row_id) {
+        $.get('/autoxadmin/product/get_attribute_values/'+attr_id,function (response) {
+            $("#attr_values"+row_id).html(response).removeAttr('disabled');
+        });
+    }
+
     function get_brands(sku){
         if(sku.length >= 3){
             $.ajax({

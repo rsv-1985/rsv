@@ -294,7 +294,8 @@ class Product extends Admin_controller
 
         $data['supplier'] = $this->supplier_model->supplier_get_all();
         $data['currency'] = $this->currency_model->currency_get_all();
-        $data['category'] = $this->category_model->admin_category_get_all();
+        $data['categories'] = $this->mcategory->getCategories();
+        $data['attributes'] = $this->mattribute->getAttributes();
 
         $this->load->view('admin/header');
         $this->load->view('admin/product/create', $data);
