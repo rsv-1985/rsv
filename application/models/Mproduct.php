@@ -647,7 +647,7 @@ class Mproduct extends Default_model{
                 $attributes[$result['attribute_id']] = [
                     'attribute_name' => $result['name'],
                     'in_short_description' => $result['in_short_description'],
-                    'values' => implode(',',$values[$result['attribute_id']])
+                    'values' => implode(', ',$values[$result['attribute_id']])
                 ];
             }
 
