@@ -144,7 +144,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <th><?php echo lang('text_sample_term');?></th>
                                     <th><?php echo lang('text_sample_category');?></th>
                                     <th><?php echo lang('text_sample_image');?></th>
-                                    <th><?php echo lang('text_sample_attributes');?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -202,11 +201,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td>
                                         <div class="form-group">
                                             <input type="number"  class="form-control" name="sample[image]" value="<?php echo set_value('sample[image]');?>">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="number"  class="form-control" name="sample[attributes]" value="<?php echo set_value('sample[attributes]');?>">
                                         </div>
                                     </td>
                                 </tr>
