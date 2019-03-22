@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <thead>
                             <tr>
                                 <th>Значение опции</th>
-                                <th>Сортировка</th>
+                                <th class="hide">Сортировка</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         html += '<td>';
         html += '<input type="text" name="attributes['+attr_id+'][value]" class="form-control">';
         html += '</td>';
-        html += '<td>';
+        html += '<td class="hide">';
         html += '<input name="attributes['+attr_id+'][sort_order]" type="text" class="form-control">';
         html += '</td>';
         html += '<td class="text-right">';
