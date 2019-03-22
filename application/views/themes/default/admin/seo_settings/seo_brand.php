@@ -11,12 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <section class="content-header">
     <h1>
         SEO настройки
-        <small>Производитель в категориях</small>
+        <small>Фильтр в категории</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/autoxadmin"><i class="fa fa-dashboard"></i> Главная</a></li>
         <li><a href="/autoxadmin/seo_settings">SEO настройки</a></li>
-        <li class="active">товара</li>
+        <li class="active">Фильтр в категории</li>
     </ol>
 </section>
 <section class="content">
@@ -48,8 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <p class="help-block">
                 {category} - название категории<br>
                 {brand} - производитель<br>
+                {filter} - фильтр
             </p>
-
         </div>
         <div class="box-footer">
             <button type="submit" class="btn btn-info pull-right">Сохранить</button>

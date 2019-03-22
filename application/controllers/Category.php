@@ -81,9 +81,6 @@ class Category extends Front_controller{
             }
         }
 
-
-
-
         $data['checked_values'] = $checked_values;
 
         $breadcrumbs =  $this->category_model->getBreadcrumb($category['parent_id']);
@@ -109,32 +106,6 @@ class Category extends Front_controller{
 
         $data['categories'] = $this->category_model->getCategories($category['id']);
 
-
-
-
-        if(isset($filter_data['brand'])){
-            $brand = implode(', ',$filter_data['brand']);
-        }else{
-            $brand = false;
-        }
-
-        if($brand){
-            $settings = $this->settings_model->get_by_key('seo_brand');
-            if($settings){
-                $seo = [];
-                foreach($settings as $field => $value){
-                    $seo[$field] = trim(str_replace([
-                        '{category}',
-                        '{brand}'
-                    ],[
-                        $category['name'],
-                        $brand,
-
-                    ], $value));
-                }
-            }
-        }
-
         $data['attributes'] = [];
 
 
@@ -155,9 +126,9 @@ class Category extends Front_controller{
                 }
 
                 $attr_values[$attribute['attribute_id']][] = [
-                   'text' => $attribute['attribute_value'],
-                   'slug' => url_title($attribute['attribute_value']).'_'.$attribute['attribute_value_id'],
-                   'checked' => @in_array($attribute['attribute_value_id'], $checked_values),
+                    'text' => $attribute['attribute_value'],
+                    'slug' => url_title($attribute['attribute_value']).'_'.$attribute['attribute_value_id'],
+                    'checked' => @in_array($attribute['attribute_value_id'], $checked_values),
                     'possible' => $possible
                 ];
             }
@@ -172,7 +143,51 @@ class Category extends Front_controller{
             }
         }
 
-        if($brand){
+
+
+
+        $var_brand = '';
+
+        if(isset($filter_data['brand'])){
+            $var_brand = implode(', ',$filter_data['brand']);
+        }
+
+        $var_filter = '';
+
+        if(isset($filter_data['attr'])){
+            $f_arr = [];
+            foreach ($filter_data['attr'] as $f_attr_id => $f_attr_values){
+                foreach ($attributes as $attr){
+                    if($attr['attribute_id'] == $f_attr_id && in_array($attr['attribute_value_id'], $f_attr_values)){
+                        $f_arr[] = $attr['attribute'].': '.$attr['attribute_value'];
+                    }
+                }
+            }
+
+            echo $var_filter = implode(', ',$f_arr);
+        }
+
+        if($var_brand || $var_filter){
+            $settings = $this->settings_model->get_by_key('seo_brand');
+            if($settings){
+                $seo = [];
+                foreach($settings as $field => $value){
+                    $seo[$field] = trim(str_replace([
+                        '{category}',
+                        '{brand}',
+                        '{filter}'
+                    ],[
+                        $category['name'],
+                        $var_brand,
+                        $var_filter
+                    ], $value));
+                }
+            }
+        }
+
+
+
+        if($var_brand || $var_filter){
             $this->setH1(@$seo['h1']);
             $data['h1'] = $this->h1;
             $this->setTitle(@$seo['title']);

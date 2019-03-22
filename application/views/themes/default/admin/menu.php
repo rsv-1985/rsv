@@ -102,8 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <i class="fa fa-dashboard"></i> <span>SEO настройки</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="/autoxadmin/seo_settings/product"><i class="fa fa-angle-right"></i>Товара</a></li>
-            <li><a href="/autoxadmin/seo_settings/brand"><i class="fa fa-angle-right"></i>Производитель</a></li>
+            <li><a href="/autoxadmin/seo_settings/product"><i class="fa fa-angle-right"></i>Страница товара</a></li>
+            <li><a href="/autoxadmin/seo_settings/brand"><i class="fa fa-angle-right"></i>Фильтр в категории</a></li>
             <li><a href="/autoxadmin/seo_settings/robots"><i class="fa fa-angle-right"></i>Robots.txt</a></li>
             <li><a href="/autoxadmin/seo_settings/sitemap"><i class="fa fa-angle-right"></i>Sitemap</a></li>
             <li><a href="/autoxadmin/seo_settings/tecdoc"><i class="fa fa-angle-right"></i>Каталог Tecdoc</a></li>

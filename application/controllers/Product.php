@@ -274,6 +274,11 @@ class Product extends Front_controller
             $this->setOg('image',base_url('image').'?img='.$data['images'][0]['src']);
         }
 
+        if($this->config->item('cache_product')){
+            $this->output->cache($this->config->item('cache_product'));
+        }
+
+
         $this->load->view('header');
         $this->load->view('product/product', $data);
         $this->load->view('footer');

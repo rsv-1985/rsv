@@ -36,30 +36,22 @@ class Page_model extends Default_model
 
     public function get_footer_page()
     {
-        $cache = $this->cache->file->get('footer_page');
-        if (!$cache && !is_null($cache)) {
-            $this->db->where('show_footer', true);
-            $this->db->order_by('sort', 'ASC');
-            $query = $this->db->get($this->table);
-            if ($query->num_rows() > 0) {
-                $return = [];
-                foreach ($query->result_array() as $item) {
-                    $return[] = [
-                        'href' => !empty($item['link']) ? $item['link'] : '/page/' . $item['slug'],
-                        'target' => $item['new_window'] ? '_blank' : '_self',
-                        'title' => strip_tags($item['name']),
-                        'menu_title' => !empty($item['menu_title']) ? strip_tags($item['menu_title']) : strip_tags($item['name'])
-                    ];
-                }
-                $this->cache->file->save('footer_page', $return, 604800);
-                return $return;
+        $this->db->where('show_footer', true);
+        $this->db->order_by('sort', 'ASC');
+        $query = $this->db->get($this->table);
+        if ($query->num_rows() > 0) {
+            $return = [];
+            foreach ($query->result_array() as $item) {
+                $return[] = [
+                    'href' => !empty($item['link']) ? $item['link'] : '/page/' . $item['slug'],
+                    'target' => $item['new_window'] ? '_blank' : '_self',
+                    'title' => strip_tags($item['name']),
+                    'menu_title' => !empty($item['menu_title']) ? strip_tags($item['menu_title']) : strip_tags($item['name'])
+                ];
             }
-            $this->cache->file->save('footer_page', null, 604800);
-            return false;
-        } else {
-            return $cache;
+            return $return;
         }
-
+        return false;
     }
 
     public function get_by_slug($slug)
@@ -95,8 +87,8 @@ class Page_model extends Default_model
     public function get_sitemap()
     {
         $return = false;
-        $this->db->select(['slug','updated_at']);
-        $this->db->where('link','');
+        $this->db->select(['slug', 'updated_at']);
+        $this->db->where('link', '');
         $this->db->where('status', true);
         $this->db->from($this->table);
         $query = $this->db->get();

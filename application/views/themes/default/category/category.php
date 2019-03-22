@@ -20,6 +20,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         padding-right: 5px;
         position: relative;
     }
+
+    .checkbox.disabled label {
+        opacity: 0.3;
+    }
 </style>
 <div class="product-big-title-area">
     <div class="container">
