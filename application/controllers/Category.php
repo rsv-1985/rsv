@@ -164,7 +164,7 @@ class Category extends Front_controller{
                 }
             }
 
-            echo $var_filter = implode(', ',$f_arr);
+           $var_filter = implode(', ',$f_arr);
         }
 
         if($var_brand || $var_filter){
