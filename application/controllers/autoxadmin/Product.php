@@ -388,7 +388,7 @@ class Product extends Admin_controller
         $values = $this->mattribute->getValues($attribute_id);
         if($values){
             foreach ($values as $value){
-                $html .= '<option value="'.$value['id'].'">'.$value['value'].'</option>';
+                $html .= '<option value="'.$value['id'].'">'.addslashes($value['value']).'</option>';
             }
         }
         exit($html);
