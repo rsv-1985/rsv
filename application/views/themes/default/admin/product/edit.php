@@ -411,7 +411,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         html += '<select onchange="getValues($(this).val(),'+attribute_row+')" name="attributes['+attribute_row+'][attribute_id]" class="form-control">';
         html += '<option value="*">---</option>';
         <?php foreach ($attributes as $attribute){?>
-        html += '<option value="<?php echo $attribute['id'];?>"><?php echo $attribute['name'];?></option>';
+        html += '<option value="<?php echo $attribute['id'];?>"><?php echo addslashes($attribute['name']);?></option>';
         <?php } ?>
         html += '</select>';
         html += '</td>';
