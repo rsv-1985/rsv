@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         color: black;
         height: 1px;
         overflow: hidden;
-        z-index: 999;
+        z-index: 2;
         text-align: left;
         font-size: 14px;
         padding-top: 1px;
