@@ -276,7 +276,7 @@ class Category extends Front_controller{
                     $name = $tecdoc_info_array[$key]->Name;
                 }
 
-                $image = '';
+                $image = theme_url('img/no_image.png');
 
                 $images = $product->getImages();
                 if($images){
