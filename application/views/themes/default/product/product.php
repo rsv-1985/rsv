@@ -397,7 +397,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 <tr>
                                     <td><?php echo $attribute['attribute_name']; ?></td>
                                     <td><?php echo $attribute['values']; ?></td>
-                                </tr>ву
+                                </tr>
                             <?php } ?>
                         <?php } ?>
                         <?php if ($tecdoc_attributes) { ?>
