@@ -142,7 +142,12 @@ class Category_model extends Default_model
             foreach ($cats[$parent_id] as $cat){
 
                 if(isset($cats[$cat['id']])){
-                    $tree .= '<li class="nav_catalog_has_dd"><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a><ul>';
+                    if(@$cat['tecdoc']){
+                        $tree .= '<li class="nav_catalog_has_dd"><a href="/catalog/?id_tree'.$cat['slug'].'">' . $cat['name'].'</a><ul>';
+                    }else{
+                        $tree .= '<li class="nav_catalog_has_dd"><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a><ul>';
+                    }
+
                     $tree .= $this->build_tree($cats,$cat['id'],true);
                     if(@$cat['image']){
                         $tree .= '<img class="catalog_nav_img " src="'.$cat['image'].'">';
