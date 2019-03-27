@@ -143,7 +143,7 @@ class Category_model extends Default_model
 
                 if(isset($cats[$cat['id']])){
                     if(@$cat['tecdoc']){
-                        $tree .= '<li class="nav_catalog_has_dd"><a href="/catalog/?id_tree'.$cat['slug'].'">' . $cat['name'].'</a><ul>';
+                        $tree .= '<li class="nav_catalog_has_dd"><a href="/catalog/?id_tree='.$cat['slug'].'">' . $cat['name'].'</a><ul>';
                     }else{
                         $tree .= '<li class="nav_catalog_has_dd"><a href="/category/'.$cat['slug'].'">' . $cat['name'].'</a><ul>';
                     }
