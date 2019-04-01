@@ -56,6 +56,7 @@ class Cart extends Front_controller
         }
         $data = [];
 
+
         $data['terms_of_use'] = $this->settings_model->get_by_key('terms_of_use');
 
         $this->setTitle(lang('text_cart_heading'));
@@ -218,13 +219,45 @@ class Cart extends Front_controller
                         }
                         unset($_SESSION['deferred']);
                     }
+
+                    $order_info = $this->order_model->get($order_id);
+                    if($order_info){
+                        $ecommerce_data = [];
+
+                        $ecommerce_data['event'] = 'transaction';
+                        $ecommerce_data['transactionId'] = $order_id;
+                        $ecommerce_data['transactionAffiliation'] = $this->config->item('company_name');
+                        $ecommerce_data['transactionTotal'] = $order_info['total'];
+                        $ecommerce_data['transactionTax'] = 0;
+                        $ecommerce_data['transactionShipping'] = $order_info['delivery_price'];
+
+                        $order_products = $this->order_product_model->product_get($order_id);
+
+                        if($order_products){
+                            foreach ($order_products as $order_product){
+                                $ecommerce_data['transactionProducts'][] = [
+                                    'sku' => $order_product['sku'],
+                                    'name' => $order_product['name'],
+                                    'category' => 'Автозапчасти',
+                                    'price' => $order_product['price'],
+                                    'quantity' => $order_product['quantity']
+                                ];
+                            }
+                        }
+
+                        $ecommerce = '<script>window.dataLayer = window.dataLayer || [];
+                     dataLayer.push('.json_encode($ecommerce_data).')';
+                        $ecommerce .='</script>';
+                    }
+
                     
                     //Если это api платежной системы передаем ей управление
                     if(!empty($cart_data['paymentInfo']['api'])){
+                        $this->session->set_flashdata('success', $ecommerce);
                         redirect('/payment/'.$cart_data['paymentInfo']['api'].'?amount='.$cart_data['total']);
                     }
                     
-                    $this->session->set_flashdata('success', sprintf(lang('text_success_order'), $order_id));
+                    $this->session->set_flashdata('success', sprintf(lang('text_success_order').$ecommerce, $order_id));
 
                     redirect('/customer');
                 }
