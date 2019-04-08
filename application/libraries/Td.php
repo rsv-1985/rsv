@@ -53,7 +53,7 @@ class Td {
             'method' => 'getOeCross',
             'params' => [
                 'article' => $sku,
-                'brand' => $brand
+                'brand' => urlencode($brand)
             ]
         ];
 
@@ -66,7 +66,7 @@ class Td {
             'method' => 'getCrosses',
             'params' => [
                 'sku' => $sku,
-                'brand' => $brand
+                'brand' => urlencode($brand)
             ]
         ];
 

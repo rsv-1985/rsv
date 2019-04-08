@@ -191,7 +191,7 @@ class Search extends Front_controller
                     $td[$key] = ['sku' => $product['sku'], 'brand' => $product['brand']];
                 }
 
-                $tecdoc_info_array = (array)$this->tecdoc->getArticleArray($td);
+                $tecdoc_info_array = (array)$this->tecdoc->getArticleArray(array_slice($td, 0 , 100));
 
                 foreach ($products as $product) {
                     if ($product['prices']) {
@@ -204,6 +204,7 @@ class Search extends Front_controller
                         $product['is_cross'] =  $is_cross;
 
                         $key = md5($product['sku'].$product['brand']);
+
 
                         if(isset($tecdoc_info_array[$key])){
                             $tecdoc_info['article'] = (array)$tecdoc_info_array[$key];
