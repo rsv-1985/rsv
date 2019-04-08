@@ -83,8 +83,6 @@ class Search extends Front_controller
 
         $brand = $this->input->get('brand', true);
 
-        $ID_art = (int)$this->input->get('ID_art');
-
         $this->load->library('user_agent');
         //Если это не робот и не админ, пишем историю поиска в базу данных
         if (!$this->agent->is_robot() && !$this->is_admin) {
@@ -95,14 +93,6 @@ class Search extends Front_controller
                 'brand' => (string)$brand
             ];
             $this->search_history_model->insert($search_history);
-        }
-
-        //Если не указан ID_art но указан код и бренд получаем id_art с текдока.
-        if (!$ID_art && $brand && $search) {
-            $tecdoc_id_art = $this->tecdoc->getIDart($this->product_model->clear_sku($search), $brand);
-            if ($tecdoc_id_art) {
-                $ID_art = $tecdoc_id_art[0]->ID_art;
-            }
         }
 
 
@@ -126,17 +116,7 @@ class Search extends Front_controller
             $product_search[] = ['sku' => $search, 'brand' =>  $brand];
         }
 
-        $this->load->library('td');
-
-        $tdcross = $this->td->getCrosses($search, $brand);
-        if($tdcross){
-            foreach ($tdcross as $tdc){
-                $product_search[] = ['sku' => clear_sku($tdc['sku']), 'brand' =>  clear_brand($brand)];
-            }
-        }
-
-
-        $system_cross = $this->product_model->get_crosses($ID_art, $brand, $search);
+        $system_cross = $this->product_model->get_crosses($brand, $search);
 
         if ($system_cross) {
             foreach ($system_cross as $st){
@@ -145,30 +125,26 @@ class Search extends Front_controller
         }
 
         //Если указано id_group группа брендов
+
         if($group_brand_id = (int)$this->input->get('id_group')){
+
             $group_brands = $this->brand_group_model->getBrands($group_brand_id);
+
             if($group_brands){
+                $this->load->library('td');
+
+                $brandGroup = [];
                 foreach ($group_brands as $group_brand){
-                    $tecdoc_id_art = $this->tecdoc->getIDart($this->product_model->clear_sku($search), $group_brand['brand']);
-                    if ($tecdoc_id_art) {
-                        $ID_art = $tecdoc_id_art[0]->ID_art;
-                    }
-
-                    $system_cross = $this->product_model->get_crosses($ID_art, $group_brand['brand'], $search);
-
-                    if ($system_cross) {
-                        foreach ($system_cross as $st){
-                            $product_search[] = $st;
-                        }
-                    }
+                    $brandGroup[] = urlencode($group_brand['brand']);
                     $check_brands[] = $group_brand['brand'];
                     $product_search[] = ['sku' => $search, 'brand' =>  $group_brand['brand']];
+                }
 
-                    $tdcross = $this->td->getCrosses($search, $group_brand['brand']);
-                    if($tdcross){
-                        foreach ($tdcross as $tdc){
-                            $product_search[] = ['sku' => clear_sku($tdc['sku']), 'brand' =>  clear_brand($brand)];
-                        }
+                $system_cross = $this->product_model->get_crosses($brandGroup, $search);
+
+                if ($system_cross) {
+                    foreach ($system_cross as $st){
+                        $product_search[] = $st;
                     }
                 }
             }
@@ -219,7 +195,7 @@ class Search extends Front_controller
 
                 foreach ($products as $product) {
                     if ($product['prices']) {
-                        if($product['sku'] != $this->product_model->clear_sku($search) || !in_array($product['brand'],$check_brands)){
+                        if($product['sku'] != clear_sku($search) || !in_array($product['brand'],$check_brands)){
                             $is_cross = 1;
                         }else{
                             $is_cross = 0;
@@ -231,9 +207,6 @@ class Search extends Front_controller
 
                         if(isset($tecdoc_info_array[$key])){
                             $tecdoc_info['article'] = (array)$tecdoc_info_array[$key];
-                        }else{
-                            //Для обратной совместимости у Андрея нет $tecdoc_info_array
-                            $tecdoc_info = $this->product_model->tecdoc_info($product['sku'], $product['brand']);
                         }
 
                         //Если активна опция использовать наименования с текдок
@@ -321,6 +294,7 @@ class Search extends Front_controller
         } else {
 
             $products = $this->product_model->get_search_text($search);
+
             if ($products) {
                 foreach ($products as $product) {
                     if ($product['prices']) {
@@ -393,6 +367,8 @@ class Search extends Front_controller
 
             $data['cross'] = array_merge($like_term,$other);
         }
+
+
 
         $this->load->view('header');
         $this->load->view('search/search', $data);

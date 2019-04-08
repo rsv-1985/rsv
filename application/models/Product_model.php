@@ -53,10 +53,11 @@ class Product_model extends Default_model
         $this->db->delete('product_price');
     }
 
-    public function admin_product_get_all($limit = false, $start = false, $return_count = false){
+    public function admin_product_get_all($limit = false, $start = false, $return_count = false)
+    {
         $this->db->from('product p');
         $this->db->select('pp.*, p.*, c.name as category_name, s.name as supplier_name, cr.name as currency_name');
-        if(!$return_count || $this->input->get()){
+        if (!$return_count || $this->input->get()) {
             $this->db->join('product_price pp', 'p.id=pp.product_id', 'left');
             $this->db->join('category c', 'c.id = p.category_id', 'left');
             $this->db->join('supplier s', 's.id=pp.supplier_id', 'left');
@@ -64,11 +65,9 @@ class Product_model extends Default_model
         }
 
 
-
-
-        if($this->input->get()){
+        if ($this->input->get()) {
             if ($this->input->get('sku')) {
-                $this->db->where('p.sku', $this->clear_sku($this->input->get('sku', true)));
+                $this->db->where('p.sku', clear_sku($this->input->get('sku', true)));
             }
             if ($this->input->get('brand')) {
                 $this->db->where('p.brand', $this->input->get('brand', true));
@@ -93,7 +92,7 @@ class Product_model extends Default_model
             $this->db->limit((int)$limit);
         }
 
-        if($return_count){
+        if ($return_count) {
             return $this->db->count_all_results();
         }
 
@@ -244,24 +243,38 @@ class Product_model extends Default_model
     }
 
     //Получаем кросс номера
-    public function get_crosses($ID_art, $brand, $sku)
+    public function get_crosses($brand, $sku)
     {
 
         //Получаем кросс номера
-        $sku = $this->clear_sku($sku);
-        $brand = $this->clear_brand($brand);
+        $sku = clear_sku($sku);
+        if(is_array($brand)){
+            $brand = array_map('clear_brand', $brand);
+        }else{
+            $brand = clear_brand($brand);
+        }
+
 
         $crosses = [];
-        if ($ID_art) {
-            $cross = $this->tecdoc->getCrosses($ID_art);
-            if ($cross) {
-                foreach (array_slice($cross, 0, 1000) as $item) {
-                    if ($this->clear_sku($item->Display) == $sku && $item->Brand == $brand) {
+
+        $this->load->library('td');
+
+        if($brand){
+            if(is_array($brand)){
+                $tdcross = $this->td->getCrossesBrandGroup($sku, $brand);
+            }else{
+                $tdcross = $this->td->getCrosses($sku, $brand);
+            }
+
+
+            if ($tdcross) {
+                foreach (array_slice($tdcross, 0, 1000) as $item) {
+                    if (clear_sku($item['sku']) == $sku && $item['brand'] == $brand) {
                         continue;
                     }
                     $crosses[] = [
-                        'sku' => $this->clear_sku($item->Display),
-                        'brand' => $item->Brand,
+                        'sku' => clear_sku($item['sku']),
+                        'brand' => $item['brand']
                     ];
                 }
             }
@@ -272,28 +285,41 @@ class Product_model extends Default_model
         $this->db->from('cross');
         $this->db->where('code', $sku);
         if ($brand) {
-            $this->db->where('brand', $brand);
+            if(is_array($brand)){
+                $this->db->where_in('brand', $brand);
+            }else{
+                $this->db->where('brand', $brand);
+            }
+
         }
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $crosses = array_merge($crosses, $query->result_array());
         }
 
-        $autox_crosses = $this->autox_cross->getCrosses($sku, $brand);
+        if($brand){
+            if(is_array($brand)){
+                $autox_crosses = $this->autox_cross->getCrosses($sku, $brand[0]);
+            }else{
+                $autox_crosses = $this->autox_cross->getCrosses($sku, $brand);
+            }
 
-        if ($autox_crosses) {
-            foreach ($autox_crosses as $ac) {
-                $crosses[] = ['sku' => $ac->article, 'brand' => $ac->brand];
+
+            if ($autox_crosses) {
+                foreach ($autox_crosses as $ac) {
+                    $crosses[] = ['sku' => $ac->article, 'brand' => $ac->brand];
+                }
             }
         }
 
-        return $crosses;
+
+        return array_unique($crosses,SORT_REGULAR);
     }
 
     //Получаем бренды для уточнения поиска
     public function get_brands($query)
     {
-        $sku = $this->clear_sku($query);
+        $sku = clear_sku($query);
         $return = [];
         $check_brand = [];
         //Получает бренды текдок
@@ -301,12 +327,12 @@ class Product_model extends Default_model
         if ($tecdoc) {
             foreach ($tecdoc as $item) {
                 //Проверяем есть бренд в группах брендов
-                $check_brand[] = $this->clear_brand(preg_replace('~^OE ~', '', $item->Brand));
+                $check_brand[] = clear_brand(preg_replace('~^OE ~', '', $item->Brand));
                 $return[] = [
                     'ID_art' => $item->ID_art,
                     'name' => $item->Name,
-                    'brand' => $this->clear_brand(preg_replace('~^OE ~', '', $item->Brand)),
-                    'sku' => $this->clear_sku($item->Article),
+                    'brand' => clear_brand(preg_replace('~^OE ~', '', $item->Brand)),
+                    'sku' => clear_sku($item->Article),
                     'image' => '/image?img=' . $item->Image . '&width=50&height=50',
                 ];
             }
@@ -367,7 +393,7 @@ class Product_model extends Default_model
     //Поиск запчастей по точному совпадению
     public function get_search_products($sku, $brand)
     {
-        $sku = $this->clear_sku($sku);
+        $sku = clear_sku($sku);
 
         $this->db->from('product');
         $this->db->where('sku', $sku);
@@ -390,8 +416,8 @@ class Product_model extends Default_model
         $this->db->from('product');
         foreach ($search as $item) {
             $this->db->or_group_start();
-            $this->db->where('sku', $this->clear_sku($item['sku']));
-            $this->db->where('brand', $this->clear_brand($item['brand']));
+            $this->db->where('sku', clear_sku($item['sku']));
+            $this->db->where('brand', clear_brand($item['brand']));
             $this->db->group_end();
         }
         $this->db->where("(SELECT count(*) FROM ax_product_price WHERE product_id = id) > 0");
@@ -440,7 +466,7 @@ class Product_model extends Default_model
 
         foreach ($search as $search) {
             $this->db->group_start();
-            $this->db->or_where('sku', $this->clear_sku($search));
+            $this->db->or_where('sku', clear_sku($search));
             $this->db->or_like('name', $search, 'both');
             $this->db->or_like('brand', $search, 'both');
             $this->db->group_end();
@@ -793,7 +819,7 @@ class Product_model extends Default_model
                 if ($tecdoc_info) {
                     $return['article'] = (array)$tecdoc_info->article;
                     if ($full_info) {
-                        $crosses = $this->get_crosses($tecdoc_info->ID_art, $brand, $sku);
+                        $crosses = $this->get_crosses($brand, $sku);
                         if ($crosses) {
                             $return['cross'] = $this->get_search_crosses($crosses);
                         }
@@ -808,7 +834,7 @@ class Product_model extends Default_model
             if ($sku && $brand) {
                 $ID_art = $this->tecdoc->getIDart($sku, $brand);
                 if ($full_info) {
-                    $crosses = $this->get_crosses(@$ID_art[0]->ID_art, $brand, $sku);
+                    $crosses = $this->get_crosses($brand, $sku);
                     if ($crosses) {
                         $return['cross'] = $this->get_search_crosses($crosses);
                     }
@@ -902,6 +928,7 @@ class Product_model extends Default_model
         if ($api_supplier) {
             foreach ($api_supplier as $supplier) {
                 if (file_exists('./application/libraries/apisupplier/' . ucfirst($supplier['api']) . '.php')) {
+                    echo $supplier['api'].'<br/>';
                     $this->load->library('apisupplier/' . $supplier['api']);
                     $cross_suppliers[] = $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
                 }
@@ -910,7 +937,8 @@ class Product_model extends Default_model
         return $cross_suppliers;
     }
 
-    public function api_supplier_brand($sku){
+    public function api_supplier_brand($sku)
+    {
         $brands = [];
         $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
         if ($api_supplier) {
@@ -924,7 +952,8 @@ class Product_model extends Default_model
         return $brands;
     }
 
-    public function getProductImages($product_id){
+    public function getProductImages($product_id)
+    {
         $this->db->where('product_id', (int)$product_id);
         $this->db->order_by('id', 'ASC');
         return $this->db->get('product_images')->result_array();

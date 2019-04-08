@@ -166,7 +166,7 @@ class Product extends Admin_controller
     public function delete_product($id){
         $this->db->where('id',(int)$id)->delete('product');
         $this->db->where('product_id',(int)$id)->delete('product_price');
-        $this->db->where('product_id',(int)$id)->delete('product_attributes');
+        $this->db->where('product_id',(int)$id)->delete('product_attribute');
         $this->session->set_flashdata('success', lang('text_success'));
         $this->clear_cache();
         redirect('autoxadmin/product');
