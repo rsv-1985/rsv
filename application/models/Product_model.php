@@ -928,7 +928,6 @@ class Product_model extends Default_model
         if ($api_supplier) {
             foreach ($api_supplier as $supplier) {
                 if (file_exists('./application/libraries/apisupplier/' . ucfirst($supplier['api']) . '.php')) {
-                    echo $supplier['api'].'<br/>';
                     $this->load->library('apisupplier/' . $supplier['api']);
                     $cross_suppliers[] = $this->{$supplier['api']}->get_search($supplier['id'], $sku, $brand, $crosses_search);
                 }
