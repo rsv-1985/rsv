@@ -11,6 +11,7 @@ class Td {
     private $key;
     private $url = 'https://td2018q2.autox.pro?json=';
     private $CI;
+    private $curl;
 
     private $image_path = 'https://td2018q2.autox.pro/images/';
 
@@ -72,8 +73,22 @@ class Td {
         return $this->res($query);
     }
 
+    public function getCrossesBrandGroup($sku, $brand_group){
+        $query = [
+            'apikey' => $this->key,
+            'method' => 'getCrossesBrandGroup',
+            'params' => [
+                'sku' => $sku,
+                'brand_group' => $brand_group
+            ]
+        ];
+
+        return $this->res($query);
+    }
+
     public function res($query, $use_cache = false)
     {
+        $this->CI->benchmark->mark('1');
         if ($use_cache) {
             $key = md5(json_encode($query));
             $cache = $this->CI->cache->file->get($key);
@@ -90,12 +105,13 @@ class Td {
         curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
         curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+        curl_setopt($curl,CURLOPT_ENCODING, 1);
 
         $res = curl_exec($curl);
         curl_close($curl);
 
         if($res){
-            $res = json_decode($res, true);
+            $res = json_decode(gzdecode($res), true);
             if ($use_cache) {
                 $this->CI->cache->file->save($key, $res, 60*60*24*30);
             }
