@@ -64,7 +64,7 @@ class Liqpay extends Front_controller{
             $data['data'] = $liqpay_data;
             $data['signature'] = $liqpay_signature;
             $data['language'] = $language;
-            $data['action'] = 'https://www.liqpay.com/api/3/checkout';
+            $data['action'] = 'https://www.liqpay.ua/api/3/checkout';
 
             $data['text_no_close'] = lang('text_no_close');
 
