@@ -39,6 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </a>
         <ul class="treeview-menu">
             <li><a href="/autoxadmin/customerbalance"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_customerbalance');?></a></li>
+            <li><a href="/autoxadmin/supplier_pay"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_supplier_pay');?></a></li>
             <li><a href="/autoxadmin/customer_pay"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_customer_pay');?></a></li>
             <li><a href="/autoxadmin/invoice"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_invoice');?></a></li>
         </ul>

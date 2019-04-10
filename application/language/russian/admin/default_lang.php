@@ -80,3 +80,4 @@ $lang['text_nav_tecdoc_settings'] = 'TecDoc настройки';
 $lang['text_customer_pay'] = 'Приходный кассовый ордер';
 $lang['format_date'] = 'd.m.Y';
 $lang['format_time'] = 'd.m.Y H:i';
+$lang['text_nav_supplier_pay'] = 'Расходный кассовый ордер';
