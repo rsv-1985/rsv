@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         <?php } ?>
                         <?php if(@$this->options['show_tecdoc_product_without_price']){?>
                             <?php foreach ($parts as $part){?>
-                                <?php if (!$part->product) { ?>
+                                <?php if (!$part->product || !$part->product['prices']) { ?>
                                     <div class="col-md-4 col-sm-6 filters-item">
                                         <div class="filters-key" style="display: none">
                                             <?php if (isset($part->filter_key)){ ?>
