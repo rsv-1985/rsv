@@ -53,7 +53,7 @@ class Msupplier_pay extends Default_model
         if (in_array($this->input->get('sort'), $fields)) {
             $sort = $this->input->get('sort', true);
         } else {
-            $sort = 'id';
+            $sort = 'transaction_date';
         }
 
         $this->db->order_by($sort, $order);
