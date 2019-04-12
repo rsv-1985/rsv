@@ -266,7 +266,6 @@ class Product_model extends Default_model
                 $tdcross = $this->td->getCrosses($sku, $brand);
             }
 
-
             if ($tdcross) {
                 foreach (array_slice($tdcross, 0, 1000) as $item) {
                     if (clear_sku($item['sku']) == $sku && $item['brand'] == $brand) {

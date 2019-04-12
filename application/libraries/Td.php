@@ -93,12 +93,11 @@ class Td {
             $key = md5(json_encode($query));
             $cache = $this->CI->cache->file->get($key);
             if ($cache) {
-                json_decode(gzdecode($cache), true);
+                json_decode($cache, true);
             }
         }
 
         $jsonurl = $this->url . json_encode($query);
-
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $jsonurl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -112,7 +111,7 @@ class Td {
 
         if($res){
 
-            $res = json_decode(gzdecode($res), true);
+            $res = json_decode($res, true);
 
             if ($use_cache) {
                 $this->CI->cache->file->save($res, $res, 60*60*24*30);

@@ -106,4 +106,10 @@ class Index extends Front_controller {
         $this->load->view('page_404');
         $this->load->view('footer');
     }
+
+    public function test(){
+	    $ID_art = $this->tecdoc->getIDart('48130091A0', 'SSANGYONG');
+	    $crosses = $this->tecdoc->getCrosses($ID_art[0]->ID_art);
+	    print_r($crosses);
+    }
 }
