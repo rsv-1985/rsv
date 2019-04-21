@@ -25,6 +25,7 @@ class Search extends Front_controller
         $search = strip_tags($this->input->get('search', true));
 
         $brands = $this->mproduct->getBrands($search);
+
         if($brands){
             $data['group_brands'] = [];
             $data['brands'] = [];

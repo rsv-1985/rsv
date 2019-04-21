@@ -935,20 +935,6 @@ class Product_model extends Default_model
         return $cross_suppliers;
     }
 
-    public function api_supplier_brand($sku)
-    {
-        $brands = [];
-        $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
-        if ($api_supplier) {
-            foreach ($api_supplier as $supplier) {
-                if (file_exists('./application/libraries/apisupplier/' . ucfirst($supplier['api']) . '.php')) {
-                    $this->load->library('apisupplier/' . $supplier['api']);
-                    $brands[] = @$this->{$supplier['api']}->get_brands($sku);
-                }
-            }
-        }
-        return $brands;
-    }
 
     public function getProductImages($product_id)
     {

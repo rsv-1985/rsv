@@ -556,9 +556,32 @@ class Mproduct extends Default_model{
         return $cross_suppliers;
     }
 
+    public function apiSupplierBrand($sku)
+    {
+        $brands = [];
+        $api_supplier = $this->db->select(['id', 'api'])->where('api !=', '')->get('supplier')->result_array();
+        if ($api_supplier) {
+            foreach ($api_supplier as $supplier) {
+                if (file_exists('./application/libraries/apisupplier/' . ucfirst($supplier['api']) . '.php')) {
+                    $this->load->library('apisupplier/' . $supplier['api']);
+                    if(method_exists($this->{$supplier['api']}, 'get_brands')){
+                        $this->{$supplier['api']}->get_brands($sku);
+                    }
+                }
+            }
+        }
+        return $brands;
+    }
+
     public function getBrands($search)
     {
+        $this->load->model('synonym_model');
+        $synonym = $this->synonym_model->get_synonyms();
+
         $sku = clear_sku($search);
+
+        $this->apiSupplierBrand($sku);
+
         $return = [];
         $check_brand = [];
         //Получает бренды текдок
@@ -566,11 +589,11 @@ class Mproduct extends Default_model{
         if ($tecdoc) {
             foreach ($tecdoc as $item) {
                 //Проверяем есть бренд в группах брендов
-                $check_brand[] = clear_brand(preg_replace('~^OE ~', '', $item->Brand));
+                $b = clear_brand(preg_replace('~^OE ~', '', $item->Brand), $synonym);
+                $check_brand[] = $b;
                 $return[] = [
-                    'ID_art' => $item->ID_art,
                     'name' => $item->Name,
-                    'brand' =>clear_brand(preg_replace('~^OE ~', '', $item->Brand)),
+                    'brand' => $b,
                     'sku' => clear_sku($item->Article),
                     'image' => '/image?img=' . $item->Image . '&width=50&height=50',
                 ];
@@ -589,9 +612,8 @@ class Mproduct extends Default_model{
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $item) {
-                $check_brand[] = $item['brand'];
+                $check_brand[] = clear_brand($item['brand'], $synonym);
                 $return[] = [
-                    'ID_art' => 0,
                     'name' => $item['name'],
                     'brand' => $item['brand'],
                     'sku' => $item['sku'],
@@ -615,9 +637,8 @@ class Mproduct extends Default_model{
             foreach ($query->result_array() as $item) {
                 $check_brand[] = $item['brand'];
                 $return[] = [
-                    'ID_art' => 0,
                     'name' => '',
-                    'brand' => $item['brand'],
+                    'brand' => clear_brand($item['brand'], $synonym),
                     'sku' => $item['code'],
                     'image' => '/image?width=50',
                 ];
@@ -628,6 +649,8 @@ class Mproduct extends Default_model{
         return $return;
 
     }
+
+
 
     public function getAttributes(){
         $attributes = [];
