@@ -155,6 +155,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                             <a href="/autoxadmin/customer/edit/<?php echo $product['customer_id']; ?>">
                                                 <?php echo $product['customer_name']; ?>
                                             </a>
+                                            <div class="pull-right">
+                                                <?php $this->load->view('admin/widget/_customer_button',['customer_id' =>  $product['customer_id']]);?>
+                                            </div>
                                         </td>
                                         <td><?php echo $product['sku']; ?></td>
                                         <td><?php echo $product['brand']; ?></td>
