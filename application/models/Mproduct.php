@@ -604,21 +604,21 @@ class Mproduct extends Default_model{
         $this->db->from('product p');
         $this->db->select("p.name, p.brand, p.sku, p.image", FALSE);
         $this->db->where('p.sku', $sku);
-        if ($check_brand) {
-            $this->db->where_not_in('p.brand', $check_brand);
-        }
         $this->db->group_by('p.brand');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $item) {
-                $check_brand[] = $brand = clear_brand($item['brand'], $synonym);
-                $return[] = [
-                    'name' => $item['name'],
-                    'brand' => $brand,
-                    'sku' => $item['sku'],
-                    'image' => '/image?img=/uploads/product/' . $item['image'] . '&width=50&height=50',
-                ];
+                $brand = clear_brand($item['brand'], $synonym);
+                if(!in_array($brand, $check_brand)){
+                    $check_brand[] = $brand;
+                    $return[] = [
+                        'name' => $item['name'],
+                        'brand' => $brand,
+                        'sku' => $item['sku'],
+                        'image' => '/image?img=/uploads/product/' . $item['image'] . '&width=50&height=50',
+                    ];
+                }
             }
         }
 
@@ -627,21 +627,22 @@ class Mproduct extends Default_model{
         $this->db->from('cross c');
         $this->db->select("c.brand, c.code", FALSE);
         $this->db->where('c.code', $sku);
-        if ($check_brand) {
-            $this->db->where_not_in('c.brand', $check_brand);
-        }
         $this->db->group_by('c.brand');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $item) {
-                $check_brand[] = $brand = clear_brand($item['brand'], $synonym);
-                $return[] = [
-                    'name' => '',
-                    'brand' => $brand,
-                    'sku' => $item['code'],
-                    'image' => '/image?width=50',
-                ];
+                $brand = clear_brand($item['brand'], $synonym);
+                if(!in_array($brand, $check_brand)){
+                    $check_brand[] = $brand;
+                    $return[] = [
+                        'name' => '',
+                        'brand' => $brand,
+                        'sku' => $item['code'],
+                        'image' => '/image?width=50',
+                    ];
+                }
+
             }
         }
 
