@@ -612,10 +612,10 @@ class Mproduct extends Default_model{
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $item) {
-                $check_brand[] = clear_brand($item['brand'], $synonym);
+                $check_brand[] = $brand = clear_brand($item['brand'], $synonym);
                 $return[] = [
                     'name' => $item['name'],
-                    'brand' => $item['brand'],
+                    'brand' => $brand,
                     'sku' => $item['sku'],
                     'image' => '/image?img=/uploads/product/' . $item['image'] . '&width=50&height=50',
                 ];
@@ -635,10 +635,10 @@ class Mproduct extends Default_model{
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $item) {
-                $check_brand[] = $item['brand'];
+                $check_brand[] = $brand = clear_brand($item['brand'], $synonym);
                 $return[] = [
                     'name' => '',
-                    'brand' => clear_brand($item['brand'], $synonym),
+                    'brand' => $brand,
                     'sku' => $item['code'],
                     'image' => '/image?width=50',
                 ];
