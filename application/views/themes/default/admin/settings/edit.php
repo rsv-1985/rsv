@@ -689,6 +689,25 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label>Сортировка цен по умолчанию</label>
+                                                    <select name="settings[options][price_sort]" class="form-control">
+                                                        <option <?php echo set_select('settings[options][price_sort]','like_term', @$settings['options']['price_sort'] == 'like_term');?> value="like_term">like_term</option>
+                                                        <option <?php echo set_select('settings[options][price_sort]','price', @$settings['options']['price_sort'] == 'price');?> value="price">price</option>
+                                                        <option <?php echo set_select('settings[options][price_sort]','term', @$settings['options']['price_sort'] == 'term');?> value="term">term</option>
+                                                        <option <?php echo set_select('settings[options][price_sort]','qty', @$settings['options']['price_sort'] == 'qty' );?> value="qty">qty</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                like_term - Сначала товары у которых срок поставки до 24 часов по возростанию цены, дальше все остальные по возростанию цены<br/>
+                                                price - Просто по возростанию цены<br/>
+                                                term - по возростанию срока поставки<br/>
+                                                qty - по возростанию колисества
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label>
                                                         <input type="text" class="form-control"
                                                                name="settings[options][phonemask]"
