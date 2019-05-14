@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                     <td><?php echo $template['title'];?></td>
                                     <td>
                                         <div class="btn-group pull-right">
-                                            <?php if($template['id'] > 5){?>
+                                            <?php if($template['id'] > 6){?>
                                                 <a href="/autoxadmin/message_template/delete/<?php echo $template['id'];?>" type="button" class="btn btn-danger confirm"><?php echo lang('button_delete');?></a>
                                             <?php } ?>
                                             <a href="/autoxadmin/message_template/edit/<?php echo $template['id'];?>" type="button" class="btn btn-info"><?php echo lang('button_edit');?></a>

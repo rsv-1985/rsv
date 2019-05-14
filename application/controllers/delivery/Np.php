@@ -17,6 +17,7 @@ class Np extends CI_Controller
         $this->load->library('sender');
         $this->load->model('order_model');
         $this->load->model('delivery/np_model');
+        $this->load->model('message_template_model');
     }
 
     public function create_en(){
@@ -47,13 +48,33 @@ class Np extends CI_Controller
                 $save2['data'] = json_encode($result['data']);
                 $this->order_ttn_model->insert($save2);
 
+                $message_template = $this->message_template_model->get(6);
+
+                $sms_text = str_replace(
+                    ['{ttn}', '{seats}', '{cost}'],
+                    [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
+                    $message_template['text_sms']
+                );
+
                 if($this->input->post('send_sms') && $order_info['telephone']){
-                    $this->sender->sms($order_info['telephone'], 'Ваш заказ отправлен ТТН '.$save2['ttn'].' количество мест '.$this->input->post('SeatsAmount',true));
+                    $this->sender->sms($order_info['telephone'], $sms_text);
                 }
+
+                $email_text = str_replace(
+                    ['{ttn}', '{seats}', '{cost}'],
+                    [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
+                    $message_template['text']
+                );
+
+                $email_subject = str_replace(
+                    ['{ttn}', '{seats}', '{cost}'],
+                    [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
+                    $message_template['subject']
+                );
 
                 if($this->input->post('send_email') && $order_info['email']){
                     $contacts = $this->settings_model->get_by_key('contact_settings');
-                    $this->sender->email('Ваш заказ отправлен','Ваш заказ отправлен ТТН '.$save2['ttn'].' количество мест '.$this->input->post('SeatsAmount',true), explode(';', $contacts['email']));
+                    $this->sender->email($email_subject, $email_text, explode(';', $contacts['email']));
                 }
 
             }else{

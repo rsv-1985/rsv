@@ -82,6 +82,10 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <strong>Телефон:&nbsp;</strong>{phone}<br/>
                         <?php }elseif($message_template['id'] == 4 || $message_template['id'] == 5){?>
                             <strong>Сумма: </strong>{amount}<br/>
+                        <?php }elseif($message_template['id'] == 6){?>
+                            <strong>Номер ТТН: </strong>{ttn}<br/>
+                            <strong>Количество мест: </strong>{seats}<br/>
+                            <strong>Стоимость перевозки: </strong>{cost}<br/>
                         <?php } ?>
                     </div>
                     <div class="form-group">
