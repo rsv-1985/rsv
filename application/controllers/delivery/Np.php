@@ -37,7 +37,14 @@ class Np extends CI_Controller
 
             $save['RecipientHouse'] = $this->input->post('RecipientHouse',true);
             $save['RecipientFlat'] = $this->input->post('RecipientFlat',true);
-            $this->np_model->insert($save,(int)$this->input->post('np_id'));
+
+            if($this->input->post('np_id')){
+                $np_id = (int)$this->input->post('np_id');
+            }else{
+                $np_id = false;
+                $save['order_id'] = $order_info['id'];
+            }
+            $this->np_model->insert($save,$np_id);
 
             if($this->input->post('create_ttn')){
                 $result = $this->novaposhta->InternetDocument($this->input->post());
