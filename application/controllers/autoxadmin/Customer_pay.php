@@ -160,7 +160,7 @@ class Customer_pay extends Admin_controller
         $save['comment'] = $this->input->post('comment', true);
 
         if($id = $this->customer_pay_model->insert($save,$id)){
-            //Если статус оплаты подтвержен добавляем транзакцию
+            //Если статус оплаты подтвержен добавляем транзакцию и отправляем сообщение
             if($save['status_id'] == 1){
                 $this->customerbalance_model->add_transaction(
                     $save['customer_id'],
@@ -172,6 +172,23 @@ class Customer_pay extends Admin_controller
                     0,
                     $id
                 );
+
+                $this->load->library('sender');
+                $this->load->model('message_template_model');
+
+                $message_template = $this->message_template_model->get(4);
+                $customer_info = $this->customer_model->get($save['customer_id']);
+
+                if($customer_info){
+                    if($message_template['text'] && $customer_info['email']){
+                        $contacts = $this->settings_model->get_by_key('contact_settings');
+                        $this->sender->email($message_template['subject'], str_replace('{amount}',(float)$save['amount'],$message_template['text']), $customer_info['email'], explode(';', $contacts['email']));
+                    }
+
+                    if($message_template['text_sms'] && $customer_info['phone']){
+                        $this->sender->sms($customer_info['phone'], str_replace('{amount}',(float)$save['amount'],$message_template['text_sms']));
+                    }
+                }
             }
         }
         $this->session->set_flashdata('success', lang('text_success'));

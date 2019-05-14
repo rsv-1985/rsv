@@ -80,4 +80,28 @@ class Message_template extends Admin_controller
             redirect('autoxadmin/message_template');
         }
     }
+
+    public function send_requisites(){
+        $this->load->library('sender');
+
+        $customer_id = (int)$this->input->post('customer_id');
+        $amount = (float)$this->input->post('amount');
+
+        if($customer_id){
+            $customer_info = $this->customer_model->get($customer_id);
+            if($customer_info){
+
+                $message_template = $this->message_template_model->get(5);
+
+                if($message_template['text'] && $customer_info['email']){
+                    $contacts = $this->settings_model->get_by_key('contact_settings');
+                    $this->sender->email($message_template['subject'], str_replace('{amount}',$amount,$message_template['text']), $customer_info['email'], explode(';', $contacts['email']));
+                }
+
+                if($message_template['text_sms'] && $customer_info['phone']){
+                    $this->sender->sms($customer_info['phone'], str_replace('{amount}',$amount,$message_template['text_sms']));
+                }
+            }
+        }
+    }
 }

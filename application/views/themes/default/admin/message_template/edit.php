@@ -80,6 +80,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                             <strong>Адрес:</strong>{address}<br/>
                             <strong>Пароль:&nbsp;</strong>{pass}<br/>
                             <strong>Телефон:&nbsp;</strong>{phone}<br/>
+                        <?php }elseif($message_template['id'] == 4 || $message_template['id'] == 5){?>
+                            <strong>Сумма: </strong>{amount}<br/>
                         <?php } ?>
                     </div>
                     <div class="form-group">

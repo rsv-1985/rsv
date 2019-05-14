@@ -138,7 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                             <?php } ?>
                                                 <a href="/autoxadmin/customer/edit/<?php echo $order['customer_id'];?>"><?php echo $order['last_name'];?></a>
                                             <div class="pull-right">
-                                                <?php $this->load->view('admin/widget/_customer_button',['customer_id' =>  $order['customer_id']]);?>
+                                                <?php $this->load->view('admin/widget/_customer_button',$order);?>
                                             </div>
 
                                             <?php }else{?>
