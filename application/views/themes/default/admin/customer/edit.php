@@ -123,6 +123,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                       name="address"><?php echo set_value('address', $customer['address']); ?></textarea>
                         </div><!-- /.form group -->
                         <div class="form-group">
+                            <label>Заметки менеджера</label>
+                            <textarea rows="8" class="form-control"
+                                      name="manager_notes"><?php echo set_value('manager_notes', $customer['manager_notes']); ?></textarea>
+                        </div><!-- /.form group -->
+                        <div class="form-group">
                             <a href="/autoxadmin/customer/login/<?php echo $customer['id']; ?>" class="btn btn-warning"
                                title="Авторизоваться под клиентом" target="_blank"><i class="fa fa-sign-in"
                                                                                       aria-hidden="true"></i></a>
