@@ -152,7 +152,8 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-info pull-right">Создать ЭН</button>
+                            <button type="submit" value="save_data" class="btn btn-info">Сохранить</button>
+                            <input type="submit" name="create_ttn" value="Создать ЭН" class="btn btn-info">
                         </div>
                     </div>
                     <div class="clearfix"></div>

@@ -38,50 +38,54 @@ class Np extends CI_Controller
             $save['RecipientHouse'] = $this->input->post('RecipientHouse',true);
             $save['RecipientFlat'] = $this->input->post('RecipientFlat',true);
             $this->np_model->insert($save,(int)$this->input->post('np_id'));
-            $result = $this->novaposhta->InternetDocument($this->input->post());
-            if($result['success']){
-                $this->load->model('order_ttn_model');
-                $save2 = [];
-                $save2['order_id'] = (int)$this->input->post('order_id',true);
-                $save2['ttn'] = $result['data'][0]['IntDocNumber'];
-                $save2['library'] = 'np';
-                $save2['data'] = json_encode($result['data']);
-                $this->order_ttn_model->insert($save2);
 
-                $message_template = $this->message_template_model->get(6);
+            if($this->input->post('create_ttn')){
+                $result = $this->novaposhta->InternetDocument($this->input->post());
+                if($result['success']){
+                    $this->load->model('order_ttn_model');
+                    $save2 = [];
+                    $save2['order_id'] = (int)$this->input->post('order_id',true);
+                    $save2['ttn'] = $result['data'][0]['IntDocNumber'];
+                    $save2['library'] = 'np';
+                    $save2['data'] = json_encode($result['data']);
+                    $this->order_ttn_model->insert($save2);
 
-                $sms_text = str_replace(
-                    ['{ttn}', '{seats}', '{cost}'],
-                    [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
-                    $message_template['text_sms']
-                );
+                    $message_template = $this->message_template_model->get(6);
 
-                if($this->input->post('send_sms') && $order_info['telephone']){
-                    $this->sender->sms($order_info['telephone'], $sms_text);
-                }
+                    $sms_text = str_replace(
+                        ['{ttn}', '{seats}', '{cost}'],
+                        [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
+                        $message_template['text_sms']
+                    );
 
-                $email_text = str_replace(
-                    ['{ttn}', '{seats}', '{cost}'],
-                    [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
-                    $message_template['text']
-                );
+                    if($this->input->post('send_sms') && $order_info['telephone']){
+                        $this->sender->sms($order_info['telephone'], $sms_text);
+                    }
 
-                $email_subject = str_replace(
-                    ['{ttn}', '{seats}', '{cost}'],
-                    [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
-                    $message_template['subject']
-                );
+                    $email_text = str_replace(
+                        ['{ttn}', '{seats}', '{cost}'],
+                        [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
+                        $message_template['text']
+                    );
 
-                if($this->input->post('send_email') && $order_info['email']){
-                    $contacts = $this->settings_model->get_by_key('contact_settings');
-                    $this->sender->email($email_subject, $email_text, explode(';', $contacts['email']));
-                }
+                    $email_subject = str_replace(
+                        ['{ttn}', '{seats}', '{cost}'],
+                        [$save2['ttn'], $this->input->post('SeatsAmount',true), $result['data'][0]['CostOnSite']],
+                        $message_template['subject']
+                    );
 
-            }else{
-                foreach ($result['errors'] as $error){
-                    echo $error.'\n';
+                    if($this->input->post('send_email') && $order_info['email']){
+                        $contacts = $this->settings_model->get_by_key('contact_settings');
+                        $this->sender->email($email_subject, $email_text, explode(';', $contacts['email']));
+                    }
+
+                }else{
+                    foreach ($result['errors'] as $error){
+                        echo $error.'\n';
+                    }
                 }
             }
+
         }
     }
 
