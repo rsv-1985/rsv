@@ -200,7 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 item['MainDescription'] = item['MainDescription'].replace("'","\\'");
                                 item['Area'] = item['Area'].replace("'","\\'");
                                 item['Region'] = item['Region'].replace("'","\\'");
-                                html += '<a href="#" onclick="set(\'' + item['DeliveryCity'] + '\',\'' + item['MainDescription'] + '\',\'' + item['Area'] + '\',\'' + item['Region'] + '\');$(\'.city-res\').empty();return false;">' + item['Present'] + '</a><br>';
+                                html += '<a onclick="set(\'' + item['DeliveryCity'] + '\',\'' + item['MainDescription'] + '\',\'' + item['Area'] + '\',\'' + item['Region'] + '\');$(\'.city-res\').empty();return false;">' + item['Present'] + '</a><br>';
                             });
                         }
                         $(".city-res").html(html);

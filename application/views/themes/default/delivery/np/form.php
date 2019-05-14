@@ -115,7 +115,7 @@
                                 item['Region'] = item['Region'].replace("'","\\'");
 
                                 console.log(item);
-                                html += '<a href="#" onclick="set(\''+item['DeliveryCity']+'\',\''+item['MainDescription']+'\',\''+item['Area']+'\',\''+item['Region']+'\');$(\'.city-res\').empty();return false;">'+item['Present']+'</a><br>';
+                                html += '<a onclick="set(\''+item['DeliveryCity']+'\',\''+item['MainDescription']+'\',\''+item['Area']+'\',\''+item['Region']+'\');$(\'.city-res\').empty();return false;">'+item['Present']+'</a><br>';
                             });
                         }
                         $(".city-res").html(html);
