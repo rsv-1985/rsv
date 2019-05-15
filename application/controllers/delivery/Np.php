@@ -46,7 +46,8 @@ class Np extends CI_Controller
             }
             $this->np_model->insert($save,$np_id);
 
-            if($this->input->post('create_ttn')){
+            if($this->input->post('create_ttn') == 1){
+
                 $result = $this->novaposhta->InternetDocument($this->input->post());
                 if($result['success']){
                     $this->load->model('order_ttn_model');
