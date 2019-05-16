@@ -185,7 +185,7 @@ class Hotline{
                     $product['name'],
                     $product['sku'],
                     $product['id'],
-                    strip_tags($product['description']),
+                    strip_tags(nl2br($product['description'])),
                     str_replace('.',',',$product['price']),
                     'от производителя',
                     $product['quantity'] > 0 ? 'в наличии' : 'под заказ',
