@@ -16,6 +16,11 @@ class Mproduct extends Default_model
     public $table = 'product';
     public $total_rows = 0;
 
+    public function getByQuery($sql){
+        $query = $this->db->query($sql);
+        return $query->custom_result_object('mproduct');
+    }
+
     public function getByCategory($category_id, $filter_data = [], $limit, $start, $order_by = [])
     {
 
