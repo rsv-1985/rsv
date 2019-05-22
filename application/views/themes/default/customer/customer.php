@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                             <tr class="active">
                                 <th colspan="2"><?php echo lang('text_orders_id');?>: <?php echo $order['id'];?></th>
 
-                                <th colspan="2"><?php echo lang('text_orders_date');?>: <?php echo format_time($order['created_at']);?></th>
+                                <th colspan="3"><?php echo lang('text_orders_date');?>: <?php echo format_time($order['created_at']);?></th>
 
                                 <th colspan="4">
                                     <a target="_blank" href="/customer/orderinfo/<?php echo $order['id'];?>" class="pull-right">Подробнее</a>
@@ -34,6 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <td>Код запчасти</td>
                                 <td>Производитель</td>
                                 <td>Наименование</td>
+                                <td>Доп. инфо</td>
                                 <td>Количество</td>
                                 <td>Цена</td>
                                 <td>Сумма</td>
@@ -48,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                         <td><?php echo $product['sku'];?></td>
                                         <td><?php echo $product['brand'];?></td>
                                         <td><?php echo $product['name'];?></td>
+                                        <td><?php echo $product['excerpt'];?></td>
                                         <td><?php echo $product['quantity'];?></td>
                                         <td><?php echo format_currency($product['price']);?></td>
                                         <td><?php echo format_currency($product['price'] * $product['quantity']);?></td>
@@ -56,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <?php $q++; } ?>
                             <?php } ?>
                             <tr class="info">
-                                <td colspan="4"><?php echo lang('text_orders_status');?>: <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b></td>
+                                <td colspan="5"><?php echo lang('text_orders_status');?>: <b style="color: <?php echo $status[$order['status']]['color'];?>"><?php echo $status[$order['status']]['name'];?></b></td>
                                 <td colspan="4"><?php echo lang('text_orders_total');?>: <b><?php echo format_currency($order['total']);?></b></td>
                             </tr>
                             </tbody>
