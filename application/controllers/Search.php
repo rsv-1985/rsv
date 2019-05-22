@@ -209,6 +209,8 @@ class Search extends Front_controller
 
                         if(isset($tecdoc_info_array[$key])){
                             $tecdoc_info['article'] = (array)$tecdoc_info_array[$key];
+                        }else{
+                            $tecdoc_info['article'] = [];
                         }
 
                         //Если активна опция использовать наименования с текдок
