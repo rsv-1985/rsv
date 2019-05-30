@@ -293,9 +293,8 @@ class Mproduct extends Default_model
                 $sort = $this->options['price_sort'];
             }
 
-            switch ($this->input->get('sort')) {
+            switch ($sort) {
                 case 'like_price':
-
                     $like_term = [];
                     $other = [];
                     foreach ($product_prices as $price) {
