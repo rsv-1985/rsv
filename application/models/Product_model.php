@@ -505,73 +505,76 @@ class Product_model extends Default_model
         }
 
         if ($calculate) {
-            $sort = 'price';
-
             if ($this->input->get('sort')) {
-                switch ($this->input->get('sort')) {
-                    case 'price':
-                        usort($product_prices, function ($a, $b) {
-                            if ($a['price'] == $b['price']) {
-                                return 0;
-                            }
-                            return ($a['price'] < $b['price']) ? -1 : 1;
-                        });
-                        break;
-                    case 'term':
-                        usort($product_prices, function ($a, $b) {
-                            if ($a['term'] == $b['term']) {
-                                return 0;
-                            }
-                            return ($a['term'] < $b['term']) ? -1 : 1;
-                        });
-                        break;
-                    case 'qty':
-                        usort($product_prices, function ($a, $b) {
-                            if ($a['quantity'] == $b['quantity']) {
-                                return 0;
-                            }
-                            return ($a['quantity'] > $b['quantity']) ? -1 : 1;
-                        });
-                        break;
-                    default:
-                        usort($product_prices, function ($a, $b) {
-                            if ($a['price'] == $b['price']) {
-                                return 0;
-                            }
-                            return ($a['price'] < $b['price']) ? -1 : 1;
-                        });
-                        break;
-                }
+                $sort = $this->input->get('sort');
             } else {
-                $like_term = [];
-                $other = [];
-                foreach ($product_prices as $price) {
-                    if ($price['term'] < 24) {
-                        $like_term[] = $price;
-                    } else {
-                        $other[] = $price;
+                $sort = $this->options['price_sort'];
+            }
+
+            switch ($sort) {
+                case 'like_price':
+                    $like_term = [];
+                    $other = [];
+                    foreach ($product_prices as $price) {
+                        if ($price['term'] < 24) {
+                            $like_term[] = $price;
+                        } else {
+                            $other[] = $price;
+                        }
                     }
-                }
 
-                if ($like_term) {
-                    usort($like_term, function ($a, $b) {
+                    if ($like_term) {
+                        usort($like_term, function ($a, $b) {
+                            if ($a['price'] == $b['price']) {
+                                return 0;
+                            }
+                            return ($a['price'] < $b['price']) ? -1 : 1;
+                        });
+                    }
+
+                    if ($other) {
+                        usort($other, function ($a, $b) {
+                            if ($a['price'] == $b['price']) {
+                                return 0;
+                            }
+                            return ($a['price'] < $b['price']) ? -1 : 1;
+                        });
+                    }
+
+                    $product_prices = array_merge($like_term, $other);
+                    break;
+                case 'price':
+                    usort($product_prices, function ($a, $b) {
                         if ($a['price'] == $b['price']) {
                             return 0;
                         }
                         return ($a['price'] < $b['price']) ? -1 : 1;
                     });
-                }
-
-                if ($other) {
-                    usort($other, function ($a, $b) {
+                    break;
+                case 'term':
+                    usort($product_prices, function ($a, $b) {
+                        if ($a['term'] == $b['term']) {
+                            return 0;
+                        }
+                        return ($a['term'] < $b['term']) ? -1 : 1;
+                    });
+                    break;
+                case 'qty':
+                    usort($product_prices, function ($a, $b) {
+                        if ($a['quantity'] == $b['quantity']) {
+                            return 0;
+                        }
+                        return ($a['quantity'] > $b['quantity']) ? -1 : 1;
+                    });
+                    break;
+                default:
+                    usort($product_prices, function ($a, $b) {
                         if ($a['price'] == $b['price']) {
                             return 0;
                         }
                         return ($a['price'] < $b['price']) ? -1 : 1;
                     });
-                }
-
-                $product_prices = array_merge($like_term, $other);
+                    break;
             }
         }
 
