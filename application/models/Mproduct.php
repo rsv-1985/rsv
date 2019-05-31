@@ -294,7 +294,7 @@ class Mproduct extends Default_model
             }
 
             switch ($sort) {
-                case 'like_price':
+                case 'like_term':
                     $like_term = [];
                     $other = [];
                     foreach ($product_prices as $price) {
