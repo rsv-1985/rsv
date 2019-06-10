@@ -22,6 +22,11 @@ class Mproduct extends Default_model{
         $this->db->delete('product_attribute');
     }
 
+    public function deleteImages($product_id){
+        $this->db->where('product_id', (int)$product_id);
+        $this->db->delete('product_images');
+    }
+
     public function addAttributesBatch($data){
         $this->db->insert_batch('product_attribute', $data);
     }

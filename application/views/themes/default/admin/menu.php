@@ -85,6 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li><a href="/autoxadmin/synonym_name"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_synonym_name');?></a></li>
             <li><a href="/autoxadmin/import"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_import');?></a></li>
             <li><a href="/autoxadmin/cross"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_cross');?></a></li>
+            <li><a href="/autoxadmin/tools/product_tool"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_product_tool');?></a></li>
             <li><a href="/autoxadmin/price"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_price');?></a></li>
             <li><a href="/autoxadmin/sending"><i class="fa fa-angle-right"></i><?php echo lang('text_nav_sending');?></a></li>
 

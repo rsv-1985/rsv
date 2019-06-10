@@ -38,4 +38,8 @@ class Attribute_model extends Default_model
         $this->db->delete('attribute');
     }
 
+    public function getAttributes(){
+        return $this->db->order_by('name', 'ASC')->get('attribute')->result_array();
+    }
+
 }
