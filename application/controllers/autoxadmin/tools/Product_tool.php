@@ -207,13 +207,13 @@ class Product_tool extends Admin_controller
                 if (count($attributes = array_slice($csv, 6))) {
                     foreach ($attributes as $attribute) {
                         //Проверяем есть ли аттрибут в базе
-                        $check_attr = $this->db->where('name', $attribute)->get('attribute')->row_array();
+                        $check_attr = $this->db->where('name', trim($attribute))->get('attribute')->row_array();
                         if ($check_attr) {
                             $ids_attr[] = $check_attr['id'];
                         } else {
                             if ($create_attr) {
                                 $count_create_attribute++;
-                                $this->db->insert('attribute', ['name' => $attribute]);
+                                $this->db->insert('attribute', ['name' => trim($attribute)]);
                                 $ids_attr[] = $this->db->insert_id();
                             } else {
                                 $ids_attr[] = '';
@@ -272,13 +272,13 @@ class Product_tool extends Admin_controller
                                 $attribute_id = $ids_attr[$key];
                                 //Проверяем есть ли значение аттрибута в базе
                                 $this->db->where('attribute_id',(int)$ids_attr[$key]);
-                                $this->db->where('value', $attribute);
+                                $this->db->where('value', trim($attribute));
                                 $result = $this->db->get('attribute_value')->row_array();
                                 if($result){
                                     $attr_value_id = $result['id'];
                                 }else{
                                     if($create_attr){
-                                        $this->db->insert('attribute_value',['attribute_id' => $ids_attr[$key], 'value' => $attribute]);
+                                        $this->db->insert('attribute_value',['attribute_id' => $ids_attr[$key], 'value' => trim($attribute)]);
                                         $attr_value_id = $this->db->insert_id();
                                     }
                                 }
