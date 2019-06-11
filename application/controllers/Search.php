@@ -219,10 +219,12 @@ class Search extends Front_controller
                         }
 
 
-                        if(!$product['image']){
+                        if($product['image'] && file_exists('./uploads/product/'.$product['image'])){
+                            $product['image'] = '/uploads/product/'.$product['image'];
+                        }elseif (@$tecdoc_info['article']['Image']){
                             $product['image'] =  @$tecdoc_info['article']['Image'];
                         }else{
-                            $product['image'] = '/uploads/product/'.$product['image'];
+                            $product['image'] = theme_url().'img/no_image.png';
                         }
 
                         $product['info'] = @$tecdoc_info['article']['Info'];
