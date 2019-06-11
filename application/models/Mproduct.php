@@ -223,7 +223,7 @@ class Mproduct extends Default_model
     public function getImages()
     {
         $images = [];
-        if ($this->image) {
+        if ($this->image && file_exists('.'.self::image_path . $this->image)) {
             $images[] = self::image_path . $this->image;
         }
 
@@ -232,7 +232,9 @@ class Mproduct extends Default_model
 
         if ($results) {
             foreach ($results as $img) {
-                $images[] = self::image_path . $img['image'];
+                if(file_exists('.'.self::image_path .$img['image'])){
+                    $images[] = self::image_path . $img['image'];
+                }
             }
         }
 
