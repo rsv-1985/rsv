@@ -127,7 +127,7 @@ class Product_tool extends Admin_controller
             $encoding = mb_detect_encoding($csv[3],mb_detect_order(),true);
 
             if($encoding != 'UTF-8'){
-                $data_f = array_map(function($text){
+                $csv = array_map(function($text){
                     return iconv('WINDOWS-1251', "UTF-8", $text);
                 },$csv);
             }
@@ -197,7 +197,7 @@ class Product_tool extends Admin_controller
             $encoding = mb_detect_encoding($csv[3],mb_detect_order(),true);
 
             if($encoding != 'UTF-8'){
-                $data_f = array_map(function($text){
+                $csv = array_map(function($text){
                     return iconv('WINDOWS-1251', "UTF-8", $text);
                 },$csv);
             }
