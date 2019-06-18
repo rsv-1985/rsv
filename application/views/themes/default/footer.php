@@ -266,8 +266,13 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <script type="text/javascript">
     $(document).ready(function () {
         $('a[href="/<?php echo $this->uri->uri_string(); ?>"]').parents('li').addClass('active');
-        $("[name='telephone']").mask("<?php echo @$this->options['phonemask'];?>");
-        $("[name='phone']").mask("<?php echo @$this->options['phonemask'];?>");
+        $("[name='telephone']").mask("<?php echo @$this->options['phonemask'];?>").click(function(e){
+            e.preventDefault();
+            $(this).change().focus();
+        });
+        $("[name='phone']").mask("<?php echo @$this->options['phonemask'];?>").click(function(e){
+
+        });
     });
 </script>
 
