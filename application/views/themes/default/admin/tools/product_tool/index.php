@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <?php echo form_open_multipart('', ['method' => 'post']);?>
                             <div class="form-group">
                                 <label>Файл импорта</label>
@@ -34,6 +34,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
                                 <button type="submit" class="btn btn-info">Отправить</button>
                             </div>
                             <?php echo form_close();?>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Формат файла CSV</b>
                         </div>
                     </div>
                 </div>

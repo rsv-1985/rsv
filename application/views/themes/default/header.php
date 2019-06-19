@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
         </script>
     <?php } ?>
     <link rel="stylesheet" href="<?php echo theme_url(); ?>css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo theme_url(); ?>style.css?v=6">
+    <link rel="stylesheet" href="<?php echo theme_url(); ?>style.css?v=7">
     <?php if ($this->config->item('my_style')) { ?>
         <?php foreach ($this->config->item('my_style') as $style) { ?>
             <link rel="stylesheet" href="<?php echo $style; ?>">

@@ -2110,3 +2110,11 @@ img#loading {
     height: 23px;
 }
 
+.city-res{
+    display: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e8e8e8;
+    width: 100%;
+}
+

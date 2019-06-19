@@ -204,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                 html += '<a onclick="set(\'' + item['DeliveryCity'] + '\',\'' + item['MainDescription'] + '\',\'' + item['Area'] + '\',\'' + item['Region'] + '\');$(\'.city-res\').empty();return false;">' + item['Present'] + '</a><br>';
                             });
                         }
-                        $(".city-res").html(html);
+                        $(".city-res").html(html).show();
                     }
                 })
             }
