@@ -24,6 +24,8 @@ class Np extends CI_Controller
 
         $order_info = $this->order_model->get($this->input->post('order_id',true));
         if($order_info){
+            $customer_info = $this->customer_model->get($order_info['customer_id']);
+
             $save['RecipientCityName'] = $this->input->post('RecipientCityName',true);
             $save['RecipientArea'] = $this->input->post('RecipientArea',true);
             $save['RecipientAreaRegions'] = $this->input->post('RecipientAreaRegions',true);
@@ -66,8 +68,8 @@ class Np extends CI_Controller
                         $message_template['text_sms']
                     );
 
-                    if($this->input->post('send_sms') && $order_info['telephone']){
-                        $this->sender->sms($order_info['telephone'], $sms_text);
+                    if($this->input->post('send_sms') && @$customer_info['phone']){
+                        $this->sender->sms($customer_info['phone'], $sms_text);
                     }
 
                     $email_text = str_replace(
@@ -82,9 +84,9 @@ class Np extends CI_Controller
                         $message_template['subject']
                     );
 
-                    if($this->input->post('send_email') && $order_info['email']){
+                    if($this->input->post('send_email') && @$customer_info['email']){
                         $contacts = $this->settings_model->get_by_key('contact_settings');
-                        $this->sender->email($email_subject, $email_text, explode(';', $contacts['email']));
+                        $this->sender->email($email_subject, $email_text,  @$customer_info['email'], explode(';', $contacts['email']));
                     }
 
                 }else{
