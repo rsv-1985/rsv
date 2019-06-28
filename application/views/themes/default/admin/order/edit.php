@@ -115,18 +115,30 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     </div>
 
                     <?php if ($order['customer_id']) { ?>
+
                         <div class="form-group">
+
+
                             <a target="_blank"
-                                   href="/autoxadmin/customer/edit/<?php echo $order['customer_id']; ?>"><?php echo $customer_info['first_name'] . ' ' . $customer_info['second_name']; ?></a>
+                                   href="/autoxadmin/customer/edit/<?php echo $order['customer_id']; ?>"> <?php echo $customer_info['first_name'] . ' ' . $customer_info['second_name']; ?></a>
+                            <div class="pull-left">
+                                <?php $this->load->view('admin/widget/_customer_button',$order);?>
+                            </div>
+
                             <?php if ($black_list_info) { ?>
                                 <p class="label label-danger">! <?php echo $black_list_info['comment']; ?></p>
                             <?php } else { ?>
                                 <a href="#" onclick="addBlack(event)" class="btn btn-xs btn-default pull-right"> В
                                     черный список</a>
                             <?php } ?>
+
+
+
                             <br>Баланс: <?php echo format_balance($customer_info['balance']); ?>
                             Баланс в работе: <?php echo format_balance($this->customer_model->getWorkBalance($customer_info['id']));?>
+
                         </div>
+
                     <?php } ?>
                 </div><!-- /.col -->
             </div><!-- /.row -->
