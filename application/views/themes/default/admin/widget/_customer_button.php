@@ -7,7 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="dropdown">
-    <button class="btn btn-default btn-xs pull-right" id="dLabel" type="button" data-toggle="dropdown"
+    <button class="btn btn-default btn-xs" id="dLabel" type="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
         <i class="glyphicon glyphicon-menu-hamburger"></i>
     </button>
