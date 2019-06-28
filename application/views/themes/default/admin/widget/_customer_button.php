@@ -7,9 +7,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="dropdown">
-    <button class="btn btn-default btn-xs" id="dLabel" type="button" data-toggle="dropdown"
+    <button class="btn btn-link" id="dLabel" type="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-        <i class="glyphicon glyphicon-menu-hamburger"></i>
+        <i class="glyphicon glyphicon-collapse-down"></i>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dLabel">
         <li><a href="#" data-toggle="modal" data-target="#add-customer-balance<?php echo $customer_id; ?>">Пополнить
