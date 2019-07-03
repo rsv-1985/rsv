@@ -117,6 +117,7 @@ class supplier extends Admin_controller
         $save = [];
         $save['name'] = $this->input->post('name', true);
         $save['description'] = $this->input->post('description', true);
+        $save['description2'] = $this->input->post('description2');
         $save['stock'] = (bool)$this->input->post('stock', true);
         $save['api'] = (string)$this->input->post('api', true);
         $supplier_id = $this->supplier_model->insert($save, $id);

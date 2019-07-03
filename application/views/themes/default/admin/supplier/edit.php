@@ -35,6 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                                   class="form-control"><?php echo set_value('description', $supplier['description']); ?></textarea>
                     </div><!-- /.form group -->
                     <div class="form-group">
+                        <label>Доп. инфо для клиента</label>
+                        <textarea name="description2" maxlength="3000"
+                                  class="form-control"><?php echo set_value('description2', $supplier['description2']); ?></textarea>
+                    </div><!-- /.form group -->
+                    <div class="form-group">
                         <label><?php echo lang('text_api'); ?></label>
                         <input type="text" class="form-control" name="api"
                                value="<?php echo set_value('api', $supplier['api']); ?>" maxlength="12">
