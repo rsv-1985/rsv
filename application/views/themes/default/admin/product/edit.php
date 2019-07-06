@@ -201,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><?php echo lang('text_name'); ?></label>
-                            <input type="text" name="name" value="<?php echo set_value('name', $product['name']); ?>"
+                            <input type="text" name="name" value="<?php echo set_value('name', html_escape($product['name'])); ?>"
                                    class="form-control">
                         </div>
                     </div>
