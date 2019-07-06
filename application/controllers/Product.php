@@ -19,6 +19,7 @@ class Product extends Front_controller
         $this->load->model('delivery_model');
         $this->load->model('payment_model');
         $this->load->model('review_model');
+        $this->load->helper('form');
     }
 
     public function index($slug)
